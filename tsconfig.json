@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "strict": true,
+    "moduleResolution": "Node",
+    "outDir": "dist"
+  },
+  "exclude": ["node_modules", "**/dist/**"],
+  "include": ["packages/**/*"]
+}
