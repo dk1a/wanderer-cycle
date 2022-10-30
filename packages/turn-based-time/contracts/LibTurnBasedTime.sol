@@ -1,83 +1,173 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
 
-import "@latticexyz/solecs/System.sol";
-import { IWorld } from "@latticexyz/solecs/interfaces/IWorld.sol";
-import { getAddressById, addressToEntity } from "@latticexyz/solecs/utils.sol";
+import { LibScoped, getSVComponents, SVComponents } from "@wanderer-cycle/std/contracts/LibScoped.sol";
+import { TBScopeComponent, ID as TBScopeComponentID } from "./TBScopeComponent.sol";
+import { TBTimeComponent, ID as TBTimeComponentID, TBTime } from "./TBTimeComponent.sol";
 
-import { TimeTypeComponent, ID as TimeTypeComponentID } from "../components/TimeTypeComponent.sol";
-import { TimeValueComponent, ID as TimeValueComponentID } from "../components/TimeValueComponent.sol";
-
-struct TimeStruct {
-    uint256 timeType;
-    uint256 timeValue;
-}
-
+/**
+ * @title Logic for turn-based time components, primarily scoped increase/decrease.
+ * @dev Also see LibScoped for some abstracted scoping logic (without generics it doesn't help much though).
+ * 
+ * Entity can have durations and scope.
+ * Duration is TBTime, which has timeType and timeValue.
+ * Ongoing duration means timeValue > 0.
+ * 
+ * TimeValue is the duration.
+ * TimeType is the meaning of the duration (e.g. round, day...).
+ * Changing an ongoing timeValue with a different timeType will revert.
+ * 
+ * Scope and timeType create scopeEntity, which lets LibScoped get all entities/values within given scope.
+ * (e.g. skill cooldowns: user is scope, skill is entity,
+ * cooldown duration is timeValue, timeType can vary between skills).
+ */
 library LibTurnBasedTime {
-    function timeTypeComponent(address components) internal view returns (TimeTypeComponent) {
-        return TimeTypeComponent(getAddressById(components, TimeTypeComponentID));
+    error LibTurnBasedTime__IncreaseByZero(uint256 entity);
+    error LibTurnBasedTime__DecreaseByZero(uint256 scope, uint256 timeType);
+
+    // ========== UTILS ==========
+
+    function svc(address components) internal view returns (SVComponents memory) {
+        return getSVComponents(components, TBScopeComponentID, TBTimeComponentID);
     }
 
-    function timeValueComponent(address components) internal view returns (TimeValueComponent) {
-        return TimeValueComponent(getAddressById(components, TimeValueComponentID));
+    function getScopeEntity(uint256 scope, TBTime memory time) internal pure returns (uint256) {
+        return uint256(keccak256(abi.encode(scope, time.timeType)));
     }
+
+    // ========== READ ==========
 
     /**
      * @dev True if entity's duration is ongoing, false otherwise
      */
-    function isOngoing(
-        address components,
+    function has(
+        SVComponents memory _svc,
         uint256 entity
     ) internal view returns (bool) {
-        return timeValueComponent(components).getValue(entity) > 0;
+        return LibScoped.has(_svc, entity);
     }
 
     /**
-     * @dev True if given timeType doesn't match ongoing timeType
-     * (always false if isOngoing == false)
+     * @dev Return duration for given entity.
      */
-    function isMismatch(
-        address components,
-        uint256 entity,
-        uint256 timeType
-    ) internal view returns (bool) {
-        return isOngoing(components, entity)
-            && timeType !== timeTypeComponent(components).getValue(entity);
+    function get(
+        SVComponents memory _svc,
+        uint256 entity
+    ) internal view returns (TBTime memory time) {
+        return abi.decode(
+            LibScoped.get(_svc, entity),
+            (TBTime)
+        );
     }
 
+    // ========== WRITE ==========
+
     /**
-     * @dev Increases entity's duration
+     * @notice Increase entity's duration
+     * @return isUpdate true if updated, false if created (update only changes TBTimeComponent)
      * 
-     * If `id` has ongoing time, then supplied timeType must match ongoing timeType
-     * (to change timeType remove ongoing time first)
+     * @dev For updates scope/time.timeType must match what was used at creation
      */
     function increase(
-        address components,
+        SVComponents memory _svc,
+        uint256 scope,
         uint256 entity,
-        uint256 timeType,
-    ) internal {
-        bool _isOngoing = map.isOngoing(id);
-
+        TBTime memory time,
+    ) internal returns (bool isUpdate) {
+        // zero increase is invalid
         if (time.timeValue == 0) {
-            revert TurnBasedTimeMap__IncreaseByZero(id);
-        }
-        // changing ongoing timeType is bad - remove the old value first
-        if (_isMismatch(_isOngoing, map._values[id].time, time)) {
-            revert TurnBasedTimeMap__TimeTypeMismatch(id);
+            revert LibTurnBasedTime__IncreaseByZero(entity);
         }
 
-        if (_isOngoing) {
-            // increase
-            map._values[id].time.timeValue += time.timeValue;
-        } else {
-            // initialize
-            uint256 length = map._keys[time.timeType].length;
-            map._keys[time.timeType].push(id);
-            map._values[id] = TimeStructIndexed({
-                time: time,
-                // index is 1-based
-                index: uint128(length) + 1
-            });
+        // compose scopeEntity
+        uint256 scopeEntity = getScopeEntity(scope, time);
+
+        // get stored data
+        isUpdate = has(_svc, entity);
+        TBTime memory storedTime = abi.decode(
+            LibScoped.getOrCreate(_svc, scopeEntity, entity, abi.encode(time)),
+            (TBTime)
+        );
+
+        if (isUpdate) {
+            // increase value
+            updateValue(_svc, entity, TBTime({
+                timeType: storedTime.timeType,
+                timeValue: storedTime.timeValue + time.timeValue
+            }));
         }
+    }
+
+    /**
+     * @notice Within given scope decrease all durations of time.timeType by time.timeValue.
+     * @dev When a duration would become <= 0, it is removed instead.
+     * @return removedEntities entities that were removed due to being <= 0
+     */
+    function decrease(
+        SVComponents memory _svc,
+        uint256 scope,
+        TimeStruct memory time,
+    ) internal returns (uint256[] memory) {
+        // zero decrease is invalid
+        if (time.timeValue == 0) {
+            revert LibTurnBasedTime__DecreaseByZero(scope, time.timeType);
+        }
+
+        // compose scopeEntity
+        uint256 scopeEntity = getScopeEntity(scope, time);
+
+        uint256[] memory entities = LibScope.getEntitiesForScope(_svc, scopeEntity);
+        // track removed entities
+        uint256[] memory removedEntities = new uint256[](entities.length);
+        uint256 removedLength;
+        // loop all entities within scopeEntity
+        for (uint256 i; i < entities.length; i++) {
+            uint256 entity = entities[i];
+
+            TBTime memory storedTime = get(_svc, entity);
+            assert(storedTime.timeType == time.timeType);
+
+            // if time decrease >= stored time
+            if (time.timeValue >= storedTime.timeValue) {
+                // remove
+                remove(_svc, entity);
+
+                removedEntities[removedLength++] = entity;
+            } else {
+                // decrease
+                updateValue(_svc, entity, TBTime({
+                    timeType: storedTime.timeType,
+                    timeValue: storedTime.timeValue - time.timeValue
+                }));
+            }
+        }
+
+        // return removedEntities with unused space sliced off 
+        if (removedEntities.length == removedLength) {
+            return removedEntities;
+        }
+        bytes32[] memory removedEntitiesSliced = new bytes32[](removedLength);
+        for (uint256 i; i < removedLength; i++) {
+            removedEntitiesSliced[i] = removedEntities[i];
+        }
+        return removedEntitiesSliced;
+    }
+
+    /**
+     * @notice Remove entity's duration.
+     */
+    function remove(
+        SVComponents memory _svc,
+        uint256 entity,
+    ) internal {
+        LibScope.remove(_svc, entity);
+    }
+
+    function updateValue(
+        SVComponents memory _svc,
+        uint256 entity,
+        TBTime memory value
+    ) private {
+        LibScoped.updateValue(_svc, entity, abi.encode(value);
     }
 }

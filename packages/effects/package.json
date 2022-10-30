@@ -1,0 +1,9 @@
+{
+  "name": "@wanderer-cycle/effects",
+  "version": "0.1.0",
+  "devDependencies": {
+    "@latticexyz/std-contracts": "^1.23.0",
+    "@wanderer-cycle/std": "workspace:^0.1.0",
+    "@wanderer-cycle/turn-based-time": "workspace:^0.1.0"
+  }
+}

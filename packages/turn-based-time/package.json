@@ -12,6 +12,7 @@
   "devDependencies": {
     "@latticexyz/solecs": "^1.23.0",
     "@latticexyz/std-contracts": "^1.23.0",
+    "@wanderer-cycle/std": "workspace:^0.1.0",
     "hardhat": "^2.12.1"
   }
 }
