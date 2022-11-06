@@ -4,6 +4,8 @@ dist/
 
 artifacts/
 cache/
+abi/
+out/
 deployments/
 typechain-types/
 
