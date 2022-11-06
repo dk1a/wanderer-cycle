@@ -55,7 +55,9 @@ library Statmod {
    */
   function _modEntity(Self memory __self, uint256 protoEntity) private pure returns (uint256) {
     // TODO are u sure it's fine to make entities this way?
-    return protoEntity ^ __self.targetEntity;
+    unchecked {
+      return protoEntity + __self.targetEntity;
+    }
   }
 
   /**
@@ -63,7 +65,9 @@ library Statmod {
    * It can be retrieved back from modEntity using targetEntity
    */
   function _protoEntity(Self memory __self, uint256 modEntity) private pure returns (uint256) {
-    return modEntity ^ __self.targetEntity;
+    unchecked {
+      return modEntity - __self.targetEntity;
+    }
   }
 
   // ========== WRITE ==========
