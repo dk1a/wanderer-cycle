@@ -31,6 +31,8 @@ struct StatmodPrototype {
 }
 
 contract StatmodPrototypeComponent is BareComponent {
+  error StatmodPrototypeComponent__AbsentEntity();
+
   constructor(address world) BareComponent(world, ID) {}
 
   function getSchema() public pure override returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
@@ -52,7 +54,11 @@ contract StatmodPrototypeComponent is BareComponent {
   }
 
   function getValue(uint256 entity) public view returns (StatmodPrototype memory) {
-    return abi.decode(getRawValue(entity), (StatmodPrototype));
+    bytes memory rawValue = getRawValue(entity);
+    if (rawValue.length == 0) {
+      revert StatmodPrototypeComponent__AbsentEntity();
+    }
+    return abi.decode(rawValue, (StatmodPrototype));
   }
 }
 
