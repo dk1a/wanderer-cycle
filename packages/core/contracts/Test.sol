@@ -13,4 +13,17 @@ import { stdMath } from "forge-std/StdMath.sol";
 import { StdStorage, stdStorage } from "forge-std/StdStorage.sol";
 import { StdUtils } from "forge-std/StdUtils.sol";
 
-abstract contract Test is PRBTest, StdUtils {}
+import { LibDeploy } from "./libraries/LibDeploy.sol";
+import { World } from "solecs/World.sol";
+
+abstract contract Test is PRBTest, StdUtils {
+  World world;
+
+  function setUp() public virtual {
+    // deploy world
+    world = new World();
+    world.init();
+
+    LibDeploy.deploy(address(this), address(world), false);
+  }
+}

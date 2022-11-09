@@ -3,7 +3,8 @@
     "target": "es2022",
     "strict": true,
     "moduleResolution": "Node",
-    "outDir": "dist"
+    "outDir": "dist",
+    "types": ["node"]
   },
   "exclude": ["node_modules", "**/dist/**"],
   "include": ["packages/**/*"]

@@ -4,15 +4,16 @@ pragma solidity ^0.8.17;
 
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
-import {
-  TBTimePrototype,
-  TBTimePrototypeComponent,
-  ID as TBTimePrototypeComponentID
-} from "./TBTimePrototypeComponent.sol";
 
 import { ScopedValue } from "../scoped-value/ScopedValue.sol";
 import { ID as TBTimeScopeComponentID } from "./TBTimeScopeComponent.sol";
 import { ID as TBTimeValueComponentID } from "./TBTimeValueComponent.sol";
+import { AppliedEffectComponent, ID as AppliedEffectComponentID } from "../effect/AppliedEffectComponent.sol";
+
+struct TimeStruct {
+  bytes4 timeTopic;
+  uint256 timeValue;
+}
 
 /**
  * @title Scoped time values.
@@ -22,7 +23,7 @@ library TBTime {
   using ScopedValue for ScopedValue.Self;
 
   struct Self {
-    TBTimePrototypeComponent protoComp;
+    IUint256Component registry;
     ScopedValue.Self sv;
     uint256 targetEntity;
   }
@@ -32,7 +33,7 @@ library TBTime {
     uint256 targetEntity
   ) internal view returns (Self memory) {
     return Self({
-      protoComp: TBTimePrototypeComponent(getAddressById(registry, TBTimePrototypeComponentID)),
+      registry: registry,
       sv: ScopedValue.__construct(
         registry,
         TBTimeScopeComponentID,
@@ -40,10 +41,6 @@ library TBTime {
       ),
       targetEntity: targetEntity
     });
-  }
-
-  function _getTopic(Self memory __self, uint256 protoEntity) private view returns (bytes4) {
-    return __self.protoComp.getValue(protoEntity).topic;
   }
 
   function _scope(Self memory __self, bytes4 topic) private pure returns (bytes memory) {
@@ -70,13 +67,12 @@ library TBTime {
   function increase(
     Self memory __self,
     uint256 protoEntity,
-    uint256 value
+    TimeStruct memory time
   ) internal returns (bool isUpdate) {
-    bytes4 topic = _getTopic(__self, protoEntity);
     return __self.sv.increaseEntity(
-      _scope(__self, topic),
+      _scope(__self, time.timeTopic),
       _appliedEntity(__self, protoEntity),
-      value
+      time.timeValue
     );
   }
 
@@ -91,18 +87,20 @@ library TBTime {
 
   function decreaseTopic(
     Self memory __self,
-    bytes4 topic,
-    uint256 value
+    TimeStruct memory time
   ) internal {
     uint256[] memory removedAppliedEntities
-      = __self.sv.decreaseScope(_scope(__self, topic), value);
+      = __self.sv.decreaseScope(_scope(__self, time.timeTopic), time.timeValue);
+    if (removedAppliedEntities.length == 0) return;
+
+    AppliedEffectComponent appliedEffectComp
+      = AppliedEffectComponent(getAddressById(__self.registry, AppliedEffectComponentID));
 
     for (uint256 i; i < removedAppliedEntities.length; i++) {
       uint256 appliedEntity = removedAppliedEntities[i];
       uint256 protoEntity = _protoEntity(__self, appliedEntity);
 
-      TBTimePrototype memory prototype = __self.protoComp.getValue(protoEntity);
-      if (prototype.onEndRemoveEffect) {
+      if (appliedEffectComp.has(protoEntity)) {
         // TODO like, remove the effect
       }
     }

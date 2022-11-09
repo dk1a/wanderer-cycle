@@ -41,7 +41,6 @@ contract ScopedValueRevertHelper {
 contract ScopedValueTest is Test {
   using ScopedValue for ScopedValue.Self;
 
-  World world;
   ScopeComponent scopeComponent;
   ValueComponent valueComponent;
 
@@ -67,10 +66,8 @@ contract ScopedValueTest is Test {
     })
   );
 
-  function setUp() public virtual {
-    // deploy world
-    world = new World();
-    world.init();
+  function setUp() public virtual override {
+    super.setUp();
 
     // deploy components
     scopeComponent = new ScopeComponent(address(world), TimeScopeComponentID);

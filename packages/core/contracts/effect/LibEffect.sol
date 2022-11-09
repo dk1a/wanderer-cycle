@@ -11,8 +11,7 @@ import {
   AppliedEffectComponent,
   ID as AppliedEffectComponentID
 } from "./AppliedEffectComponent.sol";
-import { TBTime } from "../turn-based-time/TBTime.sol";
-import { TBTimePrototype } from "../turn-based-time/TBTimePrototypeComponent.sol";
+import { TBTime, TimeStruct } from "../turn-based-time/TBTime.sol";
 import { Statmod } from "../statmod/Statmod.sol";
 
 library LibEffect {
@@ -49,19 +48,13 @@ library LibEffect {
     Self memory __self,
     // TODO figure out what to do if statmods are empty
     AppliedEffect memory data,
-    bytes4 timeTopic,
-    uint256 timeValue
+    TimeStruct memory time
   ) internal {
     uint256 appliedEntity = _appliedEntity(__self, data.effectProtoEntity);
 
-    // TODO I don't like this here
-    __self.tbtime.protoComp.set(appliedEntity, TBTimePrototype({
-      topic: timeTopic,
-      onEndRemoveEffect: true
-    }));
     // TODO infinite/absent duration
     // start/extend duration
-    TBTime.increase(__self.tbtime, appliedEntity, timeValue);
+    TBTime.increase(__self.tbtime, appliedEntity, time);
 
     bool effectExists = exists(__self, data.effectProtoEntity);
     if (!effectExists) {
@@ -82,8 +75,8 @@ library LibEffect {
     Self memory __self,
     uint256 protoEntity
   ) internal {
-    // remove duration
     uint256 appliedEntity = _appliedEntity(__self, protoEntity);
+    // remove duration
     TBTime.remove(__self.tbtime, appliedEntity);
     // get and remove effect data
     AppliedEffect memory data = __self.comp.getValue(appliedEntity);

@@ -3,5 +3,5 @@ src = 'contracts'
 out = 'artifacts'
 libs = ['node_modules', '../../node_modules']
 include_paths = ['node_modules', '../../node_modules', '../']
-optimizer = true
+optimizer = false
 optimizer_runs = 1000000

@@ -3,15 +3,27 @@
   "version": "0.1.0",
   "scripts": {
     "build": "forge build",
-    "test": "forge test"
+    "test": "forge test",
+    "codegen": "ts-node ./scripts/codegen.ts",
+    "types": "rm -rf typechain && yarn run typechain --target=ethers-v5 --out-dir=typechain './artifacts/**/*.json'"
   },
   "files": [
     "/**/*.sol",
     "!/**/*Mock.sol"
   ],
   "devDependencies": {
+    "@ethersproject/abi": "^5.7.0",
+    "@ethersproject/bytes": "^5.7.0",
+    "@ethersproject/hash": "^5.7.0",
+    "@ethersproject/strings": "^5.7.0",
     "@prb/test": "^0.1.3",
+    "@typechain/ethers-v5": "^10.1.1",
+    "@types/ejs": "^3.1.1",
+    "ejs": "^3.1.8",
     "hardhat": "^2.12.1",
-    "hardhat-preprocessor": "^0.1.5"
+    "hardhat-preprocessor": "^0.1.5",
+    "ts-node": "^10.9.1",
+    "typechain": "^8.1.1",
+    "typescript": "^4.8.4"
   }
 }
