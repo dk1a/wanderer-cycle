@@ -8,7 +8,8 @@ import { getAddressById } from "solecs/utils.sol";
 import { ScopedValue } from "../scoped-value/ScopedValue.sol";
 import { ID as TBTimeScopeComponentID } from "./TBTimeScopeComponent.sol";
 import { ID as TBTimeValueComponentID } from "./TBTimeValueComponent.sol";
-import { AppliedEffectComponent, ID as AppliedEffectComponentID } from "../effect/AppliedEffectComponent.sol";
+
+import { LibEffectDurationEndCallback } from "../effect/LibEffectDurationEndCallback.sol";
 
 struct TimeStruct {
   bytes4 timeTopic;
@@ -93,17 +94,20 @@ library TBTime {
       = __self.sv.decreaseScope(_scope(__self, time.timeTopic), time.timeValue);
     if (removedAppliedEntities.length == 0) return;
 
-    AppliedEffectComponent appliedEffectComp
-      = AppliedEffectComponent(getAddressById(__self.registry, AppliedEffectComponentID));
-
+    // get protoEntities
+    // (applied entities are only used internally to bind protoEntities to target)
+    uint256[] memory removedProtoEntities = new uint256[](removedAppliedEntities.length);
     for (uint256 i; i < removedAppliedEntities.length; i++) {
-      uint256 appliedEntity = removedAppliedEntities[i];
-      uint256 protoEntity = _protoEntity(__self, appliedEntity);
-
-      if (appliedEffectComp.has(protoEntity)) {
-        // TODO like, remove the effect
-      }
+      removedProtoEntities[i] = _protoEntity(__self, removedAppliedEntities[i]);
     }
+
+    // TODO I really don't like this hardcoded callback (or the excess of loops)
+    // effect callback
+    LibEffectDurationEndCallback.callback(
+      __self.registry,
+      __self.targetEntity,
+      removedProtoEntities
+    );
   }
 
   // ========== READ ==========

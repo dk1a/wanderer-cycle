@@ -30,12 +30,12 @@ library LibApplySkillEffect {
   error LibUseSkill__InvalidSkillTarget();
 
   struct Self {
+    IUint256Component registry;
     SkillPrototypeComponent protoComp;
     TBTime.Self tbtime;
     LibCharstat.Self charstat;
     LibLearnedSkills.Self learnedSkills;
     uint256 userEntity;
-    IUint256Component registry;
   }
 
   function __construct(
@@ -43,12 +43,12 @@ library LibApplySkillEffect {
     uint256 userEntity
   ) internal view returns (Self memory) {
     return Self({
+      registry: registry,
       protoComp: SkillPrototypeComponent(getAddressById(registry, SkillPrototypeComponentID)),
       tbtime: TBTime.__construct(registry, userEntity),
       charstat: LibCharstat.__construct(registry, userEntity),
       learnedSkills: LibLearnedSkills.__construct(registry, userEntity),
-      userEntity: userEntity,
-      registry: registry
+      userEntity: userEntity
     });
   }
 
@@ -121,7 +121,7 @@ library LibApplySkillEffect {
 
     if (prototype.skillType == SkillType.PASSIVE) {
       // toggle passive skill
-      if (libEffect.exists(skillEntity)) {
+      if (libEffect.has(skillEntity)) {
         libEffect.remove(skillEntity);
       } else {
         libEffect.applyEffect(appliedEffect, prototype.duration);

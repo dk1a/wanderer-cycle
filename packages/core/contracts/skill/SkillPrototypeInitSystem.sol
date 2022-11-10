@@ -2,8 +2,6 @@
 
 pragma solidity ^0.8.17;
 
-import {console2} from "forge-std/console2.sol";
-
 import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { getAddressById } from "solecs/utils.sol";

@@ -10,6 +10,7 @@ const deployData = {
     { name: "TBTimeScopeComponent", path: "turn-based-time" },
     { name: "TBTimeValueComponent", path: "turn-based-time" },
 
+    { name: "ExperienceComponent", path: "charstat" },
     { name: "LifeCurrentComponent", path: "charstat" },
     { name: "ManaCurrentComponent", path: "charstat" },
 

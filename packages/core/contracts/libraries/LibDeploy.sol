@@ -14,6 +14,7 @@ import { ISystem } from "solecs/interfaces/ISystem.sol";
 // Components
 import { TBTimeScopeComponent, ID as TBTimeScopeComponentID } from "../turn-based-time/TBTimeScopeComponent.sol";
 import { TBTimeValueComponent, ID as TBTimeValueComponentID } from "../turn-based-time/TBTimeValueComponent.sol";
+import { ExperienceComponent, ID as ExperienceComponentID } from "../charstat/ExperienceComponent.sol";
 import { LifeCurrentComponent, ID as LifeCurrentComponentID } from "../charstat/LifeCurrentComponent.sol";
 import { ManaCurrentComponent, ID as ManaCurrentComponentID } from "../charstat/ManaCurrentComponent.sol";
 import { StatmodPrototypeComponent, ID as StatmodPrototypeComponentID } from "../statmod/StatmodPrototypeComponent.sol";
@@ -60,6 +61,7 @@ library LibDeploy {
       address comp;
       comp = address(new TBTimeScopeComponent(address(result.world)));
       comp = address(new TBTimeValueComponent(address(result.world)));
+      comp = address(new ExperienceComponent(address(result.world)));
       comp = address(new LifeCurrentComponent(address(result.world)));
       comp = address(new ManaCurrentComponent(address(result.world)));
       comp = address(new StatmodPrototypeComponent(address(result.world)));

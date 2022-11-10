@@ -12,9 +12,11 @@ import { ManaCurrentComponent, ID as ManaCurrentComponentID } from "./ManaCurren
 
 library LibCharstat {
   using Statmod for Statmod.Self;
+  using LibExperience for LibExperience.Self;
 
   struct Self {
     Statmod.Self statmod;
+    LibExperience.Self exp;
     LifeCurrentComponent lifeCComp;
     ManaCurrentComponent manaCComp;
     uint256 targetEntity;
@@ -26,6 +28,7 @@ library LibCharstat {
   ) internal view returns (Self memory) {
     return Self({
       statmod: Statmod.__construct(registry, targetEntity),
+      exp: LibExperience.__construct(registry, targetEntity),
       lifeCComp: LifeCurrentComponent(getAddressById(registry, LifeCurrentComponentID)),
       manaCComp: ManaCurrentComponent(getAddressById(registry, ManaCurrentComponentID)),
       targetEntity: targetEntity
@@ -37,18 +40,13 @@ library LibCharstat {
     Self memory __self,
     PStat pstatIndex
   ) internal view returns (uint32) {
-    // TODO use some component that checks what to use here targetEntity
-    //statmod.targetEntity
-    if (false) {
-      // ENTITY WITH EXPERIENCE
-      uint32 experience = uint32(pstatIndex);// = ___; TODO get exp from some component
-      return LibExperience.getLevel(experience);
-    } else if (false) {
-      // ENTITY MAP
+    if (__self.exp.hasExp()) {
+      // if entity uses exp component, use that for primary stats
+      return __self.exp.getPStat(pstatIndex);
+    } else {
+      // otherwise try a special statmod
       // TODO maybe change topic name?
       return __self.statmod.getValuesFinal(Topics.MAP_LEVEL, 0);
-    } else {
-      revert('TODO: finish getBasePStats');
     }
   }
 
@@ -75,7 +73,7 @@ library LibCharstat {
     Self memory __self
   ) internal view returns (uint32) {
     uint32 arcana = getPStat(__self, PStat.ARCANA);
-    uint32 baseValue = 4 * arcana;
+    uint32 baseValue = 4 + 4 * arcana;
 
     return __self.statmod.getValuesFinal(Topics.MANA, baseValue);
   }

@@ -40,7 +40,7 @@ library LibEffect {
     ));
   }
 
-  function exists(Self memory __self, uint256 protoEntity) internal view returns (bool) {
+  function has(Self memory __self, uint256 protoEntity) internal view returns (bool) {
     return __self.comp.has(_appliedEntity(__self, protoEntity));
   }
 
@@ -52,11 +52,13 @@ library LibEffect {
   ) internal {
     uint256 appliedEntity = _appliedEntity(__self, data.effectProtoEntity);
 
-    // TODO infinite/absent duration
     // start/extend duration
-    TBTime.increase(__self.tbtime, appliedEntity, time);
+    // (0 timeValue means infinite duration until removed)
+    if (time.timeValue > 0) {
+      TBTime.increase(__self.tbtime, appliedEntity, time);
+    }
 
-    bool effectExists = exists(__self, data.effectProtoEntity);
+    bool effectExists = has(__self, data.effectProtoEntity);
     if (!effectExists) {
       // set effect data
       __self.comp.set(appliedEntity, data);
