@@ -2,43 +2,6 @@ import { toUtf8Bytes } from '@ethersproject/strings'
 import { id } from '@ethersproject/hash'
 import { hexDataSlice } from '@ethersproject/bytes'
 
-export const facets = [
-  'AstralDataFacet',
-  'AstralSkillFacet',
-  'AstralTurnsFacet',
-
-  'CycleTransitionFacet',
-
-  'CycleDataFacet',
-  'CycleSkillFacet',
-  'CycleTurnsFacet',
-
-  'EncounterFacet',
-  'EncounterDataFacet',
-  'EncounterRewardFacet',
-
-  'EquipmentFacet',
-
-  'Guise',
-
-  'AffixFacet',
-  'LootFacet',
-
-  'Modifier',
-
-  'Multicall',
-
-  'SkillFacet',
-
-  'TokenWalletDataProvider',
-
-  'VRFConsumerFacet',
-
-  'WTokens',
-  'WTokensMintWandererFacet',
-  'WTokensUri'
-]
-
 // generic check for valid names of stuff
 export function checkNameStr(str: string) {
   return str === str.trim() && str.length > 2
@@ -59,22 +22,10 @@ export function strToBytesN(str: string, nBytes: number) {
   return result
 }
 
-export function strToBytes4(str: string) {
-  return strToBytesN(str, 4)
-}
-
-export function strToBytes8(str: string) {
-  return strToBytesN(str, 8)
-}
-
-export function strToBytes16(str: string) {
-  return strToBytesN(str, 16)
-}
-
 export function strToBytes32(str: string) {
   return strToBytesN(str, 32)
 }
 
-export function idFromName(name: string) {
+export function selectorFromName(name: string) {
   return hexDataSlice(id(name), 0, 4);
 }

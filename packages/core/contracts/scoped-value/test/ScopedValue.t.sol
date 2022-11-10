@@ -86,7 +86,7 @@ contract ScopedValueTest is Test {
   function testSingleEntityIncrease() public {
     // de1 + 500
     _sv.increaseEntity(roundScope, de1, 500);
-    assertTrue(_sv.getValue(de1) == 500);
+    assertEq(_sv.getValue(de1), 500);
   }
 
   function testSingleEntityDecrease() public {
@@ -94,7 +94,7 @@ contract ScopedValueTest is Test {
     _sv.increaseEntity(roundScope, de1, 500);
     // de1 - 200
     _sv.decreaseEntity(roundScope, de1, 200);
-    assertTrue(_sv.getValue(de1) == 300);
+    assertEq(_sv.getValue(de1), 300);
   }
 
   function testSingleEntityCannotDecreaseAbsent() public {
@@ -107,7 +107,7 @@ contract ScopedValueTest is Test {
   function testSingleEntityDecreaseTotal() public {
     // de1 + 500
     _sv.increaseEntity(roundScope, de1, 500);
-    assertTrue(_sv.getValue(de1) == 500);
+    assertEq(_sv.getValue(de1), 500);
 
     // de1 - 600
     _sv.decreaseEntity(roundScope, de1, 600);
@@ -122,9 +122,9 @@ contract ScopedValueTest is Test {
 
     // de2 + 50
     _sv.increaseEntity(turnScope, de2, 50);
-    assertTrue(_sv.getValue(de2) == 50);
+    assertEq(_sv.getValue(de2), 50);
     // and make sure de1 is unaffected
-    assertTrue(_sv.getValue(de1) == 300);
+    assertEq(_sv.getValue(de1), 300);
   }
 
   // SCOPE CHANGES
@@ -141,11 +141,11 @@ contract ScopedValueTest is Test {
     _sv.increaseScope(roundScope, 100);
 
     // de1 = 1 + 100 = 101
-    assertTrue(_sv.getValue(de1) == 101);
+    assertEq(_sv.getValue(de1), 101);
     // de2 = 2 + 100 = 102
-    assertTrue(_sv.getValue(de2) == 102);
+    assertEq(_sv.getValue(de2), 102);
     // de3 = 3 unaffected
-    assertTrue(_sv.getValue(de3) == 3);
+    assertEq(_sv.getValue(de3), 3);
   }
 
   function testScopeDecrease() public {
@@ -160,11 +160,11 @@ contract ScopedValueTest is Test {
     _sv.decreaseScope(roundScope, 3);
 
     // de1 = 10 - 3 = 7
-    assertTrue(_sv.getValue(de1) == 7);
+    assertEq(_sv.getValue(de1), 7);
     // de2 = 2 - 3 = REMOVED
     assertFalse(_sv.has(de2));
     // de3 = 5 unaffected
-    assertTrue(_sv.getValue(de3) == 5);
+    assertEq(_sv.getValue(de3), 5);
   }
 
   function testScopeRemove() public {
@@ -179,10 +179,10 @@ contract ScopedValueTest is Test {
     _sv.removeScope(roundScope);
 
     // de1 REMOVED
-    assertTrue(!_sv.has(de1));
+    assertFalse(_sv.has(de1));
     // de2 REMOVED
-    assertTrue(!_sv.has(de2));
+    assertFalse(_sv.has(de2));
     // de3 unaffected
-    assertTrue(_sv.getValue(de3) == 3);
+    assertEq(_sv.getValue(de3), 3);
   }
 }

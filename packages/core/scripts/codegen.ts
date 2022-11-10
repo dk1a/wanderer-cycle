@@ -1,36 +1,42 @@
 import { renderFile } from "ejs"
-import { readdirSync, writeFileSync } from "fs"
+import { readdirSync, readFileSync, writeFileSync } from "fs"
 import { extname, basename } from "path"
 import prepareStatmods from "./prepareStatmods"
 
 const deployData = {
   withLogs: false,
-  withSystemInit: true,
+  withGenInits: true,
   components: [
+    { name: "TBTimeScopeComponent", path: "turn-based-time" },
+    { name: "TBTimeValueComponent", path: "turn-based-time" },
+
     { name: "LifeCurrentComponent", path: "charstat" },
     { name: "ManaCurrentComponent", path: "charstat" },
-
-    { name: "AppliedEffectComponent", path: "effect" },
-
-    { name: "LearnedSkillsComponent", path: "skill" },
-    { name: "SkillPrototypeComponent", path: "skill" },
-    { name: "SkillPrototypeExtComponent", path: "skill" },
 
     { name: "StatmodPrototypeComponent", path: "statmod" },
     { name: "StatmodPrototypeExtComponent", path: "statmod" },
     { name: "StatmodScopeComponent", path: "statmod" },
     { name: "StatmodValueComponent", path: "statmod" },
 
-    { name: "TBTimeScopeComponent", path: "turn-based-time" },
-    { name: "TBTimeValueComponent", path: "turn-based-time" }
+    { name: "AppliedEffectComponent", path: "effect" },
+
+    { name: "LearnedSkillsComponent", path: "skill" },
+    { name: "SkillPrototypeComponent", path: "skill" },
+    { name: "SkillPrototypeExtComponent", path: "skill" },
   ],
   systems: [
     {
       path: "statmod",
       name: "StatmodInitSystem",
       writeAccess: ["StatmodPrototypeComponent", "StatmodPrototypeExtComponent"],
-      initialize: prepareStatmods()
-    }
+      generateInit: prepareStatmods()
+    },
+    {
+      path: "skill",
+      name: "SkillPrototypeInitSystem",
+      writeAccess: ["SkillPrototypeComponent", "SkillPrototypeExtComponent"],
+      manualInitLib: 'LibInitSkill'
+    },
   ]
 }
 

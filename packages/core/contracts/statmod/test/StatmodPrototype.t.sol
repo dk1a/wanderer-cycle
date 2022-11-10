@@ -40,20 +40,33 @@ contract StatmodPrototypeTest is Test {
   function testHashedTopic() public {
     assertEq(
       protoComp.getValue(addLifePE).topic,
-      bytes4(keccak256(bytes(protoExtComp.getValue(addLifePE).topic)))
+      bytes4(keccak256(bytes(protoExtComp.getValue(addLifePE).topic))),
+      protoExtComp.getValue(addLifePE).topic
     );
   }
 
   function testName() public {
-    assertEq('+# life', protoExtComp.getValue(addLifePE).name);
+    assertEq(
+      protoExtComp.getValue(addLifePE).name,
+      '+# life'
+    );
   }
 
   function testTopic() public {
-    assertEq('life', protoExtComp.getValue(addLifePE).topic);
+    assertEq(
+      protoExtComp.getValue(addLifePE).topic,
+      'life'
+    );
   }
 
   function testNameSplitForValue() public {
-    assertEq('+', protoExtComp.getValue(addLifePE).nameSplitForValue[0]);
-    assertEq(' life', protoExtComp.getValue(addLifePE).nameSplitForValue[1]);
+    assertEq(
+      protoExtComp.getValue(addLifePE).nameSplitForValue[0],
+      '+'
+    );
+    assertEq(
+      protoExtComp.getValue(addLifePE).nameSplitForValue[1],
+      ' life'
+    );
   }
 }

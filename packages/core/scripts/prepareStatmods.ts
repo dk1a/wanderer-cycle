@@ -1,9 +1,9 @@
 import { id } from '@ethersproject/hash'
 import { defaultAbiCoder } from '@ethersproject/abi'
-import { idFromName } from "./utils"
-import statmods, { Element } from "./statmods"
+import { selectorFromName, checkNameStr } from "./utils"
+import statmods, { Element } from "./data/statmods"
 
-// for modifer names '#' is a placeholder for affix values.
+// for statmod names '#' is a placeholder for affix values.
 // since string operations are expensive in solidity,
 // pre-splitting allows it to just concatenate the parts around the value
 function splitNameForValue(name: string) {
@@ -15,10 +15,20 @@ function splitNameForValue(name: string) {
 }
 
 export default function prepareStatmods() {
+  // check for obvious typos
+  statmods.forEach(({name, topic}) => {
+    if (!checkNameStr(name)) {
+      throw new Error(`Invalid name ${name}`);
+    }
+    if (!checkNameStr(topic)) {
+      throw new Error(`Invalid topic ${topic}`);
+    }
+  })
+
   const entities = statmods.map(e => id(e.name))
 
   const prototypes = statmods.map(e => ({
-    topic: idFromName(e.topic),
+    topic: selectorFromName(e.topic),
     op: e.op,
     element: e.element ?? Element.NONE,
   }))

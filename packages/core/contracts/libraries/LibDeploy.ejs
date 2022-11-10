@@ -23,6 +23,9 @@ import { <%= name %>, ID as <%= name %>ID } from "../<%- path ?? '.' %>/<%= name
 
 // Libraries
 import { LibInit } from "./LibInit.sol";
+<% systems?.filter(system => !!system.manualInitLib).forEach(({manualInitLib}) => { -%>
+import { <%= manualInitLib %> } from "./<%= manualInitLib %>.sol";
+<% }) -%>
 
 struct DeployResult {
   World world;
@@ -88,7 +91,9 @@ library LibDeploy {
     authorizeWriter(components, <%= component %>ID, address(system));
 <% } -%>
 <% }) -%>
-<% if(!!system.initialize) { -%>
+<% if(!!system.manualInitLib) { -%>
+    if(init) <%= system.manualInitLib %>.initialize(world);
+<% } else if(!!system.generateInit) { -%>
     if(init) LibInit.init<%= system.name %>(system);
 <% } -%>
 <% if (withLogs) { -%>
