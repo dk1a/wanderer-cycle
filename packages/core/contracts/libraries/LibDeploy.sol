@@ -25,14 +25,19 @@ import { AppliedEffectComponent, ID as AppliedEffectComponentID } from "../effec
 import { LearnedSkillsComponent, ID as LearnedSkillsComponentID } from "../skill/LearnedSkillsComponent.sol";
 import { SkillPrototypeComponent, ID as SkillPrototypeComponentID } from "../skill/SkillPrototypeComponent.sol";
 import { SkillPrototypeExtComponent, ID as SkillPrototypeExtComponentID } from "../skill/SkillPrototypeExtComponent.sol";
+import { GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../guise/GuisePrototypeComponent.sol";
+import { GuisePrototypeExtComponent, ID as GuisePrototypeExtComponentID } from "../guise/GuisePrototypeExtComponent.sol";
+import { GuiseSkillsComponent, ID as GuiseSkillsComponentID } from "../guise/GuiseSkillsComponent.sol";
 
 // Systems
 import { StatmodInitSystem, ID as StatmodInitSystemID } from "../statmod/StatmodInitSystem.sol";
 import { SkillPrototypeInitSystem, ID as SkillPrototypeInitSystemID } from "../skill/SkillPrototypeInitSystem.sol";
+import { GuisePrototypeInitSystem, ID as GuisePrototypeInitSystemID } from "../guise/GuisePrototypeInitSystem.sol";
 
 // Libraries
 import { LibInit } from "./LibInit.sol";
 import { LibInitSkill } from "./LibInitSkill.sol";
+import { LibInitGuise } from "./LibInitGuise.sol";
 
 struct DeployResult {
   World world;
@@ -72,6 +77,9 @@ library LibDeploy {
       comp = address(new LearnedSkillsComponent(address(result.world)));
       comp = address(new SkillPrototypeComponent(address(result.world)));
       comp = address(new SkillPrototypeExtComponent(address(result.world)));
+      comp = address(new GuisePrototypeComponent(address(result.world)));
+      comp = address(new GuisePrototypeExtComponent(address(result.world)));
+      comp = address(new GuiseSkillsComponent(address(result.world)));
     } 
     
     deploySystems(address(result.world), true);
@@ -97,5 +105,11 @@ library LibDeploy {
     authorizeWriter(components, SkillPrototypeComponentID, address(system));
     authorizeWriter(components, SkillPrototypeExtComponentID, address(system));
     if(init) LibInitSkill.initialize(world);
+    system = new GuisePrototypeInitSystem(world, address(components));
+    world.registerSystem(address(system), GuisePrototypeInitSystemID);
+    authorizeWriter(components, GuisePrototypeComponentID, address(system));
+    authorizeWriter(components, GuisePrototypeExtComponentID, address(system));
+    authorizeWriter(components, GuiseSkillsComponentID, address(system));
+    if(init) LibInitGuise.initialize(world);
   }
 }

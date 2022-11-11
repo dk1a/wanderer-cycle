@@ -25,7 +25,6 @@ import { StatmodPrototypeComponent, ID as StatmodPrototypeComponentID } from "..
 uint256 constant ID = uint256(keccak256("system.SkillPrototypeInit"));
 
 contract SkillPrototypeInitSystem is System {
-  error SkillPrototypeInitSystem__LengthMismatch();
   error SkillPrototypeInitSystem__InvalidStatmod();
 
   constructor(IWorld _world, address _components) System(_world, _components) {}
@@ -46,10 +45,6 @@ contract SkillPrototypeInitSystem is System {
       SkillPrototypeExt memory prototypeExt
     ) = abi.decode(arguments, (SkillPrototype, SkillPrototypeExt));
 
-    /*if (prototypes.length != prototypesExt.length) {
-      revert SkillPrototypeInitSystem__LengthMismatch();
-    }*/
-
     Comps memory comps = Comps({
       proto: SkillPrototypeComponent(getAddressById(components, SkillPrototypeComponentID)),
       protoExt: SkillPrototypeExtComponent(getAddressById(components, SkillPrototypeExtComponentID)),
@@ -69,12 +64,4 @@ contract SkillPrototypeInitSystem is System {
 
     return '';
   }
-/*
-  function _addPrototype(
-    Comps memory comps,
-    SkillPrototype memory prototype,
-    SkillPrototypeExt memory prototypeExt
-  ) internal {
-    
-  }*/
 }

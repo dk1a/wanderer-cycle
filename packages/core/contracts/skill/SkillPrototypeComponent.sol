@@ -22,6 +22,8 @@ enum TargetType {
   SELF_OR_ALLY
 }
 struct SkillPrototype {
+  // level required to learn it
+  uint8 requiredLevel;
   // when/how can it be used
   SkillType skillType;
   // by default a skill only applies effects

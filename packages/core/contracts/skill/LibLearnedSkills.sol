@@ -4,10 +4,7 @@ pragma solidity ^0.8.17;
 
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
-import {
-  LearnedSkillsComponent,
-  ID as LearnedSkillsComponentID
-} from "./LearnedSkillsComponent.sol";
+import { LearnedSkillsComponent, ID as LearnedSkillsComponentID } from "./LearnedSkillsComponent.sol";
 
 library LibLearnedSkills {
   error LibLearnedSkills__LearnSkillDuplicate();

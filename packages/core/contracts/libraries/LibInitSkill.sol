@@ -29,6 +29,7 @@ library LibInitSkill {
     // 1
     system.execute(
       SkillPrototype({
+        requiredLevel: 1,
         skillType: SkillType.COMBAT,
         withAttack: true,
         withSpell: false,
@@ -51,6 +52,7 @@ library LibInitSkill {
     // 2 
     system.execute(
       SkillPrototype({
+        requiredLevel: 2,
         skillType: SkillType.NONCOMBAT,
         withAttack: false,
         withSpell: false,
@@ -72,6 +74,7 @@ library LibInitSkill {
     // 3
     system.execute(
       SkillPrototype({
+        requiredLevel: 3,
         skillType: SkillType.PASSIVE,
         withAttack: false,
         withSpell: false,
@@ -93,6 +96,7 @@ library LibInitSkill {
     // 4
     system.execute(
       SkillPrototype({
+        requiredLevel: 4,
         skillType: SkillType.NONCOMBAT,
         withAttack: false,
         withSpell: false,
@@ -115,6 +119,7 @@ library LibInitSkill {
     // 5
     system.execute(
       SkillPrototype({
+        requiredLevel: 5,
         skillType: SkillType.PASSIVE,
         withAttack: false,
         withSpell: false,
@@ -136,6 +141,7 @@ library LibInitSkill {
     // 6
     system.execute(
       SkillPrototype({
+        requiredLevel: 6,
         skillType: SkillType.COMBAT,
         withAttack: true,
         withSpell: true,
@@ -155,6 +161,7 @@ library LibInitSkill {
     // 7
     system.execute(
       SkillPrototype({
+        requiredLevel: 7,
         skillType: SkillType.PASSIVE,
         withAttack: false,
         withSpell: false,
@@ -176,6 +183,7 @@ library LibInitSkill {
     // 8
     system.execute(
       SkillPrototype({
+        requiredLevel: 8,
         skillType: SkillType.PASSIVE,
         withAttack: false,
         withSpell: false,
@@ -196,6 +204,7 @@ library LibInitSkill {
     // 9
     system.execute(
       SkillPrototype({
+        requiredLevel: 9,
         skillType: SkillType.NONCOMBAT,
         withAttack: false,
         withSpell: false,
@@ -218,6 +227,7 @@ library LibInitSkill {
     // 10
     system.execute(
       SkillPrototype({
+        requiredLevel: 10,
         skillType: SkillType.COMBAT,
         withAttack: true,
         withSpell: false,
@@ -241,6 +251,7 @@ library LibInitSkill {
     // 11
     system.execute(
       SkillPrototype({
+        requiredLevel: 11,
         skillType: SkillType.PASSIVE,
         withAttack: false,
         withSpell: false,

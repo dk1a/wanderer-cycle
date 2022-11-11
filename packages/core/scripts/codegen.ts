@@ -24,6 +24,10 @@ const deployData = {
     { name: "LearnedSkillsComponent", path: "skill" },
     { name: "SkillPrototypeComponent", path: "skill" },
     { name: "SkillPrototypeExtComponent", path: "skill" },
+
+    { name: "GuisePrototypeComponent", path: "guise" },
+    { name: "GuisePrototypeExtComponent", path: "guise" },
+    { name: "GuiseSkillsComponent", path: "guise" },
   ],
   systems: [
     {
@@ -37,6 +41,12 @@ const deployData = {
       name: "SkillPrototypeInitSystem",
       writeAccess: ["SkillPrototypeComponent", "SkillPrototypeExtComponent"],
       manualInitLib: 'LibInitSkill'
+    },
+    {
+      path: "guise",
+      name: "GuisePrototypeInitSystem",
+      writeAccess: ["GuisePrototypeComponent", "GuisePrototypeExtComponent", "GuiseSkillsComponent"],
+      manualInitLib: 'LibInitGuise'
     },
   ]
 }

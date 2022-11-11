@@ -42,14 +42,14 @@ contract Uint256SetComponent is AbstractComponent {
   /**
    * Avoid in favor of addItem when possible
    */
-  function set(uint256 entity, uint256[] memory value) public onlyOwner {
+  function set(uint256 entity, uint256[] memory value) public onlyWriter {
     _set(entity, value);
   }
 
   /**
    * Avoid in favor of removeItem when possible
    */
-  function remove(uint256 entity) public override onlyOwner {
+  function remove(uint256 entity) public override onlyWriter {
     _remove(entity);
   }
 
@@ -75,14 +75,14 @@ contract Uint256SetComponent is AbstractComponent {
   /**
    * Add an item without writing the whole array
    */
-  function addItem(uint256 entity, uint256 item) public onlyOwner {
+  function addItem(uint256 entity, uint256 item) public onlyWriter {
     _addItem(entity, item);
   }
 
   /**
    * Remove an item without writing the whole array
    */
-  function removeItem(uint256 entity, uint256 item) public onlyOwner {
+  function removeItem(uint256 entity, uint256 item) public onlyWriter {
     _removeItem(entity, item);
   }
 
