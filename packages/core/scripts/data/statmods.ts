@@ -307,30 +307,25 @@ const statmods: ModifierData[] = [
     op: Op.BADD,
   },
   // consumables
-  // TODO you sure u wana use Baseness here?
   {
     name: `${recover} #% ${of} ${base} ${life}`,
     topic: consumable,
     op: Op.MUL,
-    //baseness: Baseness.BASE,
   },
   {
     name: `${recover} # ${life}`,
     topic: consumable,
     op: Op.ADD,
-    //baseness: Baseness.FINAL,
   },
   {
     name: `${recover} #% ${of} ${base} ${mana}`,
     topic: consumable,
     op: Op.MUL,
-    //baseness: Baseness.BASE,
   },
   {
     name: `${recover} # ${mana}`,
     topic: consumable,
     op: Op.ADD,
-    //baseness: Baseness.FINAL,
   },
   // map level
   {

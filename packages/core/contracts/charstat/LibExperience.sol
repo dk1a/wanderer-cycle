@@ -12,6 +12,7 @@ import {
 
 library LibExperience {
   error LibExperience__InvalidLevel();
+  error LibExperience__ExpNotInitialized();
 
   uint8 constant LEVEL_TOTAL_DIV = 8;
   uint32 constant MAX_LEVEL = 16;
@@ -58,20 +59,33 @@ library LibExperience {
     return __self.comp.getValue(__self.targetEntity);
   }
 
+  /**
+   * @dev Allow target to receive exp, set exp to 0s
+   */
+  function initExp(Self memory __self) internal {
+    uint32[PS_L] memory exp;
+    __self.comp.set(__self.targetEntity, exp);
+  }
+
+  /**
+   * @dev Increase target's experience
+   * Exp must be initialized
+   */
   function increaseExp(
     Self memory __self,
     uint32[PS_L] memory addExp
   ) internal {
-    uint32[PS_L] memory exp;
-    // get current exp if it exists
-    // (this method may also initialize experience for targetEntity)
-    if (__self.comp.has(__self.targetEntity)) {
-      exp = __self.comp.getValue(__self.targetEntity);
+    // get current exp, or revert if it doesn't exist
+    if (!__self.comp.has(__self.targetEntity)) {
+      revert LibExperience__ExpNotInitialized();
     }
+    uint32[PS_L] memory exp = __self.comp.getValue(__self.targetEntity);
 
+    // increase
     for (uint256 i; i < PS_L; i++) {
       exp[i] += addExp[i];
     }
+    // set increased exp
     __self.comp.set(__self.targetEntity, exp);
   }
 

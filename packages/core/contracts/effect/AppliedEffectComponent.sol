@@ -29,17 +29,6 @@ struct AppliedEffect {
   // so this list is used when removing an effect to subtract statmod values from the total
   EffectStatmod[] statmods;
 }
-/*
-struct EffectMap {
-  // <effectId>TimedBytes32
-  TimeManager.TimedBytes32 _duration;
-  // <effectId>Bytes32Set
-  EnumerableSet.Bytes32Set _effectIds;
-  // effectId => EffectData
-  mapping(bytes32 => EffectData) _effectData;
-
-  TopicModifierMap.Map _topicModifiers;
-}*/
 
 contract AppliedEffectComponent is BareComponent {
   constructor(address world) BareComponent(world, ID) {}

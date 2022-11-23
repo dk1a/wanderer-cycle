@@ -62,6 +62,8 @@ contract LibApplySkillEffectTest is Test {
 
     // give user some mana
     _libASE.charstat.setManaCurrent(4);
+    // allow user to receive experience
+    LibExperience.initExp(_libASE.charstat.exp);
   }
 
   function testSampleSkillsLearned() public {

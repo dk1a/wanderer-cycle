@@ -26,7 +26,7 @@ contract StatmodInitSystem is System {
 
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
-  function execute(bytes memory arguments) public onlyOwner returns (bytes memory) {
+  function execute(bytes memory arguments) public override onlyOwner returns (bytes memory) {
     (
       uint256[] memory entities,
       StatmodPrototype[] memory prototypes,

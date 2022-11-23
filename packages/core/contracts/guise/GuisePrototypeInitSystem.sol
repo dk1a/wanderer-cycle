@@ -41,7 +41,7 @@ contract GuisePrototypeInitSystem is System {
     execute(abi.encode(prototype, prototypeExt, guiseSkills));
   }
 
-  function execute(bytes memory arguments) public onlyOwner returns (bytes memory) {
+  function execute(bytes memory arguments) public override onlyOwner returns (bytes memory) {
     (
       GuisePrototype memory prototype,
       GuisePrototypeExt memory prototypeExt,

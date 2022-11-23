@@ -39,7 +39,7 @@ contract SkillPrototypeInitSystem is System {
     execute(abi.encode(prototype, prototypeExt));
   }
 
-  function execute(bytes memory arguments) public onlyOwner returns (bytes memory) {
+  function execute(bytes memory arguments) public override onlyOwner returns (bytes memory) {
     (
       SkillPrototype memory prototype,
       SkillPrototypeExt memory prototypeExt

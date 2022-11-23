@@ -25,9 +25,12 @@ const deployData = {
     { name: "SkillPrototypeComponent", path: "skill" },
     { name: "SkillPrototypeExtComponent", path: "skill" },
 
+    { name: "ActiveGuiseComponent", path: "guise" },
     { name: "GuisePrototypeComponent", path: "guise" },
     { name: "GuisePrototypeExtComponent", path: "guise" },
     { name: "GuiseSkillsComponent", path: "guise" },
+
+    { name: "ActiveCycleComponent", path: "cycle" },
   ],
   systems: [
     {
@@ -47,6 +50,22 @@ const deployData = {
       name: "GuisePrototypeInitSystem",
       writeAccess: ["GuisePrototypeComponent", "GuisePrototypeExtComponent", "GuiseSkillsComponent"],
       manualInitLib: 'LibInitGuise'
+    },
+    {
+      path: "token",
+      name: "WFTSystem",
+      writeAccess: [],
+    },
+    {
+      path: "token",
+      name: "WNFTSystem",
+      writeAccess: [],
+    },
+    {
+      path: "cycle",
+      name: "WandererSpawnSystem",
+      writeAccess: ["ActiveCycleComponent", "ActiveGuiseComponent", "ExperienceComponent", "LifeCurrentComponent", "ManaCurrentComponent"],
+      sysWriteAccess: ["WNFTSystem"],
     },
   ]
 }

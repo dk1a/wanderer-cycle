@@ -73,7 +73,7 @@ library LibCharstat {
     Self memory __self
   ) internal view returns (uint32) {
     uint32 arcana = getPStat(__self, PStat.ARCANA);
-    uint32 baseValue = 4 + 4 * arcana;
+    uint32 baseValue = 4 * arcana;
 
     return __self.statmod.getValuesFinal(Topics.MANA, baseValue);
   }
@@ -176,6 +176,14 @@ library LibCharstat {
     uint32 value
   ) internal {
     __self.manaCComp.set(__self.targetEntity, value);
+  }
+
+  /**
+   * @dev Set currents to max values
+   */
+  function setFullCurrents(Self memory __self) internal {
+    setLifeCurrent(__self, getLife(__self));
+    setManaCurrent(__self, getMana(__self));
   }
 
   // ========== ROUND DAMAGE ==========
