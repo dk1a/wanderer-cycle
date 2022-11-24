@@ -53,4 +53,6 @@ contract CombatSystemTest is Test {
     Action[] memory noActions;
     combatSystem.executePVE(playerEntity, encounterEntity, noActions, noActions);
   }
+
+  // TODO more tests
 }

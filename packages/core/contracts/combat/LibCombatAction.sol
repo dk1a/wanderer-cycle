@@ -4,7 +4,7 @@ pragma solidity ^0.8.17;
 
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 
-import { LibApplySkillEffect } from "../skill/LibApplySkillEffect.sol";
+import { LibSkill } from "../skill/LibSkill.sol";
 import { LibCharstat, EL_L } from "../charstat/LibCharstat.sol";
 
 struct Action {
@@ -24,7 +24,7 @@ struct ActorOpts {
 
 library LibCombatAction {
   using LibCharstat for LibCharstat.Self;
-  using LibApplySkillEffect for LibApplySkillEffect.Self;
+  using LibSkill for LibSkill.Self;
 
   error LibCombat__InvalidActionType();
 
@@ -70,27 +70,27 @@ library LibCombatAction {
     Self memory __self,
     uint256 skillEntity
   ) private {
-    LibApplySkillEffect.Self memory libASE = LibApplySkillEffect.__construct(
+    LibSkill.Self memory libSkill = LibSkill.__construct(
       __self.components,
       __self.attackerCharstat.targetEntity,
       skillEntity
     );
 
-    libASE.requireCombat();
+    libSkill.requireCombat();
 
     // combat skills may target either self or enemy, depending on skill prototype
-    uint256 targetEntity = libASE.chooseCombatTarget(
+    uint256 targetEntity = libSkill.chooseCombatTarget(
       __self.defenderCharstat.targetEntity
     );
     // apply skill effects
-    libASE.applySkillEffect(targetEntity);
+    libSkill.applySkillEffect(targetEntity);
 
     // skill may need a follow-up attack and/or spell
-    if (libASE.skill.withAttack) {
+    if (libSkill.skill.withAttack) {
       _dealAttackDamage(__self);
     }
-    if (libASE.skill.withSpell) {
-      _dealSpellDamage(__self, libASE.skill.spellDamage);
+    if (libSkill.skill.withSpell) {
+      _dealSpellDamage(__self, libSkill.skill.spellDamage);
     }
   }
 

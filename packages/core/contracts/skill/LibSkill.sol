@@ -18,18 +18,18 @@ import {
   ID as SkillPrototypeComponentID
 } from "./SkillPrototypeComponent.sol";
 
-library LibApplySkillEffect {
+library LibSkill {
   using LibCharstat for LibCharstat.Self;
   using LibLearnedSkills for LibLearnedSkills.Self;
   using TBTime for TBTime.Self;
   using LibEffect for LibEffect.Self;
 
-  error LibApplySkillEffect__SkillMustBeLearned();
-  error LibApplySkillEffect__SkillOnCooldown();
-  error LibApplySkillEffect__NotEnoughMana();
-  error LibApplySkillEffect__InvalidSkillTarget();
-  error LibApplySkillEffect__RequiredCombat();
-  error LibApplySkillEffect__RequiredNonCombat();
+  error LibSkill__SkillMustBeLearned();
+  error LibSkill__SkillOnCooldown();
+  error LibSkill__NotEnoughMana();
+  error LibSkill__InvalidSkillTarget();
+  error LibSkill__RequiredCombat();
+  error LibSkill__RequiredNonCombat();
 
   struct Self {
     IUint256Component registry;
@@ -77,13 +77,13 @@ library LibApplySkillEffect {
 
   function requireCombat(Self memory __self) internal pure {
     if (__self.skill.skillType != SkillType.COMBAT) {
-      revert LibApplySkillEffect__RequiredCombat();
+      revert LibSkill__RequiredCombat();
     }
   }
 
   function requireNonCombat(Self memory __self) internal pure {
     if (__self.skill.skillType == SkillType.COMBAT) {
-      revert LibApplySkillEffect__RequiredNonCombat();
+      revert LibSkill__RequiredNonCombat();
     }
   }
 
@@ -104,7 +104,7 @@ library LibApplySkillEffect {
       // enemy
       return enemyEntity;
     } else {
-      revert LibApplySkillEffect__InvalidSkillTarget();
+      revert LibSkill__InvalidSkillTarget();
     }
   }
 
@@ -118,15 +118,15 @@ library LibApplySkillEffect {
   ) internal {
     // must be learned
     if (!__self.learnedSkills.hasSkill(__self.skillEntity)) {
-      revert LibApplySkillEffect__SkillMustBeLearned();
+      revert LibSkill__SkillMustBeLearned();
     }
     // must be off cooldown
     if (__self.tbtime.has(__self.skillEntity)) {
-      revert LibApplySkillEffect__SkillOnCooldown();
+      revert LibSkill__SkillOnCooldown();
     }
     // verify self-only skill
     if (__self.skill.effectTarget == TargetType.SELF && __self.userEntity != targetEntity) {
-      revert LibApplySkillEffect__InvalidSkillTarget();
+      revert LibSkill__InvalidSkillTarget();
     }
     // TODO verify other target types?
 
@@ -136,7 +136,7 @@ library LibApplySkillEffect {
     // check and subtract skill cost
     uint32 manaCurrent = __self.charstat.getManaCurrent();
     if (__self.skill.cost > manaCurrent) {
-      revert LibApplySkillEffect__NotEnoughMana();
+      revert LibSkill__NotEnoughMana();
     } else {
       __self.charstat.setManaCurrent(manaCurrent - __self.skill.cost);
     }

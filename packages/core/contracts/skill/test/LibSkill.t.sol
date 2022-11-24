@@ -10,7 +10,7 @@ import { World } from "solecs/World.sol";
 import { SkillPrototypeComponent } from "../SkillPrototypeComponent.sol";
 import { TBTimeScopeComponent } from "../../turn-based-time/TBTimeScopeComponent.sol";
 
-import { LibApplySkillEffect } from "../LibApplySkillEffect.sol";
+import { LibSkill } from "../LibSkill.sol";
 import { LibLearnedSkills } from "../LibLearnedSkills.sol";
 import { LibCharstat, Element } from "../../charstat/LibCharstat.sol";
 import { LibExperience, PStat, PS_L } from "../../charstat/LibExperience.sol";
@@ -18,19 +18,19 @@ import { LibEffect } from "../../effect/LibEffect.sol";
 import { TBTime, TimeStruct } from "../../turn-based-time/TBTime.sol";
 
 // can't expectRevert internal calls, so this is an external wrapper
-contract LibApplySkillEffectRevertHelper {
-  using LibApplySkillEffect for LibApplySkillEffect.Self;
+contract LibSkillRevertHelper {
+  using LibSkill for LibSkill.Self;
 
   function applySkillEffect(
-    LibApplySkillEffect.Self memory libASE,
+    LibSkill.Self memory libSkill,
     uint256 targetEntity
   ) public {
-    libASE.applySkillEffect(targetEntity);
+    libSkill.applySkillEffect(targetEntity);
   }
 }
 
-contract LibApplySkillEffectTest is Test {
-  using LibApplySkillEffect for LibApplySkillEffect.Self;
+contract LibSkillTest is Test {
+  using LibSkill for LibSkill.Self;
   using LibLearnedSkills for LibLearnedSkills.Self;
   using LibCharstat for LibCharstat.Self;
   using LibEffect for LibEffect.Self;
@@ -39,7 +39,7 @@ contract LibApplySkillEffectTest is Test {
   IUint256Component components;
 
   // helpers
-  LibApplySkillEffectRevertHelper revertHelper;
+  LibSkillRevertHelper revertHelper;
 
   // libs
   LibCharstat.Self charstat;
@@ -60,7 +60,7 @@ contract LibApplySkillEffectTest is Test {
 
     components = world.components();
     // init helpers and libs
-    revertHelper = new LibApplySkillEffectRevertHelper();
+    revertHelper = new LibSkillRevertHelper();
     charstat = LibCharstat.__construct(components, userEntity);
     learnedSkills = LibLearnedSkills.__construct(components, userEntity);
     tbtime = TBTime.__construct(components, userEntity);
@@ -76,10 +76,10 @@ contract LibApplySkillEffectTest is Test {
     LibExperience.initExp(charstat.exp);
   }
 
-  function _libASE(
+  function _libSkill(
     uint256 skillEntity
-  ) internal view returns (LibApplySkillEffect.Self memory) {
-    return LibApplySkillEffect.__construct(components, userEntity, skillEntity);
+  ) internal view returns (LibSkill.Self memory) {
+    return LibSkill.__construct(components, userEntity, skillEntity);
   }
 
   function testSampleSkillsLearned() public {
@@ -94,9 +94,9 @@ contract LibApplySkillEffectTest is Test {
 
   function testApplyToInvalidTarget() public {
     // user is the only valid target for charge
-    LibApplySkillEffect.Self memory libASE = _libASE(chargePE);
-    vm.expectRevert(LibApplySkillEffect.LibApplySkillEffect__InvalidSkillTarget.selector);
-    revertHelper.applySkillEffect(libASE, otherEntity);
+    LibSkill.Self memory libSkill = _libSkill(chargePE);
+    vm.expectRevert(LibSkill.LibSkill__InvalidSkillTarget.selector);
+    revertHelper.applySkillEffect(libSkill, otherEntity);
   }
 
   // TODO mana stuff isn't very skill-related?
@@ -110,7 +110,7 @@ contract LibApplySkillEffectTest is Test {
   }
 
   function testApplyCharge() public {
-    _libASE(chargePE).applySkillEffect(userEntity);
+    _libSkill(chargePE).applySkillEffect(userEntity);
 
     assertEq(charstat.getManaCurrent(), 4 - 1, "Invalid mana remainder");
     assertTrue(tbtime.has(chargePE), "No ongoing cooldown");
@@ -120,7 +120,7 @@ contract LibApplySkillEffectTest is Test {
   }
 
   function testCleaveEffect() public {
-    _libASE(cleavePE).applySkillEffect(userEntity);
+    _libSkill(cleavePE).applySkillEffect(userEntity);
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 3);
   }
 
@@ -133,11 +133,11 @@ contract LibApplySkillEffectTest is Test {
     LibExperience.increaseExp(charstat.exp, addExp);
 
     // 16%, +2
-    LibApplySkillEffect.Self memory libASE = _libASE(cleavePE);
-    libASE.applySkillEffect(userEntity);
+    LibSkill.Self memory libSkill = _libSkill(cleavePE);
+    libSkill.applySkillEffect(userEntity);
     // 64%
-    libASE.switchSkill(chargePE);
-    libASE.applySkillEffect(userEntity);
+    libSkill.switchSkill(chargePE);
+    libSkill.applySkillEffect(userEntity);
     // 2 * 1.8 + 2
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 5);
   }
@@ -148,10 +148,10 @@ contract LibApplySkillEffectTest is Test {
     addExp[uint256(PStat.STRENGTH)] = LibExperience.getExpForPStat(2);
     LibExperience.increaseExp(charstat.exp, addExp);
 
-    LibApplySkillEffect.Self memory libASE = _libASE(cleavePE);
-    libASE.applySkillEffect(userEntity);
-    libASE.switchSkill(chargePE);
-    libASE.applySkillEffect(userEntity);
+    LibSkill.Self memory libSkill = _libSkill(cleavePE);
+    libSkill.applySkillEffect(userEntity);
+    libSkill.switchSkill(chargePE);
+    libSkill.applySkillEffect(userEntity);
 
     // pass 1 round (which should be the duration for cleave and charge)
     tbtime.decreaseTopic(
