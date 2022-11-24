@@ -24,10 +24,12 @@ library LibApplySkillEffect {
   using TBTime for TBTime.Self;
   using LibEffect for LibEffect.Self;
 
-  error LibUseSkill__SkillMustBeLearned();
-  error LibUseSkill__SkillOnCooldown();
-  error LibUseSkill__NotEnoughMana();
-  error LibUseSkill__InvalidSkillTarget();
+  error LibApplySkillEffect__SkillMustBeLearned();
+  error LibApplySkillEffect__SkillOnCooldown();
+  error LibApplySkillEffect__NotEnoughMana();
+  error LibApplySkillEffect__InvalidSkillTarget();
+  error LibApplySkillEffect__RequiredCombat();
+  error LibApplySkillEffect__RequiredNonCombat();
 
   struct Self {
     IUint256Component registry;
@@ -36,108 +38,137 @@ library LibApplySkillEffect {
     LibCharstat.Self charstat;
     LibLearnedSkills.Self learnedSkills;
     uint256 userEntity;
+
+    uint256 skillEntity;
+    SkillPrototype skill;
   }
 
   function __construct(
     IUint256Component registry,
-    uint256 userEntity
+    uint256 userEntity,
+    uint256 skillEntity
   ) internal view returns (Self memory) {
+    SkillPrototypeComponent protoComp = SkillPrototypeComponent(getAddressById(registry, SkillPrototypeComponentID));
+
     return Self({
       registry: registry,
-      protoComp: SkillPrototypeComponent(getAddressById(registry, SkillPrototypeComponentID)),
+      protoComp: protoComp,
       tbtime: TBTime.__construct(registry, userEntity),
       charstat: LibCharstat.__construct(registry, userEntity),
       learnedSkills: LibLearnedSkills.__construct(registry, userEntity),
-      userEntity: userEntity
+      userEntity: userEntity,
+
+      skillEntity: skillEntity,
+      skill: protoComp.getValue(skillEntity)
     });
   }
 
-  /*
-  function chooseTarget(
-    uint256 sourceEntity,
-    uint256 enemyEntity
-  ) internal view returns (uint256) {
-    TargetType effectTarget = SkillStorage.getEffectTarget(skillId);
-    if (
-      effectTarget == TargetType.SELF
-      || effectTarget == TargetType.SELF_OR_ALLY
-    ) {
-      // self
-      return instSource;
-    } else if (effectTarget == TargetType.ENEMY) {
-      // enemy
-      return instEnemy;
-    } else {
-      revert SkillInvalidEffectTarget(skillId);
+  /**
+   * @dev Change Self to use a different skill prototype
+   */
+  function switchSkill(
+    Self memory __self,
+    uint256 skillEntity
+  ) internal view returns (Self memory) {
+    __self.skillEntity = skillEntity;
+    __self.skill = __self.protoComp.getValue(skillEntity);
+    return __self;
+  }
+
+  function requireCombat(Self memory __self) internal pure {
+    if (__self.skill.skillType != SkillType.COMBAT) {
+      revert LibApplySkillEffect__RequiredCombat();
     }
   }
-  */
+
+  function requireNonCombat(Self memory __self) internal pure {
+    if (__self.skill.skillType == SkillType.COMBAT) {
+      revert LibApplySkillEffect__RequiredNonCombat();
+    }
+  }
+
+  /**
+   * @dev Combat skills may target either self or enemy, depending on skill prototype
+   */
+  function chooseCombatTarget(
+    Self memory __self,
+    uint256 enemyEntity
+  ) internal pure returns (uint256) {
+    if (
+      __self.skill.effectTarget == TargetType.SELF
+      || __self.skill.effectTarget == TargetType.SELF_OR_ALLY
+    ) {
+      // self
+      return __self.userEntity;
+    } else if (__self.skill.effectTarget == TargetType.ENEMY) {
+      // enemy
+      return enemyEntity;
+    } else {
+      revert LibApplySkillEffect__InvalidSkillTarget();
+    }
+  }
 
   /**
    * @dev Check some requirements, subtract cost, start cooldown, apply effect.
    * However this method is NOT combat aware and doesn't do attack/spell damage
-   * @return prototype skill prototype to do further checks/actions based on it
    */
   function applySkillEffect(
     Self memory __self,
-    uint256 skillEntity,
     uint256 targetEntity
-  ) internal returns (SkillPrototype memory prototype) {
-    prototype = __self.protoComp.getValue(skillEntity);
-
+  ) internal {
     // must be learned
-    if (!__self.learnedSkills.hasSkill(skillEntity)) {
-      revert LibUseSkill__SkillMustBeLearned();
+    if (!__self.learnedSkills.hasSkill(__self.skillEntity)) {
+      revert LibApplySkillEffect__SkillMustBeLearned();
     }
     // must be off cooldown
-    if (__self.tbtime.has(skillEntity)) {
-      revert LibUseSkill__SkillOnCooldown();
+    if (__self.tbtime.has(__self.skillEntity)) {
+      revert LibApplySkillEffect__SkillOnCooldown();
     }
     // verify self-only skill
-    if (prototype.effectTarget == TargetType.SELF && __self.userEntity != targetEntity) {
-      revert LibUseSkill__InvalidSkillTarget();
+    if (__self.skill.effectTarget == TargetType.SELF && __self.userEntity != targetEntity) {
+      revert LibApplySkillEffect__InvalidSkillTarget();
     }
     // TODO verify other target types?
 
     // start cooldown
-    __self.tbtime.increase(skillEntity, prototype.cooldown);
+    __self.tbtime.increase(__self.skillEntity, __self.skill.cooldown);
 
     // check and subtract skill cost
     uint32 manaCurrent = __self.charstat.getManaCurrent();
-    if (prototype.cost > manaCurrent) {
-      revert LibUseSkill__NotEnoughMana();
+    if (__self.skill.cost > manaCurrent) {
+      revert LibApplySkillEffect__NotEnoughMana();
     } else {
-      __self.charstat.setManaCurrent(manaCurrent - prototype.cost);
+      __self.charstat.setManaCurrent(manaCurrent - __self.skill.cost);
     }
 
     // init effect model and data
     LibEffect.Self memory libEffect = LibEffect.__construct(__self.registry, targetEntity);
     AppliedEffect memory appliedEffect = AppliedEffect({
-      effectProtoEntity: skillEntity,
+      effectProtoEntity: __self.skillEntity,
       source: bytes4(keccak256('skill')),
-      removability: _getRemovability(prototype),
-      statmods: prototype.statmods
+      removability: _getRemovability(__self),
+      statmods: __self.skill.statmods
     });
 
-    if (prototype.skillType == SkillType.PASSIVE) {
+    if (__self.skill.skillType == SkillType.PASSIVE) {
       // toggle passive skill
-      if (libEffect.has(skillEntity)) {
-        libEffect.remove(skillEntity);
+      if (libEffect.has(__self.skillEntity)) {
+        libEffect.remove(__self.skillEntity);
       } else {
-        libEffect.applyEffect(appliedEffect, prototype.duration);
+        libEffect.applyEffect(appliedEffect, __self.skill.duration);
       }
     } else {
       // apply active skill
-      libEffect.applyEffect(appliedEffect, prototype.duration);
+      libEffect.applyEffect(appliedEffect, __self.skill.duration);
     }
   }
 
   function _getRemovability(
-    SkillPrototype memory skillPrototype
+    Self memory __self
   ) private pure returns (EffectRemovability) {
-    if (skillPrototype.skillType == SkillType.PASSIVE) {
+    if (__self.skill.skillType == SkillType.PASSIVE) {
       return EffectRemovability.PERSISTENT;
-    } else if (skillPrototype.effectTarget == TargetType.ENEMY) {
+    } else if (__self.skill.effectTarget == TargetType.ENEMY) {
       return EffectRemovability.DEBUFF;
     } else {
       return EffectRemovability.BUFF;

@@ -149,12 +149,12 @@ library LibInitSkill {
         duration: _noTime(),
         cooldown: _timeStruct("round", 4),
         effectTarget: TargetType.SELF,
-        spellDamage: [uint32(0), 4, 0, 0, 0],
+        spellDamage: [uint32(0), 8, 0, 0, 0],
         statmods: _statmods()
       }),
       SkillPrototypeExt({
         name: 'Thunder Clap',
-        description: 'Attack and deal 8 physical spell damage'
+        description: 'Attack and deal physical spell damage'
       })
     );
 

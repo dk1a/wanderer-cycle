@@ -2,10 +2,10 @@
   "name": "@wanderer-cycle/core",
   "version": "0.1.0",
   "scripts": {
-    "build": "yarn codegen && forge build",
-    "test": "yarn codegen && forge test -vvv",
+    "build": "pnpm codegen && forge build",
+    "test": "pnpm codegen && forge test -vvv",
     "codegen": "ts-node ./scripts/codegen.ts",
-    "types": "rm -rf typechain && yarn run typechain --target=ethers-v5 --out-dir=typechain './artifacts/**/*.json'"
+    "types": "rm -rf typechain && pnpm run typechain --target=ethers-v5 --out-dir=typechain './artifacts/**/*.json'"
   },
   "files": [
     "/**/*.sol",

@@ -67,6 +67,12 @@ const deployData = {
       writeAccess: ["ActiveCycleComponent", "ActiveGuiseComponent", "ExperienceComponent", "LifeCurrentComponent", "ManaCurrentComponent"],
       sysWriteAccess: ["WNFTSystem"],
     },
+    {
+      path: "combat",
+      name: "CombatSystem",
+      // TODO less total access
+      writeAccess: ["*"],
+    },
   ]
 }
 
