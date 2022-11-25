@@ -327,10 +327,10 @@ const statmods: ModifierData[] = [
     topic: consumable,
     op: Op.ADD,
   },
-  // map level
+  // level
   {
-    name: `+# map level`,
-    topic: 'map level',
+    name: `+# level`,
+    topic: 'level',
     op: Op.BADD,
   },
 ]

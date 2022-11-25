@@ -45,8 +45,7 @@ library LibCharstat {
       return __self.exp.getPStat(pstatIndex);
     } else {
       // otherwise try a special statmod
-      // TODO maybe change topic name?
-      return __self.statmod.getValuesFinal(Topics.MAP_LEVEL, 0);
+      return __self.statmod.getValuesFinal(Topics.LEVEL, 0);
     }
   }
 

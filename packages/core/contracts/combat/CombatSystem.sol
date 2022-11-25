@@ -34,8 +34,8 @@ contract CombatSystem is SystemFacet {
   // This just indicates how the combat concluded.
   enum CombatResult {
     NONE,
-    WIN,
-    LOSS
+    VICTORY,
+    DEFEAT
   }
 
   constructor(IWorld _world, address _components) {
@@ -106,21 +106,21 @@ contract CombatSystem is SystemFacet {
     );
 
     // instant loss if initiator somehow started with 0 life
-    if (initiatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.LOSS);
+    if (initiatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.DEFEAT);
     
     // initiator's actions
     _executeCombatActions(initiator, initiatorCharstat, retaliator, retaliatorCharstat);
 
     // win if retaliator is dead; and retaliator's actions are interrupted
-    if (retaliatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.WIN);
+    if (retaliatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.VICTORY);
 
     // retaliator's actions
     _executeCombatActions(retaliator, retaliatorCharstat, initiator, initiatorCharstat);
 
     // loss if initiator is dead
-    if (initiatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.LOSS);
+    if (initiatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.DEFEAT);
     // win if retaliator somehow died in its own round
-    if (retaliatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.WIN);
+    if (retaliatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.VICTORY);
     // none otherwise
     return abi.encode(CombatResult.NONE);
   }
@@ -131,6 +131,8 @@ contract CombatSystem is SystemFacet {
     CombatActor memory defender,
     LibCharstat.Self memory defenderCharstat
   ) internal {
+    _checkActionsLength(attacker);
+
     LibCombatAction.Self memory combatAction = LibCombatAction.__construct(
       SystemStorage.layout().components,
       attackerCharstat,

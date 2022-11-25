@@ -53,13 +53,15 @@ library TBTime {
   function _appliedEntity(Self memory __self, uint256 protoEntity) private pure returns (uint256) {
     // TODO are u sure it's fine to make entities this way?
     unchecked {
-      return protoEntity + __self.targetEntity;
+      return protoEntity + __self.targetEntity + _appliedEntitySalt;
     }
   }
 
+  uint256 internal constant _appliedEntitySalt = uint256(keccak256("_appliedEntitySalt"));
+
   function _protoEntity(Self memory __self, uint256 appliedEntity) private pure returns (uint256) {
     unchecked {
-      return appliedEntity - __self.targetEntity;
+      return appliedEntity - __self.targetEntity - _appliedEntitySalt;
     }
   }
 

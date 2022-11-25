@@ -56,9 +56,11 @@ library Statmod {
   function _modEntity(Self memory __self, uint256 protoEntity) private pure returns (uint256) {
     // TODO are u sure it's fine to make entities this way?
     unchecked {
-      return protoEntity + __self.targetEntity;
+      return protoEntity + __self.targetEntity + _modEntitySalt;
     }
   }
+
+  uint256 internal constant _modEntitySalt = uint256(keccak256("_modEntitySalt"));
 
   /**
    * @dev protoEntity is global info about what a modEntity does
@@ -66,7 +68,7 @@ library Statmod {
    */
   function _protoEntity(Self memory __self, uint256 modEntity) private pure returns (uint256) {
     unchecked {
-      return modEntity - __self.targetEntity;
+      return modEntity - __self.targetEntity - _modEntitySalt;
     }
   }
 

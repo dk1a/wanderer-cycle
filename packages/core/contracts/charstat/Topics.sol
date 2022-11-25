@@ -33,5 +33,5 @@ library Topics {
   bytes4 constant STUN = bytes4(keccak256('stun'));
 
   bytes4 constant PORTION_OF_MISSING_LIFE_ATTACK = bytes4(keccak256('portion of missing life attack'));
-  bytes4 constant MAP_LEVEL = bytes4(keccak256('map level'));
+  bytes4 constant LEVEL = bytes4(keccak256('level'));
 }
