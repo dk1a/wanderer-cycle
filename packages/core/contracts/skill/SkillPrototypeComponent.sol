@@ -6,7 +6,6 @@ import { LibTypes } from "solecs/LibTypes.sol";
 import { BareComponent } from "solecs/BareComponent.sol";
 import { EL_L } from "../statmod/StatmodPrototypeComponent.sol";
 import { TimeStruct } from "../turn-based-time/TBTime.sol";
-import { EffectStatmod } from "../effect/AppliedEffectComponent.sol";
 
 uint256 constant ID = uint256(keccak256("component.SkillPrototype"));
 
@@ -41,9 +40,6 @@ struct SkillPrototype {
   TargetType effectTarget;
   // used only if withSpell == true
   uint32[EL_L] spellDamage;
-  // skill's effect is made of modifiers
-  // (one modifier id may be used in different skills - effects aggregate modifier values by topic)
-  EffectStatmod[] statmods;
 }
 
 contract SkillPrototypeComponent is BareComponent {

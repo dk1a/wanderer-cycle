@@ -7,67 +7,78 @@ import { getAddressById } from "solecs/utils.sol";
 import {
   EffectRemovability,
   EffectStatmod,
-  AppliedEffect,
-  AppliedEffectComponent,
-  ID as AppliedEffectComponentID
-} from "./AppliedEffectComponent.sol";
-import { TBTime, TimeStruct } from "../turn-based-time/TBTime.sol";
+  EffectPrototype,
+  EffectPrototypeComponent,
+  ID as EffectPrototypeComponentID
+} from "./EffectPrototypeComponent.sol";
+import { AppliedEffectComponent, ID as AppliedEffectComponentID } from "./AppliedEffectComponent.sol";
 import { Statmod } from "../statmod/Statmod.sol";
 
 library LibEffect {
+  error LibEffect__InvalidProtoEntity();
+
   struct Self {
-    AppliedEffectComponent comp;
-    TBTime.Self tbtime;
+    EffectPrototypeComponent protoComp;
+    AppliedEffectComponent appliedComp;
     Statmod.Self statmod;
     uint256 targetEntity;
   }
 
   function __construct(
-    IUint256Component registry,
+    IUint256Component components,
     uint256 targetEntity
   ) internal view returns (Self memory) {
     return Self({
-      comp: AppliedEffectComponent(getAddressById(registry, AppliedEffectComponentID)),
-      tbtime: TBTime.__construct(registry, targetEntity),
-      statmod: Statmod.__construct(registry, targetEntity),
+      protoComp: EffectPrototypeComponent(getAddressById(components, EffectPrototypeComponentID)),
+      appliedComp: AppliedEffectComponent(getAddressById(components, AppliedEffectComponentID)),
+      statmod: Statmod.__construct(components, targetEntity),
       targetEntity: targetEntity
     });
   }
 
-  function _appliedEntity(Self memory __self, uint256 protoEntity) private pure returns (uint256) {
+  function _appliedEntity(Self memory __self, uint256 protoEntity) internal pure returns (uint256) {
     return uint256(keccak256(
       abi.encode('AppliedEffect', __self.targetEntity, protoEntity)
     ));
   }
 
+  function isEffectProto(Self memory __self, uint256 protoEntity) internal view returns (bool) {
+    return __self.protoComp.has(protoEntity);
+  }
+
   function has(Self memory __self, uint256 protoEntity) internal view returns (bool) {
-    return __self.comp.has(_appliedEntity(__self, protoEntity));
+    return _hasAppliedEntity(__self, _appliedEntity(__self, protoEntity));
+  }
+
+  // TODO this method shouldn't really exist, but TBTime doesn't know protoEntities
+  function _hasAppliedEntity(Self memory __self, uint256 appliedEntity) internal view returns (bool) {
+    return __self.appliedComp.has(appliedEntity);
   }
 
   function applyEffect(
     Self memory __self,
-    // TODO figure out what to do if statmods are empty
-    AppliedEffect memory data,
-    TimeStruct memory time
+    uint256 protoEntity
   ) internal {
-    uint256 appliedEntity = _appliedEntity(__self, data.effectProtoEntity);
-
-    // start/extend duration
-    // (0 timeValue means infinite duration until removed)
-    if (time.timeValue > 0) {
-      TBTime.increase(__self.tbtime, appliedEntity, time);
+    // valid effect prototype required
+    if (!__self.protoComp.has(protoEntity)) {
+      revert LibEffect__InvalidProtoEntity();
     }
+    EffectPrototype memory effect = __self.protoComp.getValue(protoEntity);
+    // effect prototypes may be global, so applied entity is target-specific 
+    uint256 appliedEntity = _appliedEntity(__self, protoEntity);
 
-    bool effectExists = has(__self, data.effectProtoEntity);
+    bool effectExists = has(__self, protoEntity);
     if (!effectExists) {
-      // set effect data
-      __self.comp.set(appliedEntity, data);
+      // set applied effect data
+      // (this is to avoid statmod leaks on effect removal, in case prototype changes)
+      __self.appliedComp.set(appliedEntity, effect);
       // increase statmods
-      for (uint256 i; i < data.statmods.length; i++) {
+      // TODO figure out what to do if statmods are empty
+      for (uint256 i; i < effect.statmods.length; i++) {
         Statmod.increase(
           __self.statmod,
-          data.statmods[i].statmodProtoEntity,
-          data.statmods[i].value
+          effect.statmods[i].statmodProtoEntity,
+          effect.statmods[i].value
         );
       }
     }
@@ -77,18 +88,24 @@ library LibEffect {
     Self memory __self,
     uint256 protoEntity
   ) internal {
-    uint256 appliedEntity = _appliedEntity(__self, protoEntity);
-    // remove duration
-    TBTime.remove(__self.tbtime, appliedEntity);
-    // get and remove effect data
-    AppliedEffect memory data = __self.comp.getValue(appliedEntity);
-    __self.comp.remove(appliedEntity);
+    _removeAppliedEntity(__self, _appliedEntity(__self, protoEntity));
+  }
+
+  // TODO this method shouldn't really exist, but TBTime doesn't know protoEntities
+  function _removeAppliedEntity(
+    Self memory __self,
+    uint256 appliedEntity
+  ) internal {
+    // get and remove applied effect data
+    // (prototype isn't used in removal, so its statmods can change without leaking)
+    EffectPrototype memory effect = __self.appliedComp.getValue(appliedEntity);
+    __self.appliedComp.remove(appliedEntity);
     // subtract statmods
-    for (uint256 i; i < data.statmods.length; i++) {
+    for (uint256 i; i < effect.statmods.length; i++) {
       Statmod.decrease(
         __self.statmod,
-        data.statmods[i].statmodProtoEntity,
-        data.statmods[i].value
+        effect.statmods[i].statmodProtoEntity,
+        effect.statmods[i].value
       );
     }
   }

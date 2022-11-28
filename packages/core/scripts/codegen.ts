@@ -19,6 +19,7 @@ const deployData = {
     { name: "StatmodScopeComponent", path: "statmod" },
     { name: "StatmodValueComponent", path: "statmod" },
 
+    { name: "EffectPrototypeComponent", path: "effect" },
     { name: "AppliedEffectComponent", path: "effect" },
 
     { name: "LearnedSkillsComponent", path: "skill" },
@@ -42,7 +43,7 @@ const deployData = {
     {
       path: "skill",
       name: "SkillPrototypeInitSystem",
-      writeAccess: ["SkillPrototypeComponent", "SkillPrototypeExtComponent"],
+      writeAccess: ["SkillPrototypeComponent", "SkillPrototypeExtComponent", "EffectPrototypeComponent"],
       manualInitLib: 'LibInitSkill'
     },
     {

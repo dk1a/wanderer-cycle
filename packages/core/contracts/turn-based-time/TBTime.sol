@@ -9,7 +9,7 @@ import { ScopedValue } from "../scoped-value/ScopedValue.sol";
 import { ID as TBTimeScopeComponentID } from "./TBTimeScopeComponent.sol";
 import { ID as TBTimeValueComponentID } from "./TBTimeValueComponent.sol";
 
-import { LibEffectDurationEndCallback } from "../effect/LibEffectDurationEndCallback.sol";
+import { LibEffect } from "../effect/LibEffect.sol";
 
 struct TimeStruct {
   bytes4 timeTopic;
@@ -24,19 +24,19 @@ library TBTime {
   using ScopedValue for ScopedValue.Self;
 
   struct Self {
-    IUint256Component registry;
+    IUint256Component components;
     ScopedValue.Self sv;
     uint256 targetEntity;
   }
 
   function __construct(
-    IUint256Component registry,
+    IUint256Component components,
     uint256 targetEntity
   ) internal view returns (Self memory) {
     return Self({
-      registry: registry,
+      components: components,
       sv: ScopedValue.__construct(
-        registry,
+        components,
         TBTimeScopeComponentID,
         TBTimeValueComponentID
       ),
@@ -103,13 +103,14 @@ library TBTime {
       removedProtoEntities[i] = _protoEntity(__self, removedAppliedEntities[i]);
     }
 
-    // TODO I really don't like this hardcoded callback (or the excess of loops)
     // effect callback
-    LibEffectDurationEndCallback.callback(
-      __self.registry,
-      __self.targetEntity,
-      removedProtoEntities
-    );
+    // TODO make a proper callback system, rather than this hardcoded mess
+    LibEffect.Self memory effect = LibEffect.__construct(__self.components, __self.targetEntity);
+    for (uint256 i; i < removedProtoEntities.length; i++) {
+      if (LibEffect._hasAppliedEntity(effect, removedProtoEntities[i])) {
+        LibEffect._removeAppliedEntity(effect, removedProtoEntities[i]);
+      }
+    }
   }
 
   // ========== READ ==========

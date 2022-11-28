@@ -9,8 +9,6 @@ import { getAddressById } from "solecs/utils.sol";
 import {
   SkillType,
   TargetType,
-  TimeStruct,
-  EffectStatmod,
   SkillPrototype,
   SkillPrototypeComponent,
   ID as SkillPrototypeComponentID
@@ -20,7 +18,8 @@ import {
   SkillPrototypeExtComponent,
   ID as SkillPrototypeExtComponentID
 } from "./SkillPrototypeExtComponent.sol";
-import { StatmodPrototypeComponent, ID as StatmodPrototypeComponentID } from "../statmod/StatmodPrototypeComponent.sol";
+import { LibEffectPrototype } from "../effect/LibEffectPrototype.sol";
+import { EffectPrototype, EffectRemovability, EffectStatmod } from "../effect/EffectPrototypeComponent.sol";
 
 uint256 constant ID = uint256(keccak256("system.SkillPrototypeInit"));
 
@@ -30,38 +29,56 @@ contract SkillPrototypeInitSystem is System {
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
   struct Comps {
-    SkillPrototypeComponent proto;
-    SkillPrototypeExtComponent protoExt;
-    StatmodPrototypeComponent statmod;
+    SkillPrototypeComponent protoComp;
+    SkillPrototypeExtComponent protoExtComp;
   }
 
-  function execute(SkillPrototype memory prototype, SkillPrototypeExt memory prototypeExt) public {
-    execute(abi.encode(prototype, prototypeExt));
+  function execute(
+    SkillPrototype memory prototype,
+    SkillPrototypeExt memory prototypeExt,
+    EffectStatmod[] memory effectStatmods
+  ) public {
+    execute(abi.encode(prototype, prototypeExt, effectStatmods));
   }
 
   function execute(bytes memory arguments) public override onlyOwner returns (bytes memory) {
     (
       SkillPrototype memory prototype,
-      SkillPrototypeExt memory prototypeExt
-    ) = abi.decode(arguments, (SkillPrototype, SkillPrototypeExt));
+      SkillPrototypeExt memory prototypeExt,
+      EffectStatmod[] memory effectStatmods
+    ) = abi.decode(arguments, (SkillPrototype, SkillPrototypeExt, EffectStatmod[]));
 
-    Comps memory comps = Comps({
-      proto: SkillPrototypeComponent(getAddressById(components, SkillPrototypeComponentID)),
-      protoExt: SkillPrototypeExtComponent(getAddressById(components, SkillPrototypeExtComponentID)),
-      statmod: StatmodPrototypeComponent(getAddressById(components, StatmodPrototypeComponentID))
-    });
+    SkillPrototypeComponent protoComp
+      = SkillPrototypeComponent(getAddressById(components, SkillPrototypeComponentID));
+    SkillPrototypeExtComponent protoExtComp
+      = SkillPrototypeExtComponent(getAddressById(components, SkillPrototypeExtComponentID));
 
     uint256 entity = uint256(keccak256(bytes(prototypeExt.name)));
 
-    for (uint256 i; i < prototype.statmods.length; i++) {
-      if (!comps.statmod.has(prototype.statmods[i].statmodProtoEntity)) {
-        revert SkillPrototypeInitSystem__InvalidStatmod();
-      }
+    protoComp.set(entity, prototype);
+    protoExtComp.set(entity, prototypeExt);
+
+    // Given statmods, a skill will have an on-use effect prototype
+    if (effectStatmods.length > 0) {
+      EffectPrototype memory effectProto = EffectPrototype({
+        removability: _getRemovability(prototype),
+        statmods: effectStatmods
+      });
+      LibEffectPrototype.verifiedSet(components, entity, effectProto);
     }
 
-    comps.proto.set(entity, prototype);
-    comps.protoExt.set(entity, prototypeExt);
-
     return '';
+  }
+
+  function _getRemovability(
+    SkillPrototype memory skillProto
+  ) private pure returns (EffectRemovability) {
+    if (skillProto.skillType == SkillType.PASSIVE) {
+      return EffectRemovability.PERSISTENT;
+    } else if (skillProto.effectTarget == TargetType.ENEMY) {
+      return EffectRemovability.DEBUFF;
+    } else {
+      return EffectRemovability.BUFF;
+    }
   }
 }

@@ -10,7 +10,6 @@ import {
   SkillType,
   TargetType,
   TimeStruct,
-  EffectStatmod,
   EL_L,
   SkillPrototype,
   SkillPrototypeComponent,
@@ -21,6 +20,7 @@ import {
   SkillPrototypeExtComponent,
   ID as SkillPrototypeExtComponentID
 } from "../skill/SkillPrototypeExtComponent.sol";
+import { EffectStatmod } from "../effect/EffectPrototypeComponent.sol";
 
 library LibInitSkill {
   function initialize(IWorld world) internal {
@@ -37,16 +37,16 @@ library LibInitSkill {
         duration: _timeStruct('round', 1),
         cooldown: _timeStruct('round', 1),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental(),
-        statmods: _statmods(
-          '#% increased attack', 16,
-          '+# physical to attack', 2
-        )
+        spellDamage: _emptyElemental()
       }),
       SkillPrototypeExt({
         name: 'Cleave',
         description: 'Attack with increased damage'
-      })
+      }),
+      _statmods(
+        '#% increased attack', 16,
+        '+# physical to attack', 2
+      )
     );
 
     // 2 
@@ -60,15 +60,15 @@ library LibInitSkill {
         duration: _timeStruct('round_persistent', 1),
         cooldown: _timeStruct('turn', 3),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental(),
-        statmods: _statmods(
-          '#% increased attack', 64
-        )
+        spellDamage: _emptyElemental()
       }),
       SkillPrototypeExt({
         name: 'Charge',
         description: 'Greatly increase attack damage for the next combat round'
-      })
+      }),
+      _statmods(
+        '#% increased attack', 64
+      )
     );
 
     // 3
@@ -82,15 +82,15 @@ library LibInitSkill {
         duration: _noTime(),
         cooldown: _noTime(),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental(),
-        statmods: _statmods(
-          '+# physical resistance', 8
-        )
+        spellDamage: _emptyElemental()
       }),
       SkillPrototypeExt({
         name: 'Parry',
         description: 'Increase physical resistance'
-      })
+      }),
+      _statmods(
+        '+# physical resistance', 8
+      )
     );
 
     // 4
@@ -104,16 +104,16 @@ library LibInitSkill {
         duration: _timeStruct('turn', 2),
         cooldown: _timeStruct('turn', 8),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental(),
-        statmods: _statmods(
-          '#% increased attack', 32,
-          '+# life gained each turn', 2
-        )
+        spellDamage: _emptyElemental()
       }),
       SkillPrototypeExt({
         name: 'Onslaught',
         description: 'Increase attack damage and recover some life per round'
-      })
+      }),
+      _statmods(
+        '#% increased attack', 32,
+        '+# life gained each turn', 2
+      )
     );
 
     // 5
@@ -127,15 +127,15 @@ library LibInitSkill {
         duration: _noTime(),
         cooldown: _noTime(),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental(),
-        statmods: _statmods(
-          '#% increased life', 8
-        )
+        spellDamage: _emptyElemental()
       }),
       SkillPrototypeExt({
         name: 'Toughness',
         description: 'Increase life'
-      })
+      }),
+      _statmods(
+        '#% increased life', 8
+      )
     );
 
     // 6
@@ -149,13 +149,13 @@ library LibInitSkill {
         duration: _noTime(),
         cooldown: _timeStruct("round", 4),
         effectTarget: TargetType.SELF,
-        spellDamage: [uint32(0), 8, 0, 0, 0],
-        statmods: _statmods()
+        spellDamage: [uint32(0), 8, 0, 0, 0]
       }),
       SkillPrototypeExt({
         name: 'Thunder Clap',
         description: 'Attack and deal physical spell damage'
-      })
+      }),
+      _statmods()
     );
 
     // 7
@@ -169,15 +169,15 @@ library LibInitSkill {
         duration: _noTime(),
         cooldown: _noTime(),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental(),
-        statmods: _statmods(
-          '#% increased attack', 8
-        )
+        spellDamage: _emptyElemental()
       }),
       SkillPrototypeExt({
         name: 'Precise Strikes',
         description: 'Increase attack damage'
-      })
+      }),
+      _statmods(
+        '#% increased attack', 8
+      )
     );
 
     // 8
@@ -192,13 +192,13 @@ library LibInitSkill {
         // TODO this should have a day(?) cooldown somehow, maybe not here though
         cooldown: _noTime(),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental(),
-        statmods: _statmods()
+        spellDamage: _emptyElemental()
       }),
       SkillPrototypeExt({
         name: 'Blood Rage',
         description: 'Gain an extra turn after a kill, once per day'
-      })
+      }),
+      _statmods()
     );
 
     // 9
@@ -212,16 +212,16 @@ library LibInitSkill {
         duration: _timeStruct('turn', 1),
         cooldown: _timeStruct('turn', 16),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental(),
-        statmods: _statmods(
-          '+# physical resistance', 8,
-          '+#% of missing life to physical attack', 400
-        )
+        spellDamage: _emptyElemental()
       }),
       SkillPrototypeExt({
         name: 'Retaliation',
         description: 'Increases physical resistance\nIncreases physical attack damage proportional to missing life'
-      })
+      }),
+      _statmods(
+        '+# physical resistance', 8,
+        '+#% of missing life to physical attack', 400
+      )
     );
 
     // 10
@@ -235,17 +235,17 @@ library LibInitSkill {
         duration: _timeStruct('round', 4),
         cooldown: _timeStruct('turn', 8),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental(),
-        statmods: _statmods(
-          '#% increased life', 32,
-          // TODO should this even be a modifier?
-          'recover #% of base life', 32
-        )
+        spellDamage: _emptyElemental()
       }),
       SkillPrototypeExt({
         name: 'Last Stand',
         description: 'Gain temporary life for 4 rounds'
-      })
+      }),
+      _statmods(
+        '#% increased life', 32,
+        // TODO should this even be a modifier?
+        'recover #% of base life', 32
+      )
     );
 
     // 11
@@ -259,16 +259,16 @@ library LibInitSkill {
         duration: _noTime(),
         cooldown: _noTime(),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental(),
-        statmods: _statmods(
-          '+# physical to base attack', 1
-        )
+        spellDamage: _emptyElemental()
       }),
       SkillPrototypeExt({
         name: 'Weapon Mastery',
         // TODO this dual-wielding thing
         description: 'Allows dual wielding one-handed weapons\nIncreases base attack'
-      })
+      }),
+      _statmods(
+        '+# physical to base attack', 1
+      )
     );
   }
 

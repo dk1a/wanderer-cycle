@@ -8,11 +8,10 @@ import { LearnedSkillsComponent, ID as LearnedSkillsComponentID } from "./Learne
 import { LibLearnedSkills } from "./LibLearnedSkills.sol";
 import { TBTime } from "../turn-based-time/TBTime.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
-import { LibEffect, AppliedEffect, EffectRemovability } from "../effect/LibEffect.sol";
+import { LibTimedEffect } from "../effect/LibTimedEffect.sol";
 import {
   SkillType,
   TargetType,
-  EffectStatmod,
   SkillPrototype,
   SkillPrototypeComponent,
   ID as SkillPrototypeComponentID
@@ -22,7 +21,7 @@ library LibSkill {
   using LibCharstat for LibCharstat.Self;
   using LibLearnedSkills for LibLearnedSkills.Self;
   using TBTime for TBTime.Self;
-  using LibEffect for LibEffect.Self;
+  using LibTimedEffect for LibTimedEffect.Self;
 
   error LibSkill__SkillMustBeLearned();
   error LibSkill__SkillOnCooldown();
@@ -112,7 +111,7 @@ library LibSkill {
    * @dev Check some requirements, subtract cost, start cooldown, apply effect.
    * However this method is NOT combat aware and doesn't do attack/spell damage
    */
-  function applySkillEffect(
+  function useSkill(
     Self memory __self,
     uint256 targetEntity
   ) internal {
@@ -141,37 +140,27 @@ library LibSkill {
       __self.charstat.setManaCurrent(manaCurrent - __self.skill.cost);
     }
 
-    // init effect model and data
-    LibEffect.Self memory libEffect = LibEffect.__construct(__self.registry, targetEntity);
-    AppliedEffect memory appliedEffect = AppliedEffect({
-      effectProtoEntity: __self.skillEntity,
-      source: bytes4(keccak256('skill')),
-      removability: _getRemovability(__self),
-      statmods: __self.skill.statmods
-    });
+    _applySkillEffect(__self, targetEntity);
+  }
+
+  function _applySkillEffect(Self memory __self, uint256 targetEntity) private {
+    LibTimedEffect.Self memory libTimedEffect = LibTimedEffect.__construct(__self.registry, targetEntity);
+
+    if (!libTimedEffect.isEffectProto(__self.skillEntity)) {
+      // skip if skill has no effect
+      return;
+    }
 
     if (__self.skill.skillType == SkillType.PASSIVE) {
       // toggle passive skill
-      if (libEffect.has(__self.skillEntity)) {
-        libEffect.remove(__self.skillEntity);
+      if (libTimedEffect.has(__self.skillEntity)) {
+        libTimedEffect.remove(__self.skillEntity);
       } else {
-        libEffect.applyEffect(appliedEffect, __self.skill.duration);
+        libTimedEffect.applyEffect(__self.skillEntity, __self.skill.duration);
       }
     } else {
       // apply active skill
-      libEffect.applyEffect(appliedEffect, __self.skill.duration);
-    }
-  }
-
-  function _getRemovability(
-    Self memory __self
-  ) private pure returns (EffectRemovability) {
-    if (__self.skill.skillType == SkillType.PASSIVE) {
-      return EffectRemovability.PERSISTENT;
-    } else if (__self.skill.effectTarget == TargetType.ENEMY) {
-      return EffectRemovability.DEBUFF;
-    } else {
-      return EffectRemovability.BUFF;
+      libTimedEffect.applyEffect(__self.skillEntity, __self.skill.duration);
     }
   }
 }

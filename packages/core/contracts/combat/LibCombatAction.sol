@@ -82,8 +82,8 @@ library LibCombatAction {
     uint256 targetEntity = libSkill.chooseCombatTarget(
       __self.defenderCharstat.targetEntity
     );
-    // apply skill effects
-    libSkill.applySkillEffect(targetEntity);
+    // use skill
+    libSkill.useSkill(targetEntity);
 
     // skill may need a follow-up attack and/or spell
     if (libSkill.skill.withAttack) {

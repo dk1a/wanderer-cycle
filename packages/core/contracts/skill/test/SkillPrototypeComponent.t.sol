@@ -16,10 +16,15 @@ import {
   SkillPrototypeExtComponent,
   ID as SkillPrototypeExtComponentID
 } from "../SkillPrototypeExtComponent.sol";
+import {
+  EffectPrototypeComponent,
+  ID as EffectPrototypeComponentID
+} from "../../effect/EffectPrototypeComponent.sol";
 
 contract SkillPrototypeComponentTest is Test {
   SkillPrototypeComponent protoComp;
   SkillPrototypeExtComponent protoExtComp;
+  EffectPrototypeComponent effectProtoComp;
 
   // sample skill entities
   uint256 chargePE = uint256(keccak256('Charge'));
@@ -35,10 +40,13 @@ contract SkillPrototypeComponentTest is Test {
     protoExtComp = SkillPrototypeExtComponent(
       getAddressById(world.components(), SkillPrototypeExtComponentID)
     );
+    effectProtoComp = EffectPrototypeComponent(
+      getAddressById(world.components(), EffectPrototypeComponentID)
+    );
   }
 
-  function testSampleStatmodsLength() public {
-    assertEq(protoComp.getValue(chargePE).statmods.length, 1);
+  function testSampleEffectStatmodsLength() public {
+    assertEq(effectProtoComp.getValue(chargePE).statmods.length, 1);
   }
 
   function testSampleName() public {

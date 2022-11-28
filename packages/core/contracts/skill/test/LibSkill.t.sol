@@ -21,11 +21,11 @@ import { TBTime, TimeStruct } from "../../turn-based-time/TBTime.sol";
 contract LibSkillRevertHelper {
   using LibSkill for LibSkill.Self;
 
-  function applySkillEffect(
+  function useSkill(
     LibSkill.Self memory libSkill,
     uint256 targetEntity
   ) public {
-    libSkill.applySkillEffect(targetEntity);
+    libSkill.useSkill(targetEntity);
   }
 }
 
@@ -96,7 +96,7 @@ contract LibSkillTest is Test {
     // user is the only valid target for charge
     LibSkill.Self memory libSkill = _libSkill(chargePE);
     vm.expectRevert(LibSkill.LibSkill__InvalidSkillTarget.selector);
-    revertHelper.applySkillEffect(libSkill, otherEntity);
+    revertHelper.useSkill(libSkill, otherEntity);
   }
 
   // TODO mana stuff isn't very skill-related?
@@ -110,7 +110,7 @@ contract LibSkillTest is Test {
   }
 
   function testApplyCharge() public {
-    _libSkill(chargePE).applySkillEffect(userEntity);
+    _libSkill(chargePE).useSkill(userEntity);
 
     assertEq(charstat.getManaCurrent(), 4 - 1, "Invalid mana remainder");
     assertTrue(tbtime.has(chargePE), "No ongoing cooldown");
@@ -120,7 +120,7 @@ contract LibSkillTest is Test {
   }
 
   function testCleaveEffect() public {
-    _libSkill(cleavePE).applySkillEffect(userEntity);
+    _libSkill(cleavePE).useSkill(userEntity);
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 3);
   }
 
@@ -134,32 +134,52 @@ contract LibSkillTest is Test {
 
     // 16%, +2
     LibSkill.Self memory libSkill = _libSkill(cleavePE);
-    libSkill.applySkillEffect(userEntity);
+    libSkill.useSkill(userEntity);
     // 64%
     libSkill.switchSkill(chargePE);
-    libSkill.applySkillEffect(userEntity);
+    libSkill.useSkill(userEntity);
     // 2 * 1.8 + 2
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 5);
   }
 
+  // this tests durations, especially TBTime's effect removal callback
+  // TODO a lot of this can be removed if effects get their own tests,
+  // atm the many assertions help tell apart bugs in effects and tbtime
   function testCleaveChargeDurationEnd() public {
     // add exp to get 2 str (which should increase base physical attack to 2)
     uint32[PS_L] memory addExp;
     addExp[uint256(PStat.STRENGTH)] = LibExperience.getExpForPStat(2);
     LibExperience.increaseExp(charstat.exp, addExp);
 
-    LibSkill.Self memory libSkill = _libSkill(cleavePE);
-    libSkill.applySkillEffect(userEntity);
-    libSkill.switchSkill(chargePE);
-    libSkill.applySkillEffect(userEntity);
+    assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 2);
 
-    // pass 1 round (which should be the duration for cleave and charge)
+    LibEffect.Self memory libEffect = LibEffect.__construct(components, userEntity);
+
+    LibSkill.Self memory libSkill = _libSkill(cleavePE);
+    libSkill.useSkill(userEntity);
+    libSkill = libSkill.switchSkill(chargePE);
+    libSkill.useSkill(userEntity);
+
+    assertTrue(tbtime.has(libEffect._appliedEntity(cleavePE)));
+    assertTrue(tbtime.has(libEffect._appliedEntity(chargePE)));
+    assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 5);
+
+    // decrease cleave duration and cooldown
     tbtime.decreaseTopic(
       TimeStruct({
         timeTopic: bytes4(keccak256("round")),
         timeValue: 1
       })
     );
+
+    // cooldown
+    assertFalse(tbtime.has(cleavePE));
+    // effect
+    assertFalse(tbtime.has(libEffect._appliedEntity(cleavePE)));
+    assertTrue(tbtime.has(libEffect._appliedEntity(chargePE)));
+    assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 3);
+
+    // decrease charge duration
     tbtime.decreaseTopic(
       TimeStruct({
         timeTopic: bytes4(keccak256("round_persistent")),
@@ -167,6 +187,8 @@ contract LibSkillTest is Test {
       })
     );
 
+    assertFalse(tbtime.has(libEffect._appliedEntity(cleavePE)));
+    assertFalse(tbtime.has(libEffect._appliedEntity(chargePE)));
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 2);
   }
 }
