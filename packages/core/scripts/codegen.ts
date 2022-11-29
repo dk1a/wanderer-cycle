@@ -26,6 +26,10 @@ const deployData = {
     { name: "SkillPrototypeComponent", path: "skill" },
     { name: "SkillPrototypeExtComponent", path: "skill" },
 
+    { name: "EquipmentTypeComponent", path: "equipment" },
+    { name: "EquipmentSlotToTypesComponent", path: "equipment" },
+    { name: "EquipmentComponent", path: "equipment" },
+
     { name: "ActiveGuiseComponent", path: "guise" },
     { name: "GuisePrototypeComponent", path: "guise" },
     { name: "GuisePrototypeExtComponent", path: "guise" },
@@ -71,6 +75,12 @@ const deployData = {
     {
       path: "combat",
       name: "CombatSystem",
+      // TODO less total access
+      writeAccess: ["*"],
+    },
+    {
+      path: "equipment",
+      name: "EquipmentSystem",
       // TODO less total access
       writeAccess: ["*"],
     },

@@ -22,6 +22,8 @@ import {
 } from "../skill/SkillPrototypeExtComponent.sol";
 import { EffectStatmod } from "../effect/EffectPrototypeComponent.sol";
 
+import { _effectStatmods } from "../effect/utils.sol";
+
 library LibInitSkill {
   function initialize(IWorld world) internal {
     SkillPrototypeInitSystem system = SkillPrototypeInitSystem(getAddressById(world.systems(), SkillPrototypeInitSystemID));
@@ -43,7 +45,7 @@ library LibInitSkill {
         name: 'Cleave',
         description: 'Attack with increased damage'
       }),
-      _statmods(
+      _effectStatmods(
         '#% increased attack', 16,
         '+# physical to attack', 2
       )
@@ -66,7 +68,7 @@ library LibInitSkill {
         name: 'Charge',
         description: 'Greatly increase attack damage for the next combat round'
       }),
-      _statmods(
+      _effectStatmods(
         '#% increased attack', 64
       )
     );
@@ -88,7 +90,7 @@ library LibInitSkill {
         name: 'Parry',
         description: 'Increase physical resistance'
       }),
-      _statmods(
+      _effectStatmods(
         '+# physical resistance', 8
       )
     );
@@ -110,7 +112,7 @@ library LibInitSkill {
         name: 'Onslaught',
         description: 'Increase attack damage and recover some life per round'
       }),
-      _statmods(
+      _effectStatmods(
         '#% increased attack', 32,
         '+# life gained each turn', 2
       )
@@ -133,7 +135,7 @@ library LibInitSkill {
         name: 'Toughness',
         description: 'Increase life'
       }),
-      _statmods(
+      _effectStatmods(
         '#% increased life', 8
       )
     );
@@ -155,7 +157,7 @@ library LibInitSkill {
         name: 'Thunder Clap',
         description: 'Attack and deal physical spell damage'
       }),
-      _statmods()
+      _effectStatmods()
     );
 
     // 7
@@ -175,7 +177,7 @@ library LibInitSkill {
         name: 'Precise Strikes',
         description: 'Increase attack damage'
       }),
-      _statmods(
+      _effectStatmods(
         '#% increased attack', 8
       )
     );
@@ -198,7 +200,7 @@ library LibInitSkill {
         name: 'Blood Rage',
         description: 'Gain an extra turn after a kill, once per day'
       }),
-      _statmods()
+      _effectStatmods()
     );
 
     // 9
@@ -218,7 +220,7 @@ library LibInitSkill {
         name: 'Retaliation',
         description: 'Increases physical resistance\nIncreases physical attack damage proportional to missing life'
       }),
-      _statmods(
+      _effectStatmods(
         '+# physical resistance', 8,
         '+#% of missing life to physical attack', 400
       )
@@ -241,7 +243,7 @@ library LibInitSkill {
         name: 'Last Stand',
         description: 'Gain temporary life for 4 rounds'
       }),
-      _statmods(
+      _effectStatmods(
         '#% increased life', 32,
         // TODO should this even be a modifier?
         'recover #% of base life', 32
@@ -266,7 +268,7 @@ library LibInitSkill {
         // TODO this dual-wielding thing
         description: 'Allows dual wielding one-handed weapons\nIncreases base attack'
       }),
-      _statmods(
+      _effectStatmods(
         '+# physical to base attack', 1
       )
     );
@@ -288,46 +290,5 @@ library LibInitSkill {
 
   function _emptyElemental() private pure returns (uint32[EL_L] memory) {
     return [uint32(0), 0, 0, 0, 0];
-  }
-
-  function _statmods() private pure returns (EffectStatmod[] memory) {}
-
-  function _statmods(
-    bytes memory name0, uint256 value0
-  ) private pure returns (EffectStatmod[] memory result) {
-    result = new EffectStatmod[](1);
-
-    result[0].statmodProtoEntity = uint256(keccak256(name0));
-    result[0].value = value0;
-  }
-
-  function _statmods(
-    bytes memory name0, uint256 value0,
-    bytes memory name1, uint256 value1
-  ) private pure returns (EffectStatmod[] memory result) {
-    result = new EffectStatmod[](2);
-
-    result[0].statmodProtoEntity = uint256(keccak256(name0));
-    result[0].value = value0;
-
-    result[1].statmodProtoEntity = uint256(keccak256(name1));
-    result[1].value = value1;
-  }
-
-  function _statmods(
-    bytes memory name0, uint256 value0,
-    bytes memory name1, uint256 value1,
-    bytes memory name2, uint256 value2
-  ) private pure returns (EffectStatmod[] memory result) {
-    result = new EffectStatmod[](2);
-
-    result[0].statmodProtoEntity = uint256(keccak256(name0));
-    result[0].value = value0;
-
-    result[1].statmodProtoEntity = uint256(keccak256(name1));
-    result[1].value = value1;
-
-    result[2].statmodProtoEntity = uint256(keccak256(name2));
-    result[2].value = value2;
   }
 }
