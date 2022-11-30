@@ -5,9 +5,12 @@ pragma solidity ^0.8.17;
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
-import { ScopedValue } from "../scoped-value/ScopedValue.sol";
+import { ScopedValue } from "@dk1a/solecslib/contracts/scoped-value/ScopedValue.sol";
+import { FromPrototype } from "@dk1a/solecslib/contracts/prototype/FromPrototype.sol";
+import { ScopedValueFromPrototype } from "@dk1a/solecslib/contracts/scoped-value/ScopedValueFromPrototype.sol";
 import { ID as TBTimeScopeComponentID } from "./TBTimeScopeComponent.sol";
 import { ID as TBTimeValueComponentID } from "./TBTimeValueComponent.sol";
+import { ID as FromPrototypeComponentID } from "../FromPrototypeComponent.sol";
 
 import { LibEffect } from "../effect/LibEffect.sol";
 
@@ -17,15 +20,15 @@ struct TimeStruct {
 }
 
 /**
- * @title Scoped time values.
- * TODO much unfinished
+ * @title Scoped turn-based time manager.
+ * @dev Topic/scope allows parallel time-concepts, e.g. "round" and "turn"
  */
 library TBTime {
-  using ScopedValue for ScopedValue.Self;
+  using ScopedValueFromPrototype for ScopedValueFromPrototype.Self;
 
   struct Self {
     IUint256Component components;
-    ScopedValue.Self sv;
+    ScopedValueFromPrototype.Self sv;
     uint256 targetEntity;
   }
 
@@ -35,34 +38,26 @@ library TBTime {
   ) internal view returns (Self memory) {
     return Self({
       components: components,
-      sv: ScopedValue.__construct(
-        components,
-        TBTimeScopeComponentID,
-        TBTimeValueComponentID
+      sv: ScopedValueFromPrototype.__construct(
+        ScopedValue.__construct(
+          components,
+          TBTimeScopeComponentID,
+          TBTimeValueComponentID
+        ),
+        FromPrototype.__construct(
+          components,
+          FromPrototypeComponentID,
+          // instance context
+          abi.encode("TBTime", targetEntity)
+        )
       ),
       targetEntity: targetEntity
     });
   }
 
+  // TODO scope can maybe be improved
   function _scope(Self memory __self, bytes4 topic) private pure returns (bytes memory) {
     return abi.encode(__self.targetEntity, topic);
-  }
-
-  /// TODO this is just copypasta from Statmod, generalize common parts
-
-  function _appliedEntity(Self memory __self, uint256 protoEntity) private pure returns (uint256) {
-    // TODO are u sure it's fine to make entities this way?
-    unchecked {
-      return protoEntity + __self.targetEntity + _appliedEntitySalt;
-    }
-  }
-
-  uint256 internal constant _appliedEntitySalt = uint256(keccak256("_appliedEntitySalt"));
-
-  function _protoEntity(Self memory __self, uint256 appliedEntity) private pure returns (uint256) {
-    unchecked {
-      return appliedEntity - __self.targetEntity - _appliedEntitySalt;
-    }
   }
 
   // ========== WRITE ==========
@@ -74,7 +69,7 @@ library TBTime {
   ) internal returns (bool isUpdate) {
     return __self.sv.increaseEntity(
       _scope(__self, time.timeTopic),
-      _appliedEntity(__self, protoEntity),
+      protoEntity,
       time.timeValue
     );
   }
@@ -83,25 +78,17 @@ library TBTime {
     Self memory __self,
     uint256 protoEntity
   ) internal {
-    __self.sv.removeEntity(
-      _appliedEntity(__self, protoEntity)
-    );
+    __self.sv.removeEntity(protoEntity);
   }
 
+  // TODO why call it scope internally and topic externally?
   function decreaseTopic(
     Self memory __self,
     TimeStruct memory time
   ) internal {
-    uint256[] memory removedAppliedEntities
+    uint256[] memory removedProtoEntities
       = __self.sv.decreaseScope(_scope(__self, time.timeTopic), time.timeValue);
-    if (removedAppliedEntities.length == 0) return;
-
-    // get protoEntities
-    // (applied entities are only used internally to bind protoEntities to target)
-    uint256[] memory removedProtoEntities = new uint256[](removedAppliedEntities.length);
-    for (uint256 i; i < removedAppliedEntities.length; i++) {
-      removedProtoEntities[i] = _protoEntity(__self, removedAppliedEntities[i]);
-    }
+    if (removedProtoEntities.length == 0) return;
 
     // effect callback
     // TODO make a proper callback system, rather than this hardcoded mess
@@ -118,9 +105,7 @@ library TBTime {
   function has(
     Self memory __self,
     uint256 protoEntity
-  ) internal view returns(bool) {
-    return __self.sv.has(
-      _appliedEntity(__self, protoEntity)
-    );
+  ) internal view returns (bool) {
+    return __self.sv.has(protoEntity);
   }
 }

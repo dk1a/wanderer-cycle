@@ -7,6 +7,8 @@ const deployData = {
   withLogs: false,
   withGenInits: true,
   components: [
+    { name: "FromPrototypeComponent", path: "" },
+
     { name: "TBTimeScopeComponent", path: "turn-based-time" },
     { name: "TBTimeValueComponent", path: "turn-based-time" },
 

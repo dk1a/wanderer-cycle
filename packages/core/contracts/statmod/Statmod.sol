@@ -12,35 +12,48 @@ import {
   ID as StatmodPrototypeComponentID
 } from "./StatmodPrototypeComponent.sol";
 
-import { ScopedValue } from "../scoped-value/ScopedValue.sol";
+import { ScopedValue } from "@dk1a/solecslib/contracts/scoped-value/ScopedValue.sol";
+import { FromPrototype } from "@dk1a/solecslib/contracts/prototype/FromPrototype.sol";
+import { ScopedValueFromPrototype } from "@dk1a/solecslib/contracts/scoped-value/ScopedValueFromPrototype.sol";
 import { ID as StatmodScopeComponentID } from "./StatmodScopeComponent.sol";
 import { ID as StatmodValueComponentID } from "./StatmodValueComponent.sol";
+import { ID as FromPrototypeComponentID } from "../FromPrototypeComponent.sol";
 
 /**
  * @title Scoped statmod values with aggregation depending on prototype.
- * @dev AVOID using ScopedValue directly for statmods.
- * Statmod has specific entity and scope composition.
- * And for reads it has specific aggregation logic.
  */
 library Statmod {
-  using ScopedValue for ScopedValue.Self;
+  using ScopedValueFromPrototype for ScopedValueFromPrototype.Self;
 
   struct Self {
     StatmodPrototypeComponent protoComp;
-    ScopedValue.Self sv;
+    ScopedValueFromPrototype.Self sv;
     uint256 targetEntity;
   }
 
+  /**
+   * @param components world.components()
+   * @param targetEntity context for instances of protoEntities.
+   * Modifying the same protoEntity with different targetEntities will not affect each other.
+   */
   function __construct(
-    IUint256Component registry,
+    IUint256Component components,
     uint256 targetEntity
   ) internal view returns (Self memory) {
     return Self({
-      protoComp: StatmodPrototypeComponent(getAddressById(registry, StatmodPrototypeComponentID)),
-      sv: ScopedValue.__construct(
-        registry,
-        StatmodScopeComponentID,
-        StatmodValueComponentID
+      protoComp: StatmodPrototypeComponent(getAddressById(components, StatmodPrototypeComponentID)),
+      sv: ScopedValueFromPrototype.__construct(
+        ScopedValue.__construct(
+          components,
+          StatmodScopeComponentID,
+          StatmodValueComponentID
+        ),
+        FromPrototype.__construct(
+          components,
+          FromPrototypeComponentID,
+          // instance context
+          abi.encode("Statmod", targetEntity)
+        )
       ),
       targetEntity: targetEntity
     });
@@ -50,32 +63,10 @@ library Statmod {
     return abi.encode(__self.targetEntity, topic);
   }
 
-  /**
-   * @dev modEntity represents application of statmod to target
-   */
-  function _modEntity(Self memory __self, uint256 protoEntity) private pure returns (uint256) {
-    // TODO are u sure it's fine to make entities this way?
-    unchecked {
-      return protoEntity + __self.targetEntity + _modEntitySalt;
-    }
-  }
-
-  uint256 internal constant _modEntitySalt = uint256(keccak256("_modEntitySalt"));
-
-  /**
-   * @dev protoEntity is global info about what a modEntity does
-   * It can be retrieved back from modEntity using targetEntity
-   */
-  function _protoEntity(Self memory __self, uint256 modEntity) private pure returns (uint256) {
-    unchecked {
-      return modEntity - __self.targetEntity - _modEntitySalt;
-    }
-  }
-
   // ========== WRITE ==========
 
   /**
-   * @dev Increase statmod value for modEntity (composed from target and prototype).
+   * @dev Increase statmod value for instantiated protoEntity.
    */
   function increase(
     Self memory __self,
@@ -87,13 +78,13 @@ library Statmod {
 
     return __self.sv.increaseEntity(
       _scope(__self, prototype.topic),
-      _modEntity(__self, protoEntity),
+      protoEntity,
       value
     );
   }
 
   /**
-   * @dev Decrease statmod value for modEntity (composed from target and prototype).
+   * @dev Decrease statmod value for instantiated protoEntity.
    */
   function decrease(
     Self memory __self,
@@ -105,7 +96,7 @@ library Statmod {
 
     return __self.sv.decreaseEntity(
       _scope(__self, prototype.topic),
-      _modEntity(__self, protoEntity),
+      protoEntity,
       value
     );
   }
@@ -120,10 +111,9 @@ library Statmod {
     Self memory __self,
     bytes4 topic
   ) internal view returns (uint32 result) {
-    uint256[] memory modEntities = __self.sv.getEntities(_scope(__self, topic));
-    uint256[] memory values = __self.sv.getValuesForEntities(modEntities);
+    (, uint256[] memory values) = __self.sv.getEntitiesValues(_scope(__self, topic));
 
-    for (uint256 i; i < modEntities.length; i++) {
+    for (uint256 i; i < values.length; i++) {
       result += uint32(values[i]);
     }
   }
@@ -136,17 +126,13 @@ library Statmod {
     Self memory __self,
     bytes4 topic
   ) internal view returns(uint32[OP_L] memory result) {
-    uint256[] memory modEntities = __self.sv.getEntities(_scope(__self, topic));
-    uint256[] memory values = __self.sv.getValuesForEntities(modEntities);
+    (uint256[] memory protoEntities, uint256[] memory values)
+      = __self.sv.getEntitiesValues(_scope(__self, topic));
 
-    for (uint256 i; i < modEntities.length; i++) {
-      uint256 modEntity = modEntities[i];
-      uint256 value = values[i];
+    for (uint256 i; i < protoEntities.length; i++) {
+      StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntities[i]);
 
-      StatmodPrototype memory prototype
-        = __self.protoComp.getValue(_protoEntity(__self, modEntity));
-
-      result[uint256(prototype.op)] += uint32(value);
+      result[uint256(prototype.op)] += uint32(values[i]);
     }
   }
 
@@ -158,24 +144,22 @@ library Statmod {
     Self memory __self,
     bytes4 topic
   ) internal view returns(uint32[EL_L][OP_L] memory result) {
-    uint256[] memory modEntities = __self.sv.getEntities(_scope(__self, topic));
-    uint256[] memory values = __self.sv.getValuesForEntities(modEntities);
+    (uint256[] memory protoEntities, uint256[] memory values)
+      = __self.sv.getEntitiesValues(_scope(__self, topic));
 
-    for (uint256 i; i < modEntities.length; i++) {
-      uint256 modEntity = modEntities[i];
-      uint256 value = values[i];
+    for (uint256 i; i < protoEntities.length; i++) {
+      StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntities[i]);
 
-      StatmodPrototype memory prototype
-        = __self.protoComp.getValue(_protoEntity(__self, modEntity));
-
-      result[uint256(prototype.op)][uint256(prototype.element)] += uint32(value);
+      result[uint256(prototype.op)][uint256(prototype.element)] += uint32(values[i]);
     }
 
     // Element.ALL applies to all other elements at the same time
-    for (uint256 i = 1; i < EL_L; i++) {
-      result[uint256(Op.ADD)][i] += result[uint256(Op.ADD)][uint256(Element.ALL)];
-      result[uint256(Op.MUL)][i] += result[uint256(Op.MUL)][uint256(Element.ALL)];
-      result[uint256(Op.BADD)][i] += result[uint256(Op.BADD)][uint256(Element.ALL)];
+    for (uint256 el; el < EL_L; el++) {
+      if (el == uint256(Element.ALL)) continue;
+
+      result[uint256(Op.ADD)][el] += result[uint256(Op.ADD)][uint256(Element.ALL)];
+      result[uint256(Op.MUL)][el] += result[uint256(Op.MUL)][uint256(Element.ALL)];
+      result[uint256(Op.BADD)][el] += result[uint256(Op.BADD)][uint256(Element.ALL)];
     }
   }
 

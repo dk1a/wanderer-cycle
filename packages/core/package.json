@@ -27,6 +27,6 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@dk1a/solecslib": "^0.1.1"
+    "@dk1a/solecslib": "^0.3.1"
   }
 }
