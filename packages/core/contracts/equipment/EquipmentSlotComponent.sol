@@ -9,6 +9,6 @@ uint256 constant ID = uint256(keccak256("component.EquipmentSlot"));
 /**
  * @title Mapping of equipment slots to equipped entities.
  */
-contract EquipmentComponent is Uint256Component {
+contract EquipmentSlotComponent is Uint256Component {
   constructor(address world) Uint256Component(world, ID) {}
 }

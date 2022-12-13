@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.17;
 
-import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
+import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
 
 import { LibSkill } from "../skill/LibSkill.sol";
 import { LibCharstat, EL_L } from "../charstat/LibCharstat.sol";

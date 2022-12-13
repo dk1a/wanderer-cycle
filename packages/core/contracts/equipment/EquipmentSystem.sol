@@ -2,17 +2,18 @@
 
 pragma solidity ^0.8.17;
 
-import { System } from "solecs/System.sol";
-import { IWorld } from "solecs/interfaces/IWorld.sol";
-import { getAddressById } from "solecs/utils.sol";
+import { System } from "@latticexyz/solecs/src/System.sol";
+import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 // TODO SystemFacet is a crutch
 import { SystemFacet } from "@dk1a/solecslib/contracts/mud/SystemFacet.sol";
 import { SystemStorage } from "@dk1a/solecslib/contracts/mud/SystemStorage.sol";
 
-import { EquipmentComponent, ID as EquipmentComponentID } from "./EquipmentComponent.sol";
-import { EquipmentSlotToTypesComponent, ID as EquipmentSlotToTypesComponentID } from "./EquipmentSlotToTypesComponent.sol";
-import { EquipmentTypeComponent, ID as EquipmentTypeComponentID } from "./EquipmentTypeComponent.sol";
+import { EquipmentSlotComponent, ID as EquipmentSlotComponentID } from "./EquipmentSlotComponent.sol";
+import { EquipmentSlotAllowedComponent, ID as EquipmentSlotAllowedComponentID } from "./EquipmentSlotAllowedComponent.sol";
+import { EquipmentPrototypeComponent, ID as EquipmentPrototypeComponentID } from "./EquipmentPrototypeComponent.sol";
+import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 
 import { LibEffect } from "../effect/LibEffect.sol";
 
@@ -30,10 +31,9 @@ contract EquipmentSystem is SystemFacet {
   using LibEffect for LibEffect.Self;
 
   error EquipmentSystem__InvalidEquipmentAction();
-  error EquipmentSystem__InvalidEquipmentType();
-  error EquipmentSystem__InvalidEquipmentSlotForType();
+  error EquipmentSystem__InvalidEquipmentPrototype();
+  error EquipmentSystem__SlotNotAllowedForPrototype();
   error EquipmentSystem__EquipmentEntityAlreadyEquipped();
-  error EquipmentSystem__EquipmentSlotOccupied();
 
   constructor(IWorld _world, address _components) {
     __SystemFacet_init(_world, _components);
@@ -60,15 +60,16 @@ contract EquipmentSystem is SystemFacet {
       uint256 targetEntity
     ) = abi.decode(arguments, (EquipmentAction, uint256, uint256, uint256));
 
-    EquipmentComponent equipmentComp
-      = EquipmentComponent(getAddressById(SystemStorage.layout().components, EquipmentComponentID));
+    EquipmentSlotComponent slotComp = EquipmentSlotComponent(
+      getAddressById(SystemStorage.layout().components, EquipmentSlotComponentID)
+    );
     // TODO equipmentSlot should be bound to targetEntity, atm they seem too loosely related
     LibEffect.Self memory modelEffect = LibEffect.__construct(SystemStorage.layout().components, targetEntity);
 
     if (equipmentAction == EquipmentAction.UNEQUIP) {
-      _unequip(equipmentComp, modelEffect, equipmentSlot);
+      _unequip(slotComp, modelEffect, equipmentSlot);
     } else if (equipmentAction == EquipmentAction.EQUIP) {
-      _equip(equipmentComp, modelEffect, equipmentSlot, equipmentEntity);
+      _equip(slotComp, modelEffect, equipmentSlot, equipmentEntity);
     } else {
       revert EquipmentSystem__InvalidEquipmentAction();
     }
@@ -77,52 +78,56 @@ contract EquipmentSystem is SystemFacet {
   }
 
   function _unequip(
-    EquipmentComponent equipmentComp,
+    EquipmentSlotComponent slotComp,
     LibEffect.Self memory modelEffect,
     uint256 equipmentSlot
   ) internal {
-    uint256 equipmentEntity = equipmentComp.getValue(equipmentSlot);
-    equipmentComp.remove(equipmentSlot);
+    uint256 equipmentEntity = slotComp.getValue(equipmentSlot);
+    slotComp.remove(equipmentSlot);
 
     modelEffect.remove(equipmentEntity);
   }
 
   function _equip(
-    EquipmentComponent equipmentComp,
+    EquipmentSlotComponent slotComp,
     LibEffect.Self memory modelEffect,
     uint256 equipmentSlot,
     uint256 equipmentEntity
   ) internal {
     // unequip first if slot is occupied (otherwise effects will leak)
-    if (equipmentComp.has(equipmentSlot)) {
-      _unequip(equipmentComp, modelEffect, equipmentSlot);
+    if (slotComp.has(equipmentSlot)) {
+      _unequip(slotComp, modelEffect, equipmentSlot);
     }
 
-    // get equipment type
-    EquipmentTypeComponent typeComp = EquipmentTypeComponent(
-      getAddressById(SystemStorage.layout().components, EquipmentTypeComponentID)
+    // equipmentEntity must have equipment prototype
+    // TODO this looks dubious, and also very long
+    FromPrototypeComponent fromProtoComp = FromPrototypeComponent(
+      getAddressById(SystemStorage.layout().components, FromPrototypeComponentID)
     );
-    if (!typeComp.has(equipmentEntity)) {
-      revert EquipmentSystem__InvalidEquipmentType();
+    EquipmentPrototypeComponent protoComp = EquipmentPrototypeComponent(
+      getAddressById(SystemStorage.layout().components, EquipmentPrototypeComponentID)
+    );
+    uint256 protoEntity = fromProtoComp.getValue(equipmentEntity);
+    if (!protoComp.has(protoEntity)) {
+      revert EquipmentSystem__InvalidEquipmentPrototype();
     }
-    uint256 equipmentType = typeComp.getValue(equipmentEntity);
 
-    // check slots for type, different slots allow different types to be equipped
-    EquipmentSlotToTypesComponent slotToTypeComp = EquipmentSlotToTypesComponent(
-      getAddressById(SystemStorage.layout().components, EquipmentSlotToTypesComponentID)
+    // the slot must allow the equipment prototype
+    EquipmentSlotAllowedComponent slotAllowedComp = EquipmentSlotAllowedComponent(
+      getAddressById(SystemStorage.layout().components, EquipmentSlotAllowedComponentID)
     );
-    bool isTypeAllowed = slotToTypeComp.hasItem(equipmentSlot, equipmentType);
-    if (!isTypeAllowed) {
-      revert EquipmentSystem__InvalidEquipmentSlotForType();
+    bool isAllowed = slotAllowedComp.hasItem(equipmentSlot, protoEntity);
+    if (!isAllowed) {
+      revert EquipmentSystem__SlotNotAllowedForPrototype();
     }
 
     // entity may not be equipped in 2 slots
-    uint256[] memory slotsWithEquipmentEntity = equipmentComp.getEntitiesWithValue(equipmentEntity);
+    uint256[] memory slotsWithEquipmentEntity = slotComp.getEntitiesWithValue(equipmentEntity);
     if (slotsWithEquipmentEntity.length > 0) {
       revert EquipmentSystem__EquipmentEntityAlreadyEquipped();
     }
 
-    equipmentComp.set(equipmentSlot, equipmentEntity);
+    slotComp.set(equipmentSlot, equipmentEntity);
 
     // reverts if equipmentEntity isn't a valid effectProtoEntity
     // TODO that's good atm because equipment only does effects. But it could do more.

@@ -1,13 +1,18 @@
 import { renderFile } from "ejs"
-import { readdirSync, readFileSync, writeFileSync } from "fs"
+import { writeFileSync } from "fs"
 import { extname, basename } from "path"
-import prepareStatmods from "./prepareStatmods"
+
+import { solExtractHashedStrings } from "./solExtractHashedStrings"
+
+const libPath = "contracts/libraries/"
 
 const deployData = {
   withLogs: false,
   withGenInits: true,
   components: [
-    { name: "FromPrototypeComponent", path: "" },
+    { name: "FromPrototypeComponent", path: "common" },
+    { name: "NameComponent", path: "common" },
+    { name: "ReverseHashNameComponent", path: "common" },
 
     { name: "TBTimeScopeComponent", path: "turn-based-time" },
     { name: "TBTimeValueComponent", path: "turn-based-time" },
@@ -17,7 +22,6 @@ const deployData = {
     { name: "ManaCurrentComponent", path: "charstat" },
 
     { name: "StatmodPrototypeComponent", path: "statmod" },
-    { name: "StatmodPrototypeExtComponent", path: "statmod" },
     { name: "StatmodScopeComponent", path: "statmod" },
     { name: "StatmodValueComponent", path: "statmod" },
 
@@ -28,9 +32,9 @@ const deployData = {
     { name: "SkillPrototypeComponent", path: "skill" },
     { name: "SkillPrototypeExtComponent", path: "skill" },
 
-    { name: "EquipmentTypeComponent", path: "equipment" },
-    { name: "EquipmentSlotToTypesComponent", path: "equipment" },
-    { name: "EquipmentComponent", path: "equipment" },
+    { name: "EquipmentSlotComponent", path: "equipment" },
+    { name: "EquipmentSlotAllowedComponent", path: "equipment" },
+    { name: "EquipmentPrototypeComponent", path: "equipment" },
 
     { name: "ActiveGuiseComponent", path: "guise" },
     { name: "GuisePrototypeComponent", path: "guise" },
@@ -41,22 +45,24 @@ const deployData = {
   ],
   systems: [
     {
+      path: "common",
+      name: "ReverseHashNameSystem",
+      writeAccess: ["ReverseHashNameComponent"],
+    },
+    {
       path: "statmod",
       name: "StatmodInitSystem",
-      writeAccess: ["StatmodPrototypeComponent", "StatmodPrototypeExtComponent"],
-      generateInit: prepareStatmods()
+      writeAccess: ["StatmodPrototypeComponent", "NameComponent"],
     },
     {
       path: "skill",
       name: "SkillPrototypeInitSystem",
       writeAccess: ["SkillPrototypeComponent", "SkillPrototypeExtComponent", "EffectPrototypeComponent"],
-      manualInitLib: 'LibInitSkill'
     },
     {
       path: "guise",
       name: "GuisePrototypeInitSystem",
       writeAccess: ["GuisePrototypeComponent", "GuisePrototypeExtComponent", "GuiseSkillsComponent"],
-      manualInitLib: 'LibInitGuise'
     },
     {
       path: "token",
@@ -86,17 +92,19 @@ const deployData = {
       // TODO less total access
       writeAccess: ["*"],
     },
+  ],
+  libPath: libPath,
+  initLibs: [
+    "LibInitReverseHashName",
+    "LibInitStatmod",
+    "LibInitSkill",
+    "LibInitGuise",
+    "LibInitEquipment"
   ]
 }
 
-const libPath = "contracts/libraries/"
-
-const ejsFiles = readdirSync(libPath).filter(file => {
-  return extname(file).toLowerCase() === '.ejs'
-})
-
-for (const file of ejsFiles) {
-  renderFile(libPath + file, deployData, (err, str) => {
+function renderEjs(file: string, data: object) {
+  renderFile(file, data, {}, (err, str) => {
     if (err) throw err
     const outFullPath = libPath + basename(file, extname(file)) + ".sol"
     writeFileSync(outFullPath, str)
@@ -104,3 +112,8 @@ for (const file of ejsFiles) {
   })
 }
 
+renderEjs(libPath + "LibDeploy.ejs", deployData)
+
+renderEjs(libPath + "LibInitReverseHashName.ejs", {
+  names: solExtractHashedStrings("contracts/charstat/Topics.sol")
+})

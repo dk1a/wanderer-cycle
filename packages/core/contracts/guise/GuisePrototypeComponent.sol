@@ -2,8 +2,9 @@
 
 pragma solidity ^0.8.17;
 
-import { LibTypes } from "solecs/LibTypes.sol";
-import { BareComponent } from "solecs/BareComponent.sol";
+import { LibTypes } from "@latticexyz/solecs/src/LibTypes.sol";
+import { BareComponent } from "@latticexyz/solecs/src/BareComponent.sol";
+
 import { PS_L } from "../charstat/ExperienceComponent.sol";
 
 uint256 constant ID = uint256(keccak256("component.GuisePrototype"));

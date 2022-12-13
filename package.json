@@ -8,9 +8,11 @@
   "author": "dk1a <dk1a@protonmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^18.11.13",
     "ds-test": "github:dapphub/ds-test",
     "forge-std": "github:foundry-rs/forge-std",
-    "memmove": "github:brockelmore/memmove"
+    "memmove": "github:brockelmore/memmove",
+    "node": "^19.2.0"
   },
   "dependencies": {
     "@latticexyz/solecs": "^1.28.0",

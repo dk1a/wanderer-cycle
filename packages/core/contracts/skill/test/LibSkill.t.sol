@@ -4,8 +4,8 @@ pragma solidity ^0.8.17;
 
 import { Test } from "../../Test.sol";
 
-import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
-import { World } from "solecs/World.sol";
+import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
+import { World } from "@latticexyz/solecs/src/World.sol";
 
 import { SkillPrototypeComponent } from "../SkillPrototypeComponent.sol";
 import { TBTimeScopeComponent } from "../../turn-based-time/TBTimeScopeComponent.sol";

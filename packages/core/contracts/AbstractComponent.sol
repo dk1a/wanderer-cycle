@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { IWorld } from "solecs/interfaces/IWorld.sol";
-import { IComponent } from "solecs/interfaces/IComponent.sol";
+import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
+import { IComponent } from "@latticexyz/solecs/src/interfaces/IComponent.sol";
 
 /**
  * Components are a key-value store from entity id to component value.

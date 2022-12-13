@@ -2,15 +2,15 @@
 
 pragma solidity ^0.8.17;
 
-import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
-import { getAddressById } from "solecs/utils.sol";
+import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 import { ScopedValue } from "@dk1a/solecslib/contracts/scoped-value/ScopedValue.sol";
 import { FromPrototype } from "@dk1a/solecslib/contracts/prototype/FromPrototype.sol";
 import { ScopedValueFromPrototype } from "@dk1a/solecslib/contracts/scoped-value/ScopedValueFromPrototype.sol";
 import { ID as TBTimeScopeComponentID } from "./TBTimeScopeComponent.sol";
 import { ID as TBTimeValueComponentID } from "./TBTimeValueComponent.sol";
-import { ID as FromPrototypeComponentID } from "../FromPrototypeComponent.sol";
+import { ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 
 import { LibEffect } from "../effect/LibEffect.sol";
 

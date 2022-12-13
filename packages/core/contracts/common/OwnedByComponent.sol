@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.17;
 
-import "std-contracts/components/Uint256BareComponent.sol";
+import { Uint256BareComponent } from "std-contracts/components/Uint256BareComponent.sol";
 
 uint256 constant ID = uint256(keccak256("component.OwnedBy"));
 

@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
-import { getAddressById } from "solecs/utils.sol";
+import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 import {
   StatmodPrototype,
   Op, OP_L, OP_FINAL,
@@ -17,7 +17,7 @@ import { FromPrototype } from "@dk1a/solecslib/contracts/prototype/FromPrototype
 import { ScopedValueFromPrototype } from "@dk1a/solecslib/contracts/scoped-value/ScopedValueFromPrototype.sol";
 import { ID as StatmodScopeComponentID } from "./StatmodScopeComponent.sol";
 import { ID as StatmodValueComponentID } from "./StatmodValueComponent.sol";
-import { ID as FromPrototypeComponentID } from "../FromPrototypeComponent.sol";
+import { ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 
 /**
  * @title Scoped statmod values with aggregation depending on prototype.
@@ -59,8 +59,8 @@ library Statmod {
     });
   }
 
-  function _scope(Self memory __self, bytes4 topic) private pure returns (bytes memory) {
-    return abi.encode(__self.targetEntity, topic);
+  function _scope(Self memory __self, uint256 topicEntity) private pure returns (bytes memory) {
+    return abi.encode(__self.targetEntity, topicEntity);
   }
 
   // ========== WRITE ==========
@@ -77,7 +77,7 @@ library Statmod {
       = __self.protoComp.getValue(protoEntity);
 
     return __self.sv.increaseEntity(
-      _scope(__self, prototype.topic),
+      _scope(__self, prototype.topicEntity),
       protoEntity,
       value
     );
@@ -95,7 +95,7 @@ library Statmod {
       = __self.protoComp.getValue(protoEntity);
 
     return __self.sv.decreaseEntity(
-      _scope(__self, prototype.topic),
+      _scope(__self, prototype.topicEntity),
       protoEntity,
       value
     );
@@ -104,14 +104,14 @@ library Statmod {
   // ========== READ ==========
 
   /**
-   * @dev Sum all statmod values for `topic`
+   * @dev Sum all statmod values for `topicEntity`
    * TODO is this even useful anywhere?
    */
   function getTotal(
     Self memory __self,
-    bytes4 topic
+    uint256 topicEntity
   ) internal view returns (uint32 result) {
-    (, uint256[] memory values) = __self.sv.getEntitiesValues(_scope(__self, topic));
+    (, uint256[] memory values) = __self.sv.getEntitiesValues(_scope(__self, topicEntity));
 
     for (uint256 i; i < values.length; i++) {
       result += uint32(values[i]);
@@ -119,15 +119,15 @@ library Statmod {
   }
 
   /**
-   * @dev Sum statmod values for `topic`, grouped by Op.
+   * @dev Sum statmod values for `topicEntity`, grouped by Op.
    * This method shouldn't usually be needed externally, see getValues.
    */
   function getOperands(
     Self memory __self,
-    bytes4 topic
+    uint256 topicEntity
   ) internal view returns(uint32[OP_L] memory result) {
     (uint256[] memory protoEntities, uint256[] memory values)
-      = __self.sv.getEntitiesValues(_scope(__self, topic));
+      = __self.sv.getEntitiesValues(_scope(__self, topicEntity));
 
     for (uint256 i; i < protoEntities.length; i++) {
       StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntities[i]);
@@ -137,15 +137,15 @@ library Statmod {
   }
 
   /**
-   * @dev Sum statmod values for `topic`, grouped by Element and Op.
+   * @dev Sum statmod values for `topicEntity`, grouped by Element and Op.
    * This method shouldn't usually be needed externally, see getValuesElemental.
    */
   function getOperandsElemental(
     Self memory __self,
-    bytes4 topic
+    uint256 topicEntity
   ) internal view returns(uint32[EL_L][OP_L] memory result) {
     (uint256[] memory protoEntities, uint256[] memory values)
-      = __self.sv.getEntitiesValues(_scope(__self, topic));
+      = __self.sv.getEntitiesValues(_scope(__self, topicEntity));
 
     for (uint256 i; i < protoEntities.length; i++) {
       StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntities[i]);
@@ -172,10 +172,10 @@ library Statmod {
    */
   function getValues(
     Self memory __self,
-    bytes4 topic,
+    uint256 topicEntity,
     uint32 baseValue
   ) internal view returns (uint32[OP_L] memory result) {
-    uint32[OP_L] memory ops = getOperands(__self, topic);
+    uint32[OP_L] memory ops = getOperands(__self, topicEntity);
     result[uint256(Op.BADD)] = baseValue + ops[uint256(Op.BADD)];
     result[uint256(Op.MUL)] =
       result[uint256(Op.BADD)] * (100 + ops[uint256(Op.MUL)]) / 100;
@@ -184,14 +184,14 @@ library Statmod {
   }
 
   /**
-   * @dev Result of all `topic` operations upon `baseValue`
+   * @dev Result of all `topicEntity` operations upon `baseValue`
    */
   function getValuesFinal(
     Self memory __self,
-    bytes4 topic,
+    uint256 topicEntity,
     uint32 baseValue
   ) internal view returns (uint32) {
-    return getValues(__self, topic, baseValue)[OP_FINAL];
+    return getValues(__self, topicEntity, baseValue)[OP_FINAL];
   }
 
   /**
@@ -200,10 +200,10 @@ library Statmod {
    */
   function getValuesElemental(
     Self memory __self,
-    bytes4 topic,
+    uint256 topicEntity,
     uint32[EL_L] memory baseValues
   ) internal view returns (uint32[EL_L][OP_L] memory result) {
-    uint32[EL_L][OP_L] memory ops = getOperandsElemental(__self, topic);
+    uint32[EL_L][OP_L] memory ops = getOperandsElemental(__self, topicEntity);
     // el is Element enum values
     for (uint256 el; el < EL_L; el++) {
       uint32 baseValue = baseValues[el];
@@ -222,13 +222,13 @@ library Statmod {
   }
 
   /**
-   * @dev Result of all `topic` operations upon `baseValue` grouped by Element
+   * @dev Result of all `topicEntity` operations upon `baseValue` grouped by Element
    */
   function getValuesElementalFinal(
     Self memory __self,
-    bytes4 topic,
+    uint256 topicEntity,
     uint32[EL_L] memory baseValues
   ) internal view returns (uint32[EL_L] memory) {
-    return getValuesElemental(__self, topic, baseValues)[OP_FINAL];
+    return getValuesElemental(__self, topicEntity, baseValues)[OP_FINAL];
   }
 }

@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.17;
 
-import { System } from "solecs/System.sol";
-import { IWorld } from "solecs/interfaces/IWorld.sol";
-import { getAddressById } from "solecs/utils.sol";
+import { System } from "@latticexyz/solecs/src/System.sol";
+import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 import {
   SkillType,
@@ -24,8 +24,6 @@ import { EffectPrototype, EffectRemovability, EffectStatmod } from "../effect/Ef
 uint256 constant ID = uint256(keccak256("system.SkillPrototypeInit"));
 
 contract SkillPrototypeInitSystem is System {
-  error SkillPrototypeInitSystem__InvalidStatmod();
-
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
   struct Comps {

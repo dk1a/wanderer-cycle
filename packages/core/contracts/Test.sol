@@ -14,7 +14,7 @@ import { StdStorage, stdStorage } from "forge-std/StdStorage.sol";
 import { StdUtils } from "forge-std/StdUtils.sol";
 
 import { LibDeploy } from "./libraries/LibDeploy.sol";
-import { World } from "solecs/World.sol";
+import { World } from "@latticexyz/solecs/src/World.sol";
 
 abstract contract Test is PRBTest, StdUtils {
   World world;

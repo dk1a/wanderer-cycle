@@ -2,10 +2,17 @@
 
 pragma solidity ^0.8.17;
 
-import { LibTypes } from "solecs/LibTypes.sol";
-import { BareComponent } from "solecs/BareComponent.sol";
+import { LibTypes } from "@latticexyz/solecs/src/LibTypes.sol";
+import { BareComponent } from "@latticexyz/solecs/src/BareComponent.sol";
 
 uint256 constant ID = uint256(keccak256("component.StatmodPrototype"));
+
+/**
+ * @dev Statmod protoEntity = hashed(ID, StatmodPrototype)
+ */
+function getStatmodProtoEntity(StatmodPrototype memory proto) pure returns (uint256) {
+  return uint256(keccak256(abi.encode(ID, proto)));
+}
 
 enum Op {
   ADD,
@@ -25,7 +32,7 @@ enum Element {
 uint256 constant EL_L = 5;
 
 struct StatmodPrototype {
-  bytes4 topic;
+  uint256 topicEntity;
   Op op;
   Element element;
 }
@@ -39,8 +46,8 @@ contract StatmodPrototypeComponent is BareComponent {
     keys = new string[](3);
     values = new LibTypes.SchemaValue[](3);
 
-    keys[0] = "topic";
-    values[0] = LibTypes.SchemaValue.BYTES4;
+    keys[0] = "topicEntity";
+    values[0] = LibTypes.SchemaValue.UINT256;
 
     keys[1] = "op";
     values[1] = LibTypes.SchemaValue.UINT8;

@@ -2,8 +2,9 @@
 
 pragma solidity ^0.8.17;
 
-import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
-import { getAddressById } from "solecs/utils.sol";
+import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
+
 import { LearnedSkillsComponent, ID as LearnedSkillsComponentID } from "./LearnedSkillsComponent.sol";
 
 library LibLearnedSkills {

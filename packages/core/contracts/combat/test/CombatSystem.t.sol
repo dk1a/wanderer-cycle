@@ -4,10 +4,11 @@ pragma solidity ^0.8.17;
 
 import { Test } from "../../Test.sol";
 
-import { getAddressById } from "solecs/utils.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
+import { Topics } from "../../charstat/Topics.sol";
 import { LibCharstat, PStat } from "../../charstat/LibCharstat.sol";
-import { Statmod, Element, EL_L } from "../../statmod/Statmod.sol";
+import { Statmod, Op, Element, EL_L } from "../../statmod/Statmod.sol";
 import {
   CombatSystem,
   ID as CombatSystemID,
@@ -38,7 +39,7 @@ contract CombatSystemTest is Test {
   uint32 initAttack;
 
   // statmod proto entities
-  uint256 levelPE = uint256(keccak256('+# level'));
+  uint256 levelPE = Topics.LEVEL.toStatmodEntity(Op.BADD, Element.ALL);
 
   function setUp() public virtual override {
     super.setUp();

@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.17;
 
-import { System } from "solecs/System.sol";
-import { IWorld } from "solecs/interfaces/IWorld.sol";
-import { getAddressById } from "solecs/utils.sol";
+import { System } from "@latticexyz/solecs/src/System.sol";
+import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 // TODO SystemFacet is a crutch
 import { SystemFacet } from "@dk1a/solecslib/contracts/mud/SystemFacet.sol";

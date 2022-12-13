@@ -2,12 +2,19 @@
 
 pragma solidity ^0.8.17;
 
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
+
 import { Test } from "../../Test.sol";
 
+import { Topics } from "../../charstat/Topics.sol";
 import { Statmod } from "../Statmod.sol";
 import {
   Op, OP_L, OP_FINAL,
-  Element, EL_L
+  Element, EL_L,
+  getStatmodProtoEntity,
+  StatmodPrototype,
+  StatmodPrototypeComponent,
+  ID as StatmodPrototypeComponentID
 } from "../StatmodPrototypeComponent.sol";
 
 contract StatmodTest is Test {
@@ -17,19 +24,31 @@ contract StatmodTest is Test {
   Statmod.Self _statmod;
 
   // some statmod prototype entities and their topics
-  bytes4 lifeTopic = bytes4(keccak256('life'));
-  uint256 addLifePE = uint256(keccak256('+# life'));
-  uint256 mulLifePE = uint256(keccak256('#% increased life'));
-  uint256 baddLifePE = uint256(keccak256('+# base life'));
+  uint256 lifeTopic = Topics.LIFE.toEntity();
+  uint256 addLifePE = Topics.LIFE.toStatmodEntity(Op.ADD, Element.ALL);
+  uint256 mulLifePE = Topics.LIFE.toStatmodEntity(Op.MUL, Element.ALL);
+  uint256 baddLifePE = Topics.LIFE.toStatmodEntity(Op.BADD, Element.ALL);
 
-  bytes4 attackTopic = bytes4(keccak256('attack'));
-  uint256 mulAttackPE = uint256(keccak256('#% increased attack'));
-  uint256 mulFireAttackPE = uint256(keccak256('#% increased fire attack'));
-  uint256 addFireAttackPE = uint256(keccak256('+# fire to attack'));
-  uint256 addColdAttackPE = uint256(keccak256('+# cold to attack'));
+  uint256 attackTopic = Topics.ATTACK.toEntity();
+  uint256 mulAttackPE = Topics.ATTACK.toStatmodEntity(Op.MUL, Element.ALL);
+  uint256 mulFireAttackPE = Topics.ATTACK.toStatmodEntity(Op.MUL, Element.FIRE);
+  uint256 addFireAttackPE = Topics.ATTACK.toStatmodEntity(Op.ADD, Element.FIRE);
+  uint256 addColdAttackPE = Topics.ATTACK.toStatmodEntity(Op.ADD, Element.COLD);
 
   function setUp() public override {
     super.setUp();
+
+    StatmodPrototypeComponent protoComp
+      = StatmodPrototypeComponent(getAddressById(world.components(), StatmodPrototypeComponentID));
+
+    protoComp.set(addLifePE, StatmodPrototype(lifeTopic, Op.ADD, Element.ALL));
+    protoComp.set(mulLifePE, StatmodPrototype(lifeTopic, Op.MUL, Element.ALL));
+    protoComp.set(baddLifePE, StatmodPrototype(lifeTopic, Op.BADD, Element.ALL));
+
+    protoComp.set(mulAttackPE, StatmodPrototype(attackTopic, Op.MUL, Element.ALL));
+    protoComp.set(mulFireAttackPE, StatmodPrototype(attackTopic, Op.MUL, Element.FIRE));
+    protoComp.set(addFireAttackPE, StatmodPrototype(attackTopic, Op.ADD, Element.FIRE));
+    protoComp.set(addColdAttackPE, StatmodPrototype(attackTopic, Op.ADD, Element.COLD));
 
     // init library's object
     _statmod = Statmod.__construct(

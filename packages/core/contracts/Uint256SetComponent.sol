@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { IWorld } from "solecs/interfaces/IWorld.sol";
-import { LibTypes } from "solecs/LibTypes.sol";
+import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
+import { LibTypes } from "@latticexyz/solecs/src/LibTypes.sol";
 import { MapSetBatchable } from "./MapSetBatchable.sol";
 import { AbstractComponent } from "./AbstractComponent.sol";
 

@@ -9,4 +9,3 @@ uint256 constant ID = uint256(keccak256("component.GuiseSkills"));
 contract GuiseSkillsComponent is Uint256SetComponent {
   constructor(address world) Uint256SetComponent(world, ID) {}
 }
-

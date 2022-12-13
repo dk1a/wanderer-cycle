@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { IWorld } from "solecs/interfaces/IWorld.sol";
-import { getAddressById } from "solecs/utils.sol";
+import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 import { GuisePrototypeInitSystem, ID as GuisePrototypeInitSystemID } from "../guise/GuisePrototypeInitSystem.sol";
 import {

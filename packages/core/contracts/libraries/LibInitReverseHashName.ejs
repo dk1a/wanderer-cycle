@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.17;
+
+// Solecs
+import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
+
+import { ReverseHashNameSystem, ID as ReverseHashNameSystemID } from "../common/ReverseHashNameSystem.sol";
+
+library LibInitReverseHashName {
+  function initialize(IWorld world) internal {
+    ReverseHashNameSystem system = ReverseHashNameSystem(getAddressById(world.systems(), ReverseHashNameSystemID));
+
+<% names.forEach(name => { -%>
+    system.executeTyped("<%= name %>");
+<% }) -%>
+  }
+}

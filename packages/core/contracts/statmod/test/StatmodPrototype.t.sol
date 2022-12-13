@@ -2,28 +2,30 @@
 
 pragma solidity ^0.8.17;
 
-import { getAddressById } from "solecs/utils.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
+
+import { Assertions } from "@dk1a/solidity-stringutils/src/test/Assertions.sol";
 
 import { Test } from "../../Test.sol";
 
+import { Topics } from "../../charstat/Topics.sol";
 import {
+  Op, Element,
   StatmodPrototype,
   StatmodPrototypeComponent,
   ID as StatmodPrototypeComponentID
 } from "../StatmodPrototypeComponent.sol";
-import {
-  StatmodPrototypeExt,
-  StatmodPrototypeExtComponent,
-  ID as StatmodPrototypeExtComponentID
-} from "../StatmodPrototypeExtComponent.sol";
+import { NameComponent, ID as NameComponentID } from "../../common/NameComponent.sol";
+import { ReverseHashNameComponent, ID as ReverseHashNameComponentID } from "../../common/ReverseHashNameComponent.sol";
 
-contract StatmodPrototypeTest is Test {
+contract StatmodPrototypeTest is Test, Assertions {
   StatmodPrototypeComponent protoComp;
-  StatmodPrototypeExtComponent protoExtComp;
+  NameComponent nameComp;
+  ReverseHashNameComponent rhNameComp;
 
   // some statmod prototype entities and their topics
-  bytes4 lifeTopic = bytes4(keccak256('life'));
-  uint256 addLifePE = uint256(keccak256('+# life'));
+  uint256 lifeTopic = Topics.LIFE.toEntity();
+  uint256 addLifePE = Topics.LIFE.toStatmodEntity(Op.ADD, Element.ALL);
 
   function setUp() public override {
     super.setUp();
@@ -32,41 +34,20 @@ contract StatmodPrototypeTest is Test {
     protoComp = StatmodPrototypeComponent(
       getAddressById(world.components(), StatmodPrototypeComponentID)
     );
-    protoExtComp = StatmodPrototypeExtComponent(
-      getAddressById(world.components(), StatmodPrototypeExtComponentID)
+    nameComp = NameComponent(
+      getAddressById(world.components(), NameComponentID)
     );
-  }
-
-  function testHashedTopic() public {
-    assertEq(
-      protoComp.getValue(addLifePE).topic,
-      bytes4(keccak256(bytes(protoExtComp.getValue(addLifePE).topic))),
-      protoExtComp.getValue(addLifePE).topic
+    rhNameComp = ReverseHashNameComponent(
+      getAddressById(world.components(), ReverseHashNameComponentID)
     );
   }
 
   function testName() public {
-    assertEq(
-      protoExtComp.getValue(addLifePE).name,
-      '+# life'
-    );
-  }
-
-  function testTopic() public {
-    assertEq(
-      protoExtComp.getValue(addLifePE).topic,
-      'life'
-    );
-  }
-
-  function testNameSplitForValue() public {
-    assertEq(
-      protoExtComp.getValue(addLifePE).nameSplitForValue[0],
-      '+'
-    );
-    assertEq(
-      protoExtComp.getValue(addLifePE).nameSplitForValue[1],
-      ' life'
+    string memory topicName = rhNameComp.getValue(lifeTopic);
+    string memory name = nameComp.getValue(addLifePE);
+    assertContains(
+      name,
+      topicName
     );
   }
 }

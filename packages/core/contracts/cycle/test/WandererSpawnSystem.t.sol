@@ -4,8 +4,8 @@ pragma solidity ^0.8.17;
 
 import { Test } from "../../Test.sol";
 
-import { World } from "solecs/World.sol";
-import { getAddressById } from "solecs/utils.sol";
+import { World } from "@latticexyz/solecs/src/World.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 import { WandererSpawnSystem, ID as WandererSpawnSystemID } from "../WandererSpawnSystem.sol";
 import { WNFTSystem, ID as WNFTSystemID } from "../../token/WNFTSystem.sol";

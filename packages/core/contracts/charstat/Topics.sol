@@ -2,36 +2,80 @@
 
 pragma solidity ^0.8.17;
 
-import { PS_L } from "./LibExperience.sol";
+import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
+
+import { PS_L, PStat } from "./LibExperience.sol";
+import { statmodName } from "../statmod/utils.sol";
+import { Op, Element, StatmodPrototype, getStatmodProtoEntity } from "../statmod/StatmodPrototypeComponent.sol";
+
+type Topic is uint256;
 
 library Topics {
-  // TODO is this ok?
-  // pstat topics are an array since it's often useful to iterate them
-  function PSTAT() internal pure returns (bytes4[PS_L] memory) {
-    return [
-      bytes4(keccak256('strength')),
-      bytes4(keccak256('arcana')),
-      bytes4(keccak256('dexterity'))
-    ];
+  Topic constant STRENGTH = Topic.wrap(uint256(keccak256('strength')));
+  Topic constant ARCANA = Topic.wrap(uint256(keccak256('arcana')));
+  Topic constant DEXTERITY = Topic.wrap(uint256(keccak256('dexterity')));
+
+  // pstat topics also come as an array since it's often useful to iterate them
+  function PSTAT() internal pure returns (Topic[PS_L] memory r) {
+    r[uint256(PStat.STRENGTH)] = STRENGTH;
+    r[uint256(PStat.ARCANA)] = ARCANA;
+    r[uint256(PStat.DEXTERITY)] = DEXTERITY;
   }
 
-  bytes4 constant LIFE = bytes4(keccak256('life'));
-  bytes4 constant MANA = bytes4(keccak256('mana'));
-  bytes4 constant FORTUNE = bytes4(keccak256('fortune'));
-  bytes4 constant CONNECTION = bytes4(keccak256('connection'));
-  bytes4 constant LIFE_REGEN = bytes4(keccak256('lifeRegen'));
-  bytes4 constant MANA_REGEN = bytes4(keccak256('manaRegen'));
+  Topic constant LIFE = Topic.wrap(uint256(keccak256('life')));
+  Topic constant MANA = Topic.wrap(uint256(keccak256('mana')));
+  Topic constant FORTUNE = Topic.wrap(uint256(keccak256('fortune')));
+  Topic constant CONNECTION = Topic.wrap(uint256(keccak256('connection')));
+  Topic constant LIFE_GAINED_PER_TURN = Topic.wrap(uint256(keccak256('life gained per turn')));
+  Topic constant MANA_GAINED_PER_TURN = Topic.wrap(uint256(keccak256('mana gained per turn')));
 
-  bytes4 constant ATTACK = bytes4(keccak256('attack'));
-  bytes4 constant SPELL = bytes4(keccak256('spell'));
-  bytes4 constant RESISTANCE = bytes4(keccak256('resistance'));
+  Topic constant ATTACK = Topic.wrap(uint256(keccak256('attack')));
+  Topic constant SPELL = Topic.wrap(uint256(keccak256('spell')));
+  Topic constant RESISTANCE = Topic.wrap(uint256(keccak256('resistance')));
 
-  bytes4 constant ROUND_DAMAGE = bytes4(keccak256('round damage'));
+  Topic constant DAMAGE_TAKEN_PER_ROUND = Topic.wrap(uint256(keccak256('damage taken per round')));
 
-  bytes4 constant DAMAGE_TAKEN_ADD = bytes4(keccak256('damage taken add'));
-  bytes4 constant DAMAGE_DONE_SUB = bytes4(keccak256('damage done sub'));
-  bytes4 constant STUN = bytes4(keccak256('stun'));
+  Topic constant DAMAGE_TAKEN = Topic.wrap(uint256(keccak256('damage taken')));
+  Topic constant REDUCED_DAMAGE_DONE = Topic.wrap(uint256(keccak256('reduced damage done')));
+  Topic constant ROUNDS_STUNNED = Topic.wrap(uint256(keccak256('rounds stunned')));
 
-  bytes4 constant PORTION_OF_MISSING_LIFE_ATTACK = bytes4(keccak256('portion of missing life attack'));
-  bytes4 constant LEVEL = bytes4(keccak256('level'));
+  Topic constant PERCENT_OF_MISSING_LIFE_TO_ATTACK = Topic.wrap(uint256(keccak256('% of missing life to {element} attack')));
+  Topic constant LEVEL = Topic.wrap(uint256(keccak256('level')));
+}
+
+using { toEntity, toStatmodEntity, toStatmodName, toStatmodNameNoEl } for Topic global;
+
+function toEntity(Topic topic) pure returns (uint256) {
+  return Topic.unwrap(topic);
+}
+
+function toStatmodEntity(
+  Topic topic,
+  Op op,
+  Element element
+) pure returns (uint256) {
+  return getStatmodProtoEntity(
+    StatmodPrototype({
+      topicEntity: topic.toEntity(),
+      op: op,
+      element: element
+    })
+  );
+}
+
+function toStatmodName(
+  Topic topic,
+  IWorld world,
+  Op op,
+  Element element
+) view {
+  statmodName(world, topic.toEntity(), op, element);
+}
+
+function toStatmodNameNoEl(
+  Topic topic,
+  IWorld world,
+  Op op
+) view {
+  statmodName(world, topic.toEntity(), op);
 }

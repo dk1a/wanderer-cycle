@@ -1,2 +1,2 @@
 contracts/libraries/LibDeploy.sol
-contracts/libraries/LibInit.sol
+contracts/libraries/LibInitReverseHashName.sol

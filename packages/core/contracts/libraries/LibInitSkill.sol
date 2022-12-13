@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { IWorld } from "solecs/interfaces/IWorld.sol";
-import { getAddressById } from "solecs/utils.sol";
+import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 import { SkillPrototypeInitSystem, ID as SkillPrototypeInitSystemID } from "../skill/SkillPrototypeInitSystem.sol";
 import {
@@ -22,6 +22,7 @@ import {
 } from "../skill/SkillPrototypeExtComponent.sol";
 import { EffectStatmod } from "../effect/EffectPrototypeComponent.sol";
 
+import { Topics, Op, Element } from "../charstat/Topics.sol";
 import { _effectStatmods } from "../effect/utils.sol";
 
 library LibInitSkill {
@@ -46,8 +47,8 @@ library LibInitSkill {
         description: 'Attack with increased damage'
       }),
       _effectStatmods(
-        '#% increased attack', 16,
-        '+# physical to attack', 2
+        Topics.ATTACK, Op.MUL, Element.ALL, 16,
+        Topics.ATTACK, Op.ADD, Element.PHYSICAL, 2
       )
     );
 
@@ -69,7 +70,7 @@ library LibInitSkill {
         description: 'Greatly increase attack damage for the next combat round'
       }),
       _effectStatmods(
-        '#% increased attack', 64
+        Topics.ATTACK, Op.MUL, Element.ALL, 64
       )
     );
 
@@ -91,7 +92,7 @@ library LibInitSkill {
         description: 'Increase physical resistance'
       }),
       _effectStatmods(
-        '+# physical resistance', 8
+        Topics.RESISTANCE, Op.ADD, Element.PHYSICAL, 8
       )
     );
 
@@ -113,8 +114,8 @@ library LibInitSkill {
         description: 'Increase attack damage and recover some life per round'
       }),
       _effectStatmods(
-        '#% increased attack', 32,
-        '+# life gained each turn', 2
+        Topics.ATTACK, Op.MUL, Element.ALL, 32,
+        Topics.LIFE_GAINED_PER_TURN, Op.ADD, Element.ALL, 2
       )
     );
 
@@ -136,7 +137,7 @@ library LibInitSkill {
         description: 'Increase life'
       }),
       _effectStatmods(
-        '#% increased life', 8
+        Topics.LIFE, Op.MUL, Element.ALL, 8
       )
     );
 
@@ -178,7 +179,7 @@ library LibInitSkill {
         description: 'Increase attack damage'
       }),
       _effectStatmods(
-        '#% increased attack', 8
+        Topics.ATTACK, Op.MUL, Element.ALL, 8
       )
     );
 
@@ -221,8 +222,8 @@ library LibInitSkill {
         description: 'Increases physical resistance\nIncreases physical attack damage proportional to missing life'
       }),
       _effectStatmods(
-        '+# physical resistance', 8,
-        '+#% of missing life to physical attack', 400
+        Topics.RESISTANCE, Op.ADD, Element.PHYSICAL, 8,
+        Topics.PERCENT_OF_MISSING_LIFE_TO_ATTACK, Op.ADD, Element.PHYSICAL, 400
       )
     );
 
@@ -244,9 +245,9 @@ library LibInitSkill {
         description: 'Gain temporary life for 4 rounds'
       }),
       _effectStatmods(
-        '#% increased life', 32,
+        Topics.LIFE, Op.MUL, Element.ALL, 32
         // TODO should this even be a modifier?
-        'recover #% of base life', 32
+        //'recover #% of base life', 32
       )
     );
 
@@ -269,7 +270,7 @@ library LibInitSkill {
         description: 'Allows dual wielding one-handed weapons\nIncreases base attack'
       }),
       _effectStatmods(
-        '+# physical to base attack', 1
+        Topics.ATTACK, Op.BADD, Element.PHYSICAL, 1
       )
     );
   }

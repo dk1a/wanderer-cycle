@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.17;
 
-import { getAddressById } from "solecs/utils.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 import { Test } from "../../Test.sol";
 

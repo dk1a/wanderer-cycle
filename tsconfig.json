@@ -4,7 +4,8 @@
     "strict": true,
     "moduleResolution": "Node",
     "outDir": "dist",
-    "types": ["node"]
+    "types": ["node"],
+    "esModuleInterop": true
   },
   "exclude": ["node_modules", "**/dist/**"],
   "include": ["packages/**/*"]

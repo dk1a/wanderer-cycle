@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.17;
 
-import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
+import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
 
 import { TBTime, TimeStruct } from "../turn-based-time/TBTime.sol";
 import { LibEffect } from "./LibEffect.sol";

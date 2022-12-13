@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.17;
 
-import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
-import { IComponent } from "solecs/interfaces/IComponent.sol";
-import { getAddressById } from "solecs/utils.sol";
+import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
+import { IComponent } from "@latticexyz/solecs/src/interfaces/IComponent.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 import { OwnershipComponent } from "@dk1a/solecslib/contracts/token/ERC721/components/OwnershipComponent.sol";
 import { ownershipComponentID } from "./WNFTSystem.sol";

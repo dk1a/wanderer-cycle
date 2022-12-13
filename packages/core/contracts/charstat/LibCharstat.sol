@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
-import { getAddressById } from "solecs/utils.sol";
+import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 import { Statmod, Element, EL_L } from "../statmod/Statmod.sol";
 import { Topics } from "./Topics.sol";
 import { LibExperience, PStat, PS_L } from "./LibExperience.sol";
@@ -45,7 +45,7 @@ library LibCharstat {
       return __self.exp.getPStat(pstatIndex);
     } else {
       // otherwise try a special statmod
-      return __self.statmod.getValuesFinal(Topics.LEVEL, 0);
+      return __self.statmod.getValuesFinal(Topics.LEVEL.toEntity(), 0);
     }
   }
 
@@ -55,7 +55,7 @@ library LibCharstat {
   ) internal view returns (uint32) {
     uint32 baseValue = getBasePStat(__self, pstatIndex);
 
-    return __self.statmod.getValuesFinal(Topics.PSTAT()[uint256(pstatIndex)], baseValue);
+    return __self.statmod.getValuesFinal(Topics.PSTAT()[uint256(pstatIndex)].toEntity(), baseValue);
   }
 
   // ========== ATTRIBUTES ==========
@@ -65,7 +65,7 @@ library LibCharstat {
     uint32 strength = getPStat(__self, PStat.STRENGTH);
     uint32 baseValue = 2 + 2 * strength;
 
-    return __self.statmod.getValuesFinal(Topics.LIFE, baseValue);
+    return __self.statmod.getValuesFinal(Topics.LIFE.toEntity(), baseValue);
   }
 
   function getMana(
@@ -74,31 +74,31 @@ library LibCharstat {
     uint32 arcana = getPStat(__self, PStat.ARCANA);
     uint32 baseValue = 4 * arcana;
 
-    return __self.statmod.getValuesFinal(Topics.MANA, baseValue);
+    return __self.statmod.getValuesFinal(Topics.MANA.toEntity(), baseValue);
   }
 
   function getFortune(
     Self memory __self
   ) internal view returns (uint32) {
-    return __self.statmod.getValuesFinal(Topics.FORTUNE, 0);
+    return __self.statmod.getValuesFinal(Topics.FORTUNE.toEntity(), 0);
   }
 
   function getConnection(
     Self memory __self
   ) internal view returns (uint32) {
-    return __self.statmod.getValuesFinal(Topics.CONNECTION, 0);
+    return __self.statmod.getValuesFinal(Topics.CONNECTION.toEntity(), 0);
   }
 
   function getLifeRegen(
     Self memory __self
   ) internal view returns (uint32) {
-    return __self.statmod.getValuesFinal(Topics.LIFE_REGEN, 0);
+    return __self.statmod.getValuesFinal(Topics.LIFE_GAINED_PER_TURN.toEntity(), 0);
   }
 
   function getManaRegen(
     Self memory __self
   ) internal view returns (uint32) {
-    return __self.statmod.getValuesFinal(Topics.MANA_REGEN, 0);
+    return __self.statmod.getValuesFinal(Topics.MANA_GAINED_PER_TURN.toEntity(), 0);
   }
 
   // ========== ELEMENTAL ==========
@@ -109,7 +109,7 @@ library LibCharstat {
     // strength increases physical base attack damage
     uint32[EL_L] memory baseValues = [uint32(0), strength / 2 + 1, 0, 0, 0];
 
-    return __self.statmod.getValuesElementalFinal(Topics.ATTACK, baseValues);
+    return __self.statmod.getValuesElementalFinal(Topics.ATTACK.toEntity(), baseValues);
   }
 
   function getSpell(
@@ -125,7 +125,7 @@ library LibCharstat {
       }
     }
 
-    return __self.statmod.getValuesElementalFinal(Topics.SPELL, baseValues);
+    return __self.statmod.getValuesElementalFinal(Topics.SPELL.toEntity(), baseValues);
   }
 
   function getResistance(
@@ -135,7 +135,7 @@ library LibCharstat {
     // dexterity increases base physical resistance
     uint32[EL_L] memory baseValues = [uint32((dexterity / 4) * 4), 0, 0, 0, 0];
 
-    return __self.statmod.getValuesElementalFinal(Topics.SPELL, baseValues);
+    return __self.statmod.getValuesElementalFinal(Topics.SPELL.toEntity(), baseValues);
   }
 
   // ========== CURRENTS ==========
@@ -189,6 +189,6 @@ library LibCharstat {
   function getRoundDamage(
     Self memory __self
   ) internal view returns (uint32[EL_L] memory) {
-    return __self.statmod.getValuesElementalFinal(Topics.SPELL, [uint32(0), 0, 0, 0, 0]);
+    return __self.statmod.getValuesElementalFinal(Topics.SPELL.toEntity(), [uint32(0), 0, 0, 0, 0]);
   }
 }
