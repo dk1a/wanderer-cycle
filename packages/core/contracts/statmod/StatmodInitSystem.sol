@@ -18,8 +18,6 @@ import { NameComponent, ID as NameComponentID } from "../common/NameComponent.so
 uint256 constant ID = uint256(keccak256("system.StatmodInit"));
 
 contract StatmodInitSystem is System {
-  error StatmodInitSystem__MalformedInput();
-
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
   function executeTyped(

@@ -24,7 +24,7 @@ importers:
   packages/core:
     specifiers:
       '@dk1a/solecslib': ^0.3.2
-      '@dk1a/solidity-stringutils': ^0.3.0
+      '@dk1a/solidity-stringutils': ^0.3.1
       '@ethersproject/bytes': ^5.7.0
       '@ethersproject/hash': ^5.7.0
       '@ethersproject/strings': ^5.7.0
@@ -40,7 +40,7 @@ importers:
       typescript: ^4.8.4
     dependencies:
       '@dk1a/solecslib': 0.3.2
-      '@dk1a/solidity-stringutils': 0.3.0
+      '@dk1a/solidity-stringutils': 0.3.1
     devDependencies:
       '@ethersproject/bytes': 5.7.0
       '@ethersproject/hash': 5.7.0
@@ -52,7 +52,7 @@ importers:
       ejs: 3.1.8
       hardhat: 2.12.2_mwhvu7sfp6vq5ryuwb6hlbjfka
       hardhat-preprocessor: 0.1.5_hardhat@2.12.2
-      ts-node: 10.9.1_cbe7ovvae6zqfnmtgctpgpys54
+      ts-node: 10.9.1_zwbbn7v4nhzhfdmlr6kgywzsoe
       typechain: 8.1.1_typescript@4.8.4
       typescript: 4.8.4
 
@@ -75,8 +75,8 @@ packages:
       memmove: github.com/dk1a/memmove/ffd71cd77b1708574ef46a667b23ca3a5cc9fa27
     dev: false
 
-  /@dk1a/solidity-stringutils/0.3.0:
-    resolution: {integrity: sha512-KipMwXEBMK3ajFDJe44uxEnOzSHlvpWUUwUmQIRoPO0EPkOxjYCd/PXHADCoO4+sN0KBIY9thD7mc2iNgkKWfQ==}
+  /@dk1a/solidity-stringutils/0.3.1:
+    resolution: {integrity: sha512-7RDvjNLW8d6yOuabMRjkCto/hzZ1+c27Olu/51L9i+7/gIZe0o6XEXXzXrqav0+8Nyf7rkIPeGLXw6Cc680AdQ==}
     dev: false
 
   /@ethersproject/abi/5.7.0:
@@ -1748,7 +1748,7 @@ packages:
       solc: 0.7.3_debug@4.3.4
       source-map-support: 0.5.21
       stacktrace-parser: 0.1.10
-      ts-node: 10.9.1_cbe7ovvae6zqfnmtgctpgpys54
+      ts-node: 10.9.1_zwbbn7v4nhzhfdmlr6kgywzsoe
       tsort: 0.0.1
       typescript: 4.8.4
       undici: 5.12.0
@@ -2602,7 +2602,7 @@ packages:
       typescript: 4.8.4
     dev: true
 
-  /ts-node/10.9.1_cbe7ovvae6zqfnmtgctpgpys54:
+  /ts-node/10.9.1_zwbbn7v4nhzhfdmlr6kgywzsoe:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -2621,7 +2621,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 18.11.9
+      '@types/node': 18.11.13
       acorn: 8.8.1
       acorn-walk: 8.2.0
       arg: 4.1.3

@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "@dk1a/solecslib": "^0.3.2",
-    "@dk1a/solidity-stringutils": "^0.3.0"
+    "@dk1a/solidity-stringutils": "^0.3.1"
   }
 }

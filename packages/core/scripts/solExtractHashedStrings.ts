@@ -3,7 +3,7 @@ import { parse, visit } from "@solidity-parser/parser"
 
 export function solExtractHashedStrings(file: string) {
   const data = readFileSync(file, 'utf8')
-  const ast = parse(data, {tokens: true})
+  const ast = parse(data)
 
   const strs: Set<string> = new Set()
 
