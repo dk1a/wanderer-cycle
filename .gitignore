@@ -7,7 +7,7 @@ cache/
 abi/
 out/
 deployments/
-typechain-types/
+types/
 
 .env
 .vscode

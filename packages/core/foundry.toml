@@ -1,7 +1,0 @@
-[profile.default]
-src = 'contracts'
-out = 'artifacts'
-libs = ['node_modules', '../../node_modules']
-include_paths = ['node_modules']
-optimizer = false
-optimizer_runs = 1000000

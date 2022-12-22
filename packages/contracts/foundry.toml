@@ -1,0 +1,7 @@
+[profile.default]
+src = 'src'
+out = 'out'
+libs = ['../../node_modules']
+include_paths = ['../../node_modules']
+optimizer = false
+optimizer_runs = 1000000

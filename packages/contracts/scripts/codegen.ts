@@ -4,7 +4,7 @@ import { extname, basename } from "path"
 
 import { solExtractHashedStrings } from "./solExtractHashedStrings"
 
-const libPath = "contracts/libraries/"
+const libPath = "src/libraries/"
 
 const deployData = {
   withLogs: false,
@@ -115,5 +115,5 @@ function renderEjs(file: string, data: object) {
 renderEjs(libPath + "LibDeploy.ejs", deployData)
 
 renderEjs(libPath + "LibInitReverseHashName.ejs", {
-  names: solExtractHashedStrings("contracts/charstat/Topics.sol")
+  names: solExtractHashedStrings("src/charstat/Topics.sol")
 })

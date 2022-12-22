@@ -1,21 +1,21 @@
 {
   "private": true,
   "version": "0.1.0",
-  "packageManager": "pnpm@7.14.1",
-  "scripts": {
-    "start": "npx hardhat node"
-  },
   "author": "dk1a <dk1a@protonmail.com>",
   "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^18.11.13",
-    "ds-test": "github:dapphub/ds-test",
-    "forge-std": "github:foundry-rs/forge-std",
-    "memmove": "github:brockelmore/memmove",
-    "node": "^19.2.0"
+  "packageManager": "yarn@1.22.19",
+  "workspaces": [
+    "packages/contracts"
+  ],
+  "scripts": {
+    "prepare": "yarn workspace contracts prepare",
+    "dev": "run-pty % yarn dev:node % yarn dev:client % yarn dev:contracts",
+    "dev:client": "echo 'CLIENT NOT IMPLEMENTED ... yarn workspace client run dev'",
+    "dev:node": "yarn workspace contracts run devnode",
+    "dev:contracts": "yarn workspace contracts run dev"
   },
-  "dependencies": {
-    "@latticexyz/solecs": "^1.28.0",
-    "@latticexyz/std-contracts": "^1.28.0"
-  }
+  "devDependencies": {
+    "run-pty": "^4.0.3"
+  },
+  "dependencies": {}
 }
