@@ -81,7 +81,7 @@
       ]
     },
     {
-      "name": "CombatSystem",
+      "name": "CombatSubsystem",
       "writeAccess": ["EffectSubsystem", "LifeCurrentComponent", "ManaCurrentComponent"]
     },
     {

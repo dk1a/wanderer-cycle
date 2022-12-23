@@ -13,13 +13,17 @@ import { LibCombatAction, Action, ActionType, ActorOpts } from "./LibCombatActio
 uint256 constant ID = uint256(keccak256("system.Combat"));
 
 /**
- * @title Library-like system for other systems that need combat
+ * @title Subsystem to execute 1 combat round between 2 actors; extensively uses charstats.
+ * @dev A combat may have multiple rounds, each executed separately.
+ * `Action[]` in args allows multiple actions in 1 round. (For another round call execute again).
+ * `CombatSubsystem` has multi-actor multi-action interactions logic,
+ * and uses `LibCombatAction` for reusable one-way action logic.
  */
-contract CombatSystem is Subsystem {
+contract CombatSubsystem is Subsystem {
   using LibCharstat for LibCharstat.Self;
   using LibCombatAction for LibCombatAction.Self;
 
-  error CombatSystem__InvalidActionsLength();
+  error CombatSubsystem__InvalidActionsLength();
 
   struct CombatActor {
     uint256 entity;
@@ -139,7 +143,7 @@ contract CombatSystem is Subsystem {
     if (actor.actions.length > 1) {
       // TODO a way to do 2 actions in a round, like a special skill
       // (limited by actionType, 2 attacks in a round is too OP)
-      revert CombatSystem__InvalidActionsLength();
+      revert CombatSubsystem__InvalidActionsLength();
     }
   }
 }

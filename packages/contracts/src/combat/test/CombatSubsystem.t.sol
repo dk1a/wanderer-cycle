@@ -10,13 +10,13 @@ import { Topics } from "../../charstat/Topics.sol";
 import { LibCharstat, PStat } from "../../charstat/LibCharstat.sol";
 import { Statmod, Op, Element, EL_L } from "../../statmod/Statmod.sol";
 import {
-  CombatSystem,
-  ID as CombatSystemID,
+  CombatSubsystem,
+  ID as CombatSubsystemID,
   Action,
   ActionType
-} from "../CombatSystem.sol";
+} from "../CombatSubsystem.sol";
 
-contract CombatSystemTest is Test {
+contract CombatSubsystemTest is Test {
   using LibCharstat for LibCharstat.Self;
   using Statmod for Statmod.Self;
 
@@ -29,7 +29,7 @@ contract CombatSystemTest is Test {
   LibCharstat.Self playerCharstat;
   LibCharstat.Self encounterCharstat;
 
-  CombatSystem combatSystem;
+  CombatSubsystem combatSubsystem;
 
   Action[] _noActions;
 
@@ -45,8 +45,8 @@ contract CombatSystemTest is Test {
     super.setUp();
 
     // get systems
-    combatSystem = CombatSystem(getAddressById(world.systems(), CombatSystemID));
-    combatSystem.authorizeWriter(writer);
+    combatSubsystem = CombatSubsystem(getAddressById(world.systems(), CombatSubsystemID));
+    combatSubsystem.authorizeWriter(writer);
 
     // init libs
     playerCharstat = LibCharstat.__construct(world.components(), playerEntity);
@@ -110,7 +110,7 @@ contract CombatSystemTest is Test {
     vm.prank(address(bytes20(keccak256('notWriter'))));
     // TODO error selector
     vm.expectRevert();
-    combatSystem.executePVE(
+    combatSubsystem.executePVE(
       playerEntity, encounterEntity, _noActions, _noActions
     );
   }
@@ -118,17 +118,17 @@ contract CombatSystemTest is Test {
   // skipping a round is fine
   function testEmptyActions() public {
     vm.prank(writer);
-    CombatSystem.CombatResult result = combatSystem.executePVE(
+    CombatSubsystem.CombatResult result = combatSubsystem.executePVE(
       playerEntity, encounterEntity, _noActions, _noActions
     );
-    assertEq(uint8(result), uint8(CombatSystem.CombatResult.NONE));
+    assertEq(uint8(result), uint8(CombatSubsystem.CombatResult.NONE));
   }
 
   // by default entities can only do 1 action per round
   function testInvalidNumberOfActions() public {
     vm.prank(writer);
-    vm.expectRevert(CombatSystem.CombatSystem__InvalidActionsLength.selector);
-    combatSystem.executePVE(
+    vm.expectRevert(CombatSubsystem.CombatSubsystem__InvalidActionsLength.selector);
+    combatSubsystem.executePVE(
       playerEntity, encounterEntity, _actions2Attacks(), _actions2Attacks()
     );
   }
@@ -137,10 +137,10 @@ contract CombatSystemTest is Test {
   function testPlayer1Attack() public {
     vm.prank(writer);
 
-    CombatSystem.CombatResult result = combatSystem.executePVE(
+    CombatSubsystem.CombatResult result = combatSubsystem.executePVE(
       playerEntity, encounterEntity, _actions1Attack(), _noActions
     );
-    assertEq(uint8(result), uint8(CombatSystem.CombatResult.NONE));
+    assertEq(uint8(result), uint8(CombatSubsystem.CombatResult.NONE));
     assertEq(encounterCharstat.getLifeCurrent(), initLife - initAttack);
   }
 
@@ -148,18 +148,18 @@ contract CombatSystemTest is Test {
   function testPlayerEnoughAttacksToVictory() public {
     vm.prank(writer);
 
-    CombatSystem.CombatResult result;
+    CombatSubsystem.CombatResult result;
     // do enough attacks to defeat encounter
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = combatSystem.executePVE(
+      result = combatSubsystem.executePVE(
         playerEntity, encounterEntity, _actions1Attack(), _noActions
       );
       if (i != attacksNumber - 1) {
-        assertEq(uint8(result), uint8(CombatSystem.CombatResult.NONE));
+        assertEq(uint8(result), uint8(CombatSubsystem.CombatResult.NONE));
       }
     }
-    assertEq(uint8(result), uint8(CombatSystem.CombatResult.VICTORY));
+    assertEq(uint8(result), uint8(CombatSubsystem.CombatResult.VICTORY));
     assertEq(encounterCharstat.getLifeCurrent(), 0);
   }
 
@@ -167,18 +167,18 @@ contract CombatSystemTest is Test {
   function testEncounterEnoughAttacksToDefeat() public {
     vm.prank(writer);
 
-    CombatSystem.CombatResult result;
+    CombatSubsystem.CombatResult result;
     // do enough attacks to defeat player
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = combatSystem.executePVE(
+      result = combatSubsystem.executePVE(
         playerEntity, encounterEntity, _noActions, _actions1Attack()
       );
       if (i != attacksNumber - 1) {
-        assertEq(uint8(result), uint8(CombatSystem.CombatResult.NONE));
+        assertEq(uint8(result), uint8(CombatSubsystem.CombatResult.NONE));
       }
     }
-    assertEq(uint8(result), uint8(CombatSystem.CombatResult.DEFEAT));
+    assertEq(uint8(result), uint8(CombatSubsystem.CombatResult.DEFEAT));
     assertEq(playerCharstat.getLifeCurrent(), 0);
   }
 
@@ -186,18 +186,18 @@ contract CombatSystemTest is Test {
   function testOpposedAttacksPlayerWinsByInitiative() public {
     vm.prank(writer);
 
-    CombatSystem.CombatResult result;
+    CombatSubsystem.CombatResult result;
     // do enough attacks to defeat encounter
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = combatSystem.executePVE(
+      result = combatSubsystem.executePVE(
         playerEntity, encounterEntity, _actions1Attack(), _actions1Attack()
       );
       if (i != attacksNumber - 1) {
-        assertEq(uint8(result), uint8(CombatSystem.CombatResult.NONE));
+        assertEq(uint8(result), uint8(CombatSubsystem.CombatResult.NONE));
       }
     }
-    assertEq(uint8(result), uint8(CombatSystem.CombatResult.VICTORY));
+    assertEq(uint8(result), uint8(CombatSubsystem.CombatResult.VICTORY));
     // also check that the last encounter action didn't go through, since it lost
     assertEq(playerCharstat.getLifeCurrent(), initLife - initAttack * (attacksNumber - 1));
     assertEq(encounterCharstat.getLifeCurrent(), 0);
