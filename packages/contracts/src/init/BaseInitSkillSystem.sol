@@ -9,7 +9,7 @@ import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 import {
   SkillType,
   TargetType,
-  TimeStruct,
+  ScopedDuration,
   EL_L,
   getSkillProtoEntity,
   SkillPrototype,
@@ -24,15 +24,15 @@ import { NameComponent, ID as NameComponentID } from "../common/NameComponent.so
 abstract contract BaseInitSkillSystem is System {
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
-  function _timeStruct(string memory timeTopic, uint256 timeValue) internal pure returns (TimeStruct memory) {
-    return TimeStruct({
-      timeTopic: bytes4(keccak256(bytes(timeTopic))),
+  function _duration(string memory timeScope, uint256 timeValue) internal pure returns (ScopedDuration memory) {
+    return ScopedDuration({
+      timeScopeId: uint256(keccak256(bytes(timeScope))),
       timeValue: timeValue
     });
   }
 
-  function _noTime() internal pure returns (TimeStruct memory) {
-    return _timeStruct('', 0);
+  function _noDuration() internal pure returns (ScopedDuration memory) {
+    return _duration('', 0);
   }
 
   function _emptyElemental() internal pure returns (uint32[EL_L] memory) {

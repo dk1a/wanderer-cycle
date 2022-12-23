@@ -6,16 +6,17 @@ import { Test } from "../../Test.sol";
 
 import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
 import { World } from "@latticexyz/solecs/src/World.sol";
+import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 import { getSkillProtoEntity, SkillPrototypeComponent } from "../SkillPrototypeComponent.sol";
-import { TBTimeScopeComponent } from "../../turn-based-time/TBTimeScopeComponent.sol";
+
+import { DurationSubsystem, ID as DurationSubsystemID, ScopedDuration, SystemCallback  } from "../../duration/DurationSubsystem.sol";
+import { EffectSubsystem, ID as EffectSubsystemID, getEffectEntity } from "../../effect/EffectSubsystem.sol";
 
 import { LibSkill } from "../LibSkill.sol";
 import { LibLearnedSkills } from "../LibLearnedSkills.sol";
 import { LibCharstat, Element } from "../../charstat/LibCharstat.sol";
 import { LibExperience, PStat, PS_L } from "../../charstat/LibExperience.sol";
-import { LibEffect } from "../../effect/LibEffect.sol";
-import { TBTime, TimeStruct } from "../../turn-based-time/TBTime.sol";
 
 // can't expectRevert internal calls, so this is an external wrapper
 contract LibSkillRevertHelper {
@@ -33,10 +34,11 @@ contract LibSkillTest is Test {
   using LibSkill for LibSkill.Self;
   using LibLearnedSkills for LibLearnedSkills.Self;
   using LibCharstat for LibCharstat.Self;
-  using LibEffect for LibEffect.Self;
-  using TBTime for TBTime.Self;
 
   IUint256Component components;
+
+  DurationSubsystem durationSubsystem;
+  EffectSubsystem effectSubsystem;
 
   // helpers
   LibSkillRevertHelper revertHelper;
@@ -44,7 +46,6 @@ contract LibSkillTest is Test {
   // libs
   LibCharstat.Self charstat;
   LibLearnedSkills.Self learnedSkills;
-  TBTime.Self tbtime;
 
   uint256 userEntity = uint256(keccak256('userEntity'));
   uint256 otherEntity = uint256(keccak256('otherEntity'));
@@ -58,12 +59,15 @@ contract LibSkillTest is Test {
   function setUp() public virtual override {
     super.setUp();
 
+    // init systems
+    durationSubsystem = DurationSubsystem(getAddressById(world.systems(), DurationSubsystemID));
+    effectSubsystem = EffectSubsystem(getAddressById(world.systems(), EffectSubsystemID));
+
     components = world.components();
     // init helpers and libs
     revertHelper = new LibSkillRevertHelper();
     charstat = LibCharstat.__construct(components, userEntity);
     learnedSkills = LibLearnedSkills.__construct(components, userEntity);
-    tbtime = TBTime.__construct(components, userEntity);
 
     // learn sample skills
     learnedSkills.learnSkill(cleavePE);
@@ -79,7 +83,7 @@ contract LibSkillTest is Test {
   function _libSkill(
     uint256 skillEntity
   ) internal view returns (LibSkill.Self memory) {
-    return LibSkill.__construct(components, userEntity, skillEntity);
+    return LibSkill.__construct(world, userEntity, skillEntity);
   }
 
   function testSampleSkillsLearned() public {
@@ -113,10 +117,9 @@ contract LibSkillTest is Test {
     _libSkill(chargePE).useSkill(userEntity);
 
     assertEq(charstat.getManaCurrent(), 4 - 1, "Invalid mana remainder");
-    assertTrue(tbtime.has(chargePE), "No ongoing cooldown");
+    assertTrue(durationSubsystem.has(userEntity, chargePE), "No ongoing cooldown");
 
-    LibEffect.Self memory libEffect = LibEffect.__construct(components, userEntity);
-    assertTrue(libEffect.has(chargePE), "No ongoing effect");
+    assertTrue(effectSubsystem.has(userEntity, chargePE), "No ongoing effect");
   }
 
   function testCleaveEffect() public {
@@ -142,9 +145,9 @@ contract LibSkillTest is Test {
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 5);
   }
 
-  // this tests durations, especially TBTime's effect removal callback
+  // this tests durations, especially DurationSubsystem's effect removal callback
   // TODO a lot of this can be removed if effects get their own tests,
-  // atm the many assertions help tell apart bugs in effects and tbtime
+  // atm the many assertions help tell apart bugs in effectSubsystem and durationSubsystem
   function testCleaveChargeDurationEnd() public {
     // add exp to get 2 str (which should increase base physical attack to 2)
     uint32[PS_L] memory addExp;
@@ -153,42 +156,42 @@ contract LibSkillTest is Test {
 
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 2);
 
-    LibEffect.Self memory libEffect = LibEffect.__construct(components, userEntity);
-
     LibSkill.Self memory libSkill = _libSkill(cleavePE);
     libSkill.useSkill(userEntity);
     libSkill = libSkill.switchSkill(chargePE);
     libSkill.useSkill(userEntity);
 
-    assertTrue(tbtime.has(libEffect._appliedEntity(cleavePE)));
-    assertTrue(tbtime.has(libEffect._appliedEntity(chargePE)));
+    assertTrue(durationSubsystem.has(userEntity, getEffectEntity(userEntity, cleavePE)));
+    assertTrue(durationSubsystem.has(userEntity, getEffectEntity(userEntity, chargePE)));
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 5);
 
     // decrease cleave duration and cooldown
-    tbtime.decreaseTopic(
-      TimeStruct({
-        timeTopic: bytes4(keccak256("round")),
+    durationSubsystem.executeDecreaseScope(
+      userEntity,
+      ScopedDuration({
+        timeScopeId: uint256(keccak256("round")),
         timeValue: 1
       })
     );
 
     // cooldown
-    assertFalse(tbtime.has(cleavePE));
+    assertFalse(durationSubsystem.has(userEntity, cleavePE));
     // effect
-    assertFalse(tbtime.has(libEffect._appliedEntity(cleavePE)));
-    assertTrue(tbtime.has(libEffect._appliedEntity(chargePE)));
+    assertFalse(durationSubsystem.has(userEntity, getEffectEntity(userEntity, cleavePE)));
+    assertTrue(durationSubsystem.has(userEntity, getEffectEntity(userEntity, chargePE)));
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 3);
 
     // decrease charge duration
-    tbtime.decreaseTopic(
-      TimeStruct({
-        timeTopic: bytes4(keccak256("round_persistent")),
+    durationSubsystem.executeDecreaseScope(
+      userEntity,
+      ScopedDuration({
+        timeScopeId: uint256(keccak256("round_persistent")),
         timeValue: 1
       })
     );
 
-    assertFalse(tbtime.has(libEffect._appliedEntity(cleavePE)));
-    assertFalse(tbtime.has(libEffect._appliedEntity(chargePE)));
+    assertFalse(durationSubsystem.has(userEntity, getEffectEntity(userEntity, cleavePE)));
+    assertFalse(durationSubsystem.has(userEntity, getEffectEntity(userEntity, chargePE)));
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 2);
   }
 }

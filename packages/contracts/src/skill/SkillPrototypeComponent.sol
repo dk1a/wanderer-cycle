@@ -6,7 +6,7 @@ import { LibTypes } from "@latticexyz/solecs/src/LibTypes.sol";
 import { BareComponent } from "@latticexyz/solecs/src/BareComponent.sol";
 
 import { EL_L } from "../statmod/StatmodPrototypeComponent.sol";
-import { TimeStruct } from "../turn-based-time/TBTime.sol";
+import { ScopedDuration } from "../duration/DurationSubsystem.sol";
 
 uint256 constant ID = uint256(keccak256("component.SkillPrototype"));
 
@@ -41,9 +41,9 @@ struct SkillPrototype {
   // mana cost to be subtracted on use
   uint32 cost;
   // duration of effect (important only if modifiers are present)
-  TimeStruct duration;
+  ScopedDuration duration;
   // cooldown of skill
-  TimeStruct cooldown;
+  ScopedDuration cooldown;
   // who can it be used on (also affects resulting effect's removability)
   TargetType effectTarget;
   // used only if withSpell == true

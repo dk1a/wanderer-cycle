@@ -4,8 +4,9 @@
     "NameComponent",
     "ReverseHashNameComponent",
 
-    "TBTimeScopeComponent",
-    "TBTimeValueComponent",
+    "DurationOnEndComponent",
+    "DurationScopeComponent",
+    "DurationValueComponent",
 
     "ExperienceComponent",
     "LifeCurrentComponent",
@@ -50,23 +51,42 @@
       "writeAccess": []
     },
     {
+      "name": "DurationSubsystem",
+      "writeAccess": [
+        "EffectSubsystem",
+        "DurationOnEndComponent",
+        "DurationScopeComponent",
+        "DurationValueComponent"
+      ]
+    },
+    {
+      "name": "EffectSubsystem",
+      "writeAccess": [
+        "DurationSubsystem",
+        "AppliedEffectComponent",
+        "FromPrototypeComponent",
+        "StatmodScopeComponent",
+        "StatmodValueComponent"
+      ]
+    },
+    {
       "name": "WandererSpawnSystem",
       "writeAccess": [
+        "WNFTSubsystem",
         "ActiveCycleComponent",
         "ActiveGuiseComponent",
         "ExperienceComponent",
         "LifeCurrentComponent",
-        "ManaCurrentComponent",
-        "WNFTSubsystem"
+        "ManaCurrentComponent"
       ]
     },
     {
       "name": "CombatSystem",
-      "writeAccess": ["*"]
+      "writeAccess": ["EffectSubsystem", "LifeCurrentComponent", "ManaCurrentComponent"]
     },
     {
       "name": "EquipmentSystem",
-      "writeAccess": ["*"]
+      "writeAccess": ["EffectSubsystem", "EquipmentSlotComponent"]
     },
 
     {
@@ -86,12 +106,22 @@
     },
     {
       "name": "InitAffixSystem",
-      "writeAccess": ["AffixPrototypeComponent", "AffixNamingComponent", "AffixAvailabilityComponent", "NameComponent"],
+      "writeAccess": [
+        "AffixPrototypeComponent",
+        "AffixNamingComponent",
+        "AffixAvailabilityComponent",
+        "NameComponent"
+      ],
       "initialize": "new bytes(0)"
     },
     {
       "name": "InitSkillSystem",
-      "writeAccess": ["SkillPrototypeComponent", "SkillDescriptionComponent", "EffectPrototypeComponent", "NameComponent"],
+      "writeAccess": [
+        "SkillPrototypeComponent",
+        "SkillDescriptionComponent",
+        "EffectPrototypeComponent",
+        "NameComponent"
+      ],
       "initialize": "new bytes(0)"
     },
     {

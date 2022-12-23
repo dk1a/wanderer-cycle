@@ -2,14 +2,16 @@
 
 pragma solidity ^0.8.17;
 
+import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
+import { DurationSubsystem, ID as DurationSubsystemID, ScopedDuration, SystemCallback  } from "../duration/DurationSubsystem.sol";
+import { EffectSubsystem, ID as EffectSubsystemID } from "../effect/EffectSubsystem.sol";
+import { EffectPrototypeComponent, ID as EffectPrototypeComponentID } from "../effect/EffectPrototypeComponent.sol";
 import { LearnedSkillsComponent, ID as LearnedSkillsComponentID } from "./LearnedSkillsComponent.sol";
 import { LibLearnedSkills } from "./LibLearnedSkills.sol";
-import { TBTime } from "../turn-based-time/TBTime.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
-import { LibTimedEffect } from "../effect/LibTimedEffect.sol";
 import {
   SkillType,
   TargetType,
@@ -21,8 +23,6 @@ import {
 library LibSkill {
   using LibCharstat for LibCharstat.Self;
   using LibLearnedSkills for LibLearnedSkills.Self;
-  using TBTime for TBTime.Self;
-  using LibTimedEffect for LibTimedEffect.Self;
 
   error LibSkill__SkillMustBeLearned();
   error LibSkill__SkillOnCooldown();
@@ -32,9 +32,8 @@ library LibSkill {
   error LibSkill__RequiredNonCombat();
 
   struct Self {
-    IUint256Component registry;
+    IWorld world;
     SkillPrototypeComponent protoComp;
-    TBTime.Self tbtime;
     LibCharstat.Self charstat;
     LibLearnedSkills.Self learnedSkills;
     uint256 userEntity;
@@ -44,18 +43,18 @@ library LibSkill {
   }
 
   function __construct(
-    IUint256Component registry,
+    IWorld world,
     uint256 userEntity,
     uint256 skillEntity
   ) internal view returns (Self memory) {
-    SkillPrototypeComponent protoComp = SkillPrototypeComponent(getAddressById(registry, SkillPrototypeComponentID));
+    IUint256Component components = world.components();
+    SkillPrototypeComponent protoComp = SkillPrototypeComponent(getAddressById(components, SkillPrototypeComponentID));
 
     return Self({
-      registry: registry,
+      world: world,
       protoComp: protoComp,
-      tbtime: TBTime.__construct(registry, userEntity),
-      charstat: LibCharstat.__construct(registry, userEntity),
-      learnedSkills: LibLearnedSkills.__construct(registry, userEntity),
+      charstat: LibCharstat.__construct(components, userEntity),
+      learnedSkills: LibLearnedSkills.__construct(components, userEntity),
       userEntity: userEntity,
 
       skillEntity: skillEntity,
@@ -121,7 +120,8 @@ library LibSkill {
       revert LibSkill__SkillMustBeLearned();
     }
     // must be off cooldown
-    if (__self.tbtime.has(__self.skillEntity)) {
+    DurationSubsystem durationSubsystem = DurationSubsystem(getAddressById(__self.world.systems(), DurationSubsystemID));
+    if (durationSubsystem.has(targetEntity, __self.skillEntity)) {
       revert LibSkill__SkillOnCooldown();
     }
     // verify self-only skill
@@ -131,7 +131,8 @@ library LibSkill {
     // TODO verify other target types?
 
     // start cooldown
-    __self.tbtime.increase(__self.skillEntity, __self.skill.cooldown);
+    // (doesn't clash with skill effect duration, which has its own entity)
+    durationSubsystem.executeIncrease(targetEntity, __self.skillEntity, __self.skill.cooldown, SystemCallback(0, ''));
 
     // check and subtract skill cost
     uint32 manaCurrent = __self.charstat.getManaCurrent();
@@ -145,23 +146,23 @@ library LibSkill {
   }
 
   function _applySkillEffect(Self memory __self, uint256 targetEntity) private {
-    LibTimedEffect.Self memory libTimedEffect = LibTimedEffect.__construct(__self.registry, targetEntity);
+    EffectSubsystem effectSubsystem = EffectSubsystem(getAddressById(__self.world.systems(), EffectSubsystemID));
 
-    if (!libTimedEffect.isEffectProto(__self.skillEntity)) {
+    if (!effectSubsystem.isEffectPrototype(__self.skillEntity)) {
       // skip if skill has no effect
       return;
     }
 
     if (__self.skill.skillType == SkillType.PASSIVE) {
       // toggle passive skill
-      if (libTimedEffect.has(__self.skillEntity)) {
-        libTimedEffect.remove(__self.skillEntity);
+      if (effectSubsystem.has(targetEntity, __self.skillEntity)) {
+        effectSubsystem.executeRemove(targetEntity, __self.skillEntity);
       } else {
-        libTimedEffect.applyEffect(__self.skillEntity, __self.skill.duration);
+        effectSubsystem.executeApply(targetEntity, __self.skillEntity);
       }
     } else {
       // apply active skill
-      libTimedEffect.applyEffect(__self.skillEntity, __self.skill.duration);
+      effectSubsystem.executeApplyTimed(targetEntity, __self.skillEntity, __self.skill.duration);
     }
   }
 }

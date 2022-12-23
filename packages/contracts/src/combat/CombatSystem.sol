@@ -123,7 +123,7 @@ contract CombatSystem is Subsystem {
     _checkActionsLength(attacker);
 
     LibCombatAction.Self memory combatAction = LibCombatAction.__construct(
-      components,
+      world,
       attackerCharstat,
       attacker.opts,
       defenderCharstat,

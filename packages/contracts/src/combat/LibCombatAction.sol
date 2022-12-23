@@ -2,6 +2,7 @@
 
 pragma solidity ^0.8.17;
 
+import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
 
 import { LibSkill } from "../skill/LibSkill.sol";
@@ -29,7 +30,7 @@ library LibCombatAction {
   error LibCombat__InvalidActionType();
 
   struct Self {
-    IUint256Component components;
+    IWorld world;
     LibCharstat.Self attackerCharstat;
     ActorOpts attackerOpts;
     LibCharstat.Self defenderCharstat;
@@ -37,14 +38,14 @@ library LibCombatAction {
   }
 
   function __construct(
-    IUint256Component components,
+    IWorld world,
     LibCharstat.Self memory attackerCharstat,
     ActorOpts memory attackerOpts,
     LibCharstat.Self memory defenderCharstat,
     ActorOpts memory defenderOpts
   ) internal pure returns (Self memory) {
     return Self({
-      components: components,
+      world: world,
       attackerCharstat: attackerCharstat,
       attackerOpts: attackerOpts,
       defenderCharstat: defenderCharstat,
@@ -71,7 +72,7 @@ library LibCombatAction {
     uint256 skillEntity
   ) private {
     LibSkill.Self memory libSkill = LibSkill.__construct(
-      __self.components,
+      __self.world,
       __self.attackerCharstat.targetEntity,
       skillEntity
     );

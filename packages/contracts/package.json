@@ -4,7 +4,7 @@
   "scripts": {
     "prepare": "yarn codegen && mud types",
     "devnode": "mud devnode",
-    "test": "yarn codegen && mud codegen-libdeploy --out src/libraries && forge test -vvv",
+    "test": "yarn codegen && mud codegen-libdeploy --out src/libraries && forge test",
     "types": "yarn codegen && mud types",
     "dev": "echo 'TODO use mud deploy'",
     "codegen": "ts-node ./scripts/codegen.ts"

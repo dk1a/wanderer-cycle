@@ -12,7 +12,7 @@ import { EquipmentSlotAllowedComponent, ID as EquipmentSlotAllowedComponentID } 
 import { EquipmentPrototypeComponent, ID as EquipmentPrototypeComponentID } from "./EquipmentPrototypeComponent.sol";
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 
-import { LibEffect } from "../effect/LibEffect.sol";
+import { EffectSubsystem, ID as EffectSubsystemID } from "../effect/EffectSubsystem.sol";
 
 uint256 constant ID = uint256(keccak256("system.Equipment"));
 
@@ -25,8 +25,6 @@ enum EquipmentAction {
  * @title Library-like system for other systems that need equipment
  */
 contract EquipmentSystem is Subsystem {
-  using LibEffect for LibEffect.Self;
-
   error EquipmentSystem__InvalidEquipmentAction();
   error EquipmentSystem__InvalidEquipmentPrototype();
   error EquipmentSystem__SlotNotAllowedForPrototype();
@@ -52,17 +50,17 @@ contract EquipmentSystem is Subsystem {
       EquipmentAction equipmentAction,
       uint256 equipmentSlot,
       uint256 equipmentEntity,
+      // TODO equipmentSlot should be bound to targetEntity, atm they seem too loosely related
       uint256 targetEntity
     ) = abi.decode(arguments, (EquipmentAction, uint256, uint256, uint256));
 
     EquipmentSlotComponent slotComp = EquipmentSlotComponent(getAddressById(components, EquipmentSlotComponentID));
-    // TODO equipmentSlot should be bound to targetEntity, atm they seem too loosely related
-    LibEffect.Self memory modelEffect = LibEffect.__construct(components, targetEntity);
+    EffectSubsystem effectSubsystem = EffectSubsystem(getAddressById(world.systems(), EffectSubsystemID));
 
     if (equipmentAction == EquipmentAction.UNEQUIP) {
-      _unequip(slotComp, modelEffect, equipmentSlot);
+      _unequip(slotComp, effectSubsystem, targetEntity, equipmentSlot);
     } else if (equipmentAction == EquipmentAction.EQUIP) {
-      _equip(slotComp, modelEffect, equipmentSlot, equipmentEntity);
+      _equip(slotComp, effectSubsystem, targetEntity, equipmentSlot, equipmentEntity);
     } else {
       revert EquipmentSystem__InvalidEquipmentAction();
     }
@@ -72,24 +70,26 @@ contract EquipmentSystem is Subsystem {
 
   function _unequip(
     EquipmentSlotComponent slotComp,
-    LibEffect.Self memory modelEffect,
+    EffectSubsystem effectSubsystem,
+    uint256 targetEntity,
     uint256 equipmentSlot
   ) internal {
     uint256 equipmentEntity = slotComp.getValue(equipmentSlot);
     slotComp.remove(equipmentSlot);
 
-    modelEffect.remove(equipmentEntity);
+    effectSubsystem.executeRemove(targetEntity, equipmentEntity);
   }
 
   function _equip(
     EquipmentSlotComponent slotComp,
-    LibEffect.Self memory modelEffect,
+    EffectSubsystem effectSubsystem,
+    uint256 targetEntity,
     uint256 equipmentSlot,
     uint256 equipmentEntity
   ) internal {
     // unequip first if slot is occupied (otherwise effects will leak)
     if (slotComp.has(equipmentSlot)) {
-      _unequip(slotComp, modelEffect, equipmentSlot);
+      _unequip(slotComp, effectSubsystem, targetEntity, equipmentSlot);
     }
 
     // equipmentEntity must have equipment prototype
@@ -124,6 +124,6 @@ contract EquipmentSystem is Subsystem {
 
     // reverts if equipmentEntity isn't a valid effectProtoEntity
     // TODO that's good atm because equipment only does effects. But it could do more.
-    modelEffect.applyEffect(equipmentEntity);
+    effectSubsystem.executeApply(targetEntity, equipmentEntity);
   }
 }
