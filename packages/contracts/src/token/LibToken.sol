@@ -7,7 +7,7 @@ import { IComponent } from "@latticexyz/solecs/src/interfaces/IComponent.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 import { OwnershipComponent } from "@dk1a/solecslib/contracts/token/ERC721/components/OwnershipComponent.sol";
-import { ownershipComponentID } from "./WNFTSystem.sol";
+import { ownershipComponentID } from "./WNFTSubsystem.sol";
 
 library LibToken {
   error LibToken_NonExistentToken();

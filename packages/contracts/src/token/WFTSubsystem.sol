@@ -4,14 +4,14 @@ pragma solidity ^0.8.17;
 
 import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 
-import { ERC1155BaseSystem } from "@dk1a/solecslib/contracts/token/ERC1155/ERC1155BaseSystem.sol";
+import { ERC1155BaseSubsystem } from "@dk1a/solecslib/contracts/token/ERC1155/ERC1155BaseSubsystem.sol";
 
 uint256 constant ID = uint256(keccak256("system.WFT"));
 
 uint256 constant balanceComponentID = uint256(keccak256("components.WFT.balance"));
 uint256 constant operatorApprovalsComponentID = uint256(keccak256("components.WFT.operatorApprovals"));
 
-contract WFTSystem is ERC1155BaseSystem {
+contract WFTSubsystem is ERC1155BaseSubsystem {
   constructor(IWorld _world, address _components)
-    ERC1155BaseSystem(_world, _components, balanceComponentID, operatorApprovalsComponentID) {}
+    ERC1155BaseSubsystem(_world, _components, balanceComponentID, operatorApprovalsComponentID) {}
 }

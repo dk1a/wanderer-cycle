@@ -9,52 +9,51 @@ import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 import {
   SkillType,
   TargetType,
+  TimeStruct,
+  EL_L,
+  getSkillProtoEntity,
   SkillPrototype,
   SkillPrototypeComponent,
   ID as SkillPrototypeComponentID
-} from "./SkillPrototypeComponent.sol";
-import {
-  SkillPrototypeExt,
-  SkillPrototypeExtComponent,
-  ID as SkillPrototypeExtComponentID
-} from "./SkillPrototypeExtComponent.sol";
+} from "../skill/SkillPrototypeComponent.sol";
+import { SkillDescriptionComponent, ID as SkillDescriptionComponentID } from "../skill/SkillDescriptionComponent.sol";
 import { LibEffectPrototype } from "../effect/LibEffectPrototype.sol";
 import { EffectPrototype, EffectRemovability, EffectStatmod } from "../effect/EffectPrototypeComponent.sol";
+import { NameComponent, ID as NameComponentID } from "../common/NameComponent.sol";
 
-uint256 constant ID = uint256(keccak256("system.SkillPrototypeInit"));
-
-contract SkillPrototypeInitSystem is System {
+abstract contract BaseInitSkillSystem is System {
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
-  struct Comps {
-    SkillPrototypeComponent protoComp;
-    SkillPrototypeExtComponent protoExtComp;
+  function _timeStruct(string memory timeTopic, uint256 timeValue) internal pure returns (TimeStruct memory) {
+    return TimeStruct({
+      timeTopic: bytes4(keccak256(bytes(timeTopic))),
+      timeValue: timeValue
+    });
   }
 
-  function execute(
+  function _noTime() internal pure returns (TimeStruct memory) {
+    return _timeStruct('', 0);
+  }
+
+  function _emptyElemental() internal pure returns (uint32[EL_L] memory) {
+    return [uint32(0), 0, 0, 0, 0];
+  }
+
+  function add(
+    string memory name,
+    string memory description,
     SkillPrototype memory prototype,
-    SkillPrototypeExt memory prototypeExt,
     EffectStatmod[] memory effectStatmods
-  ) public {
-    execute(abi.encode(prototype, prototypeExt, effectStatmods));
-  }
+  ) internal {
+    SkillPrototypeComponent protoComp = SkillPrototypeComponent(getAddressById(components, SkillPrototypeComponentID));
+    SkillDescriptionComponent descComp = SkillDescriptionComponent(getAddressById(components, SkillDescriptionComponentID));
+    NameComponent nameComp = NameComponent(getAddressById(components, NameComponentID));
 
-  function execute(bytes memory arguments) public override onlyOwner returns (bytes memory) {
-    (
-      SkillPrototype memory prototype,
-      SkillPrototypeExt memory prototypeExt,
-      EffectStatmod[] memory effectStatmods
-    ) = abi.decode(arguments, (SkillPrototype, SkillPrototypeExt, EffectStatmod[]));
-
-    SkillPrototypeComponent protoComp
-      = SkillPrototypeComponent(getAddressById(components, SkillPrototypeComponentID));
-    SkillPrototypeExtComponent protoExtComp
-      = SkillPrototypeExtComponent(getAddressById(components, SkillPrototypeExtComponentID));
-
-    uint256 entity = uint256(keccak256(bytes(prototypeExt.name)));
+    uint256 entity = getSkillProtoEntity(name);
 
     protoComp.set(entity, prototype);
-    protoExtComp.set(entity, prototypeExt);
+    descComp.set(entity, description);
+    nameComp.set(entity, name);
 
     // Given statmods, a skill will have an on-use effect prototype
     if (effectStatmods.length > 0) {
@@ -64,8 +63,6 @@ contract SkillPrototypeInitSystem is System {
       });
       LibEffectPrototype.verifiedSet(components, entity, effectProto);
     }
-
-    return '';
   }
 
   function _getRemovability(

@@ -9,27 +9,25 @@ import { Test } from "../../Test.sol";
 import {
   SkillType,
   TargetType,
+  getSkillProtoEntity,
   SkillPrototypeComponent,
   ID as SkillPrototypeComponentID
 } from "../SkillPrototypeComponent.sol";
 import {
-  SkillPrototypeExtComponent,
-  ID as SkillPrototypeExtComponentID
-} from "../SkillPrototypeExtComponent.sol";
-import {
   EffectPrototypeComponent,
   ID as EffectPrototypeComponentID
 } from "../../effect/EffectPrototypeComponent.sol";
+import { NameComponent, ID as NameComponentID } from "../../common/NameComponent.sol";
 
 contract SkillPrototypeComponentTest is Test {
   SkillPrototypeComponent protoComp;
-  SkillPrototypeExtComponent protoExtComp;
   EffectPrototypeComponent effectProtoComp;
+  NameComponent nameComp;
 
   // sample skill entities
-  uint256 chargePE = uint256(keccak256('Charge'));
-  uint256 parryPE = uint256(keccak256('Parry'));
-  uint256 cleavePE = uint256(keccak256('Cleave'));
+  uint256 chargePE = getSkillProtoEntity('Charge');
+  uint256 parryPE = getSkillProtoEntity('Parry');
+  uint256 cleavePE = getSkillProtoEntity('Cleave');
 
   function setUp() public virtual override {
     super.setUp();
@@ -37,8 +35,8 @@ contract SkillPrototypeComponentTest is Test {
     protoComp = SkillPrototypeComponent(
       getAddressById(world.components(), SkillPrototypeComponentID)
     );
-    protoExtComp = SkillPrototypeExtComponent(
-      getAddressById(world.components(), SkillPrototypeExtComponentID)
+    nameComp = NameComponent(
+      getAddressById(world.components(), NameComponentID)
     );
     effectProtoComp = EffectPrototypeComponent(
       getAddressById(world.components(), EffectPrototypeComponentID)
@@ -50,7 +48,7 @@ contract SkillPrototypeComponentTest is Test {
   }
 
   function testSampleName() public {
-    assertEq(protoExtComp.getValue(chargePE).name, 'Charge');
+    assertEq(nameComp.getValue(chargePE), 'Charge');
   }
 
   function testSampleTargetTypes() public {

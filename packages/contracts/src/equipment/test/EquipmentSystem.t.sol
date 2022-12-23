@@ -22,7 +22,7 @@ import { EffectPrototype, EffectStatmod, EffectRemovability } from "../../effect
 
 import { getEquipmentProtoEntity } from "../EquipmentPrototypeComponent.sol";
 import { Topics, Op, Element } from "../../charstat/Topics.sol";
-import { _effectStatmods } from "../../effect/utils.sol";
+import { effectStatmods } from "../../effect/effectStatmods.sol";
 
 contract EquipmentSystemTest is Test {
   EquipmentSystem equipmentSystem;
@@ -67,24 +67,24 @@ contract EquipmentSystemTest is Test {
 
     // init equipment
     fromProtoComp.set(armor, clothingProtoEntity);
-    LibEffectPrototype.verifiedSet(components, armor, _effectProto(_effectStatmods(
+    LibEffectPrototype.verifiedSet(components, armor, _effectProto(effectStatmods(
       Topics.RESISTANCE, Op.ADD, Element.PHYSICAL, 40
     )));
 
     fromProtoComp.set(sword1, weaponProtoEntity);
-    LibEffectPrototype.verifiedSet(components, sword1, _effectProto(_effectStatmods(
+    LibEffectPrototype.verifiedSet(components, sword1, _effectProto(effectStatmods(
       Topics.ATTACK, Op.ADD, Element.PHYSICAL, 100,
       Topics.ATTACK, Op.MUL, Element.ALL, 100
     )));
 
     fromProtoComp.set(sword2, weaponProtoEntity);
-    LibEffectPrototype.verifiedSet(components, sword2, _effectProto(_effectStatmods(
+    LibEffectPrototype.verifiedSet(components, sword2, _effectProto(effectStatmods(
       Topics.ATTACK, Op.ADD, Element.FIRE, 100,
       Topics.ATTACK, Op.MUL, Element.FIRE, 100
     )));
 
     fromProtoComp.set(shield, shieldProtoEntity);
-    LibEffectPrototype.verifiedSet(components, shield, _effectProto(_effectStatmods(
+    LibEffectPrototype.verifiedSet(components, shield, _effectProto(effectStatmods(
       Topics.RESISTANCE, Op.ADD, Element.PHYSICAL, 40,
       Topics.RESISTANCE, Op.ADD, Element.FIRE, 40
     )));

@@ -10,6 +10,13 @@ import { TimeStruct } from "../turn-based-time/TBTime.sol";
 
 uint256 constant ID = uint256(keccak256("component.SkillPrototype"));
 
+/**
+ * @dev Skill protoEntity = hashed(ID, name)
+ */
+function getSkillProtoEntity(string memory name) pure returns (uint256) {
+  return uint256(keccak256(abi.encode(ID, name)));
+}
+
 enum SkillType {
   COMBAT,
   NONCOMBAT,

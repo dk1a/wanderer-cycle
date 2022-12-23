@@ -4,8 +4,8 @@
   "scripts": {
     "prepare": "yarn codegen && mud types",
     "devnode": "mud devnode",
-    "test": "forge test -vvv",
-    "types": "mud types",
+    "test": "yarn codegen && mud codegen-libdeploy --out src/libraries && forge test -vvv",
+    "types": "yarn codegen && mud types",
     "dev": "echo 'TODO use mud deploy'",
     "codegen": "ts-node ./scripts/codegen.ts"
   },
@@ -17,24 +17,29 @@
     "@ethersproject/bytes": "^5.7.0",
     "@ethersproject/hash": "^5.7.0",
     "@ethersproject/strings": "^5.7.0",
-    "@latticexyz/cli": "^1.31.3",
+    "@latticexyz/cli": "https://gitpkg.now.sh/dk1a/mud/packages/cli?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91",
     "@prb/test": "^0.2.1",
     "@solidity-parser/parser": "^0.14.5",
     "@typechain/ethers-v5": "^10.1.1",
     "@types/ejs": "^3.1.1",
+    "@types/glob": "^8.0.0",
+    "@types/rimraf": "^3.0.2",
+    "ds-test": "https://github.com/dapphub/ds-test",
     "ejs": "^3.1.8",
     "forge-std": "github:foundry-rs/forge-std",
+    "glob": "^8.0.3",
     "hardhat": "^2.12.2",
     "hardhat-preprocessor": "^0.1.5",
     "memmove": "github:brockelmore/memmove",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.9.1",
     "typechain": "^8.1.1",
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "@dk1a/solecslib": "^0.3.2",
+    "@dk1a/solecslib": "https://github.com/dk1a/solecslib#0552cc32fc19179a3e74285c0a41bb812d371202",
     "@dk1a/solidity-stringutils": "^0.3.2",
-    "@latticexyz/solecs": "^1.31.3",
-    "@latticexyz/std-contracts": "^1.31.3"
+    "@latticexyz/solecs": "https://gitpkg.now.sh/dk1a/mud/packages/solecs?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91",
+    "@latticexyz/std-contracts": "https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91"
   }
 }

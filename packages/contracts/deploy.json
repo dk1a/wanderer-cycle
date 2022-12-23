@@ -1,0 +1,103 @@
+{
+  "components": [
+    "FromPrototypeComponent",
+    "NameComponent",
+    "ReverseHashNameComponent",
+
+    "TBTimeScopeComponent",
+    "TBTimeValueComponent",
+
+    "ExperienceComponent",
+    "LifeCurrentComponent",
+    "ManaCurrentComponent",
+
+    "StatmodPrototypeComponent",
+    "StatmodScopeComponent",
+    "StatmodValueComponent",
+
+    "EffectPrototypeComponent",
+    "AppliedEffectComponent",
+
+    "LearnedSkillsComponent",
+    "SkillPrototypeComponent",
+    "SkillDescriptionComponent",
+
+    "EquipmentSlotComponent",
+    "EquipmentSlotAllowedComponent",
+    "EquipmentPrototypeComponent",
+
+    "AffixPrototypeComponent",
+    "AffixNamingComponent",
+    "AffixAvailabilityComponent",
+
+    "ActiveGuiseComponent",
+    "GuisePrototypeComponent",
+    "GuiseSkillsComponent",
+
+    "ActiveCycleComponent"
+  ],
+  "systems": [
+    {
+      "name": "ReverseHashNameSystem",
+      "writeAccess": ["ReverseHashNameComponent"]
+    },
+    {
+      "name": "WFTSubsystem",
+      "writeAccess": []
+    },
+    {
+      "name": "WNFTSubsystem",
+      "writeAccess": []
+    },
+    {
+      "name": "WandererSpawnSystem",
+      "writeAccess": [
+        "ActiveCycleComponent",
+        "ActiveGuiseComponent",
+        "ExperienceComponent",
+        "LifeCurrentComponent",
+        "ManaCurrentComponent",
+        "WNFTSubsystem"
+      ]
+    },
+    {
+      "name": "CombatSystem",
+      "writeAccess": ["*"]
+    },
+    {
+      "name": "EquipmentSystem",
+      "writeAccess": ["*"]
+    },
+
+    {
+      "name": "InitReverseHashNameSystem",
+      "writeAccess": [],
+      "initialize": "new bytes(0)"
+    },
+    {
+      "name": "InitStatmodSystem",
+      "writeAccess": ["StatmodPrototypeComponent", "NameComponent"],
+      "initialize": "new bytes(0)"
+    },
+    {
+      "name": "InitEquipmentSystem",
+      "writeAccess": ["EquipmentPrototypeComponent", "NameComponent"],
+      "initialize": "new bytes(0)"
+    },
+    {
+      "name": "InitAffixSystem",
+      "writeAccess": ["AffixPrototypeComponent", "AffixNamingComponent", "AffixAvailabilityComponent", "NameComponent"],
+      "initialize": "new bytes(0)"
+    },
+    {
+      "name": "InitSkillSystem",
+      "writeAccess": ["SkillPrototypeComponent", "SkillDescriptionComponent", "EffectPrototypeComponent", "NameComponent"],
+      "initialize": "new bytes(0)"
+    },
+    {
+      "name": "InitGuiseSystem",
+      "writeAccess": ["GuisePrototypeComponent", "GuiseSkillsComponent", "NameComponent"],
+      "initialize": "new bytes(0)"
+    }
+  ]
+}

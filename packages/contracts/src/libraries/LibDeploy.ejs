@@ -11,9 +11,6 @@ import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
 import { ISystem } from "@latticexyz/solecs/src/interfaces/ISystem.sol";
 
-// TODO interface
-import { OwnableAndWriteAccess } from "@dk1a/solecslib/contracts/mud/OwnableAndWriteAccess.sol";
-
 // Components
 <% components.forEach(({name, path}) => { -%>
 import { <%= name %>, ID as <%= name %>ID } from "../<%- path ?? '.' %>/<%= name %>.sol";

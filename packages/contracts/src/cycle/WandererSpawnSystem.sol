@@ -6,7 +6,7 @@ import { System } from "@latticexyz/solecs/src/System.sol";
 import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
-import { WNFTSystem, ID as WNFTSystemID } from "../token/WNFTSystem.sol";
+import { WNFTSubsystem, ID as WNFTSubsystemID } from "../token/WNFTSubsystem.sol";
 import { GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../guise/GuisePrototypeComponent.sol";
 
 import { LibCycle } from "../cycle/LibCycle.sol";
@@ -42,8 +42,8 @@ contract WandererSpawnSystem is System {
 
     // mint nft
     uint256 wandererEntity = world.getUniqueEntityId();
-    WNFTSystem wnftSystem = WNFTSystem(getAddressById(world.systems(), WNFTSystemID));
-    wnftSystem.executeSafeMint(msg.sender, wandererEntity, '');
+    WNFTSubsystem wnftSubsystem = WNFTSubsystem(getAddressById(world.systems(), WNFTSubsystemID));
+    wnftSubsystem.executeSafeMint(msg.sender, wandererEntity, '');
     // TODO differentiate different types of nfts
 
     // init cycle

@@ -2,18 +2,24 @@
 
 pragma solidity ^0.8.17;
 
-// Solecs
+import { System } from "@latticexyz/solecs/src/System.sol";
 import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 import { ReverseHashNameSystem, ID as ReverseHashNameSystemID } from "../common/ReverseHashNameSystem.sol";
 
-library LibInitReverseHashName {
-  function initialize(IWorld world) internal {
+uint256 constant ID = uint256(keccak256("system.InitReverseHashName"));
+
+contract InitReverseHashNameSystem is System {
+  constructor(IWorld _world, address _components) System(_world, _components) {}
+
+  function execute(bytes memory) public override onlyOwner returns (bytes memory) {
     ReverseHashNameSystem system = ReverseHashNameSystem(getAddressById(world.systems(), ReverseHashNameSystemID));
 
 <% names.forEach(name => { -%>
     system.executeTyped("<%= name %>");
 <% }) -%>
+
+    return '';
   }
 }

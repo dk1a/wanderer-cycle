@@ -6,9 +6,9 @@ import { EffectStatmod } from "./EffectPrototypeComponent.sol";
 import { Topic, Op, Element } from "../charstat/Topics.sol";
 
 // utils for easier inlining of dynamic EffectStatmod arrays
-function _effectStatmods() pure returns (EffectStatmod[] memory) {}
+function effectStatmods() pure returns (EffectStatmod[] memory) {}
 
-function _effectStatmods(
+function effectStatmods(
   Topic topic0, Op op0, Element element0, uint256 value0
 ) pure returns (EffectStatmod[] memory result) {
   result = new EffectStatmod[](1);
@@ -17,7 +17,7 @@ function _effectStatmods(
   result[0].value = value0;
 }
 
-function _effectStatmods(
+function effectStatmods(
   Topic topic0, Op op0, Element element0, uint256 value0,
   Topic topic1, Op op1, Element element1, uint256 value1
 ) pure returns (EffectStatmod[] memory result) {
@@ -30,7 +30,7 @@ function _effectStatmods(
   result[1].value = value1;
 }
 
-function _effectStatmods(
+function effectStatmods(
   Topic topic0, Op op0, Element element0, uint256 value0,
   Topic topic1, Op op1, Element element1, uint256 value1,
   Topic topic2, Op op2, Element element2, uint256 value2
@@ -47,7 +47,7 @@ function _effectStatmods(
   result[2].value = value2;
 }
 
-function _effectStatmods(
+function effectStatmods(
   Topic topic0, Op op0, Element element0, uint256 value0,
   Topic topic1, Op op1, Element element1, uint256 value1,
   Topic topic2, Op op2, Element element2, uint256 value2,

@@ -7,7 +7,7 @@ import { Test } from "../../Test.sol";
 import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
 import { World } from "@latticexyz/solecs/src/World.sol";
 
-import { SkillPrototypeComponent } from "../SkillPrototypeComponent.sol";
+import { getSkillProtoEntity, SkillPrototypeComponent } from "../SkillPrototypeComponent.sol";
 import { TBTimeScopeComponent } from "../../turn-based-time/TBTimeScopeComponent.sol";
 
 import { LibSkill } from "../LibSkill.sol";
@@ -50,10 +50,10 @@ contract LibSkillTest is Test {
   uint256 otherEntity = uint256(keccak256('otherEntity'));
 
   // sample skill entities
-  uint256 cleavePE = uint256(keccak256('Cleave'));
-  uint256 chargePE = uint256(keccak256('Charge'));
-  uint256 parryPE = uint256(keccak256('Parry'));
-  uint256 someInvalidSkillPE = uint256(keccak256('someInvalidSkill'));
+  uint256 cleavePE = getSkillProtoEntity('Cleave');
+  uint256 chargePE = getSkillProtoEntity('Charge');
+  uint256 parryPE = getSkillProtoEntity('Parry');
+  uint256 someInvalidSkillPE = getSkillProtoEntity('someInvalidSkill');
 
   function setUp() public virtual override {
     super.setUp();

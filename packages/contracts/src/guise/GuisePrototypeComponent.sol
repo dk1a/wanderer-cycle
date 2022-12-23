@@ -14,6 +14,13 @@ struct GuisePrototype {
   uint32[PS_L] levelMul;
 }
 
+/**
+ * @dev Guise protoEntity = hashed(ID, name)
+ */
+function getGuiseProtoEntity(string memory name) pure returns (uint256) {
+  return uint256(keccak256(abi.encode(ID, name)));
+}
+
 contract GuisePrototypeComponent is BareComponent {
   constructor(address world) BareComponent(world, ID) {}
 

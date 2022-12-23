@@ -1,13 +1,6 @@
 node_modules/
 
 dist/
-
-artifacts/
-cache/
-abi/
-out/
-deployments/
-types/
+yarn-error.log
 
 .env
-.vscode

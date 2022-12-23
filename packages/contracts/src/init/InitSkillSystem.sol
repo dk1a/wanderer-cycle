@@ -2,35 +2,25 @@
 
 pragma solidity ^0.8.17;
 
+import { System } from "@latticexyz/solecs/src/System.sol";
 import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
-import { SkillPrototypeInitSystem, ID as SkillPrototypeInitSystemID } from "../skill/SkillPrototypeInitSystem.sol";
-import {
-  SkillType,
-  TargetType,
-  TimeStruct,
-  EL_L,
-  SkillPrototype,
-  SkillPrototypeComponent,
-  ID as SkillPrototypeComponentID
-} from "../skill/SkillPrototypeComponent.sol";
-import {
-  SkillPrototypeExt,
-  SkillPrototypeExtComponent,
-  ID as SkillPrototypeExtComponentID
-} from "../skill/SkillPrototypeExtComponent.sol";
-import { EffectStatmod } from "../effect/EffectPrototypeComponent.sol";
-
+import { BaseInitSkillSystem } from "./BaseInitSkillSystem.sol";
+import { SkillType, TargetType, SkillPrototype } from "../skill/SkillPrototypeComponent.sol";
 import { Topics, Op, Element } from "../charstat/Topics.sol";
-import { _effectStatmods } from "../effect/utils.sol";
+import { effectStatmods } from "../effect/effectStatmods.sol";
 
-library LibInitSkill {
-  function initialize(IWorld world) internal {
-    SkillPrototypeInitSystem system = SkillPrototypeInitSystem(getAddressById(world.systems(), SkillPrototypeInitSystemID));
+uint256 constant ID = uint256(keccak256("system.InitSkill"));
 
+contract InitSkillSystem is BaseInitSkillSystem {
+  constructor(IWorld _world, address _components) BaseInitSkillSystem(_world, _components) {}
+
+  function execute(bytes memory) public override onlyOwner returns (bytes memory) {
     // 1
-    system.execute(
+    add(
+      'Cleave',
+      'Attack with increased damage',
       SkillPrototype({
         requiredLevel: 1,
         skillType: SkillType.COMBAT,
@@ -42,18 +32,16 @@ library LibInitSkill {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      SkillPrototypeExt({
-        name: 'Cleave',
-        description: 'Attack with increased damage'
-      }),
-      _effectStatmods(
+      effectStatmods(
         Topics.ATTACK, Op.MUL, Element.ALL, 16,
         Topics.ATTACK, Op.ADD, Element.PHYSICAL, 2
       )
     );
 
     // 2 
-    system.execute(
+    add(
+      'Charge',
+      'Greatly increase attack damage for the next combat round',
       SkillPrototype({
         requiredLevel: 2,
         skillType: SkillType.NONCOMBAT,
@@ -65,17 +53,15 @@ library LibInitSkill {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      SkillPrototypeExt({
-        name: 'Charge',
-        description: 'Greatly increase attack damage for the next combat round'
-      }),
-      _effectStatmods(
+      effectStatmods(
         Topics.ATTACK, Op.MUL, Element.ALL, 64
       )
     );
 
     // 3
-    system.execute(
+    add(
+      'Parry',
+      'Increase physical resistance',
       SkillPrototype({
         requiredLevel: 3,
         skillType: SkillType.PASSIVE,
@@ -87,17 +73,15 @@ library LibInitSkill {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      SkillPrototypeExt({
-        name: 'Parry',
-        description: 'Increase physical resistance'
-      }),
-      _effectStatmods(
+      effectStatmods(
         Topics.RESISTANCE, Op.ADD, Element.PHYSICAL, 8
       )
     );
 
     // 4
-    system.execute(
+    add(
+      'Onslaught',
+      'Increase attack damage and recover some life per round',
       SkillPrototype({
         requiredLevel: 4,
         skillType: SkillType.NONCOMBAT,
@@ -109,18 +93,16 @@ library LibInitSkill {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      SkillPrototypeExt({
-        name: 'Onslaught',
-        description: 'Increase attack damage and recover some life per round'
-      }),
-      _effectStatmods(
+      effectStatmods(
         Topics.ATTACK, Op.MUL, Element.ALL, 32,
         Topics.LIFE_GAINED_PER_TURN, Op.ADD, Element.ALL, 2
       )
     );
 
     // 5
-    system.execute(
+    add(
+      'Toughness',
+      'Increase life',
       SkillPrototype({
         requiredLevel: 5,
         skillType: SkillType.PASSIVE,
@@ -132,17 +114,15 @@ library LibInitSkill {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      SkillPrototypeExt({
-        name: 'Toughness',
-        description: 'Increase life'
-      }),
-      _effectStatmods(
+      effectStatmods(
         Topics.LIFE, Op.MUL, Element.ALL, 8
       )
     );
 
     // 6
-    system.execute(
+    add(
+      'Thunder Clap',
+      'Attack and deal physical spell damage',
       SkillPrototype({
         requiredLevel: 6,
         skillType: SkillType.COMBAT,
@@ -154,15 +134,13 @@ library LibInitSkill {
         effectTarget: TargetType.SELF,
         spellDamage: [uint32(0), 8, 0, 0, 0]
       }),
-      SkillPrototypeExt({
-        name: 'Thunder Clap',
-        description: 'Attack and deal physical spell damage'
-      }),
-      _effectStatmods()
+      effectStatmods()
     );
 
     // 7
-    system.execute(
+    add(
+      'Precise Strikes',
+      'Increase attack damage',
       SkillPrototype({
         requiredLevel: 7,
         skillType: SkillType.PASSIVE,
@@ -174,17 +152,15 @@ library LibInitSkill {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      SkillPrototypeExt({
-        name: 'Precise Strikes',
-        description: 'Increase attack damage'
-      }),
-      _effectStatmods(
+      effectStatmods(
         Topics.ATTACK, Op.MUL, Element.ALL, 8
       )
     );
 
     // 8
-    system.execute(
+    add(
+      'Blood Rage',
+      'Gain an extra turn after a kill, once per day',
       SkillPrototype({
         requiredLevel: 8,
         skillType: SkillType.PASSIVE,
@@ -197,15 +173,13 @@ library LibInitSkill {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      SkillPrototypeExt({
-        name: 'Blood Rage',
-        description: 'Gain an extra turn after a kill, once per day'
-      }),
-      _effectStatmods()
+      effectStatmods()
     );
 
     // 9
-    system.execute(
+    add(
+      'Retaliation',
+      'Increases physical resistance\nIncreases physical attack damage proportional to missing life',
       SkillPrototype({
         requiredLevel: 9,
         skillType: SkillType.NONCOMBAT,
@@ -217,18 +191,16 @@ library LibInitSkill {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      SkillPrototypeExt({
-        name: 'Retaliation',
-        description: 'Increases physical resistance\nIncreases physical attack damage proportional to missing life'
-      }),
-      _effectStatmods(
+      effectStatmods(
         Topics.RESISTANCE, Op.ADD, Element.PHYSICAL, 8,
         Topics.PERCENT_OF_MISSING_LIFE_TO_ATTACK, Op.ADD, Element.PHYSICAL, 400
       )
     );
 
     // 10
-    system.execute(
+    add(
+      'Last Stand',
+      'Gain temporary life for 4 rounds',
       SkillPrototype({
         requiredLevel: 10,
         skillType: SkillType.COMBAT,
@@ -240,11 +212,7 @@ library LibInitSkill {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      SkillPrototypeExt({
-        name: 'Last Stand',
-        description: 'Gain temporary life for 4 rounds'
-      }),
-      _effectStatmods(
+      effectStatmods(
         Topics.LIFE, Op.MUL, Element.ALL, 32
         // TODO should this even be a modifier?
         //'recover #% of base life', 32
@@ -252,7 +220,10 @@ library LibInitSkill {
     );
 
     // 11
-    system.execute(
+    add(
+      'Weapon Mastery',
+      // TODO this dual-wielding thing
+      'Allows dual wielding one-handed weapons\nIncreases base attack',
       SkillPrototype({
         requiredLevel: 11,
         skillType: SkillType.PASSIVE,
@@ -264,32 +235,11 @@ library LibInitSkill {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      SkillPrototypeExt({
-        name: 'Weapon Mastery',
-        // TODO this dual-wielding thing
-        description: 'Allows dual wielding one-handed weapons\nIncreases base attack'
-      }),
-      _effectStatmods(
+      effectStatmods(
         Topics.ATTACK, Op.BADD, Element.PHYSICAL, 1
       )
     );
-  }
 
-
-  // ================ HELPERS ================
-
-  function _timeStruct(string memory timeTopic, uint256 timeValue) private pure returns (TimeStruct memory) {
-    return TimeStruct({
-      timeTopic: bytes4(keccak256(bytes(timeTopic))),
-      timeValue: timeValue
-    });
-  }
-
-  function _noTime() private pure returns (TimeStruct memory) {
-    return _timeStruct('', 0);
-  }
-
-  function _emptyElemental() private pure returns (uint32[EL_L] memory) {
-    return [uint32(0), 0, 0, 0, 0];
+    return '';
   }
 }

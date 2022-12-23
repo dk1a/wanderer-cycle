@@ -5,7 +5,7 @@ pragma solidity ^0.8.17;
 import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 
 import { PS_L, PStat } from "./LibExperience.sol";
-import { statmodName } from "../statmod/utils.sol";
+import { statmodName } from "../statmod/statmodName.sol";
 import { Op, Element, StatmodPrototype, getStatmodProtoEntity } from "../statmod/StatmodPrototypeComponent.sol";
 
 type Topic is uint256;

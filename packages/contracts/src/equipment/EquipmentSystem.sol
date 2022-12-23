@@ -5,10 +5,7 @@ pragma solidity ^0.8.17;
 import { System } from "@latticexyz/solecs/src/System.sol";
 import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
-
-// TODO SystemFacet is a crutch
-import { SystemFacet } from "@dk1a/solecslib/contracts/mud/SystemFacet.sol";
-import { SystemStorage } from "@dk1a/solecslib/contracts/mud/SystemStorage.sol";
+import { Subsystem } from "@latticexyz/solecs/src/Subsystem.sol";
 
 import { EquipmentSlotComponent, ID as EquipmentSlotComponentID } from "./EquipmentSlotComponent.sol";
 import { EquipmentSlotAllowedComponent, ID as EquipmentSlotAllowedComponentID } from "./EquipmentSlotAllowedComponent.sol";
@@ -27,7 +24,7 @@ enum EquipmentAction {
 /**
  * @title Library-like system for other systems that need equipment
  */
-contract EquipmentSystem is SystemFacet {
+contract EquipmentSystem is Subsystem {
   using LibEffect for LibEffect.Self;
 
   error EquipmentSystem__InvalidEquipmentAction();
@@ -35,9 +32,7 @@ contract EquipmentSystem is SystemFacet {
   error EquipmentSystem__SlotNotAllowedForPrototype();
   error EquipmentSystem__EquipmentEntityAlreadyEquipped();
 
-  constructor(IWorld _world, address _components) {
-    __SystemFacet_init(_world, _components);
-  }
+  constructor(IWorld _world, address _components) Subsystem(_world, _components) {}
 
   function executeTyped(
     EquipmentAction equipmentAction,
@@ -52,7 +47,7 @@ contract EquipmentSystem is SystemFacet {
    * @notice UNEQUIP/EQUIP target's slot with entity
    * @dev For UNEQUIP equipmentEntity is irrelevant and can just be 0
    */
-  function execute(bytes memory arguments) public onlyWriter returns (bytes memory) {
+  function _execute(bytes memory arguments) internal override returns (bytes memory) {
     (
       EquipmentAction equipmentAction,
       uint256 equipmentSlot,
@@ -60,11 +55,9 @@ contract EquipmentSystem is SystemFacet {
       uint256 targetEntity
     ) = abi.decode(arguments, (EquipmentAction, uint256, uint256, uint256));
 
-    EquipmentSlotComponent slotComp = EquipmentSlotComponent(
-      getAddressById(SystemStorage.layout().components, EquipmentSlotComponentID)
-    );
+    EquipmentSlotComponent slotComp = EquipmentSlotComponent(getAddressById(components, EquipmentSlotComponentID));
     // TODO equipmentSlot should be bound to targetEntity, atm they seem too loosely related
-    LibEffect.Self memory modelEffect = LibEffect.__construct(SystemStorage.layout().components, targetEntity);
+    LibEffect.Self memory modelEffect = LibEffect.__construct(components, targetEntity);
 
     if (equipmentAction == EquipmentAction.UNEQUIP) {
       _unequip(slotComp, modelEffect, equipmentSlot);
@@ -102,10 +95,10 @@ contract EquipmentSystem is SystemFacet {
     // equipmentEntity must have equipment prototype
     // TODO this looks dubious, and also very long
     FromPrototypeComponent fromProtoComp = FromPrototypeComponent(
-      getAddressById(SystemStorage.layout().components, FromPrototypeComponentID)
+      getAddressById(components, FromPrototypeComponentID)
     );
     EquipmentPrototypeComponent protoComp = EquipmentPrototypeComponent(
-      getAddressById(SystemStorage.layout().components, EquipmentPrototypeComponentID)
+      getAddressById(components, EquipmentPrototypeComponentID)
     );
     uint256 protoEntity = fromProtoComp.getValue(equipmentEntity);
     if (!protoComp.has(protoEntity)) {
@@ -114,7 +107,7 @@ contract EquipmentSystem is SystemFacet {
 
     // the slot must allow the equipment prototype
     EquipmentSlotAllowedComponent slotAllowedComp = EquipmentSlotAllowedComponent(
-      getAddressById(SystemStorage.layout().components, EquipmentSlotAllowedComponentID)
+      getAddressById(components, EquipmentSlotAllowedComponentID)
     );
     bool isAllowed = slotAllowedComp.hasItem(equipmentSlot, protoEntity);
     if (!isAllowed) {
