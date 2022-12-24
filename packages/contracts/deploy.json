@@ -85,7 +85,7 @@
       "writeAccess": ["EffectSubsystem", "LifeCurrentComponent", "ManaCurrentComponent"]
     },
     {
-      "name": "EquipmentSystem",
+      "name": "EquipmentSubsystem",
       "writeAccess": ["EffectSubsystem", "EquipmentSlotComponent"]
     },
 
@@ -100,7 +100,7 @@
       "initialize": "new bytes(0)"
     },
     {
-      "name": "InitEquipmentSystem",
+      "name": "InitEquipmentSubsystem",
       "writeAccess": ["EquipmentPrototypeComponent", "NameComponent"],
       "initialize": "new bytes(0)"
     },

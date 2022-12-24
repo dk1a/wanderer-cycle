@@ -22,13 +22,18 @@ enum EquipmentAction {
 }
 
 /**
- * @title Library-like system for other systems that need equipment
+ * @title Subsystem to equip stuff to slots based on slot to prototype allowances.
+ * @dev Equipment prototypes are a few entities (like `Clothing` or `Boots`) in `EquipmentPrototypeComponent`.
+ * Slots are entities defined only by allowed equipment prototypes via `EquipmentSlotAllowedComponent`.
+ * (Fun fact: this allows characters to have different/dynamic sets of limbs).
+ * Actual equipment entities are anything that uses `FromPrototypeComponent` to link to an equipment prototype.
+ * Currently equipped slot=>entity mapping is in `EquipmentSlotComponent`.
  */
-contract EquipmentSystem is Subsystem {
-  error EquipmentSystem__InvalidEquipmentAction();
-  error EquipmentSystem__InvalidEquipmentPrototype();
-  error EquipmentSystem__SlotNotAllowedForPrototype();
-  error EquipmentSystem__EquipmentEntityAlreadyEquipped();
+contract EquipmentSubsystem is Subsystem {
+  error EquipmentSubsystem__InvalidEquipmentAction();
+  error EquipmentSubsystem__InvalidEquipmentPrototype();
+  error EquipmentSubsystem__SlotNotAllowedForPrototype();
+  error EquipmentSubsystem__EquipmentEntityAlreadyEquipped();
 
   constructor(IWorld _world, address _components) Subsystem(_world, _components) {}
 
@@ -62,7 +67,7 @@ contract EquipmentSystem is Subsystem {
     } else if (equipmentAction == EquipmentAction.EQUIP) {
       _equip(slotComp, effectSubsystem, targetEntity, equipmentSlot, equipmentEntity);
     } else {
-      revert EquipmentSystem__InvalidEquipmentAction();
+      revert EquipmentSubsystem__InvalidEquipmentAction();
     }
 
     return '';
@@ -102,7 +107,7 @@ contract EquipmentSystem is Subsystem {
     );
     uint256 protoEntity = fromProtoComp.getValue(equipmentEntity);
     if (!protoComp.has(protoEntity)) {
-      revert EquipmentSystem__InvalidEquipmentPrototype();
+      revert EquipmentSubsystem__InvalidEquipmentPrototype();
     }
 
     // the slot must allow the equipment prototype
@@ -111,13 +116,13 @@ contract EquipmentSystem is Subsystem {
     );
     bool isAllowed = slotAllowedComp.hasItem(equipmentSlot, protoEntity);
     if (!isAllowed) {
-      revert EquipmentSystem__SlotNotAllowedForPrototype();
+      revert EquipmentSubsystem__SlotNotAllowedForPrototype();
     }
 
     // entity may not be equipped in 2 slots
     uint256[] memory slotsWithEquipmentEntity = slotComp.getEntitiesWithValue(equipmentEntity);
     if (slotsWithEquipmentEntity.length > 0) {
-      revert EquipmentSystem__EquipmentEntityAlreadyEquipped();
+      revert EquipmentSubsystem__EquipmentEntityAlreadyEquipped();
     }
 
     slotComp.set(equipmentSlot, equipmentEntity);

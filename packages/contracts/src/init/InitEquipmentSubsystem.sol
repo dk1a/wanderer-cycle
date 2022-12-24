@@ -17,7 +17,7 @@ uint256 constant ID = uint256(keccak256("system.InitEquipment"));
 
 // Inititalize equipment prototypes
 // Sets of equipment protoEntities are used to determine what can be equipped in slots
-contract InitEquipmentSystem is System {
+contract InitEquipmentSubsystem is System {
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
   function execute(bytes memory) public override onlyOwner returns (bytes memory) {

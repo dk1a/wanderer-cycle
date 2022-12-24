@@ -22,7 +22,7 @@ renderEjs(initPath + "InitReverseHashNameSystem.ejs", {
 })
 
 // flatten components and systems
-const files = glob.sync("src/!(flattened)/*.sol", {})
+const files = glob.sync("src/!(flattened)/!(LibDeploy).sol", {})
 const flattenedDir = "src/flattened"  
 rimraf.sync(flattenedDir)
 mkdirSync(flattenedDir)
