@@ -2,16 +2,13 @@
 
 pragma solidity ^0.8.17;
 
-import { Test } from "../../Test.sol";
+import { BaseTest } from "../../BaseTest.sol";
 
 import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
-import { World } from "@latticexyz/solecs/src/World.sol";
-import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
-import { getSkillProtoEntity, SkillPrototypeComponent } from "../SkillPrototypeComponent.sol";
-
-import { DurationSubsystem, ID as DurationSubsystemID, ScopedDuration, SystemCallback  } from "../../duration/DurationSubsystem.sol";
-import { EffectSubsystem, ID as EffectSubsystemID, getEffectEntity } from "../../effect/EffectSubsystem.sol";
+import { ScopedDuration } from "../../duration/DurationSubsystem.sol";
+import { getSkillProtoEntity } from "../SkillPrototypeComponent.sol";
+import { getEffectEntity } from "../../effect/EffectSubsystem.sol";
 
 import { LibSkill } from "../LibSkill.sol";
 import { LibLearnedSkills } from "../LibLearnedSkills.sol";
@@ -30,15 +27,10 @@ contract LibSkillRevertHelper {
   }
 }
 
-contract LibSkillTest is Test {
+contract LibSkillTest is BaseTest {
   using LibSkill for LibSkill.Self;
   using LibLearnedSkills for LibLearnedSkills.Self;
   using LibCharstat for LibCharstat.Self;
-
-  IUint256Component components;
-
-  DurationSubsystem durationSubsystem;
-  EffectSubsystem effectSubsystem;
 
   // helpers
   LibSkillRevertHelper revertHelper;
@@ -59,11 +51,7 @@ contract LibSkillTest is Test {
   function setUp() public virtual override {
     super.setUp();
 
-    // init systems
-    durationSubsystem = DurationSubsystem(getAddressById(world.systems(), DurationSubsystemID));
-    effectSubsystem = EffectSubsystem(getAddressById(world.systems(), EffectSubsystemID));
-
-    components = world.components();
+    IUint256Component components = world.components();
     // init helpers and libs
     revertHelper = new LibSkillRevertHelper();
     charstat = LibCharstat.__construct(components, userEntity);

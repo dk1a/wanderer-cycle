@@ -5,4 +5,5 @@ types/
 flattened/
 
 LibDeploy.sol
+BaseTest.sol
 InitReverseHashNameSystem.sol

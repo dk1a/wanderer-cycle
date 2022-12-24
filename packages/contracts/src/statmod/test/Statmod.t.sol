@@ -2,9 +2,7 @@
 
 pragma solidity ^0.8.17;
 
-import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
-
-import { Test } from "../../Test.sol";
+import { BaseTest } from "../../BaseTest.sol";
 
 import { Topics } from "../../charstat/Topics.sol";
 import { Statmod } from "../Statmod.sol";
@@ -12,12 +10,10 @@ import {
   Op, OP_L, OP_FINAL,
   Element, EL_L,
   getStatmodProtoEntity,
-  StatmodPrototype,
-  StatmodPrototypeComponent,
-  ID as StatmodPrototypeComponentID
+  StatmodPrototype
 } from "../StatmodPrototypeComponent.sol";
 
-contract StatmodTest is Test {
+contract StatmodTest is BaseTest {
   using Statmod for Statmod.Self;
 
   // this should normally be an in-memory object, it's in storage for testing convenience
@@ -38,17 +34,14 @@ contract StatmodTest is Test {
   function setUp() public override {
     super.setUp();
 
-    StatmodPrototypeComponent protoComp
-      = StatmodPrototypeComponent(getAddressById(world.components(), StatmodPrototypeComponentID));
+    statmodPrototypeComponent.set(addLifePE, StatmodPrototype(lifeTopic, Op.ADD, Element.ALL));
+    statmodPrototypeComponent.set(mulLifePE, StatmodPrototype(lifeTopic, Op.MUL, Element.ALL));
+    statmodPrototypeComponent.set(baddLifePE, StatmodPrototype(lifeTopic, Op.BADD, Element.ALL));
 
-    protoComp.set(addLifePE, StatmodPrototype(lifeTopic, Op.ADD, Element.ALL));
-    protoComp.set(mulLifePE, StatmodPrototype(lifeTopic, Op.MUL, Element.ALL));
-    protoComp.set(baddLifePE, StatmodPrototype(lifeTopic, Op.BADD, Element.ALL));
-
-    protoComp.set(mulAttackPE, StatmodPrototype(attackTopic, Op.MUL, Element.ALL));
-    protoComp.set(mulFireAttackPE, StatmodPrototype(attackTopic, Op.MUL, Element.FIRE));
-    protoComp.set(addFireAttackPE, StatmodPrototype(attackTopic, Op.ADD, Element.FIRE));
-    protoComp.set(addColdAttackPE, StatmodPrototype(attackTopic, Op.ADD, Element.COLD));
+    statmodPrototypeComponent.set(mulAttackPE, StatmodPrototype(attackTopic, Op.MUL, Element.ALL));
+    statmodPrototypeComponent.set(mulFireAttackPE, StatmodPrototype(attackTopic, Op.MUL, Element.FIRE));
+    statmodPrototypeComponent.set(addFireAttackPE, StatmodPrototype(attackTopic, Op.ADD, Element.FIRE));
+    statmodPrototypeComponent.set(addColdAttackPE, StatmodPrototype(attackTopic, Op.ADD, Element.COLD));
 
     // init library's object
     _statmod = Statmod.__construct(

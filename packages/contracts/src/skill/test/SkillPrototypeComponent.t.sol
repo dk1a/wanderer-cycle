@@ -2,28 +2,11 @@
 
 pragma solidity ^0.8.17;
 
-import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
+import { BaseTest } from "../../BaseTest.sol";
 
-import { Test } from "../../Test.sol";
+import { SkillType, TargetType, getSkillProtoEntity } from "../SkillPrototypeComponent.sol";
 
-import {
-  SkillType,
-  TargetType,
-  getSkillProtoEntity,
-  SkillPrototypeComponent,
-  ID as SkillPrototypeComponentID
-} from "../SkillPrototypeComponent.sol";
-import {
-  EffectPrototypeComponent,
-  ID as EffectPrototypeComponentID
-} from "../../effect/EffectPrototypeComponent.sol";
-import { NameComponent, ID as NameComponentID } from "../../common/NameComponent.sol";
-
-contract SkillPrototypeComponentTest is Test {
-  SkillPrototypeComponent protoComp;
-  EffectPrototypeComponent effectProtoComp;
-  NameComponent nameComp;
-
+contract SkillPrototypeComponentTest is BaseTest {
   // sample skill entities
   uint256 chargePE = getSkillProtoEntity('Charge');
   uint256 parryPE = getSkillProtoEntity('Parry');
@@ -31,35 +14,25 @@ contract SkillPrototypeComponentTest is Test {
 
   function setUp() public virtual override {
     super.setUp();
-
-    protoComp = SkillPrototypeComponent(
-      getAddressById(world.components(), SkillPrototypeComponentID)
-    );
-    nameComp = NameComponent(
-      getAddressById(world.components(), NameComponentID)
-    );
-    effectProtoComp = EffectPrototypeComponent(
-      getAddressById(world.components(), EffectPrototypeComponentID)
-    );
   }
 
   function testSampleEffectStatmodsLength() public {
-    assertEq(effectProtoComp.getValue(chargePE).statmods.length, 1);
+    assertEq(effectPrototypeComponent.getValue(chargePE).statmods.length, 1);
   }
 
   function testSampleName() public {
-    assertEq(nameComp.getValue(chargePE), 'Charge');
+    assertEq(nameComponent.getValue(chargePE), 'Charge');
   }
 
   function testSampleTargetTypes() public {
-    assertTrue(protoComp.getValue(chargePE).effectTarget == TargetType.SELF);
-    assertTrue(protoComp.getValue(parryPE).effectTarget == TargetType.SELF);
-    assertTrue(protoComp.getValue(cleavePE).effectTarget == TargetType.SELF);
+    assertTrue(skillPrototypeComponent.getValue(chargePE).effectTarget == TargetType.SELF);
+    assertTrue(skillPrototypeComponent.getValue(parryPE).effectTarget == TargetType.SELF);
+    assertTrue(skillPrototypeComponent.getValue(cleavePE).effectTarget == TargetType.SELF);
   }
 
   function testSampelSkillTypes() public {
-    assertTrue(protoComp.getValue(chargePE).skillType == SkillType.NONCOMBAT);
-    assertTrue(protoComp.getValue(parryPE).skillType == SkillType.PASSIVE);
-    assertTrue(protoComp.getValue(cleavePE).skillType == SkillType.COMBAT);
+    assertTrue(skillPrototypeComponent.getValue(chargePE).skillType == SkillType.NONCOMBAT);
+    assertTrue(skillPrototypeComponent.getValue(parryPE).skillType == SkillType.PASSIVE);
+    assertTrue(skillPrototypeComponent.getValue(cleavePE).skillType == SkillType.COMBAT);
   }
 }

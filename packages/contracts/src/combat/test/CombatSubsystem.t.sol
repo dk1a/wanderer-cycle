@@ -2,21 +2,14 @@
 
 pragma solidity ^0.8.17;
 
-import { Test } from "../../Test.sol";
-
-import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
+import { BaseTest } from "../../BaseTest.sol";
 
 import { Topics } from "../../charstat/Topics.sol";
 import { LibCharstat, PStat } from "../../charstat/LibCharstat.sol";
 import { Statmod, Op, Element, EL_L } from "../../statmod/Statmod.sol";
-import {
-  CombatSubsystem,
-  ID as CombatSubsystemID,
-  Action,
-  ActionType
-} from "../CombatSubsystem.sol";
+import { CombatSubsystem, Action, ActionType } from "../CombatSubsystem.sol";
 
-contract CombatSubsystemTest is Test {
+contract CombatSubsystemTest is BaseTest {
   using LibCharstat for LibCharstat.Self;
   using Statmod for Statmod.Self;
 
@@ -28,8 +21,6 @@ contract CombatSubsystemTest is Test {
   // libs
   LibCharstat.Self playerCharstat;
   LibCharstat.Self encounterCharstat;
-
-  CombatSubsystem combatSubsystem;
 
   Action[] _noActions;
 
@@ -44,8 +35,7 @@ contract CombatSubsystemTest is Test {
   function setUp() public virtual override {
     super.setUp();
 
-    // get systems
-    combatSubsystem = CombatSubsystem(getAddressById(world.systems(), CombatSubsystemID));
+    // authorize writer
     combatSubsystem.authorizeWriter(writer);
 
     // init libs
