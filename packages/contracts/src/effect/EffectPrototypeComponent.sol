@@ -13,14 +13,10 @@ enum EffectRemovability {
   PERSISTENT
 }
 
-struct EffectStatmod {
-  uint256 statmodProtoEntity;
-  uint256 value;
-}
-
 struct EffectPrototype {
   EffectRemovability removability;
-  EffectStatmod[] statmods;
+  uint256[] statmodProtoEntities;
+  uint256[] statmodValues;
 }
 
 contract EffectPrototypeComponent is BareComponent {
@@ -40,13 +36,15 @@ contract EffectPrototypeComponent is BareComponent {
 }
 
 function _getSchema() pure returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
-  keys = new string[](2);
-  values = new LibTypes.SchemaValue[](2);
+  keys = new string[](3);
+  values = new LibTypes.SchemaValue[](3);
 
   keys[0] = "removability";
   values[0] = LibTypes.SchemaValue.UINT8;
 
-  // TODO what about struct arrays?
-  keys[1] = "statmods";
-  values[1] = LibTypes.SchemaValue.BYTES_ARRAY;
+  keys[1] = "statmodProtoEntities";
+  values[1] = LibTypes.SchemaValue.UINT256_ARRAY;
+
+  keys[2] = "statmodValues";
+  values[2] = LibTypes.SchemaValue.UINT256_ARRAY;
 }

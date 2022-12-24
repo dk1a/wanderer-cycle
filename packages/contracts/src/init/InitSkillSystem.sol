@@ -9,7 +9,7 @@ import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 import { BaseInitSkillSystem } from "./BaseInitSkillSystem.sol";
 import { SkillType, TargetType, SkillPrototype } from "../skill/SkillPrototypeComponent.sol";
 import { Topics, Op, Element } from "../charstat/Topics.sol";
-import { effectStatmods } from "../effect/effectStatmods.sol";
+import { makeEffectPrototype, EffectRemovability } from "../effect/makeEffectPrototype.sol";
 
 uint256 constant ID = uint256(keccak256("system.InitSkill"));
 
@@ -32,7 +32,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      effectStatmods(
+      makeEffectPrototype(
+        EffectRemovability.BUFF,
         Topics.ATTACK, Op.MUL, Element.ALL, 16,
         Topics.ATTACK, Op.ADD, Element.PHYSICAL, 2
       )
@@ -53,7 +54,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      effectStatmods(
+      makeEffectPrototype(
+        EffectRemovability.BUFF,
         Topics.ATTACK, Op.MUL, Element.ALL, 64
       )
     );
@@ -73,7 +75,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      effectStatmods(
+      makeEffectPrototype(
+        EffectRemovability.PERSISTENT,
         Topics.RESISTANCE, Op.ADD, Element.PHYSICAL, 8
       )
     );
@@ -93,7 +96,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      effectStatmods(
+      makeEffectPrototype(
+        EffectRemovability.BUFF,
         Topics.ATTACK, Op.MUL, Element.ALL, 32,
         Topics.LIFE_GAINED_PER_TURN, Op.ADD, Element.ALL, 2
       )
@@ -114,7 +118,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      effectStatmods(
+      makeEffectPrototype(
+        EffectRemovability.PERSISTENT,
         Topics.LIFE, Op.MUL, Element.ALL, 8
       )
     );
@@ -134,7 +139,7 @@ contract InitSkillSystem is BaseInitSkillSystem {
         effectTarget: TargetType.SELF,
         spellDamage: [uint32(0), 8, 0, 0, 0]
       }),
-      effectStatmods()
+      makeEffectPrototype()
     );
 
     // 7
@@ -152,7 +157,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      effectStatmods(
+      makeEffectPrototype(
+        EffectRemovability.PERSISTENT,
         Topics.ATTACK, Op.MUL, Element.ALL, 8
       )
     );
@@ -173,7 +179,7 @@ contract InitSkillSystem is BaseInitSkillSystem {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      effectStatmods()
+      makeEffectPrototype()
     );
 
     // 9
@@ -191,7 +197,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      effectStatmods(
+      makeEffectPrototype(
+        EffectRemovability.BUFF,
         Topics.RESISTANCE, Op.ADD, Element.PHYSICAL, 8,
         Topics.PERCENT_OF_MISSING_LIFE_TO_ATTACK, Op.ADD, Element.PHYSICAL, 400
       )
@@ -212,7 +219,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      effectStatmods(
+      makeEffectPrototype(
+        EffectRemovability.BUFF,
         Topics.LIFE, Op.MUL, Element.ALL, 32
         // TODO should this even be a modifier?
         //'recover #% of base life', 32
@@ -235,7 +243,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
         effectTarget: TargetType.SELF,
         spellDamage: _emptyElemental()
       }),
-      effectStatmods(
+      makeEffectPrototype(
+        EffectRemovability.PERSISTENT,
         Topics.ATTACK, Op.BADD, Element.PHYSICAL, 1
       )
     );

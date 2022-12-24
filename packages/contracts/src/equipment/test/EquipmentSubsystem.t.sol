@@ -8,10 +8,10 @@ import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Com
 
 import { EquipmentSubsystem, EquipmentAction } from "../EquipmentSubsystem.sol";
 import { LibEffectPrototype } from "../../effect/LibEffectPrototype.sol";
-import { EffectPrototype, EffectStatmod, EffectRemovability } from "../../effect/EffectPrototypeComponent.sol";
+import { EffectPrototype, EffectRemovability } from "../../effect/EffectPrototypeComponent.sol";
 import { getEquipmentProtoEntity } from "../EquipmentPrototypeComponent.sol";
 import { Topics, Op, Element } from "../../charstat/Topics.sol";
-import { effectStatmods } from "../../effect/effectStatmods.sol";
+import { makeEffectPrototype } from "../../effect/makeEffectPrototype.sol";
 
 contract EquipmentSubsystemTest is BaseTest {
   uint256 playerEntity = uint256(keccak256('playerEntity'));
@@ -44,37 +44,33 @@ contract EquipmentSubsystemTest is BaseTest {
 
     // init equipment
     fromPrototypeComponent.set(armor, clothingProtoEntity);
-    LibEffectPrototype.verifiedSet(components, armor, _effectProto(effectStatmods(
+    LibEffectPrototype.verifiedSet(components, armor, makeEffectPrototype(
+      EffectRemovability.PERSISTENT,
       Topics.RESISTANCE, Op.ADD, Element.PHYSICAL, 40
-    )));
+    ));
 
     fromPrototypeComponent.set(sword1, weaponProtoEntity);
-    LibEffectPrototype.verifiedSet(components, sword1, _effectProto(effectStatmods(
-      Topics.ATTACK, Op.ADD, Element.PHYSICAL, 100,
+    LibEffectPrototype.verifiedSet(components, sword1, makeEffectPrototype(
+      EffectRemovability.PERSISTENT,
       Topics.ATTACK, Op.MUL, Element.ALL, 100
-    )));
+    ));
 
     fromPrototypeComponent.set(sword2, weaponProtoEntity);
-    LibEffectPrototype.verifiedSet(components, sword2, _effectProto(effectStatmods(
+    LibEffectPrototype.verifiedSet(components, sword2, makeEffectPrototype(
+      EffectRemovability.PERSISTENT,
       Topics.ATTACK, Op.ADD, Element.FIRE, 100,
       Topics.ATTACK, Op.MUL, Element.FIRE, 100
-    )));
+    ));
 
     fromPrototypeComponent.set(shield, shieldProtoEntity);
-    LibEffectPrototype.verifiedSet(components, shield, _effectProto(effectStatmods(
+    LibEffectPrototype.verifiedSet(components, shield, makeEffectPrototype(
+      EffectRemovability.PERSISTENT,
       Topics.RESISTANCE, Op.ADD, Element.PHYSICAL, 40,
       Topics.RESISTANCE, Op.ADD, Element.FIRE, 40
-    )));
+    ));
 
     // non-equipment prototype
     fromPrototypeComponent.set(miscThing, miscThing);
-  }
-
-  function _effectProto(EffectStatmod[] memory statmods) internal pure returns (EffectPrototype memory) {
-    return EffectPrototype({
-      removability: EffectRemovability.PERSISTENT,
-      statmods: statmods
-    });
   }
 
   // TODO test that effects are applied/removed correctly

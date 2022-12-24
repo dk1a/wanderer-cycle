@@ -8,7 +8,6 @@ import { Subsystem } from "@latticexyz/solecs/src/Subsystem.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 import {
   EffectRemovability,
-  EffectStatmod,
   EffectPrototype,
   EffectPrototypeComponent,
   ID as EffectPrototypeComponentID
@@ -77,11 +76,11 @@ contract EffectSubsystem is Subsystem {
       comp.set(appliedEntity, effect);
       // increase statmods
       // TODO figure out what to do if statmods are empty
-      for (uint256 i; i < effect.statmods.length; i++) {
+      for (uint256 i; i < effect.statmodProtoEntities.length; i++) {
         Statmod.increase(
           statmod,
-          effect.statmods[i].statmodProtoEntity,
-          effect.statmods[i].value
+          effect.statmodProtoEntities[i],
+          effect.statmodValues[i]
         );
       }
     }
@@ -101,11 +100,11 @@ contract EffectSubsystem is Subsystem {
     comp.remove(appliedEntity);
     // subtract statmods
     Statmod.Self memory statmod = Statmod.__construct(components, targetEntity);
-    for (uint256 i; i < effect.statmods.length; i++) {
+    for (uint256 i; i < effect.statmodProtoEntities.length; i++) {
       Statmod.decrease(
         statmod,
-        effect.statmods[i].statmodProtoEntity,
-        effect.statmods[i].value
+        effect.statmodProtoEntities[i],
+        effect.statmodValues[i]
       );
     }
   }

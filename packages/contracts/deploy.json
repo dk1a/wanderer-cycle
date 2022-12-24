@@ -28,8 +28,10 @@
     "EquipmentPrototypeComponent",
 
     "AffixPrototypeComponent",
+    "AffixPrototypeGroupComponent",
     "AffixNamingComponent",
     "AffixAvailabilityComponent",
+    "LootComponent",
 
     "ActiveGuiseComponent",
     "GuisePrototypeComponent",
@@ -88,6 +90,10 @@
       "name": "EquipmentSubsystem",
       "writeAccess": ["EffectSubsystem", "EquipmentSlotComponent"]
     },
+    {
+      "name": "LootMintSubsystem",
+      "writeAccess": ["WNFTSubsystem", "LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"]
+    },
 
     {
       "name": "InitReverseHashNameSystem",
@@ -108,6 +114,7 @@
       "name": "InitAffixSystem",
       "writeAccess": [
         "AffixPrototypeComponent",
+        "AffixPrototypeGroupComponent",
         "AffixNamingComponent",
         "AffixAvailabilityComponent",
         "NameComponent"

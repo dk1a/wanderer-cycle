@@ -31,6 +31,11 @@ import {
   AffixAvailabilityComponent,
   ID as AffixAvailabilityComponentID
 } from "../loot/AffixAvailabilityComponent.sol";
+import {
+  getAffixProtoGroupEntity,
+  AffixPrototypeGroupComponent,
+  ID as AffixPrototypeGroupComponentID
+} from "../loot/AffixPrototypeGroupComponent.sol";
 
 struct AffixPart {
   AffixPartId partId;
@@ -38,12 +43,16 @@ struct AffixPart {
   string label;
 }
 
+/// @dev hardcoded number of currently expected tiers
+uint256 constant TIER_L = 4;
+/// @dev tier and required ilvl are always equal currently
+uint256 constant MAX_ILVL = 4;
+
 /// @dev Affixes have a complex structure, however most complexity is shoved into this BaseInit,
 /// so the child inits and affix components are relatively simple.
 ///
 /// Each affix has: name, associated statmod, tier.
-/// Affixes with the same name (but different tiers) should share a statmod,
-/// but for simplicity this is only enforced during initialization.
+/// Affixes with the same name (but different tiers) are grouped together via `AffixPrototypeGroupComponent`.
 ///
 /// Tiers are 1,2,3,4..., higher means better affixes (tiers can be skipped).
 /// Each affix's tier has 1 min-max range and a set of affix parts.
@@ -59,11 +68,6 @@ abstract contract BaseInitAffixSystem is System {
   error BaseInitAffixSystem__InvalidStatmodPrototype();
 
   constructor(IWorld _world, address _components) System(_world, _components) {}
-
-  /// @dev hardcoded number of currently expected tiers
-  uint256 constant TIER_L = 4;
-  /// @dev tier and required ilvl are always equal currently
-  uint256 constant MAX_ILVL = 4;
 
   /// @dev affix value range
   struct Range {
@@ -134,11 +138,14 @@ abstract contract BaseInitAffixSystem is System {
       = AffixNamingComponent(getAddressById(components, AffixNamingComponentID));
     AffixAvailabilityComponent availabilityComp
       = AffixAvailabilityComponent(getAddressById(components, AffixAvailabilityComponentID));
+    AffixPrototypeGroupComponent groupComp
+      = AffixPrototypeGroupComponent(getAddressById(components, AffixPrototypeGroupComponentID));
     NameComponent nameComp = NameComponent(getAddressById(components, NameComponentID));
 
     uint256 protoEntity = getAffixProtoEntity(affixName, proto.tier);
     protoComp.set(protoEntity, proto);
     nameComp.set(protoEntity, affixName);
+    groupComp.set(protoEntity, getAffixProtoGroupEntity(affixName));
 
     for (uint256 i; i < affixParts.length; i++) {
       AffixPartId partId = affixParts[i].partId;
@@ -186,6 +193,29 @@ abstract contract BaseInitAffixSystem is System {
     r = new uint256[](2);
     r[0] = eqp("Amulet");
     r[1] = eqp("Ring");
+  }
+
+  function _attrEquipment() internal pure returns (uint256[] memory r) {
+    r = new uint256[](4);
+    r[0] = eqp("Weapon");
+    r[1] = eqp("Shield");
+    r[2] = eqp("Hat");
+    r[3] = eqp("Amulet");
+  }
+
+  function _weapon() internal pure returns (uint256[] memory r) {
+    r = new uint256[](1);
+    r[0] = eqp("Weapon");
+  }
+
+  function _resEquipment() internal pure returns (uint256[] memory r) {
+    r = new uint256[](6);
+    r[0] = eqp("Shield");
+    r[1] = eqp("Hat");
+    r[2] = eqp("Clothing");
+    r[3] = eqp("Gloves");
+    r[4] = eqp("Pants");
+    r[5] = eqp("Boots");
   }
 
   function _equipment(string[9] memory _labels) internal pure returns (EL[] memory _dynamic) {

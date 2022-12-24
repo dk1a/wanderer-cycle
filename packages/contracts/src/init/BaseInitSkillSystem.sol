@@ -18,7 +18,7 @@ import {
 } from "../skill/SkillPrototypeComponent.sol";
 import { SkillDescriptionComponent, ID as SkillDescriptionComponentID } from "../skill/SkillDescriptionComponent.sol";
 import { LibEffectPrototype } from "../effect/LibEffectPrototype.sol";
-import { EffectPrototype, EffectRemovability, EffectStatmod } from "../effect/EffectPrototypeComponent.sol";
+import { EffectPrototype } from "../effect/EffectPrototypeComponent.sol";
 import { NameComponent, ID as NameComponentID } from "../common/NameComponent.sol";
 
 abstract contract BaseInitSkillSystem is System {
@@ -43,7 +43,7 @@ abstract contract BaseInitSkillSystem is System {
     string memory name,
     string memory description,
     SkillPrototype memory prototype,
-    EffectStatmod[] memory effectStatmods
+    EffectPrototype memory effectProto
   ) internal {
     SkillPrototypeComponent protoComp = SkillPrototypeComponent(getAddressById(components, SkillPrototypeComponentID));
     SkillDescriptionComponent descComp = SkillDescriptionComponent(getAddressById(components, SkillDescriptionComponentID));
@@ -56,24 +56,8 @@ abstract contract BaseInitSkillSystem is System {
     nameComp.set(entity, name);
 
     // Given statmods, a skill will have an on-use effect prototype
-    if (effectStatmods.length > 0) {
-      EffectPrototype memory effectProto = EffectPrototype({
-        removability: _getRemovability(prototype),
-        statmods: effectStatmods
-      });
+    if (effectProto.statmodProtoEntities.length > 0) {
       LibEffectPrototype.verifiedSet(components, entity, effectProto);
-    }
-  }
-
-  function _getRemovability(
-    SkillPrototype memory skillProto
-  ) private pure returns (EffectRemovability) {
-    if (skillProto.skillType == SkillType.PASSIVE) {
-      return EffectRemovability.PERSISTENT;
-    } else if (skillProto.effectTarget == TargetType.ENEMY) {
-      return EffectRemovability.DEBUFF;
-    } else {
-      return EffectRemovability.BUFF;
     }
   }
 }

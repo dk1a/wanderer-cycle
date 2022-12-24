@@ -17,7 +17,8 @@ contract SkillPrototypeComponentTest is BaseTest {
   }
 
   function testSampleEffectStatmodsLength() public {
-    assertEq(effectPrototypeComponent.getValue(chargePE).statmods.length, 1);
+    assertEq(effectPrototypeComponent.getValue(chargePE).statmodProtoEntities.length, 1);
+    assertEq(effectPrototypeComponent.getValue(chargePE).statmodValues.length, 1);
   }
 
   function testSampleName() public {
