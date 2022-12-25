@@ -6,11 +6,7 @@ import { System } from "@latticexyz/solecs/src/System.sol";
 import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
-import {
-  getEquipmentProtoEntity as eqp,
-  EquipmentPrototypeComponent,
-  ID as EquipmentPrototypeComponentID
-} from "../equipment/EquipmentPrototypeComponent.sol";
+import { EquipmentPrototypeComponent, ID as EquipmentPrototypeComponentID } from "../equipment/EquipmentPrototypeComponent.sol";
 import { StatmodPrototypeComponent, ID as StatmodPrototypeComponentID } from "../statmod/StatmodPrototypeComponent.sol";
 import { NameComponent, ID as NameComponentID } from "../common/NameComponent.sol";
 
@@ -36,6 +32,8 @@ import {
   AffixPrototypeGroupComponent,
   ID as AffixPrototypeGroupComponentID
 } from "../loot/AffixPrototypeGroupComponent.sol";
+
+import { EquipmentPrototypes } from "../equipment/EquipmentPrototypes.sol";
 
 struct AffixPart {
   AffixPartId partId;
@@ -178,44 +176,44 @@ abstract contract BaseInitAffixSystem is System {
 
   function _allEquipment() internal pure returns (uint256[] memory r) {
     r = new uint256[](9);
-    r[0] = eqp("Weapon");
-    r[1] = eqp("Shield");
-    r[2] = eqp("Hat");
-    r[3] = eqp("Clothing");
-    r[4] = eqp("Gloves");
-    r[5] = eqp("Pants");
-    r[6] = eqp("Boots");
-    r[7] = eqp("Amulet");
-    r[8] = eqp("Ring");
+    r[0] = EquipmentPrototypes.WEAPON;
+    r[1] = EquipmentPrototypes.SHIELD;
+    r[2] = EquipmentPrototypes.HAT;
+    r[3] = EquipmentPrototypes.CLOTHING;
+    r[4] = EquipmentPrototypes.GLOVES;
+    r[5] = EquipmentPrototypes.PANTS;
+    r[6] = EquipmentPrototypes.BOOTS;
+    r[7] = EquipmentPrototypes.AMULET;
+    r[8] = EquipmentPrototypes.RING;
   }
 
   function _jewellery() internal pure returns (uint256[] memory r) {
     r = new uint256[](2);
-    r[0] = eqp("Amulet");
-    r[1] = eqp("Ring");
+    r[0] = EquipmentPrototypes.AMULET;
+    r[1] = EquipmentPrototypes.RING;
   }
 
   function _attrEquipment() internal pure returns (uint256[] memory r) {
     r = new uint256[](4);
-    r[0] = eqp("Weapon");
-    r[1] = eqp("Shield");
-    r[2] = eqp("Hat");
-    r[3] = eqp("Amulet");
+    r[0] = EquipmentPrototypes.WEAPON;
+    r[1] = EquipmentPrototypes.SHIELD;
+    r[2] = EquipmentPrototypes.HAT;
+    r[3] = EquipmentPrototypes.AMULET;
   }
 
   function _weapon() internal pure returns (uint256[] memory r) {
     r = new uint256[](1);
-    r[0] = eqp("Weapon");
+    r[0] = EquipmentPrototypes.WEAPON;
   }
 
   function _resEquipment() internal pure returns (uint256[] memory r) {
     r = new uint256[](6);
-    r[0] = eqp("Shield");
-    r[1] = eqp("Hat");
-    r[2] = eqp("Clothing");
-    r[3] = eqp("Gloves");
-    r[4] = eqp("Pants");
-    r[5] = eqp("Boots");
+    r[0] = EquipmentPrototypes.SHIELD;
+    r[1] = EquipmentPrototypes.HAT;
+    r[2] = EquipmentPrototypes.CLOTHING;
+    r[3] = EquipmentPrototypes.GLOVES;
+    r[4] = EquipmentPrototypes.PANTS;
+    r[5] = EquipmentPrototypes.BOOTS;
   }
 
   function _equipment(string[9] memory _labels) internal pure returns (EL[] memory _dynamic) {

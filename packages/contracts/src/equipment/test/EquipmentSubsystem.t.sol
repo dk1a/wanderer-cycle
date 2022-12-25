@@ -9,7 +9,7 @@ import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Com
 import { EquipmentSubsystem, EquipmentAction } from "../EquipmentSubsystem.sol";
 import { LibEffectPrototype } from "../../effect/LibEffectPrototype.sol";
 import { EffectPrototype, EffectRemovability } from "../../effect/EffectPrototypeComponent.sol";
-import { getEquipmentProtoEntity } from "../EquipmentPrototypeComponent.sol";
+import { EquipmentPrototypes } from "../EquipmentPrototypes.sol";
 import { Topics, Op, Element } from "../../charstat/Topics.sol";
 import { makeEffectPrototype } from "../../effect/makeEffectPrototype.sol";
 
@@ -23,9 +23,9 @@ contract EquipmentSubsystemTest is BaseTest {
   uint256 shield = uint256(keccak256('shield'));
   uint256 miscThing = uint256(keccak256('miscThing'));
   // equipment prototypes
-  uint256 clothingProtoEntity = getEquipmentProtoEntity("Clothing");
-  uint256 weaponProtoEntity = getEquipmentProtoEntity("Weapon");
-  uint256 shieldProtoEntity = getEquipmentProtoEntity("Shield");
+  uint256 clothingProtoEntity = EquipmentPrototypes.CLOTHING;
+  uint256 weaponProtoEntity = EquipmentPrototypes.WEAPON;
+  uint256 shieldProtoEntity = EquipmentPrototypes.SHIELD;
   // equipment slots
   uint256 armorSlot = uint256(keccak256('armorSlot'));
   uint256 mainHandSlot = uint256(keccak256('mainHandSlot'));
