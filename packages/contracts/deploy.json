@@ -3,6 +3,7 @@
     "FromPrototypeComponent",
     "NameComponent",
     "ReverseHashNameComponent",
+    "RNGPrecommitComponent",
 
     "DurationOnEndComponent",
     "DurationScopeComponent",
