@@ -6,7 +6,6 @@ import { System } from "@latticexyz/solecs/src/System.sol";
 import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
-import { EquipmentPrototypeComponent, ID as EquipmentPrototypeComponentID } from "../equipment/EquipmentPrototypeComponent.sol";
 import { StatmodPrototypeComponent, ID as StatmodPrototypeComponentID } from "../statmod/StatmodPrototypeComponent.sol";
 import { NameComponent, ID as NameComponentID } from "../common/NameComponent.sol";
 
@@ -15,29 +14,29 @@ import {
   AffixPrototype,
   AffixPrototypeComponent,
   ID as AffixPrototypeComponentID
-} from "../loot/AffixPrototypeComponent.sol";
+} from "../affix/AffixPrototypeComponent.sol";
 import {
   getAffixNamingEntity,
   AffixPartId,
   AffixNamingComponent,
   ID as AffixNamingComponentID
-} from "../loot/AffixNamingComponent.sol";
+} from "../affix/AffixNamingComponent.sol";
 import {
   getAffixAvailabilityEntity,
   AffixAvailabilityComponent,
   ID as AffixAvailabilityComponentID
-} from "../loot/AffixAvailabilityComponent.sol";
+} from "../affix/AffixAvailabilityComponent.sol";
 import {
   getAffixProtoGroupEntity,
   AffixPrototypeGroupComponent,
   ID as AffixPrototypeGroupComponentID
-} from "../loot/AffixPrototypeGroupComponent.sol";
+} from "../affix/AffixPrototypeGroupComponent.sol";
 
 import { EquipmentPrototypes } from "../equipment/EquipmentPrototypes.sol";
 
 struct AffixPart {
   AffixPartId partId;
-  uint256 equipmentProtoEntity;
+  uint256 targetEntity;
   string label;
 }
 
@@ -57,12 +56,12 @@ uint256 constant MAX_ILVL = 4;
 /// Each set of affix parts has:
 ///   2 explicits: prefix, suffix
 ///   1 implicit
-/// Parts have labels. Explicits' labels don't depend on equipment prototypes. Implicits' label do.
+/// Parts have labels. Explicits' labels don't depend on targets. Implicits' label do.
 /// affix => tier => {prefixLabel, suffixLabel}
-/// affix => tier => equipmentProto => implicitLabel
+/// affix => tier => targetEntity => implicitLabel
+/// (targetEntity is e.g. equipmentProtoEntity)
 abstract contract BaseInitAffixSystem is System {
   error BaseInitAffixSystem__MalformedInput();
-  error BaseInitAffixSystem__InvalidEquipmentPrototype();
   error BaseInitAffixSystem__InvalidStatmodPrototype();
 
   constructor(IWorld _world, address _components) System(_world, _components) {}
@@ -73,9 +72,9 @@ abstract contract BaseInitAffixSystem is System {
     uint256 max;
   }
 
-  /// @dev equipment label
-  struct EL {
-    uint256 equipmentProtoEntity;
+  /// @dev target label
+  struct TargetLabel {
+    uint256 targetEntity;
     string label;
   }
 
@@ -120,8 +119,6 @@ abstract contract BaseInitAffixSystem is System {
     }
 
     // read-only components for validation
-    EquipmentPrototypeComponent equipmentProtoComp
-      = EquipmentPrototypeComponent(getAddressById(components, EquipmentPrototypeComponentID));
     StatmodPrototypeComponent statmodProtoComp
       = StatmodPrototypeComponent(getAddressById(components, StatmodPrototypeComponentID));
 
@@ -147,24 +144,19 @@ abstract contract BaseInitAffixSystem is System {
 
     for (uint256 i; i < affixParts.length; i++) {
       AffixPartId partId = affixParts[i].partId;
-      uint256 equipmentProtoEntity = affixParts[i].equipmentProtoEntity;
+      uint256 targetEntity = affixParts[i].targetEntity;
       string memory label = affixParts[i].label;
 
-      // check that equipmentProtoEntity exists
-      if (!equipmentProtoComp.has(equipmentProtoEntity)) {
-        revert BaseInitAffixSystem__InvalidEquipmentPrototype();
-      }
-
-      // which (partId+equipmentProto) the affix is available for.
-      // affixProto => equipmentProto => AffixPartId => label
-      uint256 namingEntity = getAffixNamingEntity(partId, equipmentProtoEntity, protoEntity);
+      // which (partId+target) the affix is available for.
+      // affixProto => target => AffixPartId => label
+      uint256 namingEntity = getAffixNamingEntity(partId, targetEntity, protoEntity);
       namingComp.set(namingEntity, label);
 
       // availability component is basically a cache for given parameters,
       // all its data is technically redundant, but greatly simplifies and speeds up queries.
-      // equipmentProto => partId => range(requiredIlvl, MAX_ILVL) => Set(affixProtos)
+      // target => partId => range(requiredIlvl, MAX_ILVL) => Set(affixProtos)
       for (uint256 ilvl = proto.requiredIlvl; ilvl < MAX_ILVL; ilvl++) {
-        uint256 availabilityEntity = getAffixAvailabilityEntity(ilvl, partId, equipmentProtoEntity);
+        uint256 availabilityEntity = getAffixAvailabilityEntity(ilvl, partId, targetEntity);
         availabilityComp.addItem(availabilityEntity, protoEntity);
       }
     }
@@ -216,15 +208,15 @@ abstract contract BaseInitAffixSystem is System {
     r[5] = EquipmentPrototypes.BOOTS;
   }
 
-  function _equipment(string[9] memory _labels) internal pure returns (EL[] memory _dynamic) {
+  function _equipment(string[9] memory _labels) internal pure returns (TargetLabel[] memory _dynamic) {
     uint256[] memory allEquipment = _allEquipment();
 
-    _dynamic = new EL[](_labels.length);
+    _dynamic = new TargetLabel[](_labels.length);
     uint256 j;
     for (uint256 i; i < _labels.length; i++) {
       if (bytes(_labels[i]).length > 0) {
-        _dynamic[j] = EL({
-          equipmentProtoEntity: allEquipment[i],
+        _dynamic[j] = TargetLabel({
+          targetEntity: allEquipment[i],
           label: _labels[i]
         });
         j++;
@@ -247,26 +239,26 @@ abstract contract BaseInitAffixSystem is System {
   function _affixes(
     string memory prefixLabel,
     string memory suffixLabel,
-    uint256[] memory explicits_equipmentProtoEntities,
-    EL[] memory implicits_equipmentLabels
+    uint256[] memory explicits_targetEntities,
+    TargetLabel[] memory implicits_targetLabels
   ) internal pure returns (AffixPart[] memory) {
     AffixPart[][] memory separateParts = new AffixPart[][](3);
     // prefix
     separateParts[0] = _commonLabel(
       AffixPartId.PREFIX,
-      explicits_equipmentProtoEntities,
+      explicits_targetEntities,
       prefixLabel
     );
     // suffix
     separateParts[1] = _commonLabel(
       AffixPartId.SUFFIX,
-      explicits_equipmentProtoEntities,
+      explicits_targetEntities,
       suffixLabel
     );
     // implicit
     separateParts[2] = _individualLabels(
       AffixPartId.IMPLICIT,
-      implicits_equipmentLabels
+      implicits_targetLabels
     );
 
     return _flatten(separateParts);
@@ -276,19 +268,19 @@ abstract contract BaseInitAffixSystem is System {
   function _explicits(
     string memory prefixLabel,
     string memory suffixLabel,
-    uint256[] memory explicits_equipmentProtoEntities
+    uint256[] memory explicits_targetEntities
   ) internal pure returns (AffixPart[] memory) {
     AffixPart[][] memory separateParts = new AffixPart[][](2);
     // prefix
     separateParts[0] = _commonLabel(
       AffixPartId.PREFIX,
-      explicits_equipmentProtoEntities,
+      explicits_targetEntities,
       prefixLabel
     );
     // suffix
     separateParts[1] = _commonLabel(
       AffixPartId.SUFFIX,
-      explicits_equipmentProtoEntities,
+      explicits_targetEntities,
       suffixLabel
     );
 
@@ -297,11 +289,11 @@ abstract contract BaseInitAffixSystem is System {
 
   // implicits
   function _implicits(
-    EL[] memory implicits_equipmentLabels
+    TargetLabel[] memory implicits_targetLabels
   ) internal pure returns (AffixPart[] memory) {
     return _individualLabels(
       AffixPartId.IMPLICIT,
-      implicits_equipmentLabels
+      implicits_targetLabels
     );
   }
 
@@ -332,35 +324,35 @@ abstract contract BaseInitAffixSystem is System {
     return combinedParts;
   }
 
-  // 1 label for multiple equipment entities
+  // 1 label for multiple target entities
   function _commonLabel(
     AffixPartId partId,
-    uint256[] memory equipmentProtoEntities,
+    uint256[] memory targetEntities,
     string memory label
   ) private pure returns (AffixPart[] memory affixParts) {
-    affixParts = new AffixPart[](equipmentProtoEntities.length);
+    affixParts = new AffixPart[](targetEntities.length);
 
-    for (uint256 i; i < equipmentProtoEntities.length; i++) {
+    for (uint256 i; i < targetEntities.length; i++) {
       affixParts[i] = AffixPart({
         partId: partId,
-        equipmentProtoEntity: equipmentProtoEntities[i],
+        targetEntity: targetEntities[i],
         label: label
       });
     }
   }
 
-  // 1 label for each equipment entity
+  // 1 label per each target entity
   function _individualLabels(
     AffixPartId partId,
-    EL[] memory equipmentLabels
+    TargetLabel[] memory targetLabels
   ) private pure returns (AffixPart[] memory affixParts) {
-    affixParts = new AffixPart[](equipmentLabels.length);
+    affixParts = new AffixPart[](targetLabels.length);
 
-    for (uint256 i; i < equipmentLabels.length; i++) {
+    for (uint256 i; i < targetLabels.length; i++) {
       affixParts[i] = AffixPart({
         partId: partId,
-        equipmentProtoEntity: equipmentLabels[i].equipmentProtoEntity,
-        label: equipmentLabels[i].label
+        targetEntity: targetLabels[i].targetEntity,
+        label: targetLabels[i].label
       });
     }
   }

@@ -7,14 +7,14 @@ import { StringBareComponent } from "std-contracts/components/StringBareComponen
 uint256 constant ID = uint256(keccak256("component.AffixNaming"));
 
 /**
- * @dev affixNamingEntity = hashed(ID, AffixPartId, equipmentProtoEntity, affixProtoEntity)
+ * @dev affixNamingEntity = hashed(ID, AffixPartId, targetEntity, affixProtoEntity)
  */
 function getAffixNamingEntity(
   AffixPartId partId,
-  uint256 equipmentProtoEntity,
+  uint256 targetEntity,
   uint256 affixProtoEntity
 ) pure returns (uint256) {
-  return uint256(keccak256(abi.encode(ID, partId, equipmentProtoEntity, affixProtoEntity)));
+  return uint256(keccak256(abi.encode(ID, partId, targetEntity, affixProtoEntity)));
 }
 
 enum AffixPartId {

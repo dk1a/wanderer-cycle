@@ -19,8 +19,9 @@ import {
 import { AffixPrototypeGroupComponent, ID as AffixPrototypeGroupComponentID } from "./AffixPrototypeGroupComponent.sol";
 import { AffixPartId } from "./AffixNamingComponent.sol";
 
+/// @title Randomly pick affixes.
 library LibPickAffixes {
-  error LibPickAffixes__NoAvailableAffix(uint256 ilvl, AffixPartId affixPartId, uint256 equipmentProtoEntity);
+  error LibPickAffixes__NoAvailableAffix(uint256 ilvl, AffixPartId affixPartId, uint256 protoEntity);
   error LibPickAffixes__InvalidMinMax();
   error LibPickAffixes__InvalidIlvl(uint256 ilvl);
 
@@ -32,7 +33,7 @@ library LibPickAffixes {
 
   function pickAffixes(
     IUint256Component components,
-    uint256 equipmentProtoEntity,
+    uint256 targetEntity,
     uint256 ilvl,
     uint256 randomness
   ) internal view returns (
@@ -60,7 +61,7 @@ library LibPickAffixes {
         comps,
         ilvl,
         affixPartIds[i],
-        equipmentProtoEntity,
+        targetEntity,
         excludeAffixes,
         randomness
       );
@@ -87,16 +88,16 @@ library LibPickAffixes {
     Comps memory comps,
     uint256 ilvl,
     AffixPartId affixPartId,
-    uint256 equipmentProtoEntity,
+    uint256 targetEntity,
     uint256[] memory excludeAffixes,
     uint256 randomness
   ) internal view returns (uint256) {
     randomness = uint256(keccak256(abi.encode(keccak256("pickAffixEntity"), randomness)));
 
     // TODO this can be significantly optimized if you need it
-    uint256 availabilityEntity = getAffixAvailabilityEntity(ilvl, affixPartId, equipmentProtoEntity);
+    uint256 availabilityEntity = getAffixAvailabilityEntity(ilvl, affixPartId, targetEntity);
     uint256[] memory entities = _getAvailableEntities(comps, availabilityEntity, excludeAffixes);
-    if (entities.length == 0) revert LibPickAffixes__NoAvailableAffix(ilvl, affixPartId, equipmentProtoEntity);
+    if (entities.length == 0) revert LibPickAffixes__NoAvailableAffix(ilvl, affixPartId, targetEntity);
 
     uint256 index = randomness % entities.length;
     return entities[index];

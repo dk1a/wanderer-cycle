@@ -2,21 +2,14 @@
 
 pragma solidity ^0.8.17;
 
-import { System } from "@latticexyz/solecs/src/System.sol";
 import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 import { Subsystem } from "@latticexyz/solecs/src/Subsystem.sol";
 
-import { LibPickAffixes } from "./LibPickAffixes.sol";
+import { LibPickAffixes } from "../affix/LibPickAffixes.sol";
 import { LibPickEquipmentPrototype } from "./LibPickEquipmentPrototype.sol";
-import { AffixPartId } from "./AffixNamingComponent.sol";
 
 import { Loot, LootComponent, ID as LootComponentID } from "./LootComponent.sol";
-import {
-  AffixPrototype,
-  AffixPrototypeComponent,
-  ID as AffixPrototypeComponentID
-} from "./AffixPrototypeComponent.sol";
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 import { EffectRemovability, EffectPrototype, LibEffectPrototype } from "../effect/LibEffectPrototype.sol";
 import { WNFTSubsystem, ID as WNFTSubsystemID } from "../token/WNFTSubsystem.sol";
