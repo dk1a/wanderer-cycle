@@ -38,7 +38,9 @@
     "GuisePrototypeComponent",
     "GuiseSkillsComponent",
 
-    "ActiveCycleComponent"
+    "ActiveCycleComponent",
+    "CycleTurnsComponent",
+    "CycleTurnsLastClaimedComponent"
   ],
   "systems": [
     {
@@ -77,6 +79,8 @@
       "writeAccess": [
         "WNFTSubsystem",
         "ActiveCycleComponent",
+        "CycleTurnsComponent",
+        "CycleTurnsLastClaimedComponent",
         "ActiveGuiseComponent",
         "ExperienceComponent",
         "LifeCurrentComponent",
@@ -94,6 +98,10 @@
     {
       "name": "LootMintSubsystem",
       "writeAccess": ["WNFTSubsystem", "LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"]
+    },
+    {
+      "name": "ClaimCycleTurnsSystem",
+      "writeAccess": ["CycleTurnsComponent", "CycleTurnsLastClaimedComponent"]
     },
 
     {

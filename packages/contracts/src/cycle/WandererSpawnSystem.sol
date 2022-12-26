@@ -30,8 +30,8 @@ contract WandererSpawnSystem is System {
   /**
    * @notice Anyone can freely spawn wanderers, a wanderer is a tokenized game account
    */
-  function execute(bytes memory arguments) public override returns (bytes memory) {
-    (uint256 guiseProtoEntity) = abi.decode(arguments, (uint256));
+  function execute(bytes memory args) public override returns (bytes memory) {
+    (uint256 guiseProtoEntity) = abi.decode(args, (uint256));
 
     // check guise
     GuisePrototypeComponent guiseProtoComp

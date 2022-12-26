@@ -11,6 +11,7 @@ import { GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../gui
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
+import { LibCycleTurns } from "./LibCycleTurns.sol";
 
 library LibCycle {
   using LibCharstat for LibCharstat.Self;
@@ -20,6 +21,7 @@ library LibCycle {
   error LibCycle__InvalidGuiseProtoEntity();
 
   struct Self {
+    IUint256Component components;
     ActiveCycleComponent activeCycleComp;
     ActiveGuiseComponent activeGuiseComp;
     GuisePrototypeComponent guiseProtoComp;
@@ -28,14 +30,15 @@ library LibCycle {
   }
 
   function __construct(
-    IUint256Component registry,
+    IUint256Component components,
     uint256 targetEntity
   ) internal view returns (Self memory) {
     return Self({
-      activeCycleComp: ActiveCycleComponent(getAddressById(registry, ActiveCycleComponentID)),
-      activeGuiseComp: ActiveGuiseComponent(getAddressById(registry, ActiveGuiseComponentID)),
-      guiseProtoComp: GuisePrototypeComponent(getAddressById(registry, GuisePrototypeComponentID)),
-      charstat: LibCharstat.__construct(registry, targetEntity),
+      components: components,
+      activeCycleComp: ActiveCycleComponent(getAddressById(components, ActiveCycleComponentID)),
+      activeGuiseComp: ActiveGuiseComponent(getAddressById(components, ActiveGuiseComponentID)),
+      guiseProtoComp: GuisePrototypeComponent(getAddressById(components, GuisePrototypeComponentID)),
+      charstat: LibCharstat.__construct(components, targetEntity),
       targetEntity: targetEntity
     });
   }
@@ -62,8 +65,9 @@ library LibCycle {
     __self.charstat.exp.initExp();
     // init currents
     __self.charstat.setFullCurrents();
+    // claim initial cycle turns
+    LibCycleTurns.claimTurns(__self.components, cycleEntity);
 
-    // TODO turns
     // TODO copy astral skills
     // TODO wheel
     // TODO wallet
