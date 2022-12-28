@@ -4,38 +4,38 @@ pragma solidity ^0.8.17;
 
 import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 
-import { BaseInitAffixSystem, TIER_L } from "./BaseInitAffixSystem.sol";
+import { BaseInitAffixSystem, DEFAULT_TIERS } from "./BaseInitAffixSystem.sol";
 
 import { Topics, Op, Element } from "../charstat/Topics.sol";
 
-uint256 constant ID = uint256(keccak256("system.InitAffix"));
+uint256 constant ID = uint256(keccak256("system.InitEquipmentAffix"));
 
-contract InitAffixSystem is BaseInitAffixSystem {
+contract InitEquipmentAffixSystem is BaseInitAffixSystem {
   constructor(IWorld _world, address _components) BaseInitAffixSystem(_world, _components) {}
 
   function execute(bytes memory) public override onlyOwner returns (bytes memory) {
-    Range[TIER_L] memory resourceRanges = [
+    Range[DEFAULT_TIERS] memory resourceRanges = [
       Range(1, 4),
       Range(5, 6),
       Range(7, 9),
       Range(10, 12)
     ];
 
-    Range[TIER_L] memory attrRanges = [
+    Range[DEFAULT_TIERS] memory attrRanges = [
       Range(1, 1),
       Range(1, 2),
       Range(2, 3),
       Range(3, 4)
     ];
 
-    Range[TIER_L] memory weaponAttackRanges = [
+    Range[DEFAULT_TIERS] memory weaponAttackRanges = [
       Range(1, 4),
       Range(5, 6),
       Range(7, 9),
       Range(10, 12)
     ];
 
-    Range[TIER_L] memory resistanceMinorRanges = [
+    Range[DEFAULT_TIERS] memory resistanceMinorRanges = [
       Range(1, 3),
       Range(3, 5),
       Range(5, 6),

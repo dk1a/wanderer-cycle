@@ -6,6 +6,8 @@ import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
+import { LibArray } from "../libraries/LibArray.sol";
+
 import {
   getAffixAvailabilityEntity,
   AffixAvailabilityComponent,
@@ -33,6 +35,8 @@ library LibPickAffixes {
 
   function pickAffixes(
     IUint256Component components,
+    AffixPartId[] memory affixPartIds,
+    uint256[] memory excludeAffixes,
     uint256 targetEntity,
     uint256 ilvl,
     uint256 randomness
@@ -46,9 +50,6 @@ library LibPickAffixes {
       AffixAvailabilityComponent(getAddressById(components, AffixAvailabilityComponentID)),
       AffixPrototypeGroupComponent(getAddressById(components, AffixPrototypeGroupComponentID))
     );
-
-    uint256[] memory excludeAffixes;
-    AffixPartId[] memory affixPartIds = _getAffixPartIds(ilvl);
 
     statmodProtoEntities = new uint256[](affixPartIds.length);
     affixProtoEntities = new uint256[](affixPartIds.length);
@@ -78,7 +79,7 @@ library LibPickAffixes {
         uint256[] memory newExcludeAffixes = comps.group.getEntitiesWithValue(
           comps.group.getValue(affixProtoEntity)
         );
-        excludeAffixes = _concatArrays(excludeAffixes, newExcludeAffixes);
+        excludeAffixes = LibArray.concat(excludeAffixes, newExcludeAffixes);
       }
     }
   }
@@ -114,7 +115,7 @@ library LibPickAffixes {
 
     for (uint256 i; i < availableEntities.length; i++) {
       // exclude the specified entities
-      if (_isIn(availableEntities[i], excludeEntities)) {
+      if (LibArray.isIn(availableEntities[i], excludeEntities)) {
         uint256 len = availableEntities.length;
         // swap and pop
         availableEntities[i] = availableEntities[len - 1];
@@ -141,53 +142,5 @@ library LibPickAffixes {
     uint256 range = affixProto.max - affixProto.min;
     uint256 result = randomness % range;
     return result + affixProto.min;
-  }
-
-  /// @dev Hardcoded ilvl => AffixPartsIds mapping
-  function _getAffixPartIds(uint256 ilvl) internal pure returns (AffixPartId[] memory result) {
-    if (ilvl == 1) {
-      result = new AffixPartId[](1);
-      result[0] = AffixPartId.IMPLICIT;
-    } else if (ilvl == 2) {
-      result = new AffixPartId[](2);
-      result[0] = AffixPartId.IMPLICIT;
-      result[1] = AffixPartId.PREFIX;
-    } else if (ilvl >= 3) {
-      result = new AffixPartId[](3);
-      result[0] = AffixPartId.IMPLICIT;
-      result[1] = AffixPartId.PREFIX;
-      result[2] = AffixPartId.SUFFIX;
-    } else {
-      revert LibPickAffixes__InvalidIlvl(ilvl);
-    }
-  }
-
-  function _isIn(
-    uint256 entity, uint256[] memory array
-  ) private pure returns (bool) {
-    for (uint256 i; i < array.length; i++) {
-      if (array[i] == entity) return true;
-    }
-    return false;
-  }
-
-  function _concatArrays(
-    uint256[] memory array1,
-    uint256[] memory array2
-  ) private pure returns (uint256[] memory result) {
-    if (array1.length == 0) return array2;
-    if (array2.length == 0) return array1;
-
-    uint256 totalIndex;
-    result = new uint256[](array1.length + array2.length);
-    for (uint256 i; i < array1.length; i++) {
-      result[totalIndex] = array1[i];
-      totalIndex++;
-    }
-    for (uint256 i; i < array2.length; i++) {
-      result[totalIndex] = array2[i];
-      totalIndex++;
-    }
-    return result;
   }
 }

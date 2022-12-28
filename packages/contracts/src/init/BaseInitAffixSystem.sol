@@ -40,10 +40,18 @@ struct AffixPart {
   string label;
 }
 
-/// @dev hardcoded number of currently expected tiers
-uint256 constant TIER_L = 4;
-/// @dev tier and required ilvl are always equal currently
-uint256 constant MAX_ILVL = 4;
+/// @dev number of usually expected tiers (some affixes may have non-standard tiers)
+uint256 constant DEFAULT_TIERS = 4;
+/// @dev number of currently expected ilvls
+uint256 constant MAX_ILVL = 16;
+
+/// @dev Default ilvl requirement based on affix tier.
+/// (affixes with non-standard tiers shouldn't use this function)
+function tierToDefaultRequiredIlvl(uint256 tier) pure returns (uint256 requiredIlvl) {
+  // `tier` is not user-submitted, the assert should never fail
+  assert(tier > 0);
+  return (tier - 1) * 4 + 1;
+}
 
 /// @dev Affixes have a complex structure, however most complexity is shoved into this BaseInit,
 /// so the child inits and affix components are relatively simple.
@@ -61,7 +69,7 @@ uint256 constant MAX_ILVL = 4;
 /// affix => tier => targetEntity => implicitLabel
 /// (targetEntity is e.g. equipmentProtoEntity)
 abstract contract BaseInitAffixSystem is System {
-  error BaseInitAffixSystem__MalformedInput();
+  error BaseInitAffixSystem__MalformedInput(string affixName, uint256 maxIlvl);
   error BaseInitAffixSystem__InvalidStatmodPrototype();
 
   constructor(IWorld _world, address _components) System(_world, _components) {}
@@ -78,12 +86,13 @@ abstract contract BaseInitAffixSystem is System {
     string label;
   }
 
-  /// @dev Add all tiers of an affix
+  /// @dev Add `DEFAULT_TIERS` tiers of an affix
+  /// (for affixes with non-standard tiers use `addOne` directly)
   function add(
     string memory affixName,
     uint256 statmodProtoEntity,
-    Range[TIER_L] memory ranges,
-    AffixPart[][TIER_L] memory tieredAffixParts
+    Range[DEFAULT_TIERS] memory ranges,
+    AffixPart[][DEFAULT_TIERS] memory tieredAffixParts
   ) internal {
     for (uint256 i; i < tieredAffixParts.length; i++) {
       uint256 tier = i + 1;
@@ -95,12 +104,12 @@ abstract contract BaseInitAffixSystem is System {
       AffixPrototype memory proto = AffixPrototype({
         tier: tier,
         statmodProtoEntity: statmodProtoEntity,
-        requiredIlvl: tier,
+        requiredIlvl: tierToDefaultRequiredIlvl(tier),
         min: range.min,
         max: range.max
       });
 
-      _addOne(
+      addOne(
         affixName,
         proto,
         affixParts
@@ -108,14 +117,24 @@ abstract contract BaseInitAffixSystem is System {
     }
   }
 
-  /// @dev Add a single affix tier
-  function _addOne(
+  /// @dev Add a single affix tier with *default* maxIlvl
+  function addOne(
     string memory affixName,
     AffixPrototype memory proto,
     AffixPart[] memory affixParts
-  ) private {
-    if (proto.requiredIlvl > MAX_ILVL) {
-      revert BaseInitAffixSystem__MalformedInput();
+  ) internal {
+    addOne(affixName, proto, affixParts, MAX_ILVL);
+  }
+
+  /// @dev Add a single affix tier with *custom* maxIlvl
+  function addOne(
+    string memory affixName,
+    AffixPrototype memory proto,
+    AffixPart[] memory affixParts,
+    uint256 maxIlvl
+  ) internal {
+    if (maxIlvl == 0 || proto.requiredIlvl > maxIlvl) {
+      revert BaseInitAffixSystem__MalformedInput(affixName, maxIlvl);
     }
 
     // read-only components for validation
@@ -152,10 +171,10 @@ abstract contract BaseInitAffixSystem is System {
       uint256 namingEntity = getAffixNamingEntity(partId, targetEntity, protoEntity);
       namingComp.set(namingEntity, label);
 
-      // availability component is basically a cache for given parameters,
+      // availability component is basically a cache,
       // all its data is technically redundant, but greatly simplifies and speeds up queries.
-      // target => partId => range(requiredIlvl, MAX_ILVL) => Set(affixProtos)
-      for (uint256 ilvl = proto.requiredIlvl; ilvl < MAX_ILVL; ilvl++) {
+      // target => partId => range(requiredIlvl, maxIlvl) => Set(affixProtos)
+      for (uint256 ilvl = proto.requiredIlvl; ilvl <= maxIlvl; ilvl++) {
         uint256 availabilityEntity = getAffixAvailabilityEntity(ilvl, partId, targetEntity);
         availabilityComp.addItem(availabilityEntity, protoEntity);
       }

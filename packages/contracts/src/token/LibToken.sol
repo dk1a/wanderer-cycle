@@ -10,14 +10,13 @@ import { OwnershipComponent } from "@dk1a/solecslib/contracts/token/ERC721/compo
 import { ownershipComponentID } from "./WNFTSubsystem.sol";
 
 library LibToken {
-  error LibToken_NonExistentToken();
   error LibToken_MustBeTokenOwner();
 
   function ownerOf(IUint256Component components, uint256 tokenEntity) internal view returns (address) {
     IComponent ownershipComp = IComponent(getAddressById(components, ownershipComponentID));
     bytes memory rawValue = ownershipComp.getRawValue(tokenEntity);
     if (rawValue.length == 0) {
-      revert LibToken_NonExistentToken();
+      return address(0);
     }
     return abi.decode(rawValue, (address));
   }

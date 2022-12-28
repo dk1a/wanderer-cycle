@@ -28,6 +28,8 @@
     "EquipmentSlotAllowedComponent",
     "EquipmentPrototypeComponent",
 
+    "MapPrototypeComponent",
+
     "AffixPrototypeComponent",
     "AffixPrototypeGroupComponent",
     "AffixNamingComponent",
@@ -96,13 +98,20 @@
       "writeAccess": ["EffectSubsystem", "EquipmentSlotComponent"]
     },
     {
-      "name": "LootMintSubsystem",
-      "writeAccess": ["WNFTSubsystem", "LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"]
+      "name": "RandomEquipmentSubsystem",
+      "writeAccess": ["LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"]
+    },
+    {
+      "name": "RandomMapSubsystem",
+      "writeAccess": ["LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"]
     },
     {
       "name": "ClaimCycleTurnsSystem",
       "writeAccess": ["CycleTurnsComponent", "CycleTurnsLastClaimedComponent"]
     },
+
+
+
 
     {
       "name": "InitReverseHashNameSystem",
@@ -115,12 +124,28 @@
       "initialize": "new bytes(0)"
     },
     {
-      "name": "InitEquipmentSubsystem",
+      "name": "InitEquipmentPrototypeSystem",
       "writeAccess": ["EquipmentPrototypeComponent", "NameComponent"],
       "initialize": "new bytes(0)"
     },
     {
-      "name": "InitAffixSystem",
+      "name": "InitMapPrototypeSystem",
+      "writeAccess": ["MapPrototypeComponent", "NameComponent"],
+      "initialize": "new bytes(0)"
+    },
+    {
+      "name": "InitEquipmentAffixSystem",
+      "writeAccess": [
+        "AffixPrototypeComponent",
+        "AffixPrototypeGroupComponent",
+        "AffixNamingComponent",
+        "AffixAvailabilityComponent",
+        "NameComponent"
+      ],
+      "initialize": "new bytes(0)"
+    },
+    {
+      "name": "InitMapAffixSystem",
       "writeAccess": [
         "AffixPrototypeComponent",
         "AffixPrototypeGroupComponent",
@@ -143,6 +168,11 @@
     {
       "name": "InitGuiseSystem",
       "writeAccess": ["GuisePrototypeComponent", "GuiseSkillsComponent", "NameComponent"],
+      "initialize": "new bytes(0)"
+    },
+    {
+      "name": "InitMapsBasicGlobalSystem",
+      "writeAccess": ["LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"],
       "initialize": "new bytes(0)"
     }
   ]

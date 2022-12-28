@@ -14,11 +14,11 @@ import { NameComponent, ID as NameComponentID } from "../common/NameComponent.so
 
 import { EquipmentPrototypes } from "../equipment/EquipmentPrototypes.sol";
 
-uint256 constant ID = uint256(keccak256("system.InitEquipment"));
+uint256 constant ID = uint256(keccak256("system.InitEquipmentPrototype"));
 
 // Inititalize equipment prototypes
 // Sets of equipment protoEntities are used to determine what can be equipped in slots
-contract InitEquipmentSubsystem is System {
+contract InitEquipmentPrototypeSystem is System {
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
   function execute(bytes memory) public override onlyOwner returns (bytes memory) {
