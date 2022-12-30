@@ -18,7 +18,7 @@ contract StatmodPrototypeTest is BaseTest, Assertions {
     super.setUp();
   }
 
-  function testName() public {
+  function test_statmodPrototype_name() public {
     string memory topicName = reverseHashNameComponent.getValue(lifeTopic);
     string memory name = nameComponent.getValue(addLifePE);
     assertContains(name, topicName);

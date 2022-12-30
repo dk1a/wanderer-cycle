@@ -34,15 +34,6 @@ contract StatmodTest is BaseTest {
   function setUp() public override {
     super.setUp();
 
-    statmodPrototypeComponent.set(addLifePE, StatmodPrototype(lifeTopic, Op.ADD, Element.ALL));
-    statmodPrototypeComponent.set(mulLifePE, StatmodPrototype(lifeTopic, Op.MUL, Element.ALL));
-    statmodPrototypeComponent.set(baddLifePE, StatmodPrototype(lifeTopic, Op.BADD, Element.ALL));
-
-    statmodPrototypeComponent.set(mulAttackPE, StatmodPrototype(attackTopic, Op.MUL, Element.ALL));
-    statmodPrototypeComponent.set(mulFireAttackPE, StatmodPrototype(attackTopic, Op.MUL, Element.FIRE));
-    statmodPrototypeComponent.set(addFireAttackPE, StatmodPrototype(attackTopic, Op.ADD, Element.FIRE));
-    statmodPrototypeComponent.set(addColdAttackPE, StatmodPrototype(attackTopic, Op.ADD, Element.COLD));
-
     // init library's object
     _statmod = Statmod.__construct(
       world.components(),
@@ -50,7 +41,7 @@ contract StatmodTest is BaseTest {
     );
   }
 
-  function testGetValues() public {
+  function test_statmod_getValues_parallelChanges() public {
     // a bunch of changes to make sure they don't interfere with each other
     _statmod.increase(mulLifePE, 11);
 
@@ -75,7 +66,7 @@ contract StatmodTest is BaseTest {
     assertEq(result[uint256(Op.ADD)], 113);
   }
 
-  function testGetValuesFinal() public {
+  function test_statmod_getValuesFinal() public {
     _statmod.increase(baddLifePE, 27);
     _statmod.increase(mulLifePE, 17);
     _statmod.increase(addLifePE, 70);
@@ -85,7 +76,7 @@ contract StatmodTest is BaseTest {
     assertEq(result, 113);
   }
 
-  function testGetValuesElemental() public {
+  function test_statmod_getValuesElementalFinal() public {
     _statmod.increase(mulAttackPE, 40);
     _statmod.increase(addFireAttackPE, 100);
     _statmod.increase(mulFireAttackPE, 40);
@@ -106,7 +97,8 @@ contract StatmodTest is BaseTest {
     }
   }
 
-  function testGetValuesElementalWithBaseAll() public {
+  // TODO Element.ALL is confusing and useless. You should replace it with NONE and make this test obsolete
+  function test_statmod_getValuesElemental_withBaseAll() public {
     _statmod.increase(mulAttackPE, 40);
     _statmod.increase(addFireAttackPE, 100);
     _statmod.increase(mulFireAttackPE, 40);

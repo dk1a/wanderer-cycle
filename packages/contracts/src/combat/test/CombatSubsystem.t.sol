@@ -94,7 +94,7 @@ contract CombatSubsystemTest is BaseTest {
   // ================ TESTS ================
 
   // this just shows the values I expect, and may need to change if LibCharstat config changes
-  function testInitialData() public {
+  function test_setUp() public {
     assertEq(initLife, 2 + 2 * initLevel);
     assertEq(playerCharstat.getLifeCurrent(), encounterCharstat.getLifeCurrent());
 
@@ -103,7 +103,7 @@ contract CombatSubsystemTest is BaseTest {
     assertEq(_sumElements(playerCharstat.getAttack()), _sumElements(encounterCharstat.getAttack()));
   }
 
-  function testNotWriter() public {
+  function test_combatPVERound_notWriter() public {
     vm.prank(address(bytes20(keccak256('notWriter'))));
     vm.expectRevert(OwnableWritable.OwnableWritable__NotWriter.selector);
     combatSubsystem.executePVERound(
@@ -112,7 +112,7 @@ contract CombatSubsystemTest is BaseTest {
   }
 
   // skipping a round is fine
-  function testEmptyActions() public {
+  function test_combatPVERound_noActions() public {
     vm.prank(writer);
     CombatSubsystem.CombatResult result = combatSubsystem.executePVERound(
       playerEntity, encounterEntity, _noActions, _noActions
@@ -121,7 +121,7 @@ contract CombatSubsystemTest is BaseTest {
   }
 
   // by default entities can only do 1 action per round
-  function testInvalidNumberOfActions() public {
+  function test_combatPVERound_invalidActionsLength() public {
     vm.prank(writer);
     vm.expectRevert(CombatSubsystem.CombatSubsystem__InvalidActionsLength.selector);
     combatSubsystem.executePVERound(
@@ -130,7 +130,7 @@ contract CombatSubsystemTest is BaseTest {
   }
 
   // an unopposed single attack
-  function testPlayer1Attack() public {
+  function test_combatPVERound_playerAttacks_1() public {
     vm.prank(writer);
 
     CombatSubsystem.CombatResult result = combatSubsystem.executePVERound(
@@ -141,7 +141,7 @@ contract CombatSubsystemTest is BaseTest {
   }
 
   // unopposed player attacks, enough to get victory
-  function testPlayerEnoughAttacksToVictory() public {
+  function test_combatPVERound_playerAttacks_victory() public {
     vm.prank(writer);
 
     CombatSubsystem.CombatResult result;
@@ -160,7 +160,7 @@ contract CombatSubsystemTest is BaseTest {
   }
 
   // unopposed encounter attacks, enough to get defeat
-  function testEncounterEnoughAttacksToDefeat() public {
+  function test_combatPVERound_encounterAttacks_defeat() public {
     vm.prank(writer);
 
     CombatSubsystem.CombatResult result;
@@ -179,7 +179,7 @@ contract CombatSubsystemTest is BaseTest {
   }
 
   // player and encounter have the same stats and attacks, but player goes 1st and wins the last round
-  function testOpposedAttacksPlayerWinsByInitiative() public {
+  function test_combatPVERound_opposedAttacks_victoryByInitiative() public {
     vm.prank(writer);
 
     CombatSubsystem.CombatResult result;

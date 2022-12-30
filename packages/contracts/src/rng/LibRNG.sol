@@ -8,6 +8,16 @@ import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 
 import { RNGPrecommit, RNGPrecommitComponent, ID as RNGPrecommitComponentID } from "./RNGPrecommitComponent.sol";
 
+/// @dev Simple blockhash rng.
+/// Get requestId from `requestRandomness`, then after `WAIT_BLOCKS` call `getRandomness` with that requestId.
+/// Use `data` to lock relevant resources to avoid costless/infinite rng retries.
+/// Do not reuse the same requestId, otherwise it can be predictable.
+///
+/// on-chain try+discard - solved with precommits to future block numbers.
+/// 256 past blocks limit - ignored. Build UX around it.
+/// MEV - ignored. Don't use this for high stakes.
+///
+/// TODO consider prevrandao, VRF, eip-2935
 library LibRNG {
   error LibRNG__InvalidPrecommit();
 

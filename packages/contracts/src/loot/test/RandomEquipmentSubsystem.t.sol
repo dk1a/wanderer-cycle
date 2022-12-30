@@ -16,7 +16,7 @@ contract RandomEquipmentSubsystemTest is BaseTest {
   }
 
   // tests basic assumptions, and that 2 mints don't break each other
-  function testRandomEquipment2(uint256 seed1, uint256 seed2) public {
+  function test_randomEquipment_2(uint256 seed1, uint256 seed2) public {
     vm.assume(seed1 != seed2);
 
     uint256 ilvl1 = 1;
@@ -55,7 +55,7 @@ contract RandomEquipmentSubsystemTest is BaseTest {
   }
 
   // affixes and equipment proto should be identical, but otherwise these should be 2 different entities
-  function testRandomEquipmentSameSeed(uint256 seed) public {
+  function test_randomEquipment_sameSeed(uint256 seed) public {
     uint256 lootEntity1 = randomEquipmentSubsystem.executeTyped(1, seed);
     uint256 lootEntity2 = randomEquipmentSubsystem.executeTyped(1, seed);
     assertNotEq(lootEntity1, lootEntity2);
@@ -67,7 +67,7 @@ contract RandomEquipmentSubsystemTest is BaseTest {
   }
 
   // ensure that mint can actually produce different affixes
-  function testRandomEquipmentDifferentAffixes() public {
+  function test_randomEquipment_differentAffixes() public {
     uint256 inequalityCount;
     for (uint256 i; i < 1000; i++) {
       uint256 seed1 = 1000000 + i;
@@ -91,7 +91,7 @@ contract RandomEquipmentSubsystemTest is BaseTest {
   }
 
   // make sure there're enough affixes to mint the highest ilvl loot
-  function testRandomEquipmentMaxIlvl(uint256 seed) public {
+  function test_randomEquipment_maxIlvl(uint256 seed) public {
     // TODO more affixes, this fails at 13
     uint256 lootEntity = randomEquipmentSubsystem.executeTyped(12 /* should be MAX_ILVL */, seed);
     assertEq(lootComponent.getValue(lootEntity).ilvl, 12 /* should be MAX_ILVL */);

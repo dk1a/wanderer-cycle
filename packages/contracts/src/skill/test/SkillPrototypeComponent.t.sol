@@ -16,22 +16,23 @@ contract SkillPrototypeComponentTest is BaseTest {
     super.setUp();
   }
 
-  function testSampleEffectStatmodsLength() public {
+  // TODO this should be in effect tests (make those)
+  function test_sample_effectPrototype_statmodLengths() public {
     assertEq(effectPrototypeComponent.getValue(chargePE).statmodProtoEntities.length, 1);
     assertEq(effectPrototypeComponent.getValue(chargePE).statmodValues.length, 1);
   }
 
-  function testSampleName() public {
+  function test_sample_skillPrototype_name() public {
     assertEq(nameComponent.getValue(chargePE), 'Charge');
   }
 
-  function testSampleTargetTypes() public {
+  function test_sample_skillPrototype_targetTypes() public {
     assertTrue(skillPrototypeComponent.getValue(chargePE).effectTarget == TargetType.SELF);
     assertTrue(skillPrototypeComponent.getValue(parryPE).effectTarget == TargetType.SELF);
     assertTrue(skillPrototypeComponent.getValue(cleavePE).effectTarget == TargetType.SELF);
   }
 
-  function testSampelSkillTypes() public {
+  function test_sample_skillPrototype_skillTypes() public {
     assertTrue(skillPrototypeComponent.getValue(chargePE).skillType == SkillType.NONCOMBAT);
     assertTrue(skillPrototypeComponent.getValue(parryPE).skillType == SkillType.PASSIVE);
     assertTrue(skillPrototypeComponent.getValue(cleavePE).skillType == SkillType.COMBAT);

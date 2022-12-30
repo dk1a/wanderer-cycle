@@ -74,17 +74,19 @@ contract LibSkillTest is BaseTest {
     return LibSkill.__construct(world, userEntity, skillEntity);
   }
 
-  function testSampleSkillsLearned() public {
+  function test_setUp() public {
     assertTrue(learnedSkills.hasSkill(cleavePE));
     assertTrue(learnedSkills.hasSkill(chargePE));
     assertTrue(learnedSkills.hasSkill(parryPE));
+
+    assertEq(charstat.getMana(), 4);
   }
 
-  function testInvalidSkillNotLearned() public {
+  function test_hasSkill_invalidSkill() public {
     assertFalse(learnedSkills.hasSkill(someInvalidSkillPE));
   }
 
-  function testApplyToInvalidTarget() public {
+  function test_useSkill_invalidTarget() public {
     // user is the only valid target for charge
     LibSkill.Self memory libSkill = _libSkill(chargePE);
     vm.expectRevert(LibSkill.LibSkill__InvalidSkillTarget.selector);
@@ -92,16 +94,12 @@ contract LibSkillTest is BaseTest {
   }
 
   // TODO mana stuff isn't very skill-related?
-  function testInitialMana() public {
-    assertEq(charstat.getMana(), 4);
-  }
-
-  function testNoManaOverflow() public {
+  function test_setManaCurrent_capped() public {
     charstat.setManaCurrent(100);
     assertEq(charstat.getMana(), 4);
   }
 
-  function testApplyCharge() public {
+  function test_useSkill_Charge() public {
     _libSkill(chargePE).useSkill(userEntity);
 
     assertEq(charstat.getManaCurrent(), 4 - 1, "Invalid mana remainder");
@@ -110,14 +108,14 @@ contract LibSkillTest is BaseTest {
     assertTrue(effectSubsystem.has(userEntity, chargePE), "No ongoing effect");
   }
 
-  function testCleaveEffect() public {
+  function test_useSkill_Cleave_effect() public {
     _libSkill(cleavePE).useSkill(userEntity);
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 3);
   }
 
   // str and the 2 skills should all modify physical attack,
   // test that it all stacks correctly
-  function testCleaveChargeStrengthStacking() public {
+  function test_useSkill_CleaveAndCharge_strengthStacking() public {
     // add exp to get 2 str (which should increase base physical attack to 2)
     uint32[PS_L] memory addExp;
     addExp[uint256(PStat.STRENGTH)] = LibExperience.getExpForPStat(2);
@@ -136,7 +134,7 @@ contract LibSkillTest is BaseTest {
   // this tests durations, especially DurationSubsystem's effect removal callback
   // TODO a lot of this can be removed if effects get their own tests,
   // atm the many assertions help tell apart bugs in effectSubsystem and durationSubsystem
-  function testCleaveChargeDurationEnd() public {
+  function test_useSkill_CleaveAndCharge_onDurationEnd() public {
     // add exp to get 2 str (which should increase base physical attack to 2)
     uint32[PS_L] memory addExp;
     addExp[uint256(PStat.STRENGTH)] = LibExperience.getExpForPStat(2);

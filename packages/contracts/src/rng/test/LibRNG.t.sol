@@ -26,21 +26,21 @@ contract LibRNGTest is BaseTest {
     revertHelper = new GetRandomnessRevertHelper();
   }
 
-  function testGetRandomness() public {
+  function test_getRandomness() public {
     uint256 requestId = LibRNG.requestRandomness(world, '');
     vm.roll(block.number + LibRNG.WAIT_BLOCKS + 1);
     uint256 randomness = LibRNG.getRandomness(components, requestId);
     assertGt(randomness, 0);
   }
 
-  function testGetRandomness__InvalidSameBlock() public {
+  function test_getRandomness_revert_sameBlock() public {
     uint256 requestId = LibRNG.requestRandomness(world, '');
 
     vm.expectRevert(LibRNG.LibRNG__InvalidPrecommit.selector);
     revertHelper.getRandomness(components, requestId);
   }
 
-  function testGetRandomness__InvalidNextBlock() public {
+  function test_getRandomness_revert_tooEarly() public {
     uint256 requestId = LibRNG.requestRandomness(world, '');
 
     vm.roll(block.number + 1);
@@ -48,7 +48,7 @@ contract LibRNGTest is BaseTest {
     revertHelper.getRandomness(components, requestId);
   }
 
-  function testGetRandomness__InvalidLateBlock() public {
+  function test_getRandomness_revert_tooLate() public {
     uint256 requestId = LibRNG.requestRandomness(world, '');
 
     vm.roll(block.number + LibRNG.WAIT_BLOCKS + 256 + 1);
@@ -57,7 +57,7 @@ contract LibRNGTest is BaseTest {
   }
 
   // basic test for different base blocknumbers
-  function testRequestRandomnessBlocknumbers(uint32 blocknumber) public {
+  function test_requestRandomness_blocknumbers(uint32 blocknumber) public {
     vm.roll(blocknumber);
     uint256 requestId = LibRNG.requestRandomness(world, abi.encode(42));
 
@@ -74,7 +74,7 @@ contract LibRNGTest is BaseTest {
   }
 
   // thorough validity test for the possible offsets
-  function testRequestRandomnessValidity() public {
+  function test_requestRandomness_validity() public {
     uint256 initBlock = 1;
     vm.roll(initBlock);
 
