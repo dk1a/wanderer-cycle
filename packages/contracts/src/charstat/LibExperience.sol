@@ -23,11 +23,11 @@ library LibExperience {
   }
 
   function __construct(
-    IUint256Component registry,
+    IUint256Component components,
     uint256 targetEntity
   ) internal view returns (Self memory) {
     return Self({
-      comp: ExperienceComponent(getAddressById(registry, ExperienceComponentID)),
+      comp: ExperienceComponent(getAddressById(components, ExperienceComponentID)),
       targetEntity: targetEntity
     });
   }
@@ -95,7 +95,7 @@ library LibExperience {
   function getAggregateLevel(
     Self memory __self,
     uint32[PS_L] memory levelMul
-  ) private view returns (uint32) {
+  ) internal view returns (uint32) {
     uint32[PS_L] memory exp = getExp(__self);
     uint256 expTotal;
     for (uint256 i; i < PS_L; i++) {

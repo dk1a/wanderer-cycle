@@ -42,7 +42,9 @@
 
     "ActiveCycleComponent",
     "CycleTurnsComponent",
-    "CycleTurnsLastClaimedComponent"
+    "CycleTurnsLastClaimedComponent",
+
+    "ActiveCombatComponent"
   ],
   "systems": [
     {
@@ -77,6 +79,28 @@
       ]
     },
     {
+      "name": "EquipmentSubsystem",
+      "writeAccess": ["EffectSubsystem", "EquipmentSlotComponent"]
+    },
+    {
+      "name": "RandomEquipmentSubsystem",
+      "writeAccess": ["LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"]
+    },
+    {
+      "name": "RandomMapSubsystem",
+      "writeAccess": ["LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"]
+    },
+    {
+      "name": "CombatSubsystem",
+      "writeAccess": [
+        "DurationSubsystem",
+        "EffectSubsystem",
+        "ActiveCombatComponent",
+        "LifeCurrentComponent",
+        "ManaCurrentComponent"
+      ]
+    },
+    {
       "name": "WandererSpawnSystem",
       "writeAccess": [
         "WNFTSubsystem",
@@ -90,24 +114,32 @@
       ]
     },
     {
-      "name": "CombatSubsystem",
-      "writeAccess": ["EffectSubsystem", "LifeCurrentComponent", "ManaCurrentComponent"]
-    },
-    {
-      "name": "EquipmentSubsystem",
-      "writeAccess": ["EffectSubsystem", "EquipmentSlotComponent"]
-    },
-    {
-      "name": "RandomEquipmentSubsystem",
-      "writeAccess": ["LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"]
-    },
-    {
-      "name": "RandomMapSubsystem",
-      "writeAccess": ["LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"]
+      "name": "StartCycleSystem",
+      "writeAccess": [
+        "ActiveCycleComponent",
+        "CycleTurnsComponent",
+        "CycleTurnsLastClaimedComponent",
+        "ActiveGuiseComponent",
+        "ExperienceComponent",
+        "LifeCurrentComponent",
+        "ManaCurrentComponent"
+      ]
     },
     {
       "name": "ClaimCycleTurnsSystem",
       "writeAccess": ["CycleTurnsComponent", "CycleTurnsLastClaimedComponent"]
+    },
+    {
+      "name": "LearnCycleSkillSystem",
+      "writeAccess": ["LearnedSkillsComponent"]
+    },
+    {
+      "name": "CycleActivateCombatSystem",
+      "writeAccess": ["CycleTurnsComponent"]
+    },
+    {
+      "name": "CycleCombatSystem",
+      "writeAccess": ["CombatSubsystem"]
     },
 
 

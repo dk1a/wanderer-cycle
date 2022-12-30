@@ -11,12 +11,8 @@ import { EffectPrototype, EffectRemovability } from "../../effect/EffectPrototyp
 import { MAX_ILVL } from "../../init/BaseInitAffixSystem.sol";
 
 contract RandomEquipmentSubsystemTest is BaseTest {
-  IUint256Component components;
-
   function setUp() public virtual override {
     super.setUp();
-
-    components = world.components();
   }
 
   // tests basic assumptions, and that 2 mints don't break each other

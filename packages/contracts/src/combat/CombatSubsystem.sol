@@ -7,8 +7,24 @@ import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
 import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
 import { Subsystem } from "@latticexyz/solecs/src/Subsystem.sol";
 
+import { ActiveCombatComponent, ID as ActiveCombatComponentID } from "./ActiveCombatComponent.sol";
+import {
+  ScopedDuration,
+  SystemCallback,
+  DurationSubsystem,
+  ID as DurationSubsystemID
+} from "../duration/DurationSubsystem.sol";
+
+import { LibActiveCombat } from "./LibActiveCombat.sol";
 import { LibCharstat, EL_L } from "../charstat/LibCharstat.sol";
 import { LibCombatAction, Action, ActionType, ActorOpts } from "./LibCombatAction.sol";
+
+/// @dev combatDurationEntity = hashed(salt, initiator)
+function getCombatDurationEntity(
+  uint256 initiatorEntity
+) pure returns (uint256) {
+  return uint256(keccak256(abi.encode(keccak256("getCombatDurationEntity"), initiatorEntity)));
+}
 
 uint256 constant ID = uint256(keccak256("system.Combat"));
 
@@ -23,7 +39,9 @@ contract CombatSubsystem is Subsystem {
   using LibCharstat for LibCharstat.Self;
   using LibCombatAction for LibCombatAction.Self;
 
+  error CombatSubsystem__InvalidExecuteSelector();
   error CombatSubsystem__InvalidActionsLength();
+  error CombatSubsystem__ResidualDuration();
 
   struct CombatActor {
     uint256 entity;
@@ -45,7 +63,7 @@ contract CombatSubsystem is Subsystem {
    * @notice Execute a combat round with default PVE options
    * @dev Player must be the initiator
    */
-  function executePVE(
+  function executePVERound(
     uint256 initiatorEntity,
     uint256 retaliatorEntity,
     Action[] memory initiatorActions,
@@ -66,59 +84,172 @@ contract CombatSubsystem is Subsystem {
       })
     });
 
-    return executeTyped(initiator, retaliator);
+    return executeCombatRound(initiator, retaliator);
   }
 
   /**
    * @notice Execute a combat round with generic actors
    */
-  function executeTyped(
+  function executeCombatRound(
     CombatActor memory initiator,
     CombatActor memory retaliator
-  ) public returns (CombatResult) {
-    return abi.decode(
-      execute(abi.encode(initiator, retaliator)),
-      (CombatResult)
+  ) public onlyWriter returns (CombatResult result) {
+    // TODO (maybe this check doesn't need to be here?)
+    // combat should be externally activated
+    LibActiveCombat.requireActiveCombat(components, initiator.entity, retaliator.entity);
+
+    result = _bothActorsActions(initiator, retaliator);
+    
+    if (result != CombatResult.NONE) {
+      // combat ended - deactivate it
+      executeDeactivateCombat(initiator.entity);
+    } else {
+      // combat keeps going - decrement round durations
+      DurationSubsystem durationSubsystem = _durationSubsystem();
+      durationSubsystem.executeDecreaseScope(
+        initiator.entity,
+        ScopedDuration({
+          // TODO unhardcode durations in CombatSubsystem
+          timeScopeId: uint256(keccak256("round")),
+          timeValue: 1
+        })
+      );
+      durationSubsystem.executeDecreaseScope(
+        initiator.entity,
+        ScopedDuration({
+          timeScopeId: uint256(keccak256("round_persistent")),
+          timeValue: 1
+        })
+      );
+      // if combat duration ran out, initiator loses by default
+      uint256 durationEntity = getCombatDurationEntity(initiator.entity);
+      if (!durationSubsystem.has(initiator.entity, durationEntity)) {
+        executeDeactivateCombat(initiator.entity);
+        result = CombatResult.DEFEAT;
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * @notice Combat must be activated first, then `executeCombatRound` can be called until it's over
+   */
+  function executeActivateCombat(
+    uint256 initiatorEntity,
+    uint256 retaliatorEntity,
+    uint256 maxRounds
+  ) public onlyWriter {
+    LibActiveCombat.requireNotActiveCombat(components, initiatorEntity);
+
+    ActiveCombatComponent activeCombatComp = ActiveCombatComponent(getAddressById(components, ActiveCombatComponentID));
+    activeCombatComp.set(initiatorEntity, retaliatorEntity);
+
+    uint256 durationEntity = getCombatDurationEntity(initiatorEntity);
+    DurationSubsystem durationSubsystem = _durationSubsystem();
+    if (durationSubsystem.has(initiatorEntity, durationEntity)) {
+      // helps catch weird bugs where combat isn't active, but duration still is
+      revert CombatSubsystem__ResidualDuration();
+    }
+    durationSubsystem.executeIncrease(
+      initiatorEntity,
+      durationEntity,
+      ScopedDuration({
+        timeScopeId: uint256(keccak256("round")),
+        timeValue: maxRounds
+      }),
+      SystemCallback(0, '')
     );
   }
 
   /**
-   * @notice Execute a combat round with generic actors
-   * @dev Call `authorizeWriter` for executors
+   * @notice Mostly for internal use, but it can also be called to prematurely deactivate combat
    */
-  function _execute(bytes memory arguments) internal override returns (bytes memory) {
-    (
-      CombatActor memory initiator,
-      CombatActor memory retaliator
-    ) = abi.decode(arguments, (CombatActor, CombatActor));
+  function executeDeactivateCombat(
+    uint256 initiatorEntity
+  ) public onlyWriter {
+    ActiveCombatComponent activeCombatComp = ActiveCombatComponent(getAddressById(components, ActiveCombatComponentID));
+    activeCombatComp.remove(initiatorEntity);
 
+    DurationSubsystem durationSubsystem = _durationSubsystem();
+    durationSubsystem.executeDecreaseScope(
+      initiatorEntity,
+      ScopedDuration({
+        timeScopeId: uint256(keccak256("round")),
+        timeValue: type(uint256).max
+      })
+    );
+    durationSubsystem.executeDecreaseScope(
+      initiatorEntity,
+      ScopedDuration({
+        timeScopeId: uint256(keccak256("turn")),
+        timeValue: 1
+      })
+    );
+  }
+
+  /*//////////////////////////////////////////////////////////////
+                              INTERNAL
+  //////////////////////////////////////////////////////////////*/
+
+  function _execute(bytes memory args) internal override returns (bytes memory) {
+    (bytes4 executeSelector, bytes memory innerArgs) = abi.decode(args, (bytes4, bytes));
+
+    if (executeSelector == this.executeCombatRound.selector) {
+      (
+        CombatActor memory initiator,
+        CombatActor memory retaliator
+      ) = abi.decode(innerArgs, (CombatActor, CombatActor));
+      return abi.encode(executeCombatRound(initiator, retaliator));
+
+    } else if (executeSelector == this.executeActivateCombat.selector) {
+      (
+        uint256 initiatorEntity,
+        uint256 retaliatorEntity,
+        uint256 maxRounds
+      ) = abi.decode(innerArgs, (uint256, uint256, uint256));
+      executeActivateCombat(initiatorEntity, retaliatorEntity, maxRounds);
+      return '';
+
+    } else if (executeSelector == this.executeDeactivateCombat.selector) {
+      (uint256 initiatorEntity) = abi.decode(innerArgs, (uint256));
+      executeDeactivateCombat(initiatorEntity);
+      return '';
+
+    } else {
+      revert CombatSubsystem__InvalidExecuteSelector();
+    }
+  }
+
+  function _bothActorsActions(
+    CombatActor memory initiator,
+    CombatActor memory retaliator
+  ) internal returns (CombatResult) {
     // TODO use some initiative method instead of initiator always being 1st?
-
     LibCharstat.Self memory initiatorCharstat = LibCharstat.__construct(components, initiator.entity);
-
     LibCharstat.Self memory retaliatorCharstat = LibCharstat.__construct(components, retaliator.entity);
 
     // instant loss if initiator somehow started with 0 life
-    if (initiatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.DEFEAT);
+    if (initiatorCharstat.getLifeCurrent() == 0) return CombatResult.DEFEAT;
     
     // initiator's actions
-    _executeCombatActions(initiator, initiatorCharstat, retaliator, retaliatorCharstat);
+    _oneActorActions(initiator, initiatorCharstat, retaliator, retaliatorCharstat);
 
-    // win if retaliator is dead; and retaliator's actions are interrupted
-    if (retaliatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.VICTORY);
+    // win if retaliator is dead; this interrupts retaliator's actions
+    if (retaliatorCharstat.getLifeCurrent() == 0) return CombatResult.VICTORY;
 
     // retaliator's actions
-    _executeCombatActions(retaliator, retaliatorCharstat, initiator, initiatorCharstat);
+    _oneActorActions(retaliator, retaliatorCharstat, initiator, initiatorCharstat);
 
     // loss if initiator is dead
-    if (initiatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.DEFEAT);
+    if (initiatorCharstat.getLifeCurrent() == 0) return CombatResult.DEFEAT;
     // win if retaliator somehow died in its own round
-    if (retaliatorCharstat.getLifeCurrent() == 0) return abi.encode(CombatResult.VICTORY);
+    if (retaliatorCharstat.getLifeCurrent() == 0) return CombatResult.VICTORY;
     // none otherwise
-    return abi.encode(CombatResult.NONE);
+    return CombatResult.NONE;
   }
 
-  function _executeCombatActions(
+  function _oneActorActions(
     CombatActor memory attacker,
     LibCharstat.Self memory attackerCharstat,
     CombatActor memory defender,
@@ -145,5 +276,9 @@ contract CombatSubsystem is Subsystem {
       // (limited by actionType, 2 attacks in a round is too OP)
       revert CombatSubsystem__InvalidActionsLength();
     }
+  }
+
+  function _durationSubsystem() internal view returns (DurationSubsystem) {
+    return DurationSubsystem(getAddressById(world.systems(), DurationSubsystemID));
   }
 }

@@ -16,11 +16,11 @@ library LibLearnedSkills {
   }
 
   function __construct(
-    IUint256Component registry,
+    IUint256Component components,
     uint256 entity
   ) internal view returns (Self memory) {
     return Self({
-      comp: LearnedSkillsComponent(getAddressById(registry, LearnedSkillsComponentID)),
+      comp: LearnedSkillsComponent(getAddressById(components, LearnedSkillsComponentID)),
       entity: entity
     });
   }

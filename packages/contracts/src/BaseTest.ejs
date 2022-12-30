@@ -26,6 +26,9 @@ abstract contract BaseTest is PRBTest {
   address internal alice;
   address internal bob;
 
+  IUint256Component components;
+  IUint256Component systems;
+
 <% const varName = (name) => name.charAt(0).toLowerCase() + name.slice(1); -%>
   // Components
 <% components.forEach(({name}) => { -%>
@@ -48,8 +51,8 @@ abstract contract BaseTest is PRBTest {
     LibDeploy.deploy(address(this), address(world), false);
 
     // Assign all systems and components to storage vars for convenience
-    IUint256Component components = world.components();
-    IUint256Component systems = world.systems();
+    components = world.components();
+    systems = world.systems();
     // Components
 <% components.forEach(({name}) => { -%>
     <%= varName(name) %> = <%= name %>(getAddressById(components, <%= name %>ID));

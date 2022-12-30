@@ -9,6 +9,8 @@ import { CycleTurnsComponent, ID as CycleTurnsComponentID } from "./CycleTurnsCo
 import { CycleTurnsLastClaimedComponent, ID as CycleTurnsLastClaimedComponentID } from "./CycleTurnsLastClaimedComponent.sol";
 
 library LibCycleTurns {
+  error LibCycleTurns__NotEnoughTurns();
+
   uint256 constant ACC_PERIOD = 1 days;
   uint256 constant TURNS_PER_PERIOD = 10;
   uint256 constant MAX_ACC_PERIODS = 2;
@@ -20,6 +22,18 @@ library LibCycleTurns {
     uint256 cycleEntity
   ) internal view returns (uint256) {
     return _turnsComp(components).getValue(cycleEntity);
+  }
+
+  /// @dev Decrease entity's available turns by `subTurns`.
+  function decreaseTurns(
+    IUint256Component components,
+    uint256 cycleEntity,
+    uint256 subTurns
+  ) internal {
+    CycleTurnsComponent turnsComp = _turnsComp(components);
+    uint256 currentTurns = turnsComp.getValue(cycleEntity);
+    if (subTurns > currentTurns) revert LibCycleTurns__NotEnoughTurns();
+    turnsComp.set(cycleEntity, currentTurns - subTurns);
   }
 
   /// @dev Claims all claimable turns.
@@ -46,7 +60,7 @@ library LibCycleTurns {
     assert(TURNS_PER_PERIOD * MAX_ACC_PERIODS < type(uint256).max);
     // make sure current turns aren't overcapped (gotta spend some before claiming more)
     uint256 currentTurns = _turnsComp(components).getValue(cycleEntity);
-    if (currentTurns >= MAX_CURRENT_TURNS_FOR_CLAIM) {
+    if (currentTurns > MAX_CURRENT_TURNS_FOR_CLAIM) {
       return 0;
     } else {
       return accumulatedTurns;

@@ -18,13 +18,11 @@ contract GetRandomnessRevertHelper {
 }
 
 contract LibRNGTest is BaseTest {
-  IUint256Component components;
   GetRandomnessRevertHelper revertHelper;
 
   function setUp() public virtual override {
     super.setUp();
 
-    components = world.components();
     revertHelper = new GetRandomnessRevertHelper();
   }
 

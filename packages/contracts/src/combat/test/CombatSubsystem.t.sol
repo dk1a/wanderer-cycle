@@ -4,10 +4,13 @@ pragma solidity ^0.8.17;
 
 import { BaseTest } from "../../BaseTest.sol";
 
+import { OwnableWritable } from "@latticexyz/solecs/src/OwnableWritable.sol";
+
 import { Topics } from "../../charstat/Topics.sol";
 import { LibCharstat, PStat } from "../../charstat/LibCharstat.sol";
 import { Statmod, Op, Element, EL_L } from "../../statmod/Statmod.sol";
 import { CombatSubsystem, Action, ActionType } from "../CombatSubsystem.sol";
+import { LibActiveCombat } from "../LibActiveCombat.sol";
 
 contract CombatSubsystemTest is BaseTest {
   using LibCharstat for LibCharstat.Self;
@@ -28,6 +31,7 @@ contract CombatSubsystemTest is BaseTest {
   uint32 constant initLevel = 2;
   uint32 initLife;
   uint32 initAttack;
+  uint256 maxRounds = 12;
 
   // statmod proto entities
   uint256 levelPE = Topics.LEVEL.toStatmodEntity(Op.BADD, Element.ALL);
@@ -50,6 +54,9 @@ contract CombatSubsystemTest is BaseTest {
     // initialize and fill up life, mana
     playerCharstat.setFullCurrents();
     encounterCharstat.setFullCurrents();
+
+    // activate combat between player and encounter
+    combatSubsystem.executeActivateCombat(playerEntity, encounterEntity, maxRounds);
 
     initLife = playerCharstat.getLifeCurrent();
     initAttack = playerCharstat.getAttack()[uint256(Element.PHYSICAL)];
@@ -98,9 +105,8 @@ contract CombatSubsystemTest is BaseTest {
 
   function testNotWriter() public {
     vm.prank(address(bytes20(keccak256('notWriter'))));
-    // TODO error selector
-    vm.expectRevert();
-    combatSubsystem.executePVE(
+    vm.expectRevert(OwnableWritable.OwnableWritable__NotWriter.selector);
+    combatSubsystem.executePVERound(
       playerEntity, encounterEntity, _noActions, _noActions
     );
   }
@@ -108,7 +114,7 @@ contract CombatSubsystemTest is BaseTest {
   // skipping a round is fine
   function testEmptyActions() public {
     vm.prank(writer);
-    CombatSubsystem.CombatResult result = combatSubsystem.executePVE(
+    CombatSubsystem.CombatResult result = combatSubsystem.executePVERound(
       playerEntity, encounterEntity, _noActions, _noActions
     );
     assertEq(uint8(result), uint8(CombatSubsystem.CombatResult.NONE));
@@ -118,7 +124,7 @@ contract CombatSubsystemTest is BaseTest {
   function testInvalidNumberOfActions() public {
     vm.prank(writer);
     vm.expectRevert(CombatSubsystem.CombatSubsystem__InvalidActionsLength.selector);
-    combatSubsystem.executePVE(
+    combatSubsystem.executePVERound(
       playerEntity, encounterEntity, _actions2Attacks(), _actions2Attacks()
     );
   }
@@ -127,7 +133,7 @@ contract CombatSubsystemTest is BaseTest {
   function testPlayer1Attack() public {
     vm.prank(writer);
 
-    CombatSubsystem.CombatResult result = combatSubsystem.executePVE(
+    CombatSubsystem.CombatResult result = combatSubsystem.executePVERound(
       playerEntity, encounterEntity, _actions1Attack(), _noActions
     );
     assertEq(uint8(result), uint8(CombatSubsystem.CombatResult.NONE));
@@ -142,7 +148,7 @@ contract CombatSubsystemTest is BaseTest {
     // do enough attacks to defeat encounter
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = combatSubsystem.executePVE(
+      result = combatSubsystem.executePVERound(
         playerEntity, encounterEntity, _actions1Attack(), _noActions
       );
       if (i != attacksNumber - 1) {
@@ -161,7 +167,7 @@ contract CombatSubsystemTest is BaseTest {
     // do enough attacks to defeat player
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = combatSubsystem.executePVE(
+      result = combatSubsystem.executePVERound(
         playerEntity, encounterEntity, _noActions, _actions1Attack()
       );
       if (i != attacksNumber - 1) {
@@ -180,7 +186,7 @@ contract CombatSubsystemTest is BaseTest {
     // do enough attacks to defeat encounter
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = combatSubsystem.executePVE(
+      result = combatSubsystem.executePVERound(
         playerEntity, encounterEntity, _actions1Attack(), _actions1Attack()
       );
       if (i != attacksNumber - 1) {

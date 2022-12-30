@@ -13,9 +13,9 @@ import { LibCycle } from "../cycle/LibCycle.sol";
 
 uint256 constant ID = uint256(keccak256("system.WandererSpawn"));
 
+/// @title Spawn a wandererEntity and start a cycle for it.
+/// @dev This is for new players, whereas StartCycleSystem is for existing ones.
 contract WandererSpawnSystem is System {
-  using LibCycle for LibCycle.Self;
-
   error WandererSpawnSystem__InvalidGuise();
 
   constructor(IWorld _world, address _components) System(_world, _components) {}
@@ -27,18 +27,9 @@ contract WandererSpawnSystem is System {
     );
   }
 
-  /**
-   * @notice Anyone can freely spawn wanderers, a wanderer is a tokenized game account
-   */
+  /// @notice Anyone can freely spawn wanderers, a wanderer is a tokenized game account
   function execute(bytes memory args) public override returns (bytes memory) {
     (uint256 guiseProtoEntity) = abi.decode(args, (uint256));
-
-    // check guise
-    GuisePrototypeComponent guiseProtoComp
-      = GuisePrototypeComponent(getAddressById(components, GuisePrototypeComponentID));
-    if (!guiseProtoComp.has(guiseProtoEntity)) {
-      revert WandererSpawnSystem__InvalidGuise();
-    }
 
     // mint nft
     uint256 wandererEntity = world.getUniqueEntityId();
@@ -47,9 +38,7 @@ contract WandererSpawnSystem is System {
     // TODO differentiate different types of nfts
 
     // init cycle
-    uint256 cycleEntity = world.getUniqueEntityId();
-    LibCycle.Self memory cycle = LibCycle.__construct(components, wandererEntity);
-    cycle.initCycle(cycleEntity, guiseProtoEntity);
+    LibCycle.initCycle(world, wandererEntity, guiseProtoEntity);
 
     return abi.encode(wandererEntity);
   }
