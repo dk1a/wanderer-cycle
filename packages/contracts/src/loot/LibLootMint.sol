@@ -58,6 +58,7 @@ library LibLootMint {
       components,
       lootEntity,
       ilvl,
+      affixPartIds,
       statmodProtoEntities,
       affixProtoEntities,
       affixValues
@@ -68,6 +69,7 @@ library LibLootMint {
     IUint256Component components,
     uint256 lootEntity,
     uint256 ilvl,
+    AffixPartId[] memory affixPartIds,
     uint256[] memory statmodProtoEntities,
     uint256[] memory affixProtoEntities,
     uint256[] memory affixValues
@@ -76,6 +78,7 @@ library LibLootMint {
     LootComponent lootComp = LootComponent(getAddressById(components, LootComponentID));
     lootComp.set(lootEntity, Loot({
       ilvl: ilvl,
+      affixPartIds: affixPartIds,
       affixProtoEntities: affixProtoEntities,
       affixValues: affixValues
     }));

@@ -42,12 +42,13 @@ library LibRNG {
   function getRandomness(
     IUint256Component components,
     uint256 requestId
-  ) internal view returns (uint256) {
+  ) internal view returns (uint256 randomness, bytes memory data) {
     RNGPrecommit memory precommit = getPrecommit(components, requestId);
 
     if (!isValid(precommit)) revert LibRNG__InvalidPrecommit();
 
-    return uint256(blockhash(precommit.blocknumber));
+    randomness = uint256(blockhash(precommit.blocknumber));
+    data = precommit.data;
   }
 
   function getPrecommit(

@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.17;
 
-import { FromPrototypeComponent as _FromPrototypeComponent } from "@dk1a/solecslib/contracts/prototype/FromPrototypeComponent.sol";
+import { Uint256Component } from "std-contracts/components/Uint256Component.sol";
 
 uint256 constant ID = uint256(keccak256("component.FromPrototype"));
 
-contract FromPrototypeComponent is _FromPrototypeComponent {
-  constructor(address world) _FromPrototypeComponent(world, ID) {}
+contract FromPrototypeComponent is Uint256Component {
+  constructor(address world) Uint256Component(world, ID) {}
 }

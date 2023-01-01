@@ -13,8 +13,9 @@ import {
   ID as CombatSubsystemID
 } from "../combat/CombatSubsystem.sol";
 
-import { LibCycle } from "./LibCycle.sol";
 import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
+import { LibCycle } from "./LibCycle.sol";
+import { LibCycleCombatRewardRequest } from "./LibCycleCombatRewardRequest.sol";
 
 uint256 constant ID = uint256(keccak256("system.CycleCombat"));
 
@@ -57,9 +58,11 @@ contract CycleCombatSystem is System {
     );
 
     if (result == CombatSubsystem.CombatResult.VICTORY) {
-      // TODO REWARDS!
-    } else if (result == CombatSubsystem.CombatResult.DEFEAT) {
-      // TODO minor participation reward?
+      LibCycleCombatRewardRequest.requestReward(
+        world,
+        cycleEntity,
+        retaliatorEntity
+      );
     }
 
     return abi.encode(result);

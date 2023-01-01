@@ -23,14 +23,14 @@ library LibCharstat {
   }
 
   function __construct(
-    IUint256Component registry,
+    IUint256Component components,
     uint256 targetEntity
   ) internal view returns (Self memory) {
     return Self({
-      statmod: Statmod.__construct(registry, targetEntity),
-      exp: LibExperience.__construct(registry, targetEntity),
-      lifeCComp: LifeCurrentComponent(getAddressById(registry, LifeCurrentComponentID)),
-      manaCComp: ManaCurrentComponent(getAddressById(registry, ManaCurrentComponentID)),
+      statmod: Statmod.__construct(components, targetEntity),
+      exp: LibExperience.__construct(components, targetEntity),
+      lifeCComp: LifeCurrentComponent(getAddressById(components, LifeCurrentComponentID)),
+      manaCComp: ManaCurrentComponent(getAddressById(components, ManaCurrentComponentID)),
       targetEntity: targetEntity
     });
   }
@@ -56,6 +56,15 @@ library LibCharstat {
     uint32 baseValue = getBasePStat(__self, pstatIndex);
 
     return __self.statmod.getValuesFinal(Topics.PSTAT()[uint256(pstatIndex)].toEntity(), baseValue);
+  }
+
+  function getPStats(
+    Self memory __self
+  ) internal view returns (uint32[PS_L] memory pstats) {
+    for (uint256 i; i < PS_L; i++) {
+      pstats[i] = getPStat(__self, PStat(i));
+    }
+    return pstats;
   }
 
   // ========== ATTRIBUTES ==========

@@ -27,10 +27,11 @@ contract LibRNGTest is BaseTest {
   }
 
   function test_getRandomness() public {
-    uint256 requestId = LibRNG.requestRandomness(world, '');
+    uint256 requestId = LibRNG.requestRandomness(world, 'test123');
     vm.roll(block.number + LibRNG.WAIT_BLOCKS + 1);
-    uint256 randomness = LibRNG.getRandomness(components, requestId);
+    (uint256 randomness, bytes memory data) = LibRNG.getRandomness(components, requestId);
     assertGt(randomness, 0);
+    assertEq(data, 'test123');
   }
 
   function test_getRandomness_revert_sameBlock() public {

@@ -43,6 +43,7 @@
     "ActiveCycleComponent",
     "CycleTurnsComponent",
     "CycleTurnsLastClaimedComponent",
+    "CycleCombatRewardRequestComponent",
 
     "ActiveCombatComponent"
   ],
@@ -135,11 +136,22 @@
     },
     {
       "name": "CycleActivateCombatSystem",
-      "writeAccess": ["CycleTurnsComponent"]
+      "writeAccess": [
+        "EffectSubsystem",
+        "CycleTurnsComponent",
+        "LifeCurrentComponent",
+        "ManaCurrentComponent",
+        "FromPrototypeComponent",
+        "CombatSubsystem"
+      ]
     },
     {
       "name": "CycleCombatSystem",
-      "writeAccess": ["CombatSubsystem"]
+      "writeAccess": ["CombatSubsystem", "CycleCombatRewardRequestComponent", "RNGPrecommitComponent"]
+    },
+    {
+      "name": "CycleCombatRewardSystem",
+      "writeAccess": ["CycleCombatRewardRequestComponent", "ExperienceComponent", "RandomEquipmentSubsystem"]
     },
 
 
