@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.17;
 
-import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
-import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
-import { Subsystem } from "@latticexyz/solecs/src/Subsystem.sol";
-import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
+import { IWorld } from "solecs/interfaces/IWorld.sol";
+import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
+import { Subsystem } from "solecs/Subsystem.sol";
+import { getAddressById } from "solecs/utils.sol";
 import {
   EffectRemovability,
   EffectPrototype,

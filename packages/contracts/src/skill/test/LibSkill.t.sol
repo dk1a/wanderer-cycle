@@ -4,7 +4,7 @@ pragma solidity ^0.8.17;
 
 import { BaseTest } from "../../BaseTest.sol";
 
-import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
+import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 
 import { ScopedDuration } from "../../duration/DurationSubsystem.sol";
 import { getSkillProtoEntity } from "../SkillPrototypeComponent.sol";

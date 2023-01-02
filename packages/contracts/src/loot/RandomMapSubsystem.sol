@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.17;
 
-import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
-import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
-import { Subsystem } from "@latticexyz/solecs/src/Subsystem.sol";
+import { IWorld } from "solecs/interfaces/IWorld.sol";
+import { getAddressById } from "solecs/utils.sol";
+import { Subsystem } from "solecs/Subsystem.sol";
 
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 

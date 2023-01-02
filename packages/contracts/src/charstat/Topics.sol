@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.17;
 
-import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
+import { IWorld } from "solecs/interfaces/IWorld.sol";
 
 import { PS_L, PStat } from "./LibExperience.sol";
 import { statmodName } from "../statmod/statmodName.sol";

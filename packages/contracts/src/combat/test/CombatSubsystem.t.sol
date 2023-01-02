@@ -4,7 +4,7 @@ pragma solidity ^0.8.17;
 
 import { BaseTest } from "../../BaseTest.sol";
 
-import { OwnableWritable } from "@latticexyz/solecs/src/OwnableWritable.sol";
+import { OwnableWritable } from "solecs/OwnableWritable.sol";
 
 import { Topics } from "../../charstat/Topics.sol";
 import { LibCharstat, PStat } from "../../charstat/LibCharstat.sol";

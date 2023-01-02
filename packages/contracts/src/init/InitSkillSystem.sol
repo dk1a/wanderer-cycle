@@ -2,9 +2,9 @@
 
 pragma solidity ^0.8.17;
 
-import { System } from "@latticexyz/solecs/src/System.sol";
-import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
-import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
+import { System } from "solecs/System.sol";
+import { IWorld } from "solecs/interfaces/IWorld.sol";
+import { getAddressById } from "solecs/utils.sol";
 
 import { BaseInitSkillSystem } from "./BaseInitSkillSystem.sol";
 import { SkillType, TargetType, SkillPrototype } from "../skill/SkillPrototypeComponent.sol";

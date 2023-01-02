@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
-import { getAddressById } from "@latticexyz/solecs/src/utils.sol";
+import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
+import { getAddressById } from "solecs/utils.sol";
 
 import { CycleTurnsComponent, ID as CycleTurnsComponentID } from "./CycleTurnsComponent.sol";
 import { CycleTurnsLastClaimedComponent, ID as CycleTurnsLastClaimedComponentID } from "./CycleTurnsLastClaimedComponent.sol";

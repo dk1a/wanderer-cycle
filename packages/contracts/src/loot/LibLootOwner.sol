@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
-import { getAddressById, addressToEntity } from "@latticexyz/solecs/src/utils.sol";
+import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
+import { getAddressById, addressToEntity } from "solecs/utils.sol";
 
 import { OwnedByComponent, ID as OwnedByComponentID } from "../common/OwnedByComponent.sol";
 import { WNFTSubsystem, ID as WNFTSubsystemID } from "../token/WNFTSubsystem.sol";

@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { LibTypes } from "@latticexyz/solecs/src/LibTypes.sol";
-import { BareComponent } from "@latticexyz/solecs/src/BareComponent.sol";
+import { LibTypes } from "solecs/LibTypes.sol";
+import { BareComponent } from "solecs/BareComponent.sol";
 
 import { EffectPrototype, _getSchema } from "./EffectPrototypeComponent.sol";
 

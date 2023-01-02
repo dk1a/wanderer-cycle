@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { System } from "@latticexyz/solecs/src/System.sol";
-import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
+import { System } from "solecs/System.sol";
+import { IWorld } from "solecs/interfaces/IWorld.sol";
 
 import { LibCycle } from "./LibCycle.sol";
 import { LibToken } from "../token/LibToken.sol";

@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { IWorld } from "@latticexyz/solecs/src/interfaces/IWorld.sol";
-import { IUint256Component } from "@latticexyz/solecs/src/interfaces/IUint256Component.sol";
+import { IWorld } from "solecs/interfaces/IWorld.sol";
+import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 
 import { LibSkill } from "../skill/LibSkill.sol";
 import { LibCharstat, EL_L } from "../charstat/LibCharstat.sol";

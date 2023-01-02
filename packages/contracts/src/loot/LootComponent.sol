@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { LibTypes } from "@latticexyz/solecs/src/LibTypes.sol";
-import { Component } from "@latticexyz/solecs/src/Component.sol";
+import { LibTypes } from "solecs/LibTypes.sol";
+import { Component } from "solecs/Component.sol";
 
 import { AffixPartId } from "../affix/LibPickAffixes.sol";
 
