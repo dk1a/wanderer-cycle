@@ -9,12 +9,12 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@dk1a/solecslib@https://github.com/dk1a/solecslib#0552cc32fc19179a3e74285c0a41bb812d371202":
+"@dk1a/solecslib@https://github.com/dk1a/solecslib#825be3a0179de0a5313e212d7db1a772359755a9":
   version "0.3.2"
-  resolved "https://github.com/dk1a/solecslib#0552cc32fc19179a3e74285c0a41bb812d371202"
+  resolved "https://github.com/dk1a/solecslib#825be3a0179de0a5313e212d7db1a772359755a9"
   dependencies:
-    "@latticexyz/solecs" "https://gitpkg.now.sh/dk1a/mud/packages/solecs?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91"
-    "@latticexyz/std-contracts" "https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91"
+    "@latticexyz/solecs" "https://gitpkg.now.sh/dk1a/mud/packages/solecs?002124ef0939eb811ca33ff6e94b3ff03cd7b961"
+    "@latticexyz/std-contracts" "https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?002124ef0939eb811ca33ff6e94b3ff03cd7b961"
     "@openzeppelin/contracts" "^4.8.0"
     "@solidstate/contracts" "^0.0.48"
     memmove "github:dk1a/memmove#ffd71cd77b1708574ef46a667b23ca3a5cc9fa27"
@@ -391,9 +391,9 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@latticexyz/cli@https://gitpkg.now.sh/dk1a/mud/packages/cli?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91":
+"@latticexyz/cli@https://gitpkg.now.sh/dk1a/mud/packages/cli?002124ef0939eb811ca33ff6e94b3ff03cd7b961":
   version "1.31.3"
-  resolved "https://gitpkg.now.sh/dk1a/mud/packages/cli?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91#f62bac2cfcc4d926134f0eafaf094bf03eb486c7"
+  resolved "https://gitpkg.now.sh/dk1a/mud/packages/cli?002124ef0939eb811ca33ff6e94b3ff03cd7b961#1a7c09412d926ee9160afd7006079fa07cf20323"
   dependencies:
     "@latticexyz/services" "^1.31.3"
     "@latticexyz/solecs" "^1.31.3"
@@ -430,13 +430,13 @@
   resolved "https://registry.yarnpkg.com/@latticexyz/services/-/services-1.31.3.tgz#dec43cecf1b6dfe13f24bfe434e5932ebedaff88"
   integrity sha512-ieJ6V46APjQ3PPMCKyZB/uMTJ1A0ERcLUNOScyXwSduBegYFSYnQvPWUh/QnDREJ9t3f7ZD/DI8EMJdj34t3og==
 
-"@latticexyz/solecs@^1.31.3", "@latticexyz/solecs@https://gitpkg.now.sh/dk1a/mud/packages/solecs?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91":
+"@latticexyz/solecs@^1.31.3", "@latticexyz/solecs@https://gitpkg.now.sh/dk1a/mud/packages/solecs?002124ef0939eb811ca33ff6e94b3ff03cd7b961":
   version "1.31.3"
-  resolved "https://gitpkg.now.sh/dk1a/mud/packages/solecs?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91#c74530ae0e82e3863da811f3131fe980a655fbdc"
+  resolved "https://gitpkg.now.sh/dk1a/mud/packages/solecs?002124ef0939eb811ca33ff6e94b3ff03cd7b961#736330664d4918f946a26da12b110e14548fa6f0"
 
-"@latticexyz/std-contracts@^1.31.3", "@latticexyz/std-contracts@https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91":
+"@latticexyz/std-contracts@^1.31.3", "@latticexyz/std-contracts@https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?002124ef0939eb811ca33ff6e94b3ff03cd7b961":
   version "1.31.3"
-  resolved "https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91#2c9b6ea2046f826055e5d73ddf5515bcf7bf6978"
+  resolved "https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?002124ef0939eb811ca33ff6e94b3ff03cd7b961#b4362390be5559cf8c4cfc9b40806a38e5861d3b"
 
 "@latticexyz/utils@^1.31.3":
   version "1.31.3"

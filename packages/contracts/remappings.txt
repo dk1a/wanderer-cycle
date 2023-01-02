@@ -1,7 +1,6 @@
 ds-test/=../../node_modules/ds-test/src/
 forge-std/=../../node_modules/forge-std/src/
 solecs/=../../node_modules/@latticexyz/solecs/src/
+@latticexyz/solecs/src/=../../node_modules/@latticexyz/solecs/src/
 memmove/=../../node_modules/memmove/src/
 std-contracts/=../../node_modules/@latticexyz/std-contracts/src/
-components/=./src/flattened
-systems/=./src/flattened

@@ -20,18 +20,6 @@ renderEjs("src/init/InitReverseHashNameSystem.ejs", {
   names: solExtractHashedStrings("src/charstat/Topics.sol")
 })
 
-// flatten everything within subdirs (however without recursing into their subdirs)
-{
-  const files = glob.sync("src/!(flattened)/!(LibDeploy).sol", {})
-  const flattenedDir = "src/flattened"  
-  rimraf.sync(flattenedDir)
-  mkdirSync(flattenedDir)
-
-  for (const file of files) {
-    copyFileSync(file, join(flattenedDir, basename(file)))
-  }
-}
-
 // generate test template
 {
   const testFile = "src/BaseTest.ejs"

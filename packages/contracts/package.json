@@ -2,7 +2,7 @@
   "name": "contracts",
   "version": "0.1.0",
   "scripts": {
-    "prepare": "yarn codegen && mud types",
+    "prepare": "yarn codegen && mud types && mud codegen-libdeploy --out src/libraries",
     "devnode": "mud devnode",
     "test": "yarn codegen && mud codegen-libdeploy --out src/libraries && forge test",
     "types": "yarn codegen && mud types",
@@ -17,7 +17,7 @@
     "@ethersproject/bytes": "^5.7.0",
     "@ethersproject/hash": "^5.7.0",
     "@ethersproject/strings": "^5.7.0",
-    "@latticexyz/cli": "https://gitpkg.now.sh/dk1a/mud/packages/cli?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91",
+    "@latticexyz/cli": "https://gitpkg.now.sh/dk1a/mud/packages/cli?002124ef0939eb811ca33ff6e94b3ff03cd7b961",
     "@prb/test": "^0.2.1",
     "@solidity-parser/parser": "^0.14.5",
     "@typechain/ethers-v5": "^10.1.1",
@@ -37,9 +37,9 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "@dk1a/solecslib": "https://github.com/dk1a/solecslib#0552cc32fc19179a3e74285c0a41bb812d371202",
+    "@dk1a/solecslib": "https://github.com/dk1a/solecslib#825be3a0179de0a5313e212d7db1a772359755a9",
     "@dk1a/solidity-stringutils": "^0.3.2",
-    "@latticexyz/solecs": "https://gitpkg.now.sh/dk1a/mud/packages/solecs?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91",
-    "@latticexyz/std-contracts": "https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?2b00cbb7cd8dfb58b47c79f70fd0932034fe7d91"
+    "@latticexyz/solecs": "https://gitpkg.now.sh/dk1a/mud/packages/solecs?002124ef0939eb811ca33ff6e94b3ff03cd7b961",
+    "@latticexyz/std-contracts": "https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?002124ef0939eb811ca33ff6e94b3ff03cd7b961"
   }
 }
