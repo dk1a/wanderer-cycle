@@ -8,7 +8,7 @@ import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 
 import { Loot } from "../LootComponent.sol";
 import { EffectPrototype, EffectRemovability } from "../../effect/EffectPrototypeComponent.sol";
-import { MAX_ILVL } from "../../init/BaseInitAffixSystem.sol";
+import { MAX_ILVL } from "../../init/LibBaseInitAffix.sol";
 
 contract RandomEquipmentSubsystemTest is BaseTest {
   function setUp() public virtual override {

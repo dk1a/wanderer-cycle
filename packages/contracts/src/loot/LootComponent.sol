@@ -20,7 +20,7 @@ contract LootComponent is Component {
   constructor(address world) Component(world, ID) {}
   
   function getSchema() public pure override returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
-    keys = new string[](3);
+    keys = new string[](4);
     values = new LibTypes.SchemaValue[](4);
 
     keys[0] = "ilvl";

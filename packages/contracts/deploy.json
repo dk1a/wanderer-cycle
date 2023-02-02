@@ -49,6 +49,11 @@
   ],
   "systems": [
     {
+      "TODO": "remove this in production!!",
+      "name": "ComponentDevSystem",
+      "writeAccess": ["*"]
+    },
+    {
       "name": "ReverseHashNameSystem",
       "writeAccess": ["ReverseHashNameComponent"]
     },
@@ -178,28 +183,6 @@
       "initialize": "new bytes(0)"
     },
     {
-      "name": "InitEquipmentAffixSystem",
-      "writeAccess": [
-        "AffixPrototypeComponent",
-        "AffixPrototypeGroupComponent",
-        "AffixNamingComponent",
-        "AffixAvailabilityComponent",
-        "NameComponent"
-      ],
-      "initialize": "new bytes(0)"
-    },
-    {
-      "name": "InitMapAffixSystem",
-      "writeAccess": [
-        "AffixPrototypeComponent",
-        "AffixPrototypeGroupComponent",
-        "AffixNamingComponent",
-        "AffixAvailabilityComponent",
-        "NameComponent"
-      ],
-      "initialize": "new bytes(0)"
-    },
-    {
       "name": "InitSkillSystem",
       "writeAccess": [
         "SkillPrototypeComponent",
@@ -213,11 +196,10 @@
       "name": "InitGuiseSystem",
       "writeAccess": ["GuisePrototypeComponent", "GuiseSkillsComponent", "NameComponent"],
       "initialize": "new bytes(0)"
-    },
-    {
-      "name": "InitMapsBasicGlobalSystem",
-      "writeAccess": ["LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"],
-      "initialize": "new bytes(0)"
     }
+  ],
+  "libs": [
+    {"name": "LibInitEquipmentAffix"},
+    {"name": "LibInitMapAffix"}
   ]
 }

@@ -2,11 +2,11 @@
   "name": "contracts",
   "version": "0.1.0",
   "scripts": {
-    "prepare": "yarn codegen && mud types && mud codegen-libdeploy --out src/libraries",
+    "prepare": "yarn codegen && mud types",
     "devnode": "mud devnode",
-    "test": "yarn codegen && mud codegen-libdeploy --out src/libraries && forge test",
+    "test": "yarn codegen && mud test",
     "types": "yarn codegen && mud types",
-    "dev": "echo 'TODO use mud deploy'",
+    "dev": "yarn codegen && mud deploy-contracts --dev",
     "codegen": "ts-node ./scripts/codegen.ts"
   },
   "files": [

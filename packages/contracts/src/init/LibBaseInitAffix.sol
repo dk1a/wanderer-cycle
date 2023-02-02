@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
+import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
 import { StatmodPrototypeComponent, ID as StatmodPrototypeComponentID } from "../statmod/StatmodPrototypeComponent.sol";
@@ -32,10 +32,20 @@ import {
   ID as AffixPrototypeGroupComponentID
 } from "../affix/AffixPrototypeGroupComponent.sol";
 
-import { EquipmentPrototypes } from "../equipment/EquipmentPrototypes.sol";
-
 struct AffixPart {
   AffixPartId partId;
+  uint256 targetEntity;
+  string label;
+}
+
+/// @dev affix value range
+struct Range {
+  uint256 min;
+  uint256 max;
+}
+
+/// @dev target label
+struct TargetLabel {
   uint256 targetEntity;
   string label;
 }
@@ -68,27 +78,14 @@ function tierToDefaultRequiredIlvl(uint256 tier) pure returns (uint256 requiredI
 /// affix => tier => {prefixLabel, suffixLabel}
 /// affix => tier => targetEntity => implicitLabel
 /// (targetEntity is e.g. equipmentProtoEntity)
-abstract contract BaseInitAffixSystem is System {
-  error BaseInitAffixSystem__MalformedInput(string affixName, uint256 maxIlvl);
-  error BaseInitAffixSystem__InvalidStatmodPrototype();
-
-  constructor(IWorld _world, address _components) System(_world, _components) {}
-
-  /// @dev affix value range
-  struct Range {
-    uint256 min;
-    uint256 max;
-  }
-
-  /// @dev target label
-  struct TargetLabel {
-    uint256 targetEntity;
-    string label;
-  }
+library LibBaseInitAffix {
+  error LibBaseInitAffix__MalformedInput(string affixName, uint256 maxIlvl);
+  error LibBaseInitAffix__InvalidStatmodPrototype();
 
   /// @dev Add `DEFAULT_TIERS` tiers of an affix
   /// (for affixes with non-standard tiers use `addOne` directly)
   function add(
+    IUint256Component components,
     string memory affixName,
     uint256 statmodProtoEntity,
     Range[DEFAULT_TIERS] memory ranges,
@@ -110,6 +107,7 @@ abstract contract BaseInitAffixSystem is System {
       });
 
       addOne(
+        components,
         affixName,
         proto,
         affixParts
@@ -119,22 +117,24 @@ abstract contract BaseInitAffixSystem is System {
 
   /// @dev Add a single affix tier with *default* maxIlvl
   function addOne(
+    IUint256Component components,
     string memory affixName,
     AffixPrototype memory proto,
     AffixPart[] memory affixParts
   ) internal {
-    addOne(affixName, proto, affixParts, MAX_ILVL);
+    addOne(components, affixName, proto, affixParts, MAX_ILVL);
   }
 
   /// @dev Add a single affix tier with *custom* maxIlvl
   function addOne(
+    IUint256Component components,
     string memory affixName,
     AffixPrototype memory proto,
     AffixPart[] memory affixParts,
     uint256 maxIlvl
   ) internal {
     if (maxIlvl == 0 || proto.requiredIlvl > maxIlvl) {
-      revert BaseInitAffixSystem__MalformedInput(affixName, maxIlvl);
+      revert LibBaseInitAffix__MalformedInput(affixName, maxIlvl);
     }
 
     // read-only components for validation
@@ -142,7 +142,7 @@ abstract contract BaseInitAffixSystem is System {
       = StatmodPrototypeComponent(getAddressById(components, StatmodPrototypeComponentID));
 
     if (!statmodProtoComp.has(proto.statmodProtoEntity)) {
-      revert BaseInitAffixSystem__InvalidStatmodPrototype();
+      revert LibBaseInitAffix__InvalidStatmodPrototype();
     }
 
     // write components
@@ -177,75 +177,6 @@ abstract contract BaseInitAffixSystem is System {
       for (uint256 ilvl = proto.requiredIlvl; ilvl <= maxIlvl; ilvl++) {
         uint256 availabilityEntity = getAffixAvailabilityEntity(ilvl, partId, targetEntity);
         availabilityComp.addItem(availabilityEntity, protoEntity);
-      }
-    }
-  }
-
-  /*//////////////////////////////////////////////////////////////////////////
-                                    EQUIPMENT
-  //////////////////////////////////////////////////////////////////////////*/
-
-  function _allEquipment() internal pure returns (uint256[] memory r) {
-    r = new uint256[](9);
-    r[0] = EquipmentPrototypes.WEAPON;
-    r[1] = EquipmentPrototypes.SHIELD;
-    r[2] = EquipmentPrototypes.HAT;
-    r[3] = EquipmentPrototypes.CLOTHING;
-    r[4] = EquipmentPrototypes.GLOVES;
-    r[5] = EquipmentPrototypes.PANTS;
-    r[6] = EquipmentPrototypes.BOOTS;
-    r[7] = EquipmentPrototypes.AMULET;
-    r[8] = EquipmentPrototypes.RING;
-  }
-
-  function _jewellery() internal pure returns (uint256[] memory r) {
-    r = new uint256[](2);
-    r[0] = EquipmentPrototypes.AMULET;
-    r[1] = EquipmentPrototypes.RING;
-  }
-
-  function _attrEquipment() internal pure returns (uint256[] memory r) {
-    r = new uint256[](4);
-    r[0] = EquipmentPrototypes.WEAPON;
-    r[1] = EquipmentPrototypes.SHIELD;
-    r[2] = EquipmentPrototypes.HAT;
-    r[3] = EquipmentPrototypes.AMULET;
-  }
-
-  function _weapon() internal pure returns (uint256[] memory r) {
-    r = new uint256[](1);
-    r[0] = EquipmentPrototypes.WEAPON;
-  }
-
-  function _resEquipment() internal pure returns (uint256[] memory r) {
-    r = new uint256[](6);
-    r[0] = EquipmentPrototypes.SHIELD;
-    r[1] = EquipmentPrototypes.HAT;
-    r[2] = EquipmentPrototypes.CLOTHING;
-    r[3] = EquipmentPrototypes.GLOVES;
-    r[4] = EquipmentPrototypes.PANTS;
-    r[5] = EquipmentPrototypes.BOOTS;
-  }
-
-  function _equipment(string[9] memory _labels) internal pure returns (TargetLabel[] memory _dynamic) {
-    uint256[] memory allEquipment = _allEquipment();
-
-    _dynamic = new TargetLabel[](_labels.length);
-    uint256 j;
-    for (uint256 i; i < _labels.length; i++) {
-      if (bytes(_labels[i]).length > 0) {
-        _dynamic[j] = TargetLabel({
-          targetEntity: allEquipment[i],
-          label: _labels[i]
-        });
-        j++;
-      }
-    }
-    // shorten dynamic length if necessary
-    if (_labels.length != j) {
-      /// @solidity memory-safe-assembly
-      assembly {
-        mstore(_dynamic, j)
       }
     }
   }

@@ -3,17 +3,21 @@
 pragma solidity ^0.8.17;
 
 import { IWorld } from "solecs/interfaces/IWorld.sol";
+import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 
-import { BaseInitAffixSystem, DEFAULT_TIERS } from "./BaseInitAffixSystem.sol";
+import { LibBaseInitAffix as b, Range, TargetLabel, DEFAULT_TIERS } from "./LibBaseInitAffix.sol";
 
 import { Topics, Op, Element } from "../charstat/Topics.sol";
+import { EquipmentPrototypes } from "../equipment/EquipmentPrototypes.sol";
 
-uint256 constant ID = uint256(keccak256("system.InitEquipmentAffix"));
+library LibInitEquipmentAffix {
+  function init(IWorld world) internal {
+    IUint256Component components = world.components();
 
-contract InitEquipmentAffixSystem is BaseInitAffixSystem {
-  constructor(IWorld _world, address _components) BaseInitAffixSystem(_world, _components) {}
+    /*//////////////////////////////////////////////////////////////////////////
+                                    RESOURCES
+    //////////////////////////////////////////////////////////////////////////*/
 
-  function execute(bytes memory) public override onlyOwner returns (bytes memory) {
     Range[DEFAULT_TIERS] memory resourceRanges = [
       Range(1, 4),
       Range(5, 6),
@@ -21,35 +25,13 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
       Range(10, 12)
     ];
 
-    Range[DEFAULT_TIERS] memory attrRanges = [
-      Range(1, 1),
-      Range(1, 2),
-      Range(2, 3),
-      Range(3, 4)
-    ];
-
-    Range[DEFAULT_TIERS] memory weaponAttackRanges = [
-      Range(1, 4),
-      Range(5, 6),
-      Range(7, 9),
-      Range(10, 12)
-    ];
-
-    Range[DEFAULT_TIERS] memory resistanceMinorRanges = [
-      Range(1, 3),
-      Range(3, 5),
-      Range(5, 6),
-      Range(6, 7)
-    ];
-
-    // RESOURCES
-
-    add(
+    b.add(
+      components,
       "life",
       Topics.LIFE.toStatmodEntity(Op.ADD, Element.ALL),
       resourceRanges,
       [
-        _affixes(
+        b._affixes(
           "Hale", "of Haleness",
           _allEquipment(),
           _equipment([
@@ -64,7 +46,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             "Brawler's Ring"
           ])
         ),
-        _affixes(
+        b._affixes(
           "Healthful", "of Health",
           _allEquipment(),
           _equipment([
@@ -79,7 +61,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             "Infantry Ring"
           ])
         ),
-        _affixes(
+        b._affixes(
           "Robust", "of Robustness",
           _allEquipment(),
           _equipment([
@@ -94,7 +76,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             "Warrior Ring"
           ])
         ),
-        _affixes(
+        b._affixes(
           "Stalwart", "of Stalwart Body",
           _allEquipment(),
           _equipment([
@@ -112,36 +94,38 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
       ]
     );
 
-    add(
+    b.add(
+      components,
       "life regen",
       Topics.LIFE_GAINED_PER_TURN.toStatmodEntity(Op.ADD, Element.ALL),
       resourceRanges,
       [
-        _explicits(
+        b._explicits(
           "Salubrious", "of Salubrity",
           _jewellery()
         ),
-        _explicits(
+        b._explicits(
           "Recuperative", "of Recuperation",
-          _allEquipment()
+          _jewellery()
         ),
-        _explicits(
+        b._explicits(
           "Restorative", "of Restoration",
-          _allEquipment()
+          _jewellery()
         ),
-        _explicits(
+        b._explicits(
           "Rejuvenating", "of Rejuvenation",
-          _allEquipment()
+          _jewellery()
         )
       ]
     );
 
-    add(
+    b.add(
+      components,
       "mana",
       Topics.MANA.toStatmodEntity(Op.ADD, Element.ALL),
       resourceRanges,
       [
-        _affixes(
+        b._affixes(
           "Calm", "of Calm",
           _allEquipment(),
           _equipment([
@@ -156,7 +140,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             "Student's Ring"
           ])
         ),
-        _affixes(
+        b._affixes(
           "Serene", "of Serenity",
           _allEquipment(),
           _equipment([
@@ -171,7 +155,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             "Scholar's Ring"
           ])
         ),
-        _affixes(
+        b._affixes(
           "Tranquil", "of Tranquility",
           _allEquipment(),
           _equipment([
@@ -186,7 +170,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             "Mage Ring"
           ])
         ),
-        _affixes(
+        b._affixes(
           "Halcyon", "of Halcyon Mind",
           _allEquipment(),
           _equipment([
@@ -204,37 +188,49 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
       ]
     );
 
-    add(
+    b.add(
+      components,
       "mana regen",
       Topics.MANA_GAINED_PER_TURN.toStatmodEntity(Op.ADD, Element.ALL),
       resourceRanges,
       [
-        _explicits(
+        b._explicits(
           "Drowsy", "of Drowsiness",
           _jewellery()
         ),
-        _explicits(
+        b._explicits(
           "Sleepy", "of Sleepiness",
-          _allEquipment()
+          _jewellery()
         ),
-        _explicits(
+        b._explicits(
           "Slumberous", "of Slumber",
-          _allEquipment()
+          _jewellery()
         ),
-        _explicits(
+        b._explicits(
           "Somnolent", "of Somnolence",
-          _allEquipment()
+          _jewellery()
         )
       ]
     );
 
-    // ATTRIBUTES
-    add(
+    /*//////////////////////////////////////////////////////////////////////////
+                                      PSTATS
+    //////////////////////////////////////////////////////////////////////////*/
+
+    Range[DEFAULT_TIERS] memory pstatRanges = [
+      Range(1, 1),
+      Range(1, 2),
+      Range(2, 3),
+      Range(3, 4)
+    ];
+
+    b.add(
+      components,
       "strength",
       Topics.STRENGTH.toStatmodEntity(Op.ADD, Element.ALL),
-      attrRanges,
+      pstatRanges,
       [
-        _affixes(
+        b._affixes(
           "Brutish", "of the Brute",
           _attrEquipment(),
           _equipment([
@@ -249,7 +245,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Canine", "of the Wolf",
           _attrEquipment(),
           _equipment([
@@ -264,7 +260,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Bearish", "of the Bear",
           _attrEquipment(),
           _equipment([
@@ -279,7 +275,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Lionheart", "of the Lion",
           _attrEquipment(),
           _equipment([
@@ -297,12 +293,13 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
       ]
     );
 
-    add(
+    b.add(
+      components,
       "arcana",
       Topics.ARCANA.toStatmodEntity(Op.ADD, Element.ALL),
-      attrRanges,
+      pstatRanges,
       [
-        _affixes(
+        b._affixes(
           "Studious", "of the Student",
           _attrEquipment(),
           _equipment([
@@ -317,7 +314,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Observant", "of the Goat",
           _attrEquipment(),
           _equipment([
@@ -332,7 +329,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Seercraft", "of the Seer",
           _attrEquipment(),
           _equipment([
@@ -347,7 +344,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Mystical", "of Mysticism",
           _attrEquipment(),
           _equipment([
@@ -365,12 +362,13 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
       ]
     );
 
-    add(
+    b.add(
+      components,
       "dexterity",
       Topics.DEXTERITY.toStatmodEntity(Op.ADD, Element.ALL),
-      attrRanges,
+      pstatRanges,
       [
-        _affixes(
+        b._affixes(
           "Slick", "of the Mongoose",
           _attrEquipment(),
           _equipment([
@@ -385,7 +383,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Sly", "of the Fox",
           _attrEquipment(),
           _equipment([
@@ -400,7 +398,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Swift", "of the Falcon",
           _attrEquipment(),
           _equipment([
@@ -415,7 +413,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Agile", "of the Panther",
           _attrEquipment(),
           _equipment([
@@ -433,29 +431,39 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
       ]
     );
 
-    // ATTACK
+    /*//////////////////////////////////////////////////////////////////////////
+                                      ATTACK
+    //////////////////////////////////////////////////////////////////////////*/
 
-    add(
+    Range[DEFAULT_TIERS] memory weaponAttackRanges = [
+      Range(1, 4),
+      Range(5, 6),
+      Range(7, 9),
+      Range(10, 12)
+    ];
+
+    b.add(
+      components,
       "weapon base attack",
       Topics.ATTACK.toStatmodEntity(Op.BADD, Element.PHYSICAL),
       weaponAttackRanges,
       [
-        _affixes(
+        b._affixes(
           "Burnished", "of Bruising",
           _weapon(),
           _equipment(["Bronze Shortsword", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Polished", "of Striking",
           _weapon(),
           _equipment(["Bronze Falchion", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Honed", "of Harm",
           _weapon(),
           _equipment(["Iron Sword", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Tempered", "of Assault",
           _weapon(),
           _equipment(["Steel Sword", "", "", "", "", "", "", "", ""])
@@ -463,27 +471,28 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
       ]
     );
 
-    add(
+    b.add(
+      components,
       "weapon physical attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.PHYSICAL),
       weaponAttackRanges,
       [
-        _affixes(
+        b._affixes(
           "Irate", "of Ire",
           _weapon(),
           _equipment(["Bronze Hatchet", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Bullish", "of the Bull",
           _weapon(),
           _equipment(["Bronze Axe", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Raging", "of Rage",
           _weapon(),
           _equipment(["Iron Battleaxe", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Furious", "of Fury",
           _weapon(),
           _equipment(["Steel Battlexe", "", "", "", "", "", "", "", ""])
@@ -491,27 +500,28 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
       ]
     );
 
-    add(
+    b.add(
+      components,
       "weapon fire attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.FIRE),
       weaponAttackRanges,
       [
-        _affixes(
+        b._affixes(
           "Heated", "of Heat",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Smouldering", "of Coals",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Fiery", "of Fire",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Flaming", "of Flames",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
@@ -519,27 +529,28 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
       ]
     );
 
-    add(
+    b.add(
+      components,
       "weapon cold attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.COLD),
       weaponAttackRanges,
       [
-        _affixes(
+        b._affixes(
           "Chilled", "of Chills",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Icy", "of Ice",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Cold", "of Cold",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Frosted", "of Frost",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
@@ -547,27 +558,28 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
       ]
     );
 
-    add(
+    b.add(
+      components,
       "weapon poison attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.POISON),
       weaponAttackRanges,
       [
-        _affixes(
+        b._affixes(
           "Sickly", "of Sickness",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Poisonous", "of Poison",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Venomous", "of Venom",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
         ),
-        _affixes(
+        b._affixes(
           "Malignant", "of Malignancy",
           _weapon(),
           _equipment(["", "", "", "", "", "", "", "", ""])
@@ -575,14 +587,24 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
       ]
     );
 
-    // RESISTANCE
+    /*//////////////////////////////////////////////////////////////////////////
+                                      RESISTANCE
+    //////////////////////////////////////////////////////////////////////////*/
 
-    add(
+    Range[DEFAULT_TIERS] memory resistanceMinorRanges = [
+      Range(1, 3),
+      Range(3, 5),
+      Range(5, 6),
+      Range(6, 7)
+    ];
+
+    b.add(
+      components,
       "physical resistance",
       Topics.RESISTANCE.toStatmodEntity(Op.ADD, Element.PHYSICAL),
       resistanceMinorRanges,
       [
-        _affixes(
+        b._affixes(
           "Toughened", "of the Oyster",
           _resEquipment(),
           _equipment([
@@ -597,7 +619,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Sturdy", "of the Lobster",
           _resEquipment(),
           _equipment([
@@ -612,7 +634,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Reinforced", "of the Nautilus",
           _resEquipment(),
           _equipment([
@@ -627,7 +649,7 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
             ""
           ])
         ),
-        _affixes(
+        b._affixes(
           "Fortified", "of the Tortoise",
           _resEquipment(),
           _equipment([
@@ -644,7 +666,74 @@ contract InitEquipmentAffixSystem is BaseInitAffixSystem {
         )
       ]
     );
+  }
 
-    return '';
+  /*//////////////////////////////////////////////////////////////////////////
+                              EQUIPMENT PROTOTYPES
+  //////////////////////////////////////////////////////////////////////////*/
+
+  function _allEquipment() internal pure returns (uint256[] memory r) {
+    r = new uint256[](9);
+    r[0] = EquipmentPrototypes.WEAPON;
+    r[1] = EquipmentPrototypes.SHIELD;
+    r[2] = EquipmentPrototypes.HAT;
+    r[3] = EquipmentPrototypes.CLOTHING;
+    r[4] = EquipmentPrototypes.GLOVES;
+    r[5] = EquipmentPrototypes.PANTS;
+    r[6] = EquipmentPrototypes.BOOTS;
+    r[7] = EquipmentPrototypes.AMULET;
+    r[8] = EquipmentPrototypes.RING;
+  }
+
+  function _jewellery() internal pure returns (uint256[] memory r) {
+    r = new uint256[](2);
+    r[0] = EquipmentPrototypes.AMULET;
+    r[1] = EquipmentPrototypes.RING;
+  }
+
+  function _attrEquipment() internal pure returns (uint256[] memory r) {
+    r = new uint256[](4);
+    r[0] = EquipmentPrototypes.WEAPON;
+    r[1] = EquipmentPrototypes.SHIELD;
+    r[2] = EquipmentPrototypes.HAT;
+    r[3] = EquipmentPrototypes.AMULET;
+  }
+
+  function _weapon() internal pure returns (uint256[] memory r) {
+    r = new uint256[](1);
+    r[0] = EquipmentPrototypes.WEAPON;
+  }
+
+  function _resEquipment() internal pure returns (uint256[] memory r) {
+    r = new uint256[](6);
+    r[0] = EquipmentPrototypes.SHIELD;
+    r[1] = EquipmentPrototypes.HAT;
+    r[2] = EquipmentPrototypes.CLOTHING;
+    r[3] = EquipmentPrototypes.GLOVES;
+    r[4] = EquipmentPrototypes.PANTS;
+    r[5] = EquipmentPrototypes.BOOTS;
+  }
+
+  function _equipment(string[9] memory _labels) internal pure returns (TargetLabel[] memory _dynamic) {
+    uint256[] memory allEquipment = _allEquipment();
+
+    _dynamic = new TargetLabel[](_labels.length);
+    uint256 j;
+    for (uint256 i; i < _labels.length; i++) {
+      if (bytes(_labels[i]).length > 0) {
+        _dynamic[j] = TargetLabel({
+          targetEntity: allEquipment[i],
+          label: _labels[i]
+        });
+        j++;
+      }
+    }
+    // shorten dynamic length if necessary
+    if (_labels.length != j) {
+      /// @solidity memory-safe-assembly
+      assembly {
+        mstore(_dynamic, j)
+      }
+    }
   }
 }
