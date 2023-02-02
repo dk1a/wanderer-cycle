@@ -4,3 +4,7 @@ solecs/=../../node_modules/@latticexyz/solecs/src/
 @latticexyz/solecs/src/=../../node_modules/@latticexyz/solecs/src/
 memmove/=../../node_modules/memmove/src/
 std-contracts/=../../node_modules/@latticexyz/std-contracts/src/
+@latticexyz/std-contracts/src/=../../node_modules/@latticexyz/std-contracts/src/
+@dk1a/solecslib/=../../node_modules/@dk1a/solecslib/
+@dk1a/solidity-stringutils/=../../node_modules/@dk1a/solidity-stringutils/
+@prb/test/=../../node_modules/@prb/test/

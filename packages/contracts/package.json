@@ -17,7 +17,7 @@
     "@ethersproject/bytes": "^5.7.0",
     "@ethersproject/hash": "^5.7.0",
     "@ethersproject/strings": "^5.7.0",
-    "@latticexyz/cli": "https://gitpkg.now.sh/dk1a/mud/packages/cli?002124ef0939eb811ca33ff6e94b3ff03cd7b961",
+    "@latticexyz/cli": "^1.34.0",
     "@prb/test": "^0.2.1",
     "@solidity-parser/parser": "^0.14.5",
     "@typechain/ethers-v5": "^10.1.1",
@@ -37,9 +37,9 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "@dk1a/solecslib": "https://github.com/dk1a/solecslib#825be3a0179de0a5313e212d7db1a772359755a9",
+    "@dk1a/solecslib": "https://github.com/dk1a/solecslib#26126b79c76c6a03943072444175a06097eb6443",
     "@dk1a/solidity-stringutils": "^0.3.2",
-    "@latticexyz/solecs": "https://gitpkg.now.sh/dk1a/mud/packages/solecs?002124ef0939eb811ca33ff6e94b3ff03cd7b961",
-    "@latticexyz/std-contracts": "https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?002124ef0939eb811ca33ff6e94b3ff03cd7b961"
+    "@latticexyz/solecs": "https://gitpkg.now.sh/dk1a/mud/packages/solecs?982747e9d05ebaa05a084d4c2aacfd53aa7b4397",
+    "@latticexyz/std-contracts": "https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?982747e9d05ebaa05a084d4c2aacfd53aa7b4397"
   }
 }
