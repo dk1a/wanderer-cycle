@@ -4,7 +4,7 @@ import { config } from "./config";
 import { components, clientComponents } from "./components";
 import { world } from "./world";
 import { SystemAbis } from "contracts/types/SystemAbis.mjs";
-import { overridableComponent, type EntityID } from "@latticexyz/recs";
+import type { EntityID } from "@latticexyz/recs";
 import { GodID as singletonEntityId } from "@latticexyz/network";
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
@@ -19,8 +19,7 @@ export const setup = async () => {
       fetchSystemCalls: true,
     }
   );
-  // TODO fix network sync
-  //result.startSync();
+  result.startSync();
 
   // For LoadingState updates
   const singletonEntity = world.registerEntity({ id: singletonEntityId });
@@ -34,8 +33,6 @@ export const setup = async () => {
 
   // Add support for optimistic rendering
   const componentsWithOverrides = {
-    // TODO loading state override is a crutch while network sync doesn't work
-    LoadingState: overridableComponent(result.components.LoadingState),
   };
 
   return {
