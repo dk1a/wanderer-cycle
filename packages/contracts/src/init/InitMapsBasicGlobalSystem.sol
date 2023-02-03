@@ -23,14 +23,14 @@ contract InitMapsBasicGlobalSystem is System {
   function execute(bytes memory) public override onlyOwner returns (bytes memory) {
     // Hardcoded map level range
     // TODO this should be in a constant somewhere, when you do cycles you'll need this value too
-    for (uint256 ilvl = 1; ilvl <= 12; ilvl++) {
+    for (uint32 ilvl = 1; ilvl <= 12; ilvl++) {
       _set(ilvl);
     }
 
     return '';
   }
 
-  function _set(uint256 ilvl) internal {
+  function _set(uint32 ilvl) internal {
     // basic global maps only have the implicit affix
     AffixPartId[] memory affixParts = new AffixPartId[](1);
     affixParts[0] = AffixPartId.IMPLICIT;

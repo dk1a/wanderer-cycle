@@ -2,12 +2,12 @@
 
 pragma solidity ^0.8.17;
 
-import { Uint256BareComponent } from "std-contracts/components/Uint256BareComponent.sol";
+import { Uint32BareComponent } from "std-contracts/components/Uint32BareComponent.sol";
 
 uint256 constant ID = uint256(keccak256("component.CycleTurns"));
 
-contract CycleTurnsComponent is Uint256BareComponent {
-  constructor(address world) Uint256BareComponent(world, ID) {}
+contract CycleTurnsComponent is Uint32BareComponent {
+  constructor(address world) Uint32BareComponent(world, ID) {}
 
   function getRawValue(uint256 entity) public view virtual override returns (bytes memory rawValue) {
     rawValue = entityToValue[entity];

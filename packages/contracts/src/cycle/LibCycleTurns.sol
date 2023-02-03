@@ -12,9 +12,9 @@ library LibCycleTurns {
   error LibCycleTurns__NotEnoughTurns();
 
   uint256 constant ACC_PERIOD = 1 days;
-  uint256 constant TURNS_PER_PERIOD = 10;
-  uint256 constant MAX_ACC_PERIODS = 2;
-  uint256 constant MAX_CURRENT_TURNS_FOR_CLAIM = 50;
+  uint32 constant TURNS_PER_PERIOD = 10;
+  uint32 constant MAX_ACC_PERIODS = 2;
+  uint32 constant MAX_CURRENT_TURNS_FOR_CLAIM = 50;
 
   /// @dev Get the number of currently available cycle turns.
   function getTurns(
@@ -28,10 +28,10 @@ library LibCycleTurns {
   function decreaseTurns(
     IUint256Component components,
     uint256 cycleEntity,
-    uint256 subTurns
+    uint32 subTurns
   ) internal {
     CycleTurnsComponent turnsComp = _turnsComp(components);
-    uint256 currentTurns = turnsComp.getValue(cycleEntity);
+    uint32 currentTurns = turnsComp.getValue(cycleEntity);
     if (subTurns > currentTurns) revert LibCycleTurns__NotEnoughTurns();
     turnsComp.set(cycleEntity, currentTurns - subTurns);
   }
@@ -41,7 +41,7 @@ library LibCycleTurns {
     IUint256Component components,
     uint256 cycleEntity
   ) internal {
-    uint256 claimableTurns = getClaimableTurns(components, cycleEntity);
+    uint32 claimableTurns = getClaimableTurns(components, cycleEntity);
     if (claimableTurns == 0) return;
 
     CycleTurnsComponent turnsComp = _turnsComp(components);
@@ -53,9 +53,9 @@ library LibCycleTurns {
   function getClaimableTurns(
     IUint256Component components,
     uint256 cycleEntity
-  ) internal view returns (uint256) {
+  ) internal view returns (uint32) {
     // get accumulated turns
-    uint256 accumulatedTurns = TURNS_PER_PERIOD * _getAccPeriods(components, cycleEntity);
+    uint32 accumulatedTurns = TURNS_PER_PERIOD * _getAccPeriods(components, cycleEntity);
     assert(accumulatedTurns <= TURNS_PER_PERIOD * MAX_ACC_PERIODS);
     assert(TURNS_PER_PERIOD * MAX_ACC_PERIODS < type(uint256).max);
     // make sure current turns aren't overcapped (gotta spend some before claiming more)
@@ -72,7 +72,7 @@ library LibCycleTurns {
   function _getAccPeriods(
     IUint256Component components,
     uint256 cycleEntity
-  ) private view returns (uint256) {
+  ) private view returns (uint32) {
     uint256 lastClaimedTimestamp = _lastClaimedComp(components).getValue(cycleEntity);
     if (lastClaimedTimestamp == 0) {
       // timestamp can be 0 for the first claim
@@ -87,7 +87,8 @@ library LibCycleTurns {
     if (accPeriods > MAX_ACC_PERIODS) {
       return MAX_ACC_PERIODS;
     } else {
-      return accPeriods;
+      // typecast is safe because MAX_ACC_PERIODS is uint32
+      return uint32(accPeriods);
     }
   }
 

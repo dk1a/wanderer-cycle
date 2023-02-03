@@ -10,10 +10,10 @@ import { AffixPartId } from "../affix/LibPickAffixes.sol";
 uint256 constant ID = uint256(keccak256("component.Loot"));
 
 struct Loot {
-  uint256 ilvl;
+  uint32 ilvl;
   AffixPartId[] affixPartIds;
   uint256[] affixProtoEntities;
-  uint256[] affixValues;
+  uint32[] affixValues;
 }
 
 contract LootComponent is Component {
@@ -24,7 +24,7 @@ contract LootComponent is Component {
     values = new LibTypes.SchemaValue[](4);
 
     keys[0] = "ilvl";
-    values[0] = LibTypes.SchemaValue.UINT256;
+    values[0] = LibTypes.SchemaValue.UINT32;
 
     // TODO I don't really like this enum array
     keys[1] = "affixPartIds";
@@ -34,7 +34,7 @@ contract LootComponent is Component {
     values[2] = LibTypes.SchemaValue.UINT256_ARRAY;
 
     keys[3] = "affixValues";
-    values[3] = LibTypes.SchemaValue.UINT256_ARRAY;
+    values[3] = LibTypes.SchemaValue.UINT32_ARRAY;
   }
 
   function set(uint256 entity, Loot memory value) public {
@@ -43,11 +43,11 @@ contract LootComponent is Component {
 
   function getValue(uint256 entity) public view returns (Loot memory) {
     (
-      uint256 ilvl,
+      uint32 ilvl,
       AffixPartId[] memory affixPartIds,
       uint256[] memory affixProtoEntities,
-      uint256[] memory affixValues
-    ) = abi.decode(getRawValue(entity), (uint256, AffixPartId[], uint256[], uint256[]));
+      uint32[] memory affixValues
+    ) = abi.decode(getRawValue(entity), (uint32, AffixPartId[], uint256[], uint32[]));
 
     return Loot(
       ilvl,

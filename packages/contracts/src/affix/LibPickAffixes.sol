@@ -43,7 +43,7 @@ library LibPickAffixes {
   ) internal view returns (
     uint256[] memory statmodProtoEntities,
     uint256[] memory affixProtoEntities,
-    uint256[] memory affixValues
+    uint32[] memory affixValues
   ) {
     Comps memory comps = Comps(
       AffixPrototypeComponent(getAddressById(components, AffixPrototypeComponentID)),
@@ -53,7 +53,7 @@ library LibPickAffixes {
 
     statmodProtoEntities = new uint256[](affixPartIds.length);
     affixProtoEntities = new uint256[](affixPartIds.length);
-    affixValues = new uint256[](affixPartIds.length);
+    affixValues = new uint32[](affixPartIds.length);
 
     for (uint256 i; i < affixPartIds.length; i++) {
       randomness = uint256(keccak256(abi.encode(i, randomness)));
@@ -133,14 +133,14 @@ library LibPickAffixes {
   function _pickAffixValue(
     AffixPrototype memory affixProto,
     uint256 randomness
-  ) internal pure returns (uint256) {
+  ) internal pure returns (uint32) {
     randomness = uint256(keccak256(abi.encode(keccak256("_pickAffixValue"), randomness)));
 
     if (affixProto.max < affixProto.min) revert LibPickAffixes__InvalidMinMax();
     if (affixProto.max == affixProto.min) return affixProto.min;
 
-    uint256 range = affixProto.max - affixProto.min;
-    uint256 result = randomness % range;
+    uint32 range = affixProto.max - affixProto.min;
+    uint32 result = uint32(randomness % uint256(range));
     return result + affixProto.min;
   }
 }

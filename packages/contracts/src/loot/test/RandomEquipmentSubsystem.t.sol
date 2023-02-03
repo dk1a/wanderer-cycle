@@ -19,8 +19,8 @@ contract RandomEquipmentSubsystemTest is BaseTest {
   function test_randomEquipment_2(uint256 seed1, uint256 seed2) public {
     vm.assume(seed1 != seed2);
 
-    uint256 ilvl1 = 1;
-    uint256 ilvl2 = 5;
+    uint32 ilvl1 = 1;
+    uint32 ilvl2 = 5;
 
     uint256 lootEntity1 = randomEquipmentSubsystem.executeTyped(ilvl1, seed1);
     uint256 lootEntity2 = randomEquipmentSubsystem.executeTyped(ilvl2, seed2);
@@ -50,8 +50,8 @@ contract RandomEquipmentSubsystemTest is BaseTest {
     assertEq(uint256(effectProto2.removability), uint256(EffectRemovability.PERSISTENT));
     assertEq(effectProto1.statmodProtoEntities.length, 1, "1: statmodProtoEntities.length");
     assertEq(effectProto2.statmodProtoEntities.length, 2, "2: statmodProtoEntities.length");
-    assertEq(effectProto1.statmodValues, loot1.affixValues, "1: statmod values != affix values");
-    assertEq(effectProto2.statmodValues, loot2.affixValues, "2: statmod values != affix values");
+    assertEq(abi.encode(effectProto1.statmodValues), abi.encode(loot1.affixValues), "1: statmod values != affix values");
+    assertEq(abi.encode(effectProto2.statmodValues), abi.encode(loot2.affixValues), "2: statmod values != affix values");
   }
 
   // affixes and equipment proto should be identical, but otherwise these should be 2 different entities

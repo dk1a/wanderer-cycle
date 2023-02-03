@@ -237,7 +237,7 @@ library LibInitMapAffix {
     IUint256Component components,
     string memory name,
     string memory label,
-    uint256 level
+    uint32 level
   ) internal {
     TargetLabel[] memory mapLabels = new TargetLabel[](1);
     mapLabels[0] = TargetLabel({

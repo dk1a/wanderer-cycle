@@ -16,7 +16,7 @@ enum EffectRemovability {
 struct EffectPrototype {
   EffectRemovability removability;
   uint256[] statmodProtoEntities;
-  uint256[] statmodValues;
+  uint32[] statmodValues;
 }
 
 abstract contract AbstractEffectComponent is BareComponent {
@@ -33,7 +33,7 @@ abstract contract AbstractEffectComponent is BareComponent {
     values[1] = LibTypes.SchemaValue.UINT256_ARRAY;
 
     keys[2] = "statmodValues";
-    values[2] = LibTypes.SchemaValue.UINT256_ARRAY;
+    values[2] = LibTypes.SchemaValue.UINT32_ARRAY;
   }
 
   function set(uint256 entity, EffectPrototype memory value) public {
@@ -48,8 +48,8 @@ abstract contract AbstractEffectComponent is BareComponent {
     (
       EffectRemovability removability,
       uint256[] memory statmodProtoEntities,
-      uint256[] memory statmodValues
-    ) = abi.decode(getRawValue(entity), (EffectRemovability, uint256[], uint256[]));
+      uint32[] memory statmodValues
+    ) = abi.decode(getRawValue(entity), (EffectRemovability, uint256[], uint32[]));
 
     return EffectPrototype(
       removability,

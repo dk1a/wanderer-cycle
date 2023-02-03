@@ -40,8 +40,8 @@ struct AffixPart {
 
 /// @dev affix value range
 struct Range {
-  uint256 min;
-  uint256 max;
+  uint32 min;
+  uint32 max;
 }
 
 /// @dev target label
@@ -57,10 +57,12 @@ uint256 constant MAX_ILVL = 16;
 
 /// @dev Default ilvl requirement based on affix tier.
 /// (affixes with non-standard tiers shouldn't use this function)
-function tierToDefaultRequiredIlvl(uint256 tier) pure returns (uint256 requiredIlvl) {
-  // `tier` is not user-submitted, the assert should never fail
+function tierToDefaultRequiredIlvl(uint256 tier) pure returns (uint32 requiredIlvl) {
+  // `tier` is not user-submitted, the asserts should never fail
   assert(tier > 0);
-  return (tier - 1) * 4 + 1;
+  assert(tier <= type(uint32).max);
+
+  return (uint32(tier) - 1) * 4 + 1;
 }
 
 /// @dev Affixes have a complex structure, however most complexity is shoved into this BaseInit,
@@ -91,8 +93,8 @@ library LibBaseInitAffix {
     Range[DEFAULT_TIERS] memory ranges,
     AffixPart[][DEFAULT_TIERS] memory tieredAffixParts
   ) internal {
-    for (uint256 i; i < tieredAffixParts.length; i++) {
-      uint256 tier = i + 1;
+    for (uint32 i; i < tieredAffixParts.length; i++) {
+      uint32 tier = i + 1;
 
       AffixPart[] memory affixParts = tieredAffixParts[i];
       if (affixParts.length == 0) continue;

@@ -16,7 +16,7 @@ library LibLootMint {
     AffixPartId[] memory affixPartIds,
     uint256 lootEntity,
     uint256 targetEntity,
-    uint256 ilvl,
+    uint32 ilvl,
     uint256 randomness
   ) internal {
     uint256[] memory excludeAffixes;
@@ -37,14 +37,14 @@ library LibLootMint {
     uint256[] memory excludeAffixes,
     uint256 lootEntity,
     uint256 targetEntity,
-    uint256 ilvl,
+    uint32 ilvl,
     uint256 randomness
   ) internal {
     // pick affixes
     (
       uint256[] memory statmodProtoEntities,
       uint256[] memory affixProtoEntities,
-      uint256[] memory affixValues
+      uint32[] memory affixValues
     ) = LibPickAffixes.pickAffixes(
       components,
       affixPartIds,
@@ -68,11 +68,11 @@ library LibLootMint {
   function lootMint(
     IUint256Component components,
     uint256 lootEntity,
-    uint256 ilvl,
+    uint32 ilvl,
     AffixPartId[] memory affixPartIds,
     uint256[] memory statmodProtoEntities,
     uint256[] memory affixProtoEntities,
-    uint256[] memory affixValues
+    uint32[] memory affixValues
   ) internal {
     // save loot-specific data
     LootComponent lootComp = LootComponent(getAddressById(components, LootComponentID));

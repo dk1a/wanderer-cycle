@@ -56,7 +56,7 @@ contract LibCycleTurnsTest is BaseTest {
   function test_claimTurns_atMaxCurrent() public {
     vm.warp(block.timestamp + LibCycleTurns.ACC_PERIOD);
 
-    uint256 maxCurrent = LibCycleTurns.MAX_CURRENT_TURNS_FOR_CLAIM;
+    uint32 maxCurrent = LibCycleTurns.MAX_CURRENT_TURNS_FOR_CLAIM;
     cycleTurnsComponent.set(cycleEntity, maxCurrent);
     // claim turns while at max, this should succeed
     LibCycleTurns.claimTurns(components, cycleEntity);
@@ -67,7 +67,7 @@ contract LibCycleTurnsTest is BaseTest {
   function test_claimTurns_overMaxCurrent() public {
     vm.warp(block.timestamp + LibCycleTurns.ACC_PERIOD);
 
-    uint256 maxCurrent = LibCycleTurns.MAX_CURRENT_TURNS_FOR_CLAIM;
+    uint32 maxCurrent = LibCycleTurns.MAX_CURRENT_TURNS_FOR_CLAIM;
     cycleTurnsComponent.set(cycleEntity, maxCurrent + 1);
     // claim turns while over max, this should do nothing (same as premature)
     LibCycleTurns.claimTurns(components, cycleEntity);

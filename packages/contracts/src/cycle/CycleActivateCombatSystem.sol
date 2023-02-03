@@ -28,7 +28,7 @@ contract CycleActivateCombatSystem is System {
 
   error CycleActivateCombatSystem__InvalidMapPrototype();
 
-  uint256 constant TURNS_COST = 1;
+  uint32 constant TURNS_COST = 1;
   uint256 constant MAX_ROUNDS = 12;
 
   constructor(IWorld _world, address _components) System(_world, _components) {}
