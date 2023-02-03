@@ -1,10 +1,13 @@
 // import { useContracts } from '../contexts/ContractsContext'
 // import { useMintWanderer } from '../hooks/useWanderer'
 // import Guise from '../components/Guise'
+import { useGuiseList } from '../mud/hooks/useGuiseList';
 import testImg from '../utils/img/output.png'
 import plus from '../utils/img/plus-square.svg'
 
 export default function WandererMint() {
+    const guiseList = useGuiseList();
+    
     // //const [guiseId, setGuiseId] = useState('')
     // const { guiseList } = useContracts()
     // const { mintWanderer } = useMintWanderer()
