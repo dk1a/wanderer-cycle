@@ -21,11 +21,14 @@ contract ExperienceComponent is BareComponent {
     keys = new string[](PS_L);
     values = new LibTypes.SchemaValue[](PS_L);
 
-    // TODO how should this work?
-    for (uint256 i; i < PS_L; i++) {
-      keys[i] = "value";
-      values[i] = LibTypes.SchemaValue.UINT32;
-    }
+    keys[0] = "strength";
+    values[0] = LibTypes.SchemaValue.UINT32;
+
+    keys[1] = "arcana";
+    values[1] = LibTypes.SchemaValue.UINT32;
+
+    keys[2] = "dexterity";
+    values[2] = LibTypes.SchemaValue.UINT32;
   }
 
   function getValue(uint256 entity) public view returns (uint32[PS_L] memory result) {

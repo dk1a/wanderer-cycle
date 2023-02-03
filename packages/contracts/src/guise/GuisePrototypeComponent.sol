@@ -25,10 +25,26 @@ contract GuisePrototypeComponent is BareComponent {
   constructor(address world) BareComponent(world, ID) {}
 
   function getSchema() public pure override returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
-    keys = new string[](3);
-    values = new LibTypes.SchemaValue[](3);
+    keys = new string[](PS_L * 2);
+    values = new LibTypes.SchemaValue[](PS_L * 2);
 
-    // TODO this
+    keys[0] = "gainMul_strength";
+    values[0] = LibTypes.SchemaValue.UINT32;
+
+    keys[1] = "gainMul_arcana";
+    values[1] = LibTypes.SchemaValue.UINT32;
+
+    keys[2] = "gainMul_dexterity";
+    values[2] = LibTypes.SchemaValue.UINT32;
+
+    keys[3] = "levelMul_strength";
+    values[3] = LibTypes.SchemaValue.UINT32;
+
+    keys[4] = "levelMul_arcana";
+    values[4] = LibTypes.SchemaValue.UINT32;
+
+    keys[5] = "levelMul_dexterity";
+    values[5] = LibTypes.SchemaValue.UINT32;
   }
 
   function set(uint256 entity, GuisePrototype memory value) public {
@@ -39,4 +55,3 @@ contract GuisePrototypeComponent is BareComponent {
     return abi.decode(getRawValue(entity), (GuisePrototype));
   }
 }
-

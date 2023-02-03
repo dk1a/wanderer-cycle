@@ -19,32 +19,46 @@ struct EffectPrototype {
   uint256[] statmodValues;
 }
 
-contract EffectPrototypeComponent is BareComponent {
-  constructor(address world) BareComponent(world, ID) {}
+abstract contract AbstractEffectComponent is BareComponent {
+  constructor(address world, uint256 id) BareComponent(world, id) {}
 
   function getSchema() public pure override returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
-    return _getSchema();
+    keys = new string[](3);
+    values = new LibTypes.SchemaValue[](3);
+
+    keys[0] = "removability";
+    values[0] = LibTypes.SchemaValue.UINT8;
+
+    keys[1] = "statmodProtoEntities";
+    values[1] = LibTypes.SchemaValue.UINT256_ARRAY;
+
+    keys[2] = "statmodValues";
+    values[2] = LibTypes.SchemaValue.UINT256_ARRAY;
   }
 
   function set(uint256 entity, EffectPrototype memory value) public {
-    set(entity, abi.encode(value));
+    set(entity, abi.encode(
+      value.removability,
+      value.statmodProtoEntities,
+      value.statmodValues
+    ));
   }
 
   function getValue(uint256 entity) public view returns (EffectPrototype memory) {
-    return abi.decode(getRawValue(entity), (EffectPrototype));
+    (
+      EffectRemovability removability,
+      uint256[] memory statmodProtoEntities,
+      uint256[] memory statmodValues
+    ) = abi.decode(getRawValue(entity), (EffectRemovability, uint256[], uint256[]));
+
+    return EffectPrototype(
+      removability,
+      statmodProtoEntities,
+      statmodValues
+    );
   }
 }
 
-function _getSchema() pure returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
-  keys = new string[](3);
-  values = new LibTypes.SchemaValue[](3);
-
-  keys[0] = "removability";
-  values[0] = LibTypes.SchemaValue.UINT8;
-
-  keys[1] = "statmodProtoEntities";
-  values[1] = LibTypes.SchemaValue.UINT256_ARRAY;
-
-  keys[2] = "statmodValues";
-  values[2] = LibTypes.SchemaValue.UINT256_ARRAY;
+contract EffectPrototypeComponent is AbstractEffectComponent {
+  constructor(address world) AbstractEffectComponent(world, ID) {}
 }

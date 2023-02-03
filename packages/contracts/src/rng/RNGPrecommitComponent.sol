@@ -27,10 +27,21 @@ contract RNGPrecommitComponent is BareComponent {
   }
 
   function set(uint256 entity, RNGPrecommit memory value) public {
-    set(entity, abi.encode(value));
+    set(entity, abi.encode(
+      value.blocknumber,
+      value.data
+    ));
   }
 
   function getValue(uint256 entity) public view returns (RNGPrecommit memory) {
-    return abi.decode(getRawValue(entity), (RNGPrecommit));
+    (
+      uint256 blocknumber,
+      bytes memory data
+    ) = abi.decode(getRawValue(entity), (uint256, bytes));
+
+    return RNGPrecommit(
+      blocknumber,
+      data
+    );
   }
 }

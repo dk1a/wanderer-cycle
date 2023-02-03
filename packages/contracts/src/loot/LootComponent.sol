@@ -38,14 +38,35 @@ contract LootComponent is Component {
   }
 
   function set(uint256 entity, Loot memory value) public {
-    set(entity, abi.encode(value));
+    set(entity, _encode(value));
   }
 
   function getValue(uint256 entity) public view returns (Loot memory) {
-    return abi.decode(getRawValue(entity), (Loot));
+    (
+      uint256 ilvl,
+      AffixPartId[] memory affixPartIds,
+      uint256[] memory affixProtoEntities,
+      uint256[] memory affixValues
+    ) = abi.decode(getRawValue(entity), (uint256, AffixPartId[], uint256[], uint256[]));
+
+    return Loot(
+      ilvl,
+      affixPartIds,
+      affixProtoEntities,
+      affixValues
+    );
   }
 
   function getEntitiesWithValue(Loot memory value) public view returns (uint256[] memory) {
-    return getEntitiesWithValue(abi.encode(value));
+    return getEntitiesWithValue(_encode(value));
+  }
+
+  function _encode(Loot memory value) internal pure returns (bytes memory) {
+    return abi.encode(
+      value.ilvl,
+      value.affixPartIds,
+      value.affixProtoEntities,
+      value.affixValues
+    );
   }
 }

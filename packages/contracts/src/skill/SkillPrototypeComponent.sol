@@ -54,12 +54,53 @@ contract SkillPrototypeComponent is BareComponent {
   constructor(address world) BareComponent(world, ID) {}
 
   function getSchema() public pure override returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
-    keys = new string[](9);
-    values = new LibTypes.SchemaValue[](9);
+    keys = new string[](5 + 2 + 2 + 1 + EL_L);
+    values = new LibTypes.SchemaValue[](5 + 2 + 2 + 1 + EL_L);
 
-    // TODO this
-    /*keys[0] = "topic";
-    values[0] = LibTypes.SchemaValue.BYTES4;*/
+    keys[0] = "requiredLevel";
+    values[0] = LibTypes.SchemaValue.UINT8;
+
+    keys[1] = "skillType";
+    values[1] = LibTypes.SchemaValue.UINT8;
+
+    keys[2] = "withAttack";
+    values[2] = LibTypes.SchemaValue.BOOL;
+
+    keys[3] = "withSpell";
+    values[3] = LibTypes.SchemaValue.BOOL;
+
+    keys[4] = "cost";
+    values[4] = LibTypes.SchemaValue.UINT32;
+
+    keys[5] = "duration_timeScopeId";
+    values[5] = LibTypes.SchemaValue.UINT256;
+
+    keys[6] = "duration_timeScopeId";
+    values[6] = LibTypes.SchemaValue.UINT256;
+
+    keys[7] = "cooldown_timeScopeId";
+    values[7] = LibTypes.SchemaValue.UINT256;
+
+    keys[8] = "cooldown_timeScopeId";
+    values[8] = LibTypes.SchemaValue.UINT256;
+
+    keys[9] = "effectTarget";
+    values[9] = LibTypes.SchemaValue.UINT8;
+
+    keys[10] = "spellDamage_all";
+    values[10] = LibTypes.SchemaValue.UINT32;
+
+    keys[11] = "spellDamage_physical";
+    values[11] = LibTypes.SchemaValue.UINT32;
+
+    keys[12] = "spellDamage_fire";
+    values[12] = LibTypes.SchemaValue.UINT32;
+
+    keys[13] = "spellDamage_cold";
+    values[13] = LibTypes.SchemaValue.UINT32;
+
+    keys[14] = "spellDamage_poison";
+    values[14] = LibTypes.SchemaValue.UINT32;
   }
 
   function set(uint256 entity, SkillPrototype memory value) public {
