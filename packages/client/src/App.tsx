@@ -8,6 +8,7 @@ export const App = () => {
     components: { LoadingState },
     singletonEntity,
   } = useMUD();
+  console.log(useMUD())
 
   const loadingState = useComponentValue(LoadingState, singletonEntity, {
     state: SyncState.CONNECTING,
@@ -16,14 +17,9 @@ export const App = () => {
   });
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
-      {loadingState.state !== SyncState.LIVE ? (
-        <div>
-          {loadingState.msg} ({Math.floor(loadingState.percentage)}%)
-        </div>
-      ) : (
-        <Home />
-      )}
+    <div className="w-screen flex h-screen items-center
+    flex-col bg-gradient-to-br from-black via-cyan-900 to-black">
+      <Home/>
     </div>
   );
 };
