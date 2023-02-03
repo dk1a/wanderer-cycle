@@ -75,13 +75,13 @@ contract SkillPrototypeComponent is BareComponent {
     keys[5] = "duration_timeScopeId";
     values[5] = LibTypes.SchemaValue.UINT256;
 
-    keys[6] = "duration_timeScopeId";
+    keys[6] = "duration_timeValue";
     values[6] = LibTypes.SchemaValue.UINT256;
 
     keys[7] = "cooldown_timeScopeId";
     values[7] = LibTypes.SchemaValue.UINT256;
 
-    keys[8] = "cooldown_timeScopeId";
+    keys[8] = "cooldown_timeValue";
     values[8] = LibTypes.SchemaValue.UINT256;
 
     keys[9] = "effectTarget";
