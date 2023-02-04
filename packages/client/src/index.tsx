@@ -17,11 +17,11 @@ const root = ReactDOM.createRoot(rootElement);
 setup().then((result) => {
   root.render(
     <MUDProvider {...result}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+      <BrowserRouter>
+          <App />
+      </BrowserRouter>
       <ToastContainer position="bottom-right" draggable={false} theme="dark" />
-      {import.meta.env.DEV ? <ComponentBrowser /> : null}
+    {import.meta.env.DEV ? <ComponentBrowser /> : null}
     </MUDProvider>
   );
 });

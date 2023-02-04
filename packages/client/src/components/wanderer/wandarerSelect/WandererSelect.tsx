@@ -1,39 +1,42 @@
-import CustomButton from "../utils/UI/button/CustomButton";
-import Wanderer from "../components/wanderer/Wanderer";
-import testImg from '../utils/img/output.png'
-import WandererCreate from "../components/wanderer/WandererCreate";
+import CustomButton from "../../../utils/UI/button/CustomButton";
+import Wanderer from "../Wanderer";
+import testImg from '../../../utils/img/output.png'
+import WandererCreate from "../WandererCreate";
+import WandererMint from "./WandererMint";
+import {useState} from "react";
+import classes from './wandererSelect.module.scss'
 
 export default function WandererSelect() {
-    const wandererList = [1, 2];
+  const wandererList = [1, 2];
+  const [active, setActive] = useState(false);
 
-    return <div className="">
-        {wandererList.length > 0 &&
-            <section>
-              <h3 className="m-10 text-2xl font-bold text-dark-200 ml-20">
-                  {'Select a wanderer'}
-              </h3>
-              <div className="flex flex-wrap gap-x-4 gap-y-4 mt-2 justify-around">
-                  {wandererList.map((wandererId) => (
-                     <Wanderer key={wandererId}>
-                         <div className='text-dark-300'>
-                             HEADER
-                         </div>
-                         <div className='h-auto m-5'>
-                             <img src={testImg} alt="test" className='h-40'/>
-                         </div>
-                         <div className='text-center text-dark-300 mb-2'>
-                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, pariatur!</p>
-                         </div>
-                         <div className=''>
-                             <CustomButton>Select</CustomButton>
-                         </div>
-                     </Wanderer>
-                  ))}
-                <WandererCreate/>
-              </div>
-            </section>
-        }
-    </div>
+  return <div className="">
+    {wandererList.length > 0 &&
+      <section>
+        <h3 className={classes.header}>
+          {'Select a wanderer'}
+        </h3>
+        <div className="flex flex-wrap gap-x-4 gap-y-4 mt-2 justify-around">
+          {wandererList.map((wandererId) => (
+             <Wanderer key={wandererId}>
+               <div className='text-dark-300'>
+                   HEADER
+               </div>
+               <div className='h-auto m-5'>
+                   <img src={testImg} alt="test" className='h-60 w-58'/>
+               </div>
+
+               <div className=''>
+                   <CustomButton>Select</CustomButton>
+               </div>
+             </Wanderer>
+            ))}
+          <WandererCreate setActive={setActive}/>
+        </div>
+        {active ? <WandererMint/> : <div></div>}
+      </section>
+    }
+  </div>
 }
 
 

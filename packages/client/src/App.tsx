@@ -1,7 +1,8 @@
 import { SyncState } from "@latticexyz/network";
 import { useComponentValue } from "@latticexyz/react";
-import { Navbar } from "./components/Navbar";
-import { useMUD } from "./mud/MUDContext";
+import { useMUD } from "./MUDContext";
+import AppContent from "./AppContent";
+import classes from './App.module.scss'
 
 export const App = () => {
   const {
@@ -17,16 +18,16 @@ export const App = () => {
   });
 
   return (
-    <div className="w-screen flex h-screen items-center
-    flex-col bg-gradient-to-br from-black via-cyan-900 to-black">
 
-      {loadingState.state !== SyncState.LIVE ? (
-        <div>
-          {loadingState.msg} ({Math.floor(loadingState.percentage)}%)
-        </div>
-      ) : (
-        <Navbar />
-      )}
+    <div className={classes.parent}>
+        {loadingState.state !== SyncState.LIVE ? (
+            <div>
+                {loadingState.msg} ({Math.floor(loadingState.percentage)}%)
+            </div>
+        ) : (
+            <AppContent />
+        )}
+
     </div>
   );
 };

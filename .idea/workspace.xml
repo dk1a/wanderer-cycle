@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="18ab0d71-5fa8-4d1f-8c24-32e4d2ef9446" name="Changes" comment="change router, add sass and classes, change wandererMint">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/App.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/AppContent.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/Layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/footer/Footer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/footer/footer.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarer.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/WandererImage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/WandererMint.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/wandererSelect.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/Footer.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/Guise.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/Layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/Navbar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/wanderer/Wanderer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/Wanderer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererCreate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererCreate.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/About.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/pages/About.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/Inventory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/pages/Inventory.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/NotFound.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/pages/NotFound.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/WandererImage.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/WandererMint.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/WandererSelect.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/WandererSelect.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/utils/UI/button/CustomButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/utils/UI/button/CustomButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/utils/UI/modal/Modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/utils/UI/modal/Modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="WARN_ABOUT_CRLF" value="false" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="4f19edd7-0290-4ed6-a375-872572864916" />
+        <option name="url" value="git@github.com:R-Morpheus/wanderer-cycle.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2LB9WsBJrIJFJ02FJEPjdQs276L" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/rashid/wanderer-cycle/packages/client/src/utils/img&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.rcb.reactComponents" value="false" />
+        <entry key="com.haulmont.rcb.reactInspector" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/packages/client/src/utils/img" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/packages/client/src/components/wanderer" />
+      <recent name="$PROJECT_DIR$/packages/client/src/components" />
+      <recent name="$PROJECT_DIR$/packages/client/src/components/wanderer/guise" />
+      <recent name="$PROJECT_DIR$/packages/client/src/components/wanderer/footer" />
+      <recent name="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/packages/client/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="18ab0d71-5fa8-4d1f-8c24-32e4d2ef9446" name="Changes" comment="" />
+      <created>1675333643344</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1675333643344</updated>
+      <workItem from="1675333644906" duration="8338000" />
+      <workItem from="1675346293445" duration="46549000" />
+      <workItem from="1675505797021" duration="255000" />
+    </task>
+    <task id="LOCAL-00001" summary="first commit">
+      <created>1675434088588</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1675434088588</updated>
+    </task>
+    <task id="LOCAL-00002" summary="change router, add sass and classes, change wandererMint">
+      <created>1675501482078</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1675501482079</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="R-Morpheus/client-components" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first commit" />
+    <MESSAGE value="change router, add sass and classes, change wandererMint" />
+    <option name="LAST_COMMIT_MESSAGE" value="change router, add sass and classes, change wandererMint" />
+  </component>
+</project>

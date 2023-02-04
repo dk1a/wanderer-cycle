@@ -1,12 +1,9 @@
-
+import classes from './wandarer.module.scss'
 const Wanderer = ({children}: any) => {
-    return (
-        <div className='
-        border border-dark-400
-        w-80 h-auto p-8 flex flex-col justify-between items-center
-        bg-dark-500 transform delay-500 '>
-            {children}
-        </div>
+  return (
+    <div className={classes.wanderer__container}>
+      {children}
+    </div>
     );
 };
 
