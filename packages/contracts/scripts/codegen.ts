@@ -1,8 +1,7 @@
 import { renderFile } from "ejs"
-import { writeFileSync, copyFileSync, readFileSync, mkdirSync } from "fs"
+import { writeFileSync, readFileSync } from "fs"
 import { extname, basename, join, dirname, relative } from "path"
 import glob from "glob"
-import rimraf from "rimraf"
 
 import { solExtractHashedStrings } from "./solExtractHashedStrings"
 
