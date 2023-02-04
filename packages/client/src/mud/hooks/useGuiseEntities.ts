@@ -4,10 +4,9 @@ import { useMUD } from "../MUDContext";
 import { useEntityQuery } from "../useEntityQuery";
 
 export const useGuiseEntities = () => {
-  const mud = useMUD();
   const {
     components: { GuisePrototype }
-  } = mud;
+  } = useMUD();
 
   return useEntityQuery(
     useMemo(
