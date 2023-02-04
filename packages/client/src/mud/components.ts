@@ -282,7 +282,7 @@ export const components = {
       contractId: "component.WNFT_OperatorApproval",
     },
   }),
-  WNFT_Ownership: defineStringComponent(world, {
+  WNFT_Ownership: defineEntityComponent(world, {
     metadata: {
       contractId: "component.WNFT_Ownership",
     },
