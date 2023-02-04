@@ -203,6 +203,7 @@
   ],
   "libs": [
     {"name": "LibInitEquipmentAffix"},
-    {"name": "LibInitMapAffix"}
+    {"name": "LibInitMapAffix"},
+    {"name": "LibInitMapsBasicGlobal"}
   ]
 }

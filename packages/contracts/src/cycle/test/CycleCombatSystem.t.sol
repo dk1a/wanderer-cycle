@@ -27,6 +27,9 @@ contract CycleCombatSystemTest is BaseTest {
 
     // find a global basic level 1 map
     uint256[] memory mapEntities = fromPrototypeComponent.getEntitiesWithValue(MapPrototypes.GLOBAL_BASIC);
+    if (mapEntities.length == 0) {
+      revert("No global basic maps are available for testing");
+    }
     for (uint256 i; i < mapEntities.length; i++) {
       if (_getMapLevel(mapEntities[i]) == 1) {
         mapEntity = mapEntities[i];

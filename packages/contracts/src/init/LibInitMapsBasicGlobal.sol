@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
+import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
@@ -13,24 +13,24 @@ import { AffixPartId } from "../affix/AffixNamingComponent.sol";
 
 import { MapPrototypes } from "../map/MapPrototypes.sol";
 
-uint256 constant ID = uint256(keccak256("system.InitMapsGlobal"));
-
-contract InitMapsBasicGlobalSystem is System {
+library LibInitMapsBasicGlobal {
   uint256 constant internal MAP_PROTO_ENTITY = MapPrototypes.GLOBAL_BASIC;
 
-  constructor(IWorld _world, address _components) System(_world, _components) {}
+  function init(IWorld world) internal {
+    IUint256Component components = world.components();
 
-  function execute(bytes memory) public override onlyOwner returns (bytes memory) {
     // Hardcoded map level range
     // TODO this should be in a constant somewhere, when you do cycles you'll need this value too
     for (uint32 ilvl = 1; ilvl <= 12; ilvl++) {
-      _set(ilvl);
+      _set(world, components, ilvl);
     }
-
-    return '';
   }
 
-  function _set(uint32 ilvl) internal {
+  function _set(
+    IWorld world,
+    IUint256Component components,
+    uint32 ilvl
+  ) private {
     // basic global maps only have the implicit affix
     AffixPartId[] memory affixParts = new AffixPartId[](1);
     affixParts[0] = AffixPartId.IMPLICIT;
