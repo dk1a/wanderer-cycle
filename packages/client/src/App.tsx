@@ -1,7 +1,7 @@
 import { SyncState } from "@latticexyz/network";
 import { useComponentValue } from "@latticexyz/react";
 import { Home } from "./Home";
-import { useMUD } from "./MUDContext";
+import { useMUD } from "./mud/MUDContext";
 
 export const App = () => {
   const {

@@ -4,7 +4,7 @@ import {
 } from "@latticexyz/ecs-browser";
 import { Layer } from "@latticexyz/recs";
 import { useEffect, useState } from "react";
-import { useMUD } from "./MUDContext";
+import { useMUD } from "./mud/MUDContext";
 import { twMerge } from "tailwind-merge";
 
 export const ComponentBrowser = () => {

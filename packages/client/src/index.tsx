@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import { ToastContainer } from "react-toastify";
 import { App } from "./App";
 import { setup } from "./mud/setup";
-import { MUDProvider } from "./MUDContext";
+import { MUDProvider } from "./mud/MUDContext";
 import { ComponentBrowser } from "./ComponentBrowser";
 
 const rootElement = document.getElementById("react-root");
