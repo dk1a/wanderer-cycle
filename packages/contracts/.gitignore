@@ -5,6 +5,7 @@ types/
 flattened/
 broadcast/
 
+Deploy.sol
 LibDeploy.sol
 BaseTest.sol
 LibInitReverseHashName.sol
