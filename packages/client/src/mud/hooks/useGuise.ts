@@ -1,5 +1,6 @@
 import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex } from "@latticexyz/recs";
+import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
 
 export const useGuise = (entity: EntityIndex) => {
@@ -10,13 +11,23 @@ export const useGuise = (entity: EntityIndex) => {
   } = mud;
 
   const value = useComponentValue(GuisePrototype, entity);
-  const skillEntities = useComponentValue(GuiseSkills, entity);
+  const skillEntityIds = useComponentValue(GuiseSkills, entity);
   const name = useComponentValue(Name, entity);
 
   // guises should never be deleted
-  if (!value || !skillEntities) {
+  if (!value || !skillEntityIds) {
     throw new Error("Invalid guise for entity");
   }
+
+  const skillEntities = useMemo(() => {
+    return skillEntityIds.value.map((entityId) => {
+      const entity = world.entityToIndex.get(entityId);
+      if (!entity) {
+        throw new Error(`entityId not in entityToIndex for skill ${entityId}`);
+      }
+      return entity;
+    })
+  }, [skillEntityIds]);
 
   return {
     entity,
@@ -33,6 +44,7 @@ export const useGuise = (entity: EntityIndex) => {
       arcana: value.levelMul_arcana,
       dexterity: value.levelMul_dexterity,
     },
+    skillEntityIds: skillEntityIds.value,
     skillEntities,
   };
 };
