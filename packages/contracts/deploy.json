@@ -40,6 +40,8 @@
     "GuisePrototypeComponent",
     "GuiseSkillsComponent",
 
+    "WandererComponent",
+
     "ActiveCycleComponent",
     "CycleTurnsComponent",
     "CycleTurnsLastClaimedComponent",
@@ -110,6 +112,7 @@
       "name": "WandererSpawnSystem",
       "writeAccess": [
         "WNFTSubsystem",
+        "WandererComponent",
         "ActiveCycleComponent",
         "CycleTurnsComponent",
         "CycleTurnsLastClaimedComponent",

@@ -47,6 +47,10 @@ contract WandererSpawnSystemTest is BaseTest {
 
   // wandererEntity has all the components unrelated to cycles
 
+  function test_wanderer() public {
+    assertTrue(wandererComponent.getValue(wandererEntity));
+  }
+
   function test_tokenOwner() public {
     assertEq(wNFTSubsystem.ownerOf(wandererEntity), alice);
   }

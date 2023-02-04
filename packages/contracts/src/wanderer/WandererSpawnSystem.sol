@@ -7,6 +7,7 @@ import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { getAddressById } from "solecs/utils.sol";
 
 import { WNFTSubsystem, ID as WNFTSubsystemID } from "../token/WNFTSubsystem.sol";
+import { WandererComponent, ID as WandererComponentID } from "./WandererComponent.sol";
 import { GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../guise/GuisePrototypeComponent.sol";
 
 import { LibCycle } from "../cycle/LibCycle.sol";
@@ -35,7 +36,10 @@ contract WandererSpawnSystem is System {
     uint256 wandererEntity = world.getUniqueEntityId();
     WNFTSubsystem wnftSubsystem = WNFTSubsystem(getAddressById(world.systems(), WNFTSubsystemID));
     wnftSubsystem.executeSafeMint(msg.sender, wandererEntity, '');
-    // TODO differentiate different types of nfts
+
+    // flag the entity as wanderer
+    WandererComponent wandererComp = WandererComponent(getAddressById(components, WandererComponentID));
+    wandererComp.set(wandererEntity);
 
     // init cycle
     LibCycle.initCycle(world, wandererEntity, guiseProtoEntity);
