@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
+import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
 import {
@@ -20,15 +20,13 @@ import {
 } from "../skill/SkillPrototypeComponent.sol";
 import { NameComponent, ID as NameComponentID } from "../common/NameComponent.sol";
 
-uint256 constant ID = uint256(keccak256("system.InitGuise"));
-
-contract InitGuiseSystem is System {
+library LibInitGuise {
   error GuisePrototypeInitSystem__InvalidSkill();
 
-  constructor(IWorld _world, address _components) System(_world, _components) {}
+  function init(IWorld world) internal {
+    IUint256Component components = world.components();
 
-  function execute(bytes memory) public override onlyOwner returns (bytes memory) {
-    // TODO maybe move guise skills init to InitSkillSystem and have it depend on guise instead?
+    // TODO maybe move guise skills init to LibInitSkill and have it depend on guise instead?
     uint256[] memory guiseSkills = new uint256[](11);
     guiseSkills[0]  = spe('Cleave');
     guiseSkills[1]  = spe('Charge');
@@ -43,6 +41,7 @@ contract InitGuiseSystem is System {
     guiseSkills[10] = spe('Weapon Mastery');
 
     add(
+      components,
       'Warrior',
       GuisePrototype({
         gainMul: [uint32(12), 6, 6],
@@ -50,11 +49,10 @@ contract InitGuiseSystem is System {
       }),
       guiseSkills
     );
-
-    return '';
   }
 
   function add(
+    IUint256Component components,
     string memory name,
     GuisePrototype memory prototype,
     uint256[] memory guiseSkills

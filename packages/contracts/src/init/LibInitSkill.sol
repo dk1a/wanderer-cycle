@@ -2,23 +2,20 @@
 
 pragma solidity ^0.8.17;
 
-import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
-import { getAddressById } from "solecs/utils.sol";
 
-import { BaseInitSkillSystem } from "./BaseInitSkillSystem.sol";
+import { LibBaseInitSkill as b } from "./LibBaseInitSkill.sol";
 import { SkillType, TargetType, SkillPrototype } from "../skill/SkillPrototypeComponent.sol";
 import { Topics, Op, Element } from "../charstat/Topics.sol";
 import { makeEffectPrototype, EffectRemovability } from "../effect/makeEffectPrototype.sol";
 
-uint256 constant ID = uint256(keccak256("system.InitSkill"));
+library LibInitSkill {
+  function init(IWorld world) internal {
+    b.Comps memory comps = b.getComps(world.components());
 
-contract InitSkillSystem is BaseInitSkillSystem {
-  constructor(IWorld _world, address _components) BaseInitSkillSystem(_world, _components) {}
-
-  function execute(bytes memory) public override onlyOwner returns (bytes memory) {
     // 1
-    add(
+    b.add(
+      comps,
       'Cleave',
       'Attack with increased damage',
       SkillPrototype({
@@ -27,10 +24,10 @@ contract InitSkillSystem is BaseInitSkillSystem {
         withAttack: true,
         withSpell: false,
         cost: 1,
-        duration: _duration('round', 1),
-        cooldown: _duration('round', 1),
+        duration: b._duration('round', 1),
+        cooldown: b._duration('round', 1),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental()
+        spellDamage: b._emptyElemental()
       }),
       makeEffectPrototype(
         EffectRemovability.BUFF,
@@ -40,7 +37,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
     );
 
     // 2 
-    add(
+    b.add(
+      comps,
       'Charge',
       'Greatly increase attack damage for the next combat round',
       SkillPrototype({
@@ -49,10 +47,10 @@ contract InitSkillSystem is BaseInitSkillSystem {
         withAttack: false,
         withSpell: false,
         cost: 1,
-        duration: _duration('round_persistent', 1),
-        cooldown: _duration('turn', 3),
+        duration: b._duration('round_persistent', 1),
+        cooldown: b._duration('turn', 3),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental()
+        spellDamage: b._emptyElemental()
       }),
       makeEffectPrototype(
         EffectRemovability.BUFF,
@@ -61,7 +59,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
     );
 
     // 3
-    add(
+    b.add(
+      comps,
       'Parry',
       'Increase physical resistance',
       SkillPrototype({
@@ -70,10 +69,10 @@ contract InitSkillSystem is BaseInitSkillSystem {
         withAttack: false,
         withSpell: false,
         cost: 0,
-        duration: _noDuration(),
-        cooldown: _noDuration(),
+        duration: b._noDuration(),
+        cooldown: b._noDuration(),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental()
+        spellDamage: b._emptyElemental()
       }),
       makeEffectPrototype(
         EffectRemovability.PERSISTENT,
@@ -82,7 +81,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
     );
 
     // 4
-    add(
+    b.add(
+      comps,
       'Onslaught',
       'Increase attack damage and recover some life per round',
       SkillPrototype({
@@ -91,10 +91,10 @@ contract InitSkillSystem is BaseInitSkillSystem {
         withAttack: false,
         withSpell: false,
         cost: 1,
-        duration: _duration('turn', 2),
-        cooldown: _duration('turn', 8),
+        duration: b._duration('turn', 2),
+        cooldown: b._duration('turn', 8),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental()
+        spellDamage: b._emptyElemental()
       }),
       makeEffectPrototype(
         EffectRemovability.BUFF,
@@ -104,7 +104,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
     );
 
     // 5
-    add(
+    b.add(
+      comps,
       'Toughness',
       'Increase life',
       SkillPrototype({
@@ -113,10 +114,10 @@ contract InitSkillSystem is BaseInitSkillSystem {
         withAttack: false,
         withSpell: false,
         cost: 0,
-        duration: _noDuration(),
-        cooldown: _noDuration(),
+        duration: b._noDuration(),
+        cooldown: b._noDuration(),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental()
+        spellDamage: b._emptyElemental()
       }),
       makeEffectPrototype(
         EffectRemovability.PERSISTENT,
@@ -125,7 +126,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
     );
 
     // 6
-    add(
+    b.add(
+      comps,
       'Thunder Clap',
       'Attack and deal physical spell damage',
       SkillPrototype({
@@ -134,8 +136,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
         withAttack: true,
         withSpell: true,
         cost: 4,
-        duration: _noDuration(),
-        cooldown: _duration("round", 4),
+        duration: b._noDuration(),
+        cooldown: b._duration("round", 4),
         effectTarget: TargetType.SELF,
         spellDamage: [uint32(0), 8, 0, 0, 0]
       }),
@@ -143,7 +145,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
     );
 
     // 7
-    add(
+    b.add(
+      comps,
       'Precise Strikes',
       'Increase attack damage',
       SkillPrototype({
@@ -152,10 +155,10 @@ contract InitSkillSystem is BaseInitSkillSystem {
         withAttack: false,
         withSpell: false,
         cost: 0,
-        duration: _noDuration(),
-        cooldown: _noDuration(),
+        duration: b._noDuration(),
+        cooldown: b._noDuration(),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental()
+        spellDamage: b._emptyElemental()
       }),
       makeEffectPrototype(
         EffectRemovability.PERSISTENT,
@@ -164,7 +167,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
     );
 
     // 8
-    add(
+    b.add(
+      comps,
       'Blood Rage',
       'Gain an extra turn after a kill, once per day',
       SkillPrototype({
@@ -173,17 +177,18 @@ contract InitSkillSystem is BaseInitSkillSystem {
         withAttack: false,
         withSpell: false,
         cost: 0,
-        duration: _noDuration(),
+        duration: b._noDuration(),
         // TODO this should have a day(?) cooldown somehow, maybe not here though
-        cooldown: _noDuration(),
+        cooldown: b._noDuration(),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental()
+        spellDamage: b._emptyElemental()
       }),
       makeEffectPrototype()
     );
 
     // 9
-    add(
+    b.add(
+      comps,
       'Retaliation',
       'Increases physical resistance\nIncreases physical attack damage proportional to missing life',
       SkillPrototype({
@@ -192,10 +197,10 @@ contract InitSkillSystem is BaseInitSkillSystem {
         withAttack: false,
         withSpell: false,
         cost: 0,
-        duration: _duration('turn', 1),
-        cooldown: _duration('turn', 16),
+        duration: b._duration('turn', 1),
+        cooldown: b._duration('turn', 16),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental()
+        spellDamage: b._emptyElemental()
       }),
       makeEffectPrototype(
         EffectRemovability.BUFF,
@@ -205,7 +210,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
     );
 
     // 10
-    add(
+    b.add(
+      comps,
       'Last Stand',
       'Gain temporary life for 4 rounds',
       SkillPrototype({
@@ -214,10 +220,10 @@ contract InitSkillSystem is BaseInitSkillSystem {
         withAttack: true,
         withSpell: false,
         cost: 1,
-        duration: _duration('round', 4),
-        cooldown: _duration('turn', 8),
+        duration: b._duration('round', 4),
+        cooldown: b._duration('turn', 8),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental()
+        spellDamage: b._emptyElemental()
       }),
       makeEffectPrototype(
         EffectRemovability.BUFF,
@@ -228,7 +234,8 @@ contract InitSkillSystem is BaseInitSkillSystem {
     );
 
     // 11
-    add(
+    b.add(
+      comps,
       'Weapon Mastery',
       // TODO this dual-wielding thing
       'Allows dual wielding one-handed weapons\nIncreases base attack',
@@ -238,17 +245,15 @@ contract InitSkillSystem is BaseInitSkillSystem {
         withAttack: false,
         withSpell: false,
         cost: 0,
-        duration: _noDuration(),
-        cooldown: _noDuration(),
+        duration: b._noDuration(),
+        cooldown: b._noDuration(),
         effectTarget: TargetType.SELF,
-        spellDamage: _emptyElemental()
+        spellDamage: b._emptyElemental()
       }),
       makeEffectPrototype(
         EffectRemovability.PERSISTENT,
         Topics.ATTACK, Op.BADD, Element.PHYSICAL, 1
       )
     );
-
-    return '';
   }
 }

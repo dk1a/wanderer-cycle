@@ -184,26 +184,13 @@
       "name": "InitMapPrototypeSystem",
       "writeAccess": ["MapPrototypeComponent", "NameComponent"],
       "initialize": "new bytes(0)"
-    },
-    {
-      "name": "InitSkillSystem",
-      "writeAccess": [
-        "SkillPrototypeComponent",
-        "SkillDescriptionComponent",
-        "EffectPrototypeComponent",
-        "NameComponent"
-      ],
-      "initialize": "new bytes(0)"
-    },
-    {
-      "name": "InitGuiseSystem",
-      "writeAccess": ["GuisePrototypeComponent", "GuiseSkillsComponent", "NameComponent"],
-      "initialize": "new bytes(0)"
     }
   ],
   "libs": [
     {"name": "LibInitEquipmentAffix"},
     {"name": "LibInitMapAffix"},
-    {"name": "LibInitMapsBasicGlobal"}
+    {"name": "LibInitMapsBasicGlobal"},
+    {"name": "LibInitSkill"},
+    {"name": "LibInitGuise"}
   ]
 }
