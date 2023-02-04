@@ -269,6 +269,35 @@ export const components = {
       contractId: "component.CycleCombatRewardRequest",
     },
   }),
+
+  // WNFTSubsystem components
+  WNFT_OperatorApproval: defineBoolComponent(world, {
+    metadata: {
+      contractId: "component.WNFT_OperatorApproval",
+    },
+  }),
+  WNFT_Ownership: defineStringComponent(world, {
+    metadata: {
+      contractId: "component.WNFT_Ownership",
+    },
+  }),
+  WNFT_TokenApproval: defineStringComponent(world, {
+    metadata: {
+      contractId: "component.WNFT_TokenApproval",
+    },
+  }),
+
+  // WFTSubsystem components
+  WFT_OperatorApproval: defineBoolComponent(world, {
+    metadata: {
+      contractId: "component.WFT_OperatorApproval",
+    },
+  }),
+  WFT_Balance: defineNumberComponent(world, {
+    metadata: {
+      contractId: "component.WFT_Balance",
+    },
+  }),
 };
 
 export const clientComponents = {};
