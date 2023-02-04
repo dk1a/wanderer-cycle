@@ -243,6 +243,12 @@ export const components = {
     },
   }),
 
+  Wanderer: defineBoolComponent(world, {
+    metadata: {
+      contractId: "component.Wanderer",
+    },
+  }),
+
   ActiveCycle: defineEntityComponent(world, {
     metadata: {
       contractId: "component.ActiveCycle",
