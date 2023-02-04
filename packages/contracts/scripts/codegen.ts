@@ -16,7 +16,7 @@ function renderEjs(file: string, data: object) {
   })
 }
 
-renderEjs("src/init/InitReverseHashNameSystem.ejs", {
+renderEjs("src/init/LibInitReverseHashName.ejs", {
   names: solExtractHashedStrings("src/charstat/Topics.sol")
 })
 

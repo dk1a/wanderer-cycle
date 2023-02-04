@@ -160,18 +160,10 @@
     {
       "name": "CycleCombatRewardSystem",
       "writeAccess": ["CycleCombatRewardRequestComponent", "ExperienceComponent", "RandomEquipmentSubsystem"]
-    },
-
-
-
-
-    {
-      "name": "InitReverseHashNameSystem",
-      "writeAccess": [],
-      "initialize": "new bytes(0)"
     }
   ],
   "libs": [
+    {"name": "LibInitReverseHashName"},
     {"name": "LibInitStatmod"},
     {"name": "LibInitEquipmentPrototype"},
     {"name": "LibInitMapPrototype"},
