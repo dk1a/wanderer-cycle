@@ -7,7 +7,7 @@ import { BaseTest } from "../../BaseTest.sol";
 import { ERC721BaseInternal } from "@dk1a/solecslib/contracts/token/ERC721/logic/ERC721BaseInternal.sol";
 
 import { getGuiseProtoEntity } from "../../guise/GuisePrototypeComponent.sol";
-import { LibCycle } from "../LibCycle.sol";
+import { LibCycle } from "../../cycle/LibCycle.sol";
 
 contract WandererSpawnSystemTest is BaseTest {
   // taken from InitGuiseSystem, initialized by LibDeploy
