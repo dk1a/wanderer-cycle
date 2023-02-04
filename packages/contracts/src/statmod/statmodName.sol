@@ -7,7 +7,7 @@ import { getAddressById } from "solecs/utils.sol";
 
 import { StrSlice, toSlice } from "@dk1a/solidity-stringutils/src/StrSlice.sol";
 
-import { ReverseHashNameComponent, ID as ReverseHashNameComponentID } from "../common/ReverseHashNameComponent.sol";
+import { ReverseHashNameComponent } from "../common/ReverseHashNameComponent.sol";
 import { Op, Element } from "./StatmodPrototypeComponent.sol";
 
 using { toSlice } for string;
@@ -15,21 +15,19 @@ using { toSlice } for string;
 // utils for autogenerating a name for a statmod prototype
 
 function statmodName(
-  IWorld world,
+  ReverseHashNameComponent rhNameComp,
   uint256 topicEntity,
   Op op
 ) view returns (string memory) {
-  return statmodName(world, topicEntity, op, Element.ALL);
+  return statmodName(rhNameComp, topicEntity, op, Element.ALL);
 }
 
 function statmodName(
-  IWorld world,
+  ReverseHashNameComponent rhNameComp,
   uint256 topicEntity,
   Op op,
   Element element
 ) view returns (string memory) {
-  ReverseHashNameComponent rhNameComp
-    = ReverseHashNameComponent(getAddressById(world.components(), ReverseHashNameComponentID));
   StrSlice topicName = toSlice(rhNameComp.getValue(topicEntity));
 
   StrSlice[] memory nameParts = new StrSlice[](2);

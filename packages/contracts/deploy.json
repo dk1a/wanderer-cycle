@@ -169,14 +169,10 @@
       "name": "InitReverseHashNameSystem",
       "writeAccess": [],
       "initialize": "new bytes(0)"
-    },
-    {
-      "name": "InitStatmodSystem",
-      "writeAccess": ["StatmodPrototypeComponent", "NameComponent"],
-      "initialize": "new bytes(0)"
     }
   ],
   "libs": [
+    {"name": "LibInitStatmod"},
     {"name": "LibInitEquipmentPrototype"},
     {"name": "LibInitMapPrototype"},
     {"name": "LibInitEquipmentAffix"},

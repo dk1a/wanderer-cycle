@@ -43,7 +43,7 @@ library Topics {
   Topic constant LEVEL = Topic.wrap(uint256(keccak256('level')));
 }
 
-using { toEntity, toStatmodEntity, toStatmodName, toStatmodNameNoEl } for Topic global;
+using { toEntity, toStatmodEntity } for Topic global;
 
 function toEntity(Topic topic) pure returns (uint256) {
   return Topic.unwrap(topic);
@@ -61,21 +61,4 @@ function toStatmodEntity(
       element: element
     })
   );
-}
-
-function toStatmodName(
-  Topic topic,
-  IWorld world,
-  Op op,
-  Element element
-) view {
-  statmodName(world, topic.toEntity(), op, element);
-}
-
-function toStatmodNameNoEl(
-  Topic topic,
-  IWorld world,
-  Op op
-) view {
-  statmodName(world, topic.toEntity(), op);
 }
