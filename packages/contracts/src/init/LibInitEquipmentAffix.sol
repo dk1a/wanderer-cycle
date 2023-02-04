@@ -3,7 +3,6 @@
 pragma solidity ^0.8.17;
 
 import { IWorld } from "solecs/interfaces/IWorld.sol";
-import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 
 import { LibBaseInitAffix as b, Range, TargetLabel, DEFAULT_TIERS } from "./LibBaseInitAffix.sol";
 
@@ -12,7 +11,7 @@ import { EquipmentPrototypes } from "../equipment/EquipmentPrototypes.sol";
 
 library LibInitEquipmentAffix {
   function init(IWorld world) internal {
-    IUint256Component components = world.components();
+    b.Comps memory comps = b.getComps(world.components());
 
     /*//////////////////////////////////////////////////////////////////////////
                                     RESOURCES
@@ -26,7 +25,7 @@ library LibInitEquipmentAffix {
     ];
 
     b.add(
-      components,
+      comps,
       "life",
       Topics.LIFE.toStatmodEntity(Op.ADD, Element.ALL),
       resourceRanges,
@@ -95,7 +94,7 @@ library LibInitEquipmentAffix {
     );
 
     b.add(
-      components,
+      comps,
       "life regen",
       Topics.LIFE_GAINED_PER_TURN.toStatmodEntity(Op.ADD, Element.ALL),
       resourceRanges,
@@ -120,7 +119,7 @@ library LibInitEquipmentAffix {
     );
 
     b.add(
-      components,
+      comps,
       "mana",
       Topics.MANA.toStatmodEntity(Op.ADD, Element.ALL),
       resourceRanges,
@@ -189,7 +188,7 @@ library LibInitEquipmentAffix {
     );
 
     b.add(
-      components,
+      comps,
       "mana regen",
       Topics.MANA_GAINED_PER_TURN.toStatmodEntity(Op.ADD, Element.ALL),
       resourceRanges,
@@ -225,7 +224,7 @@ library LibInitEquipmentAffix {
     ];
 
     b.add(
-      components,
+      comps,
       "strength",
       Topics.STRENGTH.toStatmodEntity(Op.ADD, Element.ALL),
       pstatRanges,
@@ -294,7 +293,7 @@ library LibInitEquipmentAffix {
     );
 
     b.add(
-      components,
+      comps,
       "arcana",
       Topics.ARCANA.toStatmodEntity(Op.ADD, Element.ALL),
       pstatRanges,
@@ -363,7 +362,7 @@ library LibInitEquipmentAffix {
     );
 
     b.add(
-      components,
+      comps,
       "dexterity",
       Topics.DEXTERITY.toStatmodEntity(Op.ADD, Element.ALL),
       pstatRanges,
@@ -443,7 +442,7 @@ library LibInitEquipmentAffix {
     ];
 
     b.add(
-      components,
+      comps,
       "weapon base attack",
       Topics.ATTACK.toStatmodEntity(Op.BADD, Element.PHYSICAL),
       weaponAttackRanges,
@@ -472,7 +471,7 @@ library LibInitEquipmentAffix {
     );
 
     b.add(
-      components,
+      comps,
       "weapon physical attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.PHYSICAL),
       weaponAttackRanges,
@@ -501,7 +500,7 @@ library LibInitEquipmentAffix {
     );
 
     b.add(
-      components,
+      comps,
       "weapon fire attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.FIRE),
       weaponAttackRanges,
@@ -530,7 +529,7 @@ library LibInitEquipmentAffix {
     );
 
     b.add(
-      components,
+      comps,
       "weapon cold attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.COLD),
       weaponAttackRanges,
@@ -559,7 +558,7 @@ library LibInitEquipmentAffix {
     );
 
     b.add(
-      components,
+      comps,
       "weapon poison attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.POISON),
       weaponAttackRanges,
@@ -599,7 +598,7 @@ library LibInitEquipmentAffix {
     ];
 
     b.add(
-      components,
+      comps,
       "physical resistance",
       Topics.RESISTANCE.toStatmodEntity(Op.ADD, Element.PHYSICAL),
       resistanceMinorRanges,

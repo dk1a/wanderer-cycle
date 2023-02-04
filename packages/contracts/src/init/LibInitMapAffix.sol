@@ -3,7 +3,6 @@
 pragma solidity ^0.8.17;
 
 import { IWorld } from "solecs/interfaces/IWorld.sol";
-import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 
 import { LibBaseInitAffix as b, Range, TargetLabel, DEFAULT_TIERS, AffixPrototype } from "./LibBaseInitAffix.sol";
 
@@ -12,7 +11,7 @@ import { MapPrototypes } from "../map/MapPrototypes.sol";
 
 library LibInitMapAffix {
   function init(IWorld world) internal {
-    IUint256Component components = world.components();
+    b.Comps memory comps = b.getComps(world.components());
 
     // TODO balance map ranges, they're even worse than equipment ranges
 
@@ -46,25 +45,25 @@ library LibInitMapAffix {
 
     // LEVEL
 
-    addMapLevel(components, "map level 1", "Meadows", 1);
-    addMapLevel(components, "map level 2", "Plains", 2);
-    addMapLevel(components, "map level 3", "Valley", 3);
-    addMapLevel(components, "map level 4", "Hills", 4);
-    addMapLevel(components, "map level 5", "Woods", 5);
-    addMapLevel(components, "map level 6", "Thicket", 6);
-    addMapLevel(components, "map level 7", "Wetlands", 7);
-    addMapLevel(components, "map level 8", "Swamp", 8);
-    addMapLevel(components, "map level 9", "Wastes", 9);
-    addMapLevel(components, "map level 10", "Mountains", 10);
-    addMapLevel(components, "map level 11", "Caves", 11);
-    addMapLevel(components, "map level 12", "Ruins", 12);
+    addMapLevel(comps, "map level 1", "Meadows", 1);
+    addMapLevel(comps, "map level 2", "Plains", 2);
+    addMapLevel(comps, "map level 3", "Valley", 3);
+    addMapLevel(comps, "map level 4", "Hills", 4);
+    addMapLevel(comps, "map level 5", "Woods", 5);
+    addMapLevel(comps, "map level 6", "Thicket", 6);
+    addMapLevel(comps, "map level 7", "Wetlands", 7);
+    addMapLevel(comps, "map level 8", "Swamp", 8);
+    addMapLevel(comps, "map level 9", "Wastes", 9);
+    addMapLevel(comps, "map level 10", "Mountains", 10);
+    addMapLevel(comps, "map level 11", "Caves", 11);
+    addMapLevel(comps, "map level 12", "Ruins", 12);
 
     // TODO customize map affix labels, atm they're just copypasted from equipment
 
     // RESOURCES
 
     b.add(
-      components,
+      comps,
       "map life",
       Topics.LIFE.toStatmodEntity(Op.ADD, Element.ALL),
       resourceRanges,
@@ -79,7 +78,7 @@ library LibInitMapAffix {
     // ATTRIBUTES
 
     b.add(
-      components,
+      comps,
       "map strength",
       Topics.STRENGTH.toStatmodEntity(Op.ADD, Element.ALL),
       attrRanges,
@@ -92,7 +91,7 @@ library LibInitMapAffix {
     );
 
     b.add(
-      components,
+      comps,
       "map arcana",
       Topics.ARCANA.toStatmodEntity(Op.ADD, Element.ALL),
       attrRanges,
@@ -105,7 +104,7 @@ library LibInitMapAffix {
     );
 
     b.add(
-      components,
+      comps,
       "map dexterity",
       Topics.DEXTERITY.toStatmodEntity(Op.ADD, Element.ALL),
       attrRanges,
@@ -120,7 +119,7 @@ library LibInitMapAffix {
     // ATTACK
 
     b.add(
-      components,
+      comps,
       "map physical attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.PHYSICAL),
       attackRanges,
@@ -133,7 +132,7 @@ library LibInitMapAffix {
     );
 
     b.add(
-      components,
+      comps,
       "map fire attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.FIRE),
       attackRanges,
@@ -146,7 +145,7 @@ library LibInitMapAffix {
     );
 
     b.add(
-      components,
+      comps,
       "map cold attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.COLD),
       attackRanges,
@@ -159,7 +158,7 @@ library LibInitMapAffix {
     );
 
     b.add(
-      components,
+      comps,
       "map poison attack",
       Topics.ATTACK.toStatmodEntity(Op.ADD, Element.POISON),
       attackRanges,
@@ -174,7 +173,7 @@ library LibInitMapAffix {
     // RESISTANCE
 
     b.add(
-      components,
+      comps,
       "map physical resistance",
       Topics.RESISTANCE.toStatmodEntity(Op.ADD, Element.PHYSICAL),
       resistanceRanges,
@@ -187,7 +186,7 @@ library LibInitMapAffix {
     );
 
     b.add(
-      components,
+      comps,
       "map fire resistance",
       Topics.RESISTANCE.toStatmodEntity(Op.ADD, Element.FIRE),
       resistanceRanges,
@@ -200,7 +199,7 @@ library LibInitMapAffix {
     );
 
     b.add(
-      components,
+      comps,
       "map cold resistance",
       Topics.RESISTANCE.toStatmodEntity(Op.ADD, Element.COLD),
       resistanceRanges,
@@ -213,7 +212,7 @@ library LibInitMapAffix {
     );
 
     b.add(
-      components,
+      comps,
       "map poison resistance",
       Topics.RESISTANCE.toStatmodEntity(Op.ADD, Element.POISON),
       resistanceRanges,
@@ -234,7 +233,7 @@ library LibInitMapAffix {
   /// @dev Add a map-specific implicit affix.
   /// Non-standard affix tiers: tier == map level == affix value == requiredIlvl == maxIlvl
   function addMapLevel(
-    IUint256Component components,
+    b.Comps memory comps,
     string memory name,
     string memory label,
     uint32 level
@@ -246,7 +245,7 @@ library LibInitMapAffix {
     });
 
     b.addOne(
-      components,
+      comps,
       name,
       AffixPrototype({
         tier: level,

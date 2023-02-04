@@ -2,7 +2,6 @@
 
 pragma solidity ^0.8.17;
 
-import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
@@ -84,10 +83,32 @@ library LibBaseInitAffix {
   error LibBaseInitAffix__MalformedInput(string affixName, uint256 maxIlvl);
   error LibBaseInitAffix__InvalidStatmodPrototype();
 
+  struct Comps {
+    // read
+    StatmodPrototypeComponent statmodProto;
+    // write
+    AffixPrototypeComponent proto;
+    AffixNamingComponent naming;
+    AffixAvailabilityComponent availability;
+    AffixPrototypeGroupComponent group;
+    NameComponent name;
+  }
+
+  function getComps(IUint256Component components) internal view returns (Comps memory result) {
+    // read
+    result.statmodProto = StatmodPrototypeComponent(getAddressById(components, StatmodPrototypeComponentID));
+    // write
+    result.proto = AffixPrototypeComponent(getAddressById(components, AffixPrototypeComponentID));
+    result.naming = AffixNamingComponent(getAddressById(components, AffixNamingComponentID));
+    result.availability = AffixAvailabilityComponent(getAddressById(components, AffixAvailabilityComponentID));
+    result.group = AffixPrototypeGroupComponent(getAddressById(components, AffixPrototypeGroupComponentID));
+    result.name = NameComponent(getAddressById(components, NameComponentID));
+  }
+
   /// @dev Add `DEFAULT_TIERS` tiers of an affix
   /// (for affixes with non-standard tiers use `addOne` directly)
   function add(
-    IUint256Component components,
+    Comps memory comps,
     string memory affixName,
     uint256 statmodProtoEntity,
     Range[DEFAULT_TIERS] memory ranges,
@@ -109,7 +130,7 @@ library LibBaseInitAffix {
       });
 
       addOne(
-        components,
+        comps,
         affixName,
         proto,
         affixParts
@@ -119,17 +140,17 @@ library LibBaseInitAffix {
 
   /// @dev Add a single affix tier with *default* maxIlvl
   function addOne(
-    IUint256Component components,
+    Comps memory comps,
     string memory affixName,
     AffixPrototype memory proto,
     AffixPart[] memory affixParts
   ) internal {
-    addOne(components, affixName, proto, affixParts, MAX_ILVL);
+    addOne(comps, affixName, proto, affixParts, MAX_ILVL);
   }
 
   /// @dev Add a single affix tier with *custom* maxIlvl
   function addOne(
-    IUint256Component components,
+    Comps memory comps,
     string memory affixName,
     AffixPrototype memory proto,
     AffixPart[] memory affixParts,
@@ -138,30 +159,14 @@ library LibBaseInitAffix {
     if (maxIlvl == 0 || proto.requiredIlvl > maxIlvl) {
       revert LibBaseInitAffix__MalformedInput(affixName, maxIlvl);
     }
-
-    // read-only components for validation
-    StatmodPrototypeComponent statmodProtoComp
-      = StatmodPrototypeComponent(getAddressById(components, StatmodPrototypeComponentID));
-
-    if (!statmodProtoComp.has(proto.statmodProtoEntity)) {
+    if (!comps.statmodProto.has(proto.statmodProtoEntity)) {
       revert LibBaseInitAffix__InvalidStatmodPrototype();
     }
 
-    // write components
-    AffixPrototypeComponent protoComp
-      = AffixPrototypeComponent(getAddressById(components, AffixPrototypeComponentID));
-    AffixNamingComponent namingComp
-      = AffixNamingComponent(getAddressById(components, AffixNamingComponentID));
-    AffixAvailabilityComponent availabilityComp
-      = AffixAvailabilityComponent(getAddressById(components, AffixAvailabilityComponentID));
-    AffixPrototypeGroupComponent groupComp
-      = AffixPrototypeGroupComponent(getAddressById(components, AffixPrototypeGroupComponentID));
-    NameComponent nameComp = NameComponent(getAddressById(components, NameComponentID));
-
     uint256 protoEntity = getAffixProtoEntity(affixName, proto.tier);
-    protoComp.set(protoEntity, proto);
-    nameComp.set(protoEntity, affixName);
-    groupComp.set(protoEntity, getAffixProtoGroupEntity(affixName));
+    comps.proto.set(protoEntity, proto);
+    comps.name.set(protoEntity, affixName);
+    comps.group.set(protoEntity, getAffixProtoGroupEntity(affixName));
 
     for (uint256 i; i < affixParts.length; i++) {
       AffixPartId partId = affixParts[i].partId;
@@ -171,14 +176,14 @@ library LibBaseInitAffix {
       // which (partId+target) the affix is available for.
       // affixProto => target => AffixPartId => label
       uint256 namingEntity = getAffixNamingEntity(partId, targetEntity, protoEntity);
-      namingComp.set(namingEntity, label);
+      comps.naming.set(namingEntity, label);
 
       // availability component is basically a cache,
       // all its data is technically redundant, but greatly simplifies and speeds up queries.
       // target => partId => range(requiredIlvl, maxIlvl) => Set(affixProtos)
       for (uint256 ilvl = proto.requiredIlvl; ilvl <= maxIlvl; ilvl++) {
         uint256 availabilityEntity = getAffixAvailabilityEntity(ilvl, partId, targetEntity);
-        availabilityComp.addItem(availabilityEntity, protoEntity);
+        comps.availability.addItem(availabilityEntity, protoEntity);
       }
     }
   }
