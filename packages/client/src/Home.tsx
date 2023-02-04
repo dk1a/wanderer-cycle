@@ -1,4 +1,4 @@
-import { useMUD } from "./MUDContext";
+import { useMUD } from "./mud/MUDContext";
 
 export const Home = () => {
   const {
