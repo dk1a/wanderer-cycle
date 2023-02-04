@@ -174,19 +174,11 @@
       "name": "InitStatmodSystem",
       "writeAccess": ["StatmodPrototypeComponent", "NameComponent"],
       "initialize": "new bytes(0)"
-    },
-    {
-      "name": "InitEquipmentPrototypeSystem",
-      "writeAccess": ["EquipmentPrototypeComponent", "NameComponent"],
-      "initialize": "new bytes(0)"
-    },
-    {
-      "name": "InitMapPrototypeSystem",
-      "writeAccess": ["MapPrototypeComponent", "NameComponent"],
-      "initialize": "new bytes(0)"
     }
   ],
   "libs": [
+    {"name": "LibInitEquipmentPrototype"},
+    {"name": "LibInitMapPrototype"},
     {"name": "LibInitEquipmentAffix"},
     {"name": "LibInitMapAffix"},
     {"name": "LibInitMapsBasicGlobal"},

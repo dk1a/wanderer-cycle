@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.17;
 
-import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
+import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
 import {
@@ -14,19 +14,17 @@ import { NameComponent, ID as NameComponentID } from "../common/NameComponent.so
 
 import { EquipmentPrototypes } from "../equipment/EquipmentPrototypes.sol";
 
-uint256 constant ID = uint256(keccak256("system.InitEquipmentPrototype"));
-
 // Inititalize equipment prototypes
 // Sets of equipment protoEntities are used to determine what can be equipped in slots
-contract InitEquipmentPrototypeSystem is System {
-  constructor(IWorld _world, address _components) System(_world, _components) {}
+library LibInitEquipmentPrototype {
+  function init(IWorld world) internal {
+    IUint256Component components = world.components();
 
-  function execute(bytes memory) public override onlyOwner returns (bytes memory) {
     EquipmentPrototypeComponent protoComp = EquipmentPrototypeComponent(
-      getAddressById(world.components(), EquipmentPrototypeComponentID)
+      getAddressById(components, EquipmentPrototypeComponentID)
     );
     NameComponent nameComp = NameComponent(
-      getAddressById(world.components(), NameComponentID)
+      getAddressById(components, NameComponentID)
     );
  
     _set(protoComp, nameComp, EquipmentPrototypes.WEAPON,   "Weapon");
@@ -38,8 +36,6 @@ contract InitEquipmentPrototypeSystem is System {
     _set(protoComp, nameComp, EquipmentPrototypes.BOOTS,    "Boots");
     _set(protoComp, nameComp, EquipmentPrototypes.AMULET,   "Amulet");
     _set(protoComp, nameComp, EquipmentPrototypes.RING,     "Ring");
-
-    return '';
   }
 
   function _set(
