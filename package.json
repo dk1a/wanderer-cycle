@@ -9,14 +9,25 @@
     "packages/client"
   ],
   "scripts": {
-    "prepare": "yarn workspace contracts prepare",
+    "prepare": "husky install",
     "dev": "run-pty % yarn dev:node % yarn dev:client % yarn dev:contracts",
     "dev:client": "yarn workspace client run dev",
     "dev:node": "yarn workspace contracts run devnode",
     "dev:contracts": "yarn workspace contracts run dev"
   },
   "devDependencies": {
-    "run-pty": "^4.0.3"
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
+    "eslint": "^8.33.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.3",
+    "run-pty": "^4.0.3",
+    "typescript": "^4.9.5"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "lint-staged": {
+    "*.ts": "eslint --cache --fix",
+    "*.{ts,css,md,sol}": "prettier --write"
+  }
 }
