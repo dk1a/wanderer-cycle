@@ -4,11 +4,7 @@ pragma solidity ^0.8.17;
 
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
-import {
-  PStat, PS_L,
-  ExperienceComponent,
-  ID as ExperienceComponentID
-} from "./ExperienceComponent.sol";
+import { PStat, PS_L, ExperienceComponent, ID as ExperienceComponentID } from "./ExperienceComponent.sol";
 
 library LibExperience {
   error LibExperience__InvalidLevel();
@@ -22,29 +18,22 @@ library LibExperience {
     uint256 targetEntity;
   }
 
-  function __construct(
-    IUint256Component components,
-    uint256 targetEntity
-  ) internal view returns (Self memory) {
-    return Self({
-      comp: ExperienceComponent(getAddressById(components, ExperienceComponentID)),
-      targetEntity: targetEntity
-    });
+  function __construct(IUint256Component components, uint256 targetEntity) internal view returns (Self memory) {
+    return
+      Self({
+        comp: ExperienceComponent(getAddressById(components, ExperienceComponentID)),
+        targetEntity: targetEntity
+      });
   }
 
-  function getPStats(
-    Self memory __self
-  ) internal view returns (uint32[PS_L] memory result) {
+  function getPStats(Self memory __self) internal view returns (uint32[PS_L] memory result) {
     result = __self.comp.getValue(__self.targetEntity);
     for (uint256 i; i < result.length; i++) {
       result[i] = _getLevel(result[i]);
     }
   }
 
-  function getPStat(
-    Self memory __self,
-    PStat pstatIndex
-  ) internal view returns (uint32) {
+  function getPStat(Self memory __self, PStat pstatIndex) internal view returns (uint32) {
     uint32 exp = __self.comp.getValue(__self.targetEntity)[uint256(pstatIndex)];
     return _getLevel(exp);
   }
@@ -53,9 +42,7 @@ library LibExperience {
     return __self.comp.has(__self.targetEntity);
   }
 
-  function getExp(
-    Self memory __self
-  ) internal view returns (uint32[PS_L] memory) {
+  function getExp(Self memory __self) internal view returns (uint32[PS_L] memory) {
     return __self.comp.getValue(__self.targetEntity);
   }
 
@@ -71,10 +58,7 @@ library LibExperience {
    * @dev Increase target's experience
    * Exp must be initialized
    */
-  function increaseExp(
-    Self memory __self,
-    uint32[PS_L] memory addExp
-  ) internal {
+  function increaseExp(Self memory __self, uint32[PS_L] memory addExp) internal {
     // get current exp, or revert if it doesn't exist
     if (!__self.comp.has(__self.targetEntity)) {
       revert LibExperience__ExpNotInitialized();
@@ -92,16 +76,13 @@ library LibExperience {
   /**
    * @dev Calculate aggregate level based on weighted sum of pstat exp
    */
-  function getAggregateLevel(
-    Self memory __self,
-    uint32[PS_L] memory levelMul
-  ) internal view returns (uint32) {
+  function getAggregateLevel(Self memory __self, uint32[PS_L] memory levelMul) internal view returns (uint32) {
     uint32[PS_L] memory exp = getExp(__self);
     uint256 expTotal;
     for (uint256 i; i < PS_L; i++) {
-        expTotal += exp[i] * levelMul[i];
+      expTotal += exp[i] * levelMul[i];
     }
-    
+
     expTotal /= LEVEL_TOTAL_DIV;
 
     return _getLevel(expTotal);
@@ -135,18 +116,14 @@ library LibExperience {
       level -= 1;
     }
 
-    return uint32(
-      8 * (1<<level) - level**6 / 1024 + level * 200 - 120
-    );
+    return uint32(8 * (1 << level) - level ** 6 / 1024 + level * 200 - 120);
   }
 
   /**
    * @dev Get exp amount to get base primary to `pstats` (assuming 0 current exp).
    * This is a utility for testing
    */
-  function getExpForPStats(
-    uint32[PS_L] memory pstats
-  ) internal pure returns (uint32[PS_L] memory exp) {
+  function getExpForPStats(uint32[PS_L] memory pstats) internal pure returns (uint32[PS_L] memory exp) {
     for (uint256 i; i < PS_L; i++) {
       exp[i] = _getExpForLevel(pstats[i]);
     }
@@ -155,9 +132,7 @@ library LibExperience {
   /**
    * @dev same as getExpForPStats but for 1 specific pstat
    */
-  function getExpForPStat(
-    uint32 pstat
-  ) internal pure returns (uint32) {
+  function getExpForPStat(uint32 pstat) internal pure returns (uint32) {
     return _getExpForLevel(pstat);
   }
 }

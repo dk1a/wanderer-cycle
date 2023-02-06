@@ -7,21 +7,11 @@ import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 import { Subsystem } from "@dk1a/solecslib/contracts/mud/Subsystem.sol";
 
-import {
-  EffectRemovability,
-  EffectPrototype,
-  EffectPrototypeComponent,
-  ID as EffectPrototypeComponentID
-} from "./EffectPrototypeComponent.sol";
+import { EffectRemovability, EffectPrototype, EffectPrototypeComponent, ID as EffectPrototypeComponentID } from "./EffectPrototypeComponent.sol";
 import { AppliedEffectComponent, ID as AppliedEffectComponentID } from "./AppliedEffectComponent.sol";
 import { Statmod } from "../statmod/Statmod.sol";
 // duration
-import {
-  SystemCallback,
-  ScopedDuration,
-  DurationSubSystem,
-  ID as DurationSubSystemID
-} from "../duration/DurationSubSystem.sol";
+import { SystemCallback, ScopedDuration, DurationSubSystem, ID as DurationSubSystemID } from "../duration/DurationSubSystem.sol";
 
 /// @dev effectEntity = hashed(ID, target, prototype)
 function getEffectEntity(uint256 targetEntity, uint256 protoEntity) pure returns (uint256) {
@@ -51,7 +41,7 @@ contract EffectSubSystem is Subsystem {
       args: abi.encode(this.executeRemove.selector, abi.encode(targetEntity, protoEntity))
     });
 
-    // effect prototypes may be global, so applied entity is target-specific 
+    // effect prototypes may be global, so applied entity is target-specific
     uint256 appliedEntity = getEffectEntity(targetEntity, protoEntity);
 
     DurationSubSystem durationSubSystem = DurationSubSystem(getAddressById(world.systems(), DurationSubSystemID));
@@ -67,7 +57,7 @@ contract EffectSubSystem is Subsystem {
     }
 
     EffectPrototype memory effect = protoComp.getValue(protoEntity);
-    // effect prototypes may be global, so applied entity is target-specific 
+    // effect prototypes may be global, so applied entity is target-specific
     uint256 appliedEntity = getEffectEntity(targetEntity, protoEntity);
 
     Statmod.Self memory statmod = Statmod.__construct(components, targetEntity);
@@ -78,11 +68,7 @@ contract EffectSubSystem is Subsystem {
       // increase statmods
       // TODO figure out what to do if statmods are empty
       for (uint256 i; i < effect.statmodProtoEntities.length; i++) {
-        Statmod.increase(
-          statmod,
-          effect.statmodProtoEntities[i],
-          effect.statmodValues[i]
-        );
+        Statmod.increase(statmod, effect.statmodProtoEntities[i], effect.statmodValues[i]);
       }
     }
     // TODO extend/refresh existing effect by applying it again
@@ -102,11 +88,7 @@ contract EffectSubSystem is Subsystem {
     // subtract statmods
     Statmod.Self memory statmod = Statmod.__construct(components, targetEntity);
     for (uint256 i; i < effect.statmodProtoEntities.length; i++) {
-      Statmod.decrease(
-        statmod,
-        effect.statmodProtoEntities[i],
-        effect.statmodValues[i]
-      );
+      Statmod.decrease(statmod, effect.statmodProtoEntities[i], effect.statmodValues[i]);
     }
   }
 
@@ -124,10 +106,7 @@ contract EffectSubSystem is Subsystem {
   /**
    * @dev Returns true if `targetEntity` has an ongoing effect for `protoEntity`.
    */
-  function has(
-    uint256 targetEntity,
-    uint256 protoEntity
-  ) public view returns (bool) {
+  function has(uint256 targetEntity, uint256 protoEntity) public view returns (bool) {
     return _comp().has(getEffectEntity(targetEntity, protoEntity));
   }
 
@@ -141,22 +120,18 @@ contract EffectSubSystem is Subsystem {
     if (executeSelector == this.executeRemove.selector) {
       (uint256 targetEntity, uint256 protoEntity) = abi.decode(innerArgs, (uint256, uint256));
       executeRemove(targetEntity, protoEntity);
-      return '';
-
+      return "";
     } else if (executeSelector == this.executeApply.selector) {
       (uint256 targetEntity, uint256 protoEntity) = abi.decode(innerArgs, (uint256, uint256));
       executeApply(targetEntity, protoEntity);
-      return '';
-
+      return "";
     } else if (executeSelector == this.executeApplyTimed.selector) {
-      (
-        uint256 targetEntity,
-        uint256 protoEntity,
-        ScopedDuration memory duration
-      ) = abi.decode(innerArgs, (uint256, uint256, ScopedDuration));
+      (uint256 targetEntity, uint256 protoEntity, ScopedDuration memory duration) = abi.decode(
+        innerArgs,
+        (uint256, uint256, ScopedDuration)
+      );
       executeApplyTimed(targetEntity, protoEntity, duration);
-      return '';
-
+      return "";
     } else {
       revert EffectSubSystem__InvalidExecuteSelector();
     }

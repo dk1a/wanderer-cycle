@@ -34,7 +34,9 @@ library LibCycle {
     IUint256Component components = world.components();
     ActiveCycleComponent activeCycleComp = ActiveCycleComponent(getAddressById(components, ActiveCycleComponentID));
     ActiveGuiseComponent activeGuiseComp = ActiveGuiseComponent(getAddressById(components, ActiveGuiseComponentID));
-    GuisePrototypeComponent guiseProtoComp = GuisePrototypeComponent(getAddressById(components, GuisePrototypeComponentID));
+    GuisePrototypeComponent guiseProtoComp = GuisePrototypeComponent(
+      getAddressById(components, GuisePrototypeComponentID)
+    );
     LibCharstat.Self memory charstat = LibCharstat.__construct(components, cycleEntity);
 
     // cycle must be inactive

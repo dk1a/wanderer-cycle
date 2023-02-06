@@ -8,16 +8,8 @@ import { getAddressById } from "solecs/utils.sol";
 
 import { LibArray } from "../libraries/LibArray.sol";
 
-import {
-  getAffixAvailabilityEntity,
-  AffixAvailabilityComponent,
-  ID as AffixAvailabilityComponentID
-} from "./AffixAvailabilityComponent.sol";
-import {
-  AffixPrototype,
-  AffixPrototypeComponent,
-  ID as AffixPrototypeComponentID
-} from "./AffixPrototypeComponent.sol";
+import { getAffixAvailabilityEntity, AffixAvailabilityComponent, ID as AffixAvailabilityComponentID } from "./AffixAvailabilityComponent.sol";
+import { AffixPrototype, AffixPrototypeComponent, ID as AffixPrototypeComponentID } from "./AffixPrototypeComponent.sol";
 import { AffixPrototypeGroupComponent, ID as AffixPrototypeGroupComponentID } from "./AffixPrototypeGroupComponent.sol";
 import { AffixPartId } from "./AffixNamingComponent.sol";
 
@@ -40,11 +32,11 @@ library LibPickAffixes {
     uint256 targetEntity,
     uint256 ilvl,
     uint256 randomness
-  ) internal view returns (
-    uint256[] memory statmodProtoEntities,
-    uint256[] memory affixProtoEntities,
-    uint32[] memory affixValues
-  ) {
+  )
+    internal
+    view
+    returns (uint256[] memory statmodProtoEntities, uint256[] memory affixProtoEntities, uint32[] memory affixValues)
+  {
     Comps memory comps = Comps(
       AffixPrototypeComponent(getAddressById(components, AffixPrototypeComponentID)),
       AffixAvailabilityComponent(getAddressById(components, AffixAvailabilityComponentID)),
@@ -76,9 +68,7 @@ library LibPickAffixes {
 
       if (i != affixPartIds.length - 1) {
         // exclude all affixes from the picked affix's group (skip for the last cycle)
-        uint256[] memory newExcludeAffixes = comps.group.getEntitiesWithValue(
-          comps.group.getValue(affixProtoEntity)
-        );
+        uint256[] memory newExcludeAffixes = comps.group.getEntitiesWithValue(comps.group.getValue(affixProtoEntity));
         excludeAffixes = LibArray.concat(excludeAffixes, newExcludeAffixes);
       }
     }
@@ -130,10 +120,7 @@ library LibPickAffixes {
   }
 
   /// @dev Randomly pick an affix value.
-  function _pickAffixValue(
-    AffixPrototype memory affixProto,
-    uint256 randomness
-  ) internal pure returns (uint32) {
+  function _pickAffixValue(AffixPrototype memory affixProto, uint256 randomness) internal pure returns (uint32) {
     randomness = uint256(keccak256(abi.encode(keccak256("_pickAffixValue"), randomness)));
 
     if (affixProto.max < affixProto.min) revert LibPickAffixes__InvalidMinMax();

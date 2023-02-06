@@ -23,7 +23,7 @@ contract ClaimCycleTurnsSystem is System {
   }
 
   function execute(bytes memory args) public override returns (bytes memory) {
-    (uint256 wandererEntity) = abi.decode(args, (uint256));
+    uint256 wandererEntity = abi.decode(args, (uint256));
     // check permission
     LibToken.requireOwner(components, wandererEntity, msg.sender);
     // get cycle entity
@@ -32,6 +32,6 @@ contract ClaimCycleTurnsSystem is System {
     // claim
     LibCycleTurns.claimTurns(components, cycleEntity);
 
-    return '';
+    return "";
   }
 }

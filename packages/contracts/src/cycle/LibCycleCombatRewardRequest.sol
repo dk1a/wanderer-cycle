@@ -6,10 +6,7 @@ import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
-import {
-  CycleCombatRewardRequestComponent,
-  ID as CycleCombatRewardRequestComponentID
-} from "./CycleCombatRewardRequestComponent.sol";
+import { CycleCombatRewardRequestComponent, ID as CycleCombatRewardRequestComponentID } from "./CycleCombatRewardRequestComponent.sol";
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 import { Loot, LootComponent, ID as LootComponentID } from "../loot/LootComponent.sol";
 import { AffixPrototypeComponent, ID as AffixPrototypeComponentID } from "../affix/AffixPrototypeComponent.sol";
@@ -35,15 +32,9 @@ library LibCycleCombatRewardRequest {
   error LibCycleCombatRewardRequest__UnknownMapPrototype();
 
   /// @dev Creates a pending request
-  function requestReward(
-    IWorld world,
-    uint256 cycleEntity,
-    uint256 retaliatorEntity
-  ) internal {
+  function requestReward(IWorld world, uint256 cycleEntity, uint256 retaliatorEntity) internal {
     IUint256Component components = world.components();
-    FromPrototypeComponent fromProtoComp = FromPrototypeComponent(
-      getAddressById(components, FromPrototypeComponentID)
-    );
+    FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
     // TODO see fromProto in `CycleActivateCombatSystem`
     uint256 mapEntity = fromProtoComp.getValue(retaliatorEntity);
 
@@ -52,13 +43,15 @@ library LibCycleCombatRewardRequest {
     // Request a reward, after a few blocks it can be claimed via `CycleCombatRewardSystem`
     uint256 requestId = LibRNG.requestRandomness(
       world,
-      abi.encode(CycleCombatRewardRequest({
-        mapEntity: mapEntity,
-        connection: charstatInitiator.getConnection(),
-        fortune: charstatInitiator.getFortune(),
-        winnerPstats: charstatInitiator.getPStats(),
-        loserPstats: charstatRetaliator.getPStats()
-      }))
+      abi.encode(
+        CycleCombatRewardRequest({
+          mapEntity: mapEntity,
+          connection: charstatInitiator.getConnection(),
+          fortune: charstatInitiator.getFortune(),
+          winnerPstats: charstatInitiator.getPStats(),
+          loserPstats: charstatRetaliator.getPStats()
+        })
+      )
     );
 
     _comp(components).set(requestId, cycleEntity);
@@ -69,16 +62,9 @@ library LibCycleCombatRewardRequest {
     IUint256Component components,
     uint256 cycleEntity,
     uint256 requestId
-  ) internal returns (
-    uint256 randomness,
-    uint32[PS_L] memory exp,
-    uint32 lootIlvl,
-    uint256 lootCount
-  ) {
+  ) internal returns (uint256 randomness, uint32[PS_L] memory exp, uint32 lootIlvl, uint256 lootCount) {
     CycleCombatRewardRequestComponent comp = _comp(components);
-    FromPrototypeComponent fromProtoComp = FromPrototypeComponent(
-      getAddressById(components, FromPrototypeComponentID)
-    );
+    FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
     // `cycleEntity` must own the request
     if (cycleEntity != comp.getValue(requestId)) {
       revert LibCycleCombatRewardRequest__EntityMismatch();
@@ -97,7 +83,7 @@ library LibCycleCombatRewardRequest {
       // TODO support for other map protos when they're added
       revert LibCycleCombatRewardRequest__UnknownMapPrototype();
     }
-    
+
     exp = _getExpReward(randomness, req);
     (lootIlvl, lootCount) = _getLootReward(components, randomness, req);
   }
@@ -113,7 +99,7 @@ library LibCycleCombatRewardRequest {
       if (req.winnerPstats[i] > req.loserPstats[i]) {
         // easy win may reduce exp by up to stat diff
         uint32 range = req.winnerPstats[i] - req.loserPstats[i];
-        uint256 iterRandomness = uint256(keccak256(abi.encode('subExp', i, randomness)));
+        uint256 iterRandomness = uint256(keccak256(abi.encode("subExp", i, randomness)));
         uint32 subExp = uint32(iterRandomness % range);
         if (subExp > exp[i]) {
           // exp reward can be 0, but not negative
@@ -124,7 +110,7 @@ library LibCycleCombatRewardRequest {
       } else if (req.winnerPstats[i] < req.loserPstats[i]) {
         // hard win may increase exp by up to stat diff
         uint32 range = req.loserPstats[i] - req.winnerPstats[i];
-        uint256 iterRandomness = uint256(keccak256(abi.encode('addExp', i, randomness)));
+        uint256 iterRandomness = uint256(keccak256(abi.encode("addExp", i, randomness)));
         uint32 addExp = uint32(iterRandomness % range);
         exp[i] += addExp;
       }

@@ -6,10 +6,7 @@ import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { getAddressById } from "solecs/utils.sol";
 
-import {
-  CycleCombatRewardRequestComponent,
-  ID as CycleCombatRewardRequestComponentID
-} from "./CycleCombatRewardRequestComponent.sol";
+import { CycleCombatRewardRequestComponent, ID as CycleCombatRewardRequestComponentID } from "./CycleCombatRewardRequestComponent.sol";
 import { RandomEquipmentSubSystem, ID as RandomEquipmentSubSystemID } from "../loot/RandomEquipmentSubSystem.sol";
 
 import { LibCycle } from "./LibCycle.sol";
@@ -27,38 +24,22 @@ contract CycleCombatRewardSystem is System {
 
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
-  function executeTyped(
-    uint256 wandererEntity,
-    uint256 requestId
-  ) public {
+  function executeTyped(uint256 wandererEntity, uint256 requestId) public {
     execute(abi.encode(wandererEntity, requestId));
   }
 
   function execute(bytes memory args) public override returns (bytes memory) {
-    (
-      uint256 wandererEntity,
-      uint256 requestId
-    ) = abi.decode(args, (uint256, uint256));
+    (uint256 wandererEntity, uint256 requestId) = abi.decode(args, (uint256, uint256));
     // reverts if sender doesn't have permission
     uint256 cycleEntity = LibCycle.getCycleEntityPermissioned(components, wandererEntity);
     // TODO decide if claiming exp during combat is actually bad and why
     LibActiveCombat.requireNotActiveCombat(components, cycleEntity);
 
-    (
-      uint256 randomness,
-      uint32[PS_L] memory exp,
-      uint32 lootIlvl,
-      uint256 lootCount
-    ) = LibCycleCombatRewardRequest.popReward(
-      components,
-      cycleEntity,
-      requestId
-    );
+    (uint256 randomness, uint32[PS_L] memory exp, uint32 lootIlvl, uint256 lootCount) = LibCycleCombatRewardRequest
+      .popReward(components, cycleEntity, requestId);
 
     // give exp
-    LibExperience
-      .__construct(components, cycleEntity)
-      .increaseExp(exp);
+    LibExperience.__construct(components, cycleEntity).increaseExp(exp);
 
     // give loot
     RandomEquipmentSubSystem randomEquipmentSubSystem = RandomEquipmentSubSystem(
@@ -69,6 +50,6 @@ contract CycleCombatRewardSystem is System {
       LibLootOwner.setSimpleOwnership(components, lootEntity, cycleEntity);
     }
 
-    return '';
+    return "";
   }
 }

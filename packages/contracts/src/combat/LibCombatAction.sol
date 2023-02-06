@@ -44,19 +44,17 @@ library LibCombatAction {
     LibCharstat.Self memory defenderCharstat,
     ActorOpts memory defenderOpts
   ) internal pure returns (Self memory) {
-    return Self({
-      world: world,
-      attackerCharstat: attackerCharstat,
-      attackerOpts: attackerOpts,
-      defenderCharstat: defenderCharstat,
-      defenderOpts: defenderOpts
-    });
+    return
+      Self({
+        world: world,
+        attackerCharstat: attackerCharstat,
+        attackerOpts: attackerOpts,
+        defenderCharstat: defenderCharstat,
+        defenderOpts: defenderOpts
+      });
   }
 
-  function executeAction(
-    Self memory __self,
-    Action memory action
-  ) internal {
+  function executeAction(Self memory __self, Action memory action) internal {
     if (action.actionType == ActionType.ATTACK) {
       // deal damage to defender (updates currents)
       _dealAttackDamage(__self);
@@ -67,10 +65,7 @@ library LibCombatAction {
     }
   }
 
-  function _useSkill(
-    Self memory __self,
-    uint256 skillEntity
-  ) private {
+  function _useSkill(Self memory __self, uint256 skillEntity) private {
     LibSkill.Self memory libSkill = LibSkill.__construct(
       __self.world,
       __self.attackerCharstat.targetEntity,
@@ -80,9 +75,7 @@ library LibCombatAction {
     libSkill.requireCombat();
 
     // combat skills may target either self or enemy, depending on skill prototype
-    uint256 targetEntity = libSkill.chooseCombatTarget(
-      __self.defenderCharstat.targetEntity
-    );
+    uint256 targetEntity = libSkill.chooseCombatTarget(__self.defenderCharstat.targetEntity);
     // use skill
     libSkill.useSkill(targetEntity);
 
@@ -95,16 +88,11 @@ library LibCombatAction {
     }
   }
 
-  function _dealAttackDamage(
-    Self memory __self
-  ) private {
+  function _dealAttackDamage(Self memory __self) private {
     _dealDamage(__self, __self.attackerCharstat.getAttack());
   }
 
-  function _dealSpellDamage(
-    Self memory __self,
-    uint32[EL_L] memory baseSpellDamage
-  ) private {
+  function _dealSpellDamage(Self memory __self, uint32[EL_L] memory baseSpellDamage) private {
     _dealDamage(__self, __self.attackerCharstat.getSpell(baseSpellDamage));
   }
 
@@ -112,10 +100,7 @@ library LibCombatAction {
    * @dev Modifies LifeCurrent according to elemental damage and resistance
    * Resistances are percentages (scaling of 1/100)
    */
-  function _dealDamage(
-    Self memory __self,
-    uint32[EL_L] memory elemDamage
-  ) private {
+  function _dealDamage(Self memory __self, uint32[EL_L] memory elemDamage) private {
     uint32 maxResistance = __self.defenderOpts.maxResistance;
     assert(maxResistance <= 100);
 
@@ -125,7 +110,7 @@ library LibCombatAction {
     uint32 totalDamage = 0;
     for (uint256 i = 1; i < EL_L; i++) {
       uint32 elemResistance = resistance[i] < maxResistance ? resistance[i] : maxResistance;
-      uint32 adjustedDamage = elemDamage[i] * (100 - elemResistance) / 100;
+      uint32 adjustedDamage = (elemDamage[i] * (100 - elemResistance)) / 100;
       totalDamage += adjustedDamage;
     }
 

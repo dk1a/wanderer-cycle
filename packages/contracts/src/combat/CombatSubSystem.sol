@@ -8,21 +8,14 @@ import { getAddressById } from "solecs/utils.sol";
 import { Subsystem } from "@dk1a/solecslib/contracts/mud/Subsystem.sol";
 
 import { ActiveCombatComponent, ID as ActiveCombatComponentID } from "./ActiveCombatComponent.sol";
-import {
-  ScopedDuration,
-  SystemCallback,
-  DurationSubSystem,
-  ID as DurationSubSystemID
-} from "../duration/DurationSubSystem.sol";
+import { ScopedDuration, SystemCallback, DurationSubSystem, ID as DurationSubSystemID } from "../duration/DurationSubSystem.sol";
 
 import { LibActiveCombat } from "./LibActiveCombat.sol";
 import { LibCharstat, EL_L } from "../charstat/LibCharstat.sol";
 import { LibCombatAction, Action, ActionType, ActorOpts } from "./LibCombatAction.sol";
 
 /// @dev combatDurationEntity = hashed(salt, initiator)
-function getCombatDurationEntity(
-  uint256 initiatorEntity
-) pure returns (uint256) {
+function getCombatDurationEntity(uint256 initiatorEntity) pure returns (uint256) {
   return uint256(keccak256(abi.encode(keccak256("getCombatDurationEntity"), initiatorEntity)));
 }
 
@@ -72,16 +65,12 @@ contract CombatSubSystem is Subsystem {
     CombatActor memory initiator = CombatActor({
       entity: initiatorEntity,
       actions: initiatorActions,
-      opts: ActorOpts({
-        maxResistance: 80
-      })
+      opts: ActorOpts({ maxResistance: 80 })
     });
     CombatActor memory retaliator = CombatActor({
       entity: retaliatorEntity,
       actions: retaliatorActions,
-      opts: ActorOpts({
-        maxResistance: 99
-      })
+      opts: ActorOpts({ maxResistance: 99 })
     });
 
     return executeCombatRound(initiator, retaliator);
@@ -99,7 +88,7 @@ contract CombatSubSystem is Subsystem {
     LibActiveCombat.requireActiveCombat(components, initiator.entity, retaliator.entity);
 
     result = _bothActorsActions(initiator, retaliator);
-    
+
     if (result != CombatResult.NONE) {
       // combat ended - deactivate it
       executeDeactivateCombat(initiator.entity);
@@ -116,10 +105,7 @@ contract CombatSubSystem is Subsystem {
       );
       durationSubSystem.executeDecreaseScope(
         initiator.entity,
-        ScopedDuration({
-          timeScopeId: uint256(keccak256("round_persistent")),
-          timeValue: 1
-        })
+        ScopedDuration({ timeScopeId: uint256(keccak256("round_persistent")), timeValue: 1 })
       );
       // if combat duration ran out, initiator loses by default
       uint256 durationEntity = getCombatDurationEntity(initiator.entity);
@@ -154,37 +140,26 @@ contract CombatSubSystem is Subsystem {
     durationSubSystem.executeIncrease(
       initiatorEntity,
       durationEntity,
-      ScopedDuration({
-        timeScopeId: uint256(keccak256("round")),
-        timeValue: maxRounds
-      }),
-      SystemCallback(0, '')
+      ScopedDuration({ timeScopeId: uint256(keccak256("round")), timeValue: maxRounds }),
+      SystemCallback(0, "")
     );
   }
 
   /**
    * @notice Mostly for internal use, but it can also be called to prematurely deactivate combat
    */
-  function executeDeactivateCombat(
-    uint256 initiatorEntity
-  ) public onlyWriter {
+  function executeDeactivateCombat(uint256 initiatorEntity) public onlyWriter {
     ActiveCombatComponent activeCombatComp = ActiveCombatComponent(getAddressById(components, ActiveCombatComponentID));
     activeCombatComp.remove(initiatorEntity);
 
     DurationSubSystem durationSubSystem = _durationSubSystem();
     durationSubSystem.executeDecreaseScope(
       initiatorEntity,
-      ScopedDuration({
-        timeScopeId: uint256(keccak256("round")),
-        timeValue: type(uint256).max
-      })
+      ScopedDuration({ timeScopeId: uint256(keccak256("round")), timeValue: type(uint256).max })
     );
     durationSubSystem.executeDecreaseScope(
       initiatorEntity,
-      ScopedDuration({
-        timeScopeId: uint256(keccak256("turn")),
-        timeValue: 1
-      })
+      ScopedDuration({ timeScopeId: uint256(keccak256("turn")), timeValue: 1 })
     );
   }
 
@@ -196,26 +171,19 @@ contract CombatSubSystem is Subsystem {
     (bytes4 executeSelector, bytes memory innerArgs) = abi.decode(args, (bytes4, bytes));
 
     if (executeSelector == this.executeCombatRound.selector) {
-      (
-        CombatActor memory initiator,
-        CombatActor memory retaliator
-      ) = abi.decode(innerArgs, (CombatActor, CombatActor));
+      (CombatActor memory initiator, CombatActor memory retaliator) = abi.decode(innerArgs, (CombatActor, CombatActor));
       return abi.encode(executeCombatRound(initiator, retaliator));
-
     } else if (executeSelector == this.executeActivateCombat.selector) {
-      (
-        uint256 initiatorEntity,
-        uint256 retaliatorEntity,
-        uint256 maxRounds
-      ) = abi.decode(innerArgs, (uint256, uint256, uint256));
+      (uint256 initiatorEntity, uint256 retaliatorEntity, uint256 maxRounds) = abi.decode(
+        innerArgs,
+        (uint256, uint256, uint256)
+      );
       executeActivateCombat(initiatorEntity, retaliatorEntity, maxRounds);
-      return '';
-
+      return "";
     } else if (executeSelector == this.executeDeactivateCombat.selector) {
-      (uint256 initiatorEntity) = abi.decode(innerArgs, (uint256));
+      uint256 initiatorEntity = abi.decode(innerArgs, (uint256));
       executeDeactivateCombat(initiatorEntity);
-      return '';
-
+      return "";
     } else {
       revert CombatSubSystem__InvalidExecuteSelector();
     }
@@ -231,7 +199,7 @@ contract CombatSubSystem is Subsystem {
 
     // instant loss if initiator somehow started with 0 life
     if (initiatorCharstat.getLifeCurrent() == 0) return CombatResult.DEFEAT;
-    
+
     // initiator's actions
     _oneActorActions(initiator, initiatorCharstat, retaliator, retaliatorCharstat);
 

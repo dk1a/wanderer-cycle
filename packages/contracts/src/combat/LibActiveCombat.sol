@@ -37,18 +37,13 @@ library LibActiveCombat {
     }
   }
 
-  function requireNotActiveCombat(
-    IUint256Component components,
-    uint256 initiatorEntity
-  ) internal view {
+  function requireNotActiveCombat(IUint256Component components, uint256 initiatorEntity) internal view {
     if (_comp(components).has(initiatorEntity)) {
       revert LibActiveCombat__CombatActive();
     }
   }
 
-  function _comp(
-    IUint256Component components
-  ) internal view returns (ActiveCombatComponent) {
+  function _comp(IUint256Component components) internal view returns (ActiveCombatComponent) {
     return ActiveCombatComponent(getAddressById(components, ActiveCombatComponentID));
   }
 }

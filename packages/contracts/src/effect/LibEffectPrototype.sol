@@ -4,12 +4,7 @@ pragma solidity ^0.8.17;
 
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
-import {
-  EffectRemovability,
-  EffectPrototype,
-  EffectPrototypeComponent,
-  ID as EffectPrototypeComponentID
-} from "./EffectPrototypeComponent.sol";
+import { EffectRemovability, EffectPrototype, EffectPrototypeComponent, ID as EffectPrototypeComponentID } from "./EffectPrototypeComponent.sol";
 import { StatmodPrototypeComponent, ID as StatmodPrototypeComponentID } from "../statmod/StatmodPrototypeComponent.sol";
 
 library LibEffectPrototype {
@@ -24,10 +19,12 @@ library LibEffectPrototype {
     uint256 effectProtoEntity,
     EffectPrototype memory effectProto
   ) internal {
-    StatmodPrototypeComponent statmodComp
-      = StatmodPrototypeComponent(getAddressById(components, StatmodPrototypeComponentID));
-    EffectPrototypeComponent effectProtoComp
-      = EffectPrototypeComponent(getAddressById(components, EffectPrototypeComponentID));
+    StatmodPrototypeComponent statmodComp = StatmodPrototypeComponent(
+      getAddressById(components, StatmodPrototypeComponentID)
+    );
+    EffectPrototypeComponent effectProtoComp = EffectPrototypeComponent(
+      getAddressById(components, EffectPrototypeComponentID)
+    );
 
     // verify lengths
     if (effectProto.statmodProtoEntities.length != effectProto.statmodValues.length) {

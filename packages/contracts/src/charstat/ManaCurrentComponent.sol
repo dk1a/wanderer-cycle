@@ -9,4 +9,3 @@ uint256 constant ID = uint256(keccak256("component.ManaCurrent"));
 contract ManaCurrentComponent is Uint32BareComponent {
   constructor(address world) Uint32BareComponent(world, ID) {}
 }
-

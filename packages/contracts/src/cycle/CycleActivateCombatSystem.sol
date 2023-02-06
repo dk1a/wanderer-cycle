@@ -7,12 +7,7 @@ import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { getAddressById } from "solecs/utils.sol";
 
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
-import {
-  Action,
-  ActionType,
-  CombatSubSystem,
-  ID as CombatSubSystemID
-} from "../combat/CombatSubSystem.sol";
+import { Action, ActionType, CombatSubSystem, ID as CombatSubSystemID } from "../combat/CombatSubSystem.sol";
 import { EffectSubSystem, ID as EffectSubSystemID } from "../effect/EffectSubSystem.sol";
 
 import { MapPrototypes } from "../map/MapPrototypes.sol";
@@ -33,25 +28,16 @@ contract CycleActivateCombatSystem is System {
 
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
-  function executeTyped(
-    uint256 wandererEntity,
-    uint256 mapEntity
-  ) public {
+  function executeTyped(uint256 wandererEntity, uint256 mapEntity) public {
     execute(abi.encode(wandererEntity, mapEntity));
   }
 
   function execute(bytes memory args) public override returns (bytes memory) {
-    (
-      uint256 wandererEntity,
-      uint256 mapEntity
-    ) = abi.decode(args, (uint256, uint256));
+    (uint256 wandererEntity, uint256 mapEntity) = abi.decode(args, (uint256, uint256));
 
-    FromPrototypeComponent fromProtoComp
-      = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
-    EffectSubSystem effectSubSystem
-      = EffectSubSystem(getAddressById(world.systems(), EffectSubSystemID));
-    CombatSubSystem combatSubSystem
-      = CombatSubSystem(getAddressById(world.systems(), CombatSubSystemID));
+    FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
+    EffectSubSystem effectSubSystem = EffectSubSystem(getAddressById(world.systems(), EffectSubSystemID));
+    CombatSubSystem combatSubSystem = CombatSubSystem(getAddressById(world.systems(), CombatSubSystemID));
 
     // reverts if sender doesn't have permission
     uint256 cycleEntity = LibCycle.getCycleEntityPermissioned(components, wandererEntity);
@@ -76,12 +62,8 @@ contract CycleActivateCombatSystem is System {
     fromProtoComp.set(retaliatorEntity, mapEntity);
 
     // activate combat
-    combatSubSystem.executeActivateCombat(
-      cycleEntity,
-      retaliatorEntity,
-      MAX_ROUNDS
-    );
+    combatSubSystem.executeActivateCombat(cycleEntity, retaliatorEntity, MAX_ROUNDS);
 
-    return '';
+    return "";
   }
 }

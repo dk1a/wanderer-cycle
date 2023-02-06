@@ -10,10 +10,7 @@ uint256 constant ID = uint256(keccak256("component.AffixPrototype"));
 /**
  * @dev affixProtoEntity = hashed(ID, affixName, tier)
  */
-function getAffixProtoEntity(
-  string memory name,
-  uint32 tier
-) pure returns (uint256) {
+function getAffixProtoEntity(string memory name, uint32 tier) pure returns (uint256) {
   return uint256(keccak256(abi.encode(ID, name, tier)));
 }
 
@@ -27,7 +24,7 @@ struct AffixPrototype {
 
 contract AffixPrototypeComponent is BareComponent {
   constructor(address world) BareComponent(world, ID) {}
-  
+
   function getSchema() public pure override returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
     keys = new string[](5);
     values = new LibTypes.SchemaValue[](5);

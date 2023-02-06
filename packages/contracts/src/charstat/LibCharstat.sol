@@ -22,24 +22,19 @@ library LibCharstat {
     uint256 targetEntity;
   }
 
-  function __construct(
-    IUint256Component components,
-    uint256 targetEntity
-  ) internal view returns (Self memory) {
-    return Self({
-      statmod: Statmod.__construct(components, targetEntity),
-      exp: LibExperience.__construct(components, targetEntity),
-      lifeCComp: LifeCurrentComponent(getAddressById(components, LifeCurrentComponentID)),
-      manaCComp: ManaCurrentComponent(getAddressById(components, ManaCurrentComponentID)),
-      targetEntity: targetEntity
-    });
+  function __construct(IUint256Component components, uint256 targetEntity) internal view returns (Self memory) {
+    return
+      Self({
+        statmod: Statmod.__construct(components, targetEntity),
+        exp: LibExperience.__construct(components, targetEntity),
+        lifeCComp: LifeCurrentComponent(getAddressById(components, LifeCurrentComponentID)),
+        manaCComp: ManaCurrentComponent(getAddressById(components, ManaCurrentComponentID)),
+        targetEntity: targetEntity
+      });
   }
 
   // ========== PRIMARY STATS (strength, arcana, dexterity) ==========
-  function getBasePStat(
-    Self memory __self,
-    PStat pstatIndex
-  ) internal view returns (uint32) {
+  function getBasePStat(Self memory __self, PStat pstatIndex) internal view returns (uint32) {
     if (__self.exp.hasExp()) {
       // if entity uses exp component, use that for primary stats
       return __self.exp.getPStat(pstatIndex);
@@ -49,18 +44,13 @@ library LibCharstat {
     }
   }
 
-  function getPStat(
-    Self memory __self,
-    PStat pstatIndex
-  ) internal view returns (uint32) {
+  function getPStat(Self memory __self, PStat pstatIndex) internal view returns (uint32) {
     uint32 baseValue = getBasePStat(__self, pstatIndex);
 
     return __self.statmod.getValuesFinal(Topics.PSTAT()[uint256(pstatIndex)].toEntity(), baseValue);
   }
 
-  function getPStats(
-    Self memory __self
-  ) internal view returns (uint32[PS_L] memory pstats) {
+  function getPStats(Self memory __self) internal view returns (uint32[PS_L] memory pstats) {
     for (uint256 i; i < PS_L; i++) {
       pstats[i] = getPStat(__self, PStat(i));
     }
@@ -68,52 +58,38 @@ library LibCharstat {
   }
 
   // ========== ATTRIBUTES ==========
-  function getLife(
-    Self memory __self
-  ) internal view returns (uint32) {
+  function getLife(Self memory __self) internal view returns (uint32) {
     uint32 strength = getPStat(__self, PStat.STRENGTH);
     uint32 baseValue = 2 + 2 * strength;
 
     return __self.statmod.getValuesFinal(Topics.LIFE.toEntity(), baseValue);
   }
 
-  function getMana(
-    Self memory __self
-  ) internal view returns (uint32) {
+  function getMana(Self memory __self) internal view returns (uint32) {
     uint32 arcana = getPStat(__self, PStat.ARCANA);
     uint32 baseValue = 4 * arcana;
 
     return __self.statmod.getValuesFinal(Topics.MANA.toEntity(), baseValue);
   }
 
-  function getFortune(
-    Self memory __self
-  ) internal view returns (uint32) {
+  function getFortune(Self memory __self) internal view returns (uint32) {
     return __self.statmod.getValuesFinal(Topics.FORTUNE.toEntity(), 0);
   }
 
-  function getConnection(
-    Self memory __self
-  ) internal view returns (uint32) {
+  function getConnection(Self memory __self) internal view returns (uint32) {
     return __self.statmod.getValuesFinal(Topics.CONNECTION.toEntity(), 0);
   }
 
-  function getLifeRegen(
-    Self memory __self
-  ) internal view returns (uint32) {
+  function getLifeRegen(Self memory __self) internal view returns (uint32) {
     return __self.statmod.getValuesFinal(Topics.LIFE_GAINED_PER_TURN.toEntity(), 0);
   }
 
-  function getManaRegen(
-    Self memory __self
-  ) internal view returns (uint32) {
+  function getManaRegen(Self memory __self) internal view returns (uint32) {
     return __self.statmod.getValuesFinal(Topics.MANA_GAINED_PER_TURN.toEntity(), 0);
   }
 
   // ========== ELEMENTAL ==========
-  function getAttack(
-    Self memory __self
-  ) internal view returns (uint32[EL_L] memory) {
+  function getAttack(Self memory __self) internal view returns (uint32[EL_L] memory) {
     uint32 strength = getPStat(__self, PStat.STRENGTH);
     // strength increases physical base attack damage
     uint32[EL_L] memory baseValues = [uint32(0), strength / 2 + 1, 0, 0, 0];
@@ -121,10 +97,7 @@ library LibCharstat {
     return __self.statmod.getValuesElementalFinal(Topics.ATTACK.toEntity(), baseValues);
   }
 
-  function getSpell(
-    Self memory __self,
-    uint32[EL_L] memory baseValues
-  ) internal view returns (uint32[EL_L] memory) {
+  function getSpell(Self memory __self, uint32[EL_L] memory baseValues) internal view returns (uint32[EL_L] memory) {
     uint32 arcana = getPStat(__self, PStat.ARCANA);
     // arcana increases non-zero base spell damage
     for (uint256 i; i < EL_L; i++) {
@@ -137,9 +110,7 @@ library LibCharstat {
     return __self.statmod.getValuesElementalFinal(Topics.SPELL.toEntity(), baseValues);
   }
 
-  function getResistance(
-    Self memory __self
-  ) internal view returns (uint32[EL_L] memory) {
+  function getResistance(Self memory __self) internal view returns (uint32[EL_L] memory) {
     uint32 dexterity = getPStat(__self, PStat.DEXTERITY);
     // dexterity increases base physical resistance
     uint32[EL_L] memory baseValues = [uint32((dexterity / 4) * 4), 0, 0, 0, 0];
@@ -148,9 +119,7 @@ library LibCharstat {
   }
 
   // ========== CURRENTS ==========
-  function getLifeCurrent(
-    Self memory __self
-  ) internal view returns (uint32) {
+  function getLifeCurrent(Self memory __self) internal view returns (uint32) {
     uint32 lifeMax = getLife(__self);
     uint32 lifeCurrent = __self.lifeCComp.getValue(__self.targetEntity);
     if (lifeCurrent > lifeMax) {
@@ -160,16 +129,11 @@ library LibCharstat {
     }
   }
 
-  function setLifeCurrent(
-    Self memory __self,
-    uint32 value
-  ) internal {
+  function setLifeCurrent(Self memory __self, uint32 value) internal {
     __self.lifeCComp.set(__self.targetEntity, value);
   }
 
-  function getManaCurrent(
-    Self memory __self
-  ) internal view returns (uint32) {
+  function getManaCurrent(Self memory __self) internal view returns (uint32) {
     uint32 manaMax = getMana(__self);
     uint32 manaCurrent = __self.manaCComp.getValue(__self.targetEntity);
     if (manaCurrent > manaMax) {
@@ -179,10 +143,7 @@ library LibCharstat {
     }
   }
 
-  function setManaCurrent(
-    Self memory __self,
-    uint32 value
-  ) internal {
+  function setManaCurrent(Self memory __self, uint32 value) internal {
     __self.manaCComp.set(__self.targetEntity, value);
   }
 
@@ -195,9 +156,7 @@ library LibCharstat {
   }
 
   // ========== ROUND DAMAGE ==========
-  function getRoundDamage(
-    Self memory __self
-  ) internal view returns (uint32[EL_L] memory) {
+  function getRoundDamage(Self memory __self) internal view returns (uint32[EL_L] memory) {
     return __self.statmod.getValuesElementalFinal(Topics.SPELL.toEntity(), [uint32(0), 0, 0, 0, 0]);
   }
 }

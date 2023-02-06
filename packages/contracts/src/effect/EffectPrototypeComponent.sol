@@ -37,25 +37,14 @@ abstract contract AbstractEffectComponent is BareComponent {
   }
 
   function set(uint256 entity, EffectPrototype memory value) public {
-    set(entity, abi.encode(
-      value.removability,
-      value.statmodProtoEntities,
-      value.statmodValues
-    ));
+    set(entity, abi.encode(value.removability, value.statmodProtoEntities, value.statmodValues));
   }
 
   function getValue(uint256 entity) public view returns (EffectPrototype memory) {
-    (
-      EffectRemovability removability,
-      uint256[] memory statmodProtoEntities,
-      uint32[] memory statmodValues
-    ) = abi.decode(getRawValue(entity), (EffectRemovability, uint256[], uint32[]));
+    (EffectRemovability removability, uint256[] memory statmodProtoEntities, uint32[] memory statmodValues) = abi
+      .decode(getRawValue(entity), (EffectRemovability, uint256[], uint32[]));
 
-    return EffectPrototype(
-      removability,
-      statmodProtoEntities,
-      statmodValues
-    );
+    return EffectPrototype(removability, statmodProtoEntities, statmodValues);
   }
 }
 

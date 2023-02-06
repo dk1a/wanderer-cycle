@@ -25,18 +25,12 @@ contract LearnCycleSkillSystem is System {
 
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
-  function executeTyped(
-    uint256 wandererEntity,
-    uint256 skillEntity
-  ) public {
+  function executeTyped(uint256 wandererEntity, uint256 skillEntity) public {
     execute(abi.encode(wandererEntity, skillEntity));
   }
 
   function execute(bytes memory args) public override returns (bytes memory) {
-    (
-      uint256 wandererEntity,
-      uint256 skillEntity
-    ) = abi.decode(args, (uint256, uint256));
+    (uint256 wandererEntity, uint256 skillEntity) = abi.decode(args, (uint256, uint256));
 
     ActiveGuiseComponent activeGuiseComp = ActiveGuiseComponent(getAddressById(components, ActiveGuiseComponentID));
     SkillPrototypeComponent skillProto = SkillPrototypeComponent(getAddressById(components, SkillPrototypeComponentID));
@@ -59,10 +53,8 @@ contract LearnCycleSkillSystem is System {
     }
 
     // learn the skill
-    LibLearnedSkills
-      .__construct(components, cycleEntity)
-      .learnSkill(skillEntity);
+    LibLearnedSkills.__construct(components, cycleEntity).learnSkill(skillEntity);
 
-    return '';
+    return "";
   }
 }

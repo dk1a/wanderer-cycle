@@ -9,9 +9,7 @@ uint256 constant ID = uint256(keccak256("component.AffixPrototypeGroup"));
 /**
  * @dev affixProtoGroupEntity = hashed(ID, affixName)
  */
-function getAffixProtoGroupEntity(
-  string memory name
-) pure returns (uint256) {
+function getAffixProtoGroupEntity(string memory name) pure returns (uint256) {
   return uint256(keccak256(abi.encode(ID, name)));
 }
 

@@ -17,19 +17,12 @@ library LibCycleTurns {
   uint32 constant MAX_CURRENT_TURNS_FOR_CLAIM = 50;
 
   /// @dev Get the number of currently available cycle turns.
-  function getTurns(
-    IUint256Component components,
-    uint256 cycleEntity
-  ) internal view returns (uint256) {
+  function getTurns(IUint256Component components, uint256 cycleEntity) internal view returns (uint256) {
     return _turnsComp(components).getValue(cycleEntity);
   }
 
   /// @dev Decrease entity's available turns by `subTurns`.
-  function decreaseTurns(
-    IUint256Component components,
-    uint256 cycleEntity,
-    uint32 subTurns
-  ) internal {
+  function decreaseTurns(IUint256Component components, uint256 cycleEntity, uint32 subTurns) internal {
     CycleTurnsComponent turnsComp = _turnsComp(components);
     uint32 currentTurns = turnsComp.getValue(cycleEntity);
     if (subTurns > currentTurns) revert LibCycleTurns__NotEnoughTurns();
@@ -37,10 +30,7 @@ library LibCycleTurns {
   }
 
   /// @dev Claims all claimable turns.
-  function claimTurns(
-    IUint256Component components,
-    uint256 cycleEntity
-  ) internal {
+  function claimTurns(IUint256Component components, uint256 cycleEntity) internal {
     uint32 claimableTurns = getClaimableTurns(components, cycleEntity);
     if (claimableTurns == 0) return;
 
@@ -50,10 +40,7 @@ library LibCycleTurns {
   }
 
   /// @dev Get accumulated turns that can be claimed (both accumulation and claim have a cap).
-  function getClaimableTurns(
-    IUint256Component components,
-    uint256 cycleEntity
-  ) internal view returns (uint32) {
+  function getClaimableTurns(IUint256Component components, uint256 cycleEntity) internal view returns (uint32) {
     // get accumulated turns
     uint32 accumulatedTurns = TURNS_PER_PERIOD * _getAccPeriods(components, cycleEntity);
     assert(accumulatedTurns <= TURNS_PER_PERIOD * MAX_ACC_PERIODS);
@@ -69,10 +56,7 @@ library LibCycleTurns {
 
   /// @dev Can accumulate ACC_PERIODs up to MAX_ACC_PERIODS, claimTurns resets accumulation.
   /// The accumulation moment is equal for everyone.
-  function _getAccPeriods(
-    IUint256Component components,
-    uint256 cycleEntity
-  ) private view returns (uint32) {
+  function _getAccPeriods(IUint256Component components, uint256 cycleEntity) private view returns (uint32) {
     uint256 lastClaimedTimestamp = _lastClaimedComp(components).getValue(cycleEntity);
     if (lastClaimedTimestamp == 0) {
       // timestamp can be 0 for the first claim

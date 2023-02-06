@@ -15,13 +15,8 @@ uint256 constant ID = uint256(keccak256("system.ReverseHashName"));
 contract ReverseHashNameSystem is System {
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
-  function executeTyped(
-    string memory name
-  ) public returns (uint256) {
-    return abi.decode(
-      execute(abi.encode(name)),
-      (uint256)
-    );
+  function executeTyped(string memory name) public returns (uint256) {
+    return abi.decode(execute(abi.encode(name)), (uint256));
   }
 
   /**
@@ -30,10 +25,9 @@ contract ReverseHashNameSystem is System {
    * Returns the character count of the name.
    */
   function execute(bytes memory args) public override returns (bytes memory) {
-    (string memory name) = abi.decode(args, (string));
+    string memory name = abi.decode(args, (string));
 
-    ReverseHashNameComponent comp
-      = ReverseHashNameComponent(getAddressById(components, ReverseHashNameComponentID));
+    ReverseHashNameComponent comp = ReverseHashNameComponent(getAddressById(components, ReverseHashNameComponentID));
 
     // reverts if UTF-8 is invalid
     uint256 charCount = toSlice(name).chars().count();

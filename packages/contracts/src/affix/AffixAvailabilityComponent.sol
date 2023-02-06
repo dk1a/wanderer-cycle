@@ -11,11 +11,7 @@ uint256 constant ID = uint256(keccak256("component.AffixAvailability"));
 /**
  * @dev affixAvailabilityEntity = hashed(ID, ilvl, AffixPartId, targetEntity)
  */
-function getAffixAvailabilityEntity(
-  uint256 ilvl,
-  AffixPartId partId,
-  uint256 targetEntity
-) pure returns (uint256) {
+function getAffixAvailabilityEntity(uint256 ilvl, AffixPartId partId, uint256 targetEntity) pure returns (uint256) {
   return uint256(keccak256(abi.encode(ID, ilvl, partId, targetEntity)));
 }
 
