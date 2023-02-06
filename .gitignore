@@ -3,5 +3,6 @@ node_modules/
 dist/
 yarn-error.log
 
+.eslintcache
 .DS_Store
 .env
