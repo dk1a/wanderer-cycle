@@ -23,18 +23,13 @@ library LibRNG {
 
   uint256 constant WAIT_BLOCKS = 1;
 
-  function requestRandomness(
-    IWorld world,
-    bytes memory data
-  ) internal returns (uint256 requestId) {
+  function requestRandomness(IWorld world, bytes memory data) internal returns (uint256 requestId) {
     requestId = world.getUniqueEntityId();
-    
-    RNGPrecommitComponent(
-      getAddressById(world.components(), RNGPrecommitComponentID)
-    ).set(requestId, RNGPrecommit({
-      blocknumber: block.number + WAIT_BLOCKS,
-      data: data
-    }));
+
+    RNGPrecommitComponent(getAddressById(world.components(), RNGPrecommitComponentID)).set(
+      requestId,
+      RNGPrecommit({ blocknumber: block.number + WAIT_BLOCKS, data: data })
+    );
 
     return requestId;
   }
@@ -51,22 +46,18 @@ library LibRNG {
     data = precommit.data;
   }
 
-  function getPrecommit(
-    IUint256Component components,
-    uint256 requestId
-  ) internal view returns (RNGPrecommit memory) {
-    return RNGPrecommitComponent(
-      getAddressById(components, RNGPrecommitComponentID)
-    ).getValue(requestId);
+  function getPrecommit(IUint256Component components, uint256 requestId) internal view returns (RNGPrecommit memory) {
+    return RNGPrecommitComponent(getAddressById(components, RNGPrecommitComponentID)).getValue(requestId);
   }
 
   function isValid(RNGPrecommit memory precommit) internal view returns (bool) {
-    // must be initialized
-    return precommit.blocknumber != 0
-    // and past the precommitted-to-block
-      && precommit.blocknumber < block.number
-    // and not too far past it because blockhash only works for 256 most recent blocks
-      && !isOverBlockLimit(precommit);
+    return
+      // must be initialized
+      precommit.blocknumber != 0 &&
+      // and past the precommitted-to-block
+      precommit.blocknumber < block.number &&
+      // and not too far past it because blockhash only works for 256 most recent blocks
+      !isOverBlockLimit(precommit);
   }
 
   function isOverBlockLimit(RNGPrecommit memory precommit) internal view returns (bool) {

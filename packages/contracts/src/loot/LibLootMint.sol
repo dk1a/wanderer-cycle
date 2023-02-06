@@ -20,15 +20,7 @@ library LibLootMint {
     uint256 randomness
   ) internal {
     uint256[] memory excludeAffixes;
-    randomLootMint(
-      components,
-      affixPartIds,
-      excludeAffixes,
-      lootEntity,
-      targetEntity,
-      ilvl,
-      randomness
-    );
+    randomLootMint(components, affixPartIds, excludeAffixes, lootEntity, targetEntity, ilvl, randomness);
   }
 
   function randomLootMint(
@@ -45,24 +37,9 @@ library LibLootMint {
       uint256[] memory statmodProtoEntities,
       uint256[] memory affixProtoEntities,
       uint32[] memory affixValues
-    ) = LibPickAffixes.pickAffixes(
-      components,
-      affixPartIds,
-      excludeAffixes,
-      targetEntity,
-      ilvl,
-      randomness
-    );
+    ) = LibPickAffixes.pickAffixes(components, affixPartIds, excludeAffixes, targetEntity, ilvl, randomness);
     // mint picked affixes
-    lootMint(
-      components,
-      lootEntity,
-      ilvl,
-      affixPartIds,
-      statmodProtoEntities,
-      affixProtoEntities,
-      affixValues
-    );
+    lootMint(components, lootEntity, ilvl, affixPartIds, statmodProtoEntities, affixProtoEntities, affixValues);
   }
 
   function lootMint(
@@ -76,12 +53,10 @@ library LibLootMint {
   ) internal {
     // save loot-specific data
     LootComponent lootComp = LootComponent(getAddressById(components, LootComponentID));
-    lootComp.set(lootEntity, Loot({
-      ilvl: ilvl,
-      affixPartIds: affixPartIds,
-      affixProtoEntities: affixProtoEntities,
-      affixValues: affixValues
-    }));
+    lootComp.set(
+      lootEntity,
+      Loot({ ilvl: ilvl, affixPartIds: affixPartIds, affixProtoEntities: affixProtoEntities, affixValues: affixValues })
+    );
     // save loot as an effect prototype (the effect triggers on-equip)
     LibEffectPrototype.verifiedSet(
       components,

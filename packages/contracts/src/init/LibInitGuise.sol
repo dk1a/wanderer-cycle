@@ -6,18 +6,9 @@ import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
-import {
-  getGuiseProtoEntity,
-  GuisePrototype,
-  GuisePrototypeComponent,
-  ID as GuisePrototypeComponentID
-} from "../guise/GuisePrototypeComponent.sol";
+import { getGuiseProtoEntity, GuisePrototype, GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../guise/GuisePrototypeComponent.sol";
 import { GuiseSkillsComponent, ID as GuiseSkillsComponentID } from "../guise/GuiseSkillsComponent.sol";
-import {
-  getSkillProtoEntity as spe,
-  SkillPrototypeComponent,
-  ID as SkillPrototypeComponentID
-} from "../skill/SkillPrototypeComponent.sol";
+import { getSkillProtoEntity as spe, SkillPrototypeComponent, ID as SkillPrototypeComponentID } from "../skill/SkillPrototypeComponent.sol";
 import { NameComponent, ID as NameComponentID } from "../common/NameComponent.sol";
 
 library LibInitGuise {
@@ -28,25 +19,22 @@ library LibInitGuise {
 
     // TODO maybe move guise skills init to LibInitSkill and have it depend on guise instead?
     uint256[] memory guiseSkills = new uint256[](11);
-    guiseSkills[0]  = spe('Cleave');
-    guiseSkills[1]  = spe('Charge');
-    guiseSkills[2]  = spe('Parry');
-    guiseSkills[3]  = spe('Onslaught');
-    guiseSkills[4]  = spe('Toughness');
-    guiseSkills[5]  = spe('Thunder Clap');
-    guiseSkills[6]  = spe('Precise Strikes');
-    guiseSkills[7]  = spe('Blood Rage');
-    guiseSkills[8]  = spe('Retaliation');
-    guiseSkills[9]  = spe('Last Stand');
-    guiseSkills[10] = spe('Weapon Mastery');
+    guiseSkills[0] = spe("Cleave");
+    guiseSkills[1] = spe("Charge");
+    guiseSkills[2] = spe("Parry");
+    guiseSkills[3] = spe("Onslaught");
+    guiseSkills[4] = spe("Toughness");
+    guiseSkills[5] = spe("Thunder Clap");
+    guiseSkills[6] = spe("Precise Strikes");
+    guiseSkills[7] = spe("Blood Rage");
+    guiseSkills[8] = spe("Retaliation");
+    guiseSkills[9] = spe("Last Stand");
+    guiseSkills[10] = spe("Weapon Mastery");
 
     add(
       components,
-      'Warrior',
-      GuisePrototype({
-        gainMul: [uint32(12), 6, 6],
-        levelMul: [uint32(8), 0, 0]
-      }),
+      "Warrior",
+      GuisePrototype({ gainMul: [uint32(12), 6, 6], levelMul: [uint32(8), 0, 0] }),
       guiseSkills
     );
   }

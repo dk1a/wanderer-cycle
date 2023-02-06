@@ -68,4 +68,3 @@ contract StatmodPrototypeComponent is BareComponent {
     return abi.decode(rawValue, (StatmodPrototype));
   }
 }
-

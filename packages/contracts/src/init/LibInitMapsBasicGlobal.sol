@@ -14,7 +14,7 @@ import { AffixPartId } from "../affix/AffixNamingComponent.sol";
 import { MapPrototypes } from "../map/MapPrototypes.sol";
 
 library LibInitMapsBasicGlobal {
-  uint256 constant internal MAP_PROTO_ENTITY = MapPrototypes.GLOBAL_BASIC;
+  uint256 internal constant MAP_PROTO_ENTITY = MapPrototypes.GLOBAL_BASIC;
 
   function init(IWorld world) internal {
     IUint256Component components = world.components();
@@ -26,11 +26,7 @@ library LibInitMapsBasicGlobal {
     }
   }
 
-  function _set(
-    IWorld world,
-    IUint256Component components,
-    uint32 ilvl
-  ) private {
+  function _set(IWorld world, IUint256Component components, uint32 ilvl) private {
     // basic global maps only have the implicit affix
     AffixPartId[] memory affixParts = new AffixPartId[](1);
     affixParts[0] = AffixPartId.IMPLICIT;
@@ -38,14 +34,7 @@ library LibInitMapsBasicGlobal {
     // get a new unique id
     uint256 lootEntity = world.getUniqueEntityId();
     // not really random, there's only 1 implicit per ilvl, it's just easier to reuse this function
-    LibLootMint.randomLootMint(
-      components,
-      affixParts,
-      lootEntity,
-      MAP_PROTO_ENTITY,
-      ilvl,
-      0
-    );
+    LibLootMint.randomLootMint(components, affixParts, lootEntity, MAP_PROTO_ENTITY, ilvl, 0);
     // set loot's map prototype
     FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
     fromProtoComp.set(lootEntity, MAP_PROTO_ENTITY);

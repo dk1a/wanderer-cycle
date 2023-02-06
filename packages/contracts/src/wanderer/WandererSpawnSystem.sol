@@ -22,20 +22,17 @@ contract WandererSpawnSystem is System {
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
   function executeTyped(uint256 guiseProtoEntity) public returns (uint256 wandererEntity) {
-    return abi.decode(
-      execute(abi.encode(guiseProtoEntity)),
-      (uint256)
-    );
+    return abi.decode(execute(abi.encode(guiseProtoEntity)), (uint256));
   }
 
   /// @notice Anyone can freely spawn wanderers, a wanderer is a tokenized game account
   function execute(bytes memory args) public override returns (bytes memory) {
-    (uint256 guiseProtoEntity) = abi.decode(args, (uint256));
+    uint256 guiseProtoEntity = abi.decode(args, (uint256));
 
     // mint nft
     uint256 wandererEntity = world.getUniqueEntityId();
     WNFTSystem wnftSystem = WNFTSystem(getAddressById(world.systems(), WNFTSystemID));
-    wnftSystem.executeSafeMint(msg.sender, wandererEntity, '');
+    wnftSystem.executeSafeMint(msg.sender, wandererEntity, "");
 
     // flag the entity as wanderer
     WandererComponent wandererComp = WandererComponent(getAddressById(components, WandererComponentID));

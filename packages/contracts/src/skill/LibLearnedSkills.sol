@@ -15,30 +15,18 @@ library LibLearnedSkills {
     uint256 entity;
   }
 
-  function __construct(
-    IUint256Component components,
-    uint256 entity
-  ) internal view returns (Self memory) {
-    return Self({
-      comp: LearnedSkillsComponent(getAddressById(components, LearnedSkillsComponentID)),
-      entity: entity
-    });
+  function __construct(IUint256Component components, uint256 entity) internal view returns (Self memory) {
+    return Self({ comp: LearnedSkillsComponent(getAddressById(components, LearnedSkillsComponentID)), entity: entity });
   }
 
-  function hasSkill(
-    Self memory __self,
-    uint256 skillEntity
-  ) internal view returns (bool) {
+  function hasSkill(Self memory __self, uint256 skillEntity) internal view returns (bool) {
     return __self.comp.hasItem(__self.entity, skillEntity);
   }
 
   /**
    * @dev Add `skillEntity` to set of learned skills, revert if it's already learned
    */
-  function learnSkill(
-    Self memory __self,
-    uint256 skillEntity
-  ) internal {
+  function learnSkill(Self memory __self, uint256 skillEntity) internal {
     if (__self.comp.hasItem(__self.entity, skillEntity)) {
       revert LibLearnedSkills__LearnSkillDuplicate();
     }
@@ -49,13 +37,7 @@ library LibLearnedSkills {
   /**
    * @dev Copy skills from source to target. Overwrites target's existing skills
    */
-  function copySkills(
-    Self memory __self,
-    uint256 sourceEntity
-  ) internal {
-    __self.comp.set(
-      __self.entity,
-      __self.comp.getValue(sourceEntity)
-    );
+  function copySkills(Self memory __self, uint256 sourceEntity) internal {
+    __self.comp.set(__self.entity, __self.comp.getValue(sourceEntity));
   }
 }

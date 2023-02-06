@@ -4,13 +4,7 @@ pragma solidity ^0.8.17;
 
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
-import {
-  StatmodPrototype,
-  Op, OP_L, OP_FINAL,
-  Element, EL_L,
-  StatmodPrototypeComponent,
-  ID as StatmodPrototypeComponentID
-} from "./StatmodPrototypeComponent.sol";
+import { StatmodPrototype, Op, OP_L, OP_FINAL, Element, EL_L, StatmodPrototypeComponent, ID as StatmodPrototypeComponentID } from "./StatmodPrototypeComponent.sol";
 
 import { ScopedValue } from "@dk1a/solecslib/contracts/scoped-value/ScopedValue.sol";
 import { FromPrototype } from "@dk1a/solecslib/contracts/prototype/FromPrototype.sol";
@@ -36,27 +30,21 @@ library Statmod {
    * @param targetEntity context for instances of protoEntities.
    * Modifying the same protoEntity with different targetEntities will not affect each other.
    */
-  function __construct(
-    IUint256Component components,
-    uint256 targetEntity
-  ) internal view returns (Self memory) {
-    return Self({
-      protoComp: StatmodPrototypeComponent(getAddressById(components, StatmodPrototypeComponentID)),
-      sv: ScopedValueFromPrototype.__construct(
-        ScopedValue.__construct(
-          components,
-          StatmodScopeComponentID,
-          StatmodValueComponentID
+  function __construct(IUint256Component components, uint256 targetEntity) internal view returns (Self memory) {
+    return
+      Self({
+        protoComp: StatmodPrototypeComponent(getAddressById(components, StatmodPrototypeComponentID)),
+        sv: ScopedValueFromPrototype.__construct(
+          ScopedValue.__construct(components, StatmodScopeComponentID, StatmodValueComponentID),
+          FromPrototype.__construct(
+            components,
+            FromPrototypeComponentID,
+            // instance context
+            abi.encode("Statmod", targetEntity)
+          )
         ),
-        FromPrototype.__construct(
-          components,
-          FromPrototypeComponentID,
-          // instance context
-          abi.encode("Statmod", targetEntity)
-        )
-      ),
-      targetEntity: targetEntity
-    });
+        targetEntity: targetEntity
+      });
   }
 
   function _scope(Self memory __self, uint256 topicEntity) private pure returns (bytes memory) {
@@ -68,37 +56,19 @@ library Statmod {
   /**
    * @dev Increase statmod value for instantiated protoEntity.
    */
-  function increase(
-    Self memory __self,
-    uint256 protoEntity,
-    uint256 value
-  ) internal returns (bool isUpdate) {
-    StatmodPrototype memory prototype
-      = __self.protoComp.getValue(protoEntity);
+  function increase(Self memory __self, uint256 protoEntity, uint256 value) internal returns (bool isUpdate) {
+    StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntity);
 
-    return __self.sv.increaseEntity(
-      _scope(__self, prototype.topicEntity),
-      protoEntity,
-      value
-    );
+    return __self.sv.increaseEntity(_scope(__self, prototype.topicEntity), protoEntity, value);
   }
 
   /**
    * @dev Decrease statmod value for instantiated protoEntity.
    */
-  function decrease(
-    Self memory __self,
-    uint256 protoEntity,
-    uint256 value
-  ) internal returns (bool isUpdate) {
-    StatmodPrototype memory prototype
-      = __self.protoComp.getValue(protoEntity);
+  function decrease(Self memory __self, uint256 protoEntity, uint256 value) internal returns (bool isUpdate) {
+    StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntity);
 
-    return __self.sv.decreaseEntity(
-      _scope(__self, prototype.topicEntity),
-      protoEntity,
-      value
-    );
+    return __self.sv.decreaseEntity(_scope(__self, prototype.topicEntity), protoEntity, value);
   }
 
   // ========== READ ==========
@@ -107,10 +77,7 @@ library Statmod {
    * @dev Sum all statmod values for `topicEntity`
    * TODO is this even useful anywhere?
    */
-  function getTotal(
-    Self memory __self,
-    uint256 topicEntity
-  ) internal view returns (uint32 result) {
+  function getTotal(Self memory __self, uint256 topicEntity) internal view returns (uint32 result) {
     (, uint256[] memory values) = __self.sv.getEntitiesValues(_scope(__self, topicEntity));
 
     for (uint256 i; i < values.length; i++) {
@@ -122,12 +89,10 @@ library Statmod {
    * @dev Sum statmod values for `topicEntity`, grouped by Op.
    * This method shouldn't usually be needed externally, see getValues.
    */
-  function getOperands(
-    Self memory __self,
-    uint256 topicEntity
-  ) internal view returns(uint32[OP_L] memory result) {
-    (uint256[] memory protoEntities, uint256[] memory values)
-      = __self.sv.getEntitiesValues(_scope(__self, topicEntity));
+  function getOperands(Self memory __self, uint256 topicEntity) internal view returns (uint32[OP_L] memory result) {
+    (uint256[] memory protoEntities, uint256[] memory values) = __self.sv.getEntitiesValues(
+      _scope(__self, topicEntity)
+    );
 
     for (uint256 i; i < protoEntities.length; i++) {
       StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntities[i]);
@@ -143,9 +108,10 @@ library Statmod {
   function getOperandsElemental(
     Self memory __self,
     uint256 topicEntity
-  ) internal view returns(uint32[EL_L][OP_L] memory result) {
-    (uint256[] memory protoEntities, uint256[] memory values)
-      = __self.sv.getEntitiesValues(_scope(__self, topicEntity));
+  ) internal view returns (uint32[EL_L][OP_L] memory result) {
+    (uint256[] memory protoEntities, uint256[] memory values) = __self.sv.getEntitiesValues(
+      _scope(__self, topicEntity)
+    );
 
     for (uint256 i; i < protoEntities.length; i++) {
       StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntities[i]);
@@ -177,20 +143,14 @@ library Statmod {
   ) internal view returns (uint32[OP_L] memory result) {
     uint32[OP_L] memory ops = getOperands(__self, topicEntity);
     result[uint256(Op.BADD)] = baseValue + ops[uint256(Op.BADD)];
-    result[uint256(Op.MUL)] =
-      result[uint256(Op.BADD)] * (100 + ops[uint256(Op.MUL)]) / 100;
-    result[uint256(Op.ADD)] =
-      result[uint256(Op.MUL)] + ops[uint256(Op.ADD)];
+    result[uint256(Op.MUL)] = (result[uint256(Op.BADD)] * (100 + ops[uint256(Op.MUL)])) / 100;
+    result[uint256(Op.ADD)] = result[uint256(Op.MUL)] + ops[uint256(Op.ADD)];
   }
 
   /**
    * @dev Result of all `topicEntity` operations upon `baseValue`
    */
-  function getValuesFinal(
-    Self memory __self,
-    uint256 topicEntity,
-    uint32 baseValue
-  ) internal view returns (uint32) {
+  function getValuesFinal(Self memory __self, uint256 topicEntity, uint32 baseValue) internal view returns (uint32) {
     return getValues(__self, topicEntity, baseValue)[OP_FINAL];
   }
 
@@ -214,10 +174,8 @@ library Statmod {
       }
 
       result[uint256(Op.BADD)][el] = baseValue + ops[uint256(Op.BADD)][el];
-      result[uint256(Op.MUL)][el] =
-        result[uint256(Op.BADD)][el] * (100 + ops[uint256(Op.MUL)][el]) / 100;
-      result[uint256(Op.ADD)][el] =
-        result[uint256(Op.MUL)][el] + ops[uint256(Op.ADD)][el];
+      result[uint256(Op.MUL)][el] = (result[uint256(Op.BADD)][el] * (100 + ops[uint256(Op.MUL)][el])) / 100;
+      result[uint256(Op.ADD)][el] = result[uint256(Op.MUL)][el] + ops[uint256(Op.ADD)][el];
     }
   }
 

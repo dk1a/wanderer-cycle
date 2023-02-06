@@ -21,23 +21,12 @@ contract RandomMapSubSystem is Subsystem {
   /// @param mapProtoEntity map prototype.
   /// @param randomness used to randomly pick equipment prototype and affixes.
   /// @return lootEntity a new entity.
-  function executeTyped(
-    uint32 ilvl,
-    uint256 mapProtoEntity,
-    uint256 randomness
-  ) public returns (uint256 lootEntity) {
-    return abi.decode(
-      execute(abi.encode(ilvl, mapProtoEntity, randomness)),
-      (uint256)
-    );
+  function executeTyped(uint32 ilvl, uint256 mapProtoEntity, uint256 randomness) public returns (uint256 lootEntity) {
+    return abi.decode(execute(abi.encode(ilvl, mapProtoEntity, randomness)), (uint256));
   }
 
   function _execute(bytes memory args) internal override returns (bytes memory) {
-    (
-      uint32 ilvl,
-      uint256 mapProtoEntity,
-      uint256 randomness
-    ) = abi.decode(args, (uint32, uint256, uint256));
+    (uint32 ilvl, uint256 mapProtoEntity, uint256 randomness) = abi.decode(args, (uint32, uint256, uint256));
 
     // get a new unique id
     uint256 lootEntity = world.getUniqueEntityId();

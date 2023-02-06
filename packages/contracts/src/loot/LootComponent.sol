@@ -18,7 +18,7 @@ struct Loot {
 
 contract LootComponent is Component {
   constructor(address world) Component(world, ID) {}
-  
+
   function getSchema() public pure override returns (string[] memory keys, LibTypes.SchemaValue[] memory values) {
     keys = new string[](4);
     values = new LibTypes.SchemaValue[](4);
@@ -49,12 +49,7 @@ contract LootComponent is Component {
       uint32[] memory affixValues
     ) = abi.decode(getRawValue(entity), (uint32, AffixPartId[], uint256[], uint32[]));
 
-    return Loot(
-      ilvl,
-      affixPartIds,
-      affixProtoEntities,
-      affixValues
-    );
+    return Loot(ilvl, affixPartIds, affixProtoEntities, affixValues);
   }
 
   function getEntitiesWithValue(Loot memory value) public view returns (uint256[] memory) {
@@ -62,11 +57,6 @@ contract LootComponent is Component {
   }
 
   function _encode(Loot memory value) internal pure returns (bytes memory) {
-    return abi.encode(
-      value.ilvl,
-      value.affixPartIds,
-      value.affixProtoEntities,
-      value.affixValues
-    );
+    return abi.encode(value.ilvl, value.affixPartIds, value.affixProtoEntities, value.affixValues);
   }
 }

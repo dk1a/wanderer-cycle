@@ -6,10 +6,7 @@ import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
-import {
-  EquipmentPrototypeComponent,
-  ID as EquipmentPrototypeComponentID
-} from "../equipment/EquipmentPrototypeComponent.sol";
+import { EquipmentPrototypeComponent, ID as EquipmentPrototypeComponentID } from "../equipment/EquipmentPrototypeComponent.sol";
 import { NameComponent, ID as NameComponentID } from "../common/NameComponent.sol";
 
 import { EquipmentPrototypes } from "../equipment/EquipmentPrototypes.sol";
@@ -23,19 +20,17 @@ library LibInitEquipmentPrototype {
     EquipmentPrototypeComponent protoComp = EquipmentPrototypeComponent(
       getAddressById(components, EquipmentPrototypeComponentID)
     );
-    NameComponent nameComp = NameComponent(
-      getAddressById(components, NameComponentID)
-    );
- 
-    _set(protoComp, nameComp, EquipmentPrototypes.WEAPON,   "Weapon");
-    _set(protoComp, nameComp, EquipmentPrototypes.SHIELD,   "Shield");
-    _set(protoComp, nameComp, EquipmentPrototypes.HAT,      "Hat");
+    NameComponent nameComp = NameComponent(getAddressById(components, NameComponentID));
+
+    _set(protoComp, nameComp, EquipmentPrototypes.WEAPON, "Weapon");
+    _set(protoComp, nameComp, EquipmentPrototypes.SHIELD, "Shield");
+    _set(protoComp, nameComp, EquipmentPrototypes.HAT, "Hat");
     _set(protoComp, nameComp, EquipmentPrototypes.CLOTHING, "Clothing");
-    _set(protoComp, nameComp, EquipmentPrototypes.GLOVES,   "Gloves");
-    _set(protoComp, nameComp, EquipmentPrototypes.PANTS,    "Pants");
-    _set(protoComp, nameComp, EquipmentPrototypes.BOOTS,    "Boots");
-    _set(protoComp, nameComp, EquipmentPrototypes.AMULET,   "Amulet");
-    _set(protoComp, nameComp, EquipmentPrototypes.RING,     "Ring");
+    _set(protoComp, nameComp, EquipmentPrototypes.GLOVES, "Gloves");
+    _set(protoComp, nameComp, EquipmentPrototypes.PANTS, "Pants");
+    _set(protoComp, nameComp, EquipmentPrototypes.BOOTS, "Boots");
+    _set(protoComp, nameComp, EquipmentPrototypes.AMULET, "Amulet");
+    _set(protoComp, nameComp, EquipmentPrototypes.RING, "Ring");
   }
 
   function _set(

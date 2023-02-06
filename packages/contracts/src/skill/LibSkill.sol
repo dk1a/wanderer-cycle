@@ -6,19 +6,13 @@ import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
-import { DurationSubSystem, ID as DurationSubSystemID, ScopedDuration, SystemCallback  } from "../duration/DurationSubSystem.sol";
+import { DurationSubSystem, ID as DurationSubSystemID, ScopedDuration, SystemCallback } from "../duration/DurationSubSystem.sol";
 import { EffectSubSystem, ID as EffectSubSystemID } from "../effect/EffectSubSystem.sol";
 import { EffectPrototypeComponent, ID as EffectPrototypeComponentID } from "../effect/EffectPrototypeComponent.sol";
 import { LearnedSkillsComponent, ID as LearnedSkillsComponentID } from "./LearnedSkillsComponent.sol";
 import { LibLearnedSkills } from "./LibLearnedSkills.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
-import {
-  SkillType,
-  TargetType,
-  SkillPrototype,
-  SkillPrototypeComponent,
-  ID as SkillPrototypeComponentID
-} from "./SkillPrototypeComponent.sol";
+import { SkillType, TargetType, SkillPrototype, SkillPrototypeComponent, ID as SkillPrototypeComponentID } from "./SkillPrototypeComponent.sol";
 
 library LibSkill {
   using LibCharstat for LibCharstat.Self;
@@ -37,38 +31,30 @@ library LibSkill {
     LibCharstat.Self charstat;
     LibLearnedSkills.Self learnedSkills;
     uint256 userEntity;
-
     uint256 skillEntity;
     SkillPrototype skill;
   }
 
-  function __construct(
-    IWorld world,
-    uint256 userEntity,
-    uint256 skillEntity
-  ) internal view returns (Self memory) {
+  function __construct(IWorld world, uint256 userEntity, uint256 skillEntity) internal view returns (Self memory) {
     IUint256Component components = world.components();
     SkillPrototypeComponent protoComp = SkillPrototypeComponent(getAddressById(components, SkillPrototypeComponentID));
 
-    return Self({
-      world: world,
-      protoComp: protoComp,
-      charstat: LibCharstat.__construct(components, userEntity),
-      learnedSkills: LibLearnedSkills.__construct(components, userEntity),
-      userEntity: userEntity,
-
-      skillEntity: skillEntity,
-      skill: protoComp.getValue(skillEntity)
-    });
+    return
+      Self({
+        world: world,
+        protoComp: protoComp,
+        charstat: LibCharstat.__construct(components, userEntity),
+        learnedSkills: LibLearnedSkills.__construct(components, userEntity),
+        userEntity: userEntity,
+        skillEntity: skillEntity,
+        skill: protoComp.getValue(skillEntity)
+      });
   }
 
   /**
    * @dev Change Self to use a different skill prototype
    */
-  function switchSkill(
-    Self memory __self,
-    uint256 skillEntity
-  ) internal view returns (Self memory) {
+  function switchSkill(Self memory __self, uint256 skillEntity) internal view returns (Self memory) {
     __self.skillEntity = skillEntity;
     __self.skill = __self.protoComp.getValue(skillEntity);
     return __self;
@@ -89,14 +75,8 @@ library LibSkill {
   /**
    * @dev Combat skills may target either self or enemy, depending on skill prototype
    */
-  function chooseCombatTarget(
-    Self memory __self,
-    uint256 enemyEntity
-  ) internal pure returns (uint256) {
-    if (
-      __self.skill.effectTarget == TargetType.SELF
-      || __self.skill.effectTarget == TargetType.SELF_OR_ALLY
-    ) {
+  function chooseCombatTarget(Self memory __self, uint256 enemyEntity) internal pure returns (uint256) {
+    if (__self.skill.effectTarget == TargetType.SELF || __self.skill.effectTarget == TargetType.SELF_OR_ALLY) {
       // self
       return __self.userEntity;
     } else if (__self.skill.effectTarget == TargetType.ENEMY) {
@@ -111,16 +91,15 @@ library LibSkill {
    * @dev Check some requirements, subtract cost, start cooldown, apply effect.
    * However this method is NOT combat aware and doesn't do attack/spell damage
    */
-  function useSkill(
-    Self memory __self,
-    uint256 targetEntity
-  ) internal {
+  function useSkill(Self memory __self, uint256 targetEntity) internal {
     // must be learned
     if (!__self.learnedSkills.hasSkill(__self.skillEntity)) {
       revert LibSkill__SkillMustBeLearned();
     }
     // must be off cooldown
-    DurationSubSystem durationSubSystem = DurationSubSystem(getAddressById(__self.world.systems(), DurationSubSystemID));
+    DurationSubSystem durationSubSystem = DurationSubSystem(
+      getAddressById(__self.world.systems(), DurationSubSystemID)
+    );
     if (durationSubSystem.has(targetEntity, __self.skillEntity)) {
       revert LibSkill__SkillOnCooldown();
     }
@@ -132,7 +111,7 @@ library LibSkill {
 
     // start cooldown
     // (doesn't clash with skill effect duration, which has its own entity)
-    durationSubSystem.executeIncrease(targetEntity, __self.skillEntity, __self.skill.cooldown, SystemCallback(0, ''));
+    durationSubSystem.executeIncrease(targetEntity, __self.skillEntity, __self.skill.cooldown, SystemCallback(0, ""));
 
     // check and subtract skill cost
     uint32 manaCurrent = __self.charstat.getManaCurrent();

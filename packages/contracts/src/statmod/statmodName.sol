@@ -14,11 +14,7 @@ using { toSlice } for string;
 
 // utils for autogenerating a name for a statmod prototype
 
-function statmodName(
-  ReverseHashNameComponent rhNameComp,
-  uint256 topicEntity,
-  Op op
-) view returns (string memory) {
+function statmodName(ReverseHashNameComponent rhNameComp, uint256 topicEntity, Op op) view returns (string memory) {
   return statmodName(rhNameComp, topicEntity, op, Element.ALL);
 }
 
@@ -49,14 +45,10 @@ function statmodName(
 
     if (found) {
       // replace {element} with the actual element name
-      nameParts[1] = prefix
-        .add(elementName).toSlice()
-        .add(suffix).toSlice();
+      nameParts[1] = prefix.add(elementName).toSlice().add(suffix).toSlice();
     } else {
       // prepend element name to topicName
-      nameParts[1] = elementName
-        .add(toSlice(" ")).toSlice()
-        .add(topicName).toSlice();
+      nameParts[1] = elementName.add(toSlice(" ")).toSlice().add(topicName).toSlice();
     }
   } else if (element == Element.ALL) {
     if (topicName.contains(toSlice("{element}"))) revert("invalid element placeholder");

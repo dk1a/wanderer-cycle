@@ -111,4 +111,3 @@ contract SkillPrototypeComponent is BareComponent {
     return abi.decode(getRawValue(entity), (SkillPrototype));
   }
 }
-

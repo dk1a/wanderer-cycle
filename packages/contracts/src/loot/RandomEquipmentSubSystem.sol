@@ -20,21 +20,12 @@ contract RandomEquipmentSubSystem is Subsystem {
   /// @param ilvl higher ilvl increases the pool of affixes for random generation (higher is better).
   /// @param randomness used to randomly pick equipment prototype and affixes.
   /// @return lootEntity a new entity.
-  function executeTyped(
-    uint32 ilvl,
-    uint256 randomness
-  ) public returns (uint256 lootEntity) {
-    return abi.decode(
-      execute(abi.encode(ilvl, randomness)),
-      (uint256)
-    );
+  function executeTyped(uint32 ilvl, uint256 randomness) public returns (uint256 lootEntity) {
+    return abi.decode(execute(abi.encode(ilvl, randomness)), (uint256));
   }
 
   function _execute(bytes memory args) internal override returns (bytes memory) {
-    (
-      uint32 ilvl,
-      uint256 randomness
-    ) = abi.decode(args, (uint32, uint256));
+    (uint32 ilvl, uint256 randomness) = abi.decode(args, (uint32, uint256));
 
     // pick equipment prototype (it's the targetEntity when getting affix availability)
     uint256 equipmentProtoEntity = LibLootEquipment.pickEquipmentPrototype(ilvl, randomness);

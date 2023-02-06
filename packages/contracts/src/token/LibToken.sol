@@ -21,11 +21,7 @@ library LibToken {
     return abi.decode(rawValue, (address));
   }
 
-  function requireOwner(
-    IUint256Component components,
-    uint256 tokenEntity,
-    address account
-  ) internal view {
+  function requireOwner(IUint256Component components, uint256 tokenEntity, address account) internal view {
     if (account != ownerOf(components, tokenEntity)) {
       revert LibToken_MustBeTokenOwner();
     }

@@ -8,13 +8,7 @@ import { getAddressById } from "solecs/utils.sol";
 
 import { Topics, Topic } from "../charstat/Topics.sol";
 import { statmodName } from "../statmod/statmodName.sol";
-import {
-  getStatmodProtoEntity,
-  Op, Element,
-  StatmodPrototype,
-  StatmodPrototypeComponent,
-  ID as StatmodPrototypeComponentID
-} from "../statmod/StatmodPrototypeComponent.sol";
+import { getStatmodProtoEntity, Op, Element, StatmodPrototype, StatmodPrototypeComponent, ID as StatmodPrototypeComponentID } from "../statmod/StatmodPrototypeComponent.sol";
 import { NameComponent, ID as NameComponentID } from "../common/NameComponent.sol";
 import { ReverseHashNameComponent, ID as ReverseHashNameComponentID } from "../common/ReverseHashNameComponent.sol";
 
@@ -104,34 +98,15 @@ library LibInitStatmod {
     add(comps, Topics.LEVEL, Op.BADD);
   }
 
-  function add(
-    Comps memory comps,
-    Topic topic,
-    Op op
-  ) internal {
+  function add(Comps memory comps, Topic topic, Op op) internal {
     add(comps, topic, op, Element.ALL);
   }
 
-  function add(
-    Comps memory comps,
-    Topic topic,
-    Op op,
-    Element element
-  ) internal {
-    add(
-      comps,
-      StatmodPrototype({
-        topicEntity: topic.toEntity(),
-        op: op,
-        element: element
-      })
-    );
+  function add(Comps memory comps, Topic topic, Op op, Element element) internal {
+    add(comps, StatmodPrototype({ topicEntity: topic.toEntity(), op: op, element: element }));
   }
 
-  function add(
-    Comps memory comps,
-    StatmodPrototype memory prototype
-  ) internal {
+  function add(Comps memory comps, StatmodPrototype memory prototype) internal {
     uint256 protoEntity = getStatmodProtoEntity(prototype);
     comps.proto.set(protoEntity, prototype);
 

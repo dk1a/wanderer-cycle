@@ -12,6 +12,8 @@ uint256 constant balanceComponentID = uint256(keccak256("component.WFT_Balance")
 uint256 constant operatorApprovalComponentID = uint256(keccak256("component.WFT_OperatorApproval"));
 
 contract WFTSystem is ERC1155BaseSubsystem {
-  constructor(IWorld _world, address _components)
-    ERC1155BaseSubsystem(_world, _components, balanceComponentID, operatorApprovalComponentID) {}
+  constructor(
+    IWorld _world,
+    address _components
+  ) ERC1155BaseSubsystem(_world, _components, balanceComponentID, operatorApprovalComponentID) {}
 }

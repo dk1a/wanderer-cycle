@@ -70,7 +70,7 @@ contract EquipmentSubSystem is Subsystem {
       revert EquipmentSubSystem__InvalidEquipmentAction();
     }
 
-    return '';
+    return "";
   }
 
   function _unequip(
@@ -99,9 +99,7 @@ contract EquipmentSubSystem is Subsystem {
 
     // equipmentEntity must have equipment prototype
     // TODO this looks dubious, and also very long
-    FromPrototypeComponent fromProtoComp = FromPrototypeComponent(
-      getAddressById(components, FromPrototypeComponentID)
-    );
+    FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
     EquipmentPrototypeComponent protoComp = EquipmentPrototypeComponent(
       getAddressById(components, EquipmentPrototypeComponentID)
     );
