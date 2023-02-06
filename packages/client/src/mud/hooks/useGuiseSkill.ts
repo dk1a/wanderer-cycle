@@ -35,7 +35,7 @@ export const useGuiseSkill = (entity: EntityIndex) => {
   return {
     entity,
     entityId: world.entities[entity],
-    name: name ?? '',
+    name: name?.value ?? '',
 
     requiredLevel: skill.requiredLevel,
     skillType: skill.skillType as SkillType,
@@ -53,6 +53,6 @@ export const useGuiseSkill = (entity: EntityIndex) => {
       skill.spellDamage_poison,
     ),
 
-    description: description ?? '',
+    description: description?.value ?? '',
   }
 };

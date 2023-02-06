@@ -32,7 +32,7 @@ export const useGuise = (entity: EntityIndex) => {
   return {
     entity,
     entityId: world.entities[entity],
-    name: name ?? '',
+    name: name?.value ?? '',
 
     gainMul: {
       strength: value.gainMul_strength,
