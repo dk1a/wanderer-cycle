@@ -1,9 +1,5 @@
 import { defineComponent, Type } from "@latticexyz/recs";
-import {
-  defineBoolComponent,
-  defineNumberComponent,
-  defineStringComponent,
-} from "@latticexyz/std-client";
+import { defineBoolComponent, defineNumberComponent, defineStringComponent } from "@latticexyz/std-client";
 import { defineEffectComponent } from "./components/EffectComponent";
 import { defineEntityArrayComponent } from "./components/EntityArrayComponent";
 import { defineEntityComponent } from "./components/EntityComponent";
@@ -165,13 +161,13 @@ export const components = {
   EquipmentPrototype: defineBoolComponent(world, {
     metadata: {
       contractId: "component.EquipmentPrototype",
-    }
+    },
   }),
 
   MapPrototype: defineBoolComponent(world, {
     metadata: {
       contractId: "component.MapPrototype",
-    }
+    },
   }),
 
   AffixPrototype: defineComponent(
@@ -191,17 +187,17 @@ export const components = {
   AffixPrototypeGroup: defineEntityComponent(world, {
     metadata: {
       contractId: "component.AffixPrototypeGroup",
-    }
+    },
   }),
   AffixNaming: defineStringComponent(world, {
     metadata: {
       contractId: "component.AffixNaming",
-    }
+    },
   }),
   AffixAvailability: defineEntityArrayComponent(world, {
     metadata: {
       contractId: "component.AffixAvailability",
-    }
+    },
   }),
   Loot: defineComponent(
     world,

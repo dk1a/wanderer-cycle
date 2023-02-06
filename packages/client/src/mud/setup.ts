@@ -10,15 +10,9 @@ import { GodID as singletonEntityId } from "@latticexyz/network";
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
 
 export const setup = async () => {
-  const result = await setupMUDNetwork<typeof components, SystemTypes>(
-    config,
-    world,
-    components,
-    SystemAbis,
-    {
-      fetchSystemCalls: true,
-    }
-  );
+  const result = await setupMUDNetwork<typeof components, SystemTypes>(config, world, components, SystemAbis, {
+    fetchSystemCalls: true,
+  });
   result.startSync();
 
   // For LoadingState updates
@@ -32,8 +26,7 @@ export const setup = async () => {
   const playerEntity = world.registerEntity({ id: playerEntityId });
 
   // Add support for optimistic rendering
-  const componentsWithOverrides = {
-  };
+  const componentsWithOverrides = {};
 
   return {
     ...result,

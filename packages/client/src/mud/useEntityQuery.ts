@@ -5,10 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 // TODO use MUD version if it improves runOnInit
 
 export function useEntityQuery(queryFragments: EntityQueryFragment[]) {
-  const queryResult = useMemo(
-    () => defineQuery(queryFragments, { runOnInit: true }),
-    [queryFragments]
-  );
+  const queryResult = useMemo(() => defineQuery(queryFragments, { runOnInit: true }), [queryFragments]);
   const [matching, setMatching] = useState([...queryResult.matching]);
 
   useEffect(() => {
