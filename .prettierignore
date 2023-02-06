@@ -1,0 +1,5 @@
+dist
+packages/contracts/src/uri
+packages/contracts/src/effect/makeEffectPrototype.sol
+packages/contracts/src/init/*Affix*.sol
+packages/contracts/src/init/LibInitSkill.sol

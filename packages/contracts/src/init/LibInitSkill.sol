@@ -16,16 +16,16 @@ library LibInitSkill {
     // 1
     b.add(
       comps,
-      'Cleave',
-      'Attack with increased damage',
+      "Cleave",
+      "Attack with increased damage",
       SkillPrototype({
         requiredLevel: 1,
         skillType: SkillType.COMBAT,
         withAttack: true,
         withSpell: false,
         cost: 1,
-        duration: b._duration('round', 1),
-        cooldown: b._duration('round', 1),
+        duration: b._duration("round", 1),
+        cooldown: b._duration("round", 1),
         effectTarget: TargetType.SELF,
         spellDamage: b._emptyElemental()
       }),
@@ -36,19 +36,19 @@ library LibInitSkill {
       )
     );
 
-    // 2 
+    // 2
     b.add(
       comps,
-      'Charge',
-      'Greatly increase attack damage for the next combat round',
+      "Charge",
+      "Greatly increase attack damage for the next combat round",
       SkillPrototype({
         requiredLevel: 2,
         skillType: SkillType.NONCOMBAT,
         withAttack: false,
         withSpell: false,
         cost: 1,
-        duration: b._duration('round_persistent', 1),
-        cooldown: b._duration('turn', 3),
+        duration: b._duration("round_persistent", 1),
+        cooldown: b._duration("turn", 3),
         effectTarget: TargetType.SELF,
         spellDamage: b._emptyElemental()
       }),
@@ -61,8 +61,8 @@ library LibInitSkill {
     // 3
     b.add(
       comps,
-      'Parry',
-      'Increase physical resistance',
+      "Parry",
+      "Increase physical resistance",
       SkillPrototype({
         requiredLevel: 3,
         skillType: SkillType.PASSIVE,
@@ -83,16 +83,16 @@ library LibInitSkill {
     // 4
     b.add(
       comps,
-      'Onslaught',
-      'Increase attack damage and recover some life per round',
+      "Onslaught",
+      "Increase attack damage and recover some life per round",
       SkillPrototype({
         requiredLevel: 4,
         skillType: SkillType.NONCOMBAT,
         withAttack: false,
         withSpell: false,
         cost: 1,
-        duration: b._duration('turn', 2),
-        cooldown: b._duration('turn', 8),
+        duration: b._duration("turn", 2),
+        cooldown: b._duration("turn", 8),
         effectTarget: TargetType.SELF,
         spellDamage: b._emptyElemental()
       }),
@@ -106,8 +106,8 @@ library LibInitSkill {
     // 5
     b.add(
       comps,
-      'Toughness',
-      'Increase life',
+      "Toughness",
+      "Increase life",
       SkillPrototype({
         requiredLevel: 5,
         skillType: SkillType.PASSIVE,
@@ -128,8 +128,8 @@ library LibInitSkill {
     // 6
     b.add(
       comps,
-      'Thunder Clap',
-      'Attack and deal physical spell damage',
+      "Thunder Clap",
+      "Attack and deal physical spell damage",
       SkillPrototype({
         requiredLevel: 6,
         skillType: SkillType.COMBAT,
@@ -147,8 +147,8 @@ library LibInitSkill {
     // 7
     b.add(
       comps,
-      'Precise Strikes',
-      'Increase attack damage',
+      "Precise Strikes",
+      "Increase attack damage",
       SkillPrototype({
         requiredLevel: 7,
         skillType: SkillType.PASSIVE,
@@ -169,8 +169,8 @@ library LibInitSkill {
     // 8
     b.add(
       comps,
-      'Blood Rage',
-      'Gain an extra turn after a kill, once per day',
+      "Blood Rage",
+      "Gain an extra turn after a kill, once per day",
       SkillPrototype({
         requiredLevel: 8,
         skillType: SkillType.PASSIVE,
@@ -189,16 +189,16 @@ library LibInitSkill {
     // 9
     b.add(
       comps,
-      'Retaliation',
-      'Increases physical resistance\nIncreases physical attack damage proportional to missing life',
+      "Retaliation",
+      "Increases physical resistance\nIncreases physical attack damage proportional to missing life",
       SkillPrototype({
         requiredLevel: 9,
         skillType: SkillType.NONCOMBAT,
         withAttack: false,
         withSpell: false,
         cost: 0,
-        duration: b._duration('turn', 1),
-        cooldown: b._duration('turn', 16),
+        duration: b._duration("turn", 1),
+        cooldown: b._duration("turn", 16),
         effectTarget: TargetType.SELF,
         spellDamage: b._emptyElemental()
       }),
@@ -212,16 +212,16 @@ library LibInitSkill {
     // 10
     b.add(
       comps,
-      'Last Stand',
-      'Gain temporary life for 4 rounds',
+      "Last Stand",
+      "Gain temporary life for 4 rounds",
       SkillPrototype({
         requiredLevel: 10,
         skillType: SkillType.COMBAT,
         withAttack: true,
         withSpell: false,
         cost: 1,
-        duration: b._duration('round', 4),
-        cooldown: b._duration('turn', 8),
+        duration: b._duration("round", 4),
+        cooldown: b._duration("turn", 8),
         effectTarget: TargetType.SELF,
         spellDamage: b._emptyElemental()
       }),
@@ -236,9 +236,9 @@ library LibInitSkill {
     // 11
     b.add(
       comps,
-      'Weapon Mastery',
+      "Weapon Mastery",
       // TODO this dual-wielding thing
-      'Allows dual wielding one-handed weapons\nIncreases base attack',
+      "Allows dual wielding one-handed weapons\nIncreases base attack",
       SkillPrototype({
         requiredLevel: 11,
         skillType: SkillType.PASSIVE,

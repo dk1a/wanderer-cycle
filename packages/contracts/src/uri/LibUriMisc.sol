@@ -3,7 +3,7 @@ pragma solidity ^0.8.16;
 
 import { Base64 } from "@openzeppelin/contracts/utils/Base64.sol";
 import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
-import { UriUtils as u } from './UriUtils.sol';
+import { UriUtils as u } from "./UriUtils.sol";
 
 library LibUriMisc {
   /**
