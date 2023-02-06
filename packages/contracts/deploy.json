@@ -68,7 +68,7 @@
       "writeAccess": []
     },
     {
-      "name": "DurationSubsystem",
+      "name": "DurationSubSystem",
       "writeAccess": [
         "DurationOnEndComponent",
         "DurationScopeComponent",
@@ -76,7 +76,7 @@
       ]
     },
     {
-      "name": "EffectSubsystem",
+      "name": "EffectSubSystem",
       "writeAccess": [
         "AppliedEffectComponent",
         "FromPrototypeComponent",
@@ -85,19 +85,19 @@
       ]
     },
     {
-      "name": "EquipmentSubsystem",
+      "name": "EquipmentSubSystem",
       "writeAccess": ["EquipmentSlotComponent"]
     },
     {
-      "name": "RandomEquipmentSubsystem",
+      "name": "RandomEquipmentSubSystem",
       "writeAccess": ["LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"]
     },
     {
-      "name": "RandomMapSubsystem",
+      "name": "RandomMapSubSystem",
       "writeAccess": ["LootComponent", "FromPrototypeComponent", "EffectPrototypeComponent"]
     },
     {
-      "name": "CombatSubsystem",
+      "name": "CombatSubSystem",
       "writeAccess": [
         "ActiveCombatComponent",
         "LifeCurrentComponent",

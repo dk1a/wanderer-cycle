@@ -19,9 +19,9 @@ import { Statmod } from "../statmod/Statmod.sol";
 import {
   SystemCallback,
   ScopedDuration,
-  DurationSubsystem,
-  ID as DurationSubsystemID
-} from "../duration/DurationSubsystem.sol";
+  DurationSubSystem,
+  ID as DurationSubSystemID
+} from "../duration/DurationSubSystem.sol";
 
 /// @dev effectEntity = hashed(ID, target, prototype)
 function getEffectEntity(uint256 targetEntity, uint256 protoEntity) pure returns (uint256) {
@@ -30,9 +30,9 @@ function getEffectEntity(uint256 targetEntity, uint256 protoEntity) pure returns
 
 uint256 constant ID = uint256(keccak256("system.Effect"));
 
-contract EffectSubsystem is Subsystem {
-  error EffectSubsystem__InvalidProtoEntity();
-  error EffectSubsystem__InvalidExecuteSelector();
+contract EffectSubSystem is Subsystem {
+  error EffectSubSystem__InvalidProtoEntity();
+  error EffectSubSystem__InvalidExecuteSelector();
 
   constructor(IWorld _world, address _components) Subsystem(_world, _components) {}
 
@@ -44,7 +44,7 @@ contract EffectSubsystem is Subsystem {
     executeApply(targetEntity, protoEntity);
 
     // callback to remove the effect on duration end
-    // TODO I think callbacks shouldn't be managed by DurationSubsystem after all
+    // TODO I think callbacks shouldn't be managed by DurationSubSystem after all
     // (it can lead to dangling callbacks, though it isn't critical cause there's no async)
     SystemCallback memory onEnd = SystemCallback({
       systemId: ID,
@@ -54,8 +54,8 @@ contract EffectSubsystem is Subsystem {
     // effect prototypes may be global, so applied entity is target-specific 
     uint256 appliedEntity = getEffectEntity(targetEntity, protoEntity);
 
-    DurationSubsystem durationSubsystem = DurationSubsystem(getAddressById(world.systems(), DurationSubsystemID));
-    durationSubsystem.executeIncrease(targetEntity, appliedEntity, duration, onEnd);
+    DurationSubSystem durationSubSystem = DurationSubSystem(getAddressById(world.systems(), DurationSubSystemID));
+    durationSubSystem.executeIncrease(targetEntity, appliedEntity, duration, onEnd);
   }
 
   function executeApply(uint256 targetEntity, uint256 protoEntity) public onlyWriter {
@@ -63,7 +63,7 @@ contract EffectSubsystem is Subsystem {
     AppliedEffectComponent comp = _comp();
     // valid effect prototype required
     if (!protoComp.has(protoEntity)) {
-      revert EffectSubsystem__InvalidProtoEntity();
+      revert EffectSubSystem__InvalidProtoEntity();
     }
 
     EffectPrototype memory effect = protoComp.getValue(protoEntity);
@@ -158,7 +158,7 @@ contract EffectSubsystem is Subsystem {
       return '';
 
     } else {
-      revert EffectSubsystem__InvalidExecuteSelector();
+      revert EffectSubSystem__InvalidExecuteSelector();
     }
   }
 

@@ -6,9 +6,9 @@ import { BaseTest } from "../../BaseTest.sol";
 
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 
-import { ScopedDuration } from "../../duration/DurationSubsystem.sol";
+import { ScopedDuration } from "../../duration/DurationSubSystem.sol";
 import { getSkillProtoEntity } from "../SkillPrototypeComponent.sol";
-import { getEffectEntity } from "../../effect/EffectSubsystem.sol";
+import { getEffectEntity } from "../../effect/EffectSubSystem.sol";
 
 import { LibSkill } from "../LibSkill.sol";
 import { LibLearnedSkills } from "../LibLearnedSkills.sol";
@@ -103,9 +103,9 @@ contract LibSkillTest is BaseTest {
     _libSkill(chargePE).useSkill(userEntity);
 
     assertEq(charstat.getManaCurrent(), 4 - 1, "Invalid mana remainder");
-    assertTrue(durationSubsystem.has(userEntity, chargePE), "No ongoing cooldown");
+    assertTrue(durationSubSystem.has(userEntity, chargePE), "No ongoing cooldown");
 
-    assertTrue(effectSubsystem.has(userEntity, chargePE), "No ongoing effect");
+    assertTrue(effectSubSystem.has(userEntity, chargePE), "No ongoing effect");
   }
 
   function test_useSkill_Cleave_effect() public {
@@ -131,9 +131,9 @@ contract LibSkillTest is BaseTest {
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 5);
   }
 
-  // this tests durations, especially DurationSubsystem's effect removal callback
+  // this tests durations, especially DurationSubSystem's effect removal callback
   // TODO a lot of this can be removed if effects get their own tests,
-  // atm the many assertions help tell apart bugs in effectSubsystem and durationSubsystem
+  // atm the many assertions help tell apart bugs in effectSubSystem and durationSubSystem
   function test_useSkill_CleaveAndCharge_onDurationEnd() public {
     // add exp to get 2 str (which should increase base physical attack to 2)
     uint32[PS_L] memory addExp;
@@ -147,12 +147,12 @@ contract LibSkillTest is BaseTest {
     libSkill = libSkill.switchSkill(chargePE);
     libSkill.useSkill(userEntity);
 
-    assertTrue(durationSubsystem.has(userEntity, getEffectEntity(userEntity, cleavePE)));
-    assertTrue(durationSubsystem.has(userEntity, getEffectEntity(userEntity, chargePE)));
+    assertTrue(durationSubSystem.has(userEntity, getEffectEntity(userEntity, cleavePE)));
+    assertTrue(durationSubSystem.has(userEntity, getEffectEntity(userEntity, chargePE)));
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 5);
 
     // decrease cleave duration and cooldown
-    durationSubsystem.executeDecreaseScope(
+    durationSubSystem.executeDecreaseScope(
       userEntity,
       ScopedDuration({
         timeScopeId: uint256(keccak256("round")),
@@ -161,14 +161,14 @@ contract LibSkillTest is BaseTest {
     );
 
     // cooldown
-    assertFalse(durationSubsystem.has(userEntity, cleavePE));
+    assertFalse(durationSubSystem.has(userEntity, cleavePE));
     // effect
-    assertFalse(durationSubsystem.has(userEntity, getEffectEntity(userEntity, cleavePE)));
-    assertTrue(durationSubsystem.has(userEntity, getEffectEntity(userEntity, chargePE)));
+    assertFalse(durationSubSystem.has(userEntity, getEffectEntity(userEntity, cleavePE)));
+    assertTrue(durationSubSystem.has(userEntity, getEffectEntity(userEntity, chargePE)));
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 3);
 
     // decrease charge duration
-    durationSubsystem.executeDecreaseScope(
+    durationSubSystem.executeDecreaseScope(
       userEntity,
       ScopedDuration({
         timeScopeId: uint256(keccak256("round_persistent")),
@@ -176,8 +176,8 @@ contract LibSkillTest is BaseTest {
       })
     );
 
-    assertFalse(durationSubsystem.has(userEntity, getEffectEntity(userEntity, cleavePE)));
-    assertFalse(durationSubsystem.has(userEntity, getEffectEntity(userEntity, chargePE)));
+    assertFalse(durationSubSystem.has(userEntity, getEffectEntity(userEntity, cleavePE)));
+    assertFalse(durationSubSystem.has(userEntity, getEffectEntity(userEntity, chargePE)));
     assertEq(charstat.getAttack()[uint256(Element.PHYSICAL)], 2);
   }
 }

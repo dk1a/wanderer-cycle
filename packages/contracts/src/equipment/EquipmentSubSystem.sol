@@ -12,7 +12,7 @@ import { EquipmentSlotAllowedComponent, ID as EquipmentSlotAllowedComponentID } 
 import { EquipmentPrototypeComponent, ID as EquipmentPrototypeComponentID } from "./EquipmentPrototypeComponent.sol";
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 
-import { EffectSubsystem, ID as EffectSubsystemID } from "../effect/EffectSubsystem.sol";
+import { EffectSubSystem, ID as EffectSubSystemID } from "../effect/EffectSubSystem.sol";
 
 uint256 constant ID = uint256(keccak256("system.Equipment"));
 
@@ -29,11 +29,11 @@ enum EquipmentAction {
  * Actual equipment entities are anything that uses `FromPrototypeComponent` to link to an equipment prototype.
  * Currently equipped slot=>entity mapping is in `EquipmentSlotComponent`.
  */
-contract EquipmentSubsystem is Subsystem {
-  error EquipmentSubsystem__InvalidEquipmentAction();
-  error EquipmentSubsystem__InvalidEquipmentPrototype();
-  error EquipmentSubsystem__SlotNotAllowedForPrototype();
-  error EquipmentSubsystem__EquipmentEntityAlreadyEquipped();
+contract EquipmentSubSystem is Subsystem {
+  error EquipmentSubSystem__InvalidEquipmentAction();
+  error EquipmentSubSystem__InvalidEquipmentPrototype();
+  error EquipmentSubSystem__SlotNotAllowedForPrototype();
+  error EquipmentSubSystem__EquipmentEntityAlreadyEquipped();
 
   constructor(IWorld _world, address _components) Subsystem(_world, _components) {}
 
@@ -60,14 +60,14 @@ contract EquipmentSubsystem is Subsystem {
     ) = abi.decode(arguments, (EquipmentAction, uint256, uint256, uint256));
 
     EquipmentSlotComponent slotComp = EquipmentSlotComponent(getAddressById(components, EquipmentSlotComponentID));
-    EffectSubsystem effectSubsystem = EffectSubsystem(getAddressById(world.systems(), EffectSubsystemID));
+    EffectSubSystem effectSubSystem = EffectSubSystem(getAddressById(world.systems(), EffectSubSystemID));
 
     if (equipmentAction == EquipmentAction.UNEQUIP) {
-      _unequip(slotComp, effectSubsystem, targetEntity, equipmentSlot);
+      _unequip(slotComp, effectSubSystem, targetEntity, equipmentSlot);
     } else if (equipmentAction == EquipmentAction.EQUIP) {
-      _equip(slotComp, effectSubsystem, targetEntity, equipmentSlot, equipmentEntity);
+      _equip(slotComp, effectSubSystem, targetEntity, equipmentSlot, equipmentEntity);
     } else {
-      revert EquipmentSubsystem__InvalidEquipmentAction();
+      revert EquipmentSubSystem__InvalidEquipmentAction();
     }
 
     return '';
@@ -75,26 +75,26 @@ contract EquipmentSubsystem is Subsystem {
 
   function _unequip(
     EquipmentSlotComponent slotComp,
-    EffectSubsystem effectSubsystem,
+    EffectSubSystem effectSubSystem,
     uint256 targetEntity,
     uint256 equipmentSlot
   ) internal {
     uint256 equipmentEntity = slotComp.getValue(equipmentSlot);
     slotComp.remove(equipmentSlot);
 
-    effectSubsystem.executeRemove(targetEntity, equipmentEntity);
+    effectSubSystem.executeRemove(targetEntity, equipmentEntity);
   }
 
   function _equip(
     EquipmentSlotComponent slotComp,
-    EffectSubsystem effectSubsystem,
+    EffectSubSystem effectSubSystem,
     uint256 targetEntity,
     uint256 equipmentSlot,
     uint256 equipmentEntity
   ) internal {
     // unequip first if slot is occupied (otherwise effects will leak)
     if (slotComp.has(equipmentSlot)) {
-      _unequip(slotComp, effectSubsystem, targetEntity, equipmentSlot);
+      _unequip(slotComp, effectSubSystem, targetEntity, equipmentSlot);
     }
 
     // equipmentEntity must have equipment prototype
@@ -107,7 +107,7 @@ contract EquipmentSubsystem is Subsystem {
     );
     uint256 protoEntity = fromProtoComp.getValue(equipmentEntity);
     if (!protoComp.has(protoEntity)) {
-      revert EquipmentSubsystem__InvalidEquipmentPrototype();
+      revert EquipmentSubSystem__InvalidEquipmentPrototype();
     }
 
     // the slot must allow the equipment prototype
@@ -116,19 +116,19 @@ contract EquipmentSubsystem is Subsystem {
     );
     bool isAllowed = slotAllowedComp.hasItem(equipmentSlot, protoEntity);
     if (!isAllowed) {
-      revert EquipmentSubsystem__SlotNotAllowedForPrototype();
+      revert EquipmentSubSystem__SlotNotAllowedForPrototype();
     }
 
     // entity may not be equipped in 2 slots
     uint256[] memory slotsWithEquipmentEntity = slotComp.getEntitiesWithValue(equipmentEntity);
     if (slotsWithEquipmentEntity.length > 0) {
-      revert EquipmentSubsystem__EquipmentEntityAlreadyEquipped();
+      revert EquipmentSubSystem__EquipmentEntityAlreadyEquipped();
     }
 
     slotComp.set(equipmentSlot, equipmentEntity);
 
     // reverts if equipmentEntity isn't a valid effectProtoEntity
     // TODO that's good atm because equipment only does effects. But it could do more.
-    effectSubsystem.executeApply(targetEntity, equipmentEntity);
+    effectSubSystem.executeApply(targetEntity, equipmentEntity);
   }
 }

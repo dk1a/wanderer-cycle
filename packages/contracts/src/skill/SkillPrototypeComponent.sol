@@ -6,7 +6,7 @@ import { LibTypes } from "solecs/LibTypes.sol";
 import { BareComponent } from "solecs/BareComponent.sol";
 
 import { EL_L } from "../statmod/StatmodPrototypeComponent.sol";
-import { ScopedDuration } from "../duration/DurationSubsystem.sol";
+import { ScopedDuration } from "../duration/DurationSubSystem.sol";
 
 uint256 constant ID = uint256(keccak256("component.SkillPrototype"));
 

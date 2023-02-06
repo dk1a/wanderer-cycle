@@ -9,9 +9,9 @@ import { getAddressById } from "solecs/utils.sol";
 import {
   Action,
   ActionType,
-  CombatSubsystem,
-  ID as CombatSubsystemID
-} from "../combat/CombatSubsystem.sol";
+  CombatSubSystem,
+  ID as CombatSubSystemID
+} from "../combat/CombatSubSystem.sol";
 
 import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
 import { LibCycle } from "./LibCycle.sol";
@@ -25,10 +25,10 @@ contract CycleCombatSystem is System {
   function executeTyped(
     uint256 wandererEntity,
     Action[] memory initiatorActions
-  ) public returns (CombatSubsystem.CombatResult) {
+  ) public returns (CombatSubSystem.CombatResult) {
     return abi.decode(
       execute(abi.encode(wandererEntity, initiatorActions)),
-      (CombatSubsystem.CombatResult)
+      (CombatSubSystem.CombatResult)
     );
   }
 
@@ -49,15 +49,15 @@ contract CycleCombatSystem is System {
       actionEntity: 0
     });
 
-    CombatSubsystem combatSubsystem = CombatSubsystem(getAddressById(world.systems(), CombatSubsystemID));
-    CombatSubsystem.CombatResult result = combatSubsystem.executePVERound(
+    CombatSubSystem combatSubSystem = CombatSubSystem(getAddressById(world.systems(), CombatSubSystemID));
+    CombatSubSystem.CombatResult result = combatSubSystem.executePVERound(
       cycleEntity,
       retaliatorEntity,
       initiatorActions,
       retaliatorActions
     );
 
-    if (result == CombatSubsystem.CombatResult.VICTORY) {
+    if (result == CombatSubSystem.CombatResult.VICTORY) {
       LibCycleCombatRewardRequest.requestReward(
         world,
         cycleEntity,

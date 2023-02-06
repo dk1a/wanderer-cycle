@@ -6,14 +6,14 @@ import { BaseTest } from "../../BaseTest.sol";
 
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 
-import { EquipmentSubsystem, EquipmentAction } from "../EquipmentSubsystem.sol";
+import { EquipmentSubSystem, EquipmentAction } from "../EquipmentSubSystem.sol";
 import { LibEffectPrototype } from "../../effect/LibEffectPrototype.sol";
 import { EffectPrototype, EffectRemovability } from "../../effect/EffectPrototypeComponent.sol";
 import { EquipmentPrototypes } from "../EquipmentPrototypes.sol";
 import { Topics, Op, Element } from "../../charstat/Topics.sol";
 import { makeEffectPrototype } from "../../effect/makeEffectPrototype.sol";
 
-contract EquipmentSubsystemTest is BaseTest {
+contract EquipmentSubSystemTest is BaseTest {
   uint256 playerEntity = uint256(keccak256('playerEntity'));
 
   // equipment entities
@@ -76,52 +76,52 @@ contract EquipmentSubsystemTest is BaseTest {
   // TODO test that effects are applied/removed correctly
 
   function test_equip_revert_InvalidEquipmentPrototype() public {
-    vm.expectRevert(EquipmentSubsystem.EquipmentSubsystem__InvalidEquipmentPrototype.selector);
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, armorSlot, miscThing, playerEntity);
+    vm.expectRevert(EquipmentSubSystem.EquipmentSubSystem__InvalidEquipmentPrototype.selector);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, armorSlot, miscThing, playerEntity);
   }
 
   function test_equip_revert_SlotNotAllowedForPrototype() public {
-    vm.expectRevert(EquipmentSubsystem.EquipmentSubsystem__SlotNotAllowedForPrototype.selector);
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, armorSlot, sword1, playerEntity);
+    vm.expectRevert(EquipmentSubSystem.EquipmentSubSystem__SlotNotAllowedForPrototype.selector);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, armorSlot, sword1, playerEntity);
   }
 
   function test_equip_revert_EquipmentEntityAlreadyEquipped() public {
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, mainHandSlot, sword1, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, mainHandSlot, sword1, playerEntity);
 
-    vm.expectRevert(EquipmentSubsystem.EquipmentSubsystem__EquipmentEntityAlreadyEquipped.selector);
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, sword1, playerEntity);
+    vm.expectRevert(EquipmentSubSystem.EquipmentSubSystem__EquipmentEntityAlreadyEquipped.selector);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, sword1, playerEntity);
   }
 
   function test_equipUnequip() public {
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, armorSlot, armor, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, armorSlot, armor, playerEntity);
     assertEq(equipmentSlotComponent.getValue(armorSlot), armor);
 
-    equipmentSubsystem.executeTyped(EquipmentAction.UNEQUIP, armorSlot, 0, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.UNEQUIP, armorSlot, 0, playerEntity);
     assertFalse(equipmentSlotComponent.has(armorSlot));
   }
 
   function test_equipUnequip_severalSlots() public {
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, armorSlot, armor, playerEntity);
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, mainHandSlot, sword1, playerEntity);
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, sword2, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, armorSlot, armor, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, mainHandSlot, sword1, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, sword2, playerEntity);
 
     assertEq(equipmentSlotComponent.getValue(armorSlot), armor);
     assertEq(equipmentSlotComponent.getValue(mainHandSlot), sword1);
     assertEq(equipmentSlotComponent.getValue(offHandSlot), sword2);
 
-    equipmentSubsystem.executeTyped(EquipmentAction.UNEQUIP, armorSlot, 0, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.UNEQUIP, armorSlot, 0, playerEntity);
 
     assertFalse(equipmentSlotComponent.has(armorSlot));
     assertEq(equipmentSlotComponent.getValue(mainHandSlot), sword1);
     assertEq(equipmentSlotComponent.getValue(offHandSlot), sword2);
 
-    equipmentSubsystem.executeTyped(EquipmentAction.UNEQUIP, offHandSlot, 0, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.UNEQUIP, offHandSlot, 0, playerEntity);
 
     assertFalse(equipmentSlotComponent.has(armorSlot));
     assertEq(equipmentSlotComponent.getValue(mainHandSlot), sword1);
     assertFalse(equipmentSlotComponent.has(offHandSlot));
 
-    equipmentSubsystem.executeTyped(EquipmentAction.UNEQUIP, mainHandSlot, 0, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.UNEQUIP, mainHandSlot, 0, playerEntity);
 
     assertFalse(equipmentSlotComponent.has(armorSlot));
     assertFalse(equipmentSlotComponent.has(mainHandSlot));
@@ -129,29 +129,29 @@ contract EquipmentSubsystemTest is BaseTest {
   }
 
   function test_reequip_sameSlot_sameEntity() public {
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, mainHandSlot, sword1, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, mainHandSlot, sword1, playerEntity);
     assertEq(equipmentSlotComponent.getValue(mainHandSlot), sword1);
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, mainHandSlot, sword1, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, mainHandSlot, sword1, playerEntity);
     assertEq(equipmentSlotComponent.getValue(mainHandSlot), sword1);
   }
 
   function test_reequip_sameSlot_differentEntities() public {
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, sword1, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, sword1, playerEntity);
     assertEq(equipmentSlotComponent.getValue(offHandSlot), sword1);
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, shield, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, shield, playerEntity);
     assertEq(equipmentSlotComponent.getValue(offHandSlot), shield);
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, sword2, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, sword2, playerEntity);
     assertEq(equipmentSlotComponent.getValue(offHandSlot), sword2);
   }
 
   function test_reequip_differentSlots_sameEntity() public {
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, mainHandSlot, sword1, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, mainHandSlot, sword1, playerEntity);
     assertEq(equipmentSlotComponent.getValue(mainHandSlot), sword1);
     assertFalse(equipmentSlotComponent.has(offHandSlot));
 
-    equipmentSubsystem.executeTyped(EquipmentAction.UNEQUIP, mainHandSlot, 0, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.UNEQUIP, mainHandSlot, 0, playerEntity);
 
-    equipmentSubsystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, sword1, playerEntity);
+    equipmentSubSystem.executeTyped(EquipmentAction.EQUIP, offHandSlot, sword1, playerEntity);
     assertFalse(equipmentSlotComponent.has(mainHandSlot));
     assertEq(equipmentSlotComponent.getValue(offHandSlot), sword1);
   }

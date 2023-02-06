@@ -8,7 +8,7 @@ import { getGuiseProtoEntity } from "../../guise/GuisePrototypeComponent.sol";
 import { MapPrototypes } from "../../map/MapPrototypes.sol";
 import { Loot } from "../../loot/LootComponent.sol";
 import { AffixPartId } from "../../affix/LibPickAffixes.sol";
-import { Action, ActionType, CombatSubsystem } from "../../combat/CombatSubsystem.sol";
+import { Action, ActionType, CombatSubSystem } from "../../combat/CombatSubSystem.sol";
 
 contract CycleCombatSystemTest is BaseTest {
   // taken from InitGuiseSystem, initialized by LibDeploy
@@ -64,8 +64,8 @@ contract CycleCombatSystemTest is BaseTest {
       actionEntity: 0
     });
 
-    CombatSubsystem.CombatResult result = CombatSubsystem.CombatResult.NONE;
-    while (result == CombatSubsystem.CombatResult.NONE) {
+    CombatSubSystem.CombatResult result = CombatSubSystem.CombatResult.NONE;
+    while (result == CombatSubSystem.CombatResult.NONE) {
       result = cycleCombatSystem.executeTyped(
         wandererEntity,
         attackAction

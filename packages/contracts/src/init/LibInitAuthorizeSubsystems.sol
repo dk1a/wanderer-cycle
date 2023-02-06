@@ -7,13 +7,13 @@ import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { IOwnableWritable } from "solecs/interfaces/IOwnableWritable.sol";
 import { getAddressById } from "solecs/utils.sol";
 
-import { ID as DurationSubsystemID } from "../duration/DurationSubsystem.sol";
-import { ID as EffectSubsystemID } from "../effect/EffectSubsystem.sol";
-import { ID as EquipmentSubsystemID } from "../equipment/EquipmentSubsystem.sol";
-import { ID as CombatSubsystemID } from "../combat/CombatSubsystem.sol";
+import { ID as DurationSubSystemID } from "../duration/DurationSubSystem.sol";
+import { ID as EffectSubSystemID } from "../effect/EffectSubSystem.sol";
+import { ID as EquipmentSubSystemID } from "../equipment/EquipmentSubSystem.sol";
+import { ID as CombatSubSystemID } from "../combat/CombatSubSystem.sol";
 import { ID as WNFTSystemID } from "../token/WNFTSystem.sol";
 import { ID as CycleCombatSystemID } from "../cycle/CycleCombatSystem.sol";
-import { ID as RandomEquipmentSubsystemID } from "../loot/RandomEquipmentSubsystem.sol";
+import { ID as RandomEquipmentSubSystemID } from "../loot/RandomEquipmentSubSystem.sol";
 
 import { ID as WandererSpawnSystemID } from "../wanderer/WandererSpawnSystem.sol";
 import { ID as CycleActivateCombatSystemID } from "../cycle/CycleActivateCombatSystem.sol";
@@ -26,25 +26,25 @@ library LibInitAuthorizeSubsystems {
     address writer;
 
     // Duration -> Effect
-    writer = getAddressById(systems, DurationSubsystemID);
-    subsystem = IOwnableWritable(getAddressById(systems, EffectSubsystemID));
+    writer = getAddressById(systems, DurationSubSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
     subsystem.authorizeWriter(writer);
 
     // Effect -> Duration
-    writer = getAddressById(systems, EffectSubsystemID);
-    subsystem = IOwnableWritable(getAddressById(systems, DurationSubsystemID));
+    writer = getAddressById(systems, EffectSubSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, DurationSubSystemID));
     subsystem.authorizeWriter(writer);
 
     // Equipment -> Effect
-    writer = getAddressById(systems, EquipmentSubsystemID);
-    subsystem = IOwnableWritable(getAddressById(systems, EffectSubsystemID));
+    writer = getAddressById(systems, EquipmentSubSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
     subsystem.authorizeWriter(writer);
 
     // Combat -> Duration, Effect
-    writer = getAddressById(systems, CombatSubsystemID);
-    subsystem = IOwnableWritable(getAddressById(systems, DurationSubsystemID));
+    writer = getAddressById(systems, CombatSubSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, DurationSubSystemID));
     subsystem.authorizeWriter(writer);
-    subsystem = IOwnableWritable(getAddressById(systems, EffectSubsystemID));
+    subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
     subsystem.authorizeWriter(writer);
 
     // WandererSpawn -> WNFT
@@ -54,19 +54,19 @@ library LibInitAuthorizeSubsystems {
 
     // CycleActivateCombat -> Effect, Combat
     writer = getAddressById(systems, CycleActivateCombatSystemID);
-    subsystem = IOwnableWritable(getAddressById(systems, EffectSubsystemID));
+    subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
     subsystem.authorizeWriter(writer);
-    subsystem = IOwnableWritable(getAddressById(systems, CombatSubsystemID));
+    subsystem = IOwnableWritable(getAddressById(systems, CombatSubSystemID));
     subsystem.authorizeWriter(writer);
 
     // CycleCombat -> Combat
     writer = getAddressById(systems, CycleCombatSystemID);
-    subsystem = IOwnableWritable(getAddressById(systems, CombatSubsystemID));
+    subsystem = IOwnableWritable(getAddressById(systems, CombatSubSystemID));
     subsystem.authorizeWriter(writer);
 
     // CycleCombatReward -> RandomEquipment
     writer = getAddressById(systems, CycleCombatRewardSystemID);
-    subsystem = IOwnableWritable(getAddressById(systems, RandomEquipmentSubsystemID));
+    subsystem = IOwnableWritable(getAddressById(systems, RandomEquipmentSubSystemID));
     subsystem.authorizeWriter(writer);
   }
 }

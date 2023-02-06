@@ -11,9 +11,9 @@ import { ActiveCombatComponent, ID as ActiveCombatComponentID } from "./ActiveCo
 import {
   ScopedDuration,
   SystemCallback,
-  DurationSubsystem,
-  ID as DurationSubsystemID
-} from "../duration/DurationSubsystem.sol";
+  DurationSubSystem,
+  ID as DurationSubSystemID
+} from "../duration/DurationSubSystem.sol";
 
 import { LibActiveCombat } from "./LibActiveCombat.sol";
 import { LibCharstat, EL_L } from "../charstat/LibCharstat.sol";
@@ -35,13 +35,13 @@ uint256 constant ID = uint256(keccak256("system.Combat"));
  * `CombatSubsystem` has multi-actor multi-action interactions logic,
  * and uses `LibCombatAction` for reusable one-way action logic.
  */
-contract CombatSubsystem is Subsystem {
+contract CombatSubSystem is Subsystem {
   using LibCharstat for LibCharstat.Self;
   using LibCombatAction for LibCombatAction.Self;
 
-  error CombatSubsystem__InvalidExecuteSelector();
-  error CombatSubsystem__InvalidActionsLength();
-  error CombatSubsystem__ResidualDuration();
+  error CombatSubSystem__InvalidExecuteSelector();
+  error CombatSubSystem__InvalidActionsLength();
+  error CombatSubSystem__ResidualDuration();
 
   struct CombatActor {
     uint256 entity;
@@ -105,16 +105,16 @@ contract CombatSubsystem is Subsystem {
       executeDeactivateCombat(initiator.entity);
     } else {
       // combat keeps going - decrement round durations
-      DurationSubsystem durationSubsystem = _durationSubsystem();
-      durationSubsystem.executeDecreaseScope(
+      DurationSubSystem durationSubSystem = _durationSubSystem();
+      durationSubSystem.executeDecreaseScope(
         initiator.entity,
         ScopedDuration({
-          // TODO unhardcode durations in CombatSubsystem
+          // TODO unhardcode durations in CombatSubSystem
           timeScopeId: uint256(keccak256("round")),
           timeValue: 1
         })
       );
-      durationSubsystem.executeDecreaseScope(
+      durationSubSystem.executeDecreaseScope(
         initiator.entity,
         ScopedDuration({
           timeScopeId: uint256(keccak256("round_persistent")),
@@ -123,7 +123,7 @@ contract CombatSubsystem is Subsystem {
       );
       // if combat duration ran out, initiator loses by default
       uint256 durationEntity = getCombatDurationEntity(initiator.entity);
-      if (!durationSubsystem.has(initiator.entity, durationEntity)) {
+      if (!durationSubSystem.has(initiator.entity, durationEntity)) {
         executeDeactivateCombat(initiator.entity);
         result = CombatResult.DEFEAT;
       }
@@ -146,12 +146,12 @@ contract CombatSubsystem is Subsystem {
     activeCombatComp.set(initiatorEntity, retaliatorEntity);
 
     uint256 durationEntity = getCombatDurationEntity(initiatorEntity);
-    DurationSubsystem durationSubsystem = _durationSubsystem();
-    if (durationSubsystem.has(initiatorEntity, durationEntity)) {
+    DurationSubSystem durationSubSystem = _durationSubSystem();
+    if (durationSubSystem.has(initiatorEntity, durationEntity)) {
       // helps catch weird bugs where combat isn't active, but duration still is
-      revert CombatSubsystem__ResidualDuration();
+      revert CombatSubSystem__ResidualDuration();
     }
-    durationSubsystem.executeIncrease(
+    durationSubSystem.executeIncrease(
       initiatorEntity,
       durationEntity,
       ScopedDuration({
@@ -171,15 +171,15 @@ contract CombatSubsystem is Subsystem {
     ActiveCombatComponent activeCombatComp = ActiveCombatComponent(getAddressById(components, ActiveCombatComponentID));
     activeCombatComp.remove(initiatorEntity);
 
-    DurationSubsystem durationSubsystem = _durationSubsystem();
-    durationSubsystem.executeDecreaseScope(
+    DurationSubSystem durationSubSystem = _durationSubSystem();
+    durationSubSystem.executeDecreaseScope(
       initiatorEntity,
       ScopedDuration({
         timeScopeId: uint256(keccak256("round")),
         timeValue: type(uint256).max
       })
     );
-    durationSubsystem.executeDecreaseScope(
+    durationSubSystem.executeDecreaseScope(
       initiatorEntity,
       ScopedDuration({
         timeScopeId: uint256(keccak256("turn")),
@@ -217,7 +217,7 @@ contract CombatSubsystem is Subsystem {
       return '';
 
     } else {
-      revert CombatSubsystem__InvalidExecuteSelector();
+      revert CombatSubSystem__InvalidExecuteSelector();
     }
   }
 
@@ -274,11 +274,11 @@ contract CombatSubsystem is Subsystem {
     if (actor.actions.length > 1) {
       // TODO a way to do 2 actions in a round, like a special skill
       // (limited by actionType, 2 attacks in a round is too OP)
-      revert CombatSubsystem__InvalidActionsLength();
+      revert CombatSubSystem__InvalidActionsLength();
     }
   }
 
-  function _durationSubsystem() internal view returns (DurationSubsystem) {
-    return DurationSubsystem(getAddressById(world.systems(), DurationSubsystemID));
+  function _durationSubSystem() internal view returns (DurationSubSystem) {
+    return DurationSubSystem(getAddressById(world.systems(), DurationSubSystemID));
   }
 }

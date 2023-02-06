@@ -10,7 +10,7 @@ import { Loot } from "../LootComponent.sol";
 import { EffectPrototype, EffectRemovability } from "../../effect/EffectPrototypeComponent.sol";
 import { MAX_ILVL } from "../../init/LibBaseInitAffix.sol";
 
-contract RandomEquipmentSubsystemTest is BaseTest {
+contract RandomEquipmentSubSystemTest is BaseTest {
   function setUp() public virtual override {
     super.setUp();
   }
@@ -22,8 +22,8 @@ contract RandomEquipmentSubsystemTest is BaseTest {
     uint32 ilvl1 = 1;
     uint32 ilvl2 = 5;
 
-    uint256 lootEntity1 = randomEquipmentSubsystem.executeTyped(ilvl1, seed1);
-    uint256 lootEntity2 = randomEquipmentSubsystem.executeTyped(ilvl2, seed2);
+    uint256 lootEntity1 = randomEquipmentSubSystem.executeTyped(ilvl1, seed1);
+    uint256 lootEntity2 = randomEquipmentSubSystem.executeTyped(ilvl2, seed2);
 
     // check entities
     assertNotEq(lootEntity1, lootEntity2);
@@ -56,8 +56,8 @@ contract RandomEquipmentSubsystemTest is BaseTest {
 
   // affixes and equipment proto should be identical, but otherwise these should be 2 different entities
   function test_randomEquipment_sameSeed(uint256 seed) public {
-    uint256 lootEntity1 = randomEquipmentSubsystem.executeTyped(1, seed);
-    uint256 lootEntity2 = randomEquipmentSubsystem.executeTyped(1, seed);
+    uint256 lootEntity1 = randomEquipmentSubSystem.executeTyped(1, seed);
+    uint256 lootEntity2 = randomEquipmentSubSystem.executeTyped(1, seed);
     assertNotEq(lootEntity1, lootEntity2);
     assertEq(fromPrototypeComponent.getValue(lootEntity1), fromPrototypeComponent.getValue(lootEntity2));
     assertEq(
@@ -73,8 +73,8 @@ contract RandomEquipmentSubsystemTest is BaseTest {
       uint256 seed1 = 1000000 + i;
       uint256 seed2 = 2000000 + i;
 
-      uint256 lootEntity1 = randomEquipmentSubsystem.executeTyped(1, seed1);
-      uint256 lootEntity2 = randomEquipmentSubsystem.executeTyped(1, seed2);
+      uint256 lootEntity1 = randomEquipmentSubSystem.executeTyped(1, seed1);
+      uint256 lootEntity2 = randomEquipmentSubSystem.executeTyped(1, seed2);
       assertNotEq(lootEntity1, lootEntity2);
       uint256[] memory affixProtoEntities1 = lootComponent.getValue(lootEntity1).affixProtoEntities;
       uint256[] memory affixProtoEntities2 = lootComponent.getValue(lootEntity2).affixProtoEntities;
@@ -93,7 +93,7 @@ contract RandomEquipmentSubsystemTest is BaseTest {
   // make sure there're enough affixes to mint the highest ilvl loot
   function test_randomEquipment_maxIlvl(uint256 seed) public {
     // TODO more affixes, this fails at 13
-    uint256 lootEntity = randomEquipmentSubsystem.executeTyped(12 /* should be MAX_ILVL */, seed);
+    uint256 lootEntity = randomEquipmentSubSystem.executeTyped(12 /* should be MAX_ILVL */, seed);
     assertEq(lootComponent.getValue(lootEntity).ilvl, 12 /* should be MAX_ILVL */);
   }
 }

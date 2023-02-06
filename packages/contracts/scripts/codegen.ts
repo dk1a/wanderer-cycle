@@ -23,7 +23,7 @@ renderEjs("src/init/LibInitReverseHashName.ejs", {
 {
   const testFile = "src/BaseTest.ejs"
 
-  const files = glob.sync("src/!(flattened)/*@(System|Subsystem|Component).sol", {})
+  const files = glob.sync("src/!(flattened)/*@(System|Component).sol", {})
   // only keeps what's in deploy config
   const config = JSON.parse(readFileSync("deploy.json", { encoding: "utf8" }))
   const namedFiles = files

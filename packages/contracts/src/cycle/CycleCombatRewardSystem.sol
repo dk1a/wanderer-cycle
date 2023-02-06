@@ -10,7 +10,7 @@ import {
   CycleCombatRewardRequestComponent,
   ID as CycleCombatRewardRequestComponentID
 } from "./CycleCombatRewardRequestComponent.sol";
-import { RandomEquipmentSubsystem, ID as RandomEquipmentSubsystemID } from "../loot/RandomEquipmentSubsystem.sol";
+import { RandomEquipmentSubSystem, ID as RandomEquipmentSubSystemID } from "../loot/RandomEquipmentSubSystem.sol";
 
 import { LibCycle } from "./LibCycle.sol";
 import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
@@ -61,11 +61,11 @@ contract CycleCombatRewardSystem is System {
       .increaseExp(exp);
 
     // give loot
-    RandomEquipmentSubsystem randomEquipmentSubsystem = RandomEquipmentSubsystem(
-      getAddressById(world.systems(), RandomEquipmentSubsystemID)
+    RandomEquipmentSubSystem randomEquipmentSubSystem = RandomEquipmentSubSystem(
+      getAddressById(world.systems(), RandomEquipmentSubSystemID)
     );
     for (uint256 i; i < lootCount; i++) {
-      uint256 lootEntity = randomEquipmentSubsystem.executeTyped(lootIlvl, randomness);
+      uint256 lootEntity = randomEquipmentSubSystem.executeTyped(lootIlvl, randomness);
       LibLootOwner.setSimpleOwnership(components, lootEntity, cycleEntity);
     }
 

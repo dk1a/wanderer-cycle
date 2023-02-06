@@ -14,7 +14,7 @@ uint256 constant ID = uint256(keccak256("system.Duration"));
 /**
  * @title Scoped duration time manager.
  */
-contract DurationSubsystem is ScopedDurationSubsystem {
+contract DurationSubSystem is ScopedDurationSubsystem {
   constructor(IWorld _world, address _components) ScopedDurationSubsystem(
     _world,
     _components,

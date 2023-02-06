@@ -6,8 +6,8 @@ import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
-import { DurationSubsystem, ID as DurationSubsystemID, ScopedDuration, SystemCallback  } from "../duration/DurationSubsystem.sol";
-import { EffectSubsystem, ID as EffectSubsystemID } from "../effect/EffectSubsystem.sol";
+import { DurationSubSystem, ID as DurationSubSystemID, ScopedDuration, SystemCallback  } from "../duration/DurationSubSystem.sol";
+import { EffectSubSystem, ID as EffectSubSystemID } from "../effect/EffectSubSystem.sol";
 import { EffectPrototypeComponent, ID as EffectPrototypeComponentID } from "../effect/EffectPrototypeComponent.sol";
 import { LearnedSkillsComponent, ID as LearnedSkillsComponentID } from "./LearnedSkillsComponent.sol";
 import { LibLearnedSkills } from "./LibLearnedSkills.sol";
@@ -120,8 +120,8 @@ library LibSkill {
       revert LibSkill__SkillMustBeLearned();
     }
     // must be off cooldown
-    DurationSubsystem durationSubsystem = DurationSubsystem(getAddressById(__self.world.systems(), DurationSubsystemID));
-    if (durationSubsystem.has(targetEntity, __self.skillEntity)) {
+    DurationSubSystem durationSubSystem = DurationSubSystem(getAddressById(__self.world.systems(), DurationSubSystemID));
+    if (durationSubSystem.has(targetEntity, __self.skillEntity)) {
       revert LibSkill__SkillOnCooldown();
     }
     // verify self-only skill
@@ -132,7 +132,7 @@ library LibSkill {
 
     // start cooldown
     // (doesn't clash with skill effect duration, which has its own entity)
-    durationSubsystem.executeIncrease(targetEntity, __self.skillEntity, __self.skill.cooldown, SystemCallback(0, ''));
+    durationSubSystem.executeIncrease(targetEntity, __self.skillEntity, __self.skill.cooldown, SystemCallback(0, ''));
 
     // check and subtract skill cost
     uint32 manaCurrent = __self.charstat.getManaCurrent();
@@ -146,23 +146,23 @@ library LibSkill {
   }
 
   function _applySkillEffect(Self memory __self, uint256 targetEntity) private {
-    EffectSubsystem effectSubsystem = EffectSubsystem(getAddressById(__self.world.systems(), EffectSubsystemID));
+    EffectSubSystem effectSubSystem = EffectSubSystem(getAddressById(__self.world.systems(), EffectSubSystemID));
 
-    if (!effectSubsystem.isEffectPrototype(__self.skillEntity)) {
+    if (!effectSubSystem.isEffectPrototype(__self.skillEntity)) {
       // skip if skill has no effect
       return;
     }
 
     if (__self.skill.skillType == SkillType.PASSIVE) {
       // toggle passive skill
-      if (effectSubsystem.has(targetEntity, __self.skillEntity)) {
-        effectSubsystem.executeRemove(targetEntity, __self.skillEntity);
+      if (effectSubSystem.has(targetEntity, __self.skillEntity)) {
+        effectSubSystem.executeRemove(targetEntity, __self.skillEntity);
       } else {
-        effectSubsystem.executeApply(targetEntity, __self.skillEntity);
+        effectSubSystem.executeApply(targetEntity, __self.skillEntity);
       }
     } else {
       // apply active skill
-      effectSubsystem.executeApplyTimed(targetEntity, __self.skillEntity, __self.skill.duration);
+      effectSubSystem.executeApplyTimed(targetEntity, __self.skillEntity, __self.skill.duration);
     }
   }
 }
