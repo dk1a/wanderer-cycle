@@ -1,9 +1,14 @@
-import { Fragment } from 'react';
 import Tippy from '@tippyjs/react';
-import { useContracts } from '../contexts/ContractsContext'
-import { GuiseSkillDataExternalStructOutput } from '../contracts/Guise';
-import Skill from './Skill'
-import TippyComment from './TippyComment'
+import 'tippy.js/dist/tippy.css'
+import classes from './Guise.module.scss'
+import { Fragment } from 'react';
+import {useGuise} from "../../mud/hooks/useGuise";
+import {useGuiseEntities} from "../../mud/hooks/useGuiseEntities";
+import {useGuiseSkill} from "../../mud/hooks/useGuiseSkill";
+import CustomButton from '../../utils/UI/button/CustomButton';
+import TippyComment from '../TippyComment';
+import 'tippy.js/animations/perspective.css';
+
 
 interface GuiseProps {
   id: string,
@@ -11,81 +16,95 @@ interface GuiseProps {
 }
 
 export default function Guise({id, onSelectGuise,}: GuiseProps) {
-  const { guiseList } = useContracts()
-  const item = guiseList.find(e => e.id === id)
+  const guiseEntities = useGuiseEntities()
+  const guise = useGuise(guiseEntities[0])
+  const guiseCleave = useGuiseSkill(guise.skillEntities[0])
+  const guiseCharge = useGuiseSkill(guise.skillEntities[1])
+  const guiseParry = useGuiseSkill(guise.skillEntities[2])
+  const guiseOnslaught = useGuiseSkill(guise.skillEntities[3])
+  const guiseToughness = useGuiseSkill(guise.skillEntities[4])
+  const guiseThunderClap = useGuiseSkill(guise.skillEntities[5])
+  const guisePreciseStrikes = useGuiseSkill(guise.skillEntities[6])
+  const guiseBloodRage = useGuiseSkill(guise.skillEntities[7])
+  const guiseRetaliation = useGuiseSkill(guise.skillEntities[8])
+  const guiseLastStand = useGuiseSkill(guise.skillEntities[9])
+  const guiseWeaponMastery = useGuiseSkill(guise.skillEntities[10])
+
+  const guises = new Array(guiseCleave, guiseCharge, guiseParry,
+    guiseOnslaught, guiseToughness, guiseThunderClap, guisePreciseStrikes,
+    guiseBloodRage, guiseRetaliation, guiseLastStand, guiseWeaponMastery)
+
+  console.log(guises)
+
+
+  const splitted = (name: string) => {
+    const split = name.split('')
+    const first = split[0].toUpperCase()
+    const rest = [...split]
+    rest.splice(0,1)
+    return [first, ...rest].join('')
+  }
 
   let content
-  if (item) {
-    const statNames: (keyof typeof item.gainMul & string)[]
-      = ['strength', 'arcana', 'dexterity']
+  if (guise) {
+    const statNames: (keyof typeof guise.gainMul & string)[] = ['strength', 'arcana', 'dexterity']
 
     content = <>
-      {onSelectGuise !== undefined &&
-          <div className="flex justify-center mb-2">
-            <button type="button" className="btn-control"
-                    onClick={() => onSelectGuise(id)}>
-              mint
-            </button>
-          </div>
-      }
-
-      <div className="text-lg text-dark-type text-center">
-        {item.name}
+      <header className={classes.guise__header}>
+        {guise.name.value}
+      </header>
+      <div className={classes.guise__comment}>
+        Stat Multipliers
       </div>
 
-      <div className="text-dark-comment">
-        {'// stat multipliers'}
-      </div>
-
-      <div className="grid grid-cols-3">
-        <div />
-        <TippyComment content="Multiplier of gained stats">
-          <div className="text-sm text-dark-key">gainMul</div>
-        </TippyComment>
-        <TippyComment content="Multiplier of stat requirements to gain levels">
-          <div className="text-sm text-dark-key">levelMul</div>
-        </TippyComment>
-
+      <div className='flex flex-col justify-start items-baseline border border-dark-400'>
+        <Tippy content="Multiplier of gained stats" animation='perspective'>
+          <div className="text-xl text-dark-key cursor-pointer ">GainMul</div>
+        </Tippy>
         {statNames.map((statName) => (
           <Fragment key={statName}>
-            <div className="text-dark-key">{statName}:</div>
-            <div className="text-dark-number">{item.gainMul[statName]}</div>
-            <div className="text-dark-number">{item.levelMul[statName]}</div>
+            <div className="text-dark-key flex p-1 m-1">{splitted(statName)}:
+              <div className="text-dark-number mx-2">{guise.gainMul[statName]}</div>
+            </div>
           </Fragment>
         ))}
       </div>
-
-      <div className="text-dark-comment">
-        {'// level / skill'}
+      <div className={classes.guise__comment}>
+        <div className='w-28'>Skill</div>
+        <div className='w-28 text-center'>CoolDown</div>
+        <div className='w-28 text-center'>Level</div>
       </div>
-
-      <ul className="grid grid-cols-1 divide-y divide-dark-400">
-        {item.skillData.map((skill) => (
-          <GuiseSkill key={skill.skillId} skill={skill} />
+      <div className="">
+        {guises.map((skill) => (
+          <div className='flex'>
+            <Tippy content={skill.description.value} animation='perspective'>
+              <div className='flex  w-36' key={skill}>{skill.name.value}</div>
+            </Tippy>
+            <Tippy content={`${skill.cooldown.timeValue}s`} animation='perspective'>
+              <div className='w-32 text-center'>{skill.cooldown.timeValue}</div>
+            </Tippy>
+            <Tippy content={'1level'} animation='perspective'>
+              <div className='w-32 text-center'>{skill.requiredLevel}</div>
+            </Tippy>
+          </div>
         ))}
-      </ul>
+      </div>
+      {onSelectGuise !== undefined &&
+          <div className="flex justify-center mb-2">
+            <CustomButton
+                className="btn-control"
+                onClick={() => onSelectGuise(id)}>
+              Mint
+            </CustomButton>
+          </div>
+      }
     </>
   } else {
     content = <span className="text-dark-number">{id}</span>
   }
 
-    return <div className="grid grid-cols-1 w-64 p-4 border border-dark-400">
+    return <div className={classes.guise__container}>
         {content}
     </div>
 }
 
-function GuiseSkill({skill}: {skill: GuiseSkillDataExternalStructOutput}) {
-  const { skillList } = useContracts()
-  const item = skillList.find(e => e.id === skill.skillId)
-
-  if (!item) {
-    return <div className="text-dark-number">{skill.skillId}</div>
-  }
-
-  return <Tippy duration={0} placement="bottom" content={<Skill id={skill.skillId} />}>
-    <li className="flex hover:bg-dark-highlight">
-      <div className="w-4 mr-2 text-center text-dark-number">{skill.level}</div>
-      <div className="text-dark-method">{item.skillData.name}</div>
-    </li>
-  </Tippy>
-}

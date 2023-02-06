@@ -1,14 +1,10 @@
 // import { useContracts } from '../contexts/ContractsContext'
 // import { useMintWanderer } from '../hooks/useWanderer'
 // import Guise from '../components/Guise'
-import { useGuiseList } from '../../../mud/hooks/useGuiseList';
-import testImg from '../../../utils/img/output.png'
-import plus from '../../../utils/img/plus-square.svg'
-import CustomButton from "../../../utils/UI/button/CustomButton";
+import Guise from "../../guise/Guise";
 
 export default function WandererMint() {
-  const guiseList = useGuiseList();
-  console.log(guiseList)
+
     
     // //const [guiseId, setGuiseId] = useState('')
     // const { guiseList } = useContracts()
@@ -25,11 +21,7 @@ export default function WandererMint() {
         {'Select a Guise to Mint a New Wanderer'}
     </h3>
 
-    <div className='h-96 w-80 border border-dark-400  p-8 flex flex-col justify-between items-center
-    bg-dark-500 transform delay-500'>
-      <img src={testImg} alt=""/>
-      <CustomButton>Create</CustomButton>
-    </div>
+    <Guise id={1}/>
 
   </section>
 }

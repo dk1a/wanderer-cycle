@@ -3,12 +3,12 @@ import Wanderer from "../Wanderer";
 import testImg from '../../../utils/img/output.png'
 import WandererCreate from "../WandererCreate";
 import WandererMint from "./WandererMint";
-import {useState} from "react";
+// import {useState} from "react";
 import classes from './wandererSelect.module.scss'
 
 export default function WandererSelect() {
   const wandererList = [1, 2];
-  const [active, setActive] = useState(false);
+  // const [active, setActive] = useState(false);
 
   return <div className="">
     {wandererList.length > 0 &&
@@ -31,9 +31,9 @@ export default function WandererSelect() {
                </div>
              </Wanderer>
             ))}
-          <WandererCreate setActive={setActive}/>
+          <WandererCreate/>
         </div>
-        {active ? <WandererMint/> : <div></div>}
+        <WandererMint/>
       </section>
     }
   </div>

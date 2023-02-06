@@ -5,34 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="18ab0d71-5fa8-4d1f-8c24-32e4d2ef9446" name="Changes" comment="change router, add sass and classes, change wandererMint">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/client/src/App.module.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/client/src/AppContent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/client/src/Layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/client/src/components/footer/Footer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/client/src/components/footer/footer.module.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarer.module.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/WandererImage.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/WandererMint.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/wandererSelect.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/TippyComment.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.module.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/skill/Skill.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/skill/SkillEffectModifier.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/Footer.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/Guise.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/Layout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/Navbar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/wanderer/Wanderer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/Wanderer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererCreate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererCreate.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/About.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/pages/About.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/Inventory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/pages/Inventory.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/NotFound.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/pages/NotFound.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/WandererImage.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/WandererMint.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/pages/WandererSelect.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/WandererSelect.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/utils/UI/button/CustomButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/utils/UI/button/CustomButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/utils/UI/modal/Modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/utils/UI/modal/Modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/AppContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/AppContent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/WandererMint.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/WandererMint.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/WandererSelect.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect/WandererSelect.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,22 +51,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/rashid/wanderer-cycle/packages/client/src/utils/img&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/rashid/wanderer-cycle/packages/client/src/components",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/rashid/wanderer-cycle/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -94,14 +77,15 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/packages/client/src/components" />
       <recent name="$PROJECT_DIR$/packages/client/src/utils/img" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/packages/client/src/components/skill" />
       <recent name="$PROJECT_DIR$/packages/client/src/components/wanderer" />
       <recent name="$PROJECT_DIR$/packages/client/src/components" />
       <recent name="$PROJECT_DIR$/packages/client/src/components/wanderer/guise" />
       <recent name="$PROJECT_DIR$/packages/client/src/components/wanderer/footer" />
-      <recent name="$PROJECT_DIR$/packages/client/src/components/wanderer/wandarerSelect" />
     </key>
   </component>
   <component name="RunManager">
@@ -131,7 +115,8 @@
       <updated>1675333643344</updated>
       <workItem from="1675333644906" duration="8338000" />
       <workItem from="1675346293445" duration="46549000" />
-      <workItem from="1675505797021" duration="255000" />
+      <workItem from="1675505797021" duration="13017000" />
+      <workItem from="1675675969332" duration="12364000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1675434088588</created>
@@ -147,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675501482079</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="change router, add sass and classes, change wandererMint">
+      <created>1675506356150</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1675506356150</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
