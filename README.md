@@ -1,3 +1,3 @@
 WIP
 
-Currently using forks of mud and solecslib
+Currently using forked solecs, network, cli (cli is best linked locally)

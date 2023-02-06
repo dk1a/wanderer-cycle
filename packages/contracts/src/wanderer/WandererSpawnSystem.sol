@@ -6,7 +6,7 @@ import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { getAddressById } from "solecs/utils.sol";
 
-import { WNFTSubsystem, ID as WNFTSubsystemID } from "../token/WNFTSubsystem.sol";
+import { WNFTSystem, ID as WNFTSystemID } from "../token/WNFTSystem.sol";
 import { WandererComponent, ID as WandererComponentID } from "./WandererComponent.sol";
 import { GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../guise/GuisePrototypeComponent.sol";
 
@@ -34,8 +34,8 @@ contract WandererSpawnSystem is System {
 
     // mint nft
     uint256 wandererEntity = world.getUniqueEntityId();
-    WNFTSubsystem wnftSubsystem = WNFTSubsystem(getAddressById(world.systems(), WNFTSubsystemID));
-    wnftSubsystem.executeSafeMint(msg.sender, wandererEntity, '');
+    WNFTSystem wnftSystem = WNFTSystem(getAddressById(world.systems(), WNFTSystemID));
+    wnftSystem.executeSafeMint(msg.sender, wandererEntity, '');
 
     // flag the entity as wanderer
     WandererComponent wandererComp = WandererComponent(getAddressById(components, WandererComponentID));

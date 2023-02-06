@@ -5,7 +5,7 @@ pragma solidity ^0.8.17;
 import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { getAddressById } from "solecs/utils.sol";
-import { Subsystem } from "solecs/Subsystem.sol";
+import { Subsystem } from "@dk1a/solecslib/contracts/mud/Subsystem.sol";
 
 import { ActiveCombatComponent, ID as ActiveCombatComponentID } from "./ActiveCombatComponent.sol";
 import {

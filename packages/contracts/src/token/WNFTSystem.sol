@@ -12,7 +12,7 @@ uint256 constant ownershipComponentID = uint256(keccak256("component.WNFT_Owners
 uint256 constant operatorApprovalComponentID = uint256(keccak256("component.WNFT_OperatorApproval"));
 uint256 constant tokenApprovalComponentID = uint256(keccak256("component.WNFT_TokenApproval"));
 
-contract WNFTSubsystem is ERC721BaseSubsystem {
+contract WNFTSystem is ERC721BaseSubsystem {
   constructor(IWorld _world, address _components)
     ERC721BaseSubsystem(_world, _components, ownershipComponentID, operatorApprovalComponentID, tokenApprovalComponentID) {}
 }

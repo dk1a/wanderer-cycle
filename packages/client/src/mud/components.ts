@@ -276,7 +276,7 @@ export const components = {
     },
   }),
 
-  // WNFTSubsystem components
+  // WNFTSystem components
   WNFT_OperatorApproval: defineBoolComponent(world, {
     metadata: {
       contractId: "component.WNFT_OperatorApproval",
@@ -293,7 +293,7 @@ export const components = {
     },
   }),
 
-  // WFTSubsystem components
+  // WFTSystem components
   WFT_OperatorApproval: defineBoolComponent(world, {
     metadata: {
       contractId: "component.WFT_OperatorApproval",

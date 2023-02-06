@@ -60,17 +60,16 @@
       "writeAccess": ["ReverseHashNameComponent"]
     },
     {
-      "name": "WFTSubsystem",
+      "name": "WFTSystem",
       "writeAccess": []
     },
     {
-      "name": "WNFTSubsystem",
+      "name": "WNFTSystem",
       "writeAccess": []
     },
     {
       "name": "DurationSubsystem",
       "writeAccess": [
-        "EffectSubsystem",
         "DurationOnEndComponent",
         "DurationScopeComponent",
         "DurationValueComponent"
@@ -79,7 +78,6 @@
     {
       "name": "EffectSubsystem",
       "writeAccess": [
-        "DurationSubsystem",
         "AppliedEffectComponent",
         "FromPrototypeComponent",
         "StatmodScopeComponent",
@@ -88,7 +86,7 @@
     },
     {
       "name": "EquipmentSubsystem",
-      "writeAccess": ["EffectSubsystem", "EquipmentSlotComponent"]
+      "writeAccess": ["EquipmentSlotComponent"]
     },
     {
       "name": "RandomEquipmentSubsystem",
@@ -101,8 +99,6 @@
     {
       "name": "CombatSubsystem",
       "writeAccess": [
-        "DurationSubsystem",
-        "EffectSubsystem",
         "ActiveCombatComponent",
         "LifeCurrentComponent",
         "ManaCurrentComponent"
@@ -111,7 +107,6 @@
     {
       "name": "WandererSpawnSystem",
       "writeAccess": [
-        "WNFTSubsystem",
         "WandererComponent",
         "ActiveCycleComponent",
         "CycleTurnsComponent",
@@ -145,32 +140,31 @@
     {
       "name": "CycleActivateCombatSystem",
       "writeAccess": [
-        "EffectSubsystem",
         "CycleTurnsComponent",
         "LifeCurrentComponent",
         "ManaCurrentComponent",
-        "FromPrototypeComponent",
-        "CombatSubsystem"
+        "FromPrototypeComponent"
       ]
     },
     {
       "name": "CycleCombatSystem",
-      "writeAccess": ["CombatSubsystem", "CycleCombatRewardRequestComponent", "RNGPrecommitComponent"]
+      "writeAccess": ["CycleCombatRewardRequestComponent", "RNGPrecommitComponent"]
     },
     {
       "name": "CycleCombatRewardSystem",
-      "writeAccess": ["CycleCombatRewardRequestComponent", "ExperienceComponent", "RandomEquipmentSubsystem"]
+      "writeAccess": ["CycleCombatRewardRequestComponent", "ExperienceComponent"]
     }
   ],
-  "libs": [
-    {"name": "LibInitReverseHashName"},
-    {"name": "LibInitStatmod"},
-    {"name": "LibInitEquipmentPrototype"},
-    {"name": "LibInitMapPrototype"},
-    {"name": "LibInitEquipmentAffix"},
-    {"name": "LibInitMapAffix"},
-    {"name": "LibInitMapsBasicGlobal"},
-    {"name": "LibInitSkill"},
-    {"name": "LibInitGuise"}
+  "initializers": [
+    "LibInitAuthorizeSubsystems",
+    "LibInitReverseHashName",
+    "LibInitStatmod",
+    "LibInitEquipmentPrototype",
+    "LibInitMapPrototype",
+    "LibInitEquipmentAffix",
+    "LibInitMapAffix",
+    "LibInitMapsBasicGlobal",
+    "LibInitSkill",
+    "LibInitGuise"
   ]
 }

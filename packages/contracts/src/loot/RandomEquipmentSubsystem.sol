@@ -4,7 +4,7 @@ pragma solidity ^0.8.17;
 
 import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { getAddressById } from "solecs/utils.sol";
-import { Subsystem } from "solecs/Subsystem.sol";
+import { Subsystem } from "@dk1a/solecslib/contracts/mud/Subsystem.sol";
 
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 

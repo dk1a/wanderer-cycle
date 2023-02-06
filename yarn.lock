@@ -216,20 +216,21 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@dk1a/solecslib@https://github.com/dk1a/solecslib#26126b79c76c6a03943072444175a06097eb6443":
-  version "0.3.2"
-  resolved "https://github.com/dk1a/solecslib#26126b79c76c6a03943072444175a06097eb6443"
+"@dk1a/solecslib@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@dk1a/solecslib/-/solecslib-0.4.0.tgz#dbfefeea1c64001d88ddc4cf58a9e203367e34ff"
+  integrity sha512-WDuOaEoobYIL77rt8fe7z6OGn28qmgzm3KCbuoKm6wDKa/cqkI/nktQWjHAeVAItnWg9GfDSbMnxfoZvfjXWfA==
   dependencies:
-    "@latticexyz/solecs" "https://gitpkg.now.sh/dk1a/mud/packages/solecs?982747e9d05ebaa05a084d4c2aacfd53aa7b4397"
-    "@latticexyz/std-contracts" "https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?982747e9d05ebaa05a084d4c2aacfd53aa7b4397"
-    "@openzeppelin/contracts" "^4.8.0"
-    "@solidstate/contracts" "^0.0.48"
+    "@latticexyz/solecs" "^1.34.0"
+    "@latticexyz/std-contracts" "^1.34.0"
+    "@openzeppelin/contracts" "^4.8.1"
+    "@solidstate/contracts" "^0.0.52"
     memmove "github:dk1a/memmove#ffd71cd77b1708574ef46a667b23ca3a5cc9fa27"
 
-"@dk1a/solidity-stringutils@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@dk1a/solidity-stringutils/-/solidity-stringutils-0.3.2.tgz#9b22f95a25036110836c9bd0544224d56ef2270c"
-  integrity sha512-K3PfuBoUQRRU4pFXmTX6wbX2C5QNNCDXvcyy33yhqtrkakQri0BqX5Zo1RPbwfjuYM87FXSvmG6yF2pKIO0/Tg==
+"@dk1a/solidity-stringutils@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@dk1a/solidity-stringutils/-/solidity-stringutils-0.3.3.tgz#9d25b272c8015148d794f2f426b104ca2a0d1707"
+  integrity sha512-IQodjgcYtYudV1vXUl3f5B/cau0gSji1Izae6a9UiVP5VdJOk+D4QcmCrjy8Rzdb5i2vlPVtrBHhbYncW1+Kcg==
 
 "@esbuild/android-arm64@0.16.17":
   version "0.16.17"
@@ -772,10 +773,9 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@latticexyz/cli@^1.34.0":
+"@latticexyz/cli@https://gitpkg.now.sh/dk1a/mud/packages/cli?b102cd16ac81233df9c90e86797f551dae7ab2eb":
   version "1.34.0"
-  resolved "https://registry.yarnpkg.com/@latticexyz/cli/-/cli-1.34.0.tgz#df43fe98723117d4b0bcc13bfe9b8e2740e05dcc"
-  integrity sha512-lZt4nkUuAmR7Q2y5RvFR+vYGAJG+U4iKPrvhD/9pXNmsl+wbR06Pe3+aGcuMWjviV04gY6xdER95D3F95O5uiQ==
+  resolved "https://gitpkg.now.sh/dk1a/mud/packages/cli?b102cd16ac81233df9c90e86797f551dae7ab2eb#349802207921c079412ae50a37c6d6c452e8813d"
   dependencies:
     "@latticexyz/services" "^1.34.0"
     "@latticexyz/solecs" "^1.34.0"
@@ -803,6 +803,7 @@
     openurl "^1.1.1"
     path "^0.12.7"
     solmate "https://github.com/Rari-Capital/solmate.git#9cf1428245074e39090dceacb0c28b1f684f584c"
+    table "^6.8.1"
     typechain "^8.1.1"
     uuid "^8.3.2"
     yargs "^17.5.1"
@@ -815,10 +816,9 @@
     goober "^2.1.11"
     shiki "^0.11.1"
 
-"@latticexyz/network@^1.34.0":
+"@latticexyz/network@https://gitpkg.now.sh/dk1a/mud/packages/network?b102cd16ac81233df9c90e86797f551dae7ab2eb":
   version "1.34.0"
-  resolved "https://registry.yarnpkg.com/@latticexyz/network/-/network-1.34.0.tgz#6d7352902e3881dc3f5c54facd3bb908cad0169c"
-  integrity sha512-I87MCRku/YBOVsF6KJHaEEriAi4Ict6llmuHf+kXvQX/FfGLEC7wmlFe7kTtleaG5S3L2sM6JPGfJxDRQkuiBA==
+  resolved "https://gitpkg.now.sh/dk1a/mud/packages/network?b102cd16ac81233df9c90e86797f551dae7ab2eb#8e718f0e790889ac8e8aacbb6ea6adfeadd231c7"
   dependencies:
     debug "^4.3.4"
 
@@ -837,14 +837,9 @@
   resolved "https://registry.yarnpkg.com/@latticexyz/services/-/services-1.34.0.tgz#3085d391c54f845a7a17f78ba874592f5651d80d"
   integrity sha512-0oqk9ys1JxnlKIbzp+zsdQ59p0CLWm4zRZsx83GjJKb/9XiiCo26/GDrV00ALHAEtRU4dCrP9mbmaY8zrCOc5w==
 
-"@latticexyz/solecs@^1.34.0":
+"@latticexyz/solecs@^1.34.0", "@latticexyz/solecs@https://gitpkg.now.sh/dk1a/mud/packages/solecs?b102cd16ac81233df9c90e86797f551dae7ab2eb":
   version "1.34.0"
-  resolved "https://registry.yarnpkg.com/@latticexyz/solecs/-/solecs-1.34.0.tgz#bfbf6ca5b577f5c5f5912a35704d99c1ecc089e9"
-  integrity sha512-tgUyHJWjs03PeOiqxzc+P98NUv2GcH+Ml87puhb/7RFv8WLrus7QOjkiwUcHHRO6+UZCBwr34ySaCY3AzJ4nUg==
-
-"@latticexyz/solecs@https://gitpkg.now.sh/dk1a/mud/packages/solecs?982747e9d05ebaa05a084d4c2aacfd53aa7b4397":
-  version "1.32.0"
-  resolved "https://gitpkg.now.sh/dk1a/mud/packages/solecs?982747e9d05ebaa05a084d4c2aacfd53aa7b4397#298cc4bcd647eef994ce04be2306cba50730ff16"
+  resolved "https://gitpkg.now.sh/dk1a/mud/packages/solecs?b102cd16ac81233df9c90e86797f551dae7ab2eb#1a0ffc28a291d92b6ab693e575e7c6c91aea9a33"
 
 "@latticexyz/std-client@^1.34.0":
   version "1.34.0"
@@ -855,10 +850,6 @@
   version "1.34.0"
   resolved "https://registry.yarnpkg.com/@latticexyz/std-contracts/-/std-contracts-1.34.0.tgz#3f2bdae721d7aaa641f94ca83592592ab60055f8"
   integrity sha512-eLX6qLQV+wQoJpkcO9OFFYB/uJq1ih+hZ1Ufg1n5NzOGzf3kWqJTwQwtSaYWDwUe9bszw2FtreivyqmwfYwubw==
-
-"@latticexyz/std-contracts@https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?982747e9d05ebaa05a084d4c2aacfd53aa7b4397":
-  version "1.32.0"
-  resolved "https://gitpkg.now.sh/dk1a/mud/packages/std-contracts?982747e9d05ebaa05a084d4c2aacfd53aa7b4397#c7b389f71a5d9ff6b4e24f6081d2dcd2d03f4ad5"
 
 "@latticexyz/utils@^1.34.0":
   version "1.34.0"
@@ -1117,7 +1108,7 @@
     "@nomicfoundation/solidity-analyzer-win32-ia32-msvc" "0.1.0"
     "@nomicfoundation/solidity-analyzer-win32-x64-msvc" "0.1.0"
 
-"@openzeppelin/contracts@^4.8.0":
+"@openzeppelin/contracts@^4.8.1":
   version "4.8.1"
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.8.1.tgz#709cfc4bbb3ca9f4460d60101f15dac6b7a2d5e4"
   integrity sha512-xQ6eUZl+RDyb/FiZe1h+U7qr/f4p/SrTSQcTPH2bjur3C5DbuW/zFgCU/b1P/xcIaEqJep+9ju4xDRi3rmChdQ==
@@ -1297,10 +1288,10 @@
   dependencies:
     antlr4ts "^0.5.0-alpha.4"
 
-"@solidstate/contracts@^0.0.48":
-  version "0.0.48"
-  resolved "https://registry.yarnpkg.com/@solidstate/contracts/-/contracts-0.0.48.tgz#c97eb44cec623a388c67e2b36b404df3d46cf6ed"
-  integrity sha512-egof846MhC1lo+C8MJPmvte2xOjGEIbHcEB4G2H1ysC51F3xd81WZOTB/w+irylBSBK+HQE2uxhVW8QlUTBcEQ==
+"@solidstate/contracts@^0.0.52":
+  version "0.0.52"
+  resolved "https://registry.yarnpkg.com/@solidstate/contracts/-/contracts-0.0.52.tgz#cfe7e2ef237421f6e150927d7338c1ef02daa7b8"
+  integrity sha512-xSBn5oLnfYtgNYrsRq/COlWHt0NxK26PFQ3FvI2DDMAFpZKFsffGLzUl8umezj2gVKpN7EZ+EVLdPKjqx6eUOw==
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
@@ -1629,6 +1620,16 @@ ajv@^6.10.0, ajv@^6.12.4:
     fast-deep-equal "^3.1.1"
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
+    uri-js "^4.2.2"
+
+ajv@^8.0.1:
+  version "8.12.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.12.0.tgz#d1a0527323e22f53562c567c00991577dfbe19d1"
+  integrity sha512-sRu1kpcO9yLtYxBKvqfTeh9KzZEwO3STyX1HT+4CaDzC6HpTGYhIhPIzj9XuKU7KYDwnaeh5hcOwjy1QuJzBPA==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
 ansi-colors@4.1.1:
@@ -3767,6 +3768,11 @@ json-schema-traverse@^0.4.1:
   resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz#69f6a87d9513ab8bb8fe63bdb0979c448e684660"
   integrity sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==
 
+json-schema-traverse@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz#ae7bcb3656ab77a73ba5c49bf654f38e6b6860e2"
+  integrity sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==
+
 json-stable-stringify-without-jsonify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
@@ -3892,6 +3898,11 @@ lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
+
+lodash.truncate@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
+  integrity sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==
 
 lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.3.0:
   version "4.17.21"
@@ -4766,7 +4777,7 @@ require-directory@^2.1.1:
   resolved "https://registry.yarnpkg.com/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
   integrity sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==
 
-require-from-string@^2.0.0:
+require-from-string@^2.0.0, require-from-string@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/require-from-string/-/require-from-string-2.0.2.tgz#89a7fdd938261267318eafe14f9c32e598c36909"
   integrity sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==
@@ -5235,6 +5246,17 @@ table-layout@^1.0.2:
     deep-extend "~0.6.0"
     typical "^5.2.0"
     wordwrapjs "^4.0.0"
+
+table@^6.8.1:
+  version "6.8.1"
+  resolved "https://registry.yarnpkg.com/table/-/table-6.8.1.tgz#ea2b71359fe03b017a5fbc296204471158080bdf"
+  integrity sha512-Y4X9zqrCftUhMeH2EptSSERdVKt/nEdijTOacGD/97EKjhQ/Qs8RTlEGABSJNNN8lac9kheH+af7yAkEWlgneA==
+  dependencies:
+    ajv "^8.0.1"
+    lodash.truncate "^4.4.2"
+    slice-ansi "^4.0.0"
+    string-width "^4.2.3"
+    strip-ansi "^6.0.1"
 
 tailwind-merge@^1.9.0:
   version "1.9.0"

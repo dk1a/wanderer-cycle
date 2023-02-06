@@ -6,7 +6,7 @@ import {
   SystemCallbackBareComponent,
   SystemCallback,
   executeSystemCallback
-} from "@dk1a/solecslib/contracts/mud/SystemCallbackBareComponent.sol";
+} from "std-contracts/components/SystemCallbackBareComponent.sol";
 
 uint256 constant ID = uint256(keccak256("component.DurationOnEnd"));
 

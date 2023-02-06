@@ -4,7 +4,7 @@ pragma solidity ^0.8.17;
 
 import { BaseTest } from "../../BaseTest.sol";
 
-import { ERC721BaseInternal } from "@dk1a/solecslib/contracts/token/ERC721/logic/ERC721BaseInternal.sol";
+import { IERC721BaseInternal } from "@dk1a/solecslib/contracts/token/ERC721/logic/ERC721BaseInternal.sol";
 
 import { getGuiseProtoEntity } from "../../guise/GuisePrototypeComponent.sol";
 import { LibCycle } from "../../cycle/LibCycle.sol";
@@ -52,13 +52,13 @@ contract WandererSpawnSystemTest is BaseTest {
   }
 
   function test_tokenOwner() public {
-    assertEq(wNFTSubsystem.ownerOf(wandererEntity), alice);
+    assertEq(wNFTSystem.ownerOf(wandererEntity), alice);
   }
 
   function test_tokenOwner_notForCycleEntity() public {
     // cycleEntity shouldn't even be a token, this error refers to address(0)
-    vm.expectRevert(ERC721BaseInternal.ERC721Base__InvalidOwner.selector);
-    wNFTSubsystem.ownerOf(cycleEntity);
+    vm.expectRevert(IERC721BaseInternal.ERC721Base__InvalidOwner.selector);
+    wNFTSystem.ownerOf(cycleEntity);
   }
 
   // cycleEntity has all the in-cycle components

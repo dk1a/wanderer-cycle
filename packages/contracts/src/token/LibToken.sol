@@ -7,7 +7,7 @@ import { IComponent } from "solecs/interfaces/IComponent.sol";
 import { getAddressById } from "solecs/utils.sol";
 
 import { OwnershipComponent } from "@dk1a/solecslib/contracts/token/ERC721/components/OwnershipComponent.sol";
-import { ownershipComponentID } from "./WNFTSubsystem.sol";
+import { ownershipComponentID } from "./WNFTSystem.sol";
 
 library LibToken {
   error LibToken_MustBeTokenOwner();

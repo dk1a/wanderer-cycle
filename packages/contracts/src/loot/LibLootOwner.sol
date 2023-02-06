@@ -6,7 +6,7 @@ import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById, addressToEntity } from "solecs/utils.sol";
 
 import { OwnedByComponent, ID as OwnedByComponentID } from "../common/OwnedByComponent.sol";
-import { WNFTSubsystem, ID as WNFTSubsystemID } from "../token/WNFTSubsystem.sol";
+import { WNFTSystem, ID as WNFTSystemID } from "../token/WNFTSystem.sol";
 
 import { LibToken } from "../token/LibToken.sol";
 
@@ -29,8 +29,8 @@ library LibLootOwner {
     uint256 lootEntity,
     address ownerAccount
   ) internal {
-    WNFTSubsystem wnftSubsystem = WNFTSubsystem(getAddressById(systems, WNFTSubsystemID));
-    wnftSubsystem.executeSafeMint(ownerAccount, lootEntity, '');
+    WNFTSystem wnftSystem = WNFTSystem(getAddressById(systems, WNFTSystemID));
+    wnftSystem.executeSafeMint(ownerAccount, lootEntity, '');
   }
 
   function ownerOf(
