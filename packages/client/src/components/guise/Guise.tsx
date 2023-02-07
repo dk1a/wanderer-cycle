@@ -6,8 +6,9 @@ import {useGuise} from "../../mud/hooks/useGuise";
 import {useGuiseEntities} from "../../mud/hooks/useGuiseEntities";
 import {useGuiseSkill} from "../../mud/hooks/useGuiseSkill";
 import CustomButton from '../../utils/UI/button/CustomButton';
-import TippyComment from '../TippyComment';
+import TippyComment from '../tippyComment/TippyComment';
 import 'tippy.js/animations/perspective.css';
+import Skill from "../skill/Skill";
 
 
 interface GuiseProps {
@@ -18,6 +19,7 @@ interface GuiseProps {
 export default function Guise({id, onSelectGuise,}: GuiseProps) {
   const guiseEntities = useGuiseEntities()
   const guise = useGuise(guiseEntities[0])
+  const guiseSkillList = guise.skillEntities
   const guiseCleave = useGuiseSkill(guise.skillEntities[0])
   const guiseCharge = useGuiseSkill(guise.skillEntities[1])
   const guiseParry = useGuiseSkill(guise.skillEntities[2])
@@ -53,42 +55,31 @@ export default function Guise({id, onSelectGuise,}: GuiseProps) {
       <header className={classes.guise__header}>
         {guise.name.value}
       </header>
-      <div className={classes.guise__comment}>
-        Stat Multipliers
-      </div>
+      <Tippy content="Multiplier of gained stats" animation='perspective'>
+        <div className={classes.guise__comment}>
+          Stat Multipliers
+        </div>
+      </Tippy>
 
-      <div className='flex flex-col justify-start items-baseline border border-dark-400'>
-        <Tippy content="Multiplier of gained stats" animation='perspective'>
-          <div className="text-xl text-dark-key cursor-pointer ">GainMul</div>
-        </Tippy>
+      <div className='flex flex-col justify-start items-baseline'>
         {statNames.map((statName) => (
           <Fragment key={statName}>
-            <div className="text-dark-key flex p-1 m-1">{splitted(statName)}:
+            <div className="text-dark-key flex p-1 m-1">{statName}:
               <div className="text-dark-number mx-2">{guise.gainMul[statName]}</div>
             </div>
           </Fragment>
         ))}
       </div>
+
+
       <div className={classes.guise__comment}>
-        <div className='w-28'>Skill</div>
-        <div className='w-28 text-center'>CoolDown</div>
-        <div className='w-28 text-center'>Level</div>
+        <div className='w-28'>Level/Skill</div>
       </div>
       <div className="">
-        {guises.map((skill) => (
-          <div className='flex'>
-            <Tippy content={skill.description.value} animation='perspective'>
-              <div className='flex  w-36' key={skill}>{skill.name.value}</div>
-            </Tippy>
-            <Tippy content={`${skill.cooldown.timeValue}s`} animation='perspective'>
-              <div className='w-32 text-center'>{skill.cooldown.timeValue}</div>
-            </Tippy>
-            <Tippy content={'1level'} animation='perspective'>
-              <div className='w-32 text-center'>{skill.requiredLevel}</div>
-            </Tippy>
-          </div>
-        ))}
+        <Skill guises={guises}/>
       </div>
+
+
       {onSelectGuise !== undefined &&
           <div className="flex justify-center mb-2">
             <CustomButton

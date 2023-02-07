@@ -3,6 +3,7 @@ import { useComponentValue } from "@latticexyz/react";
 import AppContent from "./AppContent";
 import classes from './App.module.scss'
 import {useMUD} from "./mud/MUDContext";
+import Guise from "./components/guise/Guise";
 
 
 export const App = () => {
@@ -51,7 +52,7 @@ export const App = () => {
                 {loadingState.msg} ({Math.floor(loadingState.percentage)}%)
             </div>
         ) : (
-            <AppContent/>
+            <Guise/>
         )}
 
     </div>
