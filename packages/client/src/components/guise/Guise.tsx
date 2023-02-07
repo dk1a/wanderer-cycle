@@ -1,4 +1,3 @@
-import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import classes from "./Guise.module.scss";
 import { Fragment } from "react";
@@ -7,6 +6,8 @@ import CustomButton from "../../utils/UI/button/CustomButton";
 import "tippy.js/animations/perspective.css";
 import GuiseSkill from "./GuiseSkill";
 import { EntityIndex } from "@latticexyz/recs";
+import { Tooltip } from "react-tippy";
+import TippyComment from "../tippyComment/TippyComment";
 
 interface GuiseProps {
   entity: EntityIndex;
@@ -23,9 +24,9 @@ export default function Guise({ entity, onSelectGuise }: GuiseProps) {
     content = (
       <>
         <header className={classes.guise__header}>{guise.name}</header>
-        <Tippy content="Multiplier of gained stats" animation="perspective">
+        <Tooltip animation="perspective" html={<TippyComment content="Multiplier of gained stats" />}>
           <div className={classes.guise__comment}>Stat Multipliers</div>
-        </Tippy>
+        </Tooltip>
 
         <div className="flex flex-col justify-start items-baseline">
           {statNames.map((statName) => (

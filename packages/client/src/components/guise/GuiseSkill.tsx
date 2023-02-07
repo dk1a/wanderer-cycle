@@ -2,6 +2,7 @@ import { useGuiseSkill } from "../../mud/hooks/useGuiseSkill";
 import Skill from "../skill/Skill";
 import { EntityIndex } from "@latticexyz/recs";
 import { Tooltip } from "react-tippy";
+import "react-tippy/dist/tippy.css";
 
 export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
   const skill = useGuiseSkill(entity);
@@ -19,14 +20,21 @@ export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
   let content;
   if (skill) {
     content = (
-      <>
-        <div>
-          <div className="text-dark-method text-lg cursor-pointer">{skill.requiredLevel}.</div>
+      <Tooltip
+        offset={100}
+        position="left"
+        animation="perspective"
+        trigger="click"
+        interactive
+        html={<Skill skill={skill} />}
+      >
+        <div className="w-full flex">
+          <div>
+            <div className="text-dark-number text-lg cursor-pointer">{skill.requiredLevel}.</div>
+          </div>
+          <div className="text-dark-method text-lg cursor-pointer w-full">{skill.name}</div>
         </div>
-        <Tooltip trigger="click" interactive html={<Skill skill={skill} />}>
-          <div className="text-dark-method text-lg cursor-pointer">{skill.name}</div>
-        </Tooltip>
-      </>
+      </Tooltip>
     );
   } else {
     content = <span className="text-dark-number">{entity}</span>;

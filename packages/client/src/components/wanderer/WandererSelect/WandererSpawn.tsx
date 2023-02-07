@@ -1,6 +1,7 @@
 import { useGuiseEntities } from "../../../mud/hooks/useGuiseEntities";
 import { useWandererSpawn } from "../../../mud/hooks/useWandererSpawn";
 import Guise from "../../guise/Guise";
+import * as querystring from "querystring";
 
 export default function WandererSpawn() {
   const guiseEntities = useGuiseEntities();
@@ -12,7 +13,9 @@ export default function WandererSpawn() {
       <h3 className="m-10 text-2xl font-bold text-dark-200 ml-20">{"Select a Guise to Mint a New Wanderer"}</h3>
 
       {guiseEntities.map((guiseEntity) => (
-        <Guise key={guiseEntity} entity={guiseEntity} onSelectGuise={wandererSpawn} />
+        <div className="flex justify-center items-center flex-col" key={guiseEntity}>
+          <Guise key={guiseEntity} entity={guiseEntity} onSelectGuise={wandererSpawn} />
+        </div>
       ))}
     </div>
   );

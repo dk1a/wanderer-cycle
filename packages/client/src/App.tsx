@@ -1,9 +1,7 @@
 import { SyncState } from "@latticexyz/network";
 import { useComponentValue } from "@latticexyz/react";
-import AppContent from "./AppContent";
 import classes from "./App.module.scss";
 import { useMUD } from "./mud/MUDContext";
-import Guise from "./components/guise/Guise";
 import WandererSelect from "./components/wanderer/WandererSelect";
 
 export const App = () => {

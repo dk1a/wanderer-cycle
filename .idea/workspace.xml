@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="18ab0d71-5fa8-4d1f-8c24-32e4d2ef9446" name="Changes" comment="add some changes">
-      <change afterPath="$PROJECT_DIR$/packages/contracts/src/init/InitReverseHashNameSystem.sol" afterDir="false" />
+    <list default="true" id="a381414d-1344-4fa9-a1a3-b88960a5586d" name="Changes" comment="stylization tippyComment and skill component">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/mud/hooks/useGuiseSkill.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/mud/hooks/useGuiseSkill.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/guise/GuiseSkill.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/guise/GuiseSkill.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/skill/Skill.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/skill/Skill.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/tippyComment/TippyComment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/tippyComment/TippyComment.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererSelect/WandererSpawn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererSelect/WandererSpawn.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererSelect/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererSelect/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,6 +192,7 @@
     <MESSAGE value="change router, add sass and classes, change wandererMint" />
     <MESSAGE value="create Guise" />
     <MESSAGE value="add Tippy-React library and created component TippySkill" />
-    <option name="LAST_COMMIT_MESSAGE" value="add Tippy-React library and created component TippySkill" />
+    <MESSAGE value="stylization tippyComment and skill component" />
+    <option name="LAST_COMMIT_MESSAGE" value="stylization tippyComment and skill component" />
   </component>
 </project>

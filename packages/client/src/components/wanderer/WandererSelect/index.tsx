@@ -11,7 +11,7 @@ export default function WandererSelect() {
   const { selectWandererEntity, selectedWandererEntity } = useWandererContext();
 
   return (
-    <div className="">
+    <div>
       {wandererEntities.length > 0 && (
         <section>
           <h3 className={classes.header}>{"Select a wanderer"}</h3>
@@ -34,63 +34,7 @@ export default function WandererSelect() {
           </div>
         </section>
       )}
-
       <WandererSpawn />
     </div>
   );
 }
-
-// import { useState, useEffect } from 'react'
-// import { useWeb3React } from '@web3-react/core'
-// import Web3ReactManager from '../components/Web3ReactManager'
-// import { useWandererContext } from '../contexts/WandererContext'
-// import WandererImage from './WandererImage'
-// import WandererMint from './WandererMint'
-//
-// export default function WandererSelect() {
-//     const { active } = useWeb3React()
-//     const [showMint, setShowMint] = useState(false)
-//     const { wandererList, selectedWandererId, selectWandererId } = useWandererContext()
-//
-//     useEffect(() => {
-//         setShowMint(wandererList.length < 4)
-//     }, [wandererList])
-//
-//     if (!active) {
-//         return <Web3ReactManager />
-//     } else {
-//         return <div className="">
-//             {wandererList.length > 0 &&
-//                 <section>
-//                   <h4 className="text-lg text-dark-comment">
-//                       {'// select a wanderer'}
-//                   </h4>
-//
-//                   <div className="flex flex-wrap gap-x-4 gap-y-4 mt-2">
-//                       {wandererList.map((wandererId) => (
-//                           <div key={wandererId.toString()}>
-//                               <WandererImage id={wandererId} />
-//
-//                               <div className="flex justify-center z-10 -mt-5">
-//                                   {selectedWandererId === wandererId &&
-//                                       <div className="text-dark-control bg-dark-600 text-lg p-1 pr-8 pl-8 border border-dark-400">
-//                                         selected
-//                                       </div>
-//                                   }
-//                                   {selectedWandererId !== wandererId &&
-//                                       <button type="button" className="btn-control"
-//                                               onClick={() => selectWandererId(wandererId)}>
-//                                         select
-//                                       </button>
-//                                   }
-//                               </div>
-//                           </div>
-//                       ))}
-//                   </div>
-//                 </section>
-//             }
-//
-//             {showMint && <WandererMint />}
-//         </div>
-//     }
-// }
