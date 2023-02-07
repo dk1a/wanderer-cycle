@@ -24,15 +24,15 @@ export default function Guise({ entity, onSelectGuise }: GuiseProps) {
     content = (
       <>
         <header className={classes.guise__header}>{guise.name}</header>
-        <Tooltip animation="perspective" html={<TippyComment content="Multiplier of gained stats" />}>
+        <Tooltip animation="perspective" position="left" html={<TippyComment content="Multiplier of gained stats" />}>
           <div className={classes.guise__comment}>Stat Multipliers</div>
         </Tooltip>
 
-        <div className="flex flex-col justify-start items-baseline">
+        <div className={classes.guise__stats}>
           {statNames.map((statName) => (
             <Fragment key={statName}>
-              <div className="text-dark-key flex p-1 m-1">
-                {statName}:<div className="text-dark-number mx-2">{guise.gainMul[statName]}</div>
+              <div className={classes.guise__gainMul}>
+                {statName}:<div className={classes.guise__gainMul__string}>{guise.gainMul[statName]}</div>
               </div>
             </Fragment>
           ))}
@@ -41,14 +41,14 @@ export default function Guise({ entity, onSelectGuise }: GuiseProps) {
         <div className={classes.guise__comment}>
           <div className="w-28">Level/Skill</div>
         </div>
-        <div className="">
+        <div>
           {guise.skillEntities.map((entity) => (
             <GuiseSkill key={entity} entity={entity} />
           ))}
         </div>
 
         {onSelectGuise !== undefined && (
-          <div className="flex justify-center mb-2">
+          <div className={classes.guiseBtn}>
             <CustomButton onClick={() => onSelectGuise(entity)}>Mint</CustomButton>
           </div>
         )}

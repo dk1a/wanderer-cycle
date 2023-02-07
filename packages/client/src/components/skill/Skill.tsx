@@ -1,36 +1,37 @@
 import { SkillType, useGuiseSkill } from "../../mud/hooks/useGuiseSkill";
+import classes from "./skill.module.scss";
 
 export default function Skill({ skill }: { skill: ReturnType<typeof useGuiseSkill> }) {
   return (
     <>
-      <div className="bg-dark-500 border border-dark-400 p-2">
-        <div className="text-dark-method text-xl">{skill.name}</div>
-        <div className="text-dark-comment">{skill.description}</div>
+      <div className={classes.skill__container}>
+        <div className={classes.skill__name}>{skill.name}</div>
+        <div className={classes.skill__description}>{skill.description}</div>
         <div>
-          <span className="text-dark-key">type: </span>
-          <span className="text-dark-string">{skill.skillTypeName}</span>
+          <span className={classes.skill__key}>type: </span>
+          <span className={classes.skill__string}>{skill.skillTypeName}</span>
         </div>
         {skill.skillType !== SkillType.PASSIVE && (
           <div>
-            <span className="text-dark-key">cost: </span>
-            <span className="text-dark-number">{skill.cost}</span>
-            <span className="text-dark-string"> mana</span>
+            <span className={classes.skill__key}>cost: </span>
+            <span className={classes.skill__number}>{skill.cost}</span>
+            <span className={classes.skill__string}> mana</span>
           </div>
         )}
         {skill.duration.timeValue > 0 && (
           <div>
-            <span className="text-dark-key">duration: </span>
-            <span className="text-dark-number">{skill.duration.timeValue}</span>
+            <span className={classes.skill__key}>duration: </span>
+            <span className={classes.skill__number}>{skill.duration.timeValue}</span>
             {/* TODO timeScopeId name map */}
-            <span className="text-dark-string"> placeholder{/*skill.duration.timeScopeId*/}</span>
+            <span className={classes.skill__string}> placeholder{/*skill.duration.timeScopeId*/}</span>
           </div>
         )}
         {skill.cooldown.timeValue > 0 && (
           <div>
-            <span className="text-dark-key">cooldown: </span>
-            <span className="text-dark-number">{skill.cooldown.timeValue}</span>
+            <span className={classes.skill__key}>cooldown: </span>
+            <span className={classes.skill__number}>{skill.cooldown.timeValue}</span>
             {/* TODO timeScopeId name map */}
-            <span className="text-dark-string"> Placeholder{/*skill.cooldown.timeScopeId*/}</span>
+            <span className={classes.skill__string}> Placeholder{/*skill.cooldown.timeScopeId*/}</span>
           </div>
         )}
       </div>

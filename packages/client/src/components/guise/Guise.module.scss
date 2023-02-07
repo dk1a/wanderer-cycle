@@ -11,3 +11,22 @@
 .guise__comment{
   @apply text-dark-comment flex justify-between
 }
+
+.guise__stats{
+  @apply flex flex-col justify-start items-baseline
+}
+
+.guise__gainMul{
+  @apply text-dark-key flex p-1 m-1
+}
+
+.guise__stats__gainMul{
+  @apply text-dark-key flex p-1 m-1
+}
+.guise__gainMul__string{
+  @apply text-dark-number mx-2
+}
+
+.guiseBtn{
+  @apply flex justify-center my-2
+}

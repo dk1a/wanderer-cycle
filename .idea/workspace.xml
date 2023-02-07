@@ -5,15 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a381414d-1344-4fa9-a1a3-b88960a5586d" name="Changes" comment="stylization tippyComment and skill component">
+      <change afterPath="$PROJECT_DIR$/packages/client/src/components/skill/skill.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/client/src/components/guise/GuiseSkill.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/guise/GuiseSkill.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/client/src/components/skill/Skill.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/skill/Skill.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/tippyComment/TippyComment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/tippyComment/TippyComment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererSelect/WandererSpawn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererSelect/WandererSpawn.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererSelect/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/wanderer/WandererSelect/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
