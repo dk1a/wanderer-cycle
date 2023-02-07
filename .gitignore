@@ -6,3 +6,4 @@ yarn-error.log
 .eslintcache
 .DS_Store
 .env
+.idea
