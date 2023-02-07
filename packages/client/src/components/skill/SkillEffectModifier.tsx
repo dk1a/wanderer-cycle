@@ -1,8 +1,7 @@
 import { Fragment } from "react";
 
-function SkillEffectModifier({ modifier }: { modifier: EffectModifierStructOutput }) {
-  const { modifierList } = useContracts();
-  const item = modifierList.find((e) => e.id === modifier.modifierId);
+/*function SkillEffectModifier({ modifier }: { modifier: EffectModifierStructOutput }) {
+  
 
   if (!item) {
     return <div className="text-dark-number">{modifier.modifierId}</div>;
@@ -19,4 +18,4 @@ function SkillEffectModifier({ modifier }: { modifier: EffectModifierStructOutpu
       ))}
     </div>
   );
-}
+}*/
