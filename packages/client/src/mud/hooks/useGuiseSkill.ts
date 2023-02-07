@@ -35,15 +35,14 @@ export const useGuiseSkill = (entity: EntityIndex) => {
   return {
     entity,
     entityId: world.entities[entity],
-    name: name?.value ?? "",
-
+    name: name ?? '',
     requiredLevel: skill.requiredLevel,
     skillType: skill.skillType as SkillType,
     withAttack: skill.withAttack,
     withSpell: skill.withSpell,
     cost: skill.cost,
     duration: parseScopedDuration(skill.duration_timeScopeId, skill.duration_timeValue),
-    cooldown: parseScopedDuration(skill.cooldown_timeScopeId, skill.cooldown_timeValue),
+    coolDown: parseScopedDuration(skill.cooldown_timeScopeId, skill.cooldown_timeValue),
     effectTarget: skill.effectTarget as TargetType,
     spellDamage: parseElemental(
       skill.spellDamage_all,

@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="18ab0d71-5fa8-4d1f-8c24-32e4d2ef9446" name="Changes" comment="add Tippy-React library and created component TippySkill">
-      <change afterPath="$PROJECT_DIR$/packages/client/src/components/tippyComment/TippySkill.tsx" afterDir="false" />
+    <list default="true" id="18ab0d71-5fa8-4d1f-8c24-32e4d2ef9446" name="Changes" comment="add some changes">
+      <change afterPath="$PROJECT_DIR$/packages/contracts/src/init/InitReverseHashNameSystem.sol" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/TippyComment.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/tippyComment/TippyComment.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.module.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/guise/Guise.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/src/components/skill/Skill.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/components/skill/Skill.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/client/src/mud/hooks/useGuiseSkill.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/src/mud/hooks/useGuiseSkill.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +111,7 @@
       <workItem from="1675675969332" duration="13078000" />
       <workItem from="1675749947923" duration="84000" />
       <workItem from="1675750047897" duration="75000" />
-      <workItem from="1675750176713" duration="8497000" />
+      <workItem from="1675750176713" duration="8784000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1675434088588</created>
@@ -147,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675693781855</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="add Tippy-React library and created component TippySkill">
+      <created>1675762507071</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1675762507071</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
