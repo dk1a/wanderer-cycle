@@ -7,14 +7,14 @@ import { parseScopedDuration } from "../utils/scopedDuration";
 export enum SkillType {
   COMBAT,
   NONCOMBAT,
-  PASSIVE
+  PASSIVE,
 }
 
 export enum TargetType {
   SELF,
   ENEMY,
   ALLY,
-  SELF_OR_ALLY
+  SELF_OR_ALLY,
 }
 
 export const useGuiseSkill = (entity: EntityIndex) => {
@@ -35,7 +35,7 @@ export const useGuiseSkill = (entity: EntityIndex) => {
   return {
     entity,
     entityId: world.entities[entity],
-    name: name?.value ?? '',
+    name: name?.value ?? "",
 
     requiredLevel: skill.requiredLevel,
     skillType: skill.skillType as SkillType,
@@ -50,9 +50,9 @@ export const useGuiseSkill = (entity: EntityIndex) => {
       skill.spellDamage_physical,
       skill.spellDamage_fire,
       skill.spellDamage_cold,
-      skill.spellDamage_poison,
+      skill.spellDamage_poison
     ),
 
-    description: description?.value ?? '',
-  }
+    description: description?.value ?? "",
+  };
 };

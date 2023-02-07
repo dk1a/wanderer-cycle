@@ -7,7 +7,7 @@ export const useGuise = (entity: EntityIndex) => {
   const mud = useMUD();
   const {
     world,
-    components: { GuisePrototype, GuiseSkills, Name }
+    components: { GuisePrototype, GuiseSkills, Name },
   } = mud;
 
   const value = useComponentValue(GuisePrototype, entity);
@@ -26,13 +26,13 @@ export const useGuise = (entity: EntityIndex) => {
         throw new Error(`entityId not in entityToIndex for skill ${entityId}`);
       }
       return entity;
-    })
-  }, [skillEntityIds]);
+    });
+  }, [skillEntityIds, world]);
 
   return {
     entity,
     entityId: world.entities[entity],
-    name: name?.value ?? '',
+    name: name?.value ?? "",
 
     gainMul: {
       strength: value.gainMul_strength,

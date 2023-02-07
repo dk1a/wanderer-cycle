@@ -2,9 +2,7 @@ import { useCallback } from "react";
 import { useMUD } from "../MUDContext";
 
 export const useWandererSpawn = () => {
-  const {
-    systems,
-  } = useMUD();
+  const { systems } = useMUD();
 
   return useCallback(
     async (guiseProtoEntity: string) => {
@@ -13,4 +11,4 @@ export const useWandererSpawn = () => {
     },
     [systems]
   );
-}
+};

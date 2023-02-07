@@ -11,4 +11,4 @@ export const parseScopedDuration = (timeScopeId: string, timeValue: string): Sco
     // seconds
     timeValue: BigNumber.from(timeValue).toNumber(),
   };
-}
+};

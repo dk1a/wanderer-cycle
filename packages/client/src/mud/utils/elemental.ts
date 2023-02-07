@@ -3,15 +3,15 @@ export enum Element {
   PHYSICAL,
   FIRE,
   COLD,
-  POISON
+  POISON,
 }
 
 export interface Elemental {
-  all: number,
-  physical: number,
-  fire: number,
-  cold: number,
-  poison: number
+  all: number;
+  physical: number;
+  fire: number;
+  cold: number;
+  poison: number;
 }
 
 export const parseElemental = (
@@ -28,12 +28,12 @@ export const parseElemental = (
     cold,
     poison,
   };
-}
+};
 
 export const elementNames = {
-  [Element.ALL]: 'all',
-  [Element.PHYSICAL]: 'physical',
-  [Element.FIRE]: 'fire',
-  [Element.COLD]: 'cold',
-  [Element.POISON]: 'poison',
-}
+  [Element.ALL]: "all",
+  [Element.PHYSICAL]: "physical",
+  [Element.FIRE]: "fire",
+  [Element.COLD]: "cold",
+  [Element.POISON]: "poison",
+};

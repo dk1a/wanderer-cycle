@@ -6,7 +6,7 @@ import { useEntityQuery } from "../useEntityQuery";
 export const useWandererEntities = () => {
   const {
     playerEntityId,
-    components: { Wanderer, WNFT_Ownership }
+    components: { Wanderer, WNFT_Ownership },
   } = useMUD();
 
   return useEntityQuery(

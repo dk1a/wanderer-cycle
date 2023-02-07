@@ -5,13 +5,8 @@ import { useEntityQuery } from "../useEntityQuery";
 
 export const useGuiseEntities = () => {
   const {
-    components: { GuisePrototype }
+    components: { GuisePrototype },
   } = useMUD();
 
-  return useEntityQuery(
-    useMemo(
-      () => [Has(GuisePrototype)],
-      [GuisePrototype]
-    )
-  );
+  return useEntityQuery(useMemo(() => [Has(GuisePrototype)], [GuisePrototype]));
 };
