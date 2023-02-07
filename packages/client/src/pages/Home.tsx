@@ -6,9 +6,5 @@ export const Home = () => {
   //   playerEntity,
   // } = useMUD();
 
-  return (
-    <div>
-      home placeholder
-    </div>
-  );
+  return <div>home placeholder</div>;
 };
