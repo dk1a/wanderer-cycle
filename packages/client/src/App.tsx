@@ -3,6 +3,8 @@ import { useComponentValue } from "@latticexyz/react";
 import classes from "./App.module.scss";
 import { useMUD } from "./mud/MUDContext";
 import WandererSelect from "./components/wanderer";
+import Footer from "./components/footer/Footer";
+import AppContent from "./AppContent";
 
 export const App = () => {
   const {
@@ -18,13 +20,13 @@ export const App = () => {
   });
 
   return (
-    <div className={classes.parent}>
+    <div className={classes.App}>
       {loadingState.state !== SyncState.LIVE ? (
         <div>
           {loadingState.msg} ({Math.floor(loadingState.percentage)}%)
         </div>
       ) : (
-        <WandererSelect />
+        <AppContent />
       )}
     </div>
   );

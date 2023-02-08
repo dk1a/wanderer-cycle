@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-// import Footer from "./components/footer/Footer";
+import Footer from "./components/footer/Footer";
 import CustomButton from "./components/UI/button/CustomButton";
 import { useState } from "react";
 import Modal from "./components/UI/modal/Modal";
@@ -48,7 +48,7 @@ const Layout = () => {
         </Modal>
       </div>
       <Outlet />
-      {/*<Footer/>*/}
+      <Footer />
     </>
   );
 };

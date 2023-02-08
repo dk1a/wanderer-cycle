@@ -1,3 +1,22 @@
+.footer__parent{
+  @apply relative
+}
 .footer{
-  @apply fixed bottom-0 w-screen text-center h-12 text-dark-200
+  @apply w-full  flex justify-around border-y-0 absolute bg-dark-500 mt-6
+
+}
+
+.footer__item{
+  @apply w-64 h-44 mt-16 ml-20;
+}
+
+.copyright{
+  @apply text-dark-200 mb-5 text-lg
+}
+
+.footer__p{
+  @apply text-dark-300 mb-2.5 text-sm
+}
+.footer__logo{
+  @apply mb-6 text-2xl
 }
