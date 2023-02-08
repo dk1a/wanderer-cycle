@@ -4,7 +4,7 @@ import { useWandererContext } from "../../contexts/WandererContext";
 import WandererSpawn from "./WandererSpawn/WandererSpawn";
 import CustomButton from "../UI/button/CustomButton";
 import classes from "./wanderer.module.scss";
-import testImg from "../img/output.png";
+import WandererImage from "./WandererImage";
 
 export default function WandererSelect() {
   const wandererEntities = useWandererEntities();
@@ -22,9 +22,7 @@ export default function WandererSelect() {
                   HEADER
                   {wandererEntity == selectedWandererEntity && "selected indicator placeholder"}
                 </div>
-                <div className="h-auto m-5">
-                  <img src={testImg} alt="test" className="h-60 w-58" />
-                </div>
+                <WandererImage entity={wandererEntity} />
 
                 <div className="">
                   <CustomButton onClick={() => selectWandererEntity(wandererEntity)}>Select</CustomButton>
