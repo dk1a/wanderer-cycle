@@ -1,5 +1,5 @@
 const Inventory = () => {
-  return <div>test</div>;
+  return <div style={{ paddingBottom: "100%" }}>test</div>;
 };
 
 export default Inventory;

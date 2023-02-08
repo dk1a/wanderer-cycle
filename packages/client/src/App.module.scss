@@ -1,6 +1,6 @@
 .App{
   @apply flex items-center h-full overflow-auto
-  flex-col bg-auto bg-gradient-to-br from-black via-cyan-900 to-black
+  flex-col bg-auto bg-gradient-to-br from-black via-cyan-900 to-black relative
 }
 
 .nav{
@@ -8,11 +8,11 @@
 }
 
 .navLinkClassActive{
-  @apply transition duration-700 underline decoration-dark-keyword
+  @apply transition duration-700 underline decoration-dark-keyword text-lg
 }
 
 .navLinkClass{
-  @apply transition duration-700 text-dark-300
+  @apply transition duration-700 text-dark-300 text-lg
 }
 
 .nav__container{
@@ -27,4 +27,8 @@
   @apply p-1 w-3/4 cursor-pointer m-2 border
   bg-cyan-800 ease-in hover:bg-cyan-600
   text-gray-100 text-lg border border-cyan-700
+}
+
+.content{
+  @apply relative pb-[100%]
 }

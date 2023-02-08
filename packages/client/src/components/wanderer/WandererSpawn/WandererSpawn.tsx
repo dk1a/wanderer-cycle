@@ -9,10 +9,8 @@ export default function WandererSpawn() {
   const wandererSpawn = useWandererSpawn();
 
   return (
-    <div>
-      <hr className={classes.hr} />
+    <div className={classes.wandererSpawn}>
       <h3 className={classes.header}>{"Select a Guise to Mint a New Wanderer"}</h3>
-
       {guiseEntities.map((guiseEntity) => (
         <div className={classes.guise__list} key={guiseEntity}>
           <Guise key={guiseEntity} entity={guiseEntity} onSelectGuise={wandererSpawn} />

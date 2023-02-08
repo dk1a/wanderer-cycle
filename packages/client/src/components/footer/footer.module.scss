@@ -1,8 +1,8 @@
 .footer__parent{
-  @apply relative
+  @apply absolute bottom-0 w-full h-60
 }
 .footer{
-  @apply w-full  flex justify-around border-y-0 absolute bg-dark-500 mt-6
+  @apply w-full flex justify-around border-y-0 bg-dark-500 mt-6 w-full
 
 }
 

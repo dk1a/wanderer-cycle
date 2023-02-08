@@ -13,7 +13,7 @@ const Layout = () => {
   };
 
   return (
-    <>
+    <div className={classes.content}>
       <div className={classes.nav__container}>
         <div className={classes.nav__list}>
           <NavLink className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)} to="/">
@@ -49,7 +49,7 @@ const Layout = () => {
       </div>
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 };
 
