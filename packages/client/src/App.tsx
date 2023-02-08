@@ -1,13 +1,15 @@
 import { SyncState } from "@latticexyz/network";
 import { useComponentValue } from "@latticexyz/react";
-import { Home } from "./Home";
+import classes from "./App.module.scss";
 import { useMUD } from "./mud/MUDContext";
+import AppContent from "./AppContent";
 
 export const App = () => {
   const {
     components: { LoadingState },
     singletonEntity,
   } = useMUD();
+  console.log(useMUD());
 
   const loadingState = useComponentValue(LoadingState, singletonEntity, {
     state: SyncState.CONNECTING,
@@ -16,13 +18,13 @@ export const App = () => {
   });
 
   return (
-    <div className="w-screen h-screen flex items-center justify-center">
+    <div className={classes.App}>
       {loadingState.state !== SyncState.LIVE ? (
         <div>
           {loadingState.msg} ({Math.floor(loadingState.percentage)}%)
         </div>
       ) : (
-        <Home />
+        <AppContent />
       )}
     </div>
   );

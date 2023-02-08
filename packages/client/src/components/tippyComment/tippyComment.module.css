@@ -1,0 +1,3 @@
+.tippyComment {
+  @apply bg-dark-500 border border-dark-400 p-2 text-dark-method;
+}
