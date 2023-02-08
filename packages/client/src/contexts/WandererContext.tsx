@@ -6,6 +6,7 @@ import { useMUD } from "../mud/MUDContext";
 type WandererContextType = {
   selectedWandererEntity?: EntityIndex;
   selectWandererEntity: (wanderer: EntityIndex | undefined) => void;
+  cycleEntity?: EntityIndex;
 };
 
 const WandererContext = createContext<WandererContextType | undefined>(undefined);
