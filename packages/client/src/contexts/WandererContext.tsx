@@ -8,10 +8,7 @@ type WandererContextType = {
   selectWandererEntity: (wanderer: EntityIndex | undefined) => void;
 };
 
-const WandererContext = createContext<WandererContextType>({
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  selectWandererEntity: () => {},
-});
+const WandererContext = createContext<WandererContextType | undefined>(undefined);
 
 export const WandererProvider = (props: { children: ReactNode }) => {
   const currentValue = useContext(WandererContext);
