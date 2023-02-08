@@ -1,13 +1,12 @@
-import "tippy.js/dist/tippy.css";
-import classes from "./Guise.module.scss";
 import { Fragment } from "react";
-import { useGuise } from "../../mud/hooks/useGuise";
-import CustomButton from "../../utils/UI/button/CustomButton";
-import "tippy.js/animations/perspective.css";
-import GuiseSkill from "./GuiseSkill";
 import { EntityIndex } from "@latticexyz/recs";
 import { Tooltip } from "react-tippy";
+import { useGuise } from "../../mud/hooks/useGuise";
+import CustomButton from "../UI/button/CustomButton";
+import GuiseSkill from "./GuiseSkill";
 import TippyComment from "../tippyComment/TippyComment";
+import "tippy.js/dist/tippy.css";
+import classes from "./Guise.module.scss";
 
 interface GuiseProps {
   entity: EntityIndex;

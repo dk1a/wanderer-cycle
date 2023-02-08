@@ -1,6 +1,6 @@
 import { EntityIndex } from "@latticexyz/recs";
 import { useEffect, useState } from "react";
-import { useMUD } from "../../../mud/MUDContext";
+import { useMUD } from "../../mud/MUDContext";
 
 export default function WandererImage({ entity }: { entity: EntityIndex }) {
   const { world, systems } = useMUD();

@@ -1,8 +1,9 @@
-import { useGuiseSkill } from "../../mud/hooks/useGuiseSkill";
-import Skill from "../skill/Skill";
 import { EntityIndex } from "@latticexyz/recs";
 import { Tooltip } from "react-tippy";
+import { useGuiseSkill } from "../../mud/hooks/useGuiseSkill";
+import Skill from "../skill/Skill";
 import "react-tippy/dist/tippy.css";
+import classes from "./Guise.module.scss";
 
 export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
   const skill = useGuiseSkill(entity);
@@ -28,11 +29,11 @@ export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
         interactive
         html={<Skill skill={skill} />}
       >
-        <div className="w-full flex">
+        <div className={classes.guiseSkill__container}>
           <div>
-            <div className="text-dark-number text-lg cursor-pointer">{skill.requiredLevel}.</div>
+            <div className={classes.guiseSkill__level}>{skill.requiredLevel}.</div>
           </div>
-          <div className="text-dark-method text-lg cursor-pointer w-full">{skill.name}</div>
+          <div className={classes.guiseSkill__name}>{skill.name}</div>
         </div>
       </Tooltip>
     );
@@ -40,5 +41,5 @@ export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
     content = <span className="text-dark-number">{entity}</span>;
   }
 
-  return <div className="bg-dark-500 p-2 border border-dark-400 flex">{content}</div>;
+  return <div className={classes.guiseSkill__parent}>{content}</div>;
 }

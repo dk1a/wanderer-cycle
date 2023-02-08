@@ -1,0 +1,5 @@
+.customBtn {
+  @apply p-2 pl-5 pr-5 transition-colors duration-700 transform
+    bg-curiousBlue-800 hover:bg-curiousBlue-600
+    text-gray-100 text-lg border border-curiousBlue-900;
+}

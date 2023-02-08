@@ -1,10 +1,10 @@
-import CustomButton from "../../../utils/UI/button/CustomButton";
-import testImg from "../../../utils/img/output.png";
-import WandererSpawn from "./WandererSpawn";
 // import {useState} from "react";
-import classes from "./wandererSelect.module.scss";
-import { useWandererEntities } from "../../../mud/hooks/useWandererEntities";
-import { useWandererContext } from "../../../contexts/WandererContext";
+import { useWandererEntities } from "../../mud/hooks/useWandererEntities";
+import { useWandererContext } from "../../contexts/WandererContext";
+import WandererSpawn from "./WandererSpawn/WandererSpawn";
+import CustomButton from "../UI/button/CustomButton";
+import classes from "./wanderer.module.scss";
+import testImg from "../img/output.png";
 
 export default function WandererSelect() {
   const wandererEntities = useWandererEntities();
@@ -15,9 +15,9 @@ export default function WandererSelect() {
       {wandererEntities.length > 0 && (
         <section>
           <h3 className={classes.header}>{"Select a wanderer"}</h3>
-          <div className="flex flex-wrap gap-x-4 gap-y-4 mt-2 justify-around">
+          <div className={classes.wanderer__container}>
             {wandererEntities.map((wandererEntity) => (
-              <div key={wandererEntity}>
+              <div key={wandererEntity} className={classes.wanderer}>
                 <div className="text-dark-300">
                   HEADER
                   {wandererEntity == selectedWandererEntity && "selected indicator placeholder"}

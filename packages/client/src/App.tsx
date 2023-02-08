@@ -2,7 +2,7 @@ import { SyncState } from "@latticexyz/network";
 import { useComponentValue } from "@latticexyz/react";
 import classes from "./App.module.scss";
 import { useMUD } from "./mud/MUDContext";
-import WandererSelect from "./components/wanderer/WandererSelect";
+import WandererSelect from "./components/wanderer";
 
 export const App = () => {
   const {

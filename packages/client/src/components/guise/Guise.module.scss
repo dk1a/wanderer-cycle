@@ -30,3 +30,17 @@
 .guiseBtn{
   @apply flex justify-center my-2
 }
+.guiseSkill__parent{
+  @apply bg-dark-500 p-2 border border-dark-400 flex
+}
+.guiseSkill__container{
+  @apply w-full flex
+}
+
+.guiseSkill__level{
+  @apply text-dark-number text-lg cursor-pointer
+}
+
+.guiseSkill__name{
+  @apply text-dark-method text-lg cursor-pointer w-full
+}
