@@ -5,7 +5,7 @@ import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import Layout from "./Layout";
 import classes from "./App.module.scss";
-import WandererSpawn from "./components/wanderer/WandererSpawn/WandererSpawn";
+import WandererSpawn from "./components/wanderer/WandererSpawn";
 
 const AppContent = () => {
   return (

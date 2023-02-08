@@ -1,7 +1,7 @@
 // import {useState} from "react";
 import { useWandererEntities } from "../../mud/hooks/useWandererEntities";
 import { useWandererContext } from "../../contexts/WandererContext";
-import WandererSpawn from "./WandererSpawn/WandererSpawn";
+import WandererSpawn from "./WandererSpawn";
 import CustomButton from "../UI/button/CustomButton";
 import classes from "./wanderer.module.scss";
 import WandererImage from "./WandererImage";
