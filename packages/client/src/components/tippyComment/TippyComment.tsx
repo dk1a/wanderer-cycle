@@ -2,7 +2,6 @@ import { ReactElement } from "react";
 import classes from "./tippyComment.module.css";
 
 type commentProps = {
-  children: ReactElement;
   content: ReactElement | string;
 };
 
