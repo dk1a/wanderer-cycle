@@ -10,9 +10,11 @@ export default function WandererImage({ entity }: { entity: EntityIndex }) {
     (async () => {
       const entityId = world.entities[entity];
       // TODO better types for tokenURI
-      const json = await (await fetch(await systems["system.WNFT"].tokenURI(entityId))).json();
+      // TODO fix tokenURI
+      //const uri = await systems["system.WNFT"].tokenURI(entityId)
+      //const json = await (await fetch(uri)).json();
 
-      setImg(json.image);
+      setImg(/*json.image*/ "");
     })();
   }, [world, systems, entity]);
 
