@@ -4,9 +4,8 @@ import Inventory from "./pages/Inventory";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import Layout from "./Layout";
-import WandererSpawn from "./components/wanderer/WandererSpawn/WandererSpawn";
 import classes from "./App.module.scss";
-import WandererSelect from "./components/wanderer";
+import WandererSelect from "./components/wanderer/index";
 
 const AppContent = () => {
   return (

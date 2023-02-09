@@ -2,7 +2,7 @@
   @apply border border-dark-400 w-80 h-auto p-8 flex flex-col justify-between items-center bg-dark-500 transform delay-500
 }
 .wanderer__container {
-  @apply flex flex-wrap gap-x-4 gap-y-4 mt-2 justify-around
+  @apply flex flex-wrap gap-x-4 gap-y-4 mt-2 justify-around w-72
 }
 .wanderer__description{
   @apply text-dark-300

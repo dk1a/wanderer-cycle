@@ -7,8 +7,6 @@ import GuiseSkill from "./GuiseSkill";
 import TippyComment from "../tippyComment/TippyComment";
 import "tippy.js/dist/tippy.css";
 import classes from "./Guise.module.scss";
-import Skill from "../skill/Skill";
-import { useGuiseSkill } from "../../mud/hooks/useGuiseSkill";
 
 interface GuiseProps {
   entity: EntityIndex;
