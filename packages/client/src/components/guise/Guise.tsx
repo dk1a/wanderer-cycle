@@ -23,8 +23,13 @@ export default function Guise({ entity, onSelectGuise }: GuiseProps) {
     content = (
       <>
         <header className={classes.guise__header}>{guise.name}</header>
-        <Tooltip animation="perspective" position="left" html={<TippyComment content="Multiplier of gained stats" />}>
-          <div className={classes.guise__comment}>Stat Multipliers</div>
+        <Tooltip
+          arrow={true}
+          animation="perspective"
+          position="left"
+          html={<TippyComment content="multiplier of gained stats" />}
+        >
+          <div className={classes.guise__comment}>{"//stat Multipliers"}</div>
         </Tooltip>
 
         <div className={classes.guise__stats}>
@@ -38,7 +43,7 @@ export default function Guise({ entity, onSelectGuise }: GuiseProps) {
         </div>
 
         <div className={classes.guise__comment}>
-          <div className="w-28">Level/Skill</div>
+          <div className="w-28">{"//level/skill"}</div>
         </div>
         <div>
           {guise.skillEntities.map((entity) => (
