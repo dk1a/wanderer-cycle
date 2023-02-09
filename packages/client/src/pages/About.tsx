@@ -1,5 +1,5 @@
 const About = () => {
-  return <div style={{ paddingBottom: "100%" }}>About Us</div>;
+  return <div>About Us</div>;
 };
 
 export default About;

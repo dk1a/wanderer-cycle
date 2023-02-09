@@ -14,11 +14,11 @@ export default function WandererSelect() {
     <div>
       {wandererEntities.length > 0 && (
         <section>
-          <h3 className={classes.header}>{"Select a wanderer"}</h3>
+          <h3 className={classes.header}>{"//select a wanderer"}</h3>
           <div className={classes.wanderer__container}>
             {wandererEntities.map((wandererEntity) => (
               <div key={wandererEntity} className={classes.wanderer}>
-                <div className="text-dark-300">
+                <div className="text-dark-type">
                   HEADER
                   {wandererEntity == selectedWandererEntity && "selected indicator placeholder"}
                 </div>

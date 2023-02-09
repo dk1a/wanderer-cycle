@@ -28,6 +28,7 @@ export const App = () => {
       ) : (
         <AppContent />
       )}
+      <Footer />
     </div>
   );
 };

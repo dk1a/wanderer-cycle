@@ -4,6 +4,8 @@ import { useGuiseSkill } from "../../mud/hooks/useGuiseSkill";
 import Skill from "../skill/Skill";
 import "react-tippy/dist/tippy.css";
 import classes from "./Guise.module.scss";
+import { tippy } from "@tippyjs/react";
+import "../tippyComment/tippyTheme.scss";
 
 export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
   const skill = useGuiseSkill(entity);
@@ -18,16 +20,29 @@ export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
     </Tippy>
   );*/
 
+  tippy("Tooltip", {
+    theme: "my-theme",
+  });
+
   let content;
   if (skill) {
     content = (
       <Tooltip
+        key={entity}
         offset={100}
         position="left"
-        animation="perspective"
-        trigger="click"
+        distance={20}
+        size={"regular"}
+        arrow={true}
+        arrowSize={"regular"}
+        animation={"perspective"}
+        trigger={"click"}
         interactive
-        html={<Skill skill={skill} />}
+        html={
+          <div style={{ padding: 0 }}>
+            <Skill skill={skill} />
+          </div>
+        }
       >
         <div className={classes.guiseSkill__container}>
           <div>
