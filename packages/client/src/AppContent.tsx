@@ -5,7 +5,7 @@ import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import Layout from "./Layout";
 import classes from "./App.module.scss";
-import WandererSelect from "./components/wanderer/WandererSelect";
+import WandererSelect from "./components/wanderer/index";
 
 const AppContent = () => {
   return (
