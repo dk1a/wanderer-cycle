@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
-import { useWandererContext } from "../../../contexts/WandererContext";
-import { useMUD } from "../../../mud/MUDContext";
+import { useWandererContext } from "../../contexts/WandererContext";
+import { useMUD } from "../../mud/MUDContext";
 import { EntityIndex } from "@latticexyz/recs";
-import CustomButton from "../../UI/button/CustomButton";
+import CustomButton from "../UI/CustomButton/CustomButton";
 
 type ClaimTurnsButtonProps = {
   turns: number;
@@ -39,7 +39,7 @@ export default function ClaimTurnsButton({ turns }: ClaimTurnsButtonProps) {
   return (
     <>
       {isAvailable && (
-        // TODO replace with a working button+tooltip
+        // TODO replace with a working CustomButton+tooltip
         <CustomButton args={[claimableTurns ?? ""]} disabled={isBusy} onClick={claimTurns} style={{ fontSize: "12px" }}>
           {"claimTurns"}
           <span className="text-dark-number">{` (${turns})`}</span>

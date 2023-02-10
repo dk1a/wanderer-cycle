@@ -2,9 +2,9 @@ import { Fragment } from "react";
 import { EntityIndex } from "@latticexyz/recs";
 import { Tooltip } from "react-tippy";
 import { useGuise } from "../../mud/hooks/useGuise";
-import CustomButton from "../UI/button/CustomButton";
+import CustomButton from "../UI/CustomButton/CustomButton";
 import GuiseSkill from "./GuiseSkill";
-import TippyComment from "../tippyComment/TippyComment";
+import TippyComment from "../TippyComment/TippyComment";
 import "tippy.js/dist/tippy.css";
 import classes from "./Guise.module.scss";
 
@@ -43,7 +43,7 @@ export default function Guise({ entity, onSelectGuise }: GuiseProps) {
         </div>
 
         <div className={classes.guise__comment}>
-          <div className="w-28">{"//level/skill"}</div>
+          <div className="w-28">{"//level/Skill"}</div>
         </div>
         <div>
           {guise.skillEntities.map((entity) => (

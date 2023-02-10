@@ -16,7 +16,7 @@ import { LibGuiseLevel } from "../guise/LibGuiseLevel.sol";
 
 uint256 constant ID = uint256(keccak256("system.LearnCycleSkill"));
 
-/// @title Learn a skill from the current cycle guise's set of available skills.
+/// @title Learn a Skill from the current cycle Guise's set of available skills.
 contract LearnCycleSkillSystem is System {
   using LibLearnedSkills for LibLearnedSkills.Self;
 
@@ -39,20 +39,20 @@ contract LearnCycleSkillSystem is System {
     // get cycle entity if sender is allowed to use it
     uint256 cycleEntity = LibCycle.getCycleEntityPermissioned(components, wandererEntity);
 
-    // check skill's level requirements
+    // check Skill's level requirements
     uint32 currentLevel = LibGuiseLevel.getAggregateLevel(components, cycleEntity);
     uint8 requiredLevel = skillProto.getValue(skillEntity).requiredLevel;
     if (currentLevel < requiredLevel) {
       revert LearnCycleSkillSystem__LevelIsTooLow();
     }
 
-    // guise skills must include `skillEntity`
+    // Guise skills must include `skillEntity`
     uint256 guiseProtoEntity = activeGuiseComp.getValue(cycleEntity);
     if (!guiseSkillsComp.hasItem(guiseProtoEntity, skillEntity)) {
       revert LearnCycleSkillSystem__SkillNotInGuiseSkills();
     }
 
-    // learn the skill
+    // learn the Skill
     LibLearnedSkills.__construct(components, cycleEntity).learnSkill(skillEntity);
 
     return "";

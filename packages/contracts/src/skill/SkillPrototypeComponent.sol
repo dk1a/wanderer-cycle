@@ -33,16 +33,16 @@ struct SkillPrototype {
   uint8 requiredLevel;
   // when/how can it be used
   SkillType skillType;
-  // by default a skill only applies effects
-  // flag to also trigger an attack afterwards (base attack damage is not based on the skill)
+  // by default a Skill only applies effects
+  // flag to also trigger an attack afterwards (base attack damage is not based on the Skill)
   bool withAttack;
-  // flag to also trigger a spell afterwards (base spell damage is the skill's `spellDamage`)
+  // flag to also trigger a spell afterwards (base spell damage is the Skill's `spellDamage`)
   bool withSpell;
   // mana cost to be subtracted on use
   uint32 cost;
   // duration of effect (important only if modifiers are present)
   ScopedDuration duration;
-  // cooldown of skill
+  // cooldown of Skill
   ScopedDuration cooldown;
   // who can it be used on (also affects resulting effect's removability)
   TargetType effectTarget;

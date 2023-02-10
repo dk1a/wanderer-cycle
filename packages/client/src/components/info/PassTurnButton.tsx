@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useWandererContext } from "../../../contexts/WandererContext";
-import CustomButton from "../../UI/button/CustomButton";
+import { useWandererContext } from "../../contexts/WandererContext";
+import CustomButton from "../UI/CustomButton/CustomButton";
 
 export default function PassTurnButton() {
   const { selectedWandererEntity } = useWandererContext();
@@ -23,7 +23,7 @@ export default function PassTurnButton() {
   return (
     <>
       {isAvailable && (
-        // TODO replace with a working button+tooltip
+        // TODO replace with a working CustomButton+tooltip
         <CustomButton onClick={passTurn} style={{ fontSize: "14px" }}>
           {"passTurn"}
         </CustomButton>

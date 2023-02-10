@@ -19,10 +19,7 @@ import { LibExperience, PStat, PS_L } from "../../charstat/LibExperience.sol";
 contract LibSkillRevertHelper {
   using LibSkill for LibSkill.Self;
 
-  function useSkill(
-    LibSkill.Self memory libSkill,
-    uint256 targetEntity
-  ) public {
+  function useSkill(LibSkill.Self memory libSkill, uint256 targetEntity) public {
     libSkill.useSkill(targetEntity);
   }
 }
@@ -39,14 +36,14 @@ contract LibSkillTest is BaseTest {
   LibCharstat.Self charstat;
   LibLearnedSkills.Self learnedSkills;
 
-  uint256 userEntity = uint256(keccak256('userEntity'));
-  uint256 otherEntity = uint256(keccak256('otherEntity'));
+  uint256 userEntity = uint256(keccak256("userEntity"));
+  uint256 otherEntity = uint256(keccak256("otherEntity"));
 
-  // sample skill entities
-  uint256 cleavePE = getSkillProtoEntity('Cleave');
-  uint256 chargePE = getSkillProtoEntity('Charge');
-  uint256 parryPE = getSkillProtoEntity('Parry');
-  uint256 someInvalidSkillPE = getSkillProtoEntity('someInvalidSkill');
+  // sample Skill entities
+  uint256 cleavePE = getSkillProtoEntity("Cleave");
+  uint256 chargePE = getSkillProtoEntity("Charge");
+  uint256 parryPE = getSkillProtoEntity("Parry");
+  uint256 someInvalidSkillPE = getSkillProtoEntity("someInvalidSkill");
 
   function setUp() public virtual override {
     super.setUp();
@@ -68,9 +65,7 @@ contract LibSkillTest is BaseTest {
     LibExperience.initExp(charstat.exp);
   }
 
-  function _libSkill(
-    uint256 skillEntity
-  ) internal view returns (LibSkill.Self memory) {
+  function _libSkill(uint256 skillEntity) internal view returns (LibSkill.Self memory) {
     return LibSkill.__construct(world, userEntity, skillEntity);
   }
 
@@ -93,7 +88,7 @@ contract LibSkillTest is BaseTest {
     revertHelper.useSkill(libSkill, otherEntity);
   }
 
-  // TODO mana stuff isn't very skill-related?
+  // TODO mana stuff isn't very Skill-related?
   function test_setManaCurrent_capped() public {
     charstat.setManaCurrent(100);
     assertEq(charstat.getMana(), 4);
@@ -154,10 +149,7 @@ contract LibSkillTest is BaseTest {
     // decrease cleave duration and cooldown
     durationSubSystem.executeDecreaseScope(
       userEntity,
-      ScopedDuration({
-        timeScopeId: uint256(keccak256("round")),
-        timeValue: 1
-      })
+      ScopedDuration({ timeScopeId: uint256(keccak256("round")), timeValue: 1 })
     );
 
     // cooldown
@@ -170,10 +162,7 @@ contract LibSkillTest is BaseTest {
     // decrease charge duration
     durationSubSystem.executeDecreaseScope(
       userEntity,
-      ScopedDuration({
-        timeScopeId: uint256(keccak256("round_persistent")),
-        timeValue: 1
-      })
+      ScopedDuration({ timeScopeId: uint256(keccak256("round_persistent")), timeValue: 1 })
     );
 
     assertFalse(durationSubSystem.has(userEntity, getEffectEntity(userEntity, cleavePE)));

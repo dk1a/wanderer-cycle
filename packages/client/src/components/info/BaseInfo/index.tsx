@@ -1,5 +1,5 @@
 import { Fragment, ReactNode } from "react";
-import StatLevelProgress, { StatLevelProgressProps } from "../levelProgress/StatLevelProgress";
+import StatLevelProgress, { StatLevelProgressProps } from "../StatLevelProgress";
 // import EffectList from "../../EffectList";
 import classes from "./info.module.scss";
 

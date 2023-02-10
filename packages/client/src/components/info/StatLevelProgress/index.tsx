@@ -1,5 +1,5 @@
 import { levelToExp } from "../../../mud/utils/experience";
-import classes from "./statLevelProgress.module.scss";
+import classes from "./index.module.scss";
 
 export interface StatLevelProgressProps {
   level: number | undefined;

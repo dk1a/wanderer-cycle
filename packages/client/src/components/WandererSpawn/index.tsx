@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import classes from "./wanderer.module.scss";
 import WandererImage from "./WandererImage";
-import CustomButton from "../UI/button/CustomButton";
+import CustomButton from "../UI/CustomButton/CustomButton";
 import { useWandererContext } from "../../contexts/WandererContext";
 
 type wandererProps = {

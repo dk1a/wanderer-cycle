@@ -1,6 +1,6 @@
-import { useGuiseEntities } from "../../../mud/hooks/useGuiseEntities";
-import { useWandererSpawn } from "../../../mud/hooks/useWandererSpawn";
-import Guise from "../../guise/Guise";
+import { useGuiseEntities } from "../../mud/hooks/useGuiseEntities";
+import { useWandererSpawn } from "../../mud/hooks/useWandererSpawn";
+import Guise from "../Guise/Guise";
 import classes from "./wandererSpawn.module.scss";
 // import * as querystring from "querystring";
 

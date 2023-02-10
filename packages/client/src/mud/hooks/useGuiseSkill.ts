@@ -42,7 +42,7 @@ export const useGuiseSkill = (entity: EntityIndex) => {
 
   // skills should never be deleted
   if (!skill) {
-    throw new Error("Invalid skill for entity");
+    throw new Error("Invalid Skill for entity");
   }
 
   const skillType = skill.skillType as SkillType;

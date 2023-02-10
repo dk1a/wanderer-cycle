@@ -52,7 +52,7 @@ library LibSkill {
   }
 
   /**
-   * @dev Change Self to use a different skill prototype
+   * @dev Change Self to use a different Skill prototype
    */
   function switchSkill(Self memory __self, uint256 skillEntity) internal view returns (Self memory) {
     __self.skillEntity = skillEntity;
@@ -73,7 +73,7 @@ library LibSkill {
   }
 
   /**
-   * @dev Combat skills may target either self or enemy, depending on skill prototype
+   * @dev Combat skills may target either self or enemy, depending on Skill prototype
    */
   function chooseCombatTarget(Self memory __self, uint256 enemyEntity) internal pure returns (uint256) {
     if (__self.skill.effectTarget == TargetType.SELF || __self.skill.effectTarget == TargetType.SELF_OR_ALLY) {
@@ -103,17 +103,17 @@ library LibSkill {
     if (durationSubSystem.has(targetEntity, __self.skillEntity)) {
       revert LibSkill__SkillOnCooldown();
     }
-    // verify self-only skill
+    // verify self-only Skill
     if (__self.skill.effectTarget == TargetType.SELF && __self.userEntity != targetEntity) {
       revert LibSkill__InvalidSkillTarget();
     }
     // TODO verify other target types?
 
     // start cooldown
-    // (doesn't clash with skill effect duration, which has its own entity)
+    // (doesn't clash with Skill effect duration, which has its own entity)
     durationSubSystem.executeIncrease(targetEntity, __self.skillEntity, __self.skill.cooldown, SystemCallback(0, ""));
 
-    // check and subtract skill cost
+    // check and subtract Skill cost
     uint32 manaCurrent = __self.charstat.getManaCurrent();
     if (__self.skill.cost > manaCurrent) {
       revert LibSkill__NotEnoughMana();
@@ -128,19 +128,19 @@ library LibSkill {
     EffectSubSystem effectSubSystem = EffectSubSystem(getAddressById(__self.world.systems(), EffectSubSystemID));
 
     if (!effectSubSystem.isEffectPrototype(__self.skillEntity)) {
-      // skip if skill has no effect
+      // skip if Skill has no effect
       return;
     }
 
     if (__self.skill.skillType == SkillType.PASSIVE) {
-      // toggle passive skill
+      // toggle passive Skill
       if (effectSubSystem.has(targetEntity, __self.skillEntity)) {
         effectSubSystem.executeRemove(targetEntity, __self.skillEntity);
       } else {
         effectSubSystem.executeApply(targetEntity, __self.skillEntity);
       }
     } else {
-      // apply active skill
+      // apply active Skill
       effectSubSystem.executeApplyTimed(targetEntity, __self.skillEntity, __self.skill.duration);
     }
   }

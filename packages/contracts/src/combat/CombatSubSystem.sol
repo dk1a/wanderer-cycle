@@ -240,7 +240,7 @@ contract CombatSubSystem is Subsystem {
 
   function _checkActionsLength(CombatActor memory actor) internal pure {
     if (actor.actions.length > 1) {
-      // TODO a way to do 2 actions in a round, like a special skill
+      // TODO a way to do 2 actions in a round, like a special Skill
       // (limited by actionType, 2 attacks in a round is too OP)
       revert CombatSubSystem__InvalidActionsLength();
     }
