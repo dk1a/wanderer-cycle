@@ -1,8 +1,7 @@
-// import {useState} from "react";
 import { useWandererEntities } from "../mud/hooks/useWandererEntities";
-import WandererSpawn from "../components/WandererSpawn/WandererSpawn";
-import classes from "../components/WandererSpawn/wanderer.module.scss";
-import Wanderer from "../components/WandererSpawn";
+import WandererSpawn from "../components/WandererSpawn";
+import classes from "../components/Wanderer/wanderer.module.scss";
+import Wanderer from "../components/Wanderer";
 
 export default function WandererSelect() {
   const wandererEntities = useWandererEntities();

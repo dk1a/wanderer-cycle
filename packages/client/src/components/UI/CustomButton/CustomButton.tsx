@@ -6,6 +6,7 @@ type Props = {
   onClick: any;
   style: any;
 };
+// TODO use forwardRef (see MethodButton.tsx and ModifierName.tsx)
 const CustomButton = ({ children, onClick, style }: Props) => {
   return (
     <button onClick={onClick} className={classes.customBtn} style={style}>

@@ -1,32 +1,20 @@
-import React, { ReactNode } from "react";
-import classes from "./wanderer.module.scss";
-import WandererImage from "./WandererImage";
-import CustomButton from "../UI/CustomButton/CustomButton";
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useGuiseEntities } from "../../mud/hooks/useGuiseEntities";
+import { useWandererSpawn } from "../../mud/hooks/useWandererSpawn";
+import Guise from "../Guise/Guise";
+import classes from "./wandererSpawn.module.scss";
 
-type wandererProps = {
-  wandererEntity: any;
-};
-
-const Wanderer = ({ wandererEntity }: wandererProps) => {
-  const { selectedWandererEntity, selectWandererEntity } = useWandererContext();
-  console.log(wandererEntity);
-  const wandererSelectHandler = () => {
-    console.log(selectedWandererEntity);
-  };
+export default function WandererSpawn() {
+  const guiseEntities = useGuiseEntities();
+  const wandererSpawn = useWandererSpawn();
 
   return (
-    <div className={classes.wanderer}>
-      <div className="text-dark-type">
-        HEADER
-        {wandererEntity == selectedWandererEntity && "selected indicator placeholder"}
-      </div>
-      <WandererImage entity={wandererEntity} />
-      <div className="">
-        <CustomButton onClick={selectWandererEntity(wandererEntity)}>Select</CustomButton>
-      </div>
+    <div className={classes.wandererSpawn}>
+      <h3 className={classes.header}>{"//select a Guise to Mint a New Wanderer"}</h3>
+      {guiseEntities.map((guiseEntity) => (
+        <div className={classes.guise__list} key={guiseEntity}>
+          <Guise key={guiseEntity} entity={guiseEntity} onSelectGuise={wandererSpawn} />
+        </div>
+      ))}
     </div>
   );
-};
-
-export default Wanderer;
+}
