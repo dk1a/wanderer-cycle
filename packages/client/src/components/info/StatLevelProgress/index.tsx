@@ -1,4 +1,5 @@
-import { levelToExp } from "../../mud/utils/experience";
+import { levelToExp } from "../../../mud/utils/experience";
+import classes from "./index.module.scss";
 
 export interface StatLevelProgressProps {
   level: number | undefined;
@@ -21,22 +22,13 @@ export default function StatLevelProgress({ level, buffedLevel, exp }: StatLevel
   }
 
   return (
-    <div className="col-span-2 flex items-center">
-      <div className="text-lg w-8 h-7">
-        <span className="number-item">{buffedLevel}</span>
-
-        {level !== buffedLevel && (
-          <span className="text-sm">
-            (<span className="number-item">{level}</span>)
-          </span>
-        )}
-      </div>
+    <div className={classes.stats__parent}>
       {exp !== null && (
-        <div className="flex flex-col flex-grow pr-2 pl-2">
-          <div className="flex-default justify-center text-xs">
-            <span className="number-item">{nextProgress}</span>
-            <span>/</span>
-            <span className="number-item">{nextReq}</span>
+        <div className={classes.stats__container}>
+          <div className={classes.stats__number}>
+            <span className="text-dark-200">{nextProgress}</span>
+            <span className="text-dark-200">/</span>
+            <span className="text-dark-200">{nextReq}</span>
           </div>
           <div className="flex h-1 bg-dark-400">
             <div className="bg-dark-300" style={{ width: `${relProgress}%` }}></div>

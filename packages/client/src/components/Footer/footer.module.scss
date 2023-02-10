@@ -1,9 +1,8 @@
 .footer__parent{
-  @apply absolute bottom-0 w-full h-60
+  @apply  w-full h-60 shrink
 }
 .footer{
-  @apply w-full flex justify-around border-y-0 bg-dark-500 mt-6 w-full
-
+  @apply w-full flex justify-around border-y-0 bg-dark-500 mt-56
 }
 
 .footer__item{

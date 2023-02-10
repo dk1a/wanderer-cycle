@@ -16,7 +16,7 @@ import { LibGuiseLevel } from "../guise/LibGuiseLevel.sol";
 
 uint256 constant ID = uint256(keccak256("system.LearnCycleSkill"));
 
-/// @title Learn a skill from the current cycle guise's set of available skills.
+/// @title Learn a Skill from the current cycle Guise's set of available skills.
 contract LearnCycleSkillSystem is System {
   using LibLearnedSkills for LibLearnedSkills.Self;
 

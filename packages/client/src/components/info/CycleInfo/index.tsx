@@ -1,4 +1,4 @@
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useWandererContext } from "../../../contexts/WandererContext";
 import CycleInfoContent from "./CycleInfoContent";
 
 export default function CycleInfo() {

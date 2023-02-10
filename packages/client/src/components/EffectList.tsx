@@ -4,12 +4,12 @@ export default function EffectList() {
       <h5 className="text-dark-comment">{"// effects"}</h5>
 
       {/* TODO effect list */}
-      {/*sourceNames?.map(sourceName =>
-        <EffectListSection key={sourceName}
-          name={sourceName}
-          effects={effects}
-          initCollapsed={isInitCollapsed(sourceName)} />
-      )*/}
+      {/*{sourceNames?.map(sourceName =>*/}
+      {/*  <EffectListSection key={sourceName}*/}
+      {/*    name={sourceName}*/}
+      {/*    effects={effects}*/}
+      {/*    initCollapsed={isInitCollapsed(sourceName)} />*/}
+      {/*)}*/}
     </div>
   );
 }

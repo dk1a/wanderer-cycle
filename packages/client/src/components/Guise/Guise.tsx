@@ -2,9 +2,9 @@ import { Fragment } from "react";
 import { EntityIndex } from "@latticexyz/recs";
 import { Tooltip } from "react-tippy";
 import { useGuise } from "../../mud/hooks/useGuise";
-import CustomButton from "../UI/button/CustomButton";
+import CustomButton from "../UI/CustomButton/CustomButton";
 import GuiseSkill from "./GuiseSkill";
-import TippyComment from "../tippyComment/TippyComment";
+import TippyComment from "../TippyComment/TippyComment";
 import "tippy.js/dist/tippy.css";
 import classes from "./Guise.module.scss";
 
@@ -23,8 +23,13 @@ export default function Guise({ entity, onSelectGuise }: GuiseProps) {
     content = (
       <>
         <header className={classes.guise__header}>{guise.name}</header>
-        <Tooltip animation="perspective" position="left" html={<TippyComment content="Multiplier of gained stats" />}>
-          <div className={classes.guise__comment}>Stat Multipliers</div>
+        <Tooltip
+          arrow={true}
+          animation="perspective"
+          position="left"
+          html={<TippyComment content="multiplier of gained stats" />}
+        >
+          <div className={classes.guise__comment}>{"//stat Multipliers"}</div>
         </Tooltip>
 
         <div className={classes.guise__stats}>
@@ -38,7 +43,7 @@ export default function Guise({ entity, onSelectGuise }: GuiseProps) {
         </div>
 
         <div className={classes.guise__comment}>
-          <div className="w-28">Level/Skill</div>
+          <div className="w-28">{"//level/Skill"}</div>
         </div>
         <div>
           {guise.skillEntities.map((entity) => (
@@ -48,7 +53,7 @@ export default function Guise({ entity, onSelectGuise }: GuiseProps) {
 
         {onSelectGuise !== undefined && (
           <div className={classes.guiseBtn}>
-            <CustomButton onClick={() => onSelectGuise(entity)}>Mint</CustomButton>
+            <CustomButton onClick={() => onSelectGuise(entity)}>Spawn</CustomButton>
           </div>
         )}
       </>

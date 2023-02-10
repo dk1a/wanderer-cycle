@@ -23,7 +23,7 @@ export default function Skill({ skill }: { skill: ReturnType<typeof useGuiseSkil
             <span className={classes.skill__key}>duration: </span>
             <span className={classes.skill__number}>{skill.duration.timeValue}</span>
             {/* TODO timeScopeId name map */}
-            <span className={classes.skill__string}> placeholder{/*skill.duration.timeScopeId*/}</span>
+            <span className={classes.skill__string}> placeholder{/*Skill.duration.timeScopeId*/}</span>
           </div>
         )}
         {skill.cooldown.timeValue > 0 && (
@@ -31,12 +31,12 @@ export default function Skill({ skill }: { skill: ReturnType<typeof useGuiseSkil
             <span className={classes.skill__key}>cooldown: </span>
             <span className={classes.skill__number}>{skill.cooldown.timeValue}</span>
             {/* TODO timeScopeId name map */}
-            <span className={classes.skill__string}> Placeholder{/*skill.cooldown.timeScopeId*/}</span>
+            <span className={classes.skill__string}> Placeholder{/*Skill.cooldown.timeScopeId*/}</span>
           </div>
         )}
       </div>
 
-      {/* TODO skill statmods */}
+      {/* TODO Skill statmods */}
       {/*statmods.length > 0 &&
       <>
         <div className="">

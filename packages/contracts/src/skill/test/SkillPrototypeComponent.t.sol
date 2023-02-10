@@ -8,9 +8,9 @@ import { SkillType, TargetType, getSkillProtoEntity } from "../SkillPrototypeCom
 
 contract SkillPrototypeComponentTest is BaseTest {
   // sample skill entities
-  uint256 chargePE = getSkillProtoEntity('Charge');
-  uint256 parryPE = getSkillProtoEntity('Parry');
-  uint256 cleavePE = getSkillProtoEntity('Cleave');
+  uint256 chargePE = getSkillProtoEntity("Charge");
+  uint256 parryPE = getSkillProtoEntity("Parry");
+  uint256 cleavePE = getSkillProtoEntity("Cleave");
 
   function setUp() public virtual override {
     super.setUp();
@@ -23,7 +23,7 @@ contract SkillPrototypeComponentTest is BaseTest {
   }
 
   function test_sample_skillPrototype_name() public {
-    assertEq(nameComponent.getValue(chargePE), 'Charge');
+    assertEq(nameComponent.getValue(chargePE), "Charge");
   }
 
   function test_sample_skillPrototype_targetTypes() public {

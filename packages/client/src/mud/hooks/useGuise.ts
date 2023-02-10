@@ -16,7 +16,7 @@ export const useGuise = (entity: EntityIndex) => {
 
   // guises should never be deleted
   if (!value || !skillEntityIds) {
-    throw new Error("Invalid guise for entity");
+    throw new Error("Invalid Guise for entity");
   }
 
   const skillEntities = useMemo(() => {
