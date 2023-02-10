@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import BaseInfo from "./BaseInfo";
-import PassTurnButton from "./PassTurnButton";
-import ClaimTurnsButton from "./ClaimTurnsButton";
+import PassTurnButton from "./infoButton/PassTurnButton";
+import ClaimTurnsButton from "./infoButton/ClaimTurnsButton";
 import { EntityIndex } from "@latticexyz/recs";
 import { useActiveGuise } from "../../mud/hooks/useActiveGuise";
 import { useExperience } from "../../mud/hooks/useExperience";
@@ -16,7 +16,7 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
   const turns = useCycleTurns(cycleEntity);
   const lifeCurrent = useLifeCurrent(cycleEntity);
   const manaCurrent = useManaCurrent(cycleEntity);
-
+  console.log(guise, experience, turns, lifeCurrent, manaCurrent);
   const levelProps = useMemo(() => {
     // TODO add total exp data
     const exp = 10;
@@ -45,11 +45,13 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
 
   const turnsHtml = (
     <>
-      <div className="text-dark-key">turns:</div>
-      <div className="text-dark-number">{turns}</div>
+      <div className="flex">
+        <div className="text-dark-key">turns:</div>
+        <div className="text-dark-number">{turns}</div>
+      </div>
 
-      <PassTurnButton />
-      <ClaimTurnsButton />
+      {/*<PassTurnButton />*/}
+      {/*<ClaimTurnsButton />*/}
     </>
   );
 

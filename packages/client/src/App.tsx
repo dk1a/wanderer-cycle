@@ -3,7 +3,6 @@ import { useComponentValue } from "@latticexyz/react";
 import classes from "./App.module.scss";
 import { useMUD } from "./mud/MUDContext";
 import AppContent from "./AppContent";
-import Footer from "./components/footer/Footer";
 
 export const App = () => {
   const {
@@ -27,7 +26,6 @@ export const App = () => {
       ) : (
         <AppContent />
       )}
-      <Footer />
     </div>
   );
 };

@@ -12,7 +12,7 @@ const AppContent = () => {
     <nav className={classes.nav}>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/?dev=true&worldAddress=0x5FbDB2315678afecb367f032d93F642f64180aa3" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="inventory" element={<Inventory />} />
           <Route path="wanderer-select" element={<WandererSelect />} />
           <Route path="about" element={<About />} />

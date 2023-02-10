@@ -6,7 +6,10 @@ const Layout = () => {
     <div className={classes.content}>
       <div className={classes.nav__container}>
         <div className={classes.nav__list}>
-          <NavLink className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)} to="/">
+          <NavLink
+            className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
+            to="/home"
+          >
             Home
           </NavLink>
           <NavLink

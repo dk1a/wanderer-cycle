@@ -1,6 +1,7 @@
 import { Fragment, ReactNode } from "react";
-import StatLevelProgress, { StatLevelProgressProps } from "./StatLevelProgress";
+import StatLevelProgress, { StatLevelProgressProps } from "./levelProgress/StatLevelProgress";
 import EffectList from "../EffectList";
+import classes from "./info.module.scss";
 
 export interface StatProps {
   name: string;
@@ -40,34 +41,34 @@ export default function BaseInfo({
   const separator = <div className="col-span-3 mt-1 mb-1 border-b border-dark-400" />;
 
   return (
-    <section className="grid grid-cols-3 items-center">
-      <h4 className="relative col-span-3 text-center text-lg text-dark-type">{name}</h4>
-
+    <section className="flex flex-col w-52 bg-dark-500 border border-dark-400 h-screen">
+      <h4 className="relative col-span-3 text-center text-lg text-dark-type font-medium">{name}</h4>
       {locationName !== null && <div className="col-span-3 text-center text-dark-string">{locationName}</div>}
-
-      <div className="text-dark-key">{levelProps.name}:</div>
+      <div className="text-dark-key p-2">
+        {levelProps.name}: <span className="text-dark-number">{levelProps.props.level}</span>
+      </div>
       <StatLevelProgress {...levelProps.props} />
-
       {separator}
-
       {statProps.map(({ name, props }) => (
         <Fragment key={name}>
-          <div className="text-dark-key">{name}:</div>
+          <div className="text-dark-key p-2">
+            {name}: <span className="text-dark-number">{levelProps.props.level}</span>
+          </div>
           <StatLevelProgress {...props} />
         </Fragment>
       ))}
-
       {separator}
-
       {currents.map(({ name, value }) => (
         <Fragment key={name}>
-          <div className="text-dark-key">{name}:</div>
-          <div className="flex-default">
-            <span className="number-item">{value}</span>
-            <span className="w-4 text-center">/</span>
-            <span className="number-item">123{/* TODO statmod goes here */}</span>
+          <div className="text-dark-key flex">
+            {name}:
+            <div className="flex-default">
+              <span className="text-dark-number">{value}</span>
+              <span className="w-4 text-center text-dark-number">/</span>
+              <span className="text-dark-number">123{/* TODO statmod goes here */}</span>
+            </div>
           </div>
-          <div className="flex-default">
+          <div className="flex">
             {/* TODO regen statmods. They are often absent and shouldn't be displayed */}
             <>
               <span className="text-dark-key">regen:</span>
@@ -76,22 +77,16 @@ export default function BaseInfo({
           </div>
         </Fragment>
       ))}
-
       {turnsHtml}
-
       {separator}
-
       {/* TODO elemental stats */}
       {/*<div className="col-span-3">
         <h5 className="text-dark-comment">
           {'// elemental'}
         </h5>
-
         {attrs && <ElementalStats attrs={attrs} />}
       </div>*/}
-
       {separator}
-
       <EffectList />
     </section>
   );

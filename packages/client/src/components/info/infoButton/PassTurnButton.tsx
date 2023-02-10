@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useWandererContext } from "../../../contexts/WandererContext";
 
 export default function PassTurnButton() {
   const { selectedWandererEntity } = useWandererContext();

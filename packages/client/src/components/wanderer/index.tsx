@@ -1,34 +1,23 @@
 // import {useState} from "react";
 import { useWandererEntities } from "../../mud/hooks/useWandererEntities";
-import { useWandererContext } from "../../contexts/WandererContext";
 import WandererSpawn from "./WandererSpawn";
-import CustomButton from "../UI/button/CustomButton";
 import classes from "./wanderer.module.scss";
-import WandererImage from "./WandererImage";
+import Wanderer from "./Wanderer";
 
 export default function WandererSelect() {
   const wandererEntities = useWandererEntities();
-  const { selectWandererEntity, selectedWandererEntity } = useWandererContext();
-
+  console.log(wandererEntities);
   return (
     <div>
       {wandererEntities.length > 0 && (
         <section>
           <h3 className={classes.header}>{"//select a wanderer"}</h3>
-          <div className={classes.wanderer__container}>
-            {wandererEntities.map((wandererEntity) => (
-              <div key={wandererEntity} className={classes.wanderer}>
-                <div className="text-dark-type">
-                  HEADER
-                  {wandererEntity == selectedWandererEntity && "selected indicator placeholder"}
-                </div>
-                <WandererImage entity={wandererEntity} />
-
-                <div className="">
-                  <CustomButton onClick={() => selectWandererEntity(wandererEntity)}>Select</CustomButton>
-                </div>
-              </div>
-            ))}
+          <div className={classes.wanderer__parent}>
+            <div className={classes.wanderer__container}>
+              {wandererEntities.map((wandererEntity) => (
+                <Wanderer key={wandererEntity} wandererEntity={wandererEntity} />
+              ))}
+            </div>
           </div>
         </section>
       )}

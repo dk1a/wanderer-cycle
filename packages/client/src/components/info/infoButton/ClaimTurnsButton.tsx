@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
-import { useWandererContext } from "../../contexts/WandererContext";
-import { useMUD } from "../../mud/MUDContext";
+import { useWandererContext } from "../../../contexts/WandererContext";
+import { useMUD } from "../../../mud/MUDContext";
 import { EntityIndex } from "@latticexyz/recs";
 
 export default function ClaimTurnsButton() {

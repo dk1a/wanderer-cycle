@@ -53,7 +53,7 @@ export default function Guise({ entity, onSelectGuise }: GuiseProps) {
 
         {onSelectGuise !== undefined && (
           <div className={classes.guiseBtn}>
-            <CustomButton onClick={() => onSelectGuise(entity)}>Mint</CustomButton>
+            <CustomButton onClick={() => onSelectGuise(entity)}>Spawn</CustomButton>
           </div>
         )}
       </>

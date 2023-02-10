@@ -1,0 +1,15 @@
+.info__container{
+  @apply grid grid-cols-3 items-center
+}
+
+.info__header{
+  @apply relative col-span-3 text-center text-lg text-dark-type
+}
+
+.info__locationName{
+  @apply
+}
+
+.info__separator{
+  @apply col-span-3 mt-1 mb-1 border-b border-dark-400
+}
