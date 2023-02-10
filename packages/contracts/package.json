@@ -1,9 +1,11 @@
 {
   "name": "contracts",
   "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
   "scripts": {
     "prepare": "yarn codegen && mud types",
-    "devnode": "rm -rf ~/.foundry/anvil/tmp && anvil --block-base-fee-per-gas 0",
+    "devnode": "rm -rf ~/.foundry/anvil/tmp && rm -rf broadcast && anvil --block-base-fee-per-gas 0",
     "test": "yarn codegen && cross-env FOUNDRY_PROFILE=test mud test",
     "types": "yarn codegen && mud types",
     "dev": "yarn codegen && mud deploy-contracts --dev",
