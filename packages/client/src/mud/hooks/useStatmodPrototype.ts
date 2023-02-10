@@ -5,12 +5,6 @@ import { useMUD } from "../MUDContext";
 import { Element } from "../utils/elemental";
 import { Op } from "../utils/op";
 
-export enum EffectRemovability {
-  BUFF,
-  DEBUFF,
-  PERSISTENT,
-}
-
 export const useStatmodPrototype = (entity: EntityIndex) => {
   const {
     world,
@@ -31,7 +25,7 @@ export const useStatmodPrototype = (entity: EntityIndex) => {
 
   return {
     entity,
-    name,
+    name: name?.value,
 
     element: statmodPrototype.element as Element,
     op: statmodPrototype.op as Op,
