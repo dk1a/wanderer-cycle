@@ -26,9 +26,9 @@ export default function StatLevelProgress({ level, buffedLevel, exp }: StatLevel
       {exp !== null && (
         <div className={classes.stats__container}>
           <div className={classes.stats__number}>
-            <span className="number-item">{nextProgress}</span>
-            <span>/</span>
-            <span className="number-item">{nextReq}</span>
+            <span className="text-dark-200">{nextProgress}</span>
+            <span className="text-dark-200">/</span>
+            <span className="text-dark-200">{nextReq}</span>
           </div>
           <div className="flex h-1 bg-dark-400">
             <div className="bg-dark-300" style={{ width: `${relProgress}%` }}></div>

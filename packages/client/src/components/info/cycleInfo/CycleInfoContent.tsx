@@ -51,7 +51,7 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
           <span className={classes.turns__turns}>turns:</span>
           <span className={classes.turns__numbers}>{turns}</span>
         </div>
-        <div>
+        <div className="w-1/2 mr-0.5">
           <ClaimTurnsButton turns={turns} />
         </div>
       </div>

@@ -19,7 +19,7 @@
 }
 
 .info__stats{
-  @apply text-dark-key flex m-1
+  @apply text-dark-key flex m-2
 }
 
 .stats{
@@ -28,6 +28,9 @@
 
 .stats__number{
   @apply text-dark-number
+}
+.stats__number_slash{
+  @apply text-dark-200 m-0.5
 }
 
 .stats__regen{
@@ -41,11 +44,11 @@
   @apply w-4 text-center text-dark-number
 }
 .turns__container{
-  @apply flex m-1
+  @apply flex ml-2
 }
 
 .turns__name{
-  @apply w-1/2
+  @apply w-1/3 mr-5
 }
 .turns__turns{
   @apply text-dark-key
@@ -56,5 +59,5 @@
 }
 
 .turns__btn{
-  @apply flex w-full box-border w-48 justify-around
+  @apply flex w-full box-border w-48 m-1
 }

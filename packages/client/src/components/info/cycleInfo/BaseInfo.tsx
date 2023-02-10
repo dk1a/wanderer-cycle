@@ -1,6 +1,6 @@
 import { Fragment, ReactNode } from "react";
 import StatLevelProgress, { StatLevelProgressProps } from "../levelProgress/StatLevelProgress";
-import EffectList from "../../EffectList";
+// import EffectList from "../../EffectList";
 import classes from "./info.module.scss";
 
 export interface StatProps {
@@ -68,29 +68,27 @@ export default function BaseInfo({
             {name}:
             <div className={classes.stats}>
               <span className={classes.stats__number}>{value}</span>
-              <span className={classes.stats__number}>/</span>
+              <span className={classes.stats__number_slash}>/</span>
               <span className={classes.stats__number}>123{/* TODO statmod goes here */}</span>
             </div>
           </div>
           <div className={classes.stats__regen}>
             {/* TODO regen statmods. They are often absent and shouldn't be displayed */}
             <>
-              <span className={classes.stats__regen_name}>regen:</span>
-              <span className={classes.stats__regen_name}>5</span>
+              {/*<span className={classes.stats__regen_name}>regen:</span>*/}
+              {/*<span className={classes.stats__regen_name}>5</span>*/}
             </>
           </div>
         </Fragment>
       ))}
       {turnsHtml}
       {/* TODO elemental stats */}
-      {/*<div className="col-span-3">
-        <h5 className="text-dark-comment">
-          {'// elemental'}
-        </h5>
-        {attrs && <ElementalStats attrs={attrs} />}
-      </div>*/}
+      <div className="col-span-3">
+        <h5 className="text-dark-comment ml-1">{"// elemental"}</h5>
+        {/*{attrs && <ElementalStats attrs={attrs} />}*/}
+      </div>
       {separator}
-      <EffectList />
+      {/*<EffectList />*/}
     </section>
   );
 }
