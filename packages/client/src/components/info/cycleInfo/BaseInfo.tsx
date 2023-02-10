@@ -1,6 +1,6 @@
 import { Fragment, ReactNode } from "react";
-import StatLevelProgress, { StatLevelProgressProps } from "./levelProgress/StatLevelProgress";
-import EffectList from "../EffectList";
+import StatLevelProgress, { StatLevelProgressProps } from "../levelProgress/StatLevelProgress";
+import EffectList from "../../EffectList";
 import classes from "./info.module.scss";
 
 export interface StatProps {
@@ -38,47 +38,50 @@ export default function BaseInfo({
     },
   ];
 
-  const separator = <div className="col-span-3 mt-1 mb-1 border-b border-dark-400" />;
+  const separator = <div className={classes.separator} />;
 
   return (
-    <section className="flex flex-col w-52 bg-dark-500 border border-dark-400 h-screen">
-      <h4 className="relative col-span-3 text-center text-lg text-dark-type font-medium">{name}</h4>
-      {locationName !== null && <div className="col-span-3 text-center text-dark-string">{locationName}</div>}
-      <div className="text-dark-key p-2">
-        {levelProps.name}: <span className="text-dark-number">{levelProps.props.level}</span>
+    <section className={classes.info__container}>
+      <h4 className={classes.info__header}>{name}</h4>
+      {locationName !== null && <div className={classes.info__locationName}>{locationName}</div>}
+      <div className={classes.info__level}>
+        <span className="w-36">
+          {levelProps.name}: <span className="text-dark-number">{levelProps.props.level}</span>
+        </span>
+        <StatLevelProgress {...levelProps.props} />
       </div>
-      <StatLevelProgress {...levelProps.props} />
       {separator}
       {statProps.map(({ name, props }) => (
         <Fragment key={name}>
-          <div className="text-dark-key p-2">
-            {name}: <span className="text-dark-number">{levelProps.props.level}</span>
+          <div className={classes.info__level}>
+            <span className="w-36">
+              {name}: <span className="text-dark-number">{levelProps.props.level}</span>
+            </span>
+            <StatLevelProgress {...props} />
           </div>
-          <StatLevelProgress {...props} />
         </Fragment>
       ))}
       {separator}
       {currents.map(({ name, value }) => (
         <Fragment key={name}>
-          <div className="text-dark-key flex">
+          <div className={classes.info__stats}>
             {name}:
-            <div className="flex-default">
-              <span className="text-dark-number">{value}</span>
-              <span className="w-4 text-center text-dark-number">/</span>
-              <span className="text-dark-number">123{/* TODO statmod goes here */}</span>
+            <div className={classes.stats}>
+              <span className={classes.stats__number}>{value}</span>
+              <span className={classes.stats__number}>/</span>
+              <span className={classes.stats__number}>123{/* TODO statmod goes here */}</span>
             </div>
           </div>
-          <div className="flex">
+          <div className={classes.stats__regen}>
             {/* TODO regen statmods. They are often absent and shouldn't be displayed */}
             <>
-              <span className="text-dark-key">regen:</span>
-              <span className="w-4 text-center text-dark-number">5</span>
+              <span className={classes.stats__regen_name}>regen:</span>
+              <span className={classes.stats__regen_name}>5</span>
             </>
           </div>
         </Fragment>
       ))}
       {turnsHtml}
-      {separator}
       {/* TODO elemental stats */}
       {/*<div className="col-span-3">
         <h5 className="text-dark-comment">

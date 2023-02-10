@@ -4,10 +4,11 @@ import classes from "./customButton.module.scss";
 type Props = {
   children: ReactNode;
   onClick: any;
+  style: any;
 };
-const CustomButton = ({ children, onClick }: Props) => {
+const CustomButton = ({ children, onClick, style }: Props) => {
   return (
-    <button onClick={onClick} className={classes.customBtn}>
+    <button onClick={onClick} className={classes.customBtn} style={style}>
       {children}
     </button>
   );

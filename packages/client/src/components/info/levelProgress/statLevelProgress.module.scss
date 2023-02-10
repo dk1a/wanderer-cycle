@@ -1,7 +1,15 @@
+.stats__parent{
+  @apply col-span-2 flex items-center box-border w-full ml-1
+}
+
 .stats__container{
-  @apply col-span-2 flex items-center
+  @apply flex flex-col flex-grow pr-2 pl-2
 }
 
 .stats__level{
   @apply text-lg w-8 h-7
+}
+
+.stats__number{
+  @apply justify-center text-xs
 }

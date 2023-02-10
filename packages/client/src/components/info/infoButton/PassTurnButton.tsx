@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useWandererContext } from "../../../contexts/WandererContext";
+import CustomButton from "../../UI/button/CustomButton";
 
 export default function PassTurnButton() {
   const { selectedWandererEntity } = useWandererContext();
@@ -21,16 +22,12 @@ export default function PassTurnButton() {
 
   return (
     <>
-      {isAvailable &&
-        {
-          /* TODO replace with a working button+tooltip
-      <TippyComment content="passTurn also restores life, mana">
-        <MethodButton name="passTurn" className="col-span-3 text-start"
-          disabled={isBusy}
-          onClick={passTurn} />
-      </TippyComment>
-      */
-        }}
+      {isAvailable && (
+        // TODO replace with a working button+tooltip
+        <CustomButton onClick={passTurn} style={{ fontSize: "14px" }}>
+          {"passTurn"}
+        </CustomButton>
+      )}
     </>
   );
 }

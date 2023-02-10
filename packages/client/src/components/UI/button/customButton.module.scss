@@ -5,8 +5,8 @@
 //}
 
 .customBtn{
-  @apply text-dark-control disabled:text-dark-comment text-center bg-dark-500 transition-all hover:bg-dark-400 active:bg-dark-600
-  disabled:bg-dark-600 text-lg p-1 pr-8 pl-8 border border-dark-400 disabled:cursor-not-allowed
+  @apply text-dark-control box-border text-center bg-dark-500 transition-all hover:bg-dark-400 active:bg-dark-600
+  text-lg pr-2 pl-2 border border-dark-400 disabled:text-dark-comment disabled:cursor-not-allowed disabled:bg-dark-600
 }
 
 //.customBtn__wrapper{

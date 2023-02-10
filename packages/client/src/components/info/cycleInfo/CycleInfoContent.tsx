@@ -1,14 +1,15 @@
 import { useMemo } from "react";
 import BaseInfo from "./BaseInfo";
-import PassTurnButton from "./infoButton/PassTurnButton";
-import ClaimTurnsButton from "./infoButton/ClaimTurnsButton";
+import PassTurnButton from "../infoButton/PassTurnButton";
+import ClaimTurnsButton from "../infoButton/ClaimTurnsButton";
 import { EntityIndex } from "@latticexyz/recs";
-import { useActiveGuise } from "../../mud/hooks/useActiveGuise";
-import { useExperience } from "../../mud/hooks/useExperience";
-import { expToLevel, pstatNames } from "../../mud/utils/experience";
-import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
-import { useLifeCurrent } from "../../mud/hooks/useLifeCurrent";
-import { useManaCurrent } from "../../mud/hooks/useManaCurrent";
+import { useActiveGuise } from "../../../mud/hooks/useActiveGuise";
+import { useExperience } from "../../../mud/hooks/useExperience";
+import { expToLevel, pstatNames } from "../../../mud/utils/experience";
+import { useCycleTurns } from "../../../mud/hooks/useCycleTurns";
+import { useLifeCurrent } from "../../../mud/hooks/useLifeCurrent";
+import { useManaCurrent } from "../../../mud/hooks/useManaCurrent";
+import classes from "./info.module.scss";
 
 export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityIndex }) {
   const guise = useActiveGuise(cycleEntity);
@@ -16,7 +17,7 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
   const turns = useCycleTurns(cycleEntity);
   const lifeCurrent = useLifeCurrent(cycleEntity);
   const manaCurrent = useManaCurrent(cycleEntity);
-  console.log(guise, experience, turns, lifeCurrent, manaCurrent);
+  console.log(turns);
   const levelProps = useMemo(() => {
     // TODO add total exp data
     const exp = 10;
@@ -45,13 +46,18 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
 
   const turnsHtml = (
     <>
-      <div className="flex">
-        <div className="text-dark-key">turns:</div>
-        <div className="text-dark-number">{turns}</div>
+      <div className={classes.turns__container}>
+        <div className={classes.turns__name}>
+          <span className={classes.turns__turns}>turns:</span>
+          <span className={classes.turns__numbers}>{turns}</span>
+        </div>
+        <div>
+          <ClaimTurnsButton turns={turns} />
+        </div>
       </div>
-
-      {/*<PassTurnButton />*/}
-      {/*<ClaimTurnsButton />*/}
+      <div className={classes.turns__btn}>
+        <PassTurnButton />
+      </div>
     </>
   );
 

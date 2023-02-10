@@ -22,10 +22,10 @@ export default function StatLevelProgress({ level, buffedLevel, exp }: StatLevel
   }
 
   return (
-    <div className={classes.stats__container}>
+    <div className={classes.stats__parent}>
       {exp !== null && (
-        <div className="flex flex-col flex-grow pr-2 pl-2">
-          <div className="flex-default justify-center text-xs">
+        <div className={classes.stats__container}>
+          <div className={classes.stats__number}>
             <span className="number-item">{nextProgress}</span>
             <span>/</span>
             <span className="number-item">{nextReq}</span>
