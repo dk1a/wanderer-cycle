@@ -39,20 +39,20 @@ contract LearnCycleSkillSystem is System {
     // get cycle entity if sender is allowed to use it
     uint256 cycleEntity = LibCycle.getCycleEntityPermissioned(components, wandererEntity);
 
-    // check Skill's level requirements
+    // check skill's level requirements
     uint32 currentLevel = LibGuiseLevel.getAggregateLevel(components, cycleEntity);
     uint8 requiredLevel = skillProto.getValue(skillEntity).requiredLevel;
     if (currentLevel < requiredLevel) {
       revert LearnCycleSkillSystem__LevelIsTooLow();
     }
 
-    // Guise skills must include `skillEntity`
+    // guise skills must include `skillEntity`
     uint256 guiseProtoEntity = activeGuiseComp.getValue(cycleEntity);
     if (!guiseSkillsComp.hasItem(guiseProtoEntity, skillEntity)) {
       revert LearnCycleSkillSystem__SkillNotInGuiseSkills();
     }
 
-    // learn the Skill
+    // learn the skill
     LibLearnedSkills.__construct(components, cycleEntity).learnSkill(skillEntity);
 
     return "";

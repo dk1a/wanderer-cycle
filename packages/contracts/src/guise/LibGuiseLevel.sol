@@ -13,7 +13,7 @@ import { LibExperience, PS_L } from "../charstat/LibExperience.sol";
 library LibGuiseLevel {
   using LibExperience for LibExperience.Self;
 
-  /// @dev Get target's aggregate level using its Guise's level multipliers.
+  /// @dev Get target's aggregate level using its guise's level multipliers.
   /// (aggregate level means all primary stats aggregated together)
   function getAggregateLevel(IUint256Component components, uint256 targetEntity) internal view returns (uint32) {
     ActiveGuiseComponent activeGuiseComp = ActiveGuiseComponent(getAddressById(components, ActiveGuiseComponentID));

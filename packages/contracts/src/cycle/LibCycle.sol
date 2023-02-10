@@ -43,14 +43,14 @@ library LibCycle {
     if (activeCycleComp.has(targetEntity)) {
       revert LibCycle__CycleIsAlreadyActive();
     }
-    // Guise prototype must exist
+    // guise prototype must exist
     if (!guiseProtoComp.has(guiseProtoEntity)) {
       revert LibCycle__InvalidGuiseProtoEntity();
     }
 
     // set active cycle
     activeCycleComp.set(targetEntity, cycleEntity);
-    // set active Guise
+    // set active guise
     activeGuiseComp.set(cycleEntity, guiseProtoEntity);
     // init exp
     charstat.exp.initExp();

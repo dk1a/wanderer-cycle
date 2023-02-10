@@ -39,7 +39,7 @@ library LibBaseInitSkill {
     comps.descComp.set(entity, description);
     comps.nameComp.set(entity, name);
 
-    // Given statmods, a Skill will have an on-use effect prototype
+    // Given statmods, a skill will have an on-use effect prototype
     if (effectProto.statmodProtoEntities.length > 0) {
       LibEffectPrototype.verifiedSet(comps.components, entity, effectProto);
     }

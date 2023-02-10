@@ -39,7 +39,7 @@ contract LibSkillTest is BaseTest {
   uint256 userEntity = uint256(keccak256("userEntity"));
   uint256 otherEntity = uint256(keccak256("otherEntity"));
 
-  // sample Skill entities
+  // sample skill entities
   uint256 cleavePE = getSkillProtoEntity("Cleave");
   uint256 chargePE = getSkillProtoEntity("Charge");
   uint256 parryPE = getSkillProtoEntity("Parry");
@@ -88,7 +88,7 @@ contract LibSkillTest is BaseTest {
     revertHelper.useSkill(libSkill, otherEntity);
   }
 
-  // TODO mana stuff isn't very Skill-related?
+  // TODO mana stuff isn't very skill-related?
   function test_setManaCurrent_capped() public {
     charstat.setManaCurrent(100);
     assertEq(charstat.getMana(), 4);

@@ -17,7 +17,7 @@ library LibInitGuise {
   function init(IWorld world) internal {
     IUint256Component components = world.components();
 
-    // TODO maybe move Guise skills init to LibInitSkill and have it depend on Guise instead?
+    // TODO maybe move guise skills init to LibInitSkill and have it depend on guise instead?
     uint256[] memory guiseSkills = new uint256[](11);
     guiseSkills[0] = spe("Cleave");
     guiseSkills[1] = spe("Charge");

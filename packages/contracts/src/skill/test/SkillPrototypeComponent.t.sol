@@ -7,7 +7,7 @@ import { BaseTest } from "../../BaseTest.sol";
 import { SkillType, TargetType, getSkillProtoEntity } from "../SkillPrototypeComponent.sol";
 
 contract SkillPrototypeComponentTest is BaseTest {
-  // sample Skill entities
+  // sample skill entities
   uint256 chargePE = getSkillProtoEntity("Charge");
   uint256 parryPE = getSkillProtoEntity("Parry");
   uint256 cleavePE = getSkillProtoEntity("Cleave");

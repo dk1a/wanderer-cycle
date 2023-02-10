@@ -74,12 +74,12 @@ library LibCombatAction {
 
     libSkill.requireCombat();
 
-    // combat skills may target either self or enemy, depending on Skill prototype
+    // combat skills may target either self or enemy, depending on skill prototype
     uint256 targetEntity = libSkill.chooseCombatTarget(__self.defenderCharstat.targetEntity);
-    // use Skill
+    // use skill
     libSkill.useSkill(targetEntity);
 
-    // Skill may need a follow-up attack and/or spell
+    // skill may need a follow-up attack and/or spell
     if (libSkill.skill.withAttack) {
       _dealAttackDamage(__self);
     }
