@@ -1,18 +1,25 @@
-import { ReactNode } from "react";
+import React from "react";
+import { forwardRef, ReactNode } from "react";
 import classes from "./customButton.module.scss";
 
 type Props = {
   children: ReactNode;
-  onClick: any;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
   style: any;
-};
-// TODO use forwardRef (see MethodButton.tsx and ModifierName.tsx)
-const CustomButton = ({ children, onClick, style }: Props) => {
-  return (
-    <button onClick={onClick} className={classes.customBtn} style={style}>
-      {children}
-    </button>
-  );
+  disabled: boolean;
 };
 
+// TODO use forwardRef (see MethodButton.tsx and ModifierName.tsx)
+const CustomButton = React.forwardRef<HTMLButtonElement, Props>(({ children, disabled, onClick, style }, ref) => (
+  <button
+    ref={ref}
+    disabled={disabled}
+    className={disabled ? classes.customBtn__disabled : classes.customBtn}
+    onClick={onClick}
+    style={style}
+  >
+    {children}
+  </button>
+));
+CustomButton.displayName = "CustomButton";
 export default CustomButton;

@@ -9,6 +9,12 @@
   text-lg pr-2 pl-2 border border-dark-400 disabled:text-dark-comment disabled:cursor-not-allowed disabled:bg-dark-600
 }
 
+.customBtn__disabled{
+  @apply disabled:text-dark-300 disabled:cursor-not-allowed
+  box-border text-center bg-dark-600 transition-all
+  text-lg pr-2 pl-2 border border-dark-400
+}
+
 //.customBtn__wrapper{
 //  @apply absolute inset-y-0 left-0 w-[2px] bg-blue-800 transition-all group-hover:w-full group-active:bg-blue-600
 //}

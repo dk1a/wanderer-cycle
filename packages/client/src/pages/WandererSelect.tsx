@@ -28,7 +28,7 @@ export default function WandererSelect() {
           </div>
         </section>
       )}
-      <WandererSpawn />
+      <WandererSpawn disabled={wandererEntities.length >= 3 ? true : false} />
     </div>
   );
 }
