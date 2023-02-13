@@ -5,7 +5,7 @@ import CycleInfo from "./components/info/CycleInfo";
 
 export const Home = () => {
   // const {components: { /*ActiveGuise, GuisePrototype, LoadingState*/ }, playerEntity,} = useMUD();
-  const context = useWandererContext();
-  const selectedWandererEntity = context.selectedWandererEntity;
+  const { selectedWandererEntity } = useWandererContext();
+
   return <div>{selectedWandererEntity === undefined ? <WandererSelect /> : <CycleInfo />}</div>;
 };
