@@ -6,6 +6,7 @@ import About from "./pages/About";
 import Layout from "./Layout";
 import classes from "./App.module.scss";
 import WandererSelect from "./pages/WandererSelect";
+import GlobalMap from "./pages/GlobalMap";
 
 const AppContent = () => {
   return (
@@ -15,6 +16,7 @@ const AppContent = () => {
           <Route path="/home" element={<Home />} />
           <Route path="inventory" element={<Inventory />} />
           <Route path="wanderer-select" element={<WandererSelect />} />
+          <Route path="globalMap" element={<GlobalMap />} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>
