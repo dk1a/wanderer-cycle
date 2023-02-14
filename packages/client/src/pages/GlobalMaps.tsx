@@ -3,7 +3,7 @@ import { useWandererContext } from "../contexts/WandererContext";
 import { useActiveGuise } from "../mud/hooks/useActiveGuise";
 import { useEffectPrototype } from "../mud/hooks/useEffectPrototype";
 
-const GlobalMap = () => {
+const GlobalMaps = () => {
   const { cycleEntity } = useWandererContext();
   const guise = useActiveGuise(cycleEntity);
   const skill = guise.skillEntities[0];
@@ -26,10 +26,10 @@ const GlobalMap = () => {
   return (
     <div className="flex justify-around flex-wrap">
       {mapList.map((item) => (
-        <Map name={item.name} level={item.lvl} effects={item.effects} key={item} />
+        <Map key={item.lvl} name={item.name} level={item.lvl} effects={item.effects} />
       ))}
     </div>
   );
 };
 
-export default GlobalMap;
+export default GlobalMaps;
