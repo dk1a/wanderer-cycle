@@ -26,6 +26,12 @@ const Layout = () => {
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
+            to="/global-maps"
+          >
+            Global Maps
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
             to="/about"
           >
             About Us
