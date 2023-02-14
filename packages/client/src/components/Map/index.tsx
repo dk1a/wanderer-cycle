@@ -1,31 +1,52 @@
-import { AppliedEffect } from "../../mud/hooks/useEffectPrototype";
 import classes from "./map.module.scss";
 import Effect from "../Effect";
 import CustomButton from "../UI/CustomButton/CustomButton";
+import { EntityIndex } from "@latticexyz/recs";
+import { useLoot } from "../../mud/hooks/useLoot";
+import { useWandererContext } from "../../contexts/WandererContext";
+import { useCallback } from "react";
 
 interface MapProps {
-  name: string;
-  level: number;
-  effects: AppliedEffect[] | undefined;
+  entity: EntityIndex;
 }
-const Map = ({ name, level, effects }: MapProps) => {
+
+const Map = ({ entity }: MapProps) => {
+  const { selectedWandererEntity } = useWandererContext();
+  const loot = useLoot(entity);
+  // TODO compute name from affixes
+  const name = "map";
+
+  const onMapEnter = useCallback(() => {
+    console.log(`TODO: enter combat using map entity ${entity} and wanderer ${selectedWandererEntity}`);
+  }, [entity, selectedWandererEntity]);
+
+  if (!loot) {
+    return <div>TODO placeholder (this can happen while the hook is loading)</div>;
+  }
+  const effect = loot.effect;
+
   return (
     <div className={classes.map__container}>
       <h3 className={classes.map__header}>{name}</h3>
       <hr className={classes.map__hr} />
       <div className={classes.map__description}>
         {"//level: "}
-        <span className={classes.map__stats}>{level}</span>
+        <span className={classes.map__stats}>{loot?.ilvl}</span>
       </div>
       <hr className={classes.map__hr} />
       <div className={classes.map__description}>
-        <span>{"//effects"}</span>
-        {effects?.map((effect) => (
-          <Effect key={effect.entity} {...effect} />
-        ))}
+        <span>{"//effect"}</span>
+        <Effect
+          entity={effect.entity}
+          protoEntity={entity}
+          removability={effect.removability}
+          statmods={effect.statmods}
+          isItem={true}
+          isSkill={false}
+        />
       </div>
       <hr className={classes.map__hr} />
-      <CustomButton>{"Enter"}</CustomButton>
+      <CustomButton onClick={onMapEnter}>{"Enter"}</CustomButton>
     </div>
   );
 };
