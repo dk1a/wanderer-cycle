@@ -39,7 +39,7 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "@dk1a/solecslib": "^0.4.0",
+    "@dk1a/solecslib": "^0.4.2",
     "@dk1a/solidity-stringutils": "^0.3.3",
     "@latticexyz/solecs": "https://gitpkg.now.sh/dk1a/mud/packages/solecs?b102cd16ac81233df9c90e86797f551dae7ab2eb",
     "@latticexyz/std-contracts": "^1.34.0"
