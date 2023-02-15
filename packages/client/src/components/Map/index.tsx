@@ -50,7 +50,8 @@ const Map = ({ entity }: MapProps) => {
         />
       </div>
       <hr className={classes.map__hr} />
-      <CustomButton onClick={onMapEnter}>{"Enter"}</CustomButton>
+      {/*TODO use navigate,because onMapEnter outputs error*/}
+      <CustomButton onClick={() => navigate(`combat/${entity}`)}>{"Enter"}</CustomButton>
     </div>
   );
 };

@@ -3,7 +3,8 @@ import classes from "./customButton.module.scss";
 
 type ButtonProps = JSX.IntrinsicElements["button"];
 
-const CustomButton = React.forwardRef<HTMLButtonElement, ButtonProps>(({ children, disabled, onClick, style }, ref) => (
+// TODO use forwardRef (see MethodButton.tsx and ModifierName.tsx)
+const CustomButton = React.forwardRef<HTMLButtonElement, any>(({ children, disabled, onClick, style }, ref) => (
   <button
     ref={ref}
     disabled={disabled}
