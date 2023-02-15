@@ -3,50 +3,42 @@ import CombatResultView from "../components/Combat/CombatResultView";
 import { useParams } from "react-router-dom";
 import Combat from "../components/Combat";
 import { useMemo } from "react";
-import { expToLevel, pstatNames } from "../mud/utils/experience";
+import { pstatNames } from "../mud/utils/experience";
 import { useWandererContext } from "../contexts/WandererContext";
-import { useActiveGuise } from "../mud/hooks/useActiveGuise";
-import { useExperience } from "../mud/hooks/useExperience";
-import { useCycleTurns } from "../mud/hooks/useCycleTurns";
 import { useLifeCurrent } from "../mud/hooks/useLifeCurrent";
 import { useManaCurrent } from "../mud/hooks/useManaCurrent";
 
 const CombatPage = () => {
-  const { cycleEntity } = useWandererContext();
-  const guise = useActiveGuise(cycleEntity);
-  const experience = useExperience(cycleEntity);
-  const turns = useCycleTurns(cycleEntity);
-  const lifeCurrent = useLifeCurrent(cycleEntity);
-  const manaCurrent = useManaCurrent(cycleEntity);
+  const { enemyEntity } = useWandererContext();
+  // TODO make this page only unreachable if retaliatorEntity !== undefined. This error should never trigger
+  if (enemyEntity === undefined) {
+    throw new Error("No active combat");
+  }
 
-  const withLocation = true;
+  const lifeCurrent = useLifeCurrent(enemyEntity);
+  const manaCurrent = useManaCurrent(enemyEntity);
+
   const withResult = false;
   const { id } = useParams();
   console.log(id);
 
   const statProps = useMemo(() => {
     return pstatNames.map((name) => {
-      let exp, level, buffedLevel;
-      if (experience) {
-        (exp = experience[name]), (level = expToLevel(exp));
-        // TODO add statmods data
-        buffedLevel = level;
-      }
+      // TODO add pstat charstats
       return {
         name,
-        props: { exp, level, buffedLevel },
+        props: { exp: null, level: 1, buffedLevel: 1 },
       };
     });
-  }, [experience]);
+  }, []);
 
   const levelProps = useMemo(() => {
-    // TODO add total exp data
-    const exp = 10;
+    // TODO add level charstat
     const level = 1;
 
     return {
       name: "level",
-      props: { exp, level },
+      props: { exp: null, level },
     };
   }, []);
 
@@ -60,7 +52,7 @@ const CombatPage = () => {
             />
           </div>
         </div>
-      ) : withLocation ? (
+      ) : (
         <div className="flex">
           Map : {id}
           <div className="w-full flex-grow">
@@ -77,8 +69,6 @@ const CombatPage = () => {
             />
           </div>
         </div>
-      ) : (
-        <div>{/*<Locations />*/}</div>
       )}
     </div>
   );

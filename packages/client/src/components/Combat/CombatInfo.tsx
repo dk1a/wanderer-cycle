@@ -1,4 +1,3 @@
-import { useMaps } from "../../mud/hooks/useMaps";
 import { Fragment, ReactNode } from "react";
 import { StatLevelProgressProps } from "../info/StatLevelProgress";
 import classes from "./combatInfo.module.css";
@@ -17,6 +16,8 @@ export interface BaseInfoProps {
   manaCurrent: number | undefined;
   turnsHtml?: ReactNode;
 }
+
+// TODO this should return BaseInfo with different props, not duplicate it (add more props to BaseInfo if needed)
 export default function CombatInfo({
   name,
   locationName,
@@ -25,8 +26,6 @@ export default function CombatInfo({
   lifeCurrent,
   manaCurrent,
 }: BaseInfoProps) {
-  const mapEntityes = useMaps("Global Basic");
-
   const currents = [
     {
       name: "life",

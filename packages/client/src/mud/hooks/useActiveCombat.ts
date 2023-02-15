@@ -3,7 +3,7 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
 
-export const useActiveCombat = (entity: EntityIndex) => {
+export const useActiveCombat = (entity: EntityIndex | undefined) => {
   const mud = useMUD();
   const {
     world,
