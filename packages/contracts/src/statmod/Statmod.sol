@@ -47,8 +47,8 @@ library Statmod {
       });
   }
 
-  function _scope(Self memory __self, uint256 topicEntity) private pure returns (bytes memory) {
-    return abi.encode(__self.targetEntity, topicEntity);
+  function _scope(Self memory __self, uint256 topicEntity) private pure returns (string memory) {
+    return string(abi.encode(__self.targetEntity, topicEntity));
   }
 
   // ========== WRITE ==========

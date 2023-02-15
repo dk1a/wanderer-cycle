@@ -3,7 +3,6 @@ import { defineBoolComponent, defineNumberComponent, defineStringComponent } fro
 import { defineEffectComponent } from "./components/EffectComponent";
 import { defineEntityArrayComponent } from "./components/EntityArrayComponent";
 import { defineEntityComponent } from "./components/EntityComponent";
-import { defineScopeComponent } from "./components/ScopeComponent";
 import { world } from "./world";
 
 export const components = {
@@ -45,7 +44,7 @@ export const components = {
       metadata: { contractId: "component.DurationOnEnd" },
     }
   ),
-  DurationScope: defineScopeComponent(world, {
+  DurationScope: defineStringComponent(world, {
     metadata: {
       contractId: "component.DurationScope",
     },
@@ -91,12 +90,12 @@ export const components = {
       metadata: { contractId: "component.StatmodPrototype" },
     }
   ),
-  StatmodScope: defineScopeComponent(world, {
+  StatmodScope: defineStringComponent(world, {
     metadata: {
       contractId: "component.StatmodScope",
     },
   }),
-  StatmodValue: defineStringComponent(world, {
+  StatmodValue: defineNumberComponent(world, {
     metadata: {
       contractId: "component.StatmodValue",
     },
