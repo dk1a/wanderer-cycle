@@ -15,6 +15,11 @@ import { LibExperience } from "../charstat/LibExperience.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
 import { LibToken } from "../token/LibToken.sol";
 
+// TODO imports for testing stuff, remove later
+import { EffectSubSystem, ID as EffectSubSystemID } from "../effect/EffectSubSystem.sol";
+import { getSkillProtoEntity } from "../skill/SkillPrototypeComponent.sol";
+import { RandomEquipmentSubSystem, ID as RandomEquipmentSubSystemID } from "../loot/RandomEquipmentSubSystem.sol";
+
 library LibCycle {
   using LibCharstat for LibCharstat.Self;
   using LibExperience for LibExperience.Self;
@@ -62,6 +67,20 @@ library LibCycle {
     // TODO copy astral skills
     // TODO wheel
     // TODO wallet
+
+    // TODO effect and loot for testing, remove later
+    {
+      EffectSubSystem effectSubSystem = EffectSubSystem(getAddressById(world.systems(), EffectSubSystemID));
+      effectSubSystem.executeApply(cycleEntity, getSkillProtoEntity("Cleave"));
+
+      RandomEquipmentSubSystem randomEquipmentSubSystem = RandomEquipmentSubSystem(
+        getAddressById(world.systems(), RandomEquipmentSubSystemID)
+      );
+      randomEquipmentSubSystem.executeTyped(1, 123);
+      randomEquipmentSubSystem.executeTyped(2, 456);
+      randomEquipmentSubSystem.executeTyped(10, 789);
+      randomEquipmentSubSystem.executeTyped(12, 101112);
+    }
 
     return cycleEntity;
   }
