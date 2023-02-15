@@ -1,4 +1,5 @@
 import { EntityID, EntityIndex, getComponentValueStrict, HasValue } from "@latticexyz/recs";
+import { BigNumber } from "ethers";
 import { defaultAbiCoder, keccak256, toUtf8Bytes } from "ethers/lib/utils";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
@@ -10,9 +11,7 @@ export const useTopicStatmods = (targetEntity: EntityIndex | undefined, topic: s
     components: { StatmodScope, StatmodValue, FromPrototype },
   } = useMUD();
 
-  const topicEntityId = useMemo(() => {
-    return keccak256(toUtf8Bytes(topic)) as EntityID;
-  }, [topic]);
+  const topicEntityId = useMemo(() => keccak256(toUtf8Bytes(topic)) as EntityID, [topic]);
 
   const scope = useMemo(() => {
     if (!targetEntity) return;
@@ -25,6 +24,7 @@ export const useTopicStatmods = (targetEntity: EntityIndex | undefined, topic: s
 
   return useMemo(() => {
     return appliedEntities.map((appliedEntity) => {
+      const statmodValue = getComponentValueStrict(StatmodValue, appliedEntity);
       const fromPrototype = getComponentValueStrict(FromPrototype, appliedEntity);
       const protoEntity = world.entityToIndex.get(fromPrototype.value);
       if (!protoEntity) {
@@ -32,9 +32,10 @@ export const useTopicStatmods = (targetEntity: EntityIndex | undefined, topic: s
       }
 
       return {
+        appliedEntity,
         protoEntity,
-        value: getComponentValueStrict(StatmodValue, appliedEntity).value,
+        value: BigNumber.from(statmodValue.value).toNumber(),
       };
     });
-  }, [world, FromPrototype, StatmodValue, appliedEntities]);
+  }, [world, StatmodValue, FromPrototype, appliedEntities]);
 };

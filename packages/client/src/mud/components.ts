@@ -95,7 +95,7 @@ export const components = {
       contractId: "component.StatmodScope",
     },
   }),
-  StatmodValue: defineNumberComponent(world, {
+  StatmodValue: defineStringComponent(world, {
     metadata: {
       contractId: "component.StatmodValue",
     },
