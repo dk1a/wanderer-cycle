@@ -2,9 +2,9 @@ import { useCallback, useMemo } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useExecuteCycleCombatRound } from "../../mud/hooks/useExecuteCycleCombatRound";
 import { attackAction, MAX_ROUNDS } from "../../mud/utils/combat";
-import EncounterActions from "./CombatActions";
+import CombatActions from "./CombatActions";
 
-export default function Encounter() {
+export default function Combat() {
   const { selectedWandererEntity } = useWandererContext();
   const executeCycleCombatRound = useExecuteCycleCombatRound();
 
@@ -21,16 +21,15 @@ export default function Encounter() {
 
   // ========== RENDER ==========
   return (
-    <section className="p-2">
-      <div className="flex-default justify-center">
-        <span className="text-dark-key">rounds: </span>
-        <span className="number-item">{1 /* TODO track rounds */}</span>
-        <span>/</span>
-        <span className="number-item">{MAX_ROUNDS}</span>
+    <section className="p-2 flex flex-col justify-center items-center">
+      <div className="flex justify-center">
+        <span className="text-dark-key text-xl">rounds: </span>
+        <span className="m-0.5 ml-1 text-dark-number">{1 /* TODO track rounds */}</span>
+        <span className="m-0.5">/</span>
+        <span className="m-0.5 text-dark-number">{MAX_ROUNDS}</span>
       </div>
       {withResult && <div className="text-center text-dark-string">{encounterResultName}</div>}
-
-      <EncounterActions allowActions={!withResult} disabled={false} onAttack={onAttack} />
+      <CombatActions allowActions={!withResult} disabled={false} onAttack={onAttack} />
     </section>
   );
 }

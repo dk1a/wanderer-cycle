@@ -1,30 +1,12 @@
-import { useCallback } from "react";
-import { EncounterResult, encounterResultNames } from "../../constants";
-import { useCallStaticEncounterContext } from "../../contexts/CallStaticEncounterContext";
+import CustomButton from "../UI/CustomButton/CustomButton";
 
-export default function EncounterResultView({ encounterResult }: { encounterResult: EncounterResult }) {
-  const { setLocationId, setEncounterResult } = useCallStaticEncounterContext();
-
-  const onRepeat = useCallback(() => {
-    setEncounterResult(EncounterResult.NONE);
-  }, [setEncounterResult]);
-
-  const onClose = useCallback(() => {
-    setLocationId(undefined);
-    setEncounterResult(EncounterResult.NONE);
-  }, [setLocationId, setEncounterResult]);
-
+export default function CombatResultView() {
   return (
-    <section className="p-2">
-      <div className="text-center text-dark-string">{encounterResultNames[encounterResult]}</div>
-
-      <div className="flex-default justify-center mt-1">
-        <button type="button" className="btn-control w-28" onClick={onRepeat}>
-          repeat
-        </button>
-        <button type="button" className="btn-control w-28" onClick={onClose}>
-          close
-        </button>
+    <section className="p-2 flex justify-around flex-col w-64 h-36 border border-dark-400 mt-10 ">
+      <h3 className="text-center text-dark-string">Result</h3>
+      <div className="flex justify-center w-full">
+        <CustomButton>{"repeat"}</CustomButton>
+        <CustomButton>{"close"}</CustomButton>
       </div>
     </section>
   );

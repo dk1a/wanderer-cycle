@@ -6,6 +6,8 @@ import { useLoot } from "../../mud/hooks/useLoot";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useActiveCombat } from "../../mud/hooks/useActiveCombat";
+import { useActivateCycleCombat } from "../../mud/hooks/useActivateCycleCombat";
 
 interface MapProps {
   entity: EntityIndex;
@@ -16,8 +18,14 @@ const Map = ({ entity }: MapProps) => {
   const loot = useLoot(entity);
   const navigate = useNavigate();
   const name = loot.affixes[0].value;
+  const activeCombat = useActiveCombat(entity);
+  const activeCombatCycle = useActivateCycleCombat();
+
   const onMapEnter = useCallback(() => {
-    console.log(`TODO: enter combat using map entity ${entity} and wanderer ${selectedWandererEntity}`);
+    if (!selectedWandererEntity) {
+      throw new Error("Error");
+    }
+    activeCombatCycle(entity, selectedWandererEntity);
   }, [entity, selectedWandererEntity]);
 
   if (!loot) {
@@ -46,9 +54,12 @@ const Map = ({ entity }: MapProps) => {
         />
       </div>
       <hr className={classes.map__hr} />
-      <CustomButton onClick={() => navigate(`combat/${entity}`)}>{"Enter"}</CustomButton>
+      {/*TODO use navigate,because onMapEnter outputs error*/}
+      <CustomButton onClick={navigate(`combat/${entity}`)}>{"Enter"}</CustomButton>
     </div>
   );
 };
 
 export default Map;
+
+// () => navigate(`combat/${entity}`)
