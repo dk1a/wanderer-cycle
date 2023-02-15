@@ -5,8 +5,6 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useLoot } from "../../mud/hooks/useLoot";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { useActiveCombat } from "../../mud/hooks/useActiveCombat";
 import { useActivateCycleCombat } from "../../mud/hooks/useActivateCycleCombat";
 
 interface MapProps {
@@ -15,18 +13,16 @@ interface MapProps {
 
 const Map = ({ entity }: MapProps) => {
   const { selectedWandererEntity } = useWandererContext();
+  const activateCycleCombat = useActivateCycleCombat();
   const loot = useLoot(entity);
-  const navigate = useNavigate();
-  const name = loot.affixes[0].value;
-  const activeCombat = useActiveCombat(entity);
-  const activeCombatCycle = useActivateCycleCombat();
+  const name = "map";
 
   const onMapEnter = useCallback(() => {
     if (!selectedWandererEntity) {
-      throw new Error("Error");
+      throw new Error("No selected wanderer entity");
     }
-    activeCombatCycle(entity, selectedWandererEntity);
-  }, [entity, selectedWandererEntity]);
+    activateCycleCombat(selectedWandererEntity, entity);
+  }, [entity, selectedWandererEntity, activateCycleCombat]);
 
   if (!loot) {
     return <div>TODO placeholder (this can happen while the hook is loading)</div>;
@@ -54,12 +50,9 @@ const Map = ({ entity }: MapProps) => {
         />
       </div>
       <hr className={classes.map__hr} />
-      {/*TODO use navigate,because onMapEnter outputs error*/}
-      <CustomButton onClick={() => navigate(`combat/${entity}`)}>{"Enter"}</CustomButton>
+      <CustomButton onClick={onMapEnter}>{"Enter"}</CustomButton>
     </div>
   );
 };
 
 export default Map;
-
-// () => navigate(`combat/${entity}`)
