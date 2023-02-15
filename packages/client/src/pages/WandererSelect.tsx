@@ -2,18 +2,10 @@ import { useWandererEntities } from "../mud/hooks/useWandererEntities";
 import WandererSpawn from "../components/WandererSpawn";
 import classes from "../components/Wanderer/wanderer.module.scss";
 import Wanderer from "../components/Wanderer";
-import { useState } from "react";
-import { useWandererContext } from "../contexts/WandererContext";
 
 export default function WandererSelect() {
   const wandererEntities = useWandererEntities();
-  const [activeWanderer, setActiveWanderer] = useState(false);
-  const context = useWandererContext();
-  console.log(context);
 
-  const activeWandererHandler = () => {
-    setActiveWanderer(!activeWanderer);
-  };
   return (
     <div>
       {wandererEntities.length > 0 && (

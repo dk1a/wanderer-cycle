@@ -3,7 +3,7 @@ import { useWandererSpawn } from "../../mud/hooks/useWandererSpawn";
 import Guise from "../Guise/Guise";
 import classes from "./wandererSpawn.module.scss";
 
-export default function WandererSpawn({ disabled }: boolean) {
+export default function WandererSpawn({ disabled }: { disabled: boolean }) {
   const guiseEntities = useGuiseEntities();
   const wandererSpawn = useWandererSpawn();
 
