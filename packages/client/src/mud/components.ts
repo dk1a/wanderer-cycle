@@ -267,7 +267,7 @@ export const components = {
 
   ActiveCombat: defineEntityComponent(world, {
     metadata: {
-      contractId: "component.CycleCombatRewardRequest",
+      contractId: "component.ActiveCombat",
     },
   }),
 

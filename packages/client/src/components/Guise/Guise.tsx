@@ -11,15 +11,14 @@ import classes from "./Guise.module.scss";
 interface GuiseProps {
   entity: EntityIndex;
   onSelectGuise?: (guiseEntity: EntityIndex) => void;
+  disabled: boolean;
 }
 
-export default function Guise({ entity, onSelectGuise }: GuiseProps) {
+export default function Guise({ entity, onSelectGuise, disabled }: GuiseProps) {
   const guise = useGuise(entity);
-
   let content;
   if (guise) {
     const statNames = Object.keys(guise.gainMul) as (keyof typeof guise.gainMul)[];
-
     content = (
       <>
         <header className={classes.guise__header}>{guise.name}</header>
@@ -53,7 +52,9 @@ export default function Guise({ entity, onSelectGuise }: GuiseProps) {
 
         {onSelectGuise !== undefined && (
           <div className={classes.guiseBtn}>
-            <CustomButton onClick={() => onSelectGuise(entity)}>Spawn</CustomButton>
+            <CustomButton onClick={() => onSelectGuise(entity)} disabled={disabled}>
+              Spawn
+            </CustomButton>
           </div>
         )}
       </>

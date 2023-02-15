@@ -5,6 +5,7 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useLoot } from "../../mud/hooks/useLoot";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
+import { useActivateCycleCombat } from "../../mud/hooks/useActivateCycleCombat";
 
 interface MapProps {
   entity: EntityIndex;
@@ -12,13 +13,16 @@ interface MapProps {
 
 const Map = ({ entity }: MapProps) => {
   const { selectedWandererEntity } = useWandererContext();
+  const activateCycleCombat = useActivateCycleCombat();
   const loot = useLoot(entity);
-  // TODO compute name from affixes
   const name = "map";
 
   const onMapEnter = useCallback(() => {
-    console.log(`TODO: enter combat using map entity ${entity} and wanderer ${selectedWandererEntity}`);
-  }, [entity, selectedWandererEntity]);
+    if (!selectedWandererEntity) {
+      throw new Error("No selected wanderer entity");
+    }
+    activateCycleCombat(selectedWandererEntity, entity);
+  }, [entity, selectedWandererEntity, activateCycleCombat]);
 
   if (!loot) {
     return <div>TODO placeholder (this can happen while the hook is loading)</div>;

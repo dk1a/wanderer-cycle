@@ -1,12 +1,14 @@
 import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex } from "@latticexyz/recs";
 import { createContext, ReactNode, useContext, useMemo, useState } from "react";
+import { useActiveCombat } from "../mud/hooks/useActiveCombat";
 import { useMUD } from "../mud/MUDContext";
 
 type WandererContextType = {
   selectedWandererEntity?: EntityIndex;
   selectWandererEntity: (wanderer: EntityIndex | undefined) => void;
   cycleEntity?: EntityIndex;
+  enemyEntity?: EntityIndex;
 };
 
 const WandererContext = createContext<WandererContextType | undefined>(undefined);
@@ -26,10 +28,13 @@ export const WandererProvider = (props: { children: ReactNode }) => {
     return activeCycle?.value ? world.entityToIndex.get(activeCycle.value) : undefined;
   }, [activeCycle, world]);
 
+  const enemyEntity = useActiveCombat(cycleEntity);
+
   const value = {
     selectedWandererEntity,
     selectWandererEntity,
     cycleEntity,
+    enemyEntity,
   };
   return <WandererContext.Provider value={value}>{props.children}</WandererContext.Provider>;
 };

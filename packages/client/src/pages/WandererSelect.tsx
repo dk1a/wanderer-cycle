@@ -5,7 +5,7 @@ import Wanderer from "../components/Wanderer";
 
 export default function WandererSelect() {
   const wandererEntities = useWandererEntities();
-  console.log(wandererEntities);
+
   return (
     <div>
       {wandererEntities.length > 0 && (
@@ -20,7 +20,7 @@ export default function WandererSelect() {
           </div>
         </section>
       )}
-      <WandererSpawn />
+      <WandererSpawn disabled={wandererEntities.length >= 3 ? true : false} />
     </div>
   );
 }

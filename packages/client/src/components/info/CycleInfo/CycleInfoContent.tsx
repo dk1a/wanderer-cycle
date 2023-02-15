@@ -17,7 +17,7 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
   const turns = useCycleTurns(cycleEntity);
   const lifeCurrent = useLifeCurrent(cycleEntity);
   const manaCurrent = useManaCurrent(cycleEntity);
-  console.log(turns);
+
   const levelProps = useMemo(() => {
     // TODO add total exp data
     const exp = 10;
@@ -44,6 +44,11 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
     });
   }, [experience]);
 
+  const isClaimTurnsAvailable = useMemo(() => {
+    // TODO use proper availability
+    return true;
+  }, []);
+
   const turnsHtml = (
     <>
       <div className={classes.turns__container}>
@@ -51,9 +56,11 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
           <span className={classes.turns__turns}>turns:</span>
           <span className={classes.turns__numbers}>{turns}</span>
         </div>
-        <div className="w-1/2 mr-0.5">
-          <ClaimTurnsButton turns={turns} />
-        </div>
+        {isClaimTurnsAvailable && (
+          <div className="w-1/2 mr-0.5">
+            <ClaimTurnsButton />
+          </div>
+        )}
       </div>
       <div className={classes.turns__btn}>
         <PassTurnButton />

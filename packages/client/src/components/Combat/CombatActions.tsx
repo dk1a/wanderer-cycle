@@ -1,18 +1,20 @@
+import CustomButton from "../UI/CustomButton/CustomButton";
+
 interface EncounterActionsProp {
   allowActions: boolean;
   disabled: boolean;
   onAttack: () => void;
 }
 
-export default function EncounterActions({ allowActions, disabled, onAttack }: EncounterActionsProp) {
+export default function CombatActions({ allowActions, disabled, onAttack }: EncounterActionsProp) {
   return (
     <>
       {allowActions && (
         <>
           <div className="flex-default justify-center mt-8">
-            <button type="button" className="btn-method w-28" disabled={disabled} onClick={onAttack}>
+            <CustomButton disabled={disabled} onClick={onAttack}>
               attack
-            </button>
+            </CustomButton>
           </div>
         </>
       )}
