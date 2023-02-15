@@ -10,7 +10,7 @@ type Props = {
 };
 
 // TODO use forwardRef (see MethodButton.tsx and ModifierName.tsx)
-const CustomButton = React.forwardRef<HTMLButtonElement, Props>(({ children, disabled, onClick, style }, ref) => (
+const CustomButton = React.forwardRef<HTMLButtonElement, any>(({ children, disabled, onClick, style }, ref) => (
   <button
     ref={ref}
     disabled={disabled}

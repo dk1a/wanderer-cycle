@@ -20,7 +20,7 @@ const CombatPage = () => {
   const manaCurrent = useManaCurrent(cycleEntity);
 
   const withLocation = true;
-  const withResult = true;
+  const withResult = false;
   const { id } = useParams();
   console.log(id);
 
@@ -62,6 +62,7 @@ const CombatPage = () => {
         </div>
       ) : withLocation ? (
         <div className="flex">
+          Map : {id}
           <div className="w-full flex-grow">
             <Combat />
           </div>
