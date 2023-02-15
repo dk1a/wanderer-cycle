@@ -7,6 +7,7 @@ import Layout from "./Layout";
 import classes from "./App.module.scss";
 import WandererSelect from "./pages/WandererSelect";
 import GlobalMaps from "./pages/GlobalMaps";
+import Combat from "./pages/Combat";
 
 const AppContent = () => {
   return (
@@ -17,6 +18,7 @@ const AppContent = () => {
           <Route path="inventory" element={<Inventory />} />
           <Route path="wanderer-select" element={<WandererSelect />} />
           <Route path="global-maps" element={<GlobalMaps />} />
+          <Route path="global-maps/combat:id" element={<Combat />} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>

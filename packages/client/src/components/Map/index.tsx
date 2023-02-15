@@ -5,6 +5,7 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useLoot } from "../../mud/hooks/useLoot";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface MapProps {
   entity: EntityIndex;
@@ -13,8 +14,9 @@ interface MapProps {
 const Map = ({ entity }: MapProps) => {
   const { selectedWandererEntity } = useWandererContext();
   const loot = useLoot(entity);
+  const navigate = useNavigate();
+  console.log("navigate", navigate);
   // TODO compute name from affixes
-  const name = "map";
 
   const onMapEnter = useCallback(() => {
     console.log(`TODO: enter combat using map entity ${entity} and wanderer ${selectedWandererEntity}`);
@@ -27,7 +29,7 @@ const Map = ({ entity }: MapProps) => {
 
   return (
     <div className={classes.map__container}>
-      <h3 className={classes.map__header}>{name}</h3>
+      <h3 className={classes.map__header}>{loot.affixes[0].value}</h3>
       <hr className={classes.map__hr} />
       <div className={classes.map__description}>
         {"//level: "}
@@ -46,7 +48,7 @@ const Map = ({ entity }: MapProps) => {
         />
       </div>
       <hr className={classes.map__hr} />
-      <CustomButton onClick={onMapEnter}>{"Enter"}</CustomButton>
+      <CustomButton onClick={() => navigate(`${entity}`)}>{"Enter"}</CustomButton>
     </div>
   );
 };
