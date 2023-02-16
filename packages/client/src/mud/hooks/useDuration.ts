@@ -1,8 +1,9 @@
 import { useComponentValue } from "@latticexyz/react";
 import { EntityID, EntityIndex } from "@latticexyz/recs";
-import { defaultAbiCoder, keccak256, toUtf8Bytes } from "ethers/lib/utils";
+import { defaultAbiCoder, keccak256 } from "ethers/lib/utils";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
+import { parseScopedDuration } from "../utils/scopedDuration";
 
 export const useDuration = (targetEntity: EntityIndex | undefined, protoEntity: EntityIndex | undefined) => {
   const {
@@ -33,15 +34,6 @@ export const useDuration = (targetEntity: EntityIndex | undefined, protoEntity: 
 
   return {
     durationScopeId: durationScope.value,
-    timeScopeId,
-    timeScopeName: timeScopeIdToName[timeScopeId],
-    timeValue: durationValue.value,
+    ...parseScopedDuration(timeScopeId, durationValue.value),
   };
-};
-
-// TODO unhardcode this (start with the contracts side)
-const timeScopeIdToName = {
-  [keccak256(toUtf8Bytes("turn"))]: "turn",
-  [keccak256(toUtf8Bytes("round"))]: "round",
-  [keccak256(toUtf8Bytes("round_persistent"))]: "round_persistent",
 };

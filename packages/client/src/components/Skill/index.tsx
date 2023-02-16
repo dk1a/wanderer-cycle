@@ -21,16 +21,14 @@ export default function Skill({ skill }: { skill: ReturnType<typeof useGuiseSkil
           <div>
             <span className="text-dark-key">duration: </span>
             <span className="text-dark-number">{skill.duration.timeValue}</span>
-            {/* TODO timeScopeId name map */}
-            <span className="text-dark-string"> placeholder{/*Skill.duration.timeScopeId*/}</span>
+            <span className="text-dark-string"> {skill.duration.timeScopeName}</span>
           </div>
         )}
         {skill.cooldown.timeValue > 0 && (
           <div>
             <span className="text-dark-key">cooldown: </span>
             <span className="text-dark-number">{skill.cooldown.timeValue}</span>
-            {/* TODO timeScopeId name map */}
-            <span className="text-dark-string"> Placeholder{/*Skill.cooldown.timeScopeId*/}</span>
+            <span className="text-dark-string"> {skill.duration.timeScopeName}</span>
           </div>
         )}
       </div>

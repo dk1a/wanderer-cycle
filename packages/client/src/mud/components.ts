@@ -49,7 +49,7 @@ export const components = {
       contractId: "component.DurationScope",
     },
   }),
-  DurationValue: defineNumberComponent(world, {
+  DurationValue: defineStringComponent(world, {
     metadata: {
       contractId: "component.DurationValue",
     },
