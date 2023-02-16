@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
-import { useDurationValue } from "../../mud/hooks/useDurationValue";
+import { useDuration } from "../../mud/hooks/useDuration";
 import { AppliedEffect, EffectRemovability } from "../../mud/hooks/useEffectPrototype";
 import { EffectModifier } from "./EffectStatmod";
 import EffectNameItem from "./EffectNameItem";
@@ -9,7 +9,7 @@ import EffectNameSkill from "./EffectNameSkill";
 export default function Effect({ entity, protoEntity, removability, statmods, isItem, isSkill }: AppliedEffect) {
   const { cycleEntity } = useWandererContext();
 
-  const durationValue = useDurationValue(cycleEntity, entity);
+  const duration = useDuration(cycleEntity, entity);
 
   const removeEffect = useCallback(() => {
     console.log("TODO add removeEffect callback");
@@ -27,11 +27,10 @@ export default function Effect({ entity, protoEntity, removability, statmods, is
           <EffectModifier key={protoEntity} protoEntity={protoEntity} value={value} />
         ))}
 
-      {!!durationValue && (
+      {duration !== undefined && duration.timeValue > 0 && (
         <div className="text-sm">
-          ({/* TODO timeScopeId name map */}
-          <span className="text-dark-key"> placeholder</span>
-          <span className="text-dark-number">{durationValue}</span>)
+          <span className="text-dark-key">{duration.timeScopeName}</span>
+          <span className="text-dark-number">{duration.timeValue}</span>)
         </div>
       )}
 
