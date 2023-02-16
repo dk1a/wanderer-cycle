@@ -11,6 +11,7 @@ import { EquipmentSlotComponent, ID as EquipmentSlotComponentID } from "./Equipm
 import { EquipmentSlotAllowedComponent, ID as EquipmentSlotAllowedComponentID } from "./EquipmentSlotAllowedComponent.sol";
 import { EquipmentPrototypeComponent, ID as EquipmentPrototypeComponentID } from "./EquipmentPrototypeComponent.sol";
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
+import { OwnedByComponent, ID as OwnedByComponentID } from "../common/OwnedByComponent.sol";
 
 import { EffectSubSystem, ID as EffectSubSystemID } from "../effect/EffectSubSystem.sol";
 
@@ -34,16 +35,12 @@ contract EquipmentSubSystem is Subsystem {
   error EquipmentSubSystem__InvalidEquipmentPrototype();
   error EquipmentSubSystem__SlotNotAllowedForPrototype();
   error EquipmentSubSystem__EquipmentEntityAlreadyEquipped();
+  error EquipmentSubSystem__SlotNotOwned();
 
   constructor(IWorld _world, address _components) Subsystem(_world, _components) {}
 
-  function executeTyped(
-    EquipmentAction equipmentAction,
-    uint256 equipmentSlot,
-    uint256 equipmentEntity,
-    uint256 targetEntity
-  ) public {
-    execute(abi.encode(equipmentAction, equipmentSlot, equipmentEntity, targetEntity));
+  function executeTyped(EquipmentAction equipmentAction, uint256 equipmentSlot, uint256 equipmentEntity) public {
+    execute(abi.encode(equipmentAction, equipmentSlot, equipmentEntity));
   }
 
   /**
@@ -51,16 +48,15 @@ contract EquipmentSubSystem is Subsystem {
    * @dev For UNEQUIP equipmentEntity is irrelevant and can just be 0
    */
   function _execute(bytes memory arguments) internal override returns (bytes memory) {
-    (
-      EquipmentAction equipmentAction,
-      uint256 equipmentSlot,
-      uint256 equipmentEntity,
-      // TODO equipmentSlot should be bound to targetEntity, atm they seem too loosely related
-      uint256 targetEntity
-    ) = abi.decode(arguments, (EquipmentAction, uint256, uint256, uint256));
+    (EquipmentAction equipmentAction, uint256 equipmentSlot, uint256 equipmentEntity) = abi.decode(
+      arguments,
+      (EquipmentAction, uint256, uint256)
+    );
 
     EquipmentSlotComponent slotComp = EquipmentSlotComponent(getAddressById(components, EquipmentSlotComponentID));
     EffectSubSystem effectSubSystem = EffectSubSystem(getAddressById(world.systems(), EffectSubSystemID));
+
+    uint256 targetEntity = _getTargetEntity(equipmentSlot);
 
     if (equipmentAction == EquipmentAction.UNEQUIP) {
       _unequip(slotComp, effectSubSystem, targetEntity, equipmentSlot);
@@ -128,5 +124,14 @@ contract EquipmentSubSystem is Subsystem {
     // reverts if equipmentEntity isn't a valid effectProtoEntity
     // TODO that's good atm because equipment only does effects. But it could do more.
     effectSubSystem.executeApply(targetEntity, equipmentEntity);
+  }
+
+  // Get the slot's owner, who will receive the equipment's benefits
+  function _getTargetEntity(uint256 equipmentSlot) internal view returns (uint256) {
+    OwnedByComponent ownedByComp = OwnedByComponent(getAddressById(components, OwnedByComponentID));
+    if (!ownedByComp.has(equipmentSlot)) {
+      revert EquipmentSubSystem__SlotNotOwned();
+    }
+    return ownedByComp.getValue(equipmentSlot);
   }
 }

@@ -4,6 +4,7 @@
     "NameComponent",
     "ReverseHashNameComponent",
     "RNGPrecommitComponent",
+    "OwnedByComponent",
 
     "DurationOnEndComponent",
     "DurationScopeComponent",
@@ -107,10 +108,13 @@
     {
       "name": "WandererSpawnSystem",
       "writeAccess": [
+        "NameComponent",
+        "OwnedByComponent",
         "WandererComponent",
         "ActiveCycleComponent",
         "CycleTurnsComponent",
         "CycleTurnsLastClaimedComponent",
+        "EquipmentSlotAllowedComponent",
         "ActiveGuiseComponent",
         "ExperienceComponent",
         "LifeCurrentComponent",

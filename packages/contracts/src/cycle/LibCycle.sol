@@ -14,6 +14,7 @@ import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
 import { LibToken } from "../token/LibToken.sol";
+import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
 
 // TODO imports for testing stuff, remove later
 import { EffectSubSystem, ID as EffectSubSystemID } from "../effect/EffectSubSystem.sol";
@@ -63,6 +64,8 @@ library LibCycle {
     charstat.setFullCurrents();
     // claim initial cycle turns
     LibCycleTurns.claimTurns(components, cycleEntity);
+    // spawn equipment slots
+    LibSpawnEquipmentSlots.spawnEquipmentSlots(world, cycleEntity);
 
     // TODO copy astral skills
     // TODO wheel

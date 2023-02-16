@@ -32,6 +32,11 @@ export const components = {
       metadata: { contractId: "component.RNGPrecommit" },
     }
   ),
+  OwnedBy: defineEntityComponent(world, {
+    metadata: {
+      contractId: "component.OwnedBy",
+    },
+  }),
 
   DurationOnEnd: defineComponent(
     world,
