@@ -10,14 +10,13 @@ import { useManaCurrent } from "../mud/hooks/useManaCurrent";
 
 const CombatPage = () => {
   const { enemyEntity } = useWandererContext();
-  // TODO make this page only unreachable if enemyEntity !== undefined. This error should never trigger
+
+  // TODO make this page only unreachable if enemyEntity !== undefined.This error should never trigger
   if (enemyEntity === undefined) {
     throw new Error("No active combat");
   }
-
   const lifeCurrent = useLifeCurrent(enemyEntity);
   const manaCurrent = useManaCurrent(enemyEntity);
-
   const withResult = false;
   const { id } = useParams();
   console.log(id);

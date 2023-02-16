@@ -1,7 +1,6 @@
 import { Fragment, ReactNode } from "react";
 import StatLevelProgress, { StatLevelProgressProps } from "../StatLevelProgress";
 // import EffectList from "../../EffectList";
-import classes from "./info.module.scss";
 
 export interface StatProps {
   name: string;
@@ -38,13 +37,13 @@ export default function BaseInfo({
     },
   ];
 
-  const separator = <div className={classes.separator} />;
+  const separator = <hr className="h-px my-2 bg-dark-400 border-0" />;
 
   return (
-    <section className={classes.info__container}>
-      <h4 className={classes.info__header}>{name}</h4>
-      {locationName !== null && <div className={classes.info__locationName}>{locationName}</div>}
-      <div className={classes.info__level}>
+    <section className="flex flex-col w-52 bg-dark-500 border border-dark-400 h-screen">
+      <h4 className="relative col-span-3 text-center text-lg text-dark-type font-medium">{name}</h4>
+      {locationName !== null && <div className="col-span-3 text-center text-dark-string">{locationName}</div>}
+      <div className="text-dark-key p-2 flex">
         <span className="w-36">
           {levelProps.name}: <span className="text-dark-number">{levelProps.props.level}</span>
         </span>
@@ -53,7 +52,7 @@ export default function BaseInfo({
       {separator}
       {statProps.map(({ name, props }) => (
         <Fragment key={name}>
-          <div className={classes.info__level}>
+          <div className="text-dark-key p-2 flex">
             <span className="w-36">
               {name}: <span className="text-dark-number">{levelProps.props.level}</span>
             </span>
@@ -64,19 +63,19 @@ export default function BaseInfo({
       {separator}
       {currents.map(({ name, value }) => (
         <Fragment key={name}>
-          <div className={classes.info__stats}>
+          <div className="text-dark-key flex m-2">
             {name}:
-            <div className={classes.stats}>
-              <span className={classes.stats__number}>{value}</span>
-              <span className={classes.stats__number_slash}>/</span>
-              <span className={classes.stats__number}>123{/* TODO statmod goes here */}</span>
+            <div className="text-dark-key flex m-2">
+              <span className="text-dark-number">{value}</span>
+              <span className="text-dark-200 m-0.5">/</span>
+              <span className="text-dark-number">123{/* TODO statmod goes here */}</span>
             </div>
           </div>
-          <div className={classes.stats__regen}>
+          <div className="flex m-1">
             {/* TODO regen statmods. They are often absent and shouldn't be displayed */}
             <>
-              {/*<span className={classes.stats__regen_name}>regen:</span>*/}
-              {/*<span className={classes.stats__regen_name}>5</span>*/}
+              {/*<span className='text-dark-key'>regen:</span>*/}
+              {/*<span className='text-dark-key'>5</span>*/}
             </>
           </div>
         </Fragment>

@@ -1,6 +1,5 @@
 import { useWandererEntities } from "../mud/hooks/useWandererEntities";
 import WandererSpawn from "../components/WandererSpawn";
-import classes from "../components/Wanderer/wanderer.module.scss";
 import Wanderer from "../components/Wanderer";
 
 export default function WandererSelect() {
@@ -10,9 +9,9 @@ export default function WandererSelect() {
     <div>
       {wandererEntities.length > 0 && (
         <section>
-          <h3 className={classes.header}>{"//select a wanderer"}</h3>
-          <div className={classes.wanderer__parent}>
-            <div className={classes.wanderer__container}>
+          <h3 className="m-10 text-2xl font-bold text-dark-comment">{"//select a wanderer"}</h3>
+          <div className="flex justify-around">
+            <div className="flex flex-wrap gap-x-4 gap-y-4 mt-2 justify-around">
               {wandererEntities.map((wandererEntity) => (
                 <Wanderer key={wandererEntity} wandererEntity={wandererEntity} />
               ))}

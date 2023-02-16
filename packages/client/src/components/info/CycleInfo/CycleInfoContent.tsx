@@ -9,7 +9,6 @@ import { expToLevel, pstatNames } from "../../../mud/utils/experience";
 import { useCycleTurns } from "../../../mud/hooks/useCycleTurns";
 import { useLifeCurrent } from "../../../mud/hooks/useLifeCurrent";
 import { useManaCurrent } from "../../../mud/hooks/useManaCurrent";
-import classes from "../BaseInfo/info.module.scss";
 
 export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityIndex }) {
   const guise = useActiveGuise(cycleEntity);
@@ -51,10 +50,10 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
 
   const turnsHtml = (
     <>
-      <div className={classes.turns__container}>
-        <div className={classes.turns__name}>
-          <span className={classes.turns__turns}>turns:</span>
-          <span className={classes.turns__numbers}>{turns}</span>
+      <div className="flex ml-2">
+        <div className="w-1/3 mr-5">
+          <span className="text-dark-key">turns:</span>
+          <span className="text-dark-number ml-1">{turns}</span>
         </div>
         {isClaimTurnsAvailable && (
           <div className="w-1/2 mr-0.5">
@@ -62,7 +61,7 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
           </div>
         )}
       </div>
-      <div className={classes.turns__btn}>
+      <div className="flex w-full box-border w-48 m-1">
         <PassTurnButton />
       </div>
     </>

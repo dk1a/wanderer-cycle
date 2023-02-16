@@ -6,7 +6,6 @@ import CustomButton from "../UI/CustomButton/CustomButton";
 import GuiseSkill from "./GuiseSkill";
 import TippyComment from "../TippyComment/TippyComment";
 import "tippy.js/dist/tippy.css";
-import classes from "./Guise.module.scss";
 
 interface GuiseProps {
   entity: EntityIndex;
@@ -21,27 +20,27 @@ export default function Guise({ entity, onSelectGuise, disabled }: GuiseProps) {
     const statNames = Object.keys(guise.gainMul) as (keyof typeof guise.gainMul)[];
     content = (
       <>
-        <header className={classes.guise__header}>{guise.name}</header>
+        <header className="text-2xl text-dark-type text-center">{guise.name}</header>
         <Tooltip
           arrow={true}
           animation="perspective"
           position="left"
           html={<TippyComment content="multiplier of gained stats" />}
         >
-          <div className={classes.guise__comment}>{"//stat Multipliers"}</div>
+          <div className="text-dark-comment flex justify-between">{"//stat Multipliers"}</div>
         </Tooltip>
 
-        <div className={classes.guise__stats}>
+        <div className="flex flex-col justify-start items-baseline">
           {statNames.map((statName) => (
             <Fragment key={statName}>
-              <div className={classes.guise__gainMul}>
-                {statName}:<div className={classes.guise__gainMul__string}>{guise.gainMul[statName]}</div>
+              <div className="text-dark-key flex p-1 m-1">
+                {statName}:<div className="text-dark-key flex p-1 m-1">{guise.gainMul[statName]}</div>
               </div>
             </Fragment>
           ))}
         </div>
 
-        <div className={classes.guise__comment}>
+        <div className="text-dark-comment flex justify-between">
           <div className="w-28">{"//level/Skill"}</div>
         </div>
         <div>
@@ -51,7 +50,7 @@ export default function Guise({ entity, onSelectGuise, disabled }: GuiseProps) {
         </div>
 
         {onSelectGuise !== undefined && (
-          <div className={classes.guiseBtn}>
+          <div className="flex justify-center my-2">
             <CustomButton onClick={() => onSelectGuise(entity)} disabled={disabled}>
               Spawn
             </CustomButton>
@@ -63,5 +62,12 @@ export default function Guise({ entity, onSelectGuise, disabled }: GuiseProps) {
     content = <span className="text-dark-number">{entity}</span>;
   }
 
-  return <div className={classes.guise__container}>{content}</div>;
+  return (
+    <div
+      className="border border-dark-400 w-72 h-auto p-4 flex flex-col
+  bg-dark-500 transform delay-500"
+    >
+      {content}
+    </div>
+  );
 }

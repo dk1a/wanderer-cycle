@@ -1,5 +1,4 @@
 import { levelToExp } from "../../../mud/utils/experience";
-import classes from "./index.module.scss";
 
 export interface StatLevelProgressProps {
   level: number | undefined;
@@ -22,10 +21,10 @@ export default function StatLevelProgress({ level, buffedLevel, exp }: StatLevel
   }
 
   return (
-    <div className={classes.stats__parent}>
+    <div className="col-span-2 flex items-center box-border w-full ml-1">
       {exp !== null && (
-        <div className={classes.stats__container}>
-          <div className={classes.stats__number}>
+        <div className="flex flex-col flex-grow pr-2 pl-2">
+          <div className="justify-center text-xs">
             <span className="text-dark-200">{nextProgress}</span>
             <span className="text-dark-200">/</span>
             <span className="text-dark-200">{nextReq}</span>
