@@ -1,7 +1,6 @@
 import { useMaps } from "../../mud/hooks/useMaps";
 import { Fragment, ReactNode } from "react";
 import { StatLevelProgressProps } from "../info/StatLevelProgress";
-import classes from "./combatInfo.module.css";
 
 export interface StatProps {
   name: string;
@@ -38,13 +37,13 @@ export default function CombatInfo({
     },
   ];
 
-  const separator = <div className={classes.separator} />;
+  const separator = <div className="my-1 border-b border-dark-400" />;
 
   return (
     <div className="absolute top-0 right-0 bg-dark-500 border border-dark-400 h-full w-36 flex items-center flex-col p-4">
-      <h4 className={classes.info__header}>{name}</h4>
-      {locationName !== null && <div className={classes.info__locationName}>{locationName}</div>}
-      <div className={classes.info__level}>
+      <h4 className="relative col-span-3 text-center text-lg text-dark-type font-medium">{name}</h4>
+      {locationName !== null && <div className="col-span-3 text-center text-dark-string">{locationName}</div>}
+      <div className="text-dark-key p-2 flex">
         <span className="w-36">
           {levelProps.name}: <span className="text-dark-number">{levelProps.props.level}</span>
         </span>
@@ -52,7 +51,7 @@ export default function CombatInfo({
       {separator}
       {statProps.map(({ name, props }) => (
         <Fragment key={name}>
-          <div className={classes.info__level}>
+          <div className="text-dark-key p-2 flex">
             <span className="w-36">
               {name}: <span className="text-dark-number">{levelProps.props.level}</span>
             </span>
@@ -62,12 +61,12 @@ export default function CombatInfo({
       {separator}
       {currents.map(({ name, value }) => (
         <Fragment key={name}>
-          <div className={classes.info__stats}>
+          <div className="text-dark-key flex m-2">
             {name}:
-            <div className={classes.stats}>
-              <span className={classes.stats__number}>{value}</span>
-              <span className={classes.stats__number_slash}>/</span>
-              <span className={classes.stats__number}>123</span>
+            <div className="text-dark-key flex m-2">
+              <span className="text-dark-number">{value}</span>
+              <span className="text-dark-200 m-0.5">/</span>
+              <span className="text-dark-number">123</span>
             </div>
           </div>
         </Fragment>
