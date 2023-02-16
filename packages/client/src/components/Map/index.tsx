@@ -5,16 +5,19 @@ import { useLoot } from "../../mud/hooks/useLoot";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
 import { useActivateCycleCombat } from "../../mud/hooks/useActivateCycleCombat";
+import { useNavigate } from "react-router-dom";
 
 interface MapProps {
   entity: EntityIndex;
 }
 
 const Map = ({ entity }: MapProps) => {
-  const { selectedWandererEntity } = useWandererContext();
+  const { selectedWandererEntity, enemyEntity } = useWandererContext();
   const activateCycleCombat = useActivateCycleCombat();
   const loot = useLoot(entity);
   const name = "map";
+  const navigate = useNavigate();
+  console.log("enemyEntity", enemyEntity);
 
   const onMapEnter = useCallback(() => {
     if (!selectedWandererEntity) {
