@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { EntityIndex } from "@latticexyz/recs";
+// TODO migrate to @tippyjs/react (see GuiseSkill)
 import { Tooltip } from "react-tippy";
 import { useGuise } from "../../mud/hooks/useGuise";
 import CustomButton from "../UI/CustomButton/CustomButton";
