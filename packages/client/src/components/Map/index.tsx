@@ -1,4 +1,3 @@
-import classes from "./map.module.scss";
 import Effect from "../Effect";
 import CustomButton from "../UI/CustomButton/CustomButton";
 import { EntityIndex } from "@latticexyz/recs";
@@ -30,15 +29,15 @@ const Map = ({ entity }: MapProps) => {
   const effect = loot.effect;
 
   return (
-    <div className={classes.map__container}>
-      <h3 className={classes.map__header}>{name}</h3>
-      <hr className={classes.map__hr} />
-      <div className={classes.map__description}>
+    <div className="border border-dark-400 w-56 h-auto p-4 flex flex-col bg-dark-500 transform delay-500 m-4">
+      <h3 className="text-xl text-dark-type text-center">{name}</h3>
+      <hr className="h-px my-2 bg-dark-400 border-0" />
+      <div className="text-dark-comment">
         {"//level: "}
-        <span className={classes.map__stats}>{loot?.ilvl}</span>
+        <span className="text-dark-number">{loot?.ilvl}</span>
       </div>
-      <hr className={classes.map__hr} />
-      <div className={classes.map__description}>
+      <hr className="h-px my-2 bg-dark-400 border-0" />
+      <div className="text-dark-comment">
         <span>{"//effect"}</span>
         <Effect
           entity={effect.entity}
@@ -49,7 +48,7 @@ const Map = ({ entity }: MapProps) => {
           isSkill={false}
         />
       </div>
-      <hr className={classes.map__hr} />
+      <hr className="h-px my-2 bg-dark-400 border-0" />
       {/*TODO use navigate,because onMapEnter outputs error*/}
       <CustomButton onClick={() => navigate(`combat/${entity}`)}>{"Enter"}</CustomButton>
     </div>
