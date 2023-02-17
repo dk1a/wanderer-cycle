@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from "react";
+import { ReactNode } from "react";
 import { StatLevelProgressProps } from "../info/StatLevelProgress";
 import BaseInfo from "../info/BaseInfo";
 
@@ -17,7 +17,6 @@ export interface BaseInfoProps {
   turnsHtml?: ReactNode;
 }
 
-// TODO this should return BaseInfo with different props, not duplicate it (add more props to BaseInfo if needed)
 export default function CombatInfo({
   name,
   locationName,
@@ -26,17 +25,6 @@ export default function CombatInfo({
   lifeCurrent,
   manaCurrent,
 }: BaseInfoProps) {
-  const currents = [
-    {
-      name: "life",
-      value: lifeCurrent,
-    },
-    {
-      name: "mana",
-      value: manaCurrent,
-    },
-  ];
-
   return (
     <BaseInfo
       name={name}
