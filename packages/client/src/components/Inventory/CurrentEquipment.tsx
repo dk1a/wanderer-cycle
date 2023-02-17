@@ -1,6 +1,6 @@
-import InventoryLoot from "./InventoryLoot";
+import InventoryEquipment from "./InventoryEquipment";
 
-const InventoryInfo = () => {
+const CurrentEquipment = () => {
   const separator = <hr className="h-px my-2 bg-dark-400 border-0" />;
   const locationName = null;
   const shirtsList = [
@@ -23,7 +23,7 @@ const InventoryInfo = () => {
         <span className="text-dark-string">stats: Lorem ipsum dolor sit amet.</span>
       </div>
       {shirtsList.map((item) => (
-        <InventoryLoot
+        <InventoryEquipment
           key={item.id}
           style={{ width: "206px" }}
           title={item.title}
@@ -35,4 +35,4 @@ const InventoryInfo = () => {
   );
 };
 
-export default InventoryInfo;
+export default CurrentEquipment;

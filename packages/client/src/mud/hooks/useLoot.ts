@@ -7,15 +7,17 @@ import { useEffectPrototype } from "./useEffectPrototype";
 export const useLoot = (entity: EntityIndex) => {
   const {
     world,
-    components: { Loot },
+    components: { Loot, Name },
   } = useMUD();
 
   const loot = useComponentValue(Loot, entity);
   const effect = useEffectPrototype(entity);
+  const name = useComponentValue(Name, entity)?.value;
 
   if (!loot || !effect) return;
 
   return {
+    name,
     ilvl: loot.ilvl,
     affixes: parseLootAffixes(world, loot.affixPartIds, loot.affixProtoEntities, loot.affixValues),
     effect,

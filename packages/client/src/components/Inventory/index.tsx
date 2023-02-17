@@ -1,5 +1,5 @@
 import CycleInfo from "../info/CycleInfo";
-import InventoryInfo from "./InventoryInfo";
+import CurrentEquipment from "./CurrentEquipment";
 import InventoryList from "./InventoryList";
 
 export default function Inventory() {
@@ -7,7 +7,7 @@ export default function Inventory() {
     <section>
       <CycleInfo />
       <InventoryList />
-      <InventoryInfo />
+      {/*<CurrentEquipment />*/}
     </section>
   );
 }
