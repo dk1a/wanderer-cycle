@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./Home";
-import Inventory from "./pages/Inventory";
+import InventoryPage from "./pages/InventoryPage";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import Layout from "./Layout";
@@ -15,7 +15,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/home" element={<Home />} />
-          <Route path="inventory" element={<Inventory />} />
+          <Route path="inventory" element={<InventoryPage />} />
           <Route path="wanderer-select" element={<WandererSelect />} />
           <Route path="global-maps" element={<GlobalMaps />} />
           <Route path="global-maps/:combat/:id" element={<CombatPage />} />
