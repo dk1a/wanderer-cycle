@@ -3,7 +3,14 @@ import InventoryLoot from "./InventoryLoot";
 const InventoryInfo = () => {
   const separator = <hr className="h-px my-2 bg-dark-400 border-0" />;
   const locationName = null;
-  const shirtList = [1, 2, 4, 5];
+  const shirtsList = [
+    { id: 1, title: "Helmet", type: "shirt", stats: "+30" },
+    { id: 2, title: "Armor", type: "shirt", stats: "+100" },
+    { id: 3, title: "Sword", type: "weapon", stats: "+200" },
+    { id: 4, title: "Axe", type: "weapon", stats: "+150" },
+    { id: 5, title: "Boots", type: "shirt", stats: "+40" },
+    { id: 6, title: "Arrow", type: "weapon", stats: "+120" },
+  ];
 
   return (
     <section className="flex flex-col w-52 bg-dark-500 border border-dark-400 h-screen absolute top-16 right-0">
@@ -15,8 +22,14 @@ const InventoryInfo = () => {
         </span>
         <span className="text-dark-string">stats: Lorem ipsum dolor sit amet.</span>
       </div>
-      {shirtList.map((item) => (
-        <InventoryLoot key={item} style={{ width: "100%" }} />
+      {shirtsList.map((item) => (
+        <InventoryLoot
+          key={item.id}
+          style={{ width: "206px" }}
+          title={item.title}
+          stats={item.stats}
+          type={item.type}
+        />
       ))}
     </section>
   );
