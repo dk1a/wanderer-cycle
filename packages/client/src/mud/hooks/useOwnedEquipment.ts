@@ -8,13 +8,13 @@ export const useOwnedEquipment = () => {
   const {
     world,
     playerEntityId,
-    components: { WNFT_Ownership, EquipmentPrototype, FromPrototype },
+    components: { OwnedBy, EquipmentPrototype, FromPrototype },
   } = useMUD();
 
   const equipmentEntities = useEntityQuery(
     useMemo(
-      () => [HasValue(WNFT_Ownership, { value: playerEntityId }), Has(EquipmentPrototype)],
-      [WNFT_Ownership, EquipmentPrototype, playerEntityId]
+      () => [HasValue(OwnedBy, { value: playerEntityId }), Has(EquipmentPrototype)],
+      [OwnedBy, EquipmentPrototype, playerEntityId]
     )
   );
 
