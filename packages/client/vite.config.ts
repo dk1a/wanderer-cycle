@@ -7,7 +7,7 @@ export default defineConfig({
     port: 3000,
     fs: {
       strict: false,
-    }
+    },
   },
   optimizeDeps: {
     esbuildOptions: {
@@ -15,6 +15,7 @@ export default defineConfig({
     },
     exclude: ["@latticexyz/network"],
     include: [
+      "threads",
       "proxy-deep",
       "ethers/lib/utils",
       "bn.js",
