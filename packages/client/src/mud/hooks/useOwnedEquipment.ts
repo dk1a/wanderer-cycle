@@ -1,4 +1,4 @@
-import { getComponentValueStrict, Has, HasValue } from "@latticexyz/recs";
+import { getComponentValueStrict, Has, HasValue, Not, ProxyExpand, ProxyRead } from "@latticexyz/recs";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
 import { useEntityQuery } from "../useEntityQuery";
@@ -13,8 +13,14 @@ export const useOwnedEquipment = () => {
 
   const equipmentEntities = useEntityQuery(
     useMemo(
-      () => [HasValue(OwnedBy, { value: playerEntityId }), Has(EquipmentPrototype)],
-      [OwnedBy, EquipmentPrototype, playerEntityId]
+      () => [
+        ProxyExpand(FromPrototype, 1),
+        Has(EquipmentPrototype),
+        ProxyExpand(FromPrototype, 0),
+        Not(EquipmentPrototype),
+        HasValue(OwnedBy, { value: playerEntityId }),
+      ],
+      [OwnedBy, EquipmentPrototype, FromPrototype, playerEntityId]
     )
   );
 
