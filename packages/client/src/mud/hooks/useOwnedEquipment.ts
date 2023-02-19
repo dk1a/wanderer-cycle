@@ -1,8 +1,7 @@
-import { getComponentValueStrict, Has, HasValue, Not, ProxyExpand, ProxyRead } from "@latticexyz/recs";
+import { getComponentValueStrict, Has, HasValue, Not, ProxyExpand } from "@latticexyz/recs";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
 import { useEntityQuery } from "../useEntityQuery";
-import { equipmentPrototypes } from "../utils/equipment";
 
 export const useOwnedEquipment = () => {
   const {
@@ -36,7 +35,6 @@ export const useOwnedEquipment = () => {
         entity,
         protoEntity,
         protoEntityId,
-        protoName: equipmentPrototypes[protoEntityId],
       };
     });
   }, [world, FromPrototype, equipmentEntities]);

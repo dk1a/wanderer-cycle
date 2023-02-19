@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { AppliedEffect } from "../../mud/hooks/useEffectPrototype";
+import { AppliedEffect, EffectSource } from "../../mud/utils/getEffect";
 import EffectListSection from "./EffectListSection";
 
 interface EffectListProps {
@@ -9,8 +9,10 @@ interface EffectListProps {
 export default function EffectList({ effects }: EffectListProps) {
   const effectLists = useMemo(() => {
     if (!effects) return [];
-    const skillEffects = effects.filter(({ isSkill }) => isSkill);
-    const itemEffects = effects.filter(({ isItem }) => isItem);
+    const skillEffects = effects.filter(({ effectSource }) => effectSource === EffectSource.SKILL);
+    const itemEffects = effects.filter(({ effectSource }) =>
+      [EffectSource.NFT, EffectSource.OWNABLE].includes(effectSource)
+    );
 
     const result = [];
     if (skillEffects.length > 0) {
