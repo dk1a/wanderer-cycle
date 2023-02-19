@@ -1,13 +1,14 @@
-import { getComponentValueStrict, Has, HasValue, Not, ProxyExpand } from "@latticexyz/recs";
+import { Has, HasValue, Not, ProxyExpand } from "@latticexyz/recs";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
 import { useEntityQuery } from "../useEntityQuery";
+import { getLoot } from "../utils/getLoot";
 
 export const useOwnedEquipment = () => {
   const {
     world,
     playerEntityId,
-    components: { OwnedBy, EquipmentPrototype, FromPrototype },
+    components: { OwnedBy, EquipmentPrototype, Loot, FromPrototype, EffectPrototype, AffixNaming },
   } = useMUD();
 
   const equipmentEntities = useEntityQuery(
@@ -25,17 +26,7 @@ export const useOwnedEquipment = () => {
 
   return useMemo(() => {
     return equipmentEntities.map((entity) => {
-      const protoEntityId = getComponentValueStrict(FromPrototype, entity).value;
-      const protoEntity = world.entityToIndex.get(protoEntityId);
-      if (!protoEntity) {
-        throw new Error("prototype entity index absent for equipment");
-      }
-
-      return {
-        entity,
-        protoEntity,
-        protoEntityId,
-      };
+      return getLoot(world, { Loot, FromPrototype, EffectPrototype, AffixNaming }, entity);
     });
-  }, [world, FromPrototype, equipmentEntities]);
+  }, [world, Loot, FromPrototype, EffectPrototype, AffixNaming, equipmentEntities]);
 };

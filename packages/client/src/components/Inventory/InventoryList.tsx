@@ -20,15 +20,14 @@ const InventoryList = () => {
         <div className="text-2xl text-dark-comment">{"// inventory"}</div>
       </div>
 
-      {/* TODO to implement sorting an we need a full optimistic data getter
+      {/* TODO provide more data for statmods so they can be used for sorting as well
       <CustomSelect
         defaultValue={"Sort"}
         value={selectedSort}
         onChange={sortList}
         option={[
-          { value: "title", name: "sorting by name" },
-          { value: "type", name: "sorting by type" },
-          { value: "stats", name: "sorting by stats" },
+          { value: "name", name: "name" },
+          { value: "ilvl", name: "ilvl" },
         ]}
       />*/}
 

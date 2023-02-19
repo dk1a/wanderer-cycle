@@ -59,7 +59,7 @@ function SkillEffectStatmod({ statmod }: { statmod: EffectStatmod }) {
   const statmodPrototype = useStatmodPrototype(statmod.protoEntity);
 
   const nameParts = useMemo(() => {
-    if (statmodPrototype === undefined || statmodPrototype.name === undefined) {
+    if (statmodPrototype === undefined) {
       return ["...", "..."];
     } else {
       return statmodPrototype.name.split("#");
