@@ -51,14 +51,10 @@ contract WandererSpawnSystem is System {
         getAddressById(world.systems(), RandomEquipmentSubSystemID)
       );
       uint256 lootEntity;
-      lootEntity = randomEquipmentSubSystem.executeTyped(1, 123);
-      LibLootOwner.setSimpleOwnership(components, lootEntity, addressToEntity(msg.sender));
-      lootEntity = randomEquipmentSubSystem.executeTyped(2, 456);
-      LibLootOwner.setSimpleOwnership(components, lootEntity, addressToEntity(msg.sender));
-      lootEntity = randomEquipmentSubSystem.executeTyped(10, 789);
-      LibLootOwner.setSimpleOwnership(components, lootEntity, addressToEntity(msg.sender));
-      lootEntity = randomEquipmentSubSystem.executeTyped(12, 101112);
-      LibLootOwner.setSimpleOwnership(components, lootEntity, addressToEntity(msg.sender));
+      for (uint256 i; i < 15; i++) {
+        lootEntity = randomEquipmentSubSystem.executeTyped(uint32((i % 12) + 1), i + 123123);
+        LibLootOwner.setSimpleOwnership(components, lootEntity, addressToEntity(msg.sender));
+      }
     }
 
     return abi.encode(wandererEntity);
