@@ -12,17 +12,18 @@ const InventoryList = () => {
   const [equipmentList, setEquipmentList] = useState(ownedEquipmentList);
   const [selectedSort, setSelectedSort] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  function getSortedEquipmentList() {
-    console.log("running");
+
+  const sortedEquipmentList = useMemo(() => {
     if (selectedSort == "name") {
       return [...equipmentList].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]));
     } else if (selectedSort == "ilvl") {
       return [...equipmentList].sort((a, b) => a[selectedSort] - b[selectedSort]);
     }
     return equipmentList;
-  }
-
-  const sortedEquipmentList = getSortedEquipmentList();
+  }, [selectedSort, equipmentList]);
+  const sortedAndSearchedEquipmentList = useMemo(() => {
+    return sortedEquipmentList.filter((equipment) => equipment.name.toLowerCase().includes(searchQuery));
+  }, [searchQuery, sortedEquipmentList]);
 
   const sortInventory = (sort) => {
     setSelectedSort(sort);
@@ -61,7 +62,9 @@ const InventoryList = () => {
             <div key={_protoEntityId} className="flex justify-center">
               <InventoryHeader>{equipmentPrototypes[_protoEntityId]}</InventoryHeader>
               <InventorySection
-                equipmentList={sortedEquipmentList.filter(({ protoEntityId }) => protoEntityId === _protoEntityId)}
+                equipmentList={sortedAndSearchedEquipmentList.filter(
+                  ({ protoEntityId }) => protoEntityId === _protoEntityId
+                )}
               />
             </div>
           </div>

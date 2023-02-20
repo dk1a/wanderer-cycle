@@ -6,7 +6,7 @@ type InputProps = {
   onChange: ChangeEventHandler;
 };
 const CustomInput = ({ onChange, value, placeholder }: InputProps) => {
-  return <input placeholder={placeholder} onChange={onChange}></input>;
+  return <input placeholder={placeholder} onChange={onChange} className="text-dark-400"></input>;
 };
 
 export default CustomInput;
