@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
-import CustomButton from "../UI/CustomButton/CustomButton";
+import CustomButton from "../UI/Button/CustomButton";
 
 export default function PassTurnButton() {
   const { selectedWandererEntity } = useWandererContext();

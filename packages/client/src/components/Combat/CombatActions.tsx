@@ -1,4 +1,4 @@
-import CustomButton from "../UI/CustomButton/CustomButton";
+import CustomButton from "../UI/Button/CustomButton";
 
 interface EncounterActionsProp {
   allowActions: boolean;

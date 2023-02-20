@@ -4,20 +4,28 @@ import { useMemo, useState } from "react";
 import InventorySection from "./InventorySection";
 import InventoryHeader from "./InventoryHeader";
 import CustomSelect from "../UI/Select/CustomSelect";
+import CustomInput from "../UI/Input/CustomInput";
 
 // TODO this looks like it should have an InventoryContext, with filtering and sorting and all that
 const InventoryList = () => {
   const ownedEquipmentList = useOwnedEquipment();
-  const [sortedEquipmentList, setSortedEquipmentList] = useState(ownedEquipmentList);
+  const [equipmentList, setEquipmentList] = useState(ownedEquipmentList);
   const [selectedSort, setSelectedSort] = useState("");
-  console.log("ownedEquipmentList", ownedEquipmentList);
+  const [searchQuery, setSearchQuery] = useState("");
+  function getSortedEquipmentList() {
+    console.log("running");
+    if (selectedSort == "name") {
+      return [...equipmentList].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]));
+    } else if (selectedSort == "ilvl") {
+      return [...equipmentList].sort((a, b) => a[selectedSort] - b[selectedSort]);
+    }
+    return equipmentList;
+  }
+
+  const sortedEquipmentList = getSortedEquipmentList();
+
   const sortInventory = (sort) => {
     setSelectedSort(sort);
-    if (sort == "ilvl") {
-      setSortedEquipmentList([...sortedEquipmentList].sort((a, b) => a[sort] - b[sort]));
-    } else {
-      setSortedEquipmentList([...sortedEquipmentList].sort((a, b) => a[sort].localeCompare(b[sort])));
-    }
   };
 
   const presentProtoEntityIds = useMemo(() => {
@@ -27,6 +35,7 @@ const InventoryList = () => {
     return equipmentProtoEntityIds.filter((protoEntityId) => presentProtoEntityIds.has(protoEntityId));
   }, [ownedEquipmentList]);
   const separator = <hr className="h-px my-2 bg-dark-400 border-0" />;
+
   return (
     <div className="w-[60%] flex flex-col justify-center items-center">
       <div className="flex justify-start w-full m-2">
@@ -40,6 +49,7 @@ const InventoryList = () => {
             { value: "ilvl", name: "ilvl" },
           ]}
         />
+        <CustomInput value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder={"Search..."} />
       </div>
 
       {/*//TODO provide more data for statmods so they can be used for sorting as well*/}
