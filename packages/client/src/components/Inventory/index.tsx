@@ -4,7 +4,7 @@ import InventoryList from "./InventoryList";
 
 export default function Inventory() {
   return (
-    <section>
+    <section className="flex justify-around">
       <CycleInfo />
       <InventoryList />
       {/*<CurrentEquipment />*/}

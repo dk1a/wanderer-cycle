@@ -68,7 +68,7 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
   );
 
   return (
-    <div className="absolute top-16 left-0">
+    <div className="absolute top-16 left-0 h-[100vh]">
       <BaseInfo
         name={guise?.name}
         locationName={null}

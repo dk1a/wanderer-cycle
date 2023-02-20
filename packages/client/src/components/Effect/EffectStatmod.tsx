@@ -12,5 +12,5 @@ export function EffectModifier({ protoEntity, value }: EffectStatmod) {
     return <div>{protoEntity}</div>;
   }
 
-  return <ModifierName name={name} value={value} />;
+  return <ModifierName name={name} value={value} className="flex-wrap box-border" />;
 }
