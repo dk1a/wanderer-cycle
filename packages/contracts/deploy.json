@@ -157,6 +157,10 @@
     {
       "name": "CycleCombatRewardSystem",
       "writeAccess": ["CycleCombatRewardRequestComponent", "ExperienceComponent"]
+    },
+    {
+      "name": "CycleEquipmentSystem",
+      "writeAccess": []
     }
   ],
   "initializers": [

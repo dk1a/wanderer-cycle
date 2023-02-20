@@ -18,6 +18,7 @@ import { ID as RandomEquipmentSubSystemID } from "../loot/RandomEquipmentSubSyst
 import { ID as WandererSpawnSystemID } from "../wanderer/WandererSpawnSystem.sol";
 import { ID as CycleActivateCombatSystemID } from "../cycle/CycleActivateCombatSystem.sol";
 import { ID as CycleCombatRewardSystemID } from "../cycle/CycleCombatRewardSystem.sol";
+import { ID as CycleEquipmentSystemID } from "../cycle/CycleEquipmentSystem.sol";
 
 library LibInitAuthorizeSubsystems {
   function init(IWorld world) internal {
@@ -72,6 +73,11 @@ library LibInitAuthorizeSubsystems {
     // CycleCombatReward -> RandomEquipment
     writer = getAddressById(systems, CycleCombatRewardSystemID);
     subsystem = IOwnableWritable(getAddressById(systems, RandomEquipmentSubSystemID));
+    subsystem.authorizeWriter(writer);
+
+    // CycleEquipment -> Equipment
+    writer = getAddressById(systems, CycleEquipmentSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, EquipmentSubSystemID));
     subsystem.authorizeWriter(writer);
   }
 }
