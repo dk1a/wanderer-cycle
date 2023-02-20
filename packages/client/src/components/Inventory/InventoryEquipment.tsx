@@ -7,7 +7,10 @@ const InventoryEquipment = ({ equipmentData }: { equipmentData: ReturnType<typeo
   // TODO affixes are more than effects, they need either a separate component or an extended EffectModifier
   return (
     <div className="text-dark-key p-2 flex flex-col border border-dark-400 w-auto box-border h-auto m-2">
-      <span className="text-lg text-dark-type flex-wrap flex box-border">{equipmentData.name}</span>
+      <span className="text-lg text-dark-type flex-wrap flex box-border">
+        {equipmentData.name}
+        <span>{equipmentData.ilvl}</span>
+      </span>
       {affixes.map(({ protoEntity, value, partId, statmod }) => (
         <EffectModifier key={`${partId}${protoEntity}`} protoEntity={statmod.protoEntity} value={value} />
       ))}

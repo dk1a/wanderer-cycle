@@ -1,12 +1,24 @@
 import { useOwnedEquipment } from "../../mud/hooks/useOwnedEquipment";
 import { equipmentProtoEntityIds, equipmentPrototypes } from "../../mud/utils/equipment";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import InventorySection from "./InventorySection";
 import InventoryHeader from "./InventoryHeader";
+import CustomSelect from "../UI/Select/CustomSelect";
 
 // TODO this looks like it should have an InventoryContext, with filtering and sorting and all that
 const InventoryList = () => {
   const ownedEquipmentList = useOwnedEquipment();
+  const [sortedEquipmentList, setSortedEquipmentList] = useState(ownedEquipmentList);
+  const [selectedSort, setSelectedSort] = useState("");
+  console.log("ownedEquipmentList", ownedEquipmentList);
+  const sortInventory = (sort) => {
+    setSelectedSort(sort);
+    if (sort == "ilvl") {
+      setSortedEquipmentList([...sortedEquipmentList].sort((a, b) => a[sort] - b[sort]));
+    } else {
+      setSortedEquipmentList([...sortedEquipmentList].sort((a, b) => a[sort].localeCompare(b[sort])));
+    }
+  };
 
   const presentProtoEntityIds = useMemo(() => {
     // extract unique prototypes of the owned equipment
@@ -14,35 +26,32 @@ const InventoryList = () => {
     // the filter just uses the sorting order of `equipmentProtoEntityIds`
     return equipmentProtoEntityIds.filter((protoEntityId) => presentProtoEntityIds.has(protoEntityId));
   }, [ownedEquipmentList]);
-  console.log("presentProtoEntityIds", presentProtoEntityIds);
-  console.log("equipmentPrototypes", equipmentPrototypes);
-
   const separator = <hr className="h-px my-2 bg-dark-400 border-0" />;
-
   return (
     <div className="w-[60%] flex flex-col justify-center items-center">
       <div className="flex justify-start w-full m-2">
         <div className="text-2xl text-dark-comment">{"// inventory"}</div>
+        <CustomSelect
+          defaultValue={"Sort"}
+          value={selectedSort}
+          onChange={sortInventory}
+          option={[
+            { value: "name", name: "name" },
+            { value: "ilvl", name: "ilvl" },
+          ]}
+        />
       </div>
 
-      {/* TODO provide more data for statmods so they can be used for sorting as well
-      <CustomSelect
-        defaultValue={"Sort"}
-        value={selectedSort}
-        onChange={sortList}
-        option={[
-          { value: "name", name: "name" },
-          { value: "ilvl", name: "ilvl" },
-        ]}
-      />*/}
+      {/*//TODO provide more data for statmods so they can be used for sorting as well*/}
+
       <div className="flex flex-col justify-center items-center">
         {presentProtoEntityIds.map((_protoEntityId) => (
           <div key={_protoEntityId} className="w-full">
             {separator}
-            <div key={_protoEntityId} className="flex w-full justify-around">
+            <div key={_protoEntityId} className="flex justify-center">
               <InventoryHeader>{equipmentPrototypes[_protoEntityId]}</InventoryHeader>
               <InventorySection
-                equipmentList={ownedEquipmentList.filter(({ protoEntityId }) => protoEntityId === _protoEntityId)}
+                equipmentList={sortedEquipmentList.filter(({ protoEntityId }) => protoEntityId === _protoEntityId)}
               />
             </div>
           </div>
