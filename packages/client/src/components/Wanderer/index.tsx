@@ -1,6 +1,6 @@
 import { EntityIndex } from "@latticexyz/recs";
 import WandererImage from "./WandererImage";
-import CustomButton from "../UI/CustomButton/CustomButton";
+import CustomButton from "../UI/Button/CustomButton";
 import { useWandererContext } from "../../contexts/WandererContext";
 
 export default function Wanderer({ wandererEntity }: { wandererEntity: EntityIndex }) {

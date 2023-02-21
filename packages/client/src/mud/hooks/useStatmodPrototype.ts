@@ -1,9 +1,7 @@
-import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex } from "@latticexyz/recs";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
-import { Element } from "../utils/elemental";
-import { Op } from "../utils/op";
+import { getStatmodPrototype } from "../utils/getStatmodPrototype";
 
 export const useStatmodPrototype = (entity: EntityIndex) => {
   const {
@@ -11,26 +9,8 @@ export const useStatmodPrototype = (entity: EntityIndex) => {
     components: { StatmodPrototype, Name, ReverseHashName },
   } = useMUD();
 
-  const statmodPrototype = useComponentValue(StatmodPrototype, entity);
-
-  const topicEntity = useMemo(
-    () => (statmodPrototype ? world.entityToIndex.get(statmodPrototype.topicEntity) : undefined),
-    [world, statmodPrototype]
+  return useMemo(
+    () => getStatmodPrototype(world, { StatmodPrototype, Name, ReverseHashName }, entity),
+    [world, StatmodPrototype, Name, ReverseHashName, entity]
   );
-  const name = useComponentValue(Name, entity);
-  // TODO is topicName even needed?
-  const topicName = useComponentValue(ReverseHashName, topicEntity);
-
-  if (!statmodPrototype) return;
-
-  return {
-    entity,
-    name: name?.value,
-
-    element: statmodPrototype.element as Element,
-    op: statmodPrototype.op as Op,
-
-    topicEntity,
-    topicName,
-  };
 };

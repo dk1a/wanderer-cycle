@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppliedEffect } from "../../mud/hooks/useEffectPrototype";
+import { AppliedEffect } from "../../mud/utils/getEffect";
 import Effect from "../Effect";
 
 interface EffectListSectionProps {

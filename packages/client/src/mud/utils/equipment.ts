@@ -14,7 +14,9 @@ export const equipmentPrototypes: Record<EntityID, string> = {
   [getEquipmentProtoEntity("Ring")]: "Ring",
 };
 
+export const equipmentProtoEntityIds = Object.keys(equipmentPrototypes) as EntityID[];
+
 function getEquipmentProtoEntity(name: string) {
   const componentId = keccak256(toUtf8Bytes("component.EquipmentPrototype"));
-  return keccak256(defaultAbiCoder.encode(["uint256", "uint256"], [componentId, name])) as EntityID;
+  return keccak256(defaultAbiCoder.encode(["uint256", "string"], [componentId, name])) as EntityID;
 }

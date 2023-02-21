@@ -1,10 +1,11 @@
 import Effect from "../Effect";
-import CustomButton from "../UI/CustomButton/CustomButton";
+import CustomButton from "../UI/Button/CustomButton";
 import { EntityIndex } from "@latticexyz/recs";
 import { useLoot } from "../../mud/hooks/useLoot";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
 import { useActivateCycleCombat } from "../../mud/hooks/useActivateCycleCombat";
+import { EffectSource } from "../../mud/utils/getEffect";
 
 interface MapProps {
   entity: EntityIndex;
@@ -44,8 +45,7 @@ const Map = ({ entity }: MapProps) => {
           protoEntity={entity}
           removability={effect.removability}
           statmods={effect.statmods}
-          isItem={true}
-          isSkill={false}
+          effectSource={EffectSource.OWNABLE}
         />
       </div>
       <hr className="h-px my-2 bg-dark-400 border-0" />

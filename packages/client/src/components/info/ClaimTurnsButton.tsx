@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useMUD } from "../../mud/MUDContext";
-import CustomButton from "../UI/CustomButton/CustomButton";
+import CustomButton from "../UI/Button/CustomButton";
 
 export default function ClaimTurnsButton() {
   const { systems } = useMUD();

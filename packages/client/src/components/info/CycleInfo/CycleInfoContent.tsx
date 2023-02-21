@@ -68,14 +68,16 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
   );
 
   return (
-    <BaseInfo
-      name={guise?.name}
-      locationName={null}
-      levelProps={levelProps}
-      statProps={statProps}
-      lifeCurrent={lifeCurrent}
-      manaCurrent={manaCurrent}
-      turnsHtml={turnsHtml}
-    />
+    <div className="absolute top-16 left-0 h-[100vh]">
+      <BaseInfo
+        name={guise?.name}
+        locationName={null}
+        levelProps={levelProps}
+        statProps={statProps}
+        lifeCurrent={lifeCurrent}
+        manaCurrent={manaCurrent}
+        turnsHtml={turnsHtml}
+      />
+    </div>
   );
 }
