@@ -3,32 +3,25 @@ import { equipmentProtoEntityIds, equipmentPrototypes } from "../../mud/utils/eq
 import { useMemo, useState } from "react";
 import InventorySection from "./InventorySection";
 import InventoryHeader from "./InventoryHeader";
-import CustomSelect from "../UI/Select/CustomSelect";
-import CustomInput from "../UI/Input/CustomInput";
+import InventoryFilter from "./InventoryFilter";
 
 // TODO this looks like it should have an InventoryContext, with filtering and sorting and all that
 const InventoryList = () => {
   const ownedEquipmentList = useOwnedEquipment();
-  const [equipmentList, setEquipmentList] = useState(ownedEquipmentList);
-  const [selectedSort, setSelectedSort] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [filter, setFilter] = useState({ sort: "", query: "" });
 
   const sortedEquipmentList = useMemo(() => {
-    if (selectedSort == "name") {
-      return [...equipmentList].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]));
-    } else if (selectedSort == "ilvl") {
-      return [...equipmentList].sort((a, b) => a[selectedSort] - b[selectedSort]);
+    if (filter.sort == "name") {
+      return [...ownedEquipmentList].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]));
+    } else if (filter.sort == "ilvl") {
+      return [...ownedEquipmentList].sort((a, b) => b[filter.sort] - a[filter.sort]);
     }
-    return equipmentList;
-  }, [selectedSort, equipmentList]);
+    return ownedEquipmentList;
+  }, [filter.sort, ownedEquipmentList]);
 
   const sortedAndSearchedEquipmentList = useMemo(() => {
-    return sortedEquipmentList.filter((equipment) => equipment.name.toLowerCase().includes(searchQuery));
-  }, [searchQuery, sortedEquipmentList]);
-
-  const sortInventory = (sort) => {
-    setSelectedSort(sort);
-  };
+    return sortedEquipmentList.filter((equipment) => equipment.name.toLowerCase().includes(filter.query.toLowerCase()));
+  }, [filter.query, sortedEquipmentList]);
 
   const presentProtoEntityIds = useMemo(() => {
     // extract unique prototypes of the owned equipment
@@ -42,23 +35,17 @@ const InventoryList = () => {
     <div className="w-[60%] flex flex-col justify-center items-center">
       <div className="flex justify-start w-full m-2">
         <div className="text-2xl text-dark-comment">{"// inventory"}</div>
-        <CustomSelect
-          defaultValue={"Sort"}
-          value={selectedSort}
-          onChange={sortInventory}
-          option={[
-            { value: "name", name: "name" },
-            { value: "ilvl", name: "ilvl" },
-          ]}
-        />
-        <CustomInput value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder={"Search..."} />
+        <InventoryFilter filter={filter} setFilter={setFilter} />
       </div>
 
       <div className="flex flex-col justify-center items-center">
         {presentProtoEntityIds.map((_protoEntityId) => (
           <div key={_protoEntityId} className="w-full">
-            <div key={_protoEntityId} className={!searchQuery ? "flex flex-wrap" : "flex justify-center flex-wrap"}>
-              {!searchQuery && (
+            <div
+              key={_protoEntityId}
+              className={!filter.query ? "flex flex-wrap flex-col" : "flex flex-col justify-center flex-wrap"}
+            >
+              {!filter.query && (
                 <div className="w-1/3">
                   <InventoryHeader>{equipmentPrototypes[_protoEntityId]}</InventoryHeader>
                 </div>
@@ -71,7 +58,7 @@ const InventoryList = () => {
                 />
               </div>
             </div>
-            {!searchQuery && separator}
+            {!filter.query && separator}
           </div>
         ))}
       </div>

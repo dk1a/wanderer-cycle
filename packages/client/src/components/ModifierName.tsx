@@ -13,8 +13,8 @@ const ModifierName = forwardRef<HTMLDivElement, ModifierNameProps>(({ name, valu
     <div ref={ref} className="flex flex-wrap">
       {nameParts.map((namePart, index) => (
         <div key={namePart} className="">
-          {index !== 0 && <span className="text-dark-number">{value}</span>}
-          <span className="text-dark-string">{namePart}</span>
+          {index !== 0 && <span className="text-dark-number text-[14px]">{value}</span>}
+          <span className="text-dark-string text-[14px]">{namePart}</span>
         </div>
       ))}
     </div>
