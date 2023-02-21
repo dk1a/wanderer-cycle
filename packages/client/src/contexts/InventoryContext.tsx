@@ -1,8 +1,10 @@
 import { EntityID } from "@latticexyz/recs";
 import { createContext, ReactNode, useContext, useMemo, useState } from "react";
+import { useEquipmentSlots } from "../mud/hooks/useEquipmentSlots";
 import { useOwnedEquipment } from "../mud/hooks/useOwnedEquipment";
 import { equipmentProtoEntityIds } from "../mud/utils/equipment";
 import { LootData } from "../mud/utils/getLoot";
+import { useWandererContext } from "./WandererContext";
 
 export type InventorySortKey = "name" | "ilvl";
 
@@ -23,6 +25,10 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
 
   const [sort, setSort] = useState<InventorySortKey>();
   const [filter, setFilter] = useState<string>("");
+
+  const { cycleEntity } = useWandererContext();
+
+  const equipmentSlots = useEquipmentSlots(cycleEntity);
 
   // 1. Get all owned equipment
   const ownedEquipmentList = useOwnedEquipment();
@@ -59,6 +65,7 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
     setFilter,
     presentProtoEntityIds,
     equipmentList: sortedEquipmentList,
+    equipmentSlots,
   };
   return <InventoryContext.Provider value={value}>{props.children}</InventoryContext.Provider>;
 };
