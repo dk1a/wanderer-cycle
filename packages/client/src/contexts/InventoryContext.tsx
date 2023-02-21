@@ -1,12 +1,20 @@
 import { EntityID } from "@latticexyz/recs";
 import { createContext, ReactNode, useContext, useMemo, useState } from "react";
-import { useEquipmentSlots } from "../mud/hooks/useEquipmentSlots";
+import { EquipmentAction, useChangeCycleEquipment } from "../mud/hooks/useChangeCycleEquipment";
+import { EquipmentSlot, useEquipmentSlots } from "../mud/hooks/useEquipmentSlots";
 import { useOwnedEquipment } from "../mud/hooks/useOwnedEquipment";
 import { equipmentProtoEntityIds } from "../mud/utils/equipment";
 import { LootData } from "../mud/utils/getLoot";
 import { useWandererContext } from "./WandererContext";
 
 export type InventorySortKey = "name" | "ilvl";
+
+export type EquipmentSlotWithEquip = EquipmentSlot & { equip: () => void };
+
+export type EquipmentData = LootData & {
+  equippedToSlot: EquipmentSlot;
+  availableSlots: EquipmentSlotWithEquip[];
+};
 
 type InventoryContextType = {
   sort?: InventorySortKey;
@@ -27,8 +35,8 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
   const [sort, setSort] = useState<InventorySortKey>();
   const [filter, setFilter] = useState<string>("");
 
+  const changeCycleEquipment = useChangeCycleEquipment();
   const { cycleEntity } = useWandererContext();
-
   const equipmentSlots = useEquipmentSlots(cycleEntity);
 
   // 1. Get all owned equipment
@@ -59,13 +67,43 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
     return equipmentProtoEntityIds.filter((protoEntityId) => presentProtoEntityIds.has(protoEntityId));
   }, [sortedEquipmentList]);
 
+  // 5. Add equipment slot info
+  const equipmentListWithSlots = useMemo(() => {
+    return sortedEquipmentList.map((data) => {
+      // get the
+      const equippedToSlot = equipmentSlots.find(({ equipped }) => data.entity === equipped?.entity);
+
+      const availableSlots = (() => {
+        if (equippedToSlot) return;
+        const equippableToSlots = equipmentSlots.filter(({ equipmentProtoEntityIds }) =>
+          equipmentProtoEntityIds.includes(data.protoEntityId)
+        );
+        return equippableToSlots.map((slotData) => ({
+          ...slotData,
+          equip: () => changeCycleEquipment(EquipmentAction.EQUIP, slotData.entity, data.entity),
+        }));
+      })();
+
+      return {
+        ...data,
+        equippedToSlot,
+        availableSlots,
+      };
+    });
+  }, [sortedEquipmentList, equipmentSlots, changeCycleEquipment]);
+
+  // 6. Omit the currently equipped equipment
+  const equipmentList = useMemo(() => {
+    return equipmentListWithSlots.filter(({ equippedToSlot }) => equippedToSlot === undefined);
+  }, [equipmentListWithSlots]);
+
   const value = {
     sort,
     setSort,
     filter,
     setFilter,
     presentProtoEntityIds,
-    equipmentList: sortedEquipmentList,
+    equipmentList,
     equipmentSlots,
   };
   return <InventoryContext.Provider value={value}>{props.children}</InventoryContext.Provider>;

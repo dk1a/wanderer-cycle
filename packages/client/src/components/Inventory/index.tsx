@@ -9,7 +9,7 @@ export default function Inventory() {
       <InventoryProvider>
         <CycleInfo />
         <InventoryList />
-        {/*<CurrentEquipment />*/}
+        <CurrentEquipment />
       </InventoryProvider>
     </section>
   );

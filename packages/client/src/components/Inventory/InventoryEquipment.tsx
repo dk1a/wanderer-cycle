@@ -1,7 +1,7 @@
-import { LootData } from "../../mud/utils/getLoot";
+import { EquipmentData } from "../../contexts/InventoryContext";
 import { EffectModifier } from "../Effect/EffectStatmod";
 
-const InventoryEquipment = ({ equipmentData }: { equipmentData: LootData }) => {
+const InventoryEquipment = ({ equipmentData }: { equipmentData: EquipmentData }) => {
   const affixes = equipmentData.affixes;
 
   // TODO affixes are more than effects, they need either a separate component or an extended EffectModifier
@@ -11,6 +11,15 @@ const InventoryEquipment = ({ equipmentData }: { equipmentData: LootData }) => {
       <span className="">
         ilvl<span className="mx-2 text-dark-number">{equipmentData.ilvl}</span>
       </span>
+
+      {/* TODO style this */}
+      {equipmentData.availableSlots.map((slotData) => (
+        <button key={slotData.entity} onClick={() => slotData.equip()}>
+          equip
+          {equipmentData.availableSlots.length > 1 && <span> ({slotData.name})</span>}
+        </button>
+      ))}
+
       {affixes.map(({ protoEntity, value, partId, statmod }) => (
         <div className="flex box-content flex-wrap" key={`${partId}${protoEntity}`}>
           <EffectModifier protoEntity={statmod.protoEntity} value={value} />
