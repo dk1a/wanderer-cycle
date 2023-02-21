@@ -4,7 +4,6 @@ import InventoryHeader from "./InventoryHeader";
 import InventoryFilter from "./InventoryFilter";
 import { useInventoryContext } from "../../contexts/InventoryContext";
 
-// TODO this looks like it should have an InventoryContext, with filtering and sorting and all that
 const InventoryList = () => {
   const { equipmentList, presentProtoEntityIds, filter } = useInventoryContext();
 
