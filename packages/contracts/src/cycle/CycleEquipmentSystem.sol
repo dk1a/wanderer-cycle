@@ -42,7 +42,7 @@ contract CycleEquipmentSystem is System {
     // and the equipment
     // TODO also use NFT write access (LibLootOwner?)
     // TODO allow the entity which has `equipmentEntity` equipped to unequip it without owning it
-    if (cycleEntity != ownedByComponent.getValue(equipmentEntity)) {
+    if (addressToEntity(msg.sender) != ownedByComponent.getValue(equipmentEntity)) {
       revert CycleEquipmentSystem__NotEquipmentOwner();
     }
 
