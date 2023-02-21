@@ -10,14 +10,14 @@ const ModifierName = forwardRef<HTMLDivElement, ModifierNameProps>(({ name, valu
   const nameParts = name.split("#");
 
   return (
-    <span ref={ref} className="flex flex-wrap">
+    <div ref={ref} className="flex flex-wrap">
       {nameParts.map((namePart, index) => (
         <div key={namePart} className="">
           {index !== 0 && <span className="text-dark-number">{value}</span>}
           <span className="text-dark-string">{namePart}</span>
         </div>
       ))}
-    </span>
+    </div>
   );
 });
 ModifierName.displayName = "ModifierName";

@@ -21,6 +21,7 @@ const InventoryList = () => {
     }
     return equipmentList;
   }, [selectedSort, equipmentList]);
+
   const sortedAndSearchedEquipmentList = useMemo(() => {
     return sortedEquipmentList.filter((equipment) => equipment.name.toLowerCase().includes(searchQuery));
   }, [searchQuery, sortedEquipmentList]);
@@ -53,19 +54,21 @@ const InventoryList = () => {
         <CustomInput value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder={"Search..."} />
       </div>
 
-      {/*//TODO provide more data for statmods so they can be used for sorting as well*/}
-
       <div className="flex flex-col justify-center items-center">
         {presentProtoEntityIds.map((_protoEntityId) => (
           <div key={_protoEntityId} className="w-full">
             {separator}
             <div key={_protoEntityId} className="flex justify-center">
-              <InventoryHeader>{equipmentPrototypes[_protoEntityId]}</InventoryHeader>
-              <InventorySection
-                equipmentList={sortedAndSearchedEquipmentList.filter(
-                  ({ protoEntityId }) => protoEntityId === _protoEntityId
-                )}
-              />
+              <div className="w-1/3">
+                <InventoryHeader>{equipmentPrototypes[_protoEntityId]}</InventoryHeader>
+              </div>
+              <div className="w-[70%]">
+                <InventorySection
+                  equipmentList={sortedAndSearchedEquipmentList.filter(
+                    ({ protoEntityId }) => protoEntityId === _protoEntityId
+                  )}
+                />
+              </div>
             </div>
           </div>
         ))}
