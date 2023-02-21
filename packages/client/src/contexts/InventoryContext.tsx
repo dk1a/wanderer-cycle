@@ -15,6 +15,7 @@ type InventoryContextType = {
   setFilter: (filter: string) => void;
   presentProtoEntityIds: EntityID[];
   equipmentList: LootData[];
+  equipmentSlots: ReturnType<typeof useEquipmentSlots>;
 };
 
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined);
