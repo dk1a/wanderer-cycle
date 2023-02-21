@@ -57,12 +57,13 @@ const InventoryList = () => {
       <div className="flex flex-col justify-center items-center">
         {presentProtoEntityIds.map((_protoEntityId) => (
           <div key={_protoEntityId} className="w-full">
-            {separator}
-            <div key={_protoEntityId} className="flex justify-center">
-              <div className="w-1/3">
-                <InventoryHeader>{equipmentPrototypes[_protoEntityId]}</InventoryHeader>
-              </div>
-              <div className="w-[70%]">
+            <div key={_protoEntityId} className={!searchQuery ? "flex flex-wrap" : "flex justify-center flex-wrap"}>
+              {!searchQuery && (
+                <div className="w-1/3">
+                  <InventoryHeader>{equipmentPrototypes[_protoEntityId]}</InventoryHeader>
+                </div>
+              )}
+              <div className="w-auto">
                 <InventorySection
                   equipmentList={sortedAndSearchedEquipmentList.filter(
                     ({ protoEntityId }) => protoEntityId === _protoEntityId
@@ -70,6 +71,7 @@ const InventoryList = () => {
                 />
               </div>
             </div>
+            {!searchQuery && separator}
           </div>
         ))}
       </div>
