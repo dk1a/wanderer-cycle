@@ -3,6 +3,8 @@ import { SetupResult } from "../setup";
 import { getEffectPrototype } from "./getEffect";
 import { AffixPartId, getLootAffixes, LootAffix } from "./getLootAffix";
 
+export type LootData = ReturnType<typeof getLoot>;
+
 type GetLootComponents = Pick<SetupResult["components"], "Loot" | "FromPrototype" | "EffectPrototype" | "AffixNaming">;
 
 export function getLoot(world: World, components: GetLootComponents, entity: EntityIndex) {

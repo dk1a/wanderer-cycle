@@ -1,7 +1,7 @@
-import { getLoot } from "../../mud/utils/getLoot";
+import { LootData } from "../../mud/utils/getLoot";
 import { EffectModifier } from "../Effect/EffectStatmod";
 
-const InventoryEquipment = ({ equipmentData }: { equipmentData: ReturnType<typeof getLoot> }) => {
+const InventoryEquipment = ({ equipmentData }: { equipmentData: LootData }) => {
   const affixes = equipmentData.affixes;
 
   // TODO affixes are more than effects, they need either a separate component or an extended EffectModifier
