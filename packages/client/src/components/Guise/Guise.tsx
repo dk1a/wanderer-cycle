@@ -35,7 +35,7 @@ export default function Guise({ entity, onSelectGuise, disabled }: GuiseProps) {
           {statNames.map((statName) => (
             <Fragment key={statName}>
               <div className="text-dark-key flex p-1 m-1">
-                {statName}:<div className="text-dark-key flex p-1 m-1">{guise.gainMul[statName]}</div>
+                {statName}:<span className="text-dark-number flex mx-2">{guise.gainMul[statName]}</span>
               </div>
             </Fragment>
           ))}
