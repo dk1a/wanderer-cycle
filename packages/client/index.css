@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-    font-family: 'Raleway', sans-serif;
+* {
+  font-family: "PT Sans", sans-serif;
 }

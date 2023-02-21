@@ -67,7 +67,7 @@ export default function BaseInfo({
             {name}:
             <div className="text-dark-key flex mx-2">
               <span className="text-dark-number">{value}</span>
-              <span className="text-dark-200 m-0.5 ">/</span>
+              <span className="text-dark-200 mx-0.5">/</span>
               <span className="text-dark-number">123{/* TODO statmod goes here */}</span>
             </div>
           </div>
