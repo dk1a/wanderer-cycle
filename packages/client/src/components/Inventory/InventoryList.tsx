@@ -8,7 +8,6 @@ const InventoryList = () => {
   const { equipmentList, presentProtoEntityIds, filter } = useInventoryContext();
 
   const separator = <hr className="h-px my-2 bg-dark-400 border-0" />;
-  console.log("filter", filter);
   return (
     <div className="w-[60%] flex flex-col ">
       <div className="flex justify-start w-full m-2">
