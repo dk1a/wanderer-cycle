@@ -1,16 +1,26 @@
 import Tippy from "@tippyjs/react";
 import CustomButton from "../UI/Button/CustomButton";
 import { left } from "@popperjs/core";
+import { EffectModifier } from "../Effect/EffectStatmod";
 
-const CurrentEquipment = ({ equipmentList, equipmentSlots }: any) => {
-  const affixes = equipmentList.map((i) => i.affixes);
-  console.log(equipmentSlots);
+const CurrentEquipment = ({ equipmentSlots }: any) => {
+  console.log("equipmentSlots", equipmentSlots);
 
   return (
     <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-screen absolute top-16 right-0">
       <h4 className="col-span-3 text-center text-lg text-dark-type font-medium">Current Equipment</h4>
       {equipmentSlots.map(({ entity, name, equipped, unequip }) => (
-        <Tippy key={entity} placement={left} content={<span>Stats</span>}>
+        <Tippy
+          key={entity}
+          placement={left}
+          content={
+            equipped !== undefined ? (
+              <EffectModifier protoEntity={equipped.protoEntity} value={equipped.affixes.value} />
+            ) : (
+              <div>Take loot</div>
+            )
+          }
+        >
           <div className="flex flex-wrap flex-col m-2 border border-dark-400 p-1">
             <div className="text-dark-200 text-[14px] flex flex-wrap ml-1">
               {name}:
