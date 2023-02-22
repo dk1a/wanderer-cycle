@@ -4,6 +4,7 @@ import Skill from "../Skill";
 import "react-tippy/dist/tippy.css";
 import Tippy from "@tippyjs/react";
 import "../TippyComment/tippyTheme.scss";
+import { left } from "@popperjs/core";
 
 export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
   const skill = useGuiseSkill(entity);
@@ -13,10 +14,10 @@ export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
     content = (
       <Tippy
         key={entity}
-        offset={[100, 20]}
-        placement={"left"}
+        delay={100}
+        offset={[0, 25]}
+        placement={left}
         arrow={true}
-        animation={"perspective"}
         trigger={"click"}
         interactive
         content={
