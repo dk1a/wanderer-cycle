@@ -4,13 +4,13 @@ import CurrentEquipment from "./CurrentEquipment";
 import InventoryList from "./InventoryList";
 
 export default function Inventory() {
-  const { equipmentList, presentProtoEntityIds, filter, equipmentSlots } = useInventoryContext();
+  const { equipmentList, presentProtoEntityIds, filter } = useInventoryContext();
 
   return (
     <section className="flex justify-around">
       <CycleInfo />
       <InventoryList equipmentList={equipmentList} presentProtoEntityIds={presentProtoEntityIds} filter={filter} />
-      <CurrentEquipment equipmentList={equipmentList} equipmentSlots={equipmentSlots} />
+      <CurrentEquipment />
     </section>
   );
 }

@@ -2,8 +2,10 @@ import Tippy from "@tippyjs/react";
 import CustomButton from "../UI/Button/CustomButton";
 import { left } from "@popperjs/core";
 import { EffectModifier } from "../Effect/EffectStatmod";
+import { useInventoryContext } from "../../contexts/InventoryContext";
 
-const CurrentEquipment = ({ equipmentSlots }: any) => {
+const CurrentEquipment = () => {
+  const { equipmentSlots } = useInventoryContext();
   console.log("equipmentSlots", equipmentSlots);
 
   return (
