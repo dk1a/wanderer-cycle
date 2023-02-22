@@ -8,9 +8,8 @@ const InventoryList = () => {
   const { equipmentList, presentProtoEntityIds, filter } = useInventoryContext();
 
   const separator = <hr className="h-px my-2 bg-dark-400 border-0" />;
-
   return (
-    <div className="w-[60%] flex flex-col justify-center items-center">
+    <div className="w-[60%] flex flex-col ">
       <div className="flex justify-start w-full m-2">
         <div className="text-2xl text-dark-comment">{"// inventory"}</div>
         <InventoryFilter />
@@ -21,7 +20,9 @@ const InventoryList = () => {
           <div key={_protoEntityId} className="w-full">
             <div
               key={_protoEntityId}
-              className={!filter ? "flex flex-wrap flex-col" : "flex flex-col justify-center flex-wrap"}
+              className={
+                !filter ? "flex flex-col justify-start w-full flex-wrap" : "flex flex-col justify-center flex-wrap"
+              }
             >
               <div className="w-1/3">
                 <InventoryHeader>{equipmentPrototypes[_protoEntityId]}</InventoryHeader>

@@ -1,12 +1,11 @@
 import { Fragment } from "react";
 import { EntityIndex } from "@latticexyz/recs";
-// TODO migrate to @tippyjs/react (see GuiseSkill)
-import { Tooltip } from "react-tippy";
 import { useGuise } from "../../mud/hooks/useGuise";
 import CustomButton from "../UI/Button/CustomButton";
 import GuiseSkill from "./GuiseSkill";
 import TippyComment from "../TippyComment/TippyComment";
 import "tippy.js/dist/tippy.css";
+import Tippy from "@tippyjs/react";
 
 interface GuiseProps {
   entity: EntityIndex;
@@ -22,20 +21,19 @@ export default function Guise({ entity, onSelectGuise, disabled }: GuiseProps) {
     content = (
       <>
         <header className="text-2xl text-dark-type text-center">{guise.name}</header>
-        <Tooltip
-          arrow={true}
-          animation="perspective"
-          position="left"
-          html={<TippyComment content="multiplier of gained stats" />}
+        <Tippy
+          animation={"perspective"}
+          placement={"left"}
+          content={<TippyComment content="multiplier of gained stats" />}
         >
           <div className="text-dark-comment flex justify-between">{"//stat Multipliers"}</div>
-        </Tooltip>
+        </Tippy>
 
         <div className="flex flex-col justify-start items-baseline">
           {statNames.map((statName) => (
             <Fragment key={statName}>
               <div className="text-dark-key flex p-1 m-1">
-                {statName}:<div className="text-dark-key flex p-1 m-1">{guise.gainMul[statName]}</div>
+                {statName}:<span className="text-dark-number flex mx-2">{guise.gainMul[statName]}</span>
               </div>
             </Fragment>
           ))}

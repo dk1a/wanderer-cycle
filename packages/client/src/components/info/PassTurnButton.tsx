@@ -24,7 +24,7 @@ export default function PassTurnButton() {
     <>
       {isAvailable && (
         // TODO replace with a working CustomButton+tooltip
-        <CustomButton onClick={passTurn} style={{ fontSize: "14px" }}>
+        <CustomButton onClick={passTurn} style={{ fontSize: "12px" }}>
           {"passTurn"}
         </CustomButton>
       )}

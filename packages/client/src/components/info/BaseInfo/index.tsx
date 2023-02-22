@@ -40,7 +40,7 @@ export default function BaseInfo({
   const separator = <hr className="h-px my-2 bg-dark-400 border-0" />;
 
   return (
-    <section className="flex flex-col w-52 bg-dark-500 border border-dark-400 h-[100vh]">
+    <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-[100vh]">
       <h4 className="relative col-span-3 text-center text-lg text-dark-type font-medium">{name}</h4>
       {locationName !== null && <div className="col-span-3 text-center text-dark-string">{locationName}</div>}
       <div className="text-dark-key p-2 flex">
@@ -67,7 +67,7 @@ export default function BaseInfo({
             {name}:
             <div className="text-dark-key flex mx-2">
               <span className="text-dark-number">{value}</span>
-              <span className="text-dark-200 m-0.5 ">/</span>
+              <span className="text-dark-200 mx-0.5">/</span>
               <span className="text-dark-number">123{/* TODO statmod goes here */}</span>
             </div>
           </div>
