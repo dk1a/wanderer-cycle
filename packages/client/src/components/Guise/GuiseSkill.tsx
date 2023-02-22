@@ -10,11 +10,11 @@ export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
 
   let content;
   if (skill) {
-    // TODO migrate other tooltips
     content = (
       <Tippy
         key={entity}
         offset={[100, 20]}
+        placement={"left"}
         arrow={true}
         animation={"perspective"}
         trigger={"click"}
