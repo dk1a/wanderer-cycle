@@ -1,6 +1,7 @@
 import { EquipmentData } from "../../contexts/InventoryContext";
-import { EffectModifier } from "../Effect/EffectStatmod";
+import { EffectStatmod } from "../Effect/EffectStatmod";
 import CustomButton from "../UI/Button/CustomButton";
+import BaseEquipmentDetails from "./BaseEquipmentDetails";
 
 const InventoryEquipment = ({ equipmentData }: { equipmentData: EquipmentData }) => {
   const affixes = equipmentData.affixes;
@@ -9,15 +10,7 @@ const InventoryEquipment = ({ equipmentData }: { equipmentData: EquipmentData })
   return (
     <div className="text-dark-key p-2 flex flex-col justify-between border border-dark-400 w-[220px] h-auto m-2">
       <span className="text-lg text-dark-type flex-wrap flex box-border">{equipmentData.name}</span>
-      <span className="">
-        ilvl<span className="mx-2 text-dark-number">{equipmentData.ilvl}</span>
-      </span>
-
-      {affixes.map(({ protoEntity, value, partId, statmod }) => (
-        <div className="flex box-content flex-wrap" key={`${partId}${protoEntity}`}>
-          <EffectModifier protoEntity={statmod.protoEntity} value={value} />
-        </div>
-      ))}
+      <BaseEquipmentDetails affixes={affixes} ilvl={equipmentData.ilvl} />
       <div className="flex justify-around mt-1">
         {equipmentData.availableSlots.map((slotData) => (
           <CustomButton

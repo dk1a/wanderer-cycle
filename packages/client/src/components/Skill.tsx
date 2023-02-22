@@ -2,7 +2,7 @@ import { Fragment, useMemo } from "react";
 import { useEffectPrototype } from "../mud/hooks/useEffectPrototype";
 import { SkillType, useGuiseSkill } from "../mud/hooks/useGuiseSkill";
 import { useStatmodPrototype } from "../mud/hooks/useStatmodPrototype";
-import { EffectStatmod } from "../mud/utils/effectStatmod";
+import { EffectStatmodProps } from "../mud/utils/effectStatmod";
 
 export default function Skill({ skill }: { skill: ReturnType<typeof useGuiseSkill> }) {
   const effect = useEffectPrototype(skill.entity);
@@ -55,7 +55,7 @@ export default function Skill({ skill }: { skill: ReturnType<typeof useGuiseSkil
   );
 }
 
-function SkillEffectStatmod({ statmod }: { statmod: EffectStatmod }) {
+function SkillEffectStatmod({ statmod }: { statmod: EffectStatmodProps }) {
   const statmodPrototype = useStatmodPrototype(statmod.protoEntity);
 
   const nameParts = useMemo(() => {

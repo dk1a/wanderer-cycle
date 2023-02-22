@@ -1,12 +1,11 @@
 import Tippy from "@tippyjs/react";
 import CustomButton from "../UI/Button/CustomButton";
 import { left } from "@popperjs/core";
-import { EffectModifier } from "../Effect/EffectStatmod";
 import { useInventoryContext } from "../../contexts/InventoryContext";
+import BaseEquipmentDetails from "./BaseEquipmentDetails";
 
 const CurrentEquipment = () => {
   const { equipmentSlots } = useInventoryContext();
-  console.log("equipmentSlots", equipmentSlots);
 
   return (
     <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-screen absolute top-16 right-0">
@@ -17,7 +16,7 @@ const CurrentEquipment = () => {
           placement={left}
           content={
             equipped !== undefined ? (
-              <EffectModifier protoEntity={equipped.protoEntity} value={equipped.affixes.value} />
+              <BaseEquipmentDetails key={entity} affixes={equipped.affixes} ilvl={equipped.ilvl} />
             ) : (
               <div>Take loot</div>
             )
