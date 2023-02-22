@@ -11,19 +11,21 @@ const CurrentEquipment = ({ equipmentList, equipmentSlots }: any) => {
       <h4 className="col-span-3 text-center text-lg text-dark-type font-medium">Current Equipment</h4>
       {equipmentSlots.map(({ entity, name, equipped, unequip }) => (
         <Tippy key={entity} placement={left} content={<span>Stats</span>}>
-          <div className="flex flex-wrap m-2 border border-dark-400 p-1.5">
-            <div className="text-dark-200">{name}:</div>
-            {equipped == undefined ? (
-              <>
-                <div>
-                  <div className="text-dark-type mx-1">{"equipped.name"}</div>
-                </div>
-                <CustomButton style={{ marginTop: "5px" }} onClick={() => unequip()}>
+          <div className="flex flex-wrap flex-col m-2 border border-dark-400 p-1">
+            <div className="text-dark-200 text-[14px] flex flex-wrap ml-1">
+              {name}:
+              {equipped !== undefined ? (
+                <div className="text-dark-type text-[14px] ml-1">{equipped.name}</div>
+              ) : (
+                <div className="text-dark-300 mx-2">empty</div>
+              )}
+            </div>
+            {equipped !== undefined && (
+              <div className="w-">
+                <CustomButton style={{ marginTop: "5px", fontSize: "13px" }} onClick={() => unequip()}>
                   unequip
                 </CustomButton>
-              </>
-            ) : (
-              <div className="text-dark-300 mx-2">empty</div>
+              </div>
             )}
           </div>
         </Tippy>
