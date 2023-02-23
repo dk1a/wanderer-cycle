@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
 import { useGuise } from "./useGuise";
 
-export const useActiveGuise = (targetEntity: EntityIndex) => {
+export const useActiveGuise = (targetEntity: EntityIndex | undefined) => {
   const mud = useMUD();
   const {
     world,
@@ -17,10 +17,6 @@ export const useActiveGuise = (targetEntity: EntityIndex) => {
     if (!guiseEntityId) return;
     return world.entityToIndex.get(guiseEntityId);
   }, [world, activeGuise]);
-
-  if (guiseEntity === undefined) {
-    throw new Error(`No active guise for target entity ${targetEntity}`);
-  }
 
   return useGuise(guiseEntity);
 };
