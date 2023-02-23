@@ -4,7 +4,6 @@ import { PStats, pstatsFromExperience } from "../utils/experience";
 import { useGetValuesFinal } from "./statmod";
 import { useExperience } from "./useExperience";
 
-// TODO account for entities without experience
 export function usePstat(targetEntity: EntityIndex | undefined, key: keyof PStats) {
   // some entities (players) have experience
   const experience = useExperience(targetEntity);
