@@ -1,7 +1,9 @@
 import { EntityIndex } from "@latticexyz/recs";
 import { Fragment, ReactNode } from "react";
-import { useLife, useMana } from "../../../mud/hooks/charstat";
-import StatLevelProgress, { StatLevelProgressProps } from "../StatLevelProgress";
+import { useLife, useMana } from "../../mud/hooks/charstat";
+import { useLifeCurrent } from "../../mud/hooks/useLifeCurrent";
+import { useManaCurrent } from "../../mud/hooks/useManaCurrent";
+import StatLevelProgress, { StatLevelProgressProps } from "./StatLevelProgress";
 // import EffectList from "../../EffectList";
 
 export interface StatProps {
@@ -10,28 +12,20 @@ export interface StatProps {
 }
 
 export interface BaseInfoProps {
-  entity: EntityIndex;
+  entity: EntityIndex | undefined;
   name: string | undefined;
   locationName: string | null | undefined;
   levelProps: StatProps;
   statProps: StatProps[];
-  lifeCurrent: number | undefined;
-  manaCurrent: number | undefined;
   turnsHtml?: ReactNode;
 }
 
-export default function BaseInfo({
-  entity,
-  name,
-  locationName,
-  levelProps,
-  statProps,
-  lifeCurrent,
-  manaCurrent,
-  turnsHtml,
-}: BaseInfoProps) {
+export default function BaseInfo({ entity, name, locationName, levelProps, statProps, turnsHtml }: BaseInfoProps) {
   const life = useLife(entity);
   const mana = useMana(entity);
+
+  const lifeCurrent = useLifeCurrent(entity);
+  const manaCurrent = useManaCurrent(entity);
 
   const currents = [
     {
