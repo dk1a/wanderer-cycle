@@ -5,6 +5,7 @@ import GuiseSkill from "./GuiseSkill";
 import TippyComment from "../TippyComment/TippyComment";
 import "tippy.js/dist/tippy.css";
 import Tippy from "@tippyjs/react";
+import { useGuise } from "../../mud/hooks/useGuise";
 
 interface GuiseProps {
   entity: EntityIndex;
@@ -13,6 +14,7 @@ interface GuiseProps {
 }
 
 export default function Guise({ entity, onSelectGuise, disabled }: GuiseProps) {
+  const guise = useGuise(entity);
   let content;
   if (guise) {
     const statNames = Object.keys(guise.gainMul) as (keyof typeof guise.gainMul)[];

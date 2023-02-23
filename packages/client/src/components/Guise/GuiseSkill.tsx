@@ -7,7 +7,6 @@ import "../TippyComment/tippyTheme.scss";
 import { left } from "@popperjs/core";
 import { useCallback, useMemo } from "react";
 import CustomButton from "../UI/Button/CustomButton";
-import { useGuise } from "../../mud/hooks/useGuise";
 
 export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
   const skill = useSkill(entity);
