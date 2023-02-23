@@ -4,53 +4,64 @@ import { SkillType, useSkill } from "../mud/hooks/useSkill";
 import { useStatmodPrototype } from "../mud/hooks/useStatmodPrototype";
 import { EffectStatmodData } from "../mud/utils/effectStatmod";
 
-export default function Skill({ skill }: { skill: ReturnType<typeof useSkill> }) {
+export default function Skill({ skill, className }: { skill: ReturnType<typeof useSkill>; className: string }) {
   const effect = useEffectPrototype(skill.entity);
 
   return (
     <>
-      <div className="bg-dark-500 border border-dark-400 p-2">
-        <div className="text-dark-method text-xl">{skill.name}</div>
-        <div className="text-dark-comment">{skill.description}</div>
-        <div>
-          <span className="text-dark-key">type: </span>
-          <span className="text-dark-string">{skill.skillTypeName}</span>
+      <div className={className}>
+        <div className="text-dark-method text-xl flex justify-between">
+          {skill.name}
+          <div className="text-dark-key ml-2 text-[16px]">
+            required level: <span className="text-dark-string">{skill.requiredLevel}</span>
+          </div>
         </div>
-        {skill.skillType !== SkillType.PASSIVE && (
-          <div>
-            <span className="text-dark-key">cost: </span>
-            <span className="text-dark-number">{skill.cost}</span>
-            <span className="text-dark-string"> mana</span>
+        <div className="text-dark-comment">{`//${skill.description}`}</div>
+        <div className="flex justify-between">
+          <div className="w-1/2">
+            <div>
+              <span className="text-dark-key">type: </span>
+              <span className="text-dark-string">{skill.skillTypeName}</span>
+            </div>
+            {skill.skillType !== SkillType.PASSIVE && (
+              <div>
+                <span className="text-dark-key">cost: </span>
+                <span className="text-dark-number mr-1">{skill.cost}</span>
+                <span className="text-dark-string mr-1"> mana</span>
+              </div>
+            )}
+            {skill.duration.timeValue > 0 && (
+              <div className="flex">
+                <span className="text-dark-key mr-1">duration:</span>
+                <span className="text-dark-number mr-1">{skill.duration.timeValue}</span>
+                <span className="text-dark-string"> {skill.duration.timeScopeName}</span>
+              </div>
+            )}
+            {skill.cooldown.timeValue > 0 && (
+              <div className="flex">
+                <span className="text-dark-key mr-1">cooldown: </span>
+                <span className="text-dark-number mr-1">{skill.cooldown.timeValue}</span>
+                <span className="text-dark-string"> {skill.duration.timeScopeName}</span>
+              </div>
+            )}
           </div>
-        )}
-        {skill.duration.timeValue > 0 && (
-          <div>
-            <span className="text-dark-key">duration: </span>
-            <span className="text-dark-number">{skill.duration.timeValue}</span>
-            <span className="text-dark-string"> {skill.duration.timeScopeName}</span>
+          <div className="p-0.5 w-1/2 ml-10">
+            {effect !== undefined && effect.statmods !== undefined && (
+              <>
+                <div className="">
+                  <span className="text-dark-key">
+                    effect target: <span className="text-dark-number">{skill.effectTargetName}</span>{" "}
+                  </span>
+                  <span className="text-dark-string">{skill.skillTypeName}</span>
+                </div>
+                {effect.statmods.map((statmod) => (
+                  <SkillEffectStatmod key={statmod.protoEntity} statmod={statmod} />
+                ))}
+              </>
+            )}
           </div>
-        )}
-        {skill.cooldown.timeValue > 0 && (
-          <div>
-            <span className="text-dark-key">cooldown: </span>
-            <span className="text-dark-number">{skill.cooldown.timeValue}</span>
-            <span className="text-dark-string"> {skill.duration.timeScopeName}</span>
-          </div>
-        )}
+        </div>
       </div>
-
-      {effect !== undefined && effect.statmods !== undefined && (
-        <>
-          <div className="">
-            <span className="text-dark-key">effect target: </span>
-            <span className="text-dark-string">{skill.skillTypeName}</span>
-          </div>
-
-          {effect.statmods.map((statmod) => (
-            <SkillEffectStatmod key={statmod.protoEntity} statmod={statmod} />
-          ))}
-        </>
-      )}
     </>
   );
 }

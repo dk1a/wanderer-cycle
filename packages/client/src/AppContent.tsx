@@ -8,7 +8,7 @@ import classes from "./App.module.scss";
 import WandererSelect from "./pages/WandererSelect";
 import GlobalMaps from "./pages/GlobalMaps";
 import CombatPage from "./pages/CombatPage";
-import LearnSkillPage from "./pages/LearnSkillPage";
+import SkillPage from "./pages/SkillPage";
 
 const AppContent = () => {
   return (
@@ -20,7 +20,7 @@ const AppContent = () => {
           <Route path="wanderer-select" element={<WandererSelect />} />
           <Route path="global-maps" element={<GlobalMaps />} />
           <Route path="global-maps/:combat/:id" element={<CombatPage />} />
-          <Route path="learnSkill" element={<LearnSkillPage />} />
+          <Route path="skills" element={<SkillPage />} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>

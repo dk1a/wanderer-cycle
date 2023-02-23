@@ -14,15 +14,21 @@ const Layout = () => {
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
+            to="/wanderer-select"
+          >
+            Wanderer Select
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
             to="/inventory"
           >
             Inventory
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
-            to="/wanderer-select"
+            to="/skills"
           >
-            Wanderer Select
+            Skills
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
