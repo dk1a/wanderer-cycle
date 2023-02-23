@@ -1,5 +1,5 @@
 import { EntityIndex } from "@latticexyz/recs";
-import { useGuiseSkill } from "../../mud/hooks/useGuiseSkill";
+import { useSkill } from "../../mud/hooks/useSkill";
 import Skill from "../Skill";
 import "react-tippy/dist/tippy.css";
 import Tippy from "@tippyjs/react";
@@ -7,7 +7,7 @@ import "../TippyComment/tippyTheme.scss";
 import { left } from "@popperjs/core";
 
 export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
-  const skill = useGuiseSkill(entity);
+  const skill = useSkill(entity);
 
   let content;
   if (skill) {

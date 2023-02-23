@@ -1,7 +1,7 @@
 import { EntityID, EntityIndex, getComponentValueStrict, World } from "@latticexyz/recs";
 import { defaultAbiCoder, keccak256, toUtf8Bytes } from "ethers/lib/utils";
 import { SetupResult } from "../setup";
-import { EffectStatmodProps } from "./effectStatmod";
+import { EffectStatmodData } from "./effectStatmod";
 
 export enum AffixPartId {
   IMPLICIT,
@@ -14,7 +14,7 @@ export interface LootAffix {
   partId: AffixPartId;
   protoEntity: EntityIndex;
   value: number;
-  statmod: EffectStatmodProps;
+  statmod: EffectStatmodData;
 }
 
 type GetLootAffixComponents = Pick<SetupResult["components"], "AffixNaming">;
@@ -26,7 +26,7 @@ export function getLootAffixes(
   partIds: number[],
   affixProtoEntityIds: EntityID[],
   values: number[],
-  statmods: EffectStatmodProps[]
+  statmods: EffectStatmodData[]
 ) {
   const lootAffixes: LootAffix[] = [];
 
@@ -52,7 +52,7 @@ export function getLootAffix(
   partId: number,
   affixProtoEntityId: EntityID,
   value: number,
-  statmod: EffectStatmodProps
+  statmod: EffectStatmodData
 ): LootAffix {
   const { AffixNaming } = components;
   const affixProtoEntity = world.entityToIndex.get(affixProtoEntityId);

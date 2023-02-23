@@ -1,12 +1,12 @@
 import { EntityID, EntityIndex, World } from "@latticexyz/recs";
 
-export interface EffectStatmod {
+export interface EffectStatmodData {
   protoEntity: EntityIndex;
   value: number;
 }
 
 export const parseEffectStatmods = (world: World, protoEntityIds: EntityID[], values: number[]) => {
-  const effectStatmods: EffectStatmodProps[] = [];
+  const effectStatmods: EffectStatmodData[] = [];
 
   for (let i = 0; i < protoEntityIds.length; i++) {
     effectStatmods.push(parseEffectStatmod(world, protoEntityIds[i], values[i]));

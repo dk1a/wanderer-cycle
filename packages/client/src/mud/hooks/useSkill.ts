@@ -30,7 +30,7 @@ export const targetTypeNames = {
   [TargetType.SELF_OR_ALLY]: "self or ally",
 };
 
-export const useGuiseSkill = (entity: EntityIndex) => {
+export const useSkill = (entity: EntityIndex) => {
   const {
     world,
     components: { SkillPrototype, SkillDescription, Name },

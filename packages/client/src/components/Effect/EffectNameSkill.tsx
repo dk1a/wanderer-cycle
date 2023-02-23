@@ -1,8 +1,8 @@
 import { EntityIndex } from "@latticexyz/recs";
-import { useGuiseSkill } from "../../mud/hooks/useGuiseSkill";
+import { useSkill } from "../../mud/hooks/useSkill";
 
 export default function EffectNameSkill({ entity }: { entity: EntityIndex }) {
-  const { name } = useGuiseSkill(entity);
+  const { name } = useSkill(entity);
 
   return (
     <>
