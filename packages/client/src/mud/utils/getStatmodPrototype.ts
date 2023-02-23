@@ -13,7 +13,7 @@ export function getStatmodPrototype(world: World, components: GetStatmodPrototyp
   const topicEntity = world.entityToIndex.get(statmodPrototype.topicEntity);
   const name = getComponentValueStrict(Name, entity);
   // TODO is topicName even needed?
-  const topicName = topicEntity ? getComponentValue(ReverseHashName, topicEntity) : undefined;
+  const topicName = topicEntity ? getComponentValue(ReverseHashName, topicEntity)?.value : undefined;
 
   return {
     entity,
