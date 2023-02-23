@@ -5,9 +5,26 @@ import "react-tippy/dist/tippy.css";
 import Tippy from "@tippyjs/react";
 import "../TippyComment/tippyTheme.scss";
 import { left } from "@popperjs/core";
+import { useCallback, useMemo } from "react";
+import CustomButton from "../UI/Button/CustomButton";
+import { useGuise } from "../../mud/hooks/useGuise";
 
 export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
   const skill = useSkill(entity);
+
+  const levelProps = useMemo(() => {
+    // TODO add total exp data
+    const exp = 10;
+    const level = 1;
+
+    return {
+      name: "level",
+      props: { exp, level },
+    };
+  }, []);
+  // const onLearnEnter = useCallback(() => {
+  //   const
+  // }, []);
 
   let content;
   if (skill) {
@@ -26,11 +43,18 @@ export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
           </div>
         }
       >
-        <div className="w-full flex">
-          <div>
+        <div className="w-full flex cursor-pointer justify-between">
+          <div className="flex">
             <div className="text-dark-number text-lg cursor-pointer">{skill.requiredLevel}.</div>
+            <div className="text-dark-method text-lg cursor-pointer w-full">{skill.name}</div>
           </div>
-          <div className="text-dark-method text-lg cursor-pointer w-full">{skill.name}</div>
+          {levelProps.props.level >= skill.requiredLevel && (
+            <CustomButton
+            // onClick={onLearnEnter}
+            >
+              learn skill
+            </CustomButton>
+          )}
         </div>
       </Tippy>
     );

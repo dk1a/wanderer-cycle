@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import { EntityIndex } from "@latticexyz/recs";
-import { useGuise } from "../../mud/hooks/useGuise";
 import CustomButton from "../UI/Button/CustomButton";
 import GuiseSkill from "./GuiseSkill";
 import TippyComment from "../TippyComment/TippyComment";
@@ -14,7 +13,6 @@ interface GuiseProps {
 }
 
 export default function Guise({ entity, onSelectGuise, disabled }: GuiseProps) {
-  const guise = useGuise(entity);
   let content;
   if (guise) {
     const statNames = Object.keys(guise.gainMul) as (keyof typeof guise.gainMul)[];
