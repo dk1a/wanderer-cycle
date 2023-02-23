@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useDuration } from "../../mud/hooks/useDuration";
-import { EffectModifier } from "./EffectStatmod";
+import { EffectStatmod } from "./EffectStatmod";
 import EffectNameItem from "./EffectNameItem";
 import EffectNameSkill from "./EffectNameSkill";
 import { AppliedEffect, EffectSource } from "../../mud/utils/getEffect";
@@ -26,7 +26,7 @@ export default function Effect({ entity, protoEntity, removability, statmods, ef
 
       {statmods &&
         statmods.map(({ protoEntity, value }) => (
-          <EffectModifier key={protoEntity} protoEntity={protoEntity} value={value} />
+          <EffectStatmod key={protoEntity} protoEntity={protoEntity} value={value} />
         ))}
 
       {duration !== undefined && duration.timeValue > 0 && (

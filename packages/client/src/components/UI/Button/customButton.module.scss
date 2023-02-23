@@ -6,13 +6,15 @@
 
 .customBtn{
   @apply text-dark-control box-border text-center bg-dark-500 transition-all hover:bg-dark-400 active:bg-dark-600
-  text-lg pr-2 pl-2 border border-dark-400 disabled:text-dark-comment disabled:cursor-not-allowed disabled:bg-dark-600
+  text-lg pr-2 pl-2 py-1 border border-dark-400 disabled:text-dark-comment disabled:cursor-not-allowed disabled:bg-dark-600
+  leading-none
 }
 
 .customBtn__disabled{
   @apply disabled:text-dark-300 disabled:cursor-not-allowed
   box-border text-center bg-dark-600 transition-all
-  text-lg pr-2 pl-2 border border-dark-400
+  text-lg pr-2 pl-2 py-1 border border-dark-400
+  leading-none
 }
 
 //.customBtn__wrapper{

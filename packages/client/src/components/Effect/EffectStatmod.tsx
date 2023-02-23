@@ -1,8 +1,8 @@
 import { useStatmodPrototype } from "../../mud/hooks/useStatmodPrototype";
-import { EffectStatmod } from "../../mud/utils/effectStatmod";
+import { EffectStatmodData } from "../../mud/utils/effectStatmod";
 import ModifierName from "../ModifierName";
 
-export function EffectModifier({ protoEntity, value }: EffectStatmod) {
+export function EffectStatmod({ protoEntity, value }: EffectStatmodData) {
   // TODO maybe get just the name?
   const statmodPrototype = useStatmodPrototype(protoEntity);
   const name = statmodPrototype.name;

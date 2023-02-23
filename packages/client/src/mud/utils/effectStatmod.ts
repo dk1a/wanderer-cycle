@@ -6,7 +6,7 @@ export interface EffectStatmod {
 }
 
 export const parseEffectStatmods = (world: World, protoEntityIds: EntityID[], values: number[]) => {
-  const effectStatmods: EffectStatmod[] = [];
+  const effectStatmods: EffectStatmodProps[] = [];
 
   for (let i = 0; i < protoEntityIds.length; i++) {
     effectStatmods.push(parseEffectStatmod(world, protoEntityIds[i], values[i]));

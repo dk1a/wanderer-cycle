@@ -1,9 +1,12 @@
-.tippy-tooltip{
+.tippy-box[data-theme~='wanderer']{
+  padding: 0;
+}
+.tippy-tooltip[data-theme~='wanderer']{
   padding: 0;
 }
 
 
-.tippy-content {
+.tippy-content[data-theme~='wanderer']{
   padding: 0;
 }
 
