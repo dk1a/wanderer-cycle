@@ -70,6 +70,7 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
   return (
     <div className="absolute top-16 left-0 h-[100vh]">
       <BaseInfo
+        entity={cycleEntity}
         name={guise?.name}
         locationName={null}
         levelProps={levelProps}

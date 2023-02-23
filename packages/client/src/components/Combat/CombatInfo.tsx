@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { StatLevelProgressProps } from "../info/StatLevelProgress";
 import BaseInfo from "../info/BaseInfo";
+import { EntityIndex } from "@latticexyz/recs";
 
 export interface StatProps {
   name: string;
@@ -8,6 +9,7 @@ export interface StatProps {
 }
 
 export interface BaseInfoProps {
+  entity: EntityIndex;
   name: string | undefined;
   locationName: string | null | undefined;
   levelProps: StatProps;
@@ -18,6 +20,7 @@ export interface BaseInfoProps {
 }
 
 export default function CombatInfo({
+  entity,
   name,
   locationName,
   levelProps,
@@ -27,6 +30,7 @@ export default function CombatInfo({
 }: BaseInfoProps) {
   return (
     <BaseInfo
+      entity={entity}
       name={name}
       locationName={locationName}
       levelProps={levelProps}

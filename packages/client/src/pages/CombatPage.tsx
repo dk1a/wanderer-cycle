@@ -59,6 +59,7 @@ const CombatPage = () => {
           </div>
           <div className="w-64">
             <CombatInfo
+              entity={enemyEntity}
               name={"Combat"}
               locationName={null}
               levelProps={levelProps}

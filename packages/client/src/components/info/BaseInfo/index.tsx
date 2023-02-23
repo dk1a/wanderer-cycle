@@ -1,4 +1,6 @@
+import { EntityIndex } from "@latticexyz/recs";
 import { Fragment, ReactNode } from "react";
+import { useLife, useMana } from "../../../mud/hooks/charstat";
 import StatLevelProgress, { StatLevelProgressProps } from "../StatLevelProgress";
 // import EffectList from "../../EffectList";
 
@@ -8,6 +10,7 @@ export interface StatProps {
 }
 
 export interface BaseInfoProps {
+  entity: EntityIndex;
   name: string | undefined;
   locationName: string | null | undefined;
   levelProps: StatProps;
@@ -18,6 +21,7 @@ export interface BaseInfoProps {
 }
 
 export default function BaseInfo({
+  entity,
   name,
   locationName,
   levelProps,
@@ -26,14 +30,19 @@ export default function BaseInfo({
   manaCurrent,
   turnsHtml,
 }: BaseInfoProps) {
+  const life = useLife(entity);
+  const mana = useMana(entity);
+
   const currents = [
     {
       name: "life",
       value: lifeCurrent,
+      maxValue: life,
     },
     {
       name: "mana",
       value: manaCurrent,
+      maxValue: mana,
     },
   ];
 
@@ -61,14 +70,14 @@ export default function BaseInfo({
         </Fragment>
       ))}
       {separator}
-      {currents.map(({ name, value }) => (
+      {currents.map(({ name, value, maxValue }) => (
         <Fragment key={name}>
           <div className="text-dark-key flex m-2">
             {name}:
             <div className="text-dark-key flex mx-2">
               <span className="text-dark-number">{value}</span>
               <span className="text-dark-200 mx-0.5">/</span>
-              <span className="text-dark-number">123{/* TODO statmod goes here */}</span>
+              <span className="text-dark-number">{maxValue}</span>
             </div>
           </div>
           <div className="flex m-1">

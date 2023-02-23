@@ -2,6 +2,10 @@ export type StatmodTopic = (typeof statmodTopics)[number];
 export type ElementalStatmodTopic = (typeof elementalStatmodTopics)[number];
 
 export const statmodTopics = [
+  "strength",
+  "arcana",
+  "dexterity",
+
   "life",
   "mana",
   "fortune",
