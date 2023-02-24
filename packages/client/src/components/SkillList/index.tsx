@@ -1,9 +1,9 @@
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useActiveGuise } from "../../mud/hooks/useActiveGuise";
-import Skills from "./Skills";
+import SkillLearnable from "./SkillLearnable";
 
 const SkillList = () => {
-  const { cycleEntity, learnedSkillEntities } = useWandererContext();
+  const { cycleEntity } = useWandererContext();
   const guise = useActiveGuise(cycleEntity);
 
   return (
@@ -12,7 +12,7 @@ const SkillList = () => {
       <div className="flex flex-col">
         {guise?.skillEntities.map((entity) => (
           <div key={entity} className="w-[500px]">
-            <Skills entity={entity} learned={learnedSkillEntities.some((i) => i === entity)}></Skills>
+            <SkillLearnable entity={entity} />
           </div>
         ))}
       </div>
