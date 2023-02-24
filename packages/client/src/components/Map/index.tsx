@@ -34,7 +34,7 @@ const Map = ({ entity }: MapProps) => {
       <h3 className="text-xl text-dark-type text-center">{name}</h3>
       <hr className="h-px my-2 bg-dark-400 border-0" />
       <div className="text-dark-comment">
-        {"//level: "}
+        {"// level: "}
         <span className="text-dark-number">{loot?.ilvl}</span>
       </div>
       <hr className="h-px my-2 bg-dark-400 border-0" />

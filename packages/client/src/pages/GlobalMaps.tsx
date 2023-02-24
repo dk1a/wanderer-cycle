@@ -14,7 +14,7 @@ const GlobalMaps = () => {
     <>
       {selectedWandererEntity === undefined ? (
         <div>
-          <h3 className="m-10 text-2xl font-bold text-dark-comment">{"//select a wanderer"}</h3>
+          <h3 className="m-10 text-2xl font-bold text-dark-comment">{"// select a wanderer"}</h3>
           <div className="flex justify-around">
             <div className="flex flex-wrap gap-x-4 gap-y-4 mt-2 justify-around">
               {wandererEntities.map((wandererEntity) => (
