@@ -7,7 +7,7 @@ export default function EffectNameSkill({ entity }: { entity: EntityIndex }) {
   return (
     <>
       <span className="text-dark-control mr-1">skill</span>
-      <span className="text-dark-type" title={name}>
+      <span className="text-dark-method" title={name}>
         {name}
       </span>
     </>

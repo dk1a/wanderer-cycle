@@ -36,7 +36,7 @@ const CurrentEquipment = () => {
             <div className="text-dark-200 text-[14px] flex flex-wrap ml-1">
               {name}:
               {equipped !== undefined ? (
-                <p className="text-dark-type text-[14px] mx-1">{equipped.name}</p>
+                <p className="text-dark-method text-[14px] mx-1">{equipped.name}</p>
               ) : (
                 <p className="text-dark-300 mx-2">empty</p>
               )}

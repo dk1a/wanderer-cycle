@@ -8,7 +8,7 @@ export default function EffectNameItem({ entity }: { entity: EntityIndex }) {
   return (
     <>
       <span className="text-dark-control mr-1">item</span>
-      <span className="text-dark-type" title={json.name}>
+      <span className="text-dark-method" title={json.name}>
         {json.name}
       </span>
     </>
