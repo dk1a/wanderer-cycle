@@ -1,10 +1,11 @@
 import { EntityIndex } from "@latticexyz/recs";
 import { Fragment, ReactNode } from "react";
 import { useLife, useMana } from "../../mud/hooks/charstat";
+import { useAppliedEffects } from "../../mud/hooks/useAppliedEffects";
 import { useLifeCurrent } from "../../mud/hooks/useLifeCurrent";
 import { useManaCurrent } from "../../mud/hooks/useManaCurrent";
+import EffectList from "../EffectList";
 import StatLevelProgress, { StatLevelProgressProps } from "./StatLevelProgress";
-// import EffectList from "../../EffectList";
 
 export interface StatProps {
   name: string;
@@ -26,6 +27,8 @@ export default function BaseInfo({ entity, name, locationName, levelProps, statP
 
   const lifeCurrent = useLifeCurrent(entity);
   const manaCurrent = useManaCurrent(entity);
+
+  const effects = useAppliedEffects(entity);
 
   const currents = [
     {
@@ -90,7 +93,7 @@ export default function BaseInfo({ entity, name, locationName, levelProps, statP
         {/*{attrs && <ElementalStats attrs={attrs} />}*/}
       </div>
       {separator}
-      {/*<EffectList />*/}
+      <EffectList effects={effects} />
     </section>
   );
 }

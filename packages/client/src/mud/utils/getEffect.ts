@@ -1,4 +1,4 @@
-import { EntityIndex, getComponentValue, getComponentValueStrict, hasComponent, World } from "@latticexyz/recs";
+import { EntityIndex, getComponentValue, hasComponent, World } from "@latticexyz/recs";
 import { defineEffectComponent } from "../components/EffectComponent";
 import { SetupResult } from "../setup";
 import { parseEffectStatmods } from "./effectStatmod";
@@ -36,19 +36,18 @@ export function getEffectPrototype(
 
 type GetAppliedEffectComponents = Pick<
   SetupResult["components"],
-  "AppliedEffect" | "FromPrototype" | "SkillPrototype" | "WNFT_Ownership" | "OwnedBy"
+  "AppliedEffect" | "SkillPrototype" | "WNFT_Ownership" | "OwnedBy"
 >;
 
-export function getAppliedEffect(world: World, components: GetAppliedEffectComponents, entity: EntityIndex) {
-  const { AppliedEffect, FromPrototype, SkillPrototype, WNFT_Ownership, OwnedBy } = components;
+export function getAppliedEffect(
+  world: World,
+  components: GetAppliedEffectComponents,
+  appliedEntity: EntityIndex,
+  protoEntity: EntityIndex
+) {
+  const { AppliedEffect, SkillPrototype, WNFT_Ownership, OwnedBy } = components;
 
-  const effectPrototypeData = getEffectPrototype(world, AppliedEffect, entity);
-
-  const fromPrototype = getComponentValueStrict(FromPrototype, entity);
-  const protoEntity = world.entityToIndex.get(fromPrototype.value);
-  if (!protoEntity) {
-    throw new Error("Effect prototype entity has no index");
-  }
+  const effectPrototypeData = getEffectPrototype(world, AppliedEffect, appliedEntity);
 
   const effectSource = (() => {
     if (hasComponent(SkillPrototype, protoEntity)) {
@@ -58,7 +57,7 @@ export function getAppliedEffect(world: World, components: GetAppliedEffectCompo
     } else if (hasComponent(OwnedBy, protoEntity)) {
       return EffectSource.OWNABLE;
     } else {
-      throw new Error(`Unable to determine effect source for ${fromPrototype.value}`);
+      throw new Error(`Unable to determine effect source for ${world.entities[protoEntity]}`);
     }
   })();
 
