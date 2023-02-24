@@ -52,7 +52,7 @@ export default function Skill({ skill, className, isCollapsed = false, onHeaderC
                   <span className="text-dark-string"> {skill.duration.timeScopeName}</span>
                 </div>
               )}
-              <div className="p-0.5 w-1/2 mt-4 w-full">
+              <div className="p-0.5 w-full mt-4">
                 {effect !== undefined && effect.statmods !== undefined && (
                   <>
                     <div className="">
