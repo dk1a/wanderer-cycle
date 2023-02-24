@@ -22,6 +22,7 @@ export default function Effect({ entity, protoEntity, removability, statmods, ef
       <div className="overflow-hidden text-ellipsis whitespace-nowrap">
         {protoEntity && isItem && <EffectNameItem entity={protoEntity} />}
         {protoEntity && effectSource === EffectSource.SKILL && <EffectNameSkill entity={protoEntity} />}
+        {EffectSource.UNKNOWN == effectSource && `Unknown ${protoEntity}`}
       </div>
 
       {statmods &&

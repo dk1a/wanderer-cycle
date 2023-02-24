@@ -13,6 +13,8 @@ export default function EffectList({ effects }: EffectListProps) {
     const itemEffects = effects.filter(({ effectSource }) =>
       [EffectSource.NFT, EffectSource.OWNABLE].includes(effectSource)
     );
+    // TODO these shouldn't exist! this is just for debugging
+    const unknownEffects = effects.filter(({ effectSource }) => effectSource === EffectSource.UNKNOWN);
 
     const result = [];
     if (skillEffects.length > 0) {
@@ -20,6 +22,9 @@ export default function EffectList({ effects }: EffectListProps) {
     }
     if (itemEffects.length > 0) {
       result.push({ sourceName: "item", effectList: itemEffects, isInitCollapsed: true });
+    }
+    if (unknownEffects.length > 0) {
+      result.push({ sourceName: "unknown", effectList: unknownEffects, isInitCollapsed: true });
     }
     return result;
   }, [effects]);

@@ -8,10 +8,8 @@ import { getAppliedEffect } from "../utils/getEffect";
 const effectSubsystemId = keccak256(toUtf8Bytes("system.Effect"));
 
 export const useAppliedEffects = (targetEntity: EntityIndex | undefined) => {
-  const {
-    world,
-    components: { EffectPrototype, AppliedEffect, SkillPrototype, WNFT_Ownership, OwnedBy },
-  } = useMUD();
+  const { world, components } = useMUD();
+  const { EffectPrototype, AppliedEffect } = components;
 
   // TODO this is horrendous and won't scale, you need a keyTuple from v2 world here
   // (or just add a component to track applied effect's targetEntity via HasValue)
@@ -39,16 +37,7 @@ export const useAppliedEffects = (targetEntity: EntityIndex | undefined) => {
     );
 
     return filteredEntities.map(({ protoEntity, appliedEntity }) =>
-      getAppliedEffect(world, { AppliedEffect, SkillPrototype, WNFT_Ownership, OwnedBy }, appliedEntity, protoEntity)
+      getAppliedEffect(world, components, appliedEntity, protoEntity)
     );
-  }, [
-    world,
-    AppliedEffect,
-    SkillPrototype,
-    WNFT_Ownership,
-    OwnedBy,
-    effectProtoEntities,
-    appliedEffectEntities,
-    targetEntity,
-  ]);
+  }, [world, components, effectProtoEntities, appliedEffectEntities, targetEntity]);
 };
