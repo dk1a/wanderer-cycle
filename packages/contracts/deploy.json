@@ -138,6 +138,10 @@
       "writeAccess": ["CycleTurnsComponent", "CycleTurnsLastClaimedComponent"]
     },
     {
+      "name": "PassCycleTurnSystem",
+      "writeAccess": ["CycleTurnsComponent", "LifeCurrentComponent", "ManaCurrentComponent"]
+    },
+    {
       "name": "LearnCycleSkillSystem",
       "writeAccess": ["LearnedSkillsComponent"]
     },

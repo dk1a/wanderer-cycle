@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
+import { useMUD } from "../../mud/MUDContext";
 import CustomButton from "../UI/Button/CustomButton";
 
 export default function PassTurnButton() {
+  const { world, systems } = useMUD();
   const { selectedWandererEntity } = useWandererContext();
 
   // TODO add real encounter data
@@ -11,20 +13,22 @@ export default function PassTurnButton() {
   // TODO add availability data (cycle turns > 0)
   const isAvailable = true;
 
-  const isWriterEnabled = !isEncounterActive;
-
   const [isBusy, setIsBusy] = useState(false);
-  const passTurn = () => {
+  const passTurn = useCallback(async () => {
+    if (selectedWandererEntity === undefined) throw new Error("No wanderer selected");
+
     setIsBusy(true);
-    console.log("TODO add pass turn callback");
+    const tx = await systems["system.PassCycleTurn"].executeTyped(world.entities[selectedWandererEntity]);
+    await tx.wait();
     setIsBusy(false);
-  };
+  }, [world, systems, selectedWandererEntity]);
+
+  const isDisabled = useMemo(() => isBusy || isEncounterActive, [isBusy, isEncounterActive]);
 
   return (
     <>
       {isAvailable && (
-        // TODO replace with a working CustomButton+tooltip
-        <CustomButton onClick={passTurn} style={{ fontSize: "12px" }}>
+        <CustomButton onClick={passTurn} disabled={isDisabled} style={{ fontSize: "12px" }}>
           {"passTurn"}
         </CustomButton>
       )}

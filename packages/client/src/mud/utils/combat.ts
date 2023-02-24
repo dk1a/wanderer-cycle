@@ -14,5 +14,5 @@ export enum ActionType {
 
 export const attackAction: CombatAction = {
   actionType: ActionType.ATTACK,
-  actionEntity: "0x" as EntityID,
+  actionEntity: "0x00" as EntityID,
 };
