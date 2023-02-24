@@ -5,7 +5,7 @@ type BaseEquipmentDetailsData = {
   affixes: LootAffix[];
   ilvl: number;
   name: string;
-  className: StyleSheet;
+  className: string;
 };
 const BaseEquipmentDetails = ({ affixes, ilvl, name, className }: BaseEquipmentDetailsData) => {
   return (

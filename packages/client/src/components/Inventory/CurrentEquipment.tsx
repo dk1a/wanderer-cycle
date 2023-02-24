@@ -23,7 +23,7 @@ const CurrentEquipment = () => {
                 affixes={equipped.affixes}
                 ilvl={equipped.ilvl}
                 name={equipped.name}
-                className={"border border-dark-400 bg-dark-500 m-[-10px] p-2"}
+                className="border border-dark-400 bg-dark-500 m-[-10px] p-2"
               />
             ) : (
               <div className="bg-dark-500 w-36 h-16 text-center p-2 text-lg text-dark-300 m-[-10px] border border-dark-400">
