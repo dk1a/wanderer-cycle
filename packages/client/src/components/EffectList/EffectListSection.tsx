@@ -14,7 +14,7 @@ export default function EffectListSection({ sourceName, effects, initCollapsed }
   return (
     <div className="col-span-3 space-y-2">
       <h5 className="cursor-pointer" onClick={() => setCollapsed((collapsed) => !collapsed)}>
-        <span className="text-dark-comment ml-2 mr-1">{`// source:${sourceName}`}</span>
+        <span className="text-dark-comment ml-2 mr-1">{`// source: ${sourceName}`}</span>
         {collapsed ? ">" : "v"}
       </h5>
 
