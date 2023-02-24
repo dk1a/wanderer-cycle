@@ -8,29 +8,28 @@ import { left } from "@popperjs/core";
 
 export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
   const skill = useSkill(entity);
-
   let content;
   if (skill) {
     content = (
       <Tippy
         key={entity}
         delay={100}
-        offset={[0, 25]}
+        offset={[0, 20]}
         placement={left}
         arrow={true}
         trigger={"click"}
         interactive
         content={
           <div style={{ padding: 0 }}>
-            <Skill skill={skill} />
+            <Skill skill={skill} className={"bg-dark-500 border border-dark-400 p-2 m-[-10px]"} />
           </div>
         }
       >
-        <div className="w-full flex">
-          <div>
+        <div className="w-full flex cursor-pointer justify-between">
+          <div className="flex">
             <div className="text-dark-number text-lg cursor-pointer">{skill.requiredLevel}.</div>
+            <div className="text-dark-method text-lg cursor-pointer w-full">{skill.name}</div>
           </div>
-          <div className="text-dark-method text-lg cursor-pointer w-full">{skill.name}</div>
         </div>
       </Tippy>
     );

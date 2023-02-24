@@ -1,11 +1,11 @@
 import { Fragment } from "react";
 import { EntityIndex } from "@latticexyz/recs";
-import { useGuise } from "../../mud/hooks/useGuise";
 import CustomButton from "../UI/Button/CustomButton";
 import GuiseSkill from "./GuiseSkill";
 import TippyComment from "../TippyComment/TippyComment";
 import "tippy.js/dist/tippy.css";
 import Tippy from "@tippyjs/react";
+import { useGuise } from "../../mud/hooks/useGuise";
 
 interface GuiseProps {
   entity: EntityIndex;

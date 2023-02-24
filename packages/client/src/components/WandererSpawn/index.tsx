@@ -8,7 +8,7 @@ export default function WandererSpawn({ disabled }: { disabled: boolean }) {
 
   return (
     <div>
-      <h3 className="m-10 text-2xl font-bold text-dark-comment">{"//select a Guise to Mint a New Wanderer"}</h3>
+      <h3 className="m-10 text-2xl font-bold text-dark-comment">{"// select a Guise to Mint a New Wanderer"}</h3>
       {guiseEntities.map((guiseEntity) => (
         <div className="flex justify-center items-center flex-col" key={guiseEntity}>
           <Guise key={guiseEntity} entity={guiseEntity} onSelectGuise={wandererSpawn} disabled={disabled} />

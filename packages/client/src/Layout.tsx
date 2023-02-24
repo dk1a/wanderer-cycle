@@ -5,12 +5,18 @@ const Layout = () => {
   return (
     <div className={classes.content}>
       <div className={classes.nav__container}>
-        <div className={classes.nav__list}>
+        <nav className={classes.nav__list}>
           <NavLink
             className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
             to="/home"
           >
             Home
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
+            to="/wanderer-select"
+          >
+            Wanderer Select
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
@@ -20,9 +26,9 @@ const Layout = () => {
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
-            to="/wanderer-select"
+            to="/skills"
           >
-            Wanderer Select
+            Skills
           </NavLink>
           <NavLink
             className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
@@ -36,7 +42,7 @@ const Layout = () => {
           >
             About Us
           </NavLink>
-        </div>
+        </nav>
       </div>
       <Outlet />
     </div>
