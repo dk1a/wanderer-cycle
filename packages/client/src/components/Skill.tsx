@@ -11,7 +11,7 @@ type SkillData = {
   setVisible: (sortBy: string) => void;
 };
 
-export default function Skill({ skill, className, visible, setVisible }: SkillData) {
+export default function Skill({ skill, className, visible, setVisible }: SkillProps) {
   const effect = useEffectPrototype(skill.entity);
 
   return (
