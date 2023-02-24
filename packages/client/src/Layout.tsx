@@ -5,7 +5,7 @@ const Layout = () => {
   return (
     <div className={classes.content}>
       <div className={classes.nav__container}>
-        <div className={classes.nav__list}>
+        <nav className={classes.nav__list}>
           <NavLink
             className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
             to="/home"
@@ -42,7 +42,7 @@ const Layout = () => {
           >
             About Us
           </NavLink>
-        </div>
+        </nav>
       </div>
       <Outlet />
     </div>

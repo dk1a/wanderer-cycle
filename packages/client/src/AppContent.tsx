@@ -12,7 +12,7 @@ import SkillPage from "./pages/SkillPage";
 
 const AppContent = () => {
   return (
-    <nav className={classes.nav}>
+    <div className={classes.nav}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/home" element={<Home />} />
@@ -25,7 +25,7 @@ const AppContent = () => {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-    </nav>
+    </div>
   );
 };
 
