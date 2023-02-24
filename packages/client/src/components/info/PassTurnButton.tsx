@@ -1,17 +1,14 @@
 import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
+import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
 import { useMUD } from "../../mud/MUDContext";
 import CustomButton from "../UI/Button/CustomButton";
 
 export default function PassTurnButton() {
   const { world, systems } = useMUD();
-  const { selectedWandererEntity } = useWandererContext();
+  const { selectedWandererEntity, cycleEntity, enemyEntity } = useWandererContext();
 
-  // TODO add real encounter data
-  const isEncounterActive = false;
-
-  // TODO add availability data (cycle turns > 0)
-  const isAvailable = true;
+  const turns = useCycleTurns(cycleEntity);
 
   const [isBusy, setIsBusy] = useState(false);
   const passTurn = useCallback(async () => {
@@ -23,11 +20,16 @@ export default function PassTurnButton() {
     setIsBusy(false);
   }, [world, systems, selectedWandererEntity]);
 
-  const isDisabled = useMemo(() => isBusy || isEncounterActive, [isBusy, isEncounterActive]);
+  const isDisabled = useMemo(() => {
+    // not available during combat (since it fully heals)
+    const isEncounterActive = enemyEntity !== undefined;
+
+    return !turns || isBusy || isEncounterActive;
+  }, [turns, isBusy, enemyEntity]);
 
   return (
     <>
-      {isAvailable && (
+      {!!turns && (
         <CustomButton onClick={passTurn} disabled={isDisabled} style={{ fontSize: "12px" }}>
           {"passTurn"}
         </CustomButton>

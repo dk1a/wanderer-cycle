@@ -43,4 +43,6 @@ contract PassCycleTurnSystemTest is BaseTest {
     vm.expectRevert(LibCycleTurns.LibCycleTurns__NotEnoughTurns.selector);
     passCycleTurnSystem.executeTyped(wandererEntity);
   }
+
+  // TODO test that it can't be used during combat
 }
