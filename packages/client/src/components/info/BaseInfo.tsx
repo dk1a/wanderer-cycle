@@ -1,6 +1,11 @@
+import { EntityIndex } from "@latticexyz/recs";
 import { Fragment, ReactNode } from "react";
-import StatLevelProgress, { StatLevelProgressProps } from "../StatLevelProgress";
-// import EffectList from "../../EffectList";
+import { useLife, useMana } from "../../mud/hooks/charstat";
+import { useAppliedEffects } from "../../mud/hooks/useAppliedEffects";
+import { useLifeCurrent } from "../../mud/hooks/useLifeCurrent";
+import { useManaCurrent } from "../../mud/hooks/useManaCurrent";
+import EffectList from "../EffectList";
+import StatLevelProgress, { StatLevelProgressProps } from "./StatLevelProgress";
 
 export interface StatProps {
   name: string;
@@ -8,32 +13,33 @@ export interface StatProps {
 }
 
 export interface BaseInfoProps {
+  entity: EntityIndex | undefined;
   name: string | undefined;
   locationName: string | null | undefined;
   levelProps: StatProps;
   statProps: StatProps[];
-  lifeCurrent: number | undefined;
-  manaCurrent: number | undefined;
   turnsHtml?: ReactNode;
 }
 
-export default function BaseInfo({
-  name,
-  locationName,
-  levelProps,
-  statProps,
-  lifeCurrent,
-  manaCurrent,
-  turnsHtml,
-}: BaseInfoProps) {
+export default function BaseInfo({ entity, name, locationName, levelProps, statProps, turnsHtml }: BaseInfoProps) {
+  const life = useLife(entity);
+  const mana = useMana(entity);
+
+  const lifeCurrent = useLifeCurrent(entity);
+  const manaCurrent = useManaCurrent(entity);
+
+  const effects = useAppliedEffects(entity);
+
   const currents = [
     {
       name: "life",
       value: lifeCurrent,
+      maxValue: life,
     },
     {
       name: "mana",
       value: manaCurrent,
+      maxValue: mana,
     },
   ];
 
@@ -61,14 +67,14 @@ export default function BaseInfo({
         </Fragment>
       ))}
       {separator}
-      {currents.map(({ name, value }) => (
+      {currents.map(({ name, value, maxValue }) => (
         <Fragment key={name}>
           <div className="text-dark-key flex m-2">
             {name}:
             <div className="text-dark-key flex mx-2">
               <span className="text-dark-number">{value}</span>
               <span className="text-dark-200 mx-0.5">/</span>
-              <span className="text-dark-number">123{/* TODO statmod goes here */}</span>
+              <span className="text-dark-number">{maxValue}</span>
             </div>
           </div>
           <div className="flex m-1">
@@ -87,7 +93,7 @@ export default function BaseInfo({
         {/*{attrs && <ElementalStats attrs={attrs} />}*/}
       </div>
       {separator}
-      {/*<EffectList />*/}
+      <EffectList effects={effects} />
     </section>
   );
 }

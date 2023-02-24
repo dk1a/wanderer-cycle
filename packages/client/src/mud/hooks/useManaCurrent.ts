@@ -2,7 +2,7 @@ import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex } from "@latticexyz/recs";
 import { useMUD } from "../MUDContext";
 
-export const useManaCurrent = (entity: EntityIndex) => {
+export const useManaCurrent = (entity: EntityIndex | undefined) => {
   const {
     components: { ManaCurrent },
   } = useMUD();

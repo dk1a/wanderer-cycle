@@ -2,7 +2,7 @@ import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex } from "@latticexyz/recs";
 import { useMUD } from "../MUDContext";
 
-export const useExperience = (entity: EntityIndex) => {
+export const useExperience = (entity: EntityIndex | undefined) => {
   const {
     components: { Experience },
   } = useMUD();

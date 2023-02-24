@@ -1,21 +1,18 @@
 import { useMemo } from "react";
-import BaseInfo from "../BaseInfo";
-import PassTurnButton from "../PassTurnButton";
-import ClaimTurnsButton from "../ClaimTurnsButton";
-import { EntityIndex } from "@latticexyz/recs";
-import { useActiveGuise } from "../../../mud/hooks/useActiveGuise";
-import { useExperience } from "../../../mud/hooks/useExperience";
-import { expToLevel, pstatNames } from "../../../mud/utils/experience";
-import { useCycleTurns } from "../../../mud/hooks/useCycleTurns";
-import { useLifeCurrent } from "../../../mud/hooks/useLifeCurrent";
-import { useManaCurrent } from "../../../mud/hooks/useManaCurrent";
+import BaseInfo from "./BaseInfo";
+import PassTurnButton from "./PassTurnButton";
+import ClaimTurnsButton from "./ClaimTurnsButton";
+import { useActiveGuise } from "../../mud/hooks/useActiveGuise";
+import { useExperience } from "../../mud/hooks/useExperience";
+import { expToLevel, pstatNames } from "../../mud/utils/experience";
+import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
+import { useWandererContext } from "../../contexts/WandererContext";
 
-export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityIndex }) {
+export default function CycleInfo() {
+  const { cycleEntity } = useWandererContext();
   const guise = useActiveGuise(cycleEntity);
   const experience = useExperience(cycleEntity);
   const turns = useCycleTurns(cycleEntity);
-  const lifeCurrent = useLifeCurrent(cycleEntity);
-  const manaCurrent = useManaCurrent(cycleEntity);
 
   const levelProps = useMemo(() => {
     // TODO add total exp data
@@ -70,12 +67,11 @@ export default function CycleInfoContent({ cycleEntity }: { cycleEntity: EntityI
   return (
     <div className="absolute top-16 left-0 h-[100vh]">
       <BaseInfo
+        entity={cycleEntity}
         name={guise?.name}
         locationName={null}
         levelProps={levelProps}
         statProps={statProps}
-        lifeCurrent={lifeCurrent}
-        manaCurrent={manaCurrent}
         turnsHtml={turnsHtml}
       />
     </div>

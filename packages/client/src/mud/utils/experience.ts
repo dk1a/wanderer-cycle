@@ -19,21 +19,6 @@ export const pstatsFromExperience = (experience: PStats) => {
 const MAX_LEVEL = 16 as const;
 
 /**
- * @dev Calculate level based on single exp value
- */
-export const expToLevel = (expVal: number) => {
-  // expVal per level rises exponentially with polynomial easing
-  // 1-0, 2-96, 3-312, 4-544, 5-804, 6-1121...
-  for (let level = 1; level < MAX_LEVEL; level++) {
-    // (1<<i) == 2**i ; can't overflow due to maxLevel
-    if (expVal < levelToExp(level + 1)) {
-      return level;
-    }
-  }
-  return MAX_LEVEL;
-};
-
-/**
  * @dev Utility function to reverse a level into its required exp
  */
 export const levelToExp = (level: number) => {
@@ -47,4 +32,19 @@ export const levelToExp = (level: number) => {
   }
 
   return 8 * (1 << level) - Math.floor(level ** 6 / 1024) + level * 200 - 120;
+};
+
+/**
+ * @dev Calculate level based on single exp value
+ */
+export const expToLevel = (expVal: number) => {
+  // expVal per level rises exponentially with polynomial easing
+  // 1-0, 2-96, 3-312, 4-544, 5-804, 6-1121...
+  for (let level = 1; level < MAX_LEVEL; level++) {
+    // (1<<i) == 2**i ; can't overflow due to maxLevel
+    if (expVal < levelToExp(level + 1)) {
+      return level;
+    }
+  }
+  return MAX_LEVEL;
 };
