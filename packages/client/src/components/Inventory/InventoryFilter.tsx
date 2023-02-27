@@ -6,8 +6,8 @@ const InventoryFilter = () => {
   const { filter, setFilter, sort, setSort } = useInventoryContext();
 
   const sortOptions = [
-    { value: "name", name: "name" },
     { value: "ilvl", name: "ilvl" },
+    { value: "name", name: "name" },
   ] as const;
 
   return (

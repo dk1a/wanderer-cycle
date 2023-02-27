@@ -7,7 +7,7 @@ import { equipmentProtoEntityIds } from "../mud/utils/equipment";
 import { LootData } from "../mud/utils/getLoot";
 import { useWandererContext } from "./WandererContext";
 
-export type InventorySortKey = "name" | "ilvl";
+export type InventorySortKey = "ilvl" | "name";
 
 export type EquipmentSlotWithEquip = EquipmentSlot & { equip: () => void };
 
@@ -17,8 +17,8 @@ export type EquipmentData = LootData & {
 };
 
 type InventoryContextType = {
-  sort?: InventorySortKey;
-  setSort: (sort?: InventorySortKey) => void;
+  sort: InventorySortKey | undefined;
+  setSort: (sort: InventorySortKey | undefined) => void;
   filter: string;
   setFilter: (filter: string) => void;
   presentProtoEntityIds: EntityID[];
@@ -32,7 +32,7 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
   const currentValue = useContext(InventoryContext);
   if (currentValue) throw new Error("InventoryProvider can only be used once");
 
-  const [sort, setSort] = useState<InventorySortKey>();
+  const [sort, setSort] = useState<InventorySortKey | undefined>("ilvl");
   const [filter, setFilter] = useState<string>("");
 
   const changeCycleEquipment = useChangeCycleEquipment();
