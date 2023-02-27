@@ -16,7 +16,7 @@ export default function Skill({ skill, className, isCollapsed = false, onHeaderC
 
   return (
     <div className={className}>
-      <div onClick={onHeaderClick} className={"text-dark-method text-xl flex justify-between"}>
+      <div onClick={onHeaderClick} className={"text-dark-method text-xl flex justify-between cursor-pointer"}>
         {skill.name}
         <div className="text-dark-key ml-2 text-[16px]">
           required level: <span className="text-dark-string">{skill.requiredLevel}</span>
@@ -52,7 +52,7 @@ export default function Skill({ skill, className, isCollapsed = false, onHeaderC
                   <span className="text-dark-string"> {skill.duration.timeScopeName}</span>
                 </div>
               )}
-              <div className="p-0.5 w-1/2 mt-4 w-full">
+              <div className="p-0.5 w-full mt-4">
                 {effect !== undefined && effect.statmods !== undefined && (
                   <>
                     <div className="">

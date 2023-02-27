@@ -7,7 +7,7 @@ const SkillList = () => {
   const guise = useActiveGuise(cycleEntity);
 
   return (
-    <div>
+    <div className="ml-36">
       <div className="text-2xl text-dark-comment">{"// skills"}</div>
       <div className="flex flex-col">
         {guise?.skillEntities.map((entity) => (

@@ -7,7 +7,7 @@ import { equipmentProtoEntityIds } from "../mud/utils/equipment";
 import { LootData } from "../mud/utils/getLoot";
 import { useWandererContext } from "./WandererContext";
 
-export type InventorySortKey = "name" | "ilvl";
+export type InventorySortKey = "ilvl" | "name";
 
 export type EquipmentSlotWithEquip = EquipmentSlot & { equip: () => void };
 
@@ -17,8 +17,8 @@ export type EquipmentData = LootData & {
 };
 
 type InventoryContextType = {
-  sort?: InventorySortKey;
-  setSort: (sort?: InventorySortKey) => void;
+  sort: InventorySortKey | undefined;
+  setSort: (sort: InventorySortKey | undefined) => void;
   filter: string;
   setFilter: (filter: string) => void;
   presentProtoEntityIds: EntityID[];
@@ -32,7 +32,7 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
   const currentValue = useContext(InventoryContext);
   if (currentValue) throw new Error("InventoryProvider can only be used once");
 
-  const [sort, setSort] = useState<InventorySortKey>();
+  const [sort, setSort] = useState<InventorySortKey | undefined>("ilvl");
   const [filter, setFilter] = useState<string>("");
 
   const changeCycleEquipment = useChangeCycleEquipment();
@@ -59,15 +59,7 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
     return filteredEquipmentList;
   }, [sort, filteredEquipmentList]);
 
-  // 4. Extract prototype entities still present after filtering
-  const presentProtoEntityIds = useMemo(() => {
-    // extract unique prototypes of the owned equipment
-    const presentProtoEntityIds = new Set(sortedEquipmentList.map(({ protoEntityId }) => protoEntityId));
-    // the filter just uses the sorting order of `equipmentProtoEntityIds`
-    return equipmentProtoEntityIds.filter((protoEntityId) => presentProtoEntityIds.has(protoEntityId));
-  }, [sortedEquipmentList]);
-
-  // 5. Add equipment slot info
+  // 4. Add equipment slot info
   const equipmentListWithSlots = useMemo(() => {
     return sortedEquipmentList.map((data) => {
       // get the
@@ -92,10 +84,18 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
     });
   }, [sortedEquipmentList, equipmentSlots, changeCycleEquipment]);
 
-  // 6. Omit the currently equipped equipment
+  // 5. Omit the currently equipped equipment
   const equipmentList = useMemo(() => {
     return equipmentListWithSlots.filter(({ equippedToSlot }) => equippedToSlot === undefined);
   }, [equipmentListWithSlots]);
+
+  // 6. Extract prototype entities still present after filtering
+  const presentProtoEntityIds = useMemo(() => {
+    // extract unique prototypes of the owned equipment
+    const presentProtoEntityIds = new Set(equipmentList.map(({ protoEntityId }) => protoEntityId));
+    // the filter just uses the sorting order of `equipmentProtoEntityIds`
+    return equipmentProtoEntityIds.filter((protoEntityId) => presentProtoEntityIds.has(protoEntityId));
+  }, [equipmentList]);
 
   const value = {
     sort,

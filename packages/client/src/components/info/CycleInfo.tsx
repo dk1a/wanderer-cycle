@@ -65,7 +65,7 @@ export default function CycleInfo() {
   );
 
   return (
-    <div className="absolute top-16 left-0 h-[100vh]">
+    <div className="top-16 h-full">
       <BaseInfo
         entity={cycleEntity}
         name={guise?.name}
