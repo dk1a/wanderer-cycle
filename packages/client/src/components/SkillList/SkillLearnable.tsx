@@ -1,6 +1,6 @@
 import { EntityIndex } from "@latticexyz/recs";
 import Skill from "../Skill";
-import { useSkill } from "../../mud/hooks/useSkill";
+import { useSkill } from "../../mud/hooks/skill";
 import CustomButton from "../UI/Button/CustomButton";
 import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";

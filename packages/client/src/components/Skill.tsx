@@ -1,11 +1,11 @@
 import { Fragment, useMemo } from "react";
 import { useEffectPrototype } from "../mud/hooks/useEffectPrototype";
-import { SkillType, useSkill } from "../mud/hooks/useSkill";
 import { useStatmodPrototype } from "../mud/hooks/useStatmodPrototype";
 import { EffectStatmodData } from "../mud/utils/effectStatmod";
+import { SkillData, SkillType } from "../mud/utils/skill";
 
 type SkillProps = {
-  skill: ReturnType<typeof useSkill>;
+  skill: SkillData;
   className: string;
   isCollapsed?: boolean;
   onHeaderClick?: () => void;

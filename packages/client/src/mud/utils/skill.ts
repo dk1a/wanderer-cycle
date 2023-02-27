@@ -1,8 +1,9 @@
-import { useComponentValue } from "@latticexyz/react";
-import { EntityIndex } from "@latticexyz/recs";
-import { useMUD } from "../MUDContext";
-import { parseElemental } from "../utils/elemental";
-import { parseScopedDuration } from "../utils/scopedDuration";
+import { EntityIndex, getComponentValueStrict, World } from "@latticexyz/recs";
+import { SetupResult } from "../setup";
+import { parseElemental } from "./elemental";
+import { parseScopedDuration } from "./scopedDuration";
+
+export type SkillData = ReturnType<typeof getSkill>;
 
 export enum SkillType {
   COMBAT,
@@ -30,20 +31,13 @@ export const targetTypeNames = {
   [TargetType.SELF_OR_ALLY]: "self or ally",
 };
 
-export const useSkill = (entity: EntityIndex) => {
-  const {
-    world,
-    components: { SkillPrototype, SkillDescription, Name },
-  } = useMUD();
+type GetSkillComponents = Pick<SetupResult["components"], "SkillPrototype" | "SkillDescription" | "Name">;
 
-  const skill = useComponentValue(SkillPrototype, entity);
-  const description = useComponentValue(SkillDescription, entity);
-  const name = useComponentValue(Name, entity);
-
-  // skills should never be deleted
-  if (!skill) {
-    throw new Error("Invalid Skill for entity");
-  }
+export const getSkill = (world: World, components: GetSkillComponents, entity: EntityIndex) => {
+  const { SkillPrototype, SkillDescription, Name } = components;
+  const skill = getComponentValueStrict(SkillPrototype, entity);
+  const description = getComponentValueStrict(SkillDescription, entity);
+  const name = getComponentValueStrict(Name, entity);
 
   const skillType = skill.skillType as SkillType;
   const effectTarget = skill.effectTarget as TargetType;

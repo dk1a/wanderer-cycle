@@ -2,8 +2,8 @@ import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex } from "@latticexyz/recs";
 import { createContext, ReactNode, useContext, useMemo, useState } from "react";
 import { useActiveCombat } from "../mud/hooks/useActiveCombat";
-import { useLearnCycleSkill } from "../mud/hooks/useLearnCycleSkill";
-import { useLearnedSkillEntities } from "../mud/hooks/useLearnedSkillEntities";
+import { useLearnCycleSkill } from "../mud/hooks/skill";
+import { useLearnedSkillEntities } from "../mud/hooks/skill";
 import { useMUD } from "../mud/MUDContext";
 
 type WandererContextType = {
@@ -12,7 +12,7 @@ type WandererContextType = {
   cycleEntity?: EntityIndex;
   enemyEntity?: EntityIndex;
   learnCycleSkill: ReturnType<typeof useLearnCycleSkill>;
-  learnedSkillEntities: ReturnType<typeof useLearnedSkillEntities>;
+  learnedSkillEntities: EntityIndex[];
 };
 
 const WandererContext = createContext<WandererContextType | undefined>(undefined);

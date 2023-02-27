@@ -1,5 +1,5 @@
 import { EntityIndex } from "@latticexyz/recs";
-import { useSkill } from "../../mud/hooks/useSkill";
+import { useSkill } from "../../mud/hooks/skill";
 import Skill from "../Skill";
 import Tippy from "@tippyjs/react";
 import { left } from "@popperjs/core";
