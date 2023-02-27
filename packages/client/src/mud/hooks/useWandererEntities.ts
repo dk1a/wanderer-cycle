@@ -11,9 +11,8 @@ export const useWandererEntities = () => {
 
   return useEntityQuery(
     useMemo(
-      // TODO fix ownership query
-      () => [/*HasValue(WNFT_Ownership, { value: playerEntityId }), */ Has(Wanderer)],
-      [Wanderer]
+      () => [HasValue(WNFT_Ownership, { value: playerEntityId }), Has(Wanderer)],
+      [WNFT_Ownership, Wanderer, playerEntityId]
     )
   );
 };
