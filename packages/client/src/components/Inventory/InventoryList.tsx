@@ -4,7 +4,9 @@ import InventoryHeader from "./InventoryHeader";
 import InventoryFilter from "./InventoryFilter";
 import { useInventoryContext } from "../../contexts/InventoryContext";
 
-const InventoryList = ({ filter, presentProtoEntityIds, equipmentList }: any) => {
+const InventoryList = () => {
+  const { equipmentList, presentProtoEntityIds, filter } = useInventoryContext();
+
   const separator = <hr className="h-px my-2 bg-dark-400 border-0 " />;
   return (
     <div className="w-[60%] flex flex-col ml-24">
