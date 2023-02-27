@@ -1,27 +1,23 @@
 import { EntityIndex } from "@latticexyz/recs";
 import { Fragment, ReactNode } from "react";
-import { useLife, useMana } from "../../mud/hooks/charstat";
+import { LevelData, useLife, useMana, usePstats } from "../../mud/hooks/charstat";
 import { useAppliedEffects } from "../../mud/hooks/useAppliedEffects";
 import { useLifeCurrent } from "../../mud/hooks/useLifeCurrent";
 import { useManaCurrent } from "../../mud/hooks/useManaCurrent";
 import EffectList from "../EffectList";
-import StatLevelProgress, { StatLevelProgressProps } from "./StatLevelProgress";
-
-export interface StatProps {
-  name: string;
-  props: StatLevelProgressProps;
-}
+import { PStatWithProgress } from "./PStatWithProgress";
 
 export interface BaseInfoProps {
   entity: EntityIndex | undefined;
   name: string | undefined;
   locationName: string | null | undefined;
-  levelProps: StatProps;
-  statProps: StatProps[];
+  levelData: LevelData;
   turnsHtml?: ReactNode;
 }
 
-export default function BaseInfo({ entity, name, locationName, levelProps, statProps, turnsHtml }: BaseInfoProps) {
+export default function BaseInfo({ entity, name, locationName, levelData, turnsHtml }: BaseInfoProps) {
+  const pstats = usePstats(entity);
+
   const life = useLife(entity);
   const mana = useMana(entity);
 
@@ -49,22 +45,10 @@ export default function BaseInfo({ entity, name, locationName, levelProps, statP
     <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-[100vh]">
       <h4 className="relative col-span-3 text-center text-lg text-dark-type font-medium">{name}</h4>
       {locationName !== null && <div className="col-span-3 text-center text-dark-string">{locationName}</div>}
-      <div className="text-dark-key p-2 flex">
-        <span className="w-36">
-          {levelProps.name}: <span className="text-dark-number">{levelProps.props.level}</span>
-        </span>
-        <StatLevelProgress {...levelProps.props} />
-      </div>
+      <PStatWithProgress name={"level"} baseLevel={levelData?.level} experience={levelData?.experience} />
       {separator}
-      {statProps.map(({ name, props }) => (
-        <Fragment key={name}>
-          <div className="text-dark-key p-2 flex">
-            <span className="w-36">
-              {name}: <span className="text-dark-number">{levelProps.props.level}</span>
-            </span>
-            <StatLevelProgress {...props} />
-          </div>
-        </Fragment>
+      {pstats.map((pstat) => (
+        <PStatWithProgress key={pstat.name} {...pstat} />
       ))}
       {separator}
       {currents.map(({ name, value, maxValue }) => (

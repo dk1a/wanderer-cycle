@@ -1,32 +1,11 @@
-import { useMemo } from "react";
 import BaseInfo from "./BaseInfo";
 import { useWandererContext } from "../../contexts/WandererContext";
-import { pstatNames } from "../../mud/utils/experience";
+import { useLevel } from "../../mud/hooks/charstat";
 
 export default function CombatInfo() {
   const { enemyEntity } = useWandererContext();
 
-  const statProps = useMemo(() => {
-    return pstatNames.map((name) => {
-      // TODO add pstat charstats
-      return {
-        name,
-        props: { exp: null, level: 1, buffedLevel: 1 },
-      };
-    });
-  }, []);
+  const levelData = useLevel(enemyEntity, undefined);
 
-  const levelProps = useMemo(() => {
-    // TODO add level charstat
-    const level = 1;
-
-    return {
-      name: "level",
-      props: { exp: null, level },
-    };
-  }, []);
-
-  return (
-    <BaseInfo entity={enemyEntity} name={"Combat"} locationName={null} levelProps={levelProps} statProps={statProps} />
-  );
+  return <BaseInfo entity={enemyEntity} name={"Combat"} levelData={levelData} locationName={null} />;
 }

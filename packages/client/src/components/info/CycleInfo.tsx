@@ -3,42 +3,16 @@ import BaseInfo from "./BaseInfo";
 import PassTurnButton from "./PassTurnButton";
 import ClaimTurnsButton from "./ClaimTurnsButton";
 import { useActiveGuise } from "../../mud/hooks/useActiveGuise";
-import { useExperience } from "../../mud/hooks/useExperience";
-import { expToLevel, pstatNames } from "../../mud/utils/experience";
 import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
 import { useWandererContext } from "../../contexts/WandererContext";
+import { useLevel } from "../../mud/hooks/charstat";
 
 export default function CycleInfo() {
   const { cycleEntity } = useWandererContext();
   const guise = useActiveGuise(cycleEntity);
-  const experience = useExperience(cycleEntity);
   const turns = useCycleTurns(cycleEntity);
 
-  const levelProps = useMemo(() => {
-    // TODO add total exp data
-    const exp = 10;
-    const level = 1;
-
-    return {
-      name: "level",
-      props: { exp, level },
-    };
-  }, []);
-
-  const statProps = useMemo(() => {
-    return pstatNames.map((name) => {
-      let exp, level, buffedLevel;
-      if (experience) {
-        (exp = experience[name]), (level = expToLevel(exp));
-        // TODO add statmods data
-        buffedLevel = level;
-      }
-      return {
-        name,
-        props: { exp, level, buffedLevel },
-      };
-    });
-  }, [experience]);
+  const levelData = useLevel(cycleEntity, guise?.levelMul);
 
   const isClaimTurnsAvailable = useMemo(() => {
     // TODO use proper availability
@@ -70,8 +44,7 @@ export default function CycleInfo() {
         entity={cycleEntity}
         name={guise?.name}
         locationName={null}
-        levelProps={levelProps}
-        statProps={statProps}
+        levelData={levelData}
         turnsHtml={turnsHtml}
       />
     </div>
