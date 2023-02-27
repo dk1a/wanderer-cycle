@@ -21,7 +21,9 @@ import { RNGPrecommit, RNGPrecommitComponent, ID as RNGPrecommitComponentID } fr
 library LibRNG {
   error LibRNG__InvalidPrecommit();
 
-  uint256 constant WAIT_BLOCKS = 1;
+  // TODO 0 wait allows 2 txs in a row really fast and is great during local dev, but not exactly safe
+  // (note that this does not allow same-block retrieval - you can't get current blockhash)
+  uint256 constant WAIT_BLOCKS = 0;
 
   function requestRandomness(IWorld world, bytes memory data) internal returns (uint256 requestId) {
     requestId = world.getUniqueEntityId();

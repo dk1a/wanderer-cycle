@@ -9,10 +9,7 @@ import { BaseTest } from "../../BaseTest.sol";
 import { LibRNG, RNGPrecommit } from "../LibRNG.sol";
 
 contract GetRandomnessRevertHelper {
-  function getRandomness(
-    IUint256Component components,
-    uint256 requestId
-  ) public view {
+  function getRandomness(IUint256Component components, uint256 requestId) public view {
     LibRNG.getRandomness(components, requestId);
   }
 }
@@ -27,30 +24,31 @@ contract LibRNGTest is BaseTest {
   }
 
   function test_getRandomness() public {
-    uint256 requestId = LibRNG.requestRandomness(world, 'test123');
+    uint256 requestId = LibRNG.requestRandomness(world, "test123");
     vm.roll(block.number + LibRNG.WAIT_BLOCKS + 1);
     (uint256 randomness, bytes memory data) = LibRNG.getRandomness(components, requestId);
     assertGt(randomness, 0);
-    assertEq(data, 'test123');
+    assertEq(data, "test123");
   }
 
   function test_getRandomness_revert_sameBlock() public {
-    uint256 requestId = LibRNG.requestRandomness(world, '');
+    uint256 requestId = LibRNG.requestRandomness(world, "");
 
     vm.expectRevert(LibRNG.LibRNG__InvalidPrecommit.selector);
     revertHelper.getRandomness(components, requestId);
   }
 
+  /* TODO not relevant while WAIT_BLOCKS = 0
   function test_getRandomness_revert_tooEarly() public {
     uint256 requestId = LibRNG.requestRandomness(world, '');
 
     vm.roll(block.number + 1);
     vm.expectRevert(LibRNG.LibRNG__InvalidPrecommit.selector);
     revertHelper.getRandomness(components, requestId);
-  }
+  }*/
 
   function test_getRandomness_revert_tooLate() public {
-    uint256 requestId = LibRNG.requestRandomness(world, '');
+    uint256 requestId = LibRNG.requestRandomness(world, "");
 
     vm.roll(block.number + LibRNG.WAIT_BLOCKS + 256 + 1);
     vm.expectRevert(LibRNG.LibRNG__InvalidPrecommit.selector);
@@ -59,11 +57,12 @@ contract LibRNGTest is BaseTest {
 
   // basic test for different base blocknumbers
   function test_requestRandomness_blocknumbers(uint32 blocknumber) public {
+    vm.assume(blocknumber != 0);
     vm.roll(blocknumber);
     uint256 requestId = LibRNG.requestRandomness(world, abi.encode(42));
 
     RNGPrecommit memory precommit = LibRNG.getPrecommit(components, requestId);
-    assertGt(precommit.blocknumber, blocknumber);
+    assertEq(precommit.blocknumber, blocknumber + LibRNG.WAIT_BLOCKS);
     assertEq(precommit.data, abi.encode(42));
 
     uint256 newBlocknumber = uint256(blocknumber) + 10;
