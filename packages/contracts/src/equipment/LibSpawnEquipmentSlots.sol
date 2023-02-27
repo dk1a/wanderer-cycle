@@ -31,16 +31,16 @@ library LibSpawnEquipmentSlots {
       ownerEntity: ownerEntity
     });
 
-    _newSlotEntity(self, "Left Hand", EquipmentPrototypes.WEAPON, EquipmentPrototypes.SHIELD);
-    _newSlotEntity(self, "Right Hand", EquipmentPrototypes.WEAPON, EquipmentPrototypes.SHIELD);
+    _newSlotEntity(self, "L Hand", EquipmentPrototypes.WEAPON, EquipmentPrototypes.SHIELD);
+    _newSlotEntity(self, "R Hand", EquipmentPrototypes.WEAPON, EquipmentPrototypes.SHIELD);
     _newSlotEntity(self, "Head", EquipmentPrototypes.HAT);
     _newSlotEntity(self, "Body", EquipmentPrototypes.CLOTHING);
     _newSlotEntity(self, "Hands", EquipmentPrototypes.GLOVES);
     _newSlotEntity(self, "Legs", EquipmentPrototypes.PANTS);
     _newSlotEntity(self, "Feet", EquipmentPrototypes.BOOTS);
     _newSlotEntity(self, "Neck", EquipmentPrototypes.AMULET);
-    _newSlotEntity(self, "Left Ring", EquipmentPrototypes.RING);
-    _newSlotEntity(self, "Right Ring", EquipmentPrototypes.RING);
+    _newSlotEntity(self, "L Ring", EquipmentPrototypes.RING);
+    _newSlotEntity(self, "R Ring", EquipmentPrototypes.RING);
   }
 
   function _newSlotEntity(
