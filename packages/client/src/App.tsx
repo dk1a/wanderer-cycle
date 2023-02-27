@@ -9,7 +9,6 @@ export const App = () => {
     components: { LoadingState },
     singletonEntity,
   } = useMUD();
-  console.log(useMUD());
 
   const loadingState = useComponentValue(LoadingState, singletonEntity, {
     state: SyncState.CONNECTING,
