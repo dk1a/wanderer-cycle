@@ -28,9 +28,6 @@ const CombatPage = () => {
           <div className="w-full flex-grow">
             <Combat />
           </div>
-          <div className="w-64">
-            <CombatInfo />
-          </div>
         </div>
       )}
     </div>
