@@ -1,4 +1,4 @@
-import { NavLink, Outlet, RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
+import { NavLink, Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { GameRoot } from "./GameRoot";
 import { InventoryPage } from "./pages/InventoryPage";
 import About from "./pages/About";
@@ -6,6 +6,7 @@ import classes from "./App.module.scss";
 import WandererSelect from "./pages/WandererSelect";
 import { GlobalMaps } from "./pages/GlobalMaps";
 import { SkillsPage } from "./pages/SkillsPage";
+import { RootBoundary } from "./errorBoundaries";
 
 // game routes will display e.g. WandererSelect or Combat, if normal pages aren't available
 const gameRoutes = [
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: <Navigate to="/" />,
+    errorElement: <RootBoundary />,
     children: [
       {
         element: <GameRoot />,
