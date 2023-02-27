@@ -1,7 +1,7 @@
+import { useEntityQuery } from "@latticexyz/react";
 import { Has, HasValue, Not, ProxyExpand, ProxyRead } from "@latticexyz/recs";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
-import { useEntityQuery } from "../useEntityQuery";
 
 export const useMaps = (prototypeName: string) => {
   const {

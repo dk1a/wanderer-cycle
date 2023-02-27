@@ -1,7 +1,7 @@
+import { useEntityQuery } from "@latticexyz/react";
 import { EntityIndex, getComponentValueStrict, Has, HasValue } from "@latticexyz/recs";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
-import { useEntityQuery } from "../useEntityQuery";
 import { getLoot } from "../utils/getLoot";
 import { EquipmentAction, useChangeCycleEquipment } from "./useChangeCycleEquipment";
 

@@ -1,7 +1,7 @@
+import { useEntityQuery } from "@latticexyz/react";
 import { Has, HasValue, Not, ProxyExpand } from "@latticexyz/recs";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
-import { useEntityQuery } from "../useEntityQuery";
 import { getLoot } from "../utils/getLoot";
 
 export const useOwnedEquipment = () => {

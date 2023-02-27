@@ -1,8 +1,8 @@
+import { useEntityQuery } from "@latticexyz/react";
 import { EntityID, EntityIndex, Has } from "@latticexyz/recs";
 import { defaultAbiCoder, keccak256, toUtf8Bytes } from "ethers/lib/utils";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
-import { useEntityQuery } from "../useEntityQuery";
 import { getAppliedEffect } from "../utils/getEffect";
 
 const effectSubsystemId = keccak256(toUtf8Bytes("system.Effect"));

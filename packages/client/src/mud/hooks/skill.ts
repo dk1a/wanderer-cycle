@@ -1,8 +1,7 @@
-import { useComponentValue } from "@latticexyz/react";
+import { useComponentValue, useEntityQuery } from "@latticexyz/react";
 import { EntityIndex, Has } from "@latticexyz/recs";
 import { useCallback, useMemo } from "react";
 import { useMUD } from "../MUDContext";
-import { useEntityQuery } from "../useEntityQuery";
 import { getSkill } from "../utils/skill";
 
 export const useSkill = (entity: EntityIndex) => {

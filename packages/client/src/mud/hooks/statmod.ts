@@ -1,9 +1,9 @@
+import { useEntityQuery } from "@latticexyz/react";
 import { EntityID, EntityIndex, getComponentValueStrict, Has, HasValue } from "@latticexyz/recs";
 import { BigNumber } from "ethers";
 import { defaultAbiCoder, keccak256, toUtf8Bytes } from "ethers/lib/utils";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
-import { useEntityQuery } from "../useEntityQuery";
 import { getStatmodPrototype } from "../utils/getStatmodPrototype";
 import { Op } from "../utils/op";
 import { StatmodTopic } from "../utils/topics";
