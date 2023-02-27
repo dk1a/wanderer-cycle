@@ -8,7 +8,7 @@ const CurrentEquipment = () => {
   const { equipmentSlots } = useInventoryContext();
 
   return (
-    <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-full absolute top-16 right-0">
+    <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-full">
       <h4 className="col-span-3 text-center text-lg text-dark-type font-medium">Current Equipment</h4>
       {equipmentSlots.map(({ entity, name, equipped, unequip }) => (
         <Tippy

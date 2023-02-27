@@ -7,7 +7,7 @@ export default function Inventory() {
   const { equipmentList, presentProtoEntityIds, filter } = useInventoryContext();
 
   return (
-    <section className="flex justify-around">
+    <section className="flex justify-between">
       <CycleInfo />
       <InventoryList equipmentList={equipmentList} presentProtoEntityIds={presentProtoEntityIds} filter={filter} />
       <CurrentEquipment />
