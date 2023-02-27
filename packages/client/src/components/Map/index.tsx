@@ -4,8 +4,8 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useLoot } from "../../mud/hooks/useLoot";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
-import { useActivateCycleCombat } from "../../mud/hooks/useActivateCycleCombat";
 import { EffectSource } from "../../mud/utils/getEffect";
+import { useActivateCycleCombat } from "../../mud/hooks/combat";
 
 interface MapProps {
   entity: EntityIndex;

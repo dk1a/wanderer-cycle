@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
-import { useExecuteCycleCombatRound } from "../../mud/hooks/useExecuteCycleCombatRound";
+import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
 import { attackAction, MAX_ROUNDS } from "../../mud/utils/combat";
 import CombatActions from "./CombatActions";
 

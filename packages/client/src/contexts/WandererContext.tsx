@@ -1,7 +1,7 @@
 import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex } from "@latticexyz/recs";
 import { createContext, ReactNode, useContext, useMemo, useState } from "react";
-import { useActiveCombat } from "../mud/hooks/useActiveCombat";
+import { useActiveCombat } from "../mud/hooks/combat";
 import { useLearnCycleSkill } from "../mud/hooks/skill";
 import { useLearnedSkillEntities } from "../mud/hooks/skill";
 import { useMUD } from "../mud/MUDContext";
