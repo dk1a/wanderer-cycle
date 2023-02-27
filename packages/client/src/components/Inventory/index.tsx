@@ -8,7 +8,6 @@ export default function Inventory() {
 
   return (
     <section className="flex justify-between">
-      <CycleInfo />
       <InventoryList equipmentList={equipmentList} presentProtoEntityIds={presentProtoEntityIds} filter={filter} />
       <CurrentEquipment />
     </section>

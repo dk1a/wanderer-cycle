@@ -13,17 +13,17 @@ export function GameRoot() {
 
   if (enemyEntity !== undefined) {
     return (
-      <>
+      <div className="flex">
         <CycleInfo />
         <CombatPage />
-      </>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="flex">
       <CycleInfo />
       <Outlet />
-    </>
+    </div>
   );
 }
