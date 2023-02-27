@@ -7,10 +7,10 @@ import { AppRouter } from "./AppRouter";
 export const App = () => {
   const {
     components: { LoadingState },
-    singletonEntity,
+    SingletonEntity,
   } = useMUD();
 
-  const loadingState = useComponentValue(LoadingState, singletonEntity, {
+  const loadingState = useComponentValue(LoadingState, SingletonEntity, {
     state: SyncState.CONNECTING,
     msg: "Connecting",
     percentage: 0,

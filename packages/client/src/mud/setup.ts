@@ -2,8 +2,7 @@ import { setupMUDNetwork } from "@latticexyz/std-client";
 import type { SystemTypes } from "contracts/types/SystemTypes";
 import { SystemAbis } from "contracts/types/SystemAbis.mjs";
 import type { EntityID } from "@latticexyz/recs";
-import { GodID as singletonEntityId } from "@latticexyz/network";
-import { getAddress } from "ethers/lib/utils";
+import { SingletonID } from "@latticexyz/network";
 import { config } from "./config";
 import { components, clientComponents } from "./components";
 import { world } from "./world";
@@ -17,13 +16,13 @@ export const setup = async () => {
   result.startSync();
 
   // For LoadingState updates
-  const singletonEntity = world.registerEntity({ id: singletonEntityId });
+  const SingletonEntity = world.registerEntity({ id: SingletonID });
 
   // Register player entity
   const address = result.network.connectedAddress.get();
   if (!address) throw new Error("Not connected");
 
-  const playerEntityId = getAddress(address) as EntityID;
+  const playerEntityId = address as EntityID;
   const playerEntity = world.registerEntity({ id: playerEntityId });
 
   // Add support for optimistic rendering
@@ -32,8 +31,8 @@ export const setup = async () => {
   return {
     ...result,
     world,
-    singletonEntityId,
-    singletonEntity,
+    SingletonID,
+    SingletonEntity,
     playerEntityId,
     playerEntity,
     components: {
