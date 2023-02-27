@@ -8,7 +8,7 @@ const InventoryEquipment = ({ equipmentData }: { equipmentData: EquipmentData })
   // TODO affixes are more than effects, they need either a separate component or an extended EffectModifier
   return (
     <div className="text-dark-key p-2 flex flex-col justify-between border border-dark-400 w-[220px] h-auto m-2">
-      <BaseEquipmentDetails affixes={affixes} ilvl={equipmentData.ilvl} name={equipmentData.name} />
+      <BaseEquipmentDetails affixes={affixes} ilvl={equipmentData.ilvl} name={equipmentData.name} className="" />
       <div className="flex justify-around mt-1">
         {equipmentData.availableSlots.map((slotData) => (
           <CustomButton
@@ -17,7 +17,7 @@ const InventoryEquipment = ({ equipmentData }: { equipmentData: EquipmentData })
             onClick={() => slotData.equip()}
           >
             equip
-            {equipmentData.availableSlots.length > 1 && <span className="text-dark-string"> ({slotData.name})</span>}
+            {equipmentData.availableSlots.length > 1 && <span className="text-dark-string"> {slotData.name}</span>}
           </CustomButton>
         ))}
       </div>
