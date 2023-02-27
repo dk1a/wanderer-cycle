@@ -36,9 +36,7 @@ export const useTopicStatmods = (targetEntity: EntityIndex | undefined, topic: S
     return defaultAbiCoder.encode(["uint256", "uint256"], [world.entities[targetEntity], topicEntityId]);
   }, [world, targetEntity, topicEntityId]);
 
-  const appliedEntities = useEntityQuery(
-    useMemo(() => [HasValue(StatmodScope, { value: scope }), Has(StatmodValue)], [StatmodScope, StatmodValue, scope])
-  );
+  const appliedEntities = useEntityQuery([HasValue(StatmodScope, { value: scope }), Has(StatmodValue)]);
 
   return useMemo(() => {
     return appliedEntities.map((appliedEntity) => {

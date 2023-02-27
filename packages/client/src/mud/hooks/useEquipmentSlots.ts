@@ -26,20 +26,10 @@ export const useEquipmentSlots = (ownerEntity: EntityIndex | undefined) => {
   // TODO it may be better to restructure stuff so ownerEntity can't be undefined
   const ownerEntityId = ownerEntity ? world.entities[ownerEntity] : undefined;
 
-  const slotEntities = useEntityQuery(
-    useMemo(
-      () => [HasValue(OwnedBy, { value: ownerEntityId }), Has(EquipmentSlotAllowed)],
-      [OwnedBy, EquipmentSlotAllowed, ownerEntityId]
-    )
-  );
+  const slotEntities = useEntityQuery([HasValue(OwnedBy, { value: ownerEntityId }), Has(EquipmentSlotAllowed)]);
 
   // TODO this is very hacky reactivity nonsense, refactor in v2
-  const slotEntitiesWithEquipment = useEntityQuery(
-    useMemo(
-      () => [HasValue(OwnedBy, { value: ownerEntityId }), Has(EquipmentSlot)],
-      [OwnedBy, EquipmentSlot, ownerEntityId]
-    )
-  );
+  const slotEntitiesWithEquipment = useEntityQuery([HasValue(OwnedBy, { value: ownerEntityId }), Has(EquipmentSlot)]);
 
   return useMemo(() => {
     return slotEntities.map((slotEntity) => {

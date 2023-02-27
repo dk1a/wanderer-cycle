@@ -25,7 +25,7 @@ export const useAllSkillEntities = () => {
     components: { SkillPrototype },
   } = useMUD();
 
-  return useEntityQuery(useMemo(() => [Has(SkillPrototype)], [SkillPrototype]));
+  return useEntityQuery([Has(SkillPrototype)]);
 };
 
 export const useLearnedSkillEntities = (targetEntity: EntityIndex | undefined) => {

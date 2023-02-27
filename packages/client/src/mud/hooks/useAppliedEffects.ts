@@ -13,8 +13,8 @@ export const useAppliedEffects = (targetEntity: EntityIndex | undefined) => {
 
   // TODO this is horrendous and won't scale, you need a keyTuple from v2 world here
   // (or just add a component to track applied effect's targetEntity via HasValue)
-  const effectProtoEntities = useEntityQuery(useMemo(() => [Has(EffectPrototype)], [EffectPrototype]));
-  const appliedEffectEntities = useEntityQuery(useMemo(() => [Has(AppliedEffect)], [AppliedEffect]));
+  const effectProtoEntities = useEntityQuery([Has(EffectPrototype)]);
+  const appliedEffectEntities = useEntityQuery([Has(AppliedEffect)]);
 
   return useMemo(() => {
     if (!targetEntity) return [];

@@ -11,18 +11,13 @@ export const useOwnedEquipment = () => {
     components: { OwnedBy, EquipmentPrototype, Loot, FromPrototype, EffectPrototype, AffixNaming },
   } = useMUD();
 
-  const equipmentEntities = useEntityQuery(
-    useMemo(
-      () => [
-        ProxyExpand(FromPrototype, 1),
-        Has(EquipmentPrototype),
-        ProxyExpand(FromPrototype, 0),
-        Not(EquipmentPrototype),
-        HasValue(OwnedBy, { value: playerEntityId }),
-      ],
-      [OwnedBy, EquipmentPrototype, FromPrototype, playerEntityId]
-    )
-  );
+  const equipmentEntities = useEntityQuery([
+    ProxyExpand(FromPrototype, 1),
+    Has(EquipmentPrototype),
+    ProxyExpand(FromPrototype, 0),
+    Not(EquipmentPrototype),
+    HasValue(OwnedBy, { value: playerEntityId }),
+  ]);
 
   return useMemo(() => {
     return equipmentEntities.map((entity) => {
