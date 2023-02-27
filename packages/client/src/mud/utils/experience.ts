@@ -6,6 +6,14 @@ export interface PStats {
   dexterity: number;
 }
 
+export const parsePStats = (strength: number, arcana: number, dexterity: number): PStats => {
+  return {
+    strength,
+    arcana,
+    dexterity,
+  };
+};
+
 export const pstatsFromExperience = (experience: PStats) => {
   return {
     strength: expToLevel(experience.strength),

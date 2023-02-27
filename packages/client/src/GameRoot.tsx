@@ -4,9 +4,10 @@ import CycleInfo from "./components/info/CycleInfo";
 import { Outlet } from "react-router-dom";
 import CombatPage from "./pages/CombatPage";
 import CombatInfo from "./components/info/CombatInfo";
+import { CombatResultPage } from "./pages/CombatResultPage";
 
 export function GameRoot() {
-  const { selectedWandererEntity, enemyEntity } = useWandererContext();
+  const { selectedWandererEntity, enemyEntity, combatRewardRequests } = useWandererContext();
 
   if (selectedWandererEntity === undefined) {
     return <WandererSelect />;
@@ -20,6 +21,15 @@ export function GameRoot() {
         <div className="w-64">
           <CombatInfo />
         </div>
+      </div>
+    );
+  }
+
+  if (combatRewardRequests.length > 0) {
+    return (
+      <div className="flex">
+        <CycleInfo />
+        <CombatResultPage />
       </div>
     );
   }
