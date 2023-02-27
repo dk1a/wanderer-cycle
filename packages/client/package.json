@@ -8,6 +8,7 @@
     "prepare": "",
     "dev": "vite",
     "build": "tsc && vite build",
+    "test": "tsc --noEmit",
     "preview": "vite preview"
   },
   "devDependencies": {
