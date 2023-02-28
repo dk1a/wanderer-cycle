@@ -1,4 +1,4 @@
-export enum Element {
+export enum StatmodElement {
   ALL,
   PHYSICAL,
   FIRE,
@@ -7,11 +7,11 @@ export enum Element {
 }
 
 export interface Elemental {
-  [Element.ALL]: number;
-  [Element.PHYSICAL]: number;
-  [Element.FIRE]: number;
-  [Element.COLD]: number;
-  [Element.POISON]: number;
+  [StatmodElement.ALL]: number;
+  [StatmodElement.PHYSICAL]: number;
+  [StatmodElement.FIRE]: number;
+  [StatmodElement.COLD]: number;
+  [StatmodElement.POISON]: number;
 }
 
 export const parseElemental = (
@@ -22,18 +22,26 @@ export const parseElemental = (
   poison: number
 ): Elemental => {
   return {
-    [Element.ALL]: all,
-    [Element.PHYSICAL]: physical,
-    [Element.FIRE]: fire,
-    [Element.COLD]: cold,
-    [Element.POISON]: poison,
+    [StatmodElement.ALL]: all,
+    [StatmodElement.PHYSICAL]: physical,
+    [StatmodElement.FIRE]: fire,
+    [StatmodElement.COLD]: cold,
+    [StatmodElement.POISON]: poison,
   };
 };
 
+export const statmodElements: StatmodElement[] = [
+  StatmodElement.ALL,
+  StatmodElement.COLD,
+  StatmodElement.FIRE,
+  StatmodElement.PHYSICAL,
+  StatmodElement.POISON,
+];
+
 export const elementNames = {
-  [Element.ALL]: "all",
-  [Element.PHYSICAL]: "physical",
-  [Element.FIRE]: "fire",
-  [Element.COLD]: "cold",
-  [Element.POISON]: "poison",
+  [StatmodElement.ALL]: "all",
+  [StatmodElement.PHYSICAL]: "physical",
+  [StatmodElement.FIRE]: "fire",
+  [StatmodElement.COLD]: "cold",
+  [StatmodElement.POISON]: "poison",
 } as const;

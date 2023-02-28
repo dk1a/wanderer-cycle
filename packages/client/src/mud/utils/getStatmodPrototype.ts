@@ -1,6 +1,6 @@
 import { EntityIndex, getComponentValue, getComponentValueStrict, World } from "@latticexyz/recs";
 import { SetupResult } from "../setup";
-import { Element } from "./elemental";
+import { StatmodElement } from "./elemental";
 import { Op } from "./op";
 
 type GetStatmodPrototypeComponents = Pick<SetupResult["components"], "StatmodPrototype" | "Name" | "ReverseHashName">;
@@ -19,7 +19,7 @@ export function getStatmodPrototype(world: World, components: GetStatmodPrototyp
     entity,
     name: name.value,
 
-    element: statmodPrototype.element as Element,
+    element: statmodPrototype.element as StatmodElement,
     op: statmodPrototype.op as Op,
 
     topicEntity,

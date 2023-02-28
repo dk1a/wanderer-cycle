@@ -4,15 +4,25 @@ import { BigNumber } from "ethers";
 import { defaultAbiCoder, keccak256, toUtf8Bytes } from "ethers/lib/utils";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
+import { Elemental, StatmodElement, statmodElements } from "../utils/elemental";
 import { getStatmodPrototype } from "../utils/getStatmodPrototype";
 import { Op } from "../utils/op";
-import { StatmodTopic } from "../utils/topics";
+import { ElementalStatmodTopic, StatmodTopic } from "../utils/topics";
 
 /**
  * Sum all statmod values for given operand filter
  */
 function sumForOp(statmods: ReturnType<typeof useTopicStatmods>, opFilter: Op) {
   return statmods.filter(({ statmodPrototype: { op } }) => op === opFilter).reduce((acc, curr) => acc + curr.value, 0);
+}
+
+/**
+ * Sum all statmod values for given operand and element filters
+ */
+function sumForElementalOp(statmods: ReturnType<typeof useTopicStatmods>, opFilter: Op, elementFilter: StatmodElement) {
+  return statmods
+    .filter(({ statmodPrototype: { op, element } }) => op === opFilter && element === elementFilter)
+    .reduce((acc, curr) => acc + curr.value, 0);
 }
 
 export const useGetValuesFinal = (targetEntity: EntityIndex | undefined, topic: StatmodTopic, baseValue: number) => {
@@ -23,7 +33,27 @@ export const useGetValuesFinal = (targetEntity: EntityIndex | undefined, topic: 
   return resultAdd;
 };
 
-export const useTopicStatmods = (targetEntity: EntityIndex | undefined, topic: StatmodTopic) => {
+export const useGetValuesElementalFinal = (
+  targetEntity: EntityIndex | undefined,
+  topic: ElementalStatmodTopic,
+  baseValues: Elemental
+) => {
+  const statmods = useTopicStatmods(targetEntity, topic);
+  const result = { ...baseValues };
+
+  for (const element of statmodElements) {
+    const resultBadd = baseValues[element] + sumForElementalOp(statmods, Op.BADD, element);
+    const resultMul = Math.floor(Math.floor(resultBadd * (100 + sumForElementalOp(statmods, Op.MUL, element))) / 100);
+    const resultAdd = resultMul + sumForElementalOp(statmods, Op.ADD, element);
+    result[element] = resultAdd;
+  }
+  return result;
+};
+
+export const useTopicStatmods = (
+  targetEntity: EntityIndex | undefined,
+  topic: StatmodTopic | ElementalStatmodTopic
+) => {
   const {
     world,
     components: { StatmodScope, StatmodValue, FromPrototype, StatmodPrototype, Name, ReverseHashName },

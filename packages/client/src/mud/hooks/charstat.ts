@@ -1,7 +1,8 @@
 import { EntityIndex } from "@latticexyz/recs";
 import { useMemo } from "react";
+import { parseElemental } from "../utils/elemental";
 import { expToLevel, getAggregateExperience, pstatNames, PStats, pstatsFromExperience } from "../utils/experience";
-import { useGetValuesFinal } from "./statmod";
+import { useGetValuesElementalFinal, useGetValuesFinal } from "./statmod";
 import { useExperience } from "./useExperience";
 
 export type PStatData = ReturnType<typeof usePstat>;
@@ -77,4 +78,12 @@ export const useMana = (targetEntity: EntityIndex | undefined) => {
 
   const baseValue = 4 * arcana.buffedLevel;
   return useGetValuesFinal(targetEntity, "mana", baseValue);
+};
+
+export const useAttack = (targetEntity: EntityIndex | undefined) => {
+  const strength = usePstat(targetEntity, "strength");
+  // strength increases physical base attack damage
+  const baseValues = parseElemental(0, strength.buffedLevel / 2 + 1, 0, 0, 0);
+
+  return useGetValuesElementalFinal(targetEntity, "attack", baseValues);
 };
