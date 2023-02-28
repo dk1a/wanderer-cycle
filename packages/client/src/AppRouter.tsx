@@ -1,12 +1,12 @@
 import { NavLink, Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { GameRoot } from "./GameRoot";
 import { InventoryPage } from "./pages/InventoryPage";
-import About from "./pages/About";
 import classes from "./App.module.scss";
 import WandererSelect from "./pages/WandererSelect";
 import { GlobalMaps } from "./pages/GlobalMaps";
 import { SkillsPage } from "./pages/SkillsPage";
 import { RootBoundary } from "./errorBoundaries";
+import github from "./components/img/githubLogo.svg";
 
 // game routes will display e.g. WandererSelect or Combat, if normal pages aren't available
 const gameRoutes = [
@@ -34,11 +34,6 @@ const otherRoutes = [
     title: "Wanderer Select",
     path: "wanderer-select",
     element: <WandererSelect />,
-  },
-  {
-    title: "About",
-    path: "about",
-    element: <About />,
   },
 ];
 
@@ -80,6 +75,9 @@ function Layout() {
               {title}
             </NavLink>
           ))}
+          <NavLink to={"https://github.com/dk1a/wanderer-cycle"} target={"_blank"}>
+            <img src={github} alt="logo" className="w-8 h-8" />
+          </NavLink>
         </nav>
       </div>
       <Outlet />
