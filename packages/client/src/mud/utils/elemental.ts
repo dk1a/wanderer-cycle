@@ -7,11 +7,11 @@ export enum Element {
 }
 
 export interface Elemental {
-  all: number;
-  physical: number;
-  fire: number;
-  cold: number;
-  poison: number;
+  [Element.ALL]: number;
+  [Element.PHYSICAL]: number;
+  [Element.FIRE]: number;
+  [Element.COLD]: number;
+  [Element.POISON]: number;
 }
 
 export const parseElemental = (
@@ -22,11 +22,11 @@ export const parseElemental = (
   poison: number
 ): Elemental => {
   return {
-    all,
-    physical,
-    fire,
-    cold,
-    poison,
+    [Element.ALL]: all,
+    [Element.PHYSICAL]: physical,
+    [Element.FIRE]: fire,
+    [Element.COLD]: cold,
+    [Element.POISON]: poison,
   };
 };
 
@@ -36,4 +36,4 @@ export const elementNames = {
   [Element.FIRE]: "fire",
   [Element.COLD]: "cold",
   [Element.POISON]: "poison",
-};
+} as const;
