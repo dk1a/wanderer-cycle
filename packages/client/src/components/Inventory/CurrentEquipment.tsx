@@ -3,6 +3,7 @@ import CustomButton from "../UI/Button/CustomButton";
 import { left } from "@popperjs/core";
 import { useInventoryContext } from "../../contexts/InventoryContext";
 import BaseEquipmentDetails from "./BaseEquipmentDetails";
+import { EquipmentSummary } from "./EquipmentSummary";
 
 const CurrentEquipment = () => {
   const { equipmentSlots } = useInventoryContext();
@@ -39,9 +40,7 @@ const CurrentEquipment = () => {
               {equipped !== undefined ? (
                 <p className="text-dark-method text-[13px]">
                   {equipped.name}
-                  <span className="text-dark-key ml-1 text-[12px]">
-                    (ilvl: <span className="text-dark-number">{equipped.ilvl}</span>)
-                  </span>
+                  <EquipmentSummary affixes={equipped.affixes} />
                 </p>
               ) : (
                 <p className="text-dark-300">empty</p>
