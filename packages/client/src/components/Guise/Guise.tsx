@@ -26,7 +26,7 @@ export default function Guise({ entity, onSelectGuise, disabled }: GuiseProps) {
           placement={"left"}
           content={<TippyComment content="multiplier of gained stats" />}
         >
-          <div className="text-dark-comment flex justify-between">{"//stat Multipliers"}</div>
+          <div className="text-dark-comment flex justify-between">{"// stat Multipliers"}</div>
         </Tippy>
 
         <div className="flex flex-col justify-start items-baseline">
@@ -40,7 +40,7 @@ export default function Guise({ entity, onSelectGuise, disabled }: GuiseProps) {
         </div>
 
         <div className="text-dark-comment flex justify-between">
-          <div className="w-28">{"//level/Skill"}</div>
+          <div className="w-28">{"// level/Skill"}</div>
         </div>
         <div>
           {guise.skillEntities.map((entity) => (

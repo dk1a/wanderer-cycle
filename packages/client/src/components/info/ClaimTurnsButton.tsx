@@ -23,7 +23,7 @@ export default function ClaimTurnsButton() {
 
   return (
     <>
-      <CustomButton disabled={isBusy} onClick={claimTurns} style={{ fontSize: "12px" }}>
+      <CustomButton disabled={isBusy} onClick={claimTurns} style={{ fontSize: "12px", border: "none" }}>
         {"claimTurns"}
         <span className="text-dark-number">{` (${claimableTurns})`}</span>
       </CustomButton>

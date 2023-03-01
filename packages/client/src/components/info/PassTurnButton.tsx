@@ -30,7 +30,7 @@ export default function PassTurnButton() {
   return (
     <>
       {!!turns && (
-        <CustomButton onClick={passTurn} disabled={isDisabled} style={{ fontSize: "12px" }}>
+        <CustomButton onClick={passTurn} disabled={isDisabled} style={{ fontSize: "12px", border: "none" }}>
           {"passTurn"}
         </CustomButton>
       )}

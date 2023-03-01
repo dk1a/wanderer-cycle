@@ -11,7 +11,7 @@ interface MapProps {
   entity: EntityIndex;
 }
 
-const Map = ({ entity }: MapProps) => {
+export default function Map({ entity }: MapProps) {
   const { selectedWandererEntity } = useWandererContext();
   const activateCycleCombat = useActivateCycleCombat();
   const loot = useLoot(entity);
@@ -30,7 +30,7 @@ const Map = ({ entity }: MapProps) => {
   const effect = loot.effect;
 
   return (
-    <div className="border border-dark-400 w-56 h-auto p-4 flex flex-col bg-dark-500 transform delay-500 m-4">
+    <div className="border border-dark-400 w-56 h-62 p-4 flex flex-col bg-dark-500 transform delay-500 m-4">
       <h3 className="text-xl text-dark-type text-center">{name}</h3>
       <hr className="h-px my-2 bg-dark-400 border-0" />
       <div className="text-dark-comment">
@@ -39,7 +39,7 @@ const Map = ({ entity }: MapProps) => {
       </div>
       <hr className="h-px my-2 bg-dark-400 border-0" />
       <div className="text-dark-comment">
-        <span>{"//effect"}</span>
+        <span>{"// effect"}</span>
         <Effect
           entity={effect.entity}
           protoEntity={entity}
@@ -52,6 +52,4 @@ const Map = ({ entity }: MapProps) => {
       <CustomButton onClick={onMapEnter}>{"Enter"}</CustomButton>
     </div>
   );
-};
-
-export default Map;
+}

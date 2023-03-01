@@ -52,21 +52,19 @@ export default function Skill({ skill, className, isCollapsed = false, onHeaderC
                   <span className="text-dark-string"> {skill.duration.timeScopeName}</span>
                 </div>
               )}
-              <div className="p-0.5 w-full mt-4">
-                {effect !== undefined && effect.statmods !== undefined && (
-                  <>
-                    <div className="">
-                      <span className="text-dark-key">
-                        effect target: <span className="text-dark-number">{skill.effectTargetName}</span>{" "}
-                      </span>
-                      <span className="text-dark-string">{skill.skillTypeName}</span>
-                    </div>
-                    {effect.statmods.map((statmod) => (
-                      <SkillEffectStatmod key={statmod.protoEntity} statmod={statmod} />
-                    ))}
-                  </>
-                )}
-              </div>
+              {effect !== undefined && effect.statmods !== undefined && (
+                <div className="p-0.5 w-full mt-4">
+                  <div className="">
+                    <span className="text-dark-key">
+                      effect target: <span className="text-dark-number">{skill.effectTargetName}</span>{" "}
+                    </span>
+                    <span className="text-dark-string">{skill.skillTypeName}</span>
+                  </div>
+                  {effect.statmods.map((statmod) => (
+                    <SkillEffectStatmod key={statmod.protoEntity} statmod={statmod} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

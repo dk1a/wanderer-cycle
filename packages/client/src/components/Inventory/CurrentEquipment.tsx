@@ -3,9 +3,11 @@ import CustomButton from "../UI/Button/CustomButton";
 import { left } from "@popperjs/core";
 import { useInventoryContext } from "../../contexts/InventoryContext";
 import BaseEquipmentDetails from "./BaseEquipmentDetails";
+import { EquipmentSummary } from "./EquipmentSummary";
 
-const CurrentEquipment = () => {
+export default function CurrentEquipment() {
   const { equipmentSlots } = useInventoryContext();
+  console.log("equipment", equipmentSlots);
 
   return (
     <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-full">
@@ -34,11 +36,14 @@ const CurrentEquipment = () => {
         >
           <div className="flex flex-wrap flex-col m-2 border border-dark-400 p-1">
             <div className="text-dark-200 text-[14px] flex ml-1">
-              <div className="flex w-[75px]">{name}:</div>
+              <div className="flex mr-1">{name}:</div>
               {equipped !== undefined ? (
-                <p className="text-dark-method text-[13px]">{equipped.name}</p>
+                <p className="text-dark-method text-[13px]">
+                  {equipped.name}
+                  <EquipmentSummary affixes={equipped.affixes} />
+                </p>
               ) : (
-                <p className="text-dark-300 mx-2">empty</p>
+                <p className="text-dark-300">empty</p>
               )}
             </div>
             {equipped !== undefined && (
@@ -53,6 +58,4 @@ const CurrentEquipment = () => {
       ))}
     </section>
   );
-};
-
-export default CurrentEquipment;
+}

@@ -3,7 +3,7 @@ import { InventoryProvider } from "../contexts/InventoryContext";
 
 export function InventoryPage() {
   return (
-    <div>
+    <div className="w-full">
       <InventoryProvider>
         <Inventory />
       </InventoryProvider>

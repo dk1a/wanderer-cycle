@@ -46,7 +46,7 @@ export default function EffectList({ effects }: EffectListProps) {
   }, [effects]);
 
   return (
-    <div className="col-span-3 space-y-2">
+    <div className="col-span-3 space-y-2 mb-4">
       <h5 className="text-dark-comment">{"// effects"}</h5>
 
       {groupedEffects.map(({ sourceName, effects, isInitCollapsed }) => (

@@ -7,7 +7,7 @@ type BaseEquipmentDetailsData = {
   name: string;
   className: string;
 };
-const BaseEquipmentDetails = ({ affixes, ilvl, name, className }: BaseEquipmentDetailsData) => {
+export default function BaseEquipmentDetails({ affixes, ilvl, name, className }: BaseEquipmentDetailsData) {
   return (
     <div className={className}>
       <span className="text-lg text-dark-method flex-wrap flex box-border">{name}</span>
@@ -21,6 +21,4 @@ const BaseEquipmentDetails = ({ affixes, ilvl, name, className }: BaseEquipmentD
       ))}
     </div>
   );
-};
-
-export default BaseEquipmentDetails;
+}

@@ -5,7 +5,7 @@ export function GlobalMaps() {
   const mapEntities = useMaps("Global Basic");
 
   return (
-    <div className="flex justify-around flex-wrap">
+    <div className="flex justify-around flex-wrap h-full">
       {mapEntities.map((entity) => (
         <Map key={entity} entity={entity} />
       ))}

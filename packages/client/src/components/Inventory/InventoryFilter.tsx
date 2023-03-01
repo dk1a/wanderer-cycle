@@ -1,8 +1,7 @@
 import CustomSelect from "../UI/Select/CustomSelect";
 import CustomInput from "../UI/Input/CustomInput";
 import { useInventoryContext } from "../../contexts/InventoryContext";
-
-const InventoryFilter = () => {
+export default function InventoryFilter() {
   const { filter, setFilter, sort, setSort } = useInventoryContext();
 
   const sortOptions = [
@@ -16,6 +15,4 @@ const InventoryFilter = () => {
       <CustomInput value={filter} onChange={(e) => setFilter(e.target.value)} placeholder={"Search..."} />
     </>
   );
-};
-
-export default InventoryFilter;
+}

@@ -1,18 +1,19 @@
 import { equipmentPrototypes } from "../../mud/utils/equipment";
 import InventorySection from "./InventorySection";
-import InventoryHeader from "./InventoryHeader";
 import InventoryFilter from "./InventoryFilter";
 import { useInventoryContext } from "../../contexts/InventoryContext";
 
-const InventoryList = () => {
+export default function InventoryList() {
   const { equipmentList, presentProtoEntityIds, filter } = useInventoryContext();
 
   const separator = <hr className="h-px my-2 bg-dark-400 border-0 " />;
   return (
     <div className="w-[60%] flex flex-col ml-24">
-      <div className="flex justify-start w-full m-2">
-        <div className="text-2xl text-dark-comment">{"// inventory"}</div>
-        <InventoryFilter />
+      <div className="flex flex-wrap justify-start w-full m-2">
+        <div className="text-2xl text-dark-comment mr-2">{"// inventory"}</div>
+        <div className="flex">
+          <InventoryFilter />
+        </div>
       </div>
 
       <div className="flex flex-col justify-center items-center">
@@ -25,7 +26,7 @@ const InventoryList = () => {
               }
             >
               <div className="w-1/3">
-                <InventoryHeader>{equipmentPrototypes[_protoEntityId]}</InventoryHeader>
+                <h3 className="text-xl text-dark-200">{equipmentPrototypes[_protoEntityId]}</h3>
               </div>
               <div className="w-auto">
                 <InventorySection
@@ -39,6 +40,4 @@ const InventoryList = () => {
       </div>
     </div>
   );
-};
-
-export default InventoryList;
+}
