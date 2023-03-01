@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import BaseInfo from "./BaseInfo";
 import PassTurnButton from "./PassTurnButton";
 import ClaimTurnsButton from "./ClaimTurnsButton";
-import { useActiveGuise } from "../../mud/hooks/useActiveGuise";
+import { useActiveGuise } from "../../mud/hooks/guise";
 import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useLevel } from "../../mud/hooks/charstat";

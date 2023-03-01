@@ -13,9 +13,10 @@ export interface BaseInfoProps {
   locationName: string | null | undefined;
   levelData: LevelData;
   turnsHtml?: ReactNode;
+  identity?: number;
 }
 
-export default function BaseInfo({ entity, name, locationName, levelData, turnsHtml }: BaseInfoProps) {
+export default function BaseInfo({ entity, name, locationName, levelData, turnsHtml, identity }: BaseInfoProps) {
   const pstats = usePstats(entity);
 
   const life = useLife(entity);
@@ -45,11 +46,20 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
     <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-full">
       <h4 className="relative col-span-3 text-center text-lg text-dark-type font-medium">{name}</h4>
       {locationName !== null && <div className="col-span-3 text-center text-dark-string">{locationName}</div>}
+
+      {identity && (
+        <span className="w-36 text-dark-key ml-1">
+          {"identity: "}
+          <span className="text-dark-number">{identity}</span>
+        </span>
+      )}
+
       <PStatWithProgress name={"level"} baseLevel={levelData?.level} experience={levelData?.experience} />
       {separator}
       {pstats.map((pstat) => (
         <PStatWithProgress key={pstat.name} {...pstat} />
       ))}
+
       {separator}
       {currents.map(({ name, value, maxValue }) => (
         <Fragment key={name}>
@@ -72,10 +82,10 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
       ))}
       {turnsHtml}
       {/* TODO elemental stats */}
-      <div className="col-span-3">
-        <h5 className="text-dark-comment ml-1">{"// elemental"}</h5>
-        {/*{attrs && <ElementalStats attrs={attrs} />}*/}
-      </div>
+      {/*<div className="col-span-3">*/}
+      {/*  <h5 className="text-dark-comment ml-1">{"// elemental"}</h5>*/}
+      {/*  /!*{attrs && <ElementalStats attrs={attrs} />}*!/*/}
+      {/*</div>*/}
       {separator}
       <EffectList effects={effects} />
     </section>

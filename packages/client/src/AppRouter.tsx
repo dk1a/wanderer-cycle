@@ -5,6 +5,7 @@ import classes from "./App.module.scss";
 import WandererSelect from "./pages/WandererSelect";
 import { GlobalMaps } from "./pages/GlobalMaps";
 import { SkillsPage } from "./pages/SkillsPage";
+import { CyclePage } from "./pages/CyclePage";
 import { RootBoundary } from "./errorBoundaries";
 import github from "./components/img/githubLogo.svg";
 
@@ -26,6 +27,11 @@ const gameRoutes = [
     title: "Skills",
     path: "skills",
     element: <SkillsPage />,
+  },
+  {
+    title: "Cycle",
+    path: "cycle",
+    element: <CyclePage />,
   },
 ];
 
