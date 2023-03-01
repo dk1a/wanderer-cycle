@@ -1,6 +1,6 @@
 import { EntityIndex } from "@latticexyz/recs";
 import { Fragment, ReactNode } from "react";
-import { LevelData, useLife, useMana, usePstats } from "../../mud/hooks/charstat";
+import { LevelData, useAttack, useLife, useMana, usePstats, useResistance } from "../../mud/hooks/charstat";
 import { useAppliedEffects } from "../../mud/hooks/useAppliedEffects";
 import { useLifeCurrent } from "../../mud/hooks/useLifeCurrent";
 import { useManaCurrent } from "../../mud/hooks/useManaCurrent";
@@ -25,7 +25,15 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
   const lifeCurrent = useLifeCurrent(entity);
   const manaCurrent = useManaCurrent(entity);
 
+  const attack = useAttack(entity);
+  const resistance = useResistance(entity);
+
   const effects = useAppliedEffects(entity);
+
+  console.log("attack", attack);
+  console.log("resistance", resistance);
+  console.log("effects", effects);
+  console.log("pstats", pstats);
 
   const currents = [
     {

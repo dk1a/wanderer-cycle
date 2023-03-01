@@ -9,14 +9,6 @@ interface EncounterActionsProp {
 }
 
 export default function CombatActions({ allowActions, disabled, onAttack }: EncounterActionsProp) {
-  const { cycleEntity } = useWandererContext();
-  const attack = useAttack(cycleEntity);
-  const resistance = useResistance(cycleEntity);
-  const spell = useSpell(cycleEntity, attack);
-
-  console.log("spell", spell);
-  console.log("resistance", resistance);
-  console.log("attack", attack);
   return (
     <>
       {allowActions && (
