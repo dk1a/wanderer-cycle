@@ -1,7 +1,7 @@
 import Combat from "../components/Combat";
 import { useWandererContext } from "../contexts/WandererContext";
 
-const CombatPage = () => {
+export default function CombatPage() {
   const { enemyEntity } = useWandererContext();
 
   // TODO make this page only unreachable if enemyEntity !== undefined.This error should never trigger
@@ -19,6 +19,4 @@ const CombatPage = () => {
       </div>
     </div>
   );
-};
-
-export default CombatPage;
+}

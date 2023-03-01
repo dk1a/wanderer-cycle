@@ -2,7 +2,7 @@ import { EquipmentData } from "../../contexts/InventoryContext";
 import CustomButton from "../UI/Button/CustomButton";
 import BaseEquipmentDetails from "./BaseEquipmentDetails";
 
-const InventoryEquipment = ({ equipmentData }: { equipmentData: EquipmentData }) => {
+export default function InventoryEquipment({ equipmentData }: { equipmentData: EquipmentData }) {
   const affixes = equipmentData.affixes;
 
   // TODO affixes are more than effects, they need either a separate component or an extended EffectModifier
@@ -23,6 +23,4 @@ const InventoryEquipment = ({ equipmentData }: { equipmentData: EquipmentData })
       </div>
     </div>
   );
-};
-
-export default InventoryEquipment;
+}

@@ -2,7 +2,7 @@ import { useWandererContext } from "../../contexts/WandererContext";
 import { useActiveGuise } from "../../mud/hooks/useActiveGuise";
 import SkillLearnable from "./SkillLearnable";
 
-const SkillList = () => {
+export default function SkillList() {
   const { cycleEntity } = useWandererContext();
   const guise = useActiveGuise(cycleEntity);
 
@@ -18,6 +18,4 @@ const SkillList = () => {
       </div>
     </div>
   );
-};
-
-export default SkillList;
+}

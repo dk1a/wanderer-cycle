@@ -6,7 +6,7 @@ type InputProps = {
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 // TODO forwardRef
-const CustomInput = ({ onChange, value, placeholder }: InputProps) => {
+export default function CustomInput({ onChange, value, placeholder }: InputProps) {
   return (
     <input
       placeholder={placeholder}
@@ -16,6 +16,4 @@ const CustomInput = ({ onChange, value, placeholder }: InputProps) => {
   dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-dark-comment"
     ></input>
   );
-};
-
-export default CustomInput;
+}

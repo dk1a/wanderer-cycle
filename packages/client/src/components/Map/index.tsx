@@ -11,7 +11,7 @@ interface MapProps {
   entity: EntityIndex;
 }
 
-const Map = ({ entity }: MapProps) => {
+export default function Map({ entity }: MapProps) {
   const { selectedWandererEntity } = useWandererContext();
   const activateCycleCombat = useActivateCycleCombat();
   const loot = useLoot(entity);
@@ -52,6 +52,4 @@ const Map = ({ entity }: MapProps) => {
       <CustomButton onClick={onMapEnter}>{"Enter"}</CustomButton>
     </div>
   );
-};
-
-export default Map;
+}

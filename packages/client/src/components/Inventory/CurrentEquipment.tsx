@@ -5,7 +5,7 @@ import { useInventoryContext } from "../../contexts/InventoryContext";
 import BaseEquipmentDetails from "./BaseEquipmentDetails";
 import { EquipmentSummary } from "./EquipmentSummary";
 
-const CurrentEquipment = () => {
+export default function CurrentEquipment() {
   const { equipmentSlots } = useInventoryContext();
   console.log("equipment", equipmentSlots);
 
@@ -58,6 +58,4 @@ const CurrentEquipment = () => {
       ))}
     </section>
   );
-};
-
-export default CurrentEquipment;
+}

@@ -5,7 +5,7 @@ import CustomButton from "../UI/Button/CustomButton";
 import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 
-const SkillLearnable = ({ entity }: { entity: EntityIndex }) => {
+export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
   const skill = useSkill(entity);
   const { learnCycleSkill, learnedSkillEntities } = useWandererContext();
 
@@ -39,6 +39,4 @@ const SkillLearnable = ({ entity }: { entity: EntityIndex }) => {
       </div>
     </div>
   );
-};
-
-export default SkillLearnable;
+}

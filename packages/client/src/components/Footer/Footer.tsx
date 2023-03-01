@@ -1,4 +1,4 @@
-const Footer = () => {
+export function Footer() {
   return (
     <div className="w-full flex justify-around border-y-0 bg-dark-500 mt-56">
       <div className="w-64 h-44 mt-16 ml-20">
@@ -25,6 +25,4 @@ const Footer = () => {
       </div>
     </div>
   );
-};
-
-export default Footer;
+}

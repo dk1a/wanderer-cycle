@@ -6,7 +6,7 @@ type Props = {
   active: any;
   setActive: any;
 };
-const Modal = ({ active, setActive, children }: Props) => {
+export default function Modal({ active, setActive, children }: Props) {
   const activeHandler = () => {
     setActive(false);
   };
@@ -17,6 +17,4 @@ const Modal = ({ active, setActive, children }: Props) => {
       </div>
     </div>
   );
-};
-
-export default Modal;
+}
