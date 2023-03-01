@@ -39,7 +39,7 @@ const Map = ({ entity }: MapProps) => {
       </div>
       <hr className="h-px my-2 bg-dark-400 border-0" />
       <div className="text-dark-comment">
-        <span>{"//effect"}</span>
+        <span>{"// effect"}</span>
         <Effect
           entity={effect.entity}
           protoEntity={entity}

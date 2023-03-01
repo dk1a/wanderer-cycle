@@ -9,9 +9,9 @@ const InventoryList = () => {
 
   const separator = <hr className="h-px my-2 bg-dark-400 border-0 " />;
   return (
-    <div className="w-[60%] flex flex-col ml-24">
+    <div className="w-[60%] flex flex-col ml-24 w-full">
       <div className="flex justify-start w-full m-2">
-        <div className="text-2xl text-dark-comment">{"// inventory"}</div>
+        <div className="text-2xl text-dark-comment mr-2">{"// inventory"}</div>
         <InventoryFilter />
       </div>
 
