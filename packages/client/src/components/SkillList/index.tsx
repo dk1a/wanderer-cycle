@@ -1,5 +1,5 @@
 import { useWandererContext } from "../../contexts/WandererContext";
-import { useActiveGuise } from "../../mud/hooks/useActiveGuise";
+import { useActiveGuise } from "../../mud/hooks/guise";
 import SkillLearnable from "./SkillLearnable";
 
 export default function SkillList() {
