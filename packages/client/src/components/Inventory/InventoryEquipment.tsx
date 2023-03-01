@@ -13,7 +13,7 @@ const InventoryEquipment = ({ equipmentData }: { equipmentData: EquipmentData })
         {equipmentData.availableSlots.map((slotData) => (
           <CustomButton
             key={slotData.entity}
-            style={{ width: "80px", fontSize: "12px", padding: "0", border: "none" }}
+            style={{ width: "80px", fontSize: "12px", padding: "5px", border: "none", marginTop: "5px" }}
             onClick={() => slotData.equip()}
           >
             equip
