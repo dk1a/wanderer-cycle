@@ -1,6 +1,5 @@
 import { equipmentPrototypes } from "../../mud/utils/equipment";
 import InventorySection from "./InventorySection";
-import InventoryHeader from "./InventoryHeader";
 import InventoryFilter from "./InventoryFilter";
 import { useInventoryContext } from "../../contexts/InventoryContext";
 
@@ -27,7 +26,7 @@ export default function InventoryList() {
               }
             >
               <div className="w-1/3">
-                <InventoryHeader>{equipmentPrototypes[_protoEntityId]}</InventoryHeader>
+                <h3 className="text-xl text-dark-200">{equipmentPrototypes[_protoEntityId]}</h3>
               </div>
               <div className="w-auto">
                 <InventorySection
