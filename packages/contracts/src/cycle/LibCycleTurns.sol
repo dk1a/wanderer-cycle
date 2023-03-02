@@ -11,7 +11,8 @@ import { CycleTurnsLastClaimedComponent, ID as CycleTurnsLastClaimedComponentID 
 library LibCycleTurns {
   error LibCycleTurns__NotEnoughTurns();
 
-  uint256 constant ACC_PERIOD = 1 days;
+  // TODO minutes is for testing, change to days
+  uint256 constant ACC_PERIOD = 1 minutes;
   uint32 constant TURNS_PER_PERIOD = 10;
   uint32 constant MAX_ACC_PERIODS = 2;
   uint32 constant MAX_CURRENT_TURNS_FOR_CLAIM = 50;
