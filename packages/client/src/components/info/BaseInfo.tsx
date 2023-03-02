@@ -5,6 +5,7 @@ import { useAppliedEffects } from "../../mud/hooks/useAppliedEffects";
 import { useLifeCurrent } from "../../mud/hooks/useLifeCurrent";
 import { useManaCurrent } from "../../mud/hooks/useManaCurrent";
 import EffectList from "../EffectList";
+import { ElementalStatmods } from "../ElementalStatmods";
 import { PStatWithProgress } from "./PStatWithProgress";
 
 export interface BaseInfoProps {
@@ -81,11 +82,14 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
         </Fragment>
       ))}
       {turnsHtml}
-      {/* TODO elemental stats */}
-      {/*<div className="col-span-3">*/}
-      {/*  <h5 className="text-dark-comment ml-1">{"// elemental"}</h5>*/}
-      {/*  /!*{attrs && <ElementalStats attrs={attrs} />}*!/*/}
-      {/*</div>*/}
+
+      {/* TODO styles, this is from old ui and looks terrible */}
+      {separator}
+      <div className="col-span-3">
+        <h5 className="text-dark-comment ml-1">{"// elemental"}</h5>
+        <ElementalStatmods />
+      </div>
+
       {separator}
       <EffectList effects={effects} />
     </section>

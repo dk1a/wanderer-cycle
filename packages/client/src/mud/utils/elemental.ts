@@ -30,13 +30,13 @@ export const parseElemental = (
   };
 };
 
-export const statmodElements: StatmodElement[] = [
+export const statmodElements = [
   StatmodElement.ALL,
   StatmodElement.COLD,
   StatmodElement.FIRE,
   StatmodElement.PHYSICAL,
   StatmodElement.POISON,
-];
+] as const;
 
 export const elementNames = {
   [StatmodElement.ALL]: "all",

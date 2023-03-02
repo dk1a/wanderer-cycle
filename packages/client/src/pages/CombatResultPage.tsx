@@ -21,20 +21,24 @@ export function CombatResultPage() {
   // TODO combatRewardRequests should try to autoclaim maybe? that could get tricky with gas
 
   return (
-    <section className="p-2 flex justify-around flex-col w-64 h-36 border border-dark-400 mt-10 ">
-      <h3 className="text-center text-dark-string">Result</h3>
-      <div>
-        {/* TODO styles */}
-        {combatRewardRequests.map(({ requestEntity }) => (
-          <button key={requestEntity} onClick={() => claimCycleCombatReward(selectedWandererEntity, requestEntity)}>
-            claim reward
-          </button>
-        ))}
-      </div>
-      {/* TODO disable/hide buttons until all rewards are claimed/unavailable */}
-      <div className="flex justify-center w-full">
-        <CustomButton>{"repeat"}</CustomButton>
-        <CustomButton>{"close"}</CustomButton>
+    <section className="flex justify-center w-full">
+      <div className="p-2 flex justify-around flex-col w-64 h-36 border border-dark-400 mt-10 items-center">
+        <h3 className="text-center text-dark-string">Result</h3>
+        <div>
+          {combatRewardRequests.map(({ requestEntity }) => (
+            <CustomButton
+              key={requestEntity}
+              onClick={() => claimCycleCombatReward(selectedWandererEntity, requestEntity)}
+            >
+              claim reward
+            </CustomButton>
+          ))}
+        </div>
+        {/* TODO disable/hide buttons until all rewards are claimed/unavailable */}
+        <div className="flex justify-around w-full">
+          <CustomButton>{"repeat"}</CustomButton>
+          <CustomButton>{"close"}</CustomButton>
+        </div>
       </div>
     </section>
   );
