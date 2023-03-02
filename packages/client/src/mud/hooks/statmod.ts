@@ -28,7 +28,7 @@ function sumForElementalOp(statmods: ReturnType<typeof useTopicStatmods>, opFilt
 export const useGetValuesFinal = (targetEntity: EntityIndex | undefined, topic: StatmodTopic, baseValue: number) => {
   const statmods = useTopicStatmods(targetEntity, topic);
   const resultBadd = baseValue + sumForOp(statmods, Op.BADD);
-  const resultMul = Math.floor(Math.floor(resultBadd * (100 + sumForOp(statmods, Op.MUL))) / 100);
+  const resultMul = Math.floor((resultBadd * (100 + sumForOp(statmods, Op.MUL))) / 100);
   const resultAdd = resultMul + sumForOp(statmods, Op.ADD);
   return resultAdd;
 };
@@ -43,7 +43,7 @@ export const useGetValuesElementalFinal = (
 
   for (const element of statmodElements) {
     const resultBadd = baseValues[element] + sumForElementalOp(statmods, Op.BADD, element);
-    const resultMul = Math.floor(Math.floor(resultBadd * (100 + sumForElementalOp(statmods, Op.MUL, element))) / 100);
+    const resultMul = Math.floor((resultBadd * (100 + sumForElementalOp(statmods, Op.MUL, element))) / 100);
     const resultAdd = resultMul + sumForElementalOp(statmods, Op.ADD, element);
     result[element] = resultAdd;
   }
