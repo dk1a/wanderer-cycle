@@ -31,7 +31,8 @@ library LibSpawnEquipmentSlots {
       ownerEntity: ownerEntity
     });
 
-    _newSlotEntity(self, "L Hand", EquipmentPrototypes.WEAPON, EquipmentPrototypes.SHIELD);
+    // TODO dual wielding to conditionally let L Hand use weapon too
+    _newSlotEntity(self, "L Hand", EquipmentPrototypes.SHIELD);
     _newSlotEntity(self, "R Hand", EquipmentPrototypes.WEAPON, EquipmentPrototypes.SHIELD);
     _newSlotEntity(self, "Head", EquipmentPrototypes.HAT);
     _newSlotEntity(self, "Body", EquipmentPrototypes.CLOTHING);
