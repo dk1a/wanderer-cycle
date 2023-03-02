@@ -74,7 +74,7 @@ library LibCycleCombatRewardRequest {
 
     FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
     uint256 mapProtoEntity = fromProtoComp.getValue(req.mapEntity);
-    if (mapProtoEntity != MapPrototypes.GLOBAL_BASIC) {
+    if (mapProtoEntity != MapPrototypes.GLOBAL_BASIC && mapProtoEntity != MapPrototypes.GLOBAL_RANDOM) {
       // TODO support for other map protos when they're added
       revert LibCycleCombatRewardRequest__UnknownMapPrototype();
     }

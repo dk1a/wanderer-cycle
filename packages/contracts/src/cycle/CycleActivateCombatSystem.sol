@@ -43,8 +43,9 @@ contract CycleActivateCombatSystem is System {
     uint256 cycleEntity = LibCycle.getCycleEntityPermissioned(components, wandererEntity);
     // reverts if combat is active
     LibActiveCombat.requireNotActiveCombat(components, cycleEntity);
-    // reverts if map isn't GLOBAL_BASIC (they are ownerless and can be used by anyone)
-    if (fromProtoComp.getValue(mapEntity) != MapPrototypes.GLOBAL_BASIC) {
+    // reverts if map isn't GLOBAL_BASIC or GLOBAL_RANDOM (they are ownerless and can be used by anyone)
+    uint256 mapProtoEntity = fromProtoComp.getValue(mapEntity);
+    if (mapProtoEntity != MapPrototypes.GLOBAL_BASIC && mapProtoEntity != MapPrototypes.GLOBAL_RANDOM) {
       revert CycleActivateCombatSystem__InvalidMapPrototype();
     }
     // reverts if not enough turns

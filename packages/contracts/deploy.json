@@ -175,7 +175,7 @@
     "LibInitMapPrototype",
     "LibInitEquipmentAffix",
     "LibInitMapAffix",
-    "LibInitMapsBasicGlobal",
+    "LibInitMapsGlobal",
     "LibInitSkill",
     "LibInitGuise"
   ]

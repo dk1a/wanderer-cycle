@@ -19,6 +19,7 @@ library LibInitMapPrototype {
     NameComponent nameComp = NameComponent(getAddressById(components, NameComponentID));
 
     _set(protoComp, nameComp, MapPrototypes.GLOBAL_BASIC, "Global Basic");
+    _set(protoComp, nameComp, MapPrototypes.GLOBAL_RANDOM, "Global Random");
   }
 
   function _set(
