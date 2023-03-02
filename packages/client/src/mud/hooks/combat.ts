@@ -66,6 +66,21 @@ export const useClaimCycleCombatReward = () => {
   );
 };
 
+export const useCancelCycleCombatReward = () => {
+  const { world, systems } = useMUD();
+
+  return useCallback(
+    async (wandererEntity: EntityIndex, requestEntity: EntityIndex) => {
+      const tx = await systems["system.CycleCombatReward"].cancelRequest(
+        world.entities[wandererEntity],
+        world.entities[requestEntity]
+      );
+      await tx.wait();
+    },
+    [world, systems]
+  );
+};
+
 export type CycleCombatRewardRequest = ReturnType<typeof useCycleCombatRewardRequests>[number];
 
 export const useCycleCombatRewardRequests = (requesterEntity: EntityIndex | undefined) => {
