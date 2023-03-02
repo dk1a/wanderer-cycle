@@ -4,7 +4,7 @@ import { useMUD } from "../../mud/MUDContext";
 import CustomButton from "../UI/Button/CustomButton";
 
 export default function ClaimTurnsButton() {
-  const { systems } = useMUD();
+  const { world, systems } = useMUD();
   const { selectedWandererEntity } = useWandererContext();
   // TODO add real claimable turns
   const claimableTurns = 10;
@@ -16,10 +16,10 @@ export default function ClaimTurnsButton() {
       throw new Error("No wanderer entity selected");
     }
     setIsBusy(true);
-    const tx = await systems["system.ClaimCycleTurns"].executeTyped(selectedWandererEntity);
+    const tx = await systems["system.ClaimCycleTurns"].executeTyped(world.entities[selectedWandererEntity]);
     await tx.wait();
     setIsBusy(false);
-  }, [systems, selectedWandererEntity]);
+  }, [world, systems, selectedWandererEntity]);
 
   return (
     <>
