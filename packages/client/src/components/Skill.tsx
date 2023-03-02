@@ -19,7 +19,7 @@ export default function Skill({ skill, className, isCollapsed = false, onHeaderC
       <div onClick={onHeaderClick} className={"text-dark-method text-xl flex justify-between cursor-pointer"}>
         {skill.name}
         <div className="text-dark-key ml-2 text-[16px]">
-          required level: <span className="text-dark-string">{skill.requiredLevel}</span>
+          required level: <span className="text-dark-number">{skill.requiredLevel}</span>
         </div>
       </div>
       {!isCollapsed && (

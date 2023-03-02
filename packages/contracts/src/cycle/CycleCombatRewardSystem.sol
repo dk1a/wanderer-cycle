@@ -14,6 +14,7 @@ import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
 import { LibCycleCombatRewardRequest } from "./LibCycleCombatRewardRequest.sol";
 import { LibExperience, PS_L } from "../charstat/LibExperience.sol";
 import { LibLootOwner } from "../loot/LibLootOwner.sol";
+import { LibGuiseLevel } from "../guise/LibGuiseLevel.sol";
 
 uint256 constant ID = uint256(keccak256("system.CycleCombatReward"));
 
@@ -37,6 +38,9 @@ contract CycleCombatRewardSystem is System {
 
     (uint256 randomness, uint32[PS_L] memory exp, uint32 lootIlvl, uint256 lootCount) = LibCycleCombatRewardRequest
       .popReward(components, cycleEntity, requestId);
+
+    // multiply awarded exp by guise's multiplier
+    exp = LibGuiseLevel.multiplyExperience(components, cycleEntity, exp);
 
     // give exp
     LibExperience.__construct(components, cycleEntity).increaseExp(exp);

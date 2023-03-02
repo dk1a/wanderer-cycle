@@ -31,12 +31,7 @@ library LibInitGuise {
     guiseSkills[9] = spe("Last Stand");
     guiseSkills[10] = spe("Weapon Mastery");
 
-    add(
-      components,
-      "Warrior",
-      GuisePrototype({ gainMul: [uint32(12), 6, 6], levelMul: [uint32(8), 0, 0] }),
-      guiseSkills
-    );
+    add(components, "Warrior", GuisePrototype({ levelMul: [uint32(16), 8, 8] }), guiseSkills);
   }
 
   function add(

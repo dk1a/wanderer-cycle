@@ -24,4 +24,21 @@ library LibGuiseLevel {
     uint32[PS_L] memory levelMul = guiseProto.getValue(guiseProtoEntity).levelMul;
     return exp.getAggregateLevel(levelMul);
   }
+
+  /// @dev Multiply gained experience by guise's level multiplier
+  function multiplyExperience(
+    IUint256Component components,
+    uint256 targetEntity,
+    uint32[PS_L] memory exp
+  ) internal view returns (uint32[PS_L] memory expMultiplied) {
+    ActiveGuiseComponent activeGuiseComp = ActiveGuiseComponent(getAddressById(components, ActiveGuiseComponentID));
+    GuisePrototypeComponent guiseProto = GuisePrototypeComponent(getAddressById(components, GuisePrototypeComponentID));
+
+    uint256 guiseProtoEntity = activeGuiseComp.getValue(targetEntity);
+    uint32[PS_L] memory levelMul = guiseProto.getValue(guiseProtoEntity).levelMul;
+    for (uint256 i; i < PS_L; i++) {
+      expMultiplied[i] = exp[i] * levelMul[i];
+    }
+    return expMultiplied;
+  }
 }

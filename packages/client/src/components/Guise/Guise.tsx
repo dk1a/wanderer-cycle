@@ -14,7 +14,7 @@ interface GuiseProps {
 }
 
 export default function Guise({ guise, onSelectGuise, disabled }: GuiseProps) {
-  const statNames = Object.keys(guise.gainMul) as (keyof typeof guise.gainMul)[];
+  const statNames = Object.keys(guise.levelMul) as (keyof typeof guise.levelMul)[];
 
   return (
     <div className="border border-dark-400 w-72 h-auto p-4 flex flex-col bg-dark-500 transform delay-500">
@@ -31,7 +31,7 @@ export default function Guise({ guise, onSelectGuise, disabled }: GuiseProps) {
         {statNames.map((statName) => (
           <Fragment key={statName}>
             <div className="text-dark-key flex p-1 m-1">
-              {statName}:<span className="text-dark-number flex mx-2">{guise.gainMul[statName]}</span>
+              {statName}:<span className="text-dark-number flex mx-2">{guise.levelMul[statName]}</span>
             </div>
           </Fragment>
         ))}

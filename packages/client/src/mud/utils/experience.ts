@@ -24,7 +24,6 @@ export const pstatsFromExperience = (experience: PStats) => {
 
 // TODO this is a copy of solidity code, best find a good way to use sol code directly
 
-const LEVEL_TOTAL_DIV = 8 as const;
 const MAX_LEVEL = 16 as const;
 
 /**
@@ -63,9 +62,11 @@ export const expToLevel = (expVal: number) => {
  */
 export const getAggregateExperience = (experience: PStats, levelMul: PStats) => {
   let expTotal = 0;
+  let mulTotal = 0;
   for (const pstatName of pstatNames) {
     expTotal += experience[pstatName] * levelMul[pstatName];
+    mulTotal += levelMul[pstatName];
   }
 
-  return expTotal / LEVEL_TOTAL_DIV;
+  return Math.floor(expTotal / mulTotal);
 };

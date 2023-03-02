@@ -10,7 +10,6 @@ library LibExperience {
   error LibExperience__InvalidLevel();
   error LibExperience__ExpNotInitialized();
 
-  uint8 constant LEVEL_TOTAL_DIV = 8;
   uint32 constant MAX_LEVEL = 16;
 
   struct Self {
@@ -79,11 +78,13 @@ library LibExperience {
   function getAggregateLevel(Self memory __self, uint32[PS_L] memory levelMul) internal view returns (uint32) {
     uint32[PS_L] memory exp = getExp(__self);
     uint256 expTotal;
+    uint256 mulTotal;
     for (uint256 i; i < PS_L; i++) {
       expTotal += exp[i] * levelMul[i];
+      mulTotal += levelMul[i];
     }
 
-    expTotal /= LEVEL_TOTAL_DIV;
+    expTotal /= mulTotal;
 
     return _getLevel(expTotal);
   }

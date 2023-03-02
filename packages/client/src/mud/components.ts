@@ -225,9 +225,6 @@ export const components = {
   GuisePrototype: defineComponent(
     world,
     {
-      gainMul_strength: Type.Number,
-      gainMul_arcana: Type.Number,
-      gainMul_dexterity: Type.Number,
       levelMul_strength: Type.Number,
       levelMul_arcana: Type.Number,
       levelMul_dexterity: Type.Number,

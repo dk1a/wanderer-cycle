@@ -24,11 +24,6 @@ export const getGuise = (
     entityId: world.entities[entity],
     name: name?.value ?? "",
 
-    gainMul: {
-      strength: guisePrototype.gainMul_strength,
-      arcana: guisePrototype.gainMul_arcana,
-      dexterity: guisePrototype.gainMul_dexterity,
-    },
     levelMul: {
       strength: guisePrototype.levelMul_strength,
       arcana: guisePrototype.levelMul_arcana,
