@@ -38,10 +38,10 @@ export default function CurrentEquipment() {
             <div className="text-dark-200 text-[14px] flex ml-1">
               <div className="flex mr-1">{name}:</div>
               {equipped !== undefined ? (
-                <p className="text-dark-method text-[13px]">
+                <div className="text-dark-method text-[13px]">
                   {equipped.name}
                   <EquipmentSummary affixes={equipped.affixes} />
-                </p>
+                </div>
               ) : (
                 <p className="text-dark-300">empty</p>
               )}
