@@ -32,9 +32,9 @@ export const parseElemental = (
 
 export const statmodElements = [
   StatmodElement.ALL,
-  StatmodElement.COLD,
-  StatmodElement.FIRE,
   StatmodElement.PHYSICAL,
+  StatmodElement.FIRE,
+  StatmodElement.COLD,
   StatmodElement.POISON,
 ] as const;
 

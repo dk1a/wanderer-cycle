@@ -14,7 +14,6 @@ export function ElementalStatmods() {
 
   return (
     <div className={`grid ${gridColsClass}`}>
-      <div></div>
       {Object.values(elementNames).map((elementName) => (
         <div className="text-dark-key overflow-x-hidden mr-2" key={elementName} title={elementName}>
           {elementName}
