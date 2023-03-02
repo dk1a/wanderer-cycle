@@ -1,6 +1,4 @@
 import CustomButton from "../UI/Button/CustomButton";
-import { useWandererContext } from "../../contexts/WandererContext";
-import { useAttack, useResistance, useSpell } from "../../mud/hooks/charstat";
 
 interface EncounterActionsProp {
   allowActions: boolean;
