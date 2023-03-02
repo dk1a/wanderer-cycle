@@ -22,9 +22,7 @@ export default function CurrentEquipment() {
             equipped !== undefined ? (
               <BaseEquipmentDetails
                 key={entity}
-                affixes={equipped.affixes}
-                ilvl={equipped.ilvl}
-                name={equipped.name}
+                data={equipped}
                 className="border border-dark-400 bg-dark-500 m-[-10px] p-2"
               />
             ) : (

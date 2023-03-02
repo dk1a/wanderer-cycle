@@ -5,10 +5,10 @@ import { AffixPartId, getLootAffixes, LootAffix } from "./getLootAffix";
 
 export type LootData = ReturnType<typeof getLoot>;
 
-type GetLootComponents = Pick<SetupResult["components"], "Loot" | "FromPrototype" | "EffectPrototype" | "AffixNaming">;
+type GetLootComponents = SetupResult["components"];
 
 export function getLoot(world: World, components: GetLootComponents, entity: EntityIndex) {
-  const { Loot, FromPrototype, EffectPrototype, AffixNaming } = components;
+  const { Name, Loot, FromPrototype, EffectPrototype, AffixNaming, AffixPrototype } = components;
 
   const loot = getComponentValueStrict(Loot, entity);
   const protoEntityId = getComponentValueStrict(FromPrototype, entity).value;
@@ -23,7 +23,7 @@ export function getLoot(world: World, components: GetLootComponents, entity: Ent
 
   const affixes = getLootAffixes(
     world,
-    { AffixNaming },
+    { Name, AffixNaming, AffixPrototype },
     protoEntityId,
     loot.affixPartIds,
     loot.affixProtoEntities,

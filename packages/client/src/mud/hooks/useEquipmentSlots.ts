@@ -8,19 +8,8 @@ import { EquipmentAction, useChangeCycleEquipment } from "./useChangeCycleEquipm
 export type EquipmentSlot = ReturnType<typeof useEquipmentSlots>[number];
 
 export const useEquipmentSlots = (ownerEntity: EntityIndex | undefined) => {
-  const {
-    world,
-    components: {
-      OwnedBy,
-      Name,
-      EquipmentSlotAllowed,
-      EquipmentSlot,
-      Loot,
-      FromPrototype,
-      EffectPrototype,
-      AffixNaming,
-    },
-  } = useMUD();
+  const { world, components } = useMUD();
+  const { OwnedBy, EquipmentSlotAllowed, EquipmentSlot } = components;
 
   const changeCycleEquipment = useChangeCycleEquipment();
   // TODO it may be better to restructure stuff so ownerEntity can't be undefined
@@ -33,6 +22,8 @@ export const useEquipmentSlots = (ownerEntity: EntityIndex | undefined) => {
 
   return useMemo(() => {
     return slotEntities.map((slotEntity) => {
+      const { Name, EquipmentSlotAllowed, EquipmentSlot } = components;
+
       const name = getComponentValueStrict(Name, slotEntity).value;
       const equipmentProtoEntityIds = getComponentValueStrict(EquipmentSlotAllowed, slotEntity).value;
 
@@ -56,23 +47,9 @@ export const useEquipmentSlots = (ownerEntity: EntityIndex | undefined) => {
         entity: slotEntity,
         name,
         equipmentProtoEntityIds,
-        equipped: equippedEntity
-          ? getLoot(world, { Loot, FromPrototype, EffectPrototype, AffixNaming }, equippedEntity)
-          : undefined,
+        equipped: equippedEntity ? getLoot(world, components, equippedEntity) : undefined,
         unequip,
       };
     });
-  }, [
-    world,
-    Name,
-    EquipmentSlotAllowed,
-    EquipmentSlot,
-    Loot,
-    FromPrototype,
-    EffectPrototype,
-    AffixNaming,
-    slotEntities,
-    slotEntitiesWithEquipment,
-    changeCycleEquipment,
-  ]);
+  }, [world, components, slotEntities, slotEntitiesWithEquipment, changeCycleEquipment]);
 };

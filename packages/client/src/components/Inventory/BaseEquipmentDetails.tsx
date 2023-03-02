@@ -1,13 +1,8 @@
 import { EffectStatmod } from "../Effect/EffectStatmod";
-import { LootAffix } from "../../mud/utils/getLootAffix";
+import { LootData } from "../../mud/utils/getLoot";
 
-type BaseEquipmentDetailsData = {
-  affixes: LootAffix[];
-  ilvl: number;
-  name: string;
-  className: string;
-};
-export default function BaseEquipmentDetails({ affixes, ilvl, name, className }: BaseEquipmentDetailsData) {
+export default function BaseEquipmentDetails({ data, className }: { data: LootData; className: string }) {
+  const { name, ilvl, affixes } = data;
   return (
     <div className={className}>
       <span className="text-lg text-dark-method flex-wrap flex box-border">{name}</span>
@@ -17,6 +12,9 @@ export default function BaseEquipmentDetails({ affixes, ilvl, name, className }:
       {affixes.map(({ protoEntity, value, partId, statmod }) => (
         <div className="flex box-content flex-wrap" key={`${partId}${protoEntity}`}>
           <EffectStatmod protoEntity={statmod.protoEntity} value={value} />
+          {/* TODO add global button to trigger this data: */}
+          {/*{affixPrototype.tier} {affixPrototype.name}
+          ({affixPrototype.min}-{affixPrototype.max})*/}
         </div>
       ))}
     </div>

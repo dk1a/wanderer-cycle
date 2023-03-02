@@ -15,9 +15,10 @@ export interface LootAffix {
   protoEntity: EntityIndex;
   value: number;
   statmod: EffectStatmodData;
+  affixPrototype: ReturnType<typeof getAffixPrototype>;
 }
 
-type GetLootAffixComponents = Pick<SetupResult["components"], "AffixNaming">;
+type GetLootAffixComponents = Pick<SetupResult["components"], "Name" | "AffixNaming" | "AffixPrototype">;
 
 export function getLootAffixes(
   world: World,
@@ -76,7 +77,19 @@ export function getLootAffix(
     naming,
     partId: partId as AffixPartId,
     protoEntity: affixProtoEntity,
+    affixPrototype: getAffixPrototype(components, affixProtoEntity),
     value,
     statmod,
+  };
+}
+
+function getAffixPrototype(
+  components: Pick<SetupResult["components"], "Name" | "AffixPrototype">,
+  entity: EntityIndex
+) {
+  const { Name, AffixPrototype } = components;
+  return {
+    ...getComponentValueStrict(AffixPrototype, entity),
+    name: getComponentValueStrict(Name, entity).value,
   };
 }

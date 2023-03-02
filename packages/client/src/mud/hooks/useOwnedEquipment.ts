@@ -5,11 +5,8 @@ import { useMUD } from "../MUDContext";
 import { getLoot } from "../utils/getLoot";
 
 export const useOwnedEquipment = () => {
-  const {
-    world,
-    playerEntityId,
-    components: { OwnedBy, EquipmentPrototype, Loot, FromPrototype, EffectPrototype, AffixNaming },
-  } = useMUD();
+  const { world, playerEntityId, components } = useMUD();
+  const { OwnedBy, EquipmentPrototype, FromPrototype } = components;
 
   const equipmentEntities = useEntityQuery([
     ProxyExpand(FromPrototype, 1),
@@ -21,7 +18,7 @@ export const useOwnedEquipment = () => {
 
   return useMemo(() => {
     return equipmentEntities.map((entity) => {
-      return getLoot(world, { Loot, FromPrototype, EffectPrototype, AffixNaming }, entity);
+      return getLoot(world, components, entity);
     });
-  }, [world, Loot, FromPrototype, EffectPrototype, AffixNaming, equipmentEntities]);
+  }, [world, components, equipmentEntities]);
 };
