@@ -63,13 +63,7 @@ library LibCycleCombatRewardRequest {
     uint256 cycleEntity,
     uint256 requestId
   ) internal returns (uint256 randomness, uint32[PS_L] memory exp, uint32 lootIlvl, uint256 lootCount) {
-    CycleCombatRewardRequestComponent comp = _comp(components);
-    FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
-    // `cycleEntity` must own the request
-    if (cycleEntity != comp.getValue(requestId)) {
-      revert LibCycleCombatRewardRequest__EntityMismatch();
-    }
-    comp.remove(requestId);
+    removeReward(components, cycleEntity, requestId);
 
     // reverts if getting randomness too early or too late
     // TODO ability to cancel request that's too late so they don't endlessly accumulate? or remove the limit
@@ -78,6 +72,7 @@ library LibCycleCombatRewardRequest {
 
     CycleCombatRewardRequest memory req = abi.decode(data, (CycleCombatRewardRequest));
 
+    FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
     uint256 mapProtoEntity = fromProtoComp.getValue(req.mapEntity);
     if (mapProtoEntity != MapPrototypes.GLOBAL_BASIC) {
       // TODO support for other map protos when they're added
@@ -86,6 +81,16 @@ library LibCycleCombatRewardRequest {
 
     exp = _getExpReward(randomness, req);
     (lootIlvl, lootCount) = _getLootReward(components, randomness, req);
+  }
+
+  /** Check permissions and remove the reward request */
+  function removeReward(IUint256Component components, uint256 cycleEntity, uint256 requestId) internal {
+    CycleCombatRewardRequestComponent comp = _comp(components);
+    // `cycleEntity` must own the request
+    if (cycleEntity != comp.getValue(requestId)) {
+      revert LibCycleCombatRewardRequest__EntityMismatch();
+    }
+    comp.remove(requestId);
   }
 
   function _getExpReward(

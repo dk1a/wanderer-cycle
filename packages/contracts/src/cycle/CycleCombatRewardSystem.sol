@@ -52,4 +52,11 @@ contract CycleCombatRewardSystem is System {
 
     return "";
   }
+
+  function cancelRequest(uint256 wandererEntity, uint256 requestId) public {
+    // reverts if sender doesn't have permission
+    uint256 cycleEntity = LibCycle.getCycleEntityPermissioned(components, wandererEntity);
+    // remove the reward without claiming it
+    LibCycleCombatRewardRequest.removeReward(components, cycleEntity, requestId);
+  }
 }
