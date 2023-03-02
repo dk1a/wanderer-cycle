@@ -1,16 +1,18 @@
 import { useStatmodPrototype } from "../../mud/hooks/useStatmodPrototype";
 import { EffectStatmodData } from "../../mud/utils/effectStatmod";
-import ModifierName from "../ModifierName";
 
 export function EffectStatmod({ protoEntity, value }: EffectStatmodData) {
-  // TODO maybe get just the name?
   const statmodPrototype = useStatmodPrototype(protoEntity);
   const name = statmodPrototype.name;
-
-  // TODO protoEntity is a 32byte id, display a part of it or something (it should still be copyable tho)
-  if (!name) {
-    return <div>{protoEntity}</div>;
-  }
-
-  return <ModifierName name={name} value={value} />;
+  const nameParts = name.split("#");
+  return (
+    <div className="flex flex-wrap">
+      {nameParts.map((namePart, index) => (
+        <div key={namePart} className="">
+          {index !== 0 && <span className="text-dark-number text-[14px]">{value}</span>}
+          <span className="text-dark-string text-[14px]">{namePart}</span>
+        </div>
+      ))}
+    </div>
+  );
 }
