@@ -13,30 +13,39 @@ export function ElementalStatmods() {
   const attack = useAttack(cycleEntity);
 
   return (
-    <div className={`grid ${gridColsClass}`}>
-      {Object.values(elementNames).map((elementName) => (
-        <div className="text-dark-key overflow-x-hidden mr-2" key={elementName} title={elementName}>
-          {elementName}
+    <div className="flex flex-col text-[15px]">
+      <div className="flex text-center justify-center gap-x-4 ml-10">
+        <h5 className="text-dark-key" title="attack">
+          attack
+        </h5>
+        <h5 className="text-dark-key" title="resistance">
+          resistance
+        </h5>
+      </div>
+      <div className="flex">
+        <div className="flex flex-col text-end mx-4">
+          {Object.values(elementNames).map((elementName) => (
+            <div className="text-dark-string" key={elementName} title={elementName}>
+              {elementName}
+            </div>
+          ))}
         </div>
-      ))}
-
-      <h5 className="text-dark-key overflow-x-hidden mr-2" title="resistance">
-        resistance
-      </h5>
-      {statmodElements.map((statmodElement) => (
-        <div className="text-dark-number" key={statmodElement}>
-          {resistance[statmodElement]}
+        <div className="flex flex-col mx-4">
+          {statmodElements.map((statmodElement) => (
+            <div className="text-dark-number text-center" key={statmodElement}>
+              {resistance[statmodElement]}
+            </div>
+          ))}
         </div>
-      ))}
-
-      <h5 className="text-dark-key overflow-x-hidden mr-2" title="attack">
-        attack
-      </h5>
-      {statmodElements.map((statmodElement) => (
-        <div className="text-dark-number" key={statmodElement}>
-          {attack[statmodElement]}
+        <div className="flex flex-col mx-10 ">
+          {statmodElements.map((statmodElement) => (
+            <div className="text-dark-number text-center" key={statmodElement}>
+              {attack[statmodElement]}
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
+      <div></div>
     </div>
   );
 }

@@ -61,7 +61,7 @@ const router = createBrowserRouter([
 
 export function AppRouter() {
   return (
-    <div className={classes.nav}>
+    <div>
       <RouterProvider router={router} />
     </div>
   );
@@ -69,13 +69,13 @@ export function AppRouter() {
 
 function Layout() {
   return (
-    <div className={classes.content}>
-      <div className={classes.nav__container}>
-        <nav className={classes.nav__list}>
+    <div>
+      <div className="flex flex-row flex-wrap items-center justify-around h-16 bg-dark-500 border border-dark-400">
+        <nav className="flex flex-wrap items-center justify-around w-1/2">
           {[...gameRoutes, ...otherRoutes].map(({ title, path }) => (
             <NavLink
               key={path}
-              className={({ isActive }) => (isActive ? classes.navLinkClassActive : classes.navLinkClass)}
+              className={({ isActive }) => `transition duration-700 text-lg ${isActive ? "" : "text-dark-300"}`}
               to={path}
             >
               {title}

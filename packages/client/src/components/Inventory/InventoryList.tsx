@@ -1,4 +1,3 @@
-import { equipmentPrototypes } from "../../mud/utils/equipment";
 import InventorySection from "./InventorySection";
 import InventoryFilter from "./InventoryFilter";
 import { useInventoryContext } from "../../contexts/InventoryContext";
@@ -11,11 +10,10 @@ export default function InventoryList() {
     <div className="w-[60%] flex flex-col ml-24">
       <div className="flex flex-wrap justify-start w-full m-2">
         <div className="text-2xl text-dark-comment mr-2">{"// inventory"}</div>
-        <div className="flex">
+        <div className="flex w-full">
           <InventoryFilter />
         </div>
       </div>
-
       <div className="flex flex-col justify-center items-center">
         {presentProtoEntityIds.map((_protoEntityId) => (
           <div key={_protoEntityId} className="w-full">
@@ -25,14 +23,10 @@ export default function InventoryList() {
                 !filter ? "flex flex-col justify-start w-full flex-wrap" : "flex flex-col justify-center flex-wrap"
               }
             >
-              <div className="w-1/3">
-                <h3 className="text-xl text-dark-200">{equipmentPrototypes[_protoEntityId]}</h3>
-              </div>
-              <div className="w-auto">
-                <InventorySection
-                  equipmentList={equipmentList.filter(({ protoEntityId }) => protoEntityId === _protoEntityId)}
-                />
-              </div>
+              <InventorySection
+                protoEntityId={_protoEntityId}
+                equipmentList={equipmentList.filter(({ protoEntityId }) => protoEntityId === _protoEntityId)}
+              />
             </div>
             {separator}
           </div>

@@ -1,6 +1,5 @@
 import { SyncState } from "@latticexyz/network";
 import { useComponentValue } from "@latticexyz/react";
-import classes from "./App.module.scss";
 import { useMUD } from "./mud/MUDContext";
 import { AppRouter } from "./AppRouter";
 
@@ -17,7 +16,7 @@ export const App = () => {
   });
 
   return (
-    <div className={classes.App}>
+    <div className="h-full">
       {loadingState.state !== SyncState.LIVE ? (
         <div>
           {loadingState.msg} ({Math.floor(loadingState.percentage)}%)

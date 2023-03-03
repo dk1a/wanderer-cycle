@@ -12,8 +12,8 @@ export type InventorySortKey = "ilvl" | "name";
 export type EquipmentSlotWithEquip = EquipmentSlot & { equip: () => void };
 
 export type EquipmentData = LootData & {
-  equippedToSlot: EquipmentSlot;
-  availableSlots: EquipmentSlotWithEquip[];
+  equippedToSlot?: EquipmentSlot;
+  availableSlots?: EquipmentSlotWithEquip[];
 };
 
 type InventoryContextType = {
@@ -22,7 +22,7 @@ type InventoryContextType = {
   filter: string;
   setFilter: (filter: string) => void;
   presentProtoEntityIds: EntityID[];
-  equipmentList: LootData[];
+  equipmentList: EquipmentData[];
   equipmentSlots: ReturnType<typeof useEquipmentSlots>;
 };
 
@@ -61,7 +61,7 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
 
   // 4. Add equipment slot info
   const equipmentListWithSlots = useMemo(() => {
-    return sortedEquipmentList.map((data) => {
+    return sortedEquipmentList.map((data): EquipmentData => {
       // get the
       const equippedToSlot = equipmentSlots.find(({ equipped }) => data.entity === equipped?.entity);
 

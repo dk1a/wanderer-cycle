@@ -85,10 +85,7 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
 
       {/* TODO styles, this is from old ui and looks terrible */}
       {separator}
-      <div className="col-span-3">
-        <h5 className="text-dark-comment ml-1">{"// elemental"}</h5>
-        <ElementalStatmods />
-      </div>
+      <ElementalStatmods />
 
       {separator}
       <EffectList effects={effects} />
