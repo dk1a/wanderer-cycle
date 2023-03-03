@@ -11,7 +11,7 @@ export default function BaseEquipment({ equipmentData, className }: BaseEquipmen
   const { name, ilvl, affixes } = equipmentData;
   const availableSlots = equipmentData.availableSlots;
   return (
-    <div className="text-dark-key p-1.5 flex flex-col justify-between border border-dark-400 w-64 m-2">
+    <div className="text-dark-key p-1.5 flex flex-col justify-between border border-dark-400 bg-dark-500 w-64 m-2">
       <div className={className}>
         <div className="flex items-start justify-between">
           <div className="text-lg text-dark-method flex box-border items-start">

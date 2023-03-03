@@ -75,7 +75,7 @@ function Layout() {
           {[...gameRoutes, ...otherRoutes].map(({ title, path }) => (
             <NavLink
               key={path}
-              className={({ isActive }) => `transition duration-700 text-lg ${isActive ? "text-dark-300" : ""}`}
+              className={({ isActive }) => `transition duration-700 text-lg ${isActive ? "" : "text-dark-300"}`}
               to={path}
             >
               {title}
