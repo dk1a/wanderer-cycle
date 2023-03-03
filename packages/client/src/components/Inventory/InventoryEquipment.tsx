@@ -3,11 +3,10 @@ import CustomButton from "../UI/Button/CustomButton";
 import BaseEquipmentDetails from "./BaseEquipmentDetails";
 
 export default function InventoryEquipment({ equipmentData }: { equipmentData: EquipmentData }) {
-  const affixes = equipmentData.affixes;
-
+  // TODO affixes are more than effects, they need either a separate component or an extended EffectModifier
   return (
     <div className="text-dark-key p-1.5 flex flex-col justify-between border border-dark-400 w-64 m-2">
-      <BaseEquipmentDetails affixes={affixes} ilvl={equipmentData.ilvl} name={equipmentData.name} className="" />
+      <BaseEquipmentDetails data={equipmentData} />
       <div className="flex justify-around mt-1">
         {equipmentData.availableSlots.map((slotData) => (
           <CustomButton

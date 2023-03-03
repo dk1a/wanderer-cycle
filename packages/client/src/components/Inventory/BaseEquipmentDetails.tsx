@@ -1,10 +1,10 @@
 import { EffectStatmod } from "../Effect/EffectStatmod";
 import { LootData } from "../../mud/utils/getLoot";
 
-export default function BaseEquipmentDetails({ data, className }: { data: LootData; className: string }) {
+export default function BaseEquipmentDetails({ data }: { data: LootData }) {
   const { name, ilvl, affixes } = data;
   return (
-    <div className={className}>
+    <div>
       <div className="flex items-start justify-between">
         <div className="text-lg text-dark-method flex box-border items-start">
           <span>{name}</span>

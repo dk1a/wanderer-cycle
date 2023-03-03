@@ -2,7 +2,6 @@ import { useWandererContext } from "../../contexts/WandererContext";
 import { useActivateCycleCombat } from "../../mud/hooks/combat";
 import { useLoot } from "../../mud/hooks/useLoot";
 import { useCallback } from "react";
-import CustomButton from "../UI/Button/CustomButton";
 import { EntityIndex } from "@latticexyz/recs";
 import { useActiveGuise } from "../../mud/hooks/guise";
 import { useLevel } from "../../mud/hooks/charstat";
@@ -30,7 +29,7 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
     <>
       <div className="flex items-center">
         <div
-          className="border border-dark-400 w-56 h-62 p-4 flex flex-col bg-dark-500 transform delay-500 m-4 cursor-pointer"
+          className="border border-dark-400 w-48 h-62 p-4 flex flex-col bg-dark-500 transform delay-500 mt-4 cursor-pointer"
           onClick={onMapEnter}
         >
           <div className="flex justify-between items-center">
