@@ -1,7 +1,13 @@
 import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex } from "@latticexyz/recs";
-import { createContext, ReactNode, useContext, useMemo, useState } from "react";
-import { CycleCombatRewardRequest, useActiveCombat, useCycleCombatRewardRequests } from "../mud/hooks/combat";
+import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react";
+import {
+  CycleCombatRewardRequest,
+  OnCombatResultData,
+  useActiveCombat,
+  useCycleCombatRewardRequests,
+  useOnCombatResultEffect,
+} from "../mud/hooks/combat";
 import { useLearnCycleSkill } from "../mud/hooks/skill";
 import { useLearnedSkillEntities } from "../mud/hooks/skill";
 import { useMUD } from "../mud/MUDContext";
@@ -12,6 +18,8 @@ type WandererContextType = {
   cycleEntity?: EntityIndex;
   enemyEntity?: EntityIndex;
   combatRewardRequests: CycleCombatRewardRequest[];
+  lastCombatResult?: OnCombatResultData;
+  clearCombatResult: () => void;
   learnCycleSkill: ReturnType<typeof useLearnCycleSkill>;
   learnedSkillEntities: EntityIndex[];
 };
@@ -36,6 +44,9 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   const enemyEntity = useActiveCombat(cycleEntity);
 
   const combatRewardRequests = useCycleCombatRewardRequests(cycleEntity);
+  const [lastCombatResult, setLastCombatResult] = useState<OnCombatResultData>();
+  const clearCombatResult = useCallback(() => setLastCombatResult(undefined), []);
+  useOnCombatResultEffect(cycleEntity, setLastCombatResult);
 
   const learnCycleSkill = useLearnCycleSkill(selectedWandererEntity);
   const learnedSkillEntities = useLearnedSkillEntities(cycleEntity);
@@ -46,6 +57,8 @@ export const WandererProvider = (props: { children: ReactNode }) => {
     cycleEntity,
     enemyEntity,
     combatRewardRequests,
+    lastCombatResult,
+    clearCombatResult,
     learnedSkillEntities,
     learnCycleSkill,
   };

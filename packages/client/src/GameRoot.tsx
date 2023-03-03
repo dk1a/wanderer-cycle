@@ -5,9 +5,10 @@ import { Outlet } from "react-router-dom";
 import CombatPage from "./pages/CombatPage";
 import CombatInfo from "./components/info/CombatInfo";
 import { CombatResultPage } from "./pages/CombatResultPage";
+import { CombatResult } from "./mud/hooks/combat";
 
 export function GameRoot() {
-  const { selectedWandererEntity, enemyEntity, combatRewardRequests } = useWandererContext();
+  const { selectedWandererEntity, enemyEntity, combatRewardRequests, lastCombatResult } = useWandererContext();
 
   if (selectedWandererEntity === undefined) {
     return <WandererSelect />;
@@ -25,7 +26,7 @@ export function GameRoot() {
     );
   }
 
-  if (combatRewardRequests.length > 0) {
+  if (combatRewardRequests.length > 0 || (lastCombatResult && lastCombatResult.combatResult !== CombatResult.NONE)) {
     return (
       <div className="flex">
         <CycleInfo />

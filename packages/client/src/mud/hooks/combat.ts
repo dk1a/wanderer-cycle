@@ -1,8 +1,8 @@
 import { useComponentValue, useEntityQuery } from "@latticexyz/react";
-import { EntityID, EntityIndex, getComponentValueStrict, Has, HasValue } from "@latticexyz/recs";
+import { EntityID, EntityIndex, getComponentValue, getComponentValueStrict, Has, HasValue } from "@latticexyz/recs";
 import { BigNumber } from "ethers";
 import { defaultAbiCoder } from "ethers/lib/utils";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useMUD } from "../MUDContext";
 import { CombatAction } from "../utils/combat";
 import { parsePStats, pstatNames } from "../utils/experience";
@@ -133,3 +133,53 @@ export const useCycleCombatRewardRequests = (requesterEntity: EntityIndex | unde
     });
   }, [world, RNGPrecommit, requestEntities]);
 };
+
+export enum CombatResult {
+  NONE,
+  VICTORY,
+  DEFEAT,
+}
+
+export interface OnCombatResultData {
+  initiatorActions: CombatAction[];
+  combatResult: CombatResult;
+  enemyEntity: EntityIndex | undefined;
+}
+
+/**
+ * Calls the callback after each CycleCombat system call with combat results as arguments
+ */
+export function useOnCombatResultEffect(
+  // TODO using cycleEntity here instead of system's args is a crutch
+  // (But then this whole thing should be replaced with action events)
+  initiatorEntity: EntityIndex | undefined,
+  callback: (combatData: OnCombatResultData) => void
+) {
+  const {
+    world,
+    systemCallStreams,
+    components: { ActiveCombat, LifeCurrent },
+  } = useMUD();
+
+  useEffect(() => {
+    const subscription = systemCallStreams["system.CycleCombat"].subscribe((systemCall) => {
+      if (initiatorEntity === undefined) return;
+      const { initiatorActions } = systemCall.args as { wandererEntity: EntityID; initiatorActions: CombatAction[] };
+
+      const enemyEntityId = getComponentValue(ActiveCombat, initiatorEntity)?.value;
+      const enemyEntity = enemyEntityId ? world.entityToIndex.get(enemyEntityId) : undefined;
+
+      // TODO this is also a crutch
+      let combatResult;
+      if (enemyEntity !== undefined) {
+        combatResult = CombatResult.NONE;
+      } else {
+        const lifeCurrent = getComponentValueStrict(LifeCurrent, initiatorEntity).value;
+        combatResult = lifeCurrent === 0 ? CombatResult.DEFEAT : CombatResult.VICTORY;
+      }
+
+      callback({ initiatorActions, combatResult, enemyEntity });
+    });
+    return () => subscription.unsubscribe();
+  }, [world, ActiveCombat, LifeCurrent, systemCallStreams, callback, initiatorEntity]);
+}
