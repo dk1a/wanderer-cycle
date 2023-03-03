@@ -4,12 +4,22 @@ import { useLoot } from "../../mud/hooks/useLoot";
 import { useCallback } from "react";
 import CustomButton from "../UI/Button/CustomButton";
 import { EntityIndex } from "@latticexyz/recs";
+import { useActiveGuise } from "../../mud/hooks/guise";
+import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
+import { useLevel } from "../../mud/hooks/charstat";
 
 export default function BaseMap({ entity }: { entity: EntityIndex }) {
   const { selectedWandererEntity } = useWandererContext();
   const activateCycleCombat = useActivateCycleCombat();
   const loot = useLoot(entity);
+
+  const { cycleEntity } = useWandererContext();
+  const guise = useActiveGuise(cycleEntity);
+  const levelData = useLevel(cycleEntity, guise?.levelMul);
+
   const name = "map";
+
+  const raznitsa = levelData.level - loot.ilvl;
 
   const onMapEnter = useCallback(() => {
     if (!selectedWandererEntity) {
@@ -28,8 +38,8 @@ export default function BaseMap({ entity }: { entity: EntityIndex }) {
           <div className="flex justify-between items-center">
             <h3 className="text-xl text-dark-type text-center">{name}</h3>
             <span className="text-dark-key">
-              <span className="text-dark-number">lvl: </span>
-              {loot?.ilvl}
+              {"ilvl: "}
+              <span className={levelData?.level ? "text-red-500" : "text-dark-number"}>{loot?.ilvl}</span>
             </span>
           </div>
         </div>
