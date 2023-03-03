@@ -31,7 +31,7 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
 
   return (
     <>
-      <div className="grid grid-cols-3 bg-dark-500 border border-dark-400 w-48 py-2 px-1 mt-4">
+      <div className="grid grid-cols-3 bg-dark-500 w-48 py-2 px-1">
         <CustomButton className="col-span-2 mr-2" onClick={onMapEnter}>
           {name}
         </CustomButton>

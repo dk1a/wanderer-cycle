@@ -26,7 +26,7 @@ export default function Map({ entity }: { entity: EntityIndex }) {
   const effect = loot.effect;
 
   return (
-    <div className="border border-dark-400 w-56 h-62 p-4 flex flex-col bg-dark-500 transform delay-500 m-4">
+    <div className="border border-dark-400 w-56 h-62 p-4 flex flex-col bg-dark-500">
       <CustomButton onClick={onMapEnter}>{name}</CustomButton>
       <div className="text-dark-comment mt-1">
         <span className="text-dark-key">level: </span>
