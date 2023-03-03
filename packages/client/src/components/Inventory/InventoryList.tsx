@@ -36,7 +36,7 @@ export default function InventoryList() {
                 />
               </div>
             </div>
-            {separator}
+            {checked && separator}
           </div>
         ))}
       </div>
