@@ -17,29 +17,56 @@ export default function InventoryList() {
       </div>
 
       <div className="flex flex-col justify-center items-center">
-        {presentProtoEntityIds.map((_protoEntityId) => (
-          <div key={_protoEntityId} className="w-full">
-            <div
-              key={_protoEntityId}
-              className={
-                !filter ? "flex flex-col justify-start w-full flex-wrap" : "flex flex-col justify-center flex-wrap"
-              }
-            >
-              {checked && (
-                <div className="w-1/3">
-                  <h3 className="text-xl text-dark-200">{equipmentPrototypes[_protoEntityId]}</h3>
-                </div>
-              )}
-              <div className="w-auto">
-                <InventorySection
-                  equipmentList={equipmentList.filter(({ protoEntityId }) => protoEntityId === _protoEntityId)}
-                />
+        {!checked
+          ? equipmentList.map((lootData) => (
+              <div className="w-auto" key={lootData}>
+                <InventorySection equipmentList={equipmentList} />
               </div>
-            </div>
-            {checked && separator}
-          </div>
-        ))}
+            ))
+          : presentProtoEntityIds.map((_protoEntityId) => (
+              <div key={_protoEntityId} className="w-full">
+                <div
+                  key={_protoEntityId}
+                  className={
+                    !filter ? "flex flex-col justify-start w-full flex-wrap" : "flex flex-col justify-center flex-wrap"
+                  }
+                >
+                  <div className="w-1/3">
+                    <h3 className="text-xl text-dark-200">{equipmentPrototypes[_protoEntityId]}</h3>
+                  </div>
+                  <div className="w-auto">
+                    <InventorySection
+                      equipmentList={equipmentList.filter(({ protoEntityId }) => protoEntityId === _protoEntityId)}
+                    />
+                  </div>
+                </div>
+                {separator}
+              </div>
+            ))}
       </div>
     </div>
   );
 }
+
+// {presentProtoEntityIds.map((_protoEntityId) => (
+//   <div key={_protoEntityId} className="w-full">
+//     <div
+//       key={_protoEntityId}
+//       className={
+//         !filter ? "flex flex-col justify-start w-full flex-wrap" : "flex flex-col justify-center flex-wrap"
+//       }
+//     >
+//       {checked && (
+//         <div className="w-1/3">
+//           <h3 className="text-xl text-dark-200">{equipmentPrototypes[_protoEntityId]}</h3>
+//         </div>
+//       )}
+//       <div className="w-auto">
+//         <InventorySection
+//           equipmentList={equipmentList.filter(({ protoEntityId }) => protoEntityId === _protoEntityId)}
+//         />
+//       </div>
+//     </div>
+//     {separator}
+//   </div>
+// ))}
