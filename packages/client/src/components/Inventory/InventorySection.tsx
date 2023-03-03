@@ -1,8 +1,8 @@
-import InventoryEquipment from "./InventoryEquipment";
 import { useOwnedEquipment } from "../../mud/hooks/useOwnedEquipment";
 import { equipmentPrototypes } from "../../mud/utils/equipment";
 import { EntityID } from "@latticexyz/recs";
 import { useState } from "react";
+import BaseEquipment from "./BaseEquipment";
 
 export default function InventorySection({
   equipmentList,
@@ -21,7 +21,7 @@ export default function InventorySection({
       {vision && (
         <div className="flex justify-start flex-wrap w-auto">
           {equipmentList.map((equipmentData) => (
-            <InventoryEquipment key={equipmentData.entity} equipmentData={equipmentData} />
+            <BaseEquipment key={equipmentData.entity} equipmentData={equipmentData} button={true} />
           ))}
         </div>
       )}

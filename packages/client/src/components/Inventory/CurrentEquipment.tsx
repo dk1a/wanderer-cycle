@@ -2,12 +2,11 @@ import Tippy from "@tippyjs/react";
 import CustomButton from "../UI/Button/CustomButton";
 import { left } from "@popperjs/core";
 import { useInventoryContext } from "../../contexts/InventoryContext";
-import BaseEquipmentDetails from "./BaseEquipmentDetails";
 import { EquipmentSummary } from "./EquipmentSummary";
+import BaseEquipment from "./BaseEquipment";
 
 export default function CurrentEquipment() {
   const { equipmentSlots } = useInventoryContext();
-  console.log("equipment", equipmentSlots);
 
   return (
     <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-full">
@@ -20,10 +19,11 @@ export default function CurrentEquipment() {
           offset={[0, 15]}
           content={
             equipped !== undefined ? (
-              <BaseEquipmentDetails
+              <BaseEquipment
+                button={false}
                 key={entity}
-                data={equipped}
-                className="border border-dark-400 bg-dark-500 m-[-10px] p-2"
+                equipmentData={equipped}
+                className={"border border-dark-400 bg-dark-500 m-[-25px] p-2"}
               />
             ) : (
               <div className="bg-dark-500 w-36 h-16 text-center p-2 text-lg text-dark-300 m-[-10px] border border-dark-400">
