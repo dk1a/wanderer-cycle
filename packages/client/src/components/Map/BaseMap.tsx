@@ -9,18 +9,14 @@ import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
 import { useLevel } from "../../mud/hooks/charstat";
 
 export default function BaseMap({ entity }: { entity: EntityIndex }) {
-  const { selectedWandererEntity } = useWandererContext();
+  const { selectedWandererEntity, cycleEntity } = useWandererContext();
   const activateCycleCombat = useActivateCycleCombat();
   const loot = useLoot(entity);
 
-  const { cycleEntity } = useWandererContext();
   const guise = useActiveGuise(cycleEntity);
   const levelData = useLevel(cycleEntity, guise?.levelMul);
 
   const name = "map";
-
-  const raznitsa = levelData.level - loot.ilvl;
-
   const onMapEnter = useCallback(() => {
     if (!selectedWandererEntity) {
       throw new Error("No selected wanderer entity");
