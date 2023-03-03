@@ -20,7 +20,6 @@ export default function CurrentEquipment() {
           content={
             equipped !== undefined ? (
               <BaseEquipment
-                button={false}
                 key={entity}
                 equipmentData={equipped}
                 className={"border border-dark-400 bg-dark-500 m-[-25px] p-2"}
