@@ -14,7 +14,6 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
   const guise = useActiveGuise(cycleEntity);
   const levelData = useLevel(cycleEntity, guise?.levelMul);
 
-  const name = "map";
   const onMapEnter = useCallback(() => {
     if (!selectedWandererEntity) {
       throw new Error("No selected wanderer entity");
@@ -25,6 +24,10 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
   if (!loot) {
     return <div>TODO placeholder (this can happen while the hook is loading)</div>;
   }
+
+  const name = loot.name;
+  const isHighLevel = levelData !== undefined && loot.ilvl - levelData?.level > 2;
+
   return (
     <>
       <div className="flex items-center">
@@ -33,10 +36,10 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
           onClick={onMapEnter}
         >
           <div className="flex justify-between items-center">
-            <h3 className="text-xl text-dark-type text-center">{name}</h3>
+            <h3 className="text-xl text-dark-control text-center">{name}</h3>
             <span className="text-dark-key">
               {"ilvl: "}
-              <span className={levelData?.level ? "text-red-500" : "text-dark-number"}>{loot?.ilvl}</span>
+              <span className={isHighLevel ? "text-red-400" : "text-dark-number"}>{loot.ilvl}</span>
             </span>
           </div>
         </div>

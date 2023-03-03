@@ -13,7 +13,7 @@ export function GlobalMaps() {
           <BasicMap key={entity} entity={entity} />
         ))}
       </div>
-      <div className="">
+      <div>
         {randomMapEntities.map((entity) => (
           <Map key={entity} entity={entity} />
         ))}
