@@ -1,4 +1,3 @@
-import Map from "../components/Map";
 import { useMaps } from "../mud/hooks/useMaps";
 
 export function GlobalMaps() {
@@ -12,6 +11,7 @@ export function GlobalMaps() {
       ))}
       {randomMapEntities.map((entity) => (
         <Map key={entity} entity={entity} />
+
       ))}
     </div>
   );
