@@ -32,7 +32,7 @@ export function PStatWithProgress({ name, baseLevel, buffedLevel, experience }: 
       </span>
 
       <div className="col-span-2 flex items-center box-border w-full ml-1">
-        {experience !== null && (
+        {experience !== undefined && (
           <div className="flex flex-col flex-grow pr-2 pl-2">
             <div className="justify-center text-xs">
               <span className="text-dark-200">{nextProgress}</span>
