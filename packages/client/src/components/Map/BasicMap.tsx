@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import { EntityIndex } from "@latticexyz/recs";
 import { useActiveGuise } from "../../mud/hooks/guise";
 import { useLevel } from "../../mud/hooks/charstat";
+import CustomButton from "../UI/Button/CustomButton";
 
 export default function BasicMap({ entity }: { entity: EntityIndex }) {
   const { selectedWandererEntity, cycleEntity } = useWandererContext();
@@ -30,20 +31,14 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
 
   return (
     <>
-      <div className="flex items-center">
-        <div
-          className="border border-dark-400 w-48 h-62 p-4 flex flex-col bg-dark-500 transform delay-500 mt-4 cursor-pointer"
-          onClick={onMapEnter}
-        >
-          <div className="flex justify-between items-center">
-            <h3 className="text-xl text-dark-control text-center">{name}</h3>
-            <span className="text-dark-key">
-              {"ilvl: "}
-              <span className={isHighLevel ? "text-red-400" : "text-dark-number"}>{loot.ilvl}</span>
-            </span>
-          </div>
-        </div>
-        <div></div>
+      <div className="grid grid-cols-3 bg-dark-500 border border-dark-400 w-48 py-2 px-1 mt-4">
+        <CustomButton className="col-span-2 mr-2" onClick={onMapEnter}>
+          {name}
+        </CustomButton>
+        <span className="whitespace-nowrap">
+          <span className="text-dark-key">level: </span>
+          <span className={isHighLevel ? "text-red-400" : "text-dark-number"}>{loot.ilvl}</span>
+        </span>
       </div>
     </>
   );
