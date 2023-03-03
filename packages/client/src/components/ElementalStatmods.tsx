@@ -14,30 +14,30 @@ export function ElementalStatmods() {
 
   return (
     <div className="flex flex-col text-[15px]">
-      <div className="flex text-center justify-center ml-10">
-        <h5 className=" overflow-x-hidden text-dark-string mr-4" title="attack">
+      <div className="flex text-center justify-center gap-x-4 ml-10">
+        <h5 className="text-dark-key" title="attack">
           attack
         </h5>
-        <h5 className="text-dark-string" title="resistance">
+        <h5 className="text-dark-key" title="resistance">
           resistance
         </h5>
       </div>
       <div className="flex">
         <div className="flex flex-col text-end mx-4">
           {Object.values(elementNames).map((elementName) => (
-            <div className="text-dark-key" key={elementName} title={elementName}>
+            <div className="text-dark-string" key={elementName} title={elementName}>
               {elementName}
             </div>
           ))}
         </div>
-        <div className="flex flex-col text-center mx-4">
+        <div className="flex flex-col mx-4">
           {statmodElements.map((statmodElement) => (
             <div className="text-dark-number text-center" key={statmodElement}>
               {resistance[statmodElement]}
             </div>
           ))}
         </div>
-        <div className="flex flex-col text-center mx-10 ">
+        <div className="flex flex-col mx-10 ">
           {statmodElements.map((statmodElement) => (
             <div className="text-dark-number text-center" key={statmodElement}>
               {attack[statmodElement]}
