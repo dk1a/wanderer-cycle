@@ -6,7 +6,9 @@ export default function BaseEquipmentDetails({ data, className }: { data: LootDa
   return (
     <div className={className}>
       <div className="flex items-start justify-between">
-        <span className="text-lg text-dark-method flex-wrap flex box-border">{name}</span>
+        <div className="text-lg text-dark-method flex box-border items-start">
+          <span>{name}</span>
+        </div>
         <span className="text-dark-key ml-1">
           ilvl:<span className="ml-1 text-dark-number">{ilvl}</span>
         </span>

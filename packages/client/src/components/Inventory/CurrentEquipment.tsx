@@ -34,21 +34,23 @@ export default function CurrentEquipment() {
         >
           <div className="flex flex-wrap flex-col m-2 border border-dark-400 p-1">
             <div className="text-dark-200 text-[14px] flex ml-1">
-              <div className="flex mr-1">{name}:</div>
+              <div className="flex mr-1 whitespace-nowrap">{name}:</div>
               {equipped !== undefined ? (
-                <div className="text-dark-method text-[13px]">
-                  {equipped.name}
-                  <EquipmentSummary affixes={equipped.affixes} />
-                </div>
+                <div className="text-dark-method text-[13px]">{equipped.name}</div>
               ) : (
                 <p className="text-dark-300">empty</p>
               )}
             </div>
             {equipped !== undefined && (
-              <div>
-                <CustomButton style={{ marginTop: "5px", fontSize: "13px" }} onClick={() => unequip()}>
-                  unequip
-                </CustomButton>
+              <div className="flex justify-between items-center">
+                <div className="ml-2">
+                  <EquipmentSummary affixes={equipped.affixes} />
+                </div>
+                <div className="mr-2">
+                  <CustomButton style={{ height: "25px", fontSize: "13px" }} onClick={() => unequip()}>
+                    unequip
+                  </CustomButton>
+                </div>
               </div>
             )}
           </div>
