@@ -13,40 +13,39 @@ export function ElementalStatmods() {
   const attack = useAttack(cycleEntity);
 
   return (
-    <div className="flex text-[15px]">
-      <div className="flex flex-col justify-end text-center">
-        <h5 className=" overflow-x-hidden text-dark-string" title="attack">
+    <div className="flex flex-col text-[15px]">
+      <div className="flex text-center justify-center ml-10">
+        <h5 className=" overflow-x-hidden text-dark-string mr-4" title="attack">
           attack
         </h5>
         <h5 className="text-dark-string" title="resistance">
           resistance
         </h5>
       </div>
-      <div>
-        <div>
-          <div className="flex justify-evenly ml-2">
-            {Object.values(elementNames).map((elementName) => (
-              <div className="text-dark-key  mx-1" key={elementName} title={elementName}>
-                {elementName}
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-around text-center ">
-            {statmodElements.map((statmodElement) => (
-              <div className="text-dark-number text-center w-3" key={statmodElement}>
-                {resistance[statmodElement]}
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-around text-center ">
-            {statmodElements.map((statmodElement) => (
-              <div className="text-dark-number text-center w-6" key={statmodElement}>
-                {attack[statmodElement]}
-              </div>
-            ))}
-          </div>
+      <div className="flex">
+        <div className="flex flex-col text-end mx-4">
+          {Object.values(elementNames).map((elementName) => (
+            <div className="text-dark-key" key={elementName} title={elementName}>
+              {elementName}
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-col text-center mx-4">
+          {statmodElements.map((statmodElement) => (
+            <div className="text-dark-number text-center" key={statmodElement}>
+              {resistance[statmodElement]}
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-col text-center mx-10 ">
+          {statmodElements.map((statmodElement) => (
+            <div className="text-dark-number text-center" key={statmodElement}>
+              {attack[statmodElement]}
+            </div>
+          ))}
         </div>
       </div>
+      <div></div>
     </div>
   );
 }
