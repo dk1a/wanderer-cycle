@@ -1,3 +1,4 @@
+
 import { useMaps } from "../mud/hooks/useMaps";
 
 export function GlobalMaps() {

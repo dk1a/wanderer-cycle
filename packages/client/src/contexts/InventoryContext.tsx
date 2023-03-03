@@ -21,8 +21,6 @@ type InventoryContextType = {
   setSort: (sort: InventorySortKey | undefined) => void;
   filter: string;
   setFilter: (filter: string) => void;
-  checked: boolean;
-  setChecked: (checked: boolean) => void;
   presentProtoEntityIds: EntityID[];
   equipmentList: LootData[];
   equipmentSlots: ReturnType<typeof useEquipmentSlots>;
@@ -36,7 +34,6 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
 
   const [sort, setSort] = useState<InventorySortKey | undefined>("ilvl");
   const [filter, setFilter] = useState<string>("");
-  const [checked, setChecked] = useState<boolean>(true);
 
   const changeCycleEquipment = useChangeCycleEquipment();
   const { cycleEntity } = useWandererContext();
@@ -105,8 +102,6 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
     setSort,
     filter,
     setFilter,
-    checked,
-    setChecked,
     presentProtoEntityIds,
     equipmentList,
     equipmentSlots,

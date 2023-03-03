@@ -5,10 +5,9 @@ import { useCallback } from "react";
 import CustomButton from "../UI/Button/CustomButton";
 import { EntityIndex } from "@latticexyz/recs";
 import { useActiveGuise } from "../../mud/hooks/guise";
-import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
 import { useLevel } from "../../mud/hooks/charstat";
 
-export default function BaseMap({ entity }: { entity: EntityIndex }) {
+export default function BasicMap({ entity }: { entity: EntityIndex }) {
   const { selectedWandererEntity, cycleEntity } = useWandererContext();
   const activateCycleCombat = useActivateCycleCombat();
   const loot = useLoot(entity);
@@ -30,7 +29,10 @@ export default function BaseMap({ entity }: { entity: EntityIndex }) {
   return (
     <>
       <div className="flex items-center">
-        <div className="border border-dark-400 w-56 h-62 p-4 flex flex-col bg-dark-500 transform delay-500 m-4">
+        <div
+          className="border border-dark-400 w-56 h-62 p-4 flex flex-col bg-dark-500 transform delay-500 m-4 cursor-pointer"
+          onClick={onMapEnter}
+        >
           <div className="flex justify-between items-center">
             <h3 className="text-xl text-dark-type text-center">{name}</h3>
             <span className="text-dark-key">
@@ -39,9 +41,7 @@ export default function BaseMap({ entity }: { entity: EntityIndex }) {
             </span>
           </div>
         </div>
-        <div>
-          <CustomButton onClick={onMapEnter}>{"Enter"}</CustomButton>
-        </div>
+        <div></div>
       </div>
     </>
   );
