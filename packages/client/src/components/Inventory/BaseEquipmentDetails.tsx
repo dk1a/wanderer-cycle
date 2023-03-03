@@ -5,10 +5,12 @@ export default function BaseEquipmentDetails({ data, className }: { data: LootDa
   const { name, ilvl, affixes } = data;
   return (
     <div className={className}>
-      <span className="text-lg text-dark-method flex-wrap flex box-border">{name}</span>
-      <span className="text-dark-key">
-        ilvl<span className="mx-2 text-dark-number">{ilvl}</span>
-      </span>
+      <div className="flex items-start justify-between">
+        <span className="text-lg text-dark-method flex-wrap flex box-border">{name}</span>
+        <span className="text-dark-key ml-1">
+          ilvl:<span className="ml-1 text-dark-number">{ilvl}</span>
+        </span>
+      </div>
       {affixes.map(({ protoEntity, value, partId, statmod }) => (
         <div className="flex box-content flex-wrap" key={`${partId}${protoEntity}`}>
           <EffectStatmod protoEntity={statmod.protoEntity} value={value} />
