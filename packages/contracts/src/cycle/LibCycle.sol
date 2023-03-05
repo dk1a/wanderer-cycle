@@ -18,8 +18,6 @@ import { LibToken } from "../token/LibToken.sol";
 import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
 
 // TODO imports for testing stuff, remove later
-import { EffectSubSystem, ID as EffectSubSystemID } from "../effect/EffectSubSystem.sol";
-import { getSkillProtoEntity } from "../skill/SkillPrototypeComponent.sol";
 import { RandomEquipmentSubSystem, ID as RandomEquipmentSubSystemID } from "../loot/RandomEquipmentSubSystem.sol";
 import { LibLootOwner } from "../loot/LibLootOwner.sol";
 
@@ -73,18 +71,13 @@ library LibCycle {
     // TODO wheel
     // TODO wallet
 
-    // TODO effect for testing, remove later
-    {
-      EffectSubSystem effectSubSystem = EffectSubSystem(getAddressById(world.systems(), EffectSubSystemID));
-      effectSubSystem.executeApply(cycleEntity, getSkillProtoEntity("Cleave"));
-    }
     // TODO loot for testing, remove later
     {
       RandomEquipmentSubSystem randomEquipmentSubSystem = RandomEquipmentSubSystem(
         getAddressById(world.systems(), RandomEquipmentSubSystemID)
       );
       uint256 lootEntity;
-      for (uint256 i; i < 15; i++) {
+      for (uint256 i; i < 20; i++) {
         lootEntity = randomEquipmentSubSystem.executeTyped(uint32((i % 12) + 1), i + 123123);
         LibLootOwner.setSimpleOwnership(components, lootEntity, cycleEntity);
       }
