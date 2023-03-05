@@ -9,6 +9,7 @@ import { getAddressById, addressToEntity } from "solecs/utils.sol";
 import { EquipmentSubSystem, ID as EquipmentSubSystemID, EquipmentAction } from "../equipment/EquipmentSubSystem.sol";
 import { OwnedByComponent, ID as OwnedByComponentID } from "../common/OwnedByComponent.sol";
 import { LibCycle } from "./LibCycle.sol";
+import { LibLootOwner } from "../loot/LibLootOwner.sol";
 
 uint256 constant ID = uint256(keccak256("system.CycleEquipment"));
 
@@ -40,9 +41,8 @@ contract CycleEquipmentSystem is System {
       revert CycleEquipmentSystem__NotSlotOwner();
     }
     // and the equipment
-    // TODO also use NFT write access (LibLootOwner?)
     // TODO allow the entity which has `equipmentEntity` equipped to unequip it without owning it
-    if (addressToEntity(msg.sender) != ownedByComponent.getValue(equipmentEntity)) {
+    if (cycleEntity != LibLootOwner.ownerOf(components, equipmentEntity)) {
       revert CycleEquipmentSystem__NotEquipmentOwner();
     }
 

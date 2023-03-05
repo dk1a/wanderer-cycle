@@ -4,17 +4,13 @@ pragma solidity ^0.8.17;
 
 import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
-import { getAddressById, addressToEntity } from "solecs/utils.sol";
+import { getAddressById } from "solecs/utils.sol";
 
 import { WNFTSystem, ID as WNFTSystemID } from "../token/WNFTSystem.sol";
 import { WandererComponent, ID as WandererComponentID } from "./WandererComponent.sol";
 import { GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../guise/GuisePrototypeComponent.sol";
 
 import { LibCycle } from "../cycle/LibCycle.sol";
-
-// TODO imports for testing stuff, remove later
-import { RandomEquipmentSubSystem, ID as RandomEquipmentSubSystemID } from "../loot/RandomEquipmentSubSystem.sol";
-import { LibLootOwner } from "../loot/LibLootOwner.sol";
 
 uint256 constant ID = uint256(keccak256("system.WandererSpawn"));
 
@@ -44,18 +40,6 @@ contract WandererSpawnSystem is System {
 
     // init cycle
     LibCycle.initCycle(world, wandererEntity, guiseProtoEntity);
-
-    // TODO loot for testing, remove later
-    {
-      RandomEquipmentSubSystem randomEquipmentSubSystem = RandomEquipmentSubSystem(
-        getAddressById(world.systems(), RandomEquipmentSubSystemID)
-      );
-      uint256 lootEntity;
-      for (uint256 i; i < 15; i++) {
-        lootEntity = randomEquipmentSubSystem.executeTyped(uint32((i % 12) + 1), i + 123123);
-        LibLootOwner.setSimpleOwnership(components, lootEntity, addressToEntity(msg.sender));
-      }
-    }
 
     return abi.encode(wandererEntity);
   }
