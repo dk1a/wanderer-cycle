@@ -6,11 +6,14 @@ import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
 import { EffectSource } from "../../mud/utils/getEffect";
 import { useActivateCycleCombat } from "../../mud/hooks/combat";
+import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
 
 export default function Map({ entity }: { entity: EntityIndex }) {
-  const { selectedWandererEntity } = useWandererContext();
+  const { selectedWandererEntity, cycleEntity } = useWandererContext();
   const activateCycleCombat = useActivateCycleCombat();
   const loot = useLoot(entity);
+
+  const turns = useCycleTurns(cycleEntity);
 
   const onMapEnter = useCallback(() => {
     if (!selectedWandererEntity) {
@@ -27,7 +30,9 @@ export default function Map({ entity }: { entity: EntityIndex }) {
 
   return (
     <div className="border border-dark-400 w-56 h-62 p-4 flex flex-col bg-dark-500">
-      <CustomButton onClick={onMapEnter}>{name}</CustomButton>
+      <CustomButton onClick={onMapEnter} disabled={!turns}>
+        {name}
+      </CustomButton>
       <div className="text-dark-comment mt-1">
         <span className="text-dark-key">level: </span>
         <span className="text-dark-number">{loot?.ilvl}</span>

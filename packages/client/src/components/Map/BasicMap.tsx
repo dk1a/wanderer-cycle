@@ -6,6 +6,7 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useActiveGuise } from "../../mud/hooks/guise";
 import { useLevel } from "../../mud/hooks/charstat";
 import CustomButton from "../UI/Button/CustomButton";
+import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
 
 export default function BasicMap({ entity }: { entity: EntityIndex }) {
   const { selectedWandererEntity, cycleEntity } = useWandererContext();
@@ -14,6 +15,7 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
 
   const guise = useActiveGuise(cycleEntity);
   const levelData = useLevel(cycleEntity, guise?.levelMul);
+  const turns = useCycleTurns(cycleEntity);
 
   const onMapEnter = useCallback(() => {
     if (!selectedWandererEntity) {
@@ -32,7 +34,7 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
   return (
     <>
       <div className="grid grid-cols-3 bg-dark-500 w-48 py-2 px-1">
-        <CustomButton className="col-span-2 mr-2" onClick={onMapEnter}>
+        <CustomButton className="col-span-2 mr-2" onClick={onMapEnter} disabled={!turns}>
           {name}
         </CustomButton>
         <span className="whitespace-nowrap">
