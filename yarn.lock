@@ -823,10 +823,10 @@
   dependencies:
     debug "^4.3.4"
 
-"@latticexyz/react@^1.39.0":
-  version "1.39.0"
-  resolved "https://registry.yarnpkg.com/@latticexyz/react/-/react-1.39.0.tgz#f46f875127abf17b86cb51fb56f83fc69155d94b"
-  integrity sha512-urZjhm+RlT67ngQiqwbkeUQa6fl0zh4BYIQRA1TPwNPlNm3npbLk4yh6EL3VNoK6aE+tNCVJJoxG9dVAfiyEzw==
+"@latticexyz/react@^1.40.0":
+  version "1.40.0"
+  resolved "https://registry.yarnpkg.com/@latticexyz/react/-/react-1.40.0.tgz#11266b70780bcf74e5833573bee019211919301c"
+  integrity sha512-D+LTybfWegMBkoFzFLJc+1Fftdz8PHQnbBtC0m2e6DaA6ZjiybYdCwsel3YC/vksiseP3V0/TFIP7Wj6eDtG6Q==
   dependencies:
     fast-deep-equal "^3.1.3"
 

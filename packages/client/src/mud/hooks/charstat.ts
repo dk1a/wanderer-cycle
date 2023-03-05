@@ -69,39 +69,43 @@ function useExperienceAndDirectLevel(targetEntity: EntityIndex | undefined) {
 export const useLife = (targetEntity: EntityIndex | undefined) => {
   const strength = usePstat(targetEntity, "strength");
 
-  const baseValue = 2 + 2 * strength.buffedLevel;
+  const baseValue = useMemo(() => 2 + 2 * strength.buffedLevel, [strength]);
   return useGetValuesFinal(targetEntity, "life", baseValue);
 };
 
 export const useMana = (targetEntity: EntityIndex | undefined) => {
   const arcana = usePstat(targetEntity, "arcana");
 
-  const baseValue = 4 * arcana.buffedLevel;
+  const baseValue = useMemo(() => 4 * arcana.buffedLevel, [arcana]);
   return useGetValuesFinal(targetEntity, "mana", baseValue);
 };
 
 export const useAttack = (targetEntity: EntityIndex | undefined) => {
   const strength = usePstat(targetEntity, "strength");
   // strength increases physical base attack damage
-  const baseValues = parseElemental(0, Math.floor(strength.buffedLevel / 2) + 1, 0, 0, 0);
+  const baseValues = useMemo(() => parseElemental(0, Math.floor(strength.buffedLevel / 2) + 1, 0, 0, 0), [strength]);
 
   return useGetValuesElementalFinal(targetEntity, "attack", baseValues);
 };
 
 export const useResistance = (targetEntity: EntityIndex | undefined) => {
   const dexterity = usePstat(targetEntity, "dexterity");
-  const baseValues = parseElemental(Math.floor(dexterity.buffedLevel / 4) * 4, 0, 0, 0, 0);
+  const baseValues = useMemo(() => parseElemental(Math.floor(dexterity.buffedLevel / 4) * 4, 0, 0, 0, 0), [dexterity]);
 
   return useGetValuesElementalFinal(targetEntity, "resistance", baseValues);
 };
 
 export const useSpell = (targetEntity: EntityIndex | undefined, baseValues: Elemental) => {
   const arcana = usePstat(targetEntity, "arcana");
-  for (const element of statmodElements) {
-    if (element !== StatmodElement.ALL) {
-      baseValues[element] += arcana.buffedLevel;
+  const buffedBaseValues = useMemo(() => {
+    const buffedBaseValues = { ...baseValues };
+    for (const element of statmodElements) {
+      if (element !== StatmodElement.ALL) {
+        buffedBaseValues[element] += arcana.buffedLevel;
+      }
     }
-  }
+    return buffedBaseValues;
+  }, [baseValues, arcana]);
 
-  return useGetValuesElementalFinal(targetEntity, "spell", baseValues);
+  return useGetValuesElementalFinal(targetEntity, "spell", buffedBaseValues);
 };

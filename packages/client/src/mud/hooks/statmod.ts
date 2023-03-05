@@ -1,4 +1,4 @@
-import { useEntityQuery } from "@latticexyz/react";
+import { useEntityQuery } from "../useEntityQuery";
 import { EntityID, EntityIndex, getComponentValueStrict, Has, HasValue } from "@latticexyz/recs";
 import { BigNumber } from "ethers";
 import { defaultAbiCoder, keccak256, toUtf8Bytes } from "ethers/lib/utils";
@@ -27,10 +27,12 @@ function sumForElementalOp(statmods: ReturnType<typeof useTopicStatmods>, opFilt
 
 export const useGetValuesFinal = (targetEntity: EntityIndex | undefined, topic: StatmodTopic, baseValue: number) => {
   const statmods = useTopicStatmods(targetEntity, topic);
-  const resultBadd = baseValue + sumForOp(statmods, Op.BADD);
-  const resultMul = Math.floor((resultBadd * (100 + sumForOp(statmods, Op.MUL))) / 100);
-  const resultAdd = resultMul + sumForOp(statmods, Op.ADD);
-  return resultAdd;
+  return useMemo(() => {
+    const resultBadd = baseValue + sumForOp(statmods, Op.BADD);
+    const resultMul = Math.floor((resultBadd * (100 + sumForOp(statmods, Op.MUL))) / 100);
+    const resultAdd = resultMul + sumForOp(statmods, Op.ADD);
+    return resultAdd;
+  }, [baseValue, statmods]);
 };
 
 export const useGetValuesElementalFinal = (
@@ -39,15 +41,16 @@ export const useGetValuesElementalFinal = (
   baseValues: Elemental
 ) => {
   const statmods = useTopicStatmods(targetEntity, topic);
-  const result = { ...baseValues };
-
-  for (const element of statmodElements) {
-    const resultBadd = baseValues[element] + sumForElementalOp(statmods, Op.BADD, element);
-    const resultMul = Math.floor((resultBadd * (100 + sumForElementalOp(statmods, Op.MUL, element))) / 100);
-    const resultAdd = resultMul + sumForElementalOp(statmods, Op.ADD, element);
-    result[element] = resultAdd;
-  }
-  return result;
+  return useMemo(() => {
+    const result = { ...baseValues };
+    for (const element of statmodElements) {
+      const resultBadd = baseValues[element] + sumForElementalOp(statmods, Op.BADD, element);
+      const resultMul = Math.floor((resultBadd * (100 + sumForElementalOp(statmods, Op.MUL, element))) / 100);
+      const resultAdd = resultMul + sumForElementalOp(statmods, Op.ADD, element);
+      result[element] = resultAdd;
+    }
+    return result;
+  }, [baseValues, statmods]);
 };
 
 export const useTopicStatmods = (
@@ -66,7 +69,7 @@ export const useTopicStatmods = (
     return defaultAbiCoder.encode(["uint256", "uint256"], [world.entities[targetEntity], topicEntityId]);
   }, [world, targetEntity, topicEntityId]);
 
-  const appliedEntities = useEntityQuery([HasValue(StatmodScope, { value: scope }), Has(StatmodValue)]);
+  const appliedEntities = useEntityQuery([HasValue(StatmodScope, { value: scope }), Has(StatmodValue)], true);
 
   return useMemo(() => {
     return appliedEntities.map((appliedEntity) => {
