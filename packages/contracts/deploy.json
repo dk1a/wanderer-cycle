@@ -42,8 +42,10 @@
     "GuiseSkillsComponent",
 
     "WandererComponent",
+    "IdentityComponent",
 
     "ActiveCycleComponent",
+    "ActiveCyclePreviousComponent",
     "CycleTurnsComponent",
     "CycleTurnsLastClaimedComponent",
     "CycleCombatRewardRequestComponent",
@@ -171,6 +173,10 @@
     {
       "name": "CycleEquipmentSystem",
       "writeAccess": []
+    },
+    {
+      "name": "CompleteCycleSystem",
+      "writeAccess": ["ActiveCycleComponent", "ActiveCyclePreviousComponent", "IdentityComponent"]
     }
   ],
   "initializers": [

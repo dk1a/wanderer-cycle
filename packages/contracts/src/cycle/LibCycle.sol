@@ -7,6 +7,7 @@ import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
 import { ActiveCycleComponent, ID as ActiveCycleComponentID } from "./ActiveCycleComponent.sol";
+import { ActiveCyclePreviousComponent, ID as ActiveCyclePreviousComponentID } from "./ActiveCyclePreviousComponent.sol";
 import { ActiveGuiseComponent, ID as ActiveGuiseComponentID } from "../guise/ActiveGuiseComponent.sol";
 import { GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../guise/GuisePrototypeComponent.sol";
 
@@ -90,6 +91,17 @@ library LibCycle {
     }
 
     return cycleEntity;
+  }
+
+  function endCycle(IUint256Component components, uint256 wandererEntity, uint256 cycleEntity) internal {
+    // save the previous cycle entity
+    ActiveCyclePreviousComponent activeCyclePreviousComp = ActiveCyclePreviousComponent(
+      getAddressById(components, ActiveCyclePreviousComponentID)
+    );
+    activeCyclePreviousComp.set(wandererEntity, cycleEntity);
+    // clear the current cycle
+    ActiveCycleComponent activeCycleComp = ActiveCycleComponent(getAddressById(components, ActiveCycleComponentID));
+    activeCycleComp.remove(wandererEntity);
   }
 
   /// @dev Return `cycleEntity` if msg.sender is allowed to use it.
