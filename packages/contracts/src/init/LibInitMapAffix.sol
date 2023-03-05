@@ -226,9 +226,10 @@ library LibInitMapAffix {
   }
 
   function _globalMaps() internal pure returns (uint256[] memory r) {
-    r = new uint256[](2);
+    r = new uint256[](3);
     r[0] = MapPrototypes.GLOBAL_BASIC;
     r[1] = MapPrototypes.GLOBAL_RANDOM;
+    r[2] = MapPrototypes.GLOBAL_CYCLE_BOSS;
   }
 
   /// @dev Add a map-specific implicit affix.
@@ -239,13 +240,17 @@ library LibInitMapAffix {
     string memory label,
     uint32 level
   ) internal {
-    TargetLabel[] memory mapLabels = new TargetLabel[](2);
+    TargetLabel[] memory mapLabels = new TargetLabel[](3);
     mapLabels[0] = TargetLabel({
       targetEntity: MapPrototypes.GLOBAL_BASIC,
       label: label
     });
-     mapLabels[1] = TargetLabel({
+    mapLabels[1] = TargetLabel({
       targetEntity: MapPrototypes.GLOBAL_RANDOM,
+      label: label
+    });
+    mapLabels[2] = TargetLabel({
+      targetEntity: MapPrototypes.GLOBAL_CYCLE_BOSS,
       label: label
     });
 

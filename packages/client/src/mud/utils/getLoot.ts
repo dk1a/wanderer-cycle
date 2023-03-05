@@ -1,4 +1,4 @@
-import { EntityIndex, getComponentValueStrict, World } from "@latticexyz/recs";
+import { EntityIndex, getComponentValueStrict, hasComponent, World } from "@latticexyz/recs";
 import { SetupResult } from "../setup";
 import { getEffectPrototype } from "./getEffect";
 import { AffixPartId, getLootAffixes, LootAffix } from "./getLootAffix";
@@ -31,9 +31,16 @@ export function getLoot(world: World, components: GetLootComponents, entity: Ent
     effect.statmods
   );
 
+  let name: string;
+  if (hasComponent(components.Name, entity)) {
+    name = getComponentValueStrict(components.Name, entity).value;
+  } else {
+    name = getNameFromAffixes(affixes);
+  }
+
   return {
     entity,
-    name: getNameFromAffixes(affixes),
+    name,
     ilvl: loot.ilvl,
     affixes,
     effect,

@@ -266,6 +266,11 @@ export const components = {
       contractId: "component.CycleCombatRewardRequest",
     },
   }),
+  CycleBossesDefeated: defineEntityArrayComponent(world, {
+    metadata: {
+      contractId: "component.CycleBossesDefeated",
+    },
+  }),
 
   ActiveCombat: defineEntityComponent(world, {
     metadata: {

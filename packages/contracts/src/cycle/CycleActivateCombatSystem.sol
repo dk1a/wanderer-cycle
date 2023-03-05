@@ -7,6 +7,7 @@ import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { getAddressById } from "solecs/utils.sol";
 
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
+import { CycleBossesDefeatedComponent, ID as CycleBossesDefeatedComponentID } from "./CycleBossesDefeatedComponent.sol";
 import { Action, ActionType, CombatSubSystem, ID as CombatSubSystemID } from "../combat/CombatSubSystem.sol";
 import { EffectSubSystem, ID as EffectSubSystemID } from "../effect/EffectSubSystem.sol";
 
@@ -22,6 +23,7 @@ contract CycleActivateCombatSystem is System {
   using LibCharstat for LibCharstat.Self;
 
   error CycleActivateCombatSystem__InvalidMapPrototype();
+  error CycleActivateCombatSystem__BossMapAlreadyCleared();
 
   uint32 constant TURNS_COST = 1;
   uint256 constant MAX_ROUNDS = 12;
@@ -36,6 +38,9 @@ contract CycleActivateCombatSystem is System {
     (uint256 wandererEntity, uint256 mapEntity) = abi.decode(args, (uint256, uint256));
 
     FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
+    CycleBossesDefeatedComponent cycleBossesDefeated = CycleBossesDefeatedComponent(
+      getAddressById(components, CycleBossesDefeatedComponentID)
+    );
     EffectSubSystem effectSubSystem = EffectSubSystem(getAddressById(world.systems(), EffectSubSystemID));
     CombatSubSystem combatSubSystem = CombatSubSystem(getAddressById(world.systems(), CombatSubSystemID));
 
@@ -43,10 +48,21 @@ contract CycleActivateCombatSystem is System {
     uint256 cycleEntity = LibCycle.getCycleEntityPermissioned(components, wandererEntity);
     // reverts if combat is active
     LibActiveCombat.requireNotActiveCombat(components, cycleEntity);
-    // reverts if map isn't GLOBAL_BASIC or GLOBAL_RANDOM (they are ownerless and can be used by anyone)
+    // reverts if map isn't GLOBAL_ (they are ownerless and can be used by anyone)
     uint256 mapProtoEntity = fromProtoComp.getValue(mapEntity);
-    if (mapProtoEntity != MapPrototypes.GLOBAL_BASIC && mapProtoEntity != MapPrototypes.GLOBAL_RANDOM) {
+    if (
+      mapProtoEntity != MapPrototypes.GLOBAL_BASIC &&
+      mapProtoEntity != MapPrototypes.GLOBAL_RANDOM &&
+      mapProtoEntity != MapPrototypes.GLOBAL_CYCLE_BOSS
+    ) {
       revert CycleActivateCombatSystem__InvalidMapPrototype();
+    }
+    // TODO level checks
+    // reverts if boss is already defeated
+    if (mapProtoEntity == MapPrototypes.GLOBAL_CYCLE_BOSS) {
+      if (cycleBossesDefeated.hasItem(cycleEntity, mapEntity)) {
+        revert CycleActivateCombatSystem__BossMapAlreadyCleared();
+      }
     }
     // reverts if not enough turns
     LibCycleTurns.decreaseTurns(components, cycleEntity, TURNS_COST);

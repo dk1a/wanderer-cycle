@@ -9,7 +9,7 @@ import { getAddressById } from "solecs/utils.sol";
 import { LibArray } from "../libraries/LibArray.sol";
 
 import { getAffixAvailabilityEntity, AffixAvailabilityComponent, ID as AffixAvailabilityComponentID } from "./AffixAvailabilityComponent.sol";
-import { AffixPrototype, AffixPrototypeComponent, ID as AffixPrototypeComponentID } from "./AffixPrototypeComponent.sol";
+import { getAffixProtoEntity, AffixPrototype, AffixPrototypeComponent, ID as AffixPrototypeComponentID } from "./AffixPrototypeComponent.sol";
 import { AffixPrototypeGroupComponent, ID as AffixPrototypeGroupComponentID } from "./AffixPrototypeGroupComponent.sol";
 import { AffixPartId } from "./AffixNamingComponent.sol";
 
@@ -71,6 +71,31 @@ library LibPickAffixes {
         uint256[] memory newExcludeAffixes = comps.group.getEntitiesWithValue(comps.group.getValue(affixProtoEntity));
         excludeAffixes = LibArray.concat(excludeAffixes, newExcludeAffixes);
       }
+    }
+  }
+
+  function manuallyPickAffixesMax(
+    IUint256Component components,
+    string[] memory names,
+    uint32[] memory tiers
+  )
+    internal
+    view
+    returns (uint256[] memory statmodProtoEntities, uint256[] memory affixProtoEntities, uint32[] memory affixValues)
+  {
+    uint256 len = names.length;
+    statmodProtoEntities = new uint256[](len);
+    affixProtoEntities = new uint256[](len);
+    affixValues = new uint32[](len);
+
+    for (uint256 i; i < names.length; i++) {
+      affixProtoEntities[i] = getAffixProtoEntity(names[i], tiers[i]);
+
+      AffixPrototype memory affixProto = AffixPrototypeComponent(getAddressById(components, AffixPrototypeComponentID))
+        .getValue(affixProtoEntities[i]);
+      statmodProtoEntities[i] = affixProto.statmodProtoEntity;
+
+      affixValues[i] = affixProto.max;
     }
   }
 

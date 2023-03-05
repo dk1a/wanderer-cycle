@@ -68,10 +68,13 @@ export function getLootAffix(
     )
   ) as EntityID;
   const affixNamingEntity = world.entityToIndex.get(affixNamingEntityId);
+  let naming;
   if (affixNamingEntity === undefined) {
-    throw new Error(`affix naming entity index not found for id ${affixNamingEntityId}`);
+    console.warn(`affix naming entity index not found for id ${affixNamingEntityId}`);
+    naming = "";
+  } else {
+    naming = getComponentValueStrict(AffixNaming, affixNamingEntity).value;
   }
-  const naming = getComponentValueStrict(AffixNaming, affixNamingEntity).value;
 
   return {
     naming,

@@ -20,6 +20,7 @@ library LibInitMapPrototype {
 
     _set(protoComp, nameComp, MapPrototypes.GLOBAL_BASIC, "Global Basic");
     _set(protoComp, nameComp, MapPrototypes.GLOBAL_RANDOM, "Global Random");
+    _set(protoComp, nameComp, MapPrototypes.GLOBAL_CYCLE_BOSS, "Global Cycle Boss");
   }
 
   function _set(

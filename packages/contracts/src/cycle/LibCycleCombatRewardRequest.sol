@@ -10,6 +10,7 @@ import { CycleCombatRewardRequestComponent, ID as CycleCombatRewardRequestCompon
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 import { Loot, LootComponent, ID as LootComponentID } from "../loot/LootComponent.sol";
 import { AffixPrototypeComponent, ID as AffixPrototypeComponentID } from "../affix/AffixPrototypeComponent.sol";
+import { CycleBossesDefeatedComponent, ID as CycleBossesDefeatedComponentID } from "./CycleBossesDefeatedComponent.sol";
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibRNG } from "../rng/LibRNG.sol";
@@ -74,13 +75,27 @@ library LibCycleCombatRewardRequest {
 
     FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
     uint256 mapProtoEntity = fromProtoComp.getValue(req.mapEntity);
-    if (mapProtoEntity != MapPrototypes.GLOBAL_BASIC && mapProtoEntity != MapPrototypes.GLOBAL_RANDOM) {
+    if (
+      mapProtoEntity != MapPrototypes.GLOBAL_BASIC &&
+      mapProtoEntity != MapPrototypes.GLOBAL_RANDOM &&
+      mapProtoEntity != MapPrototypes.GLOBAL_CYCLE_BOSS
+    ) {
       // TODO support for other map protos when they're added
       revert LibCycleCombatRewardRequest__UnknownMapPrototype();
     }
 
     exp = _getExpReward(randomness, req);
     (lootIlvl, lootCount) = _getLootReward(components, randomness, req);
+
+    // extra boss rewards
+    if (mapProtoEntity == MapPrototypes.GLOBAL_CYCLE_BOSS) {
+      lootCount += 2;
+
+      CycleBossesDefeatedComponent cycleBossesDefeated = CycleBossesDefeatedComponent(
+        getAddressById(components, CycleBossesDefeatedComponentID)
+      );
+      cycleBossesDefeated.addItem(cycleEntity, req.mapEntity);
+    }
   }
 
   /** Check permissions and remove the reward request */

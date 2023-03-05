@@ -51,7 +51,6 @@ library LibInitMapsGlobal {
 
     // get a new unique id
     uint256 lootEntity = world.getUniqueEntityId();
-    // not really random, there's only 1 implicit per ilvl, it's just easier to reuse this function
     LibLootMint.randomLootMint(components, affixParts, lootEntity, MapPrototypes.GLOBAL_RANDOM, ilvl, randomness);
     // set loot's map prototype
     FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
