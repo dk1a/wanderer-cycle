@@ -1,28 +1,46 @@
+import { useCallback, useMemo } from "react";
 import { CombatReward } from "../components/Combat/CombatReward";
+import { CombatRoundOutcome } from "../components/Combat/CombatRoundOutcome";
 import CustomButton from "../components/UI/Button/CustomButton";
 import { useWandererContext } from "../contexts/WandererContext";
-import { CombatResult } from "../mud/hooks/combat";
+import { CombatResult, useActivateCycleCombat } from "../mud/hooks/combat";
 import { useBlockNumber } from "../mud/hooks/useBlockNumber";
 
 export function CombatResultPage() {
-  // TODO add a setter to context that on encounter completion caches that fact, and then the result
-  const { selectedWandererEntity, combatRewardRequests, lastCombatResult, clearCombatResult } = useWandererContext();
+  const { selectedWandererEntity, enemyEntity, combatRewardRequests, lastCombatResult, clearCombatResult } =
+    useWandererContext();
   // TODO generalize result page with entity as required param?
   if (!selectedWandererEntity) throw new Error("Invalid selected wanderer entity");
 
   const currentBlockNumber = useBlockNumber();
 
-  // TODO use combatRewardRequest.mapEntity to repeat the map (with nonglobal maps this will get complicated)
-
   // TODO combatRewardRequests should try to autoclaim maybe? that could get tricky with gas
 
-  const withResult = lastCombatResult !== undefined;
+  const activateCycleCombat = useActivateCycleCombat();
+  const repeatMapEntity = useMemo(() => {
+    if (combatRewardRequests.length === 1 && lastCombatResult !== undefined) {
+      return combatRewardRequests[0].mapEntity;
+    } else {
+      return undefined;
+    }
+  }, [combatRewardRequests, lastCombatResult]);
+  const onMapRepeat = useCallback(() => {
+    if (!selectedWandererEntity) throw new Error("No selected wanderer entity");
+    if (repeatMapEntity === undefined) throw new Error("Invalid map entity");
+    activateCycleCombat(selectedWandererEntity, repeatMapEntity);
+  }, [activateCycleCombat, selectedWandererEntity, repeatMapEntity]);
 
   return (
-    <section className="flex justify-center w-full">
+    <section className="flex flex-col items-center w-full">
+      {lastCombatResult !== undefined && (
+        <div>
+          <CombatRoundOutcome lastCombatResult={lastCombatResult} />
+        </div>
+      )}
+
       <div className="p-2 flex justify-around flex-col w-64 h-36 border border-dark-400 mt-10 items-center">
         <h3 className="text-center text-dark-string">
-          {withResult ? CombatResult[lastCombatResult.combatResult] : "Unclaimed combat rewards"}
+          {lastCombatResult !== undefined ? CombatResult[lastCombatResult.combatResult] : "Unclaimed combat rewards"}
         </h3>
 
         <div>
@@ -40,12 +58,12 @@ export function CombatResultPage() {
           )}
         </div>
 
-        {withResult && combatRewardRequests.length === 0 && (
-          <div className="flex justify-around w-full">
-            <CustomButton onClick={() => console.log("TODO onMapRepeat")}>Repeat</CustomButton>
-            <CustomButton onClick={() => clearCombatResult()}>Close</CustomButton>
-          </div>
-        )}
+        <div className="flex justify-around w-full">
+          {selectedWandererEntity && repeatMapEntity && <CustomButton onClick={onMapRepeat}>Repeat</CustomButton>}
+          {enemyEntity === undefined && combatRewardRequests.length === 0 && (
+            <CustomButton onClick={clearCombatResult}>Close</CustomButton>
+          )}
+        </div>
       </div>
     </section>
   );

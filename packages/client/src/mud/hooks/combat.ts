@@ -1,5 +1,14 @@
 import { useComponentValue, useEntityQuery } from "@latticexyz/react";
-import { EntityID, EntityIndex, getComponentValue, getComponentValueStrict, Has, HasValue } from "@latticexyz/recs";
+import {
+  EntityID,
+  EntityIndex,
+  getComponentValue,
+  getComponentValueStrict,
+  Has,
+  HasValue,
+  setComponent,
+} from "@latticexyz/recs";
+import { BigNumber } from "ethers";
 import { useCallback, useEffect, useMemo } from "react";
 import { useMUD } from "../MUDContext";
 import { CombatAction } from "../utils/combat";
@@ -130,13 +139,15 @@ export interface OnCombatResultData {
   initiatorActions: CombatAction[];
   combatResult: CombatResult;
   enemyEntity: EntityIndex | undefined;
+  cycleLifeDiff: number | undefined;
+  enemyLifeDiff: number | undefined;
 }
 
 /**
  * Calls the callback after each CycleCombat system call with combat results as arguments
+ * TODO replace this mess with action events
  */
 export function useOnCombatResultEffect(
-  // TODO using cycleEntity here instead of system's args is a crutch
   // (But then this whole thing should be replaced with action events)
   initiatorEntity: EntityIndex | undefined,
   callback: (combatData: OnCombatResultData) => void
@@ -144,18 +155,51 @@ export function useOnCombatResultEffect(
   const {
     world,
     systemCallStreams,
-    components: { ActiveCombat, LifeCurrent },
+    components: { ActiveCycle, ActiveCombat, LifeCurrent, _CombatLife },
   } = useMUD();
 
   useEffect(() => {
-    const subscription = systemCallStreams["system.CycleCombat"].subscribe((systemCall) => {
+    const subscription1 = systemCallStreams["system.CycleActivateCombat"].subscribe((systemCall) => {
       if (initiatorEntity === undefined) return;
-      const { initiatorActions } = systemCall.args as { wandererEntity: EntityID; initiatorActions: CombatAction[] };
+      const activeCombatUpdate = systemCall.updates.find(({ component }) => component.id === ActiveCombat.id);
+      const cycleEntity = activeCombatUpdate?.entity as EntityIndex;
+      if (initiatorEntity !== cycleEntity) return;
+      const enemyEntityId = activeCombatUpdate?.value?.value as EntityID;
+      const enemyEntity = world.entityToIndex.get(enemyEntityId);
+      if (enemyEntity === undefined) return;
 
+      setComponent(_CombatLife, cycleEntity, getComponentValueStrict(LifeCurrent, cycleEntity));
+      setComponent(_CombatLife, enemyEntity, getComponentValueStrict(LifeCurrent, enemyEntity));
+    });
+
+    const subscription2 = systemCallStreams["system.CycleCombat"].subscribe((systemCall) => {
+      if (initiatorEntity === undefined) return;
+      const [wandererEntityBigNumber, initiatorActions] = systemCall.args as unknown as [BigNumber, CombatAction[]];
+      const wandererEntity = world.entityToIndex.get(wandererEntityBigNumber.toHexString() as EntityID);
+      if (wandererEntity === undefined) return;
+      const cycleEntityId = getComponentValue(ActiveCycle, wandererEntity)?.value;
+      const cycleEntity = cycleEntityId ? world.entityToIndex.get(cycleEntityId) : undefined;
+      if (cycleEntity !== initiatorEntity) return;
       const enemyEntityId = getComponentValue(ActiveCombat, initiatorEntity)?.value;
       const enemyEntity = enemyEntityId ? world.entityToIndex.get(enemyEntityId) : undefined;
 
-      // TODO this is also a crutch
+      const cycleLifeUpdate = systemCall.updates.find(
+        ({ component, entity }) => component.id === LifeCurrent.id && entity === cycleEntity
+      );
+      const cycleLife = cycleLifeUpdate?.value?.value as number | undefined;
+      const cycleLifePrev = getComponentValue(_CombatLife, cycleEntity)?.value;
+      if (cycleLifeUpdate?.value !== undefined) setComponent(_CombatLife, cycleEntity, cycleLifeUpdate?.value);
+      const cycleLifeDiff = cycleLifePrev !== undefined && cycleLife !== undefined ? cycleLife - cycleLifePrev : 0;
+
+      const enemyLifeUpdate = systemCall.updates.find(
+        ({ component, entity }) => component.id === LifeCurrent.id && entity === enemyEntity
+      );
+      const enemyLife = enemyLifeUpdate?.value?.value as number | undefined;
+      const enemyLifePrev = enemyEntity === undefined ? undefined : getComponentValue(_CombatLife, enemyEntity)?.value;
+      if (enemyLifeUpdate?.value !== undefined && enemyEntity !== undefined)
+        setComponent(_CombatLife, enemyEntity, enemyLifeUpdate?.value);
+      const enemyLifeDiff = enemyLifePrev !== undefined && enemyLife !== undefined ? enemyLife - enemyLifePrev : 0;
+
       let combatResult;
       if (enemyEntity !== undefined) {
         combatResult = CombatResult.NONE;
@@ -164,8 +208,11 @@ export function useOnCombatResultEffect(
         combatResult = lifeCurrent === 0 ? CombatResult.DEFEAT : CombatResult.VICTORY;
       }
 
-      callback({ initiatorActions, combatResult, enemyEntity });
+      callback({ initiatorActions, combatResult, enemyEntity, cycleLifeDiff, enemyLifeDiff });
     });
-    return () => subscription.unsubscribe();
-  }, [world, ActiveCombat, LifeCurrent, systemCallStreams, callback, initiatorEntity]);
+    return () => {
+      subscription1.unsubscribe();
+      subscription2.unsubscribe();
+    };
+  }, [world, ActiveCombat, ActiveCycle, LifeCurrent, _CombatLife, systemCallStreams, callback, initiatorEntity]);
 }

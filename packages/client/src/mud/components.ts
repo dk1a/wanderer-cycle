@@ -332,4 +332,13 @@ export const components = {
   }),
 };
 
-export const clientComponents = {};
+export const clientComponents = {
+  // TODO this would be much better with action events
+  _CombatLife: defineComponent(
+    world,
+    {
+      value: Type.Number,
+    },
+    { id: "_CombatLife" }
+  ),
+};
