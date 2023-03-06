@@ -13,15 +13,6 @@ export const useCycleTurns = (entity: EntityIndex | undefined) => {
   return cycleTurns?.value;
 };
 
-export const useCycleTurnsLastClaimedComponent = (entity: EntityIndex | undefined) => {
-  const {
-    components: { CycleTurnsLastClaimed },
-  } = useMUD();
-
-  const cycleTurnsLastClaimed = useComponentValue(CycleTurnsLastClaimed, entity);
-  return BigNumber.from(cycleTurnsLastClaimed?.value).toNumber();
-};
-
 // TODO central config for these
 const ACC_PERIOD = 1;
 const TURNS_PER_PERIOD = 10;
