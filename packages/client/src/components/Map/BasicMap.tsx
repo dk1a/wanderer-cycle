@@ -6,7 +6,7 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useActiveGuise } from "../../mud/hooks/guise";
 import { useLevel } from "../../mud/hooks/charstat";
 import CustomButton from "../UI/Button/CustomButton";
-import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
+import { useCycleTurns } from "../../mud/hooks/turns";
 
 export default function BasicMap({ entity }: { entity: EntityIndex }) {
   const { selectedWandererEntity, cycleEntity } = useWandererContext();

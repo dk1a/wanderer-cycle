@@ -1,7 +1,7 @@
-import { useEntityQuery } from "@latticexyz/react";
 import { EntityIndex, getComponentValueStrict, Has, HasValue } from "@latticexyz/recs";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
+import { useEntityQuery } from "../useEntityQuery";
 import { getLoot } from "../utils/getLoot";
 import { EquipmentAction, useChangeCycleEquipment } from "./useChangeCycleEquipment";
 
@@ -15,10 +15,13 @@ export const useEquipmentSlots = (ownerEntity: EntityIndex | undefined) => {
   // TODO it may be better to restructure stuff so ownerEntity can't be undefined
   const ownerEntityId = ownerEntity ? world.entities[ownerEntity] : undefined;
 
-  const slotEntities = useEntityQuery([HasValue(OwnedBy, { value: ownerEntityId }), Has(EquipmentSlotAllowed)]);
+  const slotEntities = useEntityQuery([HasValue(OwnedBy, { value: ownerEntityId }), Has(EquipmentSlotAllowed)], true);
 
   // TODO this is very hacky reactivity nonsense, refactor in v2
-  const slotEntitiesWithEquipment = useEntityQuery([HasValue(OwnedBy, { value: ownerEntityId }), Has(EquipmentSlot)]);
+  const slotEntitiesWithEquipment = useEntityQuery(
+    [HasValue(OwnedBy, { value: ownerEntityId }), Has(EquipmentSlot)],
+    true
+  );
 
   return useMemo(() => {
     return slotEntities.map((slotEntity) => {

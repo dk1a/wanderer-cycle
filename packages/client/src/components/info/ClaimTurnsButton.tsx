@@ -3,14 +3,11 @@ import { useWandererContext } from "../../contexts/WandererContext";
 import { useMUD } from "../../mud/MUDContext";
 import CustomButton from "../UI/Button/CustomButton";
 
-export default function ClaimTurnsButton() {
+export default function ClaimTurnsButton({ claimableTurns }: { claimableTurns: number }) {
   const { world, systems } = useMUD();
   const { selectedWandererEntity } = useWandererContext();
-  // TODO add real claimable turns
-  const claimableTurns = 10;
 
   const [isBusy, setIsBusy] = useState(false);
-
   const claimTurns = useCallback(async () => {
     if (!selectedWandererEntity) {
       throw new Error("No wanderer entity selected");

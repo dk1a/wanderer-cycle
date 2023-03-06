@@ -6,7 +6,7 @@ import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
 import { EffectSource } from "../../mud/utils/getEffect";
 import { useActivateCycleCombat } from "../../mud/hooks/combat";
-import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
+import { useCycleTurns } from "../../mud/hooks/turns";
 
 export default function Map({ entity }: { entity: EntityIndex }) {
   const { selectedWandererEntity, cycleEntity } = useWandererContext();

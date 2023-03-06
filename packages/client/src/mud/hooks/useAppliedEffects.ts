@@ -1,8 +1,8 @@
-import { useEntityQuery } from "@latticexyz/react";
 import { EntityID, EntityIndex, Has } from "@latticexyz/recs";
 import { defaultAbiCoder, keccak256, toUtf8Bytes } from "ethers/lib/utils";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
+import { useEntityQuery } from "../useEntityQuery";
 import { getAppliedEffect } from "../utils/getEffect";
 
 const effectSubsystemId = keccak256(toUtf8Bytes("system.Effect"));
@@ -14,7 +14,7 @@ export const useAppliedEffects = (targetEntity: EntityIndex | undefined) => {
   // TODO this is horrendous and won't scale, you need a keyTuple from v2 world here
   // (or just add a component to track applied effect's targetEntity via HasValue)
   const effectProtoEntities = useEntityQuery([Has(EffectPrototype)]);
-  const appliedEffectEntities = useEntityQuery([Has(AppliedEffect)]);
+  const appliedEffectEntities = useEntityQuery([Has(AppliedEffect)], true);
 
   return useMemo(() => {
     if (!targetEntity) return [];

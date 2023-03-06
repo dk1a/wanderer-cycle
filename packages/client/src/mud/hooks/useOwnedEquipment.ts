@@ -1,8 +1,8 @@
-import { useEntityQuery } from "@latticexyz/react";
 import { Has, HasValue, Not, ProxyExpand } from "@latticexyz/recs";
 import { useMemo } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useMUD } from "../MUDContext";
+import { useEntityQuery } from "../useEntityQuery";
 import { getLoot } from "../utils/getLoot";
 
 export const useOwnedEquipment = () => {
@@ -10,13 +10,16 @@ export const useOwnedEquipment = () => {
   const { cycleEntity } = useWandererContext();
   const { OwnedBy, EquipmentPrototype, FromPrototype } = components;
 
-  const equipmentEntities = useEntityQuery([
-    ProxyExpand(FromPrototype, 1),
-    Has(EquipmentPrototype),
-    ProxyExpand(FromPrototype, 0),
-    Not(EquipmentPrototype),
-    HasValue(OwnedBy, { value: cycleEntity ? world.entities[cycleEntity] : undefined }),
-  ]);
+  const equipmentEntities = useEntityQuery(
+    [
+      ProxyExpand(FromPrototype, 1),
+      Has(EquipmentPrototype),
+      ProxyExpand(FromPrototype, 0),
+      Not(EquipmentPrototype),
+      HasValue(OwnedBy, { value: cycleEntity ? world.entities[cycleEntity] : undefined }),
+    ],
+    true
+  );
 
   return useMemo(() => {
     return equipmentEntities.map((entity) => {
