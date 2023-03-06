@@ -127,9 +127,13 @@
     {
       "name": "StartCycleSystem",
       "writeAccess": [
+        "NameComponent",
+        "OwnedByComponent",
+        "WandererComponent",
         "ActiveCycleComponent",
         "CycleTurnsComponent",
         "CycleTurnsLastClaimedComponent",
+        "EquipmentSlotAllowedComponent",
         "ActiveGuiseComponent",
         "ExperienceComponent",
         "LifeCurrentComponent",
