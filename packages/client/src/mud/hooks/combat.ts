@@ -1,4 +1,4 @@
-import { useComponentValue, useEntityQuery } from "@latticexyz/react";
+import { useComponentValue } from "@latticexyz/react";
 import {
   EntityID,
   EntityIndex,
@@ -11,6 +11,7 @@ import {
 import { BigNumber } from "ethers";
 import { useCallback, useEffect, useMemo } from "react";
 import { useMUD } from "../MUDContext";
+import { useEntityQuery } from "../useEntityQuery";
 import { CombatAction } from "../utils/combat";
 import { parsePStats } from "../utils/experience";
 
@@ -101,11 +102,10 @@ export const useCycleCombatRewardRequests = (requesterEntity: EntityIndex | unde
     if (!requesterEntity) return;
     return world.entities[requesterEntity];
   }, [world, requesterEntity]);
-  const requestEntities = useEntityQuery([
-    HasValue(RNGRequestOwner, { value: requesterEntityId }),
-    Has(RNGPrecommit),
-    Has(CycleCombatRewardRequest),
-  ]);
+  const requestEntities = useEntityQuery(
+    [HasValue(RNGRequestOwner, { value: requesterEntityId }), Has(RNGPrecommit), Has(CycleCombatRewardRequest)],
+    true
+  );
 
   return useMemo(() => {
     return requestEntities.map((requestEntity) => {

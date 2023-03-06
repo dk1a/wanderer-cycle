@@ -18,6 +18,7 @@ export function CombatResultPage() {
 
   const activateCycleCombat = useActivateCycleCombat();
   const repeatMapEntity = useMemo(() => {
+    // TODO use lastCombatResult when it gets map data
     if (combatRewardRequests.length === 1 && lastCombatResult !== undefined) {
       return combatRewardRequests[0].mapEntity;
     } else {
