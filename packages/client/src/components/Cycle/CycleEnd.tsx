@@ -1,28 +1,13 @@
 import CustomButton from "../UI/Button/CustomButton";
-import { useMemo } from "react";
+import { EntityIndex } from "@latticexyz/recs";
+import { useCompleteCycle } from "../../mud/hooks/cycle";
 
-export function CycleEnd({ setIsToggled, isToggled }: { isToggled: boolean; setIsToggled: (val: boolean) => void }) {
-  const onClickHandler = () => {
-    alert("you gained 10 identity");
-    setIsToggled(!isToggled);
-  };
-
-  const levelProps = useMemo(() => {
-    // TODO add total exp data
-    const exp = 10;
-    const level = 1;
-
-    return {
-      name: "level",
-      props: { exp, level },
-    };
-  }, []);
+export function CycleEnd({ wandererEntity }: { wandererEntity: EntityIndex; cycleEntity: EntityIndex }) {
+  const completeCycle = useCompleteCycle(wandererEntity);
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="text-2xl text-dark-comment">{"// end"}</div>
       <div>
-        <span>End</span>
-        {levelProps.props.level <= 12 && <CustomButton onClick={onClickHandler}>click</CustomButton>}
+        <CustomButton onClick={() => completeCycle()}>Complete Cycle</CustomButton>
       </div>
     </div>
   );

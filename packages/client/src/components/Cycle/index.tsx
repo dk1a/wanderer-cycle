@@ -1,16 +1,21 @@
-import { useState } from "react";
+import { useWandererContext } from "../../contexts/WandererContext";
+import { useOnCompleteCycleEffect } from "../../mud/hooks/cycle";
 import { CycleEnd } from "./CycleEnd";
 import { CycleStart } from "./CycleStart";
 
 export function Cycle() {
-  const [isToggled, setIsToggled] = useState(false);
+  const { selectedWandererEntity, cycleEntity, previousCycleEntity } = useWandererContext();
+  useOnCompleteCycleEffect(selectedWandererEntity, (identity) => {
+    console.log(`You gained ${identity} identity`);
+  });
 
   return (
     <div className="flex justify-center w-full">
-      {isToggled ? (
-        <CycleStart isToggled={isToggled} setIsToggled={setIsToggled} />
-      ) : (
-        <CycleEnd isToggled={isToggled} setIsToggled={setIsToggled} />
+      {selectedWandererEntity !== undefined && cycleEntity === undefined && previousCycleEntity !== undefined && (
+        <CycleStart wandererEntity={selectedWandererEntity} previousCycleEntity={previousCycleEntity} />
+      )}
+      {selectedWandererEntity !== undefined && cycleEntity !== undefined && (
+        <CycleEnd wandererEntity={selectedWandererEntity} cycleEntity={cycleEntity} />
       )}
     </div>
   );

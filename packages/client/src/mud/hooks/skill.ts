@@ -60,3 +60,19 @@ export const useLearnCycleSkill = (wandererEntity: EntityIndex | undefined) => {
     [world, systems, wandererEntity]
   );
 };
+
+export const usePermSkill = (wandererEntity: EntityIndex | undefined) => {
+  const { world, systems } = useMUD();
+
+  return useCallback(
+    async (skillEntity: EntityIndex) => {
+      if (wandererEntity === undefined) throw new Error("No wanderer selected");
+      const tx = await systems["system.PermSkill"].executeTyped(
+        world.entities[wandererEntity],
+        world.entities[skillEntity]
+      );
+      await tx.wait();
+    },
+    [world, systems, wandererEntity]
+  );
+};
