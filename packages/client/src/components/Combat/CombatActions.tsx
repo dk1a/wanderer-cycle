@@ -1,12 +1,14 @@
 import { useCallback } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
+import { useSkills } from "../../mud/hooks/skill";
 import { attackAction } from "../../mud/utils/combat";
 import CustomButton from "../UI/Button/CustomButton";
 
 export default function CombatActions() {
-  const { selectedWandererEntity } = useWandererContext();
+  const { selectedWandererEntity, learnedSkillEntities } = useWandererContext();
   const executeCycleCombatRound = useExecuteCycleCombatRound();
+  const learnedSkills = useSkills(learnedSkillEntities);
 
   const onAttack = useCallback(() => {
     if (!selectedWandererEntity) {
