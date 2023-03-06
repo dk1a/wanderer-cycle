@@ -245,6 +245,11 @@ export const components = {
       contractId: "component.Wanderer",
     },
   }),
+  Identity: defineNumberComponent(world, {
+    metadata: {
+      contractId: "component.Identity",
+    },
+  }),
 
   ActiveCycle: defineEntityComponent(world, {
     metadata: {

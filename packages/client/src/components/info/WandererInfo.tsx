@@ -6,14 +6,7 @@ export function WandererInfo() {
 
   return (
     <div className="top-16 h-full z-10">
-      <BaseInfo
-        entity={cycleEntity}
-        name={"Wanderer"}
-        locationName={null}
-        levelData={undefined}
-        turnsHtml={null}
-        identity={10}
-      />
+      <BaseInfo entity={cycleEntity} name={"Wanderer"} locationName={null} levelData={undefined} turnsHtml={null} />
     </div>
   );
 }

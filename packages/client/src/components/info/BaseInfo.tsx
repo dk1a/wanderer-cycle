@@ -2,8 +2,7 @@ import { EntityIndex } from "@latticexyz/recs";
 import { Fragment, ReactNode } from "react";
 import { LevelData, useLife, useMana, usePstats } from "../../mud/hooks/charstat";
 import { useAppliedEffects } from "../../mud/hooks/useAppliedEffects";
-import { useLifeCurrent } from "../../mud/hooks/useLifeCurrent";
-import { useManaCurrent } from "../../mud/hooks/useManaCurrent";
+import { useLifeCurrent, useManaCurrent, useIdentityCurrent } from "../../mud/hooks/currents";
 import EffectList from "../EffectList";
 import { ElementalStatmods } from "../ElementalStatmods";
 import { PStatWithProgress } from "./PStatWithProgress";
@@ -14,15 +13,15 @@ export interface BaseInfoProps {
   locationName: string | null | undefined;
   levelData: LevelData;
   turnsHtml?: ReactNode;
-  identity?: number;
 }
 
-export default function BaseInfo({ entity, name, locationName, levelData, turnsHtml, identity }: BaseInfoProps) {
+export default function BaseInfo({ entity, name, locationName, levelData, turnsHtml }: BaseInfoProps) {
   const pstats = usePstats(entity);
 
   const life = useLife(entity);
   const mana = useMana(entity);
 
+  const identityCurrent = useIdentityCurrent(entity);
   const lifeCurrent = useLifeCurrent(entity);
   const manaCurrent = useManaCurrent(entity);
 
@@ -48,10 +47,10 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
       <h4 className="relative col-span-3 text-center text-lg text-dark-type font-medium">{name}</h4>
       {locationName !== null && <div className="col-span-3 text-center text-dark-string">{locationName}</div>}
 
-      {identity && (
+      {identityCurrent !== undefined && (
         <span className="w-36 text-dark-key ml-1">
           {"identity: "}
-          <span className="text-dark-number">{identity}</span>
+          <span className="text-dark-number">{identityCurrent}</span>
         </span>
       )}
 
