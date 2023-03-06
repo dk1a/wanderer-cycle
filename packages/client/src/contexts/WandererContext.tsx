@@ -16,6 +16,7 @@ type WandererContextType = {
   selectedWandererEntity?: EntityIndex;
   selectWandererEntity: (wanderer: EntityIndex | undefined) => void;
   cycleEntity?: EntityIndex;
+  previousCycleEntity?: EntityIndex;
   enemyEntity?: EntityIndex;
   combatRewardRequests: CycleCombatRewardRequest[];
   lastCombatResult?: OnCombatResultData;
@@ -33,13 +34,19 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   const [selectedWandererEntity, selectWandererEntity] = useState<EntityIndex>();
   const {
     world,
-    components: { ActiveCycle },
+    components: { ActiveCycle, ActiveCyclePrevious },
   } = useMUD();
 
+  // current cycle
   const activeCycle = useComponentValue(ActiveCycle, selectedWandererEntity);
   const cycleEntity = useMemo(() => {
     return activeCycle?.value ? world.entityToIndex.get(activeCycle.value) : undefined;
   }, [activeCycle, world]);
+  // previous cycle
+  const activeCyclePrevious = useComponentValue(ActiveCyclePrevious, selectedWandererEntity);
+  const previousCycleEntity = useMemo(() => {
+    return activeCyclePrevious?.value ? world.entityToIndex.get(activeCyclePrevious.value) : undefined;
+  }, [activeCyclePrevious, world]);
 
   const enemyEntity = useActiveCombat(cycleEntity);
 
@@ -55,6 +62,7 @@ export const WandererProvider = (props: { children: ReactNode }) => {
     selectedWandererEntity,
     selectWandererEntity,
     cycleEntity,
+    previousCycleEntity,
     enemyEntity,
     combatRewardRequests,
     lastCombatResult,

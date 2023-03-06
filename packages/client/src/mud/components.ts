@@ -251,6 +251,11 @@ export const components = {
       contractId: "component.ActiveCycle",
     },
   }),
+  ActiveCyclePrevious: defineEntityComponent(world, {
+    metadata: {
+      contractId: "component.ActiveCyclePrevious",
+    },
+  }),
   CycleTurns: defineNumberComponent(world, {
     metadata: {
       contractId: "component.CycleTurns",
