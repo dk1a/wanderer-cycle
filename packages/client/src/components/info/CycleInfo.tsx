@@ -1,9 +1,8 @@
-import { useMemo } from "react";
 import BaseInfo from "./BaseInfo";
 import PassTurnButton from "./PassTurnButton";
 import ClaimTurnsButton from "./ClaimTurnsButton";
 import { useActiveGuise } from "../../mud/hooks/guise";
-import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
+import { useCycleTurns, useGetClaimableTurns } from "../../mud/hooks/turns";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useLevel } from "../../mud/hooks/charstat";
 
@@ -14,10 +13,7 @@ export default function CycleInfo() {
 
   const levelData = useLevel(cycleEntity, guise?.levelMul);
 
-  const isClaimTurnsAvailable = useMemo(() => {
-    // TODO use proper availability
-    return true;
-  }, []);
+  const claimableTurns = useGetClaimableTurns(cycleEntity);
 
   const turnsHtml = (
     <>
@@ -26,9 +22,9 @@ export default function CycleInfo() {
           <span className="text-dark-key">turns:</span>
           <span className="text-dark-number ml-1">{turns}</span>
         </div>
-        {isClaimTurnsAvailable && (
+        {claimableTurns !== undefined && claimableTurns > 0 && (
           <div className="w-1/2 mr-0.5">
-            <ClaimTurnsButton />
+            <ClaimTurnsButton claimableTurns={claimableTurns} />
           </div>
         )}
       </div>

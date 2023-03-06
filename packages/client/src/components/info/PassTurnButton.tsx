@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
-import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
+import { useCycleTurns } from "../../mud/hooks/turns";
 import { useMUD } from "../../mud/MUDContext";
 import CustomButton from "../UI/Button/CustomButton";
 
