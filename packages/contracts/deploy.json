@@ -4,6 +4,7 @@
     "NameComponent",
     "ReverseHashNameComponent",
     "RNGPrecommitComponent",
+    "RNGRequestOwnerComponent",
     "OwnedByComponent",
 
     "DurationOnEndComponent",
@@ -163,13 +164,18 @@
     },
     {
       "name": "CycleCombatSystem",
-      "writeAccess": ["CycleCombatRewardRequestComponent", "RNGPrecommitComponent"]
+      "writeAccess": [
+        "CycleCombatRewardRequestComponent",
+        "RNGRequestOwnerComponent",
+        "RNGPrecommitComponent"
+      ]
     },
     {
       "name": "CycleCombatRewardSystem",
       "writeAccess": [
         "OwnedByComponent",
-        "CycleCombatRewardRequestComponent",
+        "RNGRequestOwnerComponent",
+        "RNGPrecommitComponent",
         "CycleBossesDefeatedComponent",
         "ExperienceComponent"
       ]

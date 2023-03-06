@@ -1,11 +1,9 @@
 import { useComponentValue, useEntityQuery } from "@latticexyz/react";
 import { EntityID, EntityIndex, getComponentValue, getComponentValueStrict, Has, HasValue } from "@latticexyz/recs";
-import { BigNumber } from "ethers";
-import { defaultAbiCoder } from "ethers/lib/utils";
 import { useCallback, useEffect, useMemo } from "react";
 import { useMUD } from "../MUDContext";
 import { CombatAction } from "../utils/combat";
-import { parsePStats, pstatNames } from "../utils/experience";
+import { parsePStats } from "../utils/experience";
 
 export const useActiveCombat = (entity: EntityIndex | undefined) => {
   const mud = useMUD();
@@ -87,7 +85,7 @@ export const useCycleCombatRewardRequests = (requesterEntity: EntityIndex | unde
   const mud = useMUD();
   const {
     world,
-    components: { CycleCombatRewardRequest, RNGPrecommit },
+    components: { RNGRequestOwner, RNGPrecommit, CycleCombatRewardRequest },
   } = mud;
 
   const requesterEntityId = useMemo(() => {
@@ -95,43 +93,31 @@ export const useCycleCombatRewardRequests = (requesterEntity: EntityIndex | unde
     return world.entities[requesterEntity];
   }, [world, requesterEntity]);
   const requestEntities = useEntityQuery([
-    HasValue(CycleCombatRewardRequest, { value: requesterEntityId }),
+    HasValue(RNGRequestOwner, { value: requesterEntityId }),
     Has(RNGPrecommit),
+    Has(CycleCombatRewardRequest),
   ]);
 
   return useMemo(() => {
     return requestEntities.map((requestEntity) => {
-      const rngPrecommit = getComponentValueStrict(RNGPrecommit, requestEntity);
-      // TODO this is so bad, use a normal table for this in v2
-      const [struct] = defaultAbiCoder.decode(
-        [`(uint256, uint32, uint32, uint32[${pstatNames.length}], uint32[${pstatNames.length}])`],
-        rngPrecommit.data
-      );
+      const precommit = getComponentValueStrict(RNGPrecommit, requestEntity).value;
+      const request = getComponentValueStrict(CycleCombatRewardRequest, requestEntity);
 
-      const [mapEntityBigNumber, connection, fortune, winnerPStats, loserPStats] = struct as [
-        BigNumber,
-        number,
-        number,
-        [number, number, number],
-        [number, number, number]
-      ];
-
-      const mapEntityId = mapEntityBigNumber.toHexString() as EntityID;
-      const mapEntity = world.entityToIndex.get(mapEntityId);
-      if (mapEntity === undefined) throw new Error(`No index for map entity id ${mapEntityId}`);
+      const mapEntity = world.entityToIndex.get(request.mapEntity);
+      if (mapEntity === undefined) throw new Error(`No index for map entity id ${request.mapEntity}`);
 
       return {
         requestEntity,
-        blocknumber: rngPrecommit.blocknumber,
+        blocknumber: precommit,
         mapEntity,
-        mapEntityId: mapEntityId,
-        connection: connection,
-        fortune: fortune,
-        winnerPStats: parsePStats(winnerPStats[0], winnerPStats[1], winnerPStats[2]),
-        loserPStats: parsePStats(loserPStats[0], loserPStats[1], loserPStats[2]),
+        mapEntityId: request.mapEntity,
+        connection: request.connection,
+        fortune: request.fortune,
+        winnerPStats: parsePStats(request.winner_strength, request.winner_arcana, request.winner_dexterity),
+        loserPStats: parsePStats(request.loser_strength, request.loser_arcana, request.loser_dexterity),
       };
     });
-  }, [world, RNGPrecommit, requestEntities]);
+  }, [world, RNGPrecommit, CycleCombatRewardRequest, requestEntities]);
 };
 
 export enum CombatResult {

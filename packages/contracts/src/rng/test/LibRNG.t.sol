@@ -6,16 +6,17 @@ import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 
 import { BaseTest } from "../../BaseTest.sol";
 
-import { LibRNG, RNGPrecommit } from "../LibRNG.sol";
+import { LibRNG } from "../LibRNG.sol";
 
 contract GetRandomnessRevertHelper {
-  function getRandomness(IUint256Component components, uint256 requestId) public view {
-    LibRNG.getRandomness(components, requestId);
+  function getRandomness(IUint256Component components, uint256 requestOwner, uint256 requestId) public view {
+    LibRNG.getRandomness(components, requestOwner, requestId);
   }
 }
 
 contract LibRNGTest is BaseTest {
   GetRandomnessRevertHelper revertHelper;
+  uint256 internal constant requestOwner = 123;
 
   function setUp() public virtual override {
     super.setUp();
@@ -24,18 +25,26 @@ contract LibRNGTest is BaseTest {
   }
 
   function test_getRandomness() public {
-    uint256 requestId = LibRNG.requestRandomness(world, "test123");
+    uint256 requestId = LibRNG.requestRandomness(world, requestOwner);
     vm.roll(block.number + LibRNG.WAIT_BLOCKS + 1);
-    (uint256 randomness, bytes memory data) = LibRNG.getRandomness(components, requestId);
+    uint256 randomness = LibRNG.getRandomness(components, requestOwner, requestId);
     assertGt(randomness, 0);
-    assertEq(data, "test123");
+    assertEq(LibRNG.getRequestOwner(components, requestId), requestOwner);
+  }
+
+  function test_getRandomness_revert_NotRequestOwner() public {
+    uint256 requestId = LibRNG.requestRandomness(world, requestOwner);
+    uint256 notOwner = 987;
+
+    vm.expectRevert(LibRNG.LibRNG__NotRequestOwner.selector);
+    revertHelper.getRandomness(components, notOwner, requestId);
   }
 
   function test_getRandomness_revert_sameBlock() public {
-    uint256 requestId = LibRNG.requestRandomness(world, "");
+    uint256 requestId = LibRNG.requestRandomness(world, requestOwner);
 
     vm.expectRevert(LibRNG.LibRNG__InvalidPrecommit.selector);
-    revertHelper.getRandomness(components, requestId);
+    revertHelper.getRandomness(components, requestOwner, requestId);
   }
 
   /* TODO not relevant while WAIT_BLOCKS = 0
@@ -48,28 +57,28 @@ contract LibRNGTest is BaseTest {
   }*/
 
   function test_getRandomness_revert_tooLate() public {
-    uint256 requestId = LibRNG.requestRandomness(world, "");
+    uint256 requestId = LibRNG.requestRandomness(world, requestOwner);
 
     vm.roll(block.number + LibRNG.WAIT_BLOCKS + 256 + 1);
     vm.expectRevert(LibRNG.LibRNG__InvalidPrecommit.selector);
-    revertHelper.getRandomness(components, requestId);
+    revertHelper.getRandomness(components, requestOwner, requestId);
   }
 
   // basic test for different base blocknumbers
   function test_requestRandomness_blocknumbers(uint32 blocknumber) public {
     vm.assume(blocknumber != 0);
     vm.roll(blocknumber);
-    uint256 requestId = LibRNG.requestRandomness(world, abi.encode(42));
+    uint256 requestId = LibRNG.requestRandomness(world, requestOwner);
 
-    RNGPrecommit memory precommit = LibRNG.getPrecommit(components, requestId);
-    assertEq(precommit.blocknumber, blocknumber + LibRNG.WAIT_BLOCKS);
-    assertEq(precommit.data, abi.encode(42));
+    uint256 precommit = LibRNG.getPrecommit(components, requestId);
+    assertEq(precommit, blocknumber + LibRNG.WAIT_BLOCKS);
+    assertEq(LibRNG.getRequestOwner(components, requestId), requestOwner);
 
     uint256 newBlocknumber = uint256(blocknumber) + 10;
     vm.roll(newBlocknumber);
     precommit = LibRNG.getPrecommit(components, requestId);
-    assertLt(precommit.blocknumber, newBlocknumber);
-    assertEq(precommit.data, abi.encode(42));
+    assertLt(precommit, newBlocknumber);
+    assertEq(LibRNG.getRequestOwner(components, requestId), requestOwner);
     assertTrue(LibRNG.isValid(precommit));
   }
 
@@ -78,22 +87,22 @@ contract LibRNGTest is BaseTest {
     uint256 initBlock = 1;
     vm.roll(initBlock);
 
-    uint256 requestId = LibRNG.requestRandomness(world, abi.encode(42));
-    RNGPrecommit memory precommit = LibRNG.getPrecommit(components, requestId);
+    uint256 requestId = LibRNG.requestRandomness(world, requestOwner);
+    uint256 precommit = LibRNG.getPrecommit(components, requestId);
 
     for (uint256 i = initBlock; i < initBlock + 270; i++) {
       vm.roll(i);
       if (i <= initBlock + LibRNG.WAIT_BLOCKS) {
         assertFalse(LibRNG.isValid(precommit));
-        assertEq(uint256(blockhash(precommit.blocknumber)), 0);
+        assertEq(uint256(blockhash(precommit)), 0);
       } else if (i <= initBlock + LibRNG.WAIT_BLOCKS + 256) {
         assertTrue(LibRNG.isValid(precommit));
         assertFalse(LibRNG.isOverBlockLimit(precommit));
-        assertNotEq(uint256(blockhash(precommit.blocknumber)), 0);
+        assertNotEq(uint256(blockhash(precommit)), 0);
       } else {
         assertFalse(LibRNG.isValid(precommit));
         assertTrue(LibRNG.isOverBlockLimit(precommit));
-        assertEq(uint256(blockhash(precommit.blocknumber)), 0);
+        assertEq(uint256(blockhash(precommit)), 0);
       }
     }
   }

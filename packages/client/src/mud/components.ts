@@ -21,17 +21,17 @@ export const components = {
       contractId: "component.ReverseHashName",
     },
   }),
-  RNGPrecommit: defineComponent(
-    world,
-    {
-      blocknumber: Type.String,
-      data: Type.String,
+  RNGPrecommit: defineNumberComponent(world, {
+    id: "RNGPrecommit",
+    metadata: {
+      contractId: "component.RNGPrecommit",
     },
-    {
-      id: "RNGPrecommit",
-      metadata: { contractId: "component.RNGPrecommit" },
-    }
-  ),
+  }),
+  RNGRequestOwner: defineEntityComponent(world, {
+    metadata: {
+      contractId: "component.RNGRequestOwner",
+    },
+  }),
   OwnedBy: defineEntityComponent(world, {
     metadata: {
       contractId: "component.OwnedBy",
@@ -271,11 +271,25 @@ export const components = {
       contractId: "component.CycleTurnsLastClaimed",
     },
   }),
-  CycleCombatRewardRequest: defineEntityComponent(world, {
-    metadata: {
-      contractId: "component.CycleCombatRewardRequest",
+  CycleCombatRewardRequest: defineComponent(
+    world,
+    {
+      mapEntity: Type.Entity,
+      connection: Type.Number,
+      fortune: Type.Number,
+      winner_strength: Type.Number,
+      winner_arcana: Type.Number,
+      winner_dexterity: Type.Number,
+      loser_strength: Type.Number,
+      loser_arcana: Type.Number,
+      loser_dexterity: Type.Number,
     },
-  }),
+    {
+      metadata: {
+        contractId: "component.CycleCombatRewardRequest",
+      },
+    }
+  ),
   CycleBossesDefeated: defineEntityArrayComponent(world, {
     metadata: {
       contractId: "component.CycleBossesDefeated",

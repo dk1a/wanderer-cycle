@@ -6,7 +6,7 @@ import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 
-import { CycleCombatRewardRequestComponent, ID as CycleCombatRewardRequestComponentID } from "./CycleCombatRewardRequestComponent.sol";
+import { CycleCombatRewardRequestComponent, ID as CycleCombatRewardRequestComponentID, CycleCombatRewardRequestData } from "./CycleCombatRewardRequestComponent.sol";
 import { FromPrototypeComponent, ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 import { Loot, LootComponent, ID as LootComponentID } from "../loot/LootComponent.sol";
 import { AffixPrototypeComponent, ID as AffixPrototypeComponentID } from "../affix/AffixPrototypeComponent.sol";
@@ -17,14 +17,6 @@ import { LibRNG } from "../rng/LibRNG.sol";
 import { AffixPartId } from "../affix/LibPickAffixes.sol";
 import { PS_L } from "../charstat/ExperienceComponent.sol";
 import { MapPrototypes } from "../map/MapPrototypes.sol";
-
-struct CycleCombatRewardRequest {
-  uint256 mapEntity;
-  uint32 connection;
-  uint32 fortune;
-  uint32[PS_L] winnerPstats;
-  uint32[PS_L] loserPstats;
-}
 
 library LibCycleCombatRewardRequest {
   using LibCharstat for LibCharstat.Self;
@@ -42,20 +34,18 @@ library LibCycleCombatRewardRequest {
     LibCharstat.Self memory charstatInitiator = LibCharstat.__construct(components, cycleEntity);
     LibCharstat.Self memory charstatRetaliator = LibCharstat.__construct(components, retaliatorEntity);
     // Request a reward, after a few blocks it can be claimed via `CycleCombatRewardSystem`
-    uint256 requestId = LibRNG.requestRandomness(
-      world,
-      abi.encode(
-        CycleCombatRewardRequest({
-          mapEntity: mapEntity,
-          connection: charstatInitiator.getConnection(),
-          fortune: charstatInitiator.getFortune(),
-          winnerPstats: charstatInitiator.getPStats(),
-          loserPstats: charstatRetaliator.getPStats()
-        })
-      )
-    );
+    uint256 requestId = LibRNG.requestRandomness(world, cycleEntity);
 
-    _comp(components).set(requestId, cycleEntity);
+    _comp(components).set(
+      requestId,
+      CycleCombatRewardRequestData({
+        mapEntity: mapEntity,
+        connection: charstatInitiator.getConnection(),
+        fortune: charstatInitiator.getFortune(),
+        winnerPstats: charstatInitiator.getPStats(),
+        loserPstats: charstatRetaliator.getPStats()
+      })
+    );
   }
 
   /// @dev Verifies and removes the pending request, then returns the calculated reward
@@ -64,14 +54,12 @@ library LibCycleCombatRewardRequest {
     uint256 cycleEntity,
     uint256 requestId
   ) internal returns (uint256 randomness, uint32[PS_L] memory exp, uint32 lootIlvl, uint256 lootCount) {
-    removeReward(components, cycleEntity, requestId);
-
     // reverts if getting randomness too early or too late
     // TODO ability to cancel request that's too late so they don't endlessly accumulate? or remove the limit
-    bytes memory data;
-    (randomness, data) = LibRNG.getRandomness(components, requestId);
+    randomness = LibRNG.getRandomness(components, cycleEntity, requestId);
+    LibRNG.removeRequest(components, cycleEntity, requestId);
 
-    CycleCombatRewardRequest memory req = abi.decode(data, (CycleCombatRewardRequest));
+    CycleCombatRewardRequestData memory req = _comp(components).getValue(requestId);
 
     FromPrototypeComponent fromProtoComp = FromPrototypeComponent(getAddressById(components, FromPrototypeComponentID));
     uint256 mapProtoEntity = fromProtoComp.getValue(req.mapEntity);
@@ -98,19 +86,9 @@ library LibCycleCombatRewardRequest {
     }
   }
 
-  /** Check permissions and remove the reward request */
-  function removeReward(IUint256Component components, uint256 cycleEntity, uint256 requestId) internal {
-    CycleCombatRewardRequestComponent comp = _comp(components);
-    // `cycleEntity` must own the request
-    if (cycleEntity != comp.getValue(requestId)) {
-      revert LibCycleCombatRewardRequest__EntityMismatch();
-    }
-    comp.remove(requestId);
-  }
-
   function _getExpReward(
     uint256 randomness,
-    CycleCombatRewardRequest memory req
+    CycleCombatRewardRequestData memory req
   ) private pure returns (uint32[PS_L] memory exp) {
     for (uint256 i; i < PS_L; i++) {
       // initial exp is connection + loser's stats
@@ -140,7 +118,7 @@ library LibCycleCombatRewardRequest {
   function _getLootReward(
     IUint256Component components,
     uint256 randomness,
-    CycleCombatRewardRequest memory req
+    CycleCombatRewardRequestData memory req
   ) private view returns (uint32 ilvl, uint256 count) {
     randomness = uint256(keccak256(abi.encode(keccak256("_getLootIlvlReward"), randomness)));
 

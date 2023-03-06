@@ -6,7 +6,6 @@ import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { getAddressById } from "solecs/utils.sol";
 
-import { CycleCombatRewardRequestComponent, ID as CycleCombatRewardRequestComponentID } from "./CycleCombatRewardRequestComponent.sol";
 import { RandomEquipmentSubSystem, ID as RandomEquipmentSubSystemID } from "../loot/RandomEquipmentSubSystem.sol";
 
 import { LibCycle } from "./LibCycle.sol";
@@ -15,6 +14,7 @@ import { LibCycleCombatRewardRequest } from "./LibCycleCombatRewardRequest.sol";
 import { LibExperience, PS_L } from "../charstat/LibExperience.sol";
 import { LibLootOwner } from "../loot/LibLootOwner.sol";
 import { LibGuiseLevel } from "../guise/LibGuiseLevel.sol";
+import { LibRNG } from "../rng/LibRNG.sol";
 
 uint256 constant ID = uint256(keccak256("system.CycleCombatReward"));
 
@@ -61,6 +61,6 @@ contract CycleCombatRewardSystem is System {
     // reverts if sender doesn't have permission
     uint256 cycleEntity = LibCycle.getCycleEntityPermissioned(components, wandererEntity);
     // remove the reward without claiming it
-    LibCycleCombatRewardRequest.removeReward(components, cycleEntity, requestId);
+    LibRNG.removeRequest(components, cycleEntity, requestId);
   }
 }
