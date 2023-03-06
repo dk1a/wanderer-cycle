@@ -1,7 +1,8 @@
-import { useComponentValue, useEntityQuery } from "@latticexyz/react";
+import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex, Has } from "@latticexyz/recs";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
+import { useEntityQuery } from "../useEntityQuery";
 import { getGuise } from "../utils/guise";
 
 export const useGuise = (entity: EntityIndex | undefined) => {
@@ -19,7 +20,7 @@ export const useGuises = () => {
     components: { GuisePrototype },
   } = mud;
 
-  const guiseEntities = useEntityQuery([Has(GuisePrototype)]);
+  const guiseEntities = useEntityQuery([Has(GuisePrototype)], true);
   return useMemo(() => {
     return guiseEntities.map((guiseEntity) => getGuise(mud, guiseEntity));
   }, [mud, guiseEntities]);
