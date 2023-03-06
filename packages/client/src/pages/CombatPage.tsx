@@ -1,4 +1,4 @@
-import Combat from "../components/Combat";
+import { Combat } from "../components/Combat/Combat";
 
 export default function CombatPage() {
   return (

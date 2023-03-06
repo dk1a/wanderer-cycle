@@ -1,20 +1,9 @@
-import { useCallback } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
-import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
-import { attackAction } from "../../mud/utils/combat";
 import CombatActions from "./CombatActions";
 import { CombatRoundOutcome } from "./CombatRoundOutcome";
 
-export default function Combat() {
-  const { selectedWandererEntity, lastCombatResult } = useWandererContext();
-  const executeCycleCombatRound = useExecuteCycleCombatRound();
-
-  const onAttack = useCallback(() => {
-    if (!selectedWandererEntity) {
-      throw new Error("Must select wanderer entity");
-    }
-    executeCycleCombatRound(selectedWandererEntity, [attackAction]);
-  }, [selectedWandererEntity, executeCycleCombatRound]);
+export function Combat() {
+  const { lastCombatResult } = useWandererContext();
 
   // ========== RENDER ==========
   return (
@@ -30,7 +19,7 @@ export default function Combat() {
 
       {lastCombatResult !== undefined && <CombatRoundOutcome lastCombatResult={lastCombatResult} />}
 
-      <CombatActions onAttack={onAttack} />
+      <CombatActions />
     </section>
   );
 }
