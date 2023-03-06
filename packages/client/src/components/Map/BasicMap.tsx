@@ -16,9 +16,8 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
   const guise = useActiveGuise(cycleEntity);
   const levelData = useLevel(cycleEntity, guise?.levelMul);
   const turns = useCycleTurns(cycleEntity);
-  const turnsLast = useCycleTurnsLastClaimedComponent(cycleEntity);
 
-  console.log("turnsLast", turnsLast);
+  console.log("turns", turns);
 
   const onMapEnter = useCallback(() => {
     if (!selectedWandererEntity) {
