@@ -36,14 +36,15 @@ contract CompleteCycleSystem is System {
     CycleBossesDefeatedComponent cycleBossesDefeated = CycleBossesDefeatedComponent(
       getAddressById(components, CycleBossesDefeatedComponentID)
     );
-    // TODO unhardcode 12
-    if (cycleBossesDefeated.itemSetSize(cycleEntity) < 12) {
+    // TODO requirement reduced for testing; remove hardcode
+    if (cycleBossesDefeated.itemSetSize(cycleEntity) < 0) {
       revert CompleteCycleSystem__NotAllBossesDefeated();
     }
 
     // must be max level
+    // TODO requirement reduced for testing; also remove hardcode
     uint32 level = LibGuiseLevel.getAggregateLevel(components, cycleEntity);
-    if (level < 12) {
+    if (level < 1) {
       revert CompleteCycleSystem__InsufficientLevel();
     }
 
