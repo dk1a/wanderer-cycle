@@ -2,7 +2,7 @@ import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex } from "@latticexyz/recs";
 import { useMUD } from "../MUDContext";
 import { BigNumber } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useCycleTurns = (entity: EntityIndex | undefined) => {
   const {
@@ -45,14 +45,28 @@ function useAccPeriods(entity: EntityIndex | undefined) {
 
   const [timestamp, setTimestamp] = useState(Date.now() * 0.001);
 
-  const lastClaimedTimestamp = useComponentValue(CycleTurnsLastClaimed, entity);
-  if (lastClaimedTimestamp === undefined) return 1;
-  const lastClaimedTimestampValue = BigNumber.from(lastClaimedTimestamp?.value).toNumber();
-  if (lastClaimedTimestampValue == 0) return 1;
+  const lastClaimed = useComponentValue(CycleTurnsLastClaimed, entity);
+  let lastClaimedTimestamp = 0;
+  if (lastClaimed) {
+    lastClaimedTimestamp = BigNumber.from(lastClaimed.value).toNumber();
+  }
+  if (lastClaimedTimestamp === 0) {
+    lastClaimedTimestamp = timestamp - ACC_PERIOD;
+  }
 
-  const periodsLast = Math.floor(lastClaimedTimestampValue / ACC_PERIOD);
+  const periodsLast = Math.floor(lastClaimedTimestamp / ACC_PERIOD);
   const periodsCurrent = Math.floor(timestamp / ACC_PERIOD);
   const accPeriods = periodsCurrent - periodsLast;
+
+  useEffect(() => {
+    const nextRefresh = ((periodsLast + 1) * ACC_PERIOD - lastClaimedTimestamp) * 1000 + 1000;
+
+    const timeout = setTimeout(() => {
+      setTimestamp(Date.now() * 0.001);
+    }, nextRefresh);
+
+    return () => clearTimeout(timeout);
+  }, [periodsLast, lastClaimedTimestamp]);
 
   if (accPeriods > MAX_ACC_PERIODS) {
     return MAX_ACC_PERIODS;
