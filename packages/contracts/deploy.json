@@ -177,6 +177,10 @@
     {
       "name": "CompleteCycleSystem",
       "writeAccess": ["ActiveCycleComponent", "ActiveCyclePreviousComponent", "IdentityComponent"]
+    },
+    {
+      "name": "PermSkillSystem",
+      "writeAccess": ["IdentityComponent", "LearnedSkillsComponent"]
     }
   ],
   "initializers": [

@@ -38,6 +38,8 @@ library LibLearnedSkills {
    * @dev Copy skills from source to target. Overwrites target's existing skills
    */
   function copySkills(Self memory __self, uint256 sourceEntity) internal {
-    __self.comp.set(__self.entity, __self.comp.getValue(sourceEntity));
+    if (__self.comp.has(sourceEntity)) {
+      __self.comp.set(__self.entity, __self.comp.getValue(sourceEntity));
+    }
   }
 }

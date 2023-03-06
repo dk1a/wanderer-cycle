@@ -16,6 +16,7 @@ import { LibExperience } from "../charstat/LibExperience.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
 import { LibToken } from "../token/LibToken.sol";
 import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
+import { LibLearnedSkills } from "../skill/LibLearnedSkills.sol";
 
 // TODO imports for testing stuff, remove later
 import { RandomEquipmentSubSystem, ID as RandomEquipmentSubSystemID } from "../loot/RandomEquipmentSubSystem.sol";
@@ -24,6 +25,7 @@ import { LibLootOwner } from "../loot/LibLootOwner.sol";
 library LibCycle {
   using LibCharstat for LibCharstat.Self;
   using LibExperience for LibExperience.Self;
+  using LibLearnedSkills for LibLearnedSkills.Self;
 
   error LibCycle__CycleIsAlreadyActive();
   error LibCycle__CycleNotActive();
@@ -66,8 +68,9 @@ library LibCycle {
     LibCycleTurns.claimTurns(components, cycleEntity);
     // spawn equipment slots
     LibSpawnEquipmentSlots.spawnEquipmentSlots(world, cycleEntity);
+    // copy permanent skills
+    LibLearnedSkills.__construct(components, cycleEntity).copySkills(targetEntity);
 
-    // TODO copy astral skills
     // TODO wheel
     // TODO wallet
 
