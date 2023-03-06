@@ -6,7 +6,7 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useActiveGuise } from "../../mud/hooks/guise";
 import { useLevel } from "../../mud/hooks/charstat";
 import CustomButton from "../UI/Button/CustomButton";
-import { useCycleTurns } from "../../mud/hooks/useCycleTurns";
+import { useCycleTurns, useCycleTurnsLastClaimedComponent } from "../../mud/hooks/useCycleTurns";
 
 export default function BasicMap({ entity }: { entity: EntityIndex }) {
   const { selectedWandererEntity, cycleEntity } = useWandererContext();
@@ -16,6 +16,9 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
   const guise = useActiveGuise(cycleEntity);
   const levelData = useLevel(cycleEntity, guise?.levelMul);
   const turns = useCycleTurns(cycleEntity);
+  const turnsLast = useCycleTurnsLastClaimedComponent(cycleEntity);
+
+  console.log("turnsLast", turnsLast);
 
   const onMapEnter = useCallback(() => {
     if (!selectedWandererEntity) {

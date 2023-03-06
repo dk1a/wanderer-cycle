@@ -10,3 +10,12 @@ export const useCycleTurns = (entity: EntityIndex | undefined) => {
   const cycleTurns = useComponentValue(CycleTurns, entity);
   return cycleTurns?.value;
 };
+
+export const useCycleTurnsLastClaimedComponent = (entity: EntityIndex | undefined) => {
+  const {
+    components: { CycleTurnsLastClaimed },
+  } = useMUD();
+
+  const cycleTurnsLastClaimed = useComponentValue(CycleTurnsLastClaimed, entity);
+  return cycleTurnsLastClaimed?.value;
+};
