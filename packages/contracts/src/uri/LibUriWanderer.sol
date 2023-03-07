@@ -19,7 +19,7 @@ library LibUriWanderer {
   struct Strs {
     string[] cycles;
     string totalIdentityGained;
-    string wandererName;
+    string wandererNum;
     string guise;
     string level;
     string svgGuiseLevel;
@@ -50,9 +50,9 @@ library LibUriWanderer {
     }
     _strs.totalIdentityGained = Strings.toString(totalIdentityGained);
 
-    _strs.wandererName = string.concat("Wanderer ", Strings.toHexString(
-      uint128(bytes16(keccak256(abi.encode("Wanderer", tokenId))))
-    ));
+    _strs.wandererNum = Strings.toHexString(
+      uint32(bytes4(keccak256(abi.encode("Wanderer", tokenId))))
+    );
 
     ActiveCycleComponent activeCycle = ActiveCycleComponent(getAddressById(components, ActiveCycleComponentID));
     if (activeCycle.has(tokenId)) {
@@ -77,11 +77,15 @@ library LibUriWanderer {
 
     _strs.output = string.concat(
       u.START,
-      '<text y="40"', u.ATTRS_BASE, '>',
-        _strs.wandererName,
+      '<text x="10" y="40"', u.ATTRS_TYPE, '>',
+        'Wanderer ',
+        '<tspan', u.ATTRS_BASE, '>',
+          _strs.wandererNum,
+        '</tspan>',
       '</text>',
       '<text x="10" y="80"', u.ATTRS_STRING, '>',
         _strs.svgGuiseLevel,
+      '</text>',
       '<text x="10" y="120"', u.ATTRS_KEY, '>',
         'Total Identity ',
         '<tspan', u.ATTRS_NUM, '>',
@@ -92,7 +96,7 @@ library LibUriWanderer {
     );
 
     return Base64.encode(abi.encodePacked(
-      '{"name": "', _strs.wandererName, '",'
+      '{"name": "Wanderer ', _strs.wandererNum, '",'
       '"description": "Wanderer of their namesake Cycle",'
       '"attributes": ['
         '{'

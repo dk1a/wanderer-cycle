@@ -8,8 +8,9 @@ library UriUtils {
   string constant END = '</svg>';
 
   string constant ATTRS_HEADER_TYPE = ' x="50%" class="base" text-anchor="middle" fill="#4ec9b0" ';
-  string constant ATTRS_BASE = ' class="base" ';
+  string constant ATTRS_BASE = ' class="base" fill="#969696" ';
   string constant ATTRS_NUM = ' class="base" fill="#b5cea8" ';
   string constant ATTRS_STRING = ' class="base" fill="#ce9178" ';
   string constant ATTRS_KEY = ' class="base" fill="#9cdcfe" ';
+  string constant ATTRS_TYPE = ' class="base" fill="#4ec9b0" ';
 }
