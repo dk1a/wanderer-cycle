@@ -1,16 +1,16 @@
 import CustomButton from "../UI/Button/CustomButton";
 import { EntityIndex } from "@latticexyz/recs";
-import { OnCompleteCycleData, useCompleteCycle, useOnCompleteCycleEffect } from "../../mud/hooks/cycle";
-import { ReactNode, SetStateAction, useState } from "react";
+import { useCompleteCycle, useOnCompleteCycleEffect } from "../../mud/hooks/cycle";
+import { useState } from "react";
 import Modal from "../UI/Modal/Modal";
 
 export function CycleEnd({ wandererEntity }: { wandererEntity: EntityIndex; cycleEntity: EntityIndex }) {
   const [active, setActive] = useState(false);
-  const [identity, setIdentity] = useState();
+  const [identity, setIdentity] = useState<number>();
   const CompleteCycle = useCompleteCycle(wandererEntity);
 
-  useOnCompleteCycleEffect(wandererEntity, (identity) => {
-    setIdentity({ identity });
+  useOnCompleteCycleEffect(wandererEntity, ({ identity }) => {
+    setIdentity(identity);
     if (identity !== undefined) {
       setActive(true);
     }
