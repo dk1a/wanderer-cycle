@@ -6,6 +6,7 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useStartCycle } from "../../mud/hooks/cycle";
 import { useLearnedSkillEntities, usePermSkill } from "../../mud/hooks/skill";
 import SkillPermanent from "../Combat/SkillPermanent";
+import Select from "react-select";
 
 export function CycleStart({
   wandererEntity,
@@ -18,17 +19,37 @@ export function CycleStart({
   const learnedSkillEntities = useLearnedSkillEntities(previousCycleEntity);
   const onMakePermanent = usePermSkill(wandererEntity);
   const guises = useGuises();
-  const [selectedGuiseEntity, selectGuiseEntity] = useState<EntityIndex>();
 
-  console.log("onMakePermanent", onMakePermanent);
-
-  // TODO these're placeholders
+  const [selectedGuiseEntity, selectGuiseEntity] = useState<string>();
   const [selectedWheelEntity, selectWheelEntity] = useState<number>();
+
   const wheel = [
-    { value: 1, name: "Attainment" },
-    { value: 2, name: "Isolation" },
+    { value: "attainment", label: "Attainment" },
+    { value: "isolation", label: "Isolation" },
   ];
-  const guiseOptions = useMemo(() => guises.map(({ name, entity }) => ({ name, value: entity })), [guises]);
+  const guiseOptions = useMemo(() => guises.map(({ name, entity }) => ({ value: name, label: entity })), [guises]);
+
+  const getValueGuise = useCallback(() => {
+    return selectedGuiseEntity ? guiseOptions.find((i) => i.value === selectedGuiseEntity) : "";
+  }, [selectedGuiseEntity]);
+
+  const getValueWheel = useCallback(() => {
+    return selectedWheelEntity ? guiseOptions.find((i) => i.label === selectedWheelEntity) : "";
+  }, [selectedWheelEntity]);
+
+  const onChangeGuise = useCallback(
+    (newValue: any) => {
+      selectGuiseEntity(newValue.value);
+    },
+    [selectGuiseEntity]
+  );
+
+  const onChangeWheel = useCallback(
+    (newValue: string) => {
+      selectWheelEntity(newValue.value);
+    },
+    [selectWheelEntity]
+  );
 
   const onStart = useCallback(() => {
     if (selectedGuiseEntity === undefined) throw new Error("Invalid guise entity");
@@ -36,6 +57,7 @@ export function CycleStart({
     startCycle(selectedGuiseEntity);
   }, [startCycle, selectedGuiseEntity, selectedWheelEntity]);
 
+  console.log("guiseOptions", guiseOptions);
   return (
     <div className="flex w-full justify-around">
       <div className="flex mt-10">
@@ -50,11 +72,16 @@ export function CycleStart({
         <div>
           <div className="flex w-96 mb-4">
             <span className="text-dark-string w-24">select a guise</span>
-            <CustomSelect options={guiseOptions} placeholder={"select a guise"} onChange={selectGuiseEntity} />
+            <Select
+              value={getValueGuise()}
+              options={guiseOptions}
+              placeholder={"select a guise"}
+              onChange={onChangeGuise}
+            />
           </div>
           <div className="flex w-96">
             <span className="text-dark-string w-24">select Wheel</span>
-            <CustomSelect options={wheel} placeholder={"select a wheel"} onChange={selectWheelEntity} />
+            <Select value={getValueWheel()} options={wheel} placeholder={"select a wheel"} onChange={onChangeWheel} />
           </div>
           <div className="flex flex-col items-center text-start mt-4">
             <span className="text-dark-string">Reward</span>
