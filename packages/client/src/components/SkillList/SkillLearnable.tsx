@@ -7,11 +7,13 @@ import { useWandererContext } from "../../contexts/WandererContext";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
   const skill = useSkill(entity);
+
   const { learnCycleSkill, learnedSkillEntities } = useWandererContext();
 
   const isLearned = useMemo(() => learnedSkillEntities.includes(entity), [learnedSkillEntities, entity]);
 
   const [visible, setVisible] = useState(!isLearned);
+
   const onHeaderClick = useCallback(() => {
     // only expand collapsed data
     if (!visible) {

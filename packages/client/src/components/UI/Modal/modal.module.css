@@ -29,9 +29,9 @@
 }
 .modal__content {
   padding: 20px;
-  background-color: #06191f;
+  background-color: #252526;
   width: 35%;
-  border: 1px solid #14555b;
+  border: 1px solid #3c3c3c;
   display: flex;
   flex-direction: column;
   justify-content: center;
