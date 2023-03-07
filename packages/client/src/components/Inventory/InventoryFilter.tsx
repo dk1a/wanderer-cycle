@@ -1,4 +1,3 @@
-import CustomSelect from "../UI/Select/CustomSelect";
 import CustomInput from "../UI/Input/CustomInput";
 import { useInventoryContext } from "../../contexts/InventoryContext";
 import { useCallback } from "react";
@@ -23,7 +22,6 @@ export default function InventoryFilter() {
     },
     [setSort]
   );
-  console.log("sort", sort);
   return (
     <div className="flex items-center w-full">
       <Select

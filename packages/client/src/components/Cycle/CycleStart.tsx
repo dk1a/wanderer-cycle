@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from "react";
-import CustomSelect from "../UI/Select/CustomSelect";
 import CustomButton from "../UI/Button/CustomButton";
 import { useGuises } from "../../mud/hooks/guise";
 import { EntityIndex } from "@latticexyz/recs";
@@ -58,7 +57,6 @@ export function CycleStart({
     startCycle(selectedGuiseEntity);
   }, [startCycle, selectedGuiseEntity, selectedWheelEntity]);
 
-  console.log("guiseOptions", guiseOptions);
   return (
     <div className="flex w-full justify-around">
       <div className="flex mt-10">
