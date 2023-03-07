@@ -1,5 +1,5 @@
 import { EntityID } from "@latticexyz/recs";
-import { createContext, ReactNode, useContext, useMemo, useState } from "react";
+import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react";
 import { EquipmentAction, useChangeCycleEquipment } from "../mud/hooks/useChangeCycleEquipment";
 import { EquipmentSlot, useEquipmentSlots } from "../mud/hooks/useEquipmentSlots";
 import { useOwnedEquipment } from "../mud/hooks/useOwnedEquipment";

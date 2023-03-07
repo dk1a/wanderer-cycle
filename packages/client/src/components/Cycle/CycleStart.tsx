@@ -72,7 +72,7 @@ export function CycleStart({
         <div>
           <div className="flex w-96 mb-4">
             <span className="text-dark-string w-24">select a guise</span>
-            <Select
+            <CustomSelect
               value={getValueGuise()}
               options={guiseOptions}
               placeholder={"select a guise"}
@@ -81,7 +81,12 @@ export function CycleStart({
           </div>
           <div className="flex w-96">
             <span className="text-dark-string w-24">select Wheel</span>
-            <Select value={getValueWheel()} options={wheel} placeholder={"select a wheel"} onChange={onChangeWheel} />
+            <CustomSelect
+              value={getValueWheel()}
+              options={wheel}
+              placeholder={"select a wheel"}
+              onChange={onChangeWheel}
+            />
           </div>
           <div className="flex flex-col items-center text-start mt-4">
             <span className="text-dark-string">Reward</span>
