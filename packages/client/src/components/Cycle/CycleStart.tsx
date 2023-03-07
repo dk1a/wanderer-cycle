@@ -3,7 +3,7 @@ import CustomButton from "../UI/Button/CustomButton";
 import { useGuises } from "../../mud/hooks/guise";
 import { EntityIndex } from "@latticexyz/recs";
 import { useStartCycle } from "../../mud/hooks/cycle";
-import { useLearnedSkillEntities, usePermSkill } from "../../mud/hooks/skill";
+import { useLearnedSkillEntities } from "../../mud/hooks/skill";
 import SkillPermanent from "../Combat/SkillPermanent";
 import Select from "react-select";
 import "../UI/Select/customSelect.scss";
@@ -17,45 +17,22 @@ export function CycleStart({
 }) {
   const startCycle = useStartCycle(wandererEntity);
   const learnedSkillEntities = useLearnedSkillEntities(previousCycleEntity);
-  const onMakePermanent = usePermSkill(wandererEntity);
   const guises = useGuises();
 
-  const [selectedGuiseEntity, selectGuiseEntity] = useState<string>();
-  const [selectedWheelEntity, selectWheelEntity] = useState<number>();
-
-  const wheel = [
-    { value: "attainment", label: "Attainment" },
-    { value: "isolation", label: "Isolation" },
-  ];
   const guiseOptions = useMemo(() => guises.map(({ name, entity }) => ({ value: entity, label: name })), [guises]);
+  const wheelOptions = [
+    { value: 1, label: "Attainment" },
+    { value: 2, label: "Isolation" },
+  ];
 
-  const getValueGuise = useCallback(() => {
-    return selectedGuiseEntity ? guiseOptions.find((i) => i.value === selectedGuiseEntity) : "";
-  }, [selectedGuiseEntity]);
-
-  const getValueWheel = useCallback(() => {
-    return selectedWheelEntity ? guiseOptions.find((i) => i.label === selectedWheelEntity) : "";
-  }, [selectedWheelEntity]);
-
-  const onChangeGuise = useCallback(
-    (newValue: string) => {
-      selectGuiseEntity(newValue.value);
-    },
-    [selectGuiseEntity]
-  );
-
-  const onChangeWheel = useCallback(
-    (newValue: string) => {
-      selectWheelEntity(newValue.value);
-    },
-    [selectWheelEntity]
-  );
+  const [selectedGuise, selectGuise] = useState<(typeof guiseOptions)[number] | null>(null);
+  const [selectedWheel, selectWheel] = useState<(typeof wheelOptions)[number] | null>(null);
 
   const onStart = useCallback(() => {
-    if (selectedGuiseEntity === undefined) throw new Error("Invalid guise entity");
-    if (selectedWheelEntity === undefined) throw new Error("Invalid wheel entity");
-    startCycle(selectedGuiseEntity);
-  }, [startCycle, selectedGuiseEntity, selectedWheelEntity]);
+    if (selectedGuise === null) throw new Error("Invalid guise");
+    if (selectedWheel === null) throw new Error("Invalid wheel");
+    startCycle(selectedGuise.value);
+  }, [startCycle, selectedGuise, selectedWheel]);
 
   return (
     <div className="flex w-full justify-around">
@@ -72,21 +49,21 @@ export function CycleStart({
           <div className="flex w-96 mb-4 items-center justify-center">
             <span className="text-dark-string w-24 mr-2">select a guise</span>
             <Select
-              value={getValueGuise()}
+              value={selectedGuise}
               classNamePrefix={"custom-select"}
               options={guiseOptions}
               placeholder={"select a guise"}
-              onChange={onChangeGuise}
+              onChange={selectGuise}
             />
           </div>
           <div className="flex w-96 items-center justify-center">
-            <span className="text-dark-string w-24 mr-2">select Wheel</span>
+            <span className="text-dark-string w-24 mr-2">select a wheel</span>
             <Select
-              value={getValueWheel()}
+              value={selectedWheel}
               classNamePrefix={"custom-select"}
-              options={wheel}
+              options={wheelOptions}
               placeholder={"select a wheel"}
-              onChange={onChangeWheel}
+              onChange={selectWheel}
             />
           </div>
           <div className="flex flex-col items-center text-start mt-4">
@@ -102,10 +79,7 @@ export function CycleStart({
             </span>
           </div>
           <div className="flex items-center justify-center mt-4">
-            <CustomButton
-              onClick={onStart}
-              disabled={selectedGuiseEntity === undefined || selectedWheelEntity === undefined}
-            >
+            <CustomButton onClick={onStart} disabled={selectedGuise === null || selectedWheel === null}>
               start
             </CustomButton>
           </div>
