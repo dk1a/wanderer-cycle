@@ -6,7 +6,7 @@ import { useStartCycle } from "../../mud/hooks/cycle";
 import { useLearnedSkillEntities } from "../../mud/hooks/skill";
 import SkillPermanent from "../Combat/SkillPermanent";
 import Select from "react-select";
-import "../UI/Select/customSelect.scss";
+import "../UI/customSelect.scss";
 
 export function CycleStart({
   wandererEntity,
