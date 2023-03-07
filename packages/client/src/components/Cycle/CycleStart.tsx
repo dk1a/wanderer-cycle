@@ -27,7 +27,7 @@ export function CycleStart({
     { value: "attainment", label: "Attainment" },
     { value: "isolation", label: "Isolation" },
   ];
-  const guiseOptions = useMemo(() => guises.map(({ name, entity }) => ({ value: name, label: entity })), [guises]);
+  const guiseOptions = useMemo(() => guises.map(({ name, entity }) => ({ value: entity, label: name })), [guises]);
 
   const getValueGuise = useCallback(() => {
     return selectedGuiseEntity ? guiseOptions.find((i) => i.value === selectedGuiseEntity) : "";
@@ -38,7 +38,7 @@ export function CycleStart({
   }, [selectedWheelEntity]);
 
   const onChangeGuise = useCallback(
-    (newValue: any) => {
+    (newValue: string) => {
       selectGuiseEntity(newValue.value);
     },
     [selectGuiseEntity]
