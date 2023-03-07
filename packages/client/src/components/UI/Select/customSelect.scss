@@ -1,27 +1,23 @@
-@keyframes scaleIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  50% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+.custom-select__input-container{
+  color: #cccccc !important;
 }
-
+.custom-select__single-value{
+  color: #cccccc !important;
+}
 .custom-select {
+
   &__control {
-    background-color: transparent !important;
-    border: none !important;
+    background-color: #252526 !important;
     border-radius: 0 !important;
-    border-bottom: 1px solid #66676e !important;
+    border: 1px solid #3c3c3c !important;
     box-shadow: none !important;
+    width: 10rem;
+    height: 2.5rem !important;
+    padding: 3px;
+
 
     &--menu-is-open {
-      border-color: #ce9178 !important;
+      border-color: #c586c0 !important;
     }
   }
 
@@ -31,7 +27,7 @@
   }
 
   &__input-container {
-    color: #999aa5 !important;
+  text-align: center !important;
   }
 
   &__indicator-separator {
@@ -43,10 +39,10 @@
   }
 
   &__indicator {
-    color: #66676e !important;
+    color: #cccccc !important;
 
     &:hover {
-      color: #999aa5 !important;
+      color: #cccccc !important;
     }
   }
 
@@ -71,14 +67,16 @@
 
   &__menu {
     background-color: #292a2e !important;
-    color: rgba(white, 0.6) !important;
     animation: scaleIn 0.35s ease-in-out;
     border-radius: 0;
     margin: 0;
+    padding: 0;
+    border: 1px solid #c586c0;
   }
 
   &__option {
     cursor: pointer !important;
+    color: #c586c0;
     &--is-focused {
       background-color: lighten(#292a2e, 8%) !important;
     }

@@ -25,7 +25,7 @@ export default function InventoryFilter() {
   );
   console.log("sort", sort);
   return (
-    <div className="flex items-center justify-around w-full">
+    <div className="flex items-center w-full">
       <Select
         classNamePrefix={"custom-select"}
         placeholder={sort}

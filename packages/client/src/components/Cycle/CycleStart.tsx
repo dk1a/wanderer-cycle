@@ -7,6 +7,7 @@ import { useStartCycle } from "../../mud/hooks/cycle";
 import { useLearnedSkillEntities, usePermSkill } from "../../mud/hooks/skill";
 import SkillPermanent from "../Combat/SkillPermanent";
 import Select from "react-select";
+import "../UI/Select/customSelect.scss";
 
 export function CycleStart({
   wandererEntity,
@@ -68,21 +69,23 @@ export function CycleStart({
         ))}
       </div>
       <div className="flex flex-col items-center mt-8">
-        <span className="text-2xl text-dark-comment">{"// start"}</span>
+        <span className="text-2xl text-dark-comment mb-4">{"// start"}</span>
         <div>
-          <div className="flex w-96 mb-4">
-            <span className="text-dark-string w-24">select a guise</span>
-            <CustomSelect
+          <div className="flex w-96 mb-4 items-center justify-center">
+            <span className="text-dark-string w-24 mr-2">select a guise</span>
+            <Select
               value={getValueGuise()}
+              classNamePrefix={"custom-select"}
               options={guiseOptions}
               placeholder={"select a guise"}
               onChange={onChangeGuise}
             />
           </div>
-          <div className="flex w-96">
-            <span className="text-dark-string w-24">select Wheel</span>
-            <CustomSelect
+          <div className="flex w-96 items-center justify-center">
+            <span className="text-dark-string w-24 mr-2">select Wheel</span>
+            <Select
               value={getValueWheel()}
+              classNamePrefix={"custom-select"}
               options={wheel}
               placeholder={"select a wheel"}
               onChange={onChangeWheel}
