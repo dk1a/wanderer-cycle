@@ -19,7 +19,7 @@ export type EquipmentData = LootData & {
 
 type InventoryContextType = {
   sort: InventorySortKey | undefined;
-  setSort: (newValue: SingleValue<string>, actionMeta: ActionMeta<string>) => void;
+  setSort: (newValue: SingleValue<string>) => void;
   filter: string;
   setFilter: (filter: string) => void;
   presentProtoEntityIds: EntityID[];
