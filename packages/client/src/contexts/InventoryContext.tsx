@@ -6,8 +6,9 @@ import { useOwnedEquipment } from "../mud/hooks/useOwnedEquipment";
 import { equipmentProtoEntityIds } from "../mud/utils/equipment";
 import { LootData } from "../mud/utils/getLoot";
 import { useWandererContext } from "./WandererContext";
+import { ActionMeta, SingleValue } from "react-select";
 
-export type InventorySortKey = "ilvl" | "name";
+export type InventorySortKey = string | "ilvl" | "name";
 
 export type EquipmentSlotWithEquip = EquipmentSlot & { equip: () => void };
 
@@ -18,7 +19,7 @@ export type EquipmentData = LootData & {
 
 type InventoryContextType = {
   sort: InventorySortKey | undefined;
-  setSort: (sort: InventorySortKey | undefined) => void;
+  setSort: (newValue: SingleValue<string>, actionMeta: ActionMeta<string>) => void;
   filter: string;
   setFilter: (filter: string) => void;
   presentProtoEntityIds: EntityID[];
