@@ -27,21 +27,26 @@ export function CombatReward({
 
   if (isExpired) {
     return (
-      <div>
+      <div className="flex flex-col items-center justify-around text-dark-key text-lg">
         expired
-        <CustomButton onClick={() => cancelCycleCombatReward(requesterEntity, requestEntity)}>delete</CustomButton>
+        <CustomButton style={{ width: "9rem" }} onClick={() => cancelCycleCombatReward(requesterEntity, requestEntity)}>
+          delete
+        </CustomButton>
       </div>
     );
   } else {
     return (
-      <div>
-        <CustomButton onClick={() => claimCycleCombatReward(requesterEntity, requestEntity)}>claim reward</CustomButton>
-
+      <div className="flex flex-col items-center justify-around">
         {/* TODO make this a bar with small text above it, like experience */}
-        <div>
+        <div className="text-dark-key text-lg">
           expiring...
-          {currentBlockNumber - requestBlockNumber} / {blockNumberLimit}
+          <span className="text-dark-number ml-1">{currentBlockNumber - requestBlockNumber}</span>
+          <span className="text-dark-200 mx-1">/</span>
+          <span className="text-dark-number">{blockNumberLimit}</span>
         </div>
+        <CustomButton onClick={() => claimCycleCombatReward(requesterEntity, requestEntity)} style={{ width: "9rem" }}>
+          claim reward
+        </CustomButton>
       </div>
     );
   }

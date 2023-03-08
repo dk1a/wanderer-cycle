@@ -33,14 +33,14 @@ export function CombatResultPage() {
 
   return (
     <section className="flex flex-col items-center w-full">
-      {lastCombatResult !== undefined && (
-        <div>
-          <CombatRoundOutcome lastCombatResult={lastCombatResult} />
-        </div>
-      )}
+      {/*{lastCombatResult !== undefined && (*/}
+      {/*  <div>*/}
+      {/*    <CombatRoundOutcome lastCombatResult={lastCombatResult} />*/}
+      {/*  </div>*/}
+      {/*)}*/}
 
-      <div className="p-2 flex justify-around flex-col w-64 h-36 border border-dark-400 mt-10 items-center">
-        <h3 className="text-center text-dark-string">
+      <div className="p-2 flex justify-around flex-col h-52 border border-dark-400 mt-10 items-center w-1/3">
+        <h3 className="text-center text-dark-string text-xl">
           {lastCombatResult !== undefined ? CombatResult[lastCombatResult.combatResult] : "Unclaimed combat rewards"}
         </h3>
 
@@ -60,9 +60,19 @@ export function CombatResultPage() {
         </div>
 
         <div className="flex justify-around w-full">
-          {selectedWandererEntity && repeatMapEntity && <CustomButton onClick={onMapRepeat}>Repeat</CustomButton>}
+          {selectedWandererEntity && repeatMapEntity && (
+            <div className="">
+              <CustomButton onClick={onMapRepeat} style={{ width: "9rem" }}>
+                Repeat
+              </CustomButton>
+            </div>
+          )}
           {enemyEntity === undefined && combatRewardRequests.length === 0 && (
-            <CustomButton onClick={clearCombatResult}>Close</CustomButton>
+            <div>
+              <CustomButton style={{ width: "9rem" }} onClick={clearCombatResult}>
+                Close
+              </CustomButton>
+            </div>
           )}
         </div>
       </div>

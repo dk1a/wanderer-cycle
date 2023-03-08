@@ -24,7 +24,6 @@ export default function Combat() {
     executeCycleCombatRound(selectedWandererEntity, [attackAction]);
   }, [selectedWandererEntity, executeCycleCombatRound]);
 
-  console.log("skillOptions", skillOptions);
   // ========== RENDER ==========
   return (
     <section className="p-2 flex flex-col justify-center items-center w-full">
@@ -36,25 +35,35 @@ export default function Combat() {
         <span className="m-0.5 text-dark-number">{MAX_ROUNDS}</span>
       </div>
       */}
-      <div className="text-2xl text-dark-comment mr-2">{"// combat"}</div>
-      {lastCombatResult !== undefined && <CombatRoundOutcome lastCombatResult={lastCombatResult} />}
-      <div className="w-1/3">
-        <div className="flex items-center justify-around">
-          <div>
-            <Select
-              classNamePrefix={"custom-select"}
-              placeholder={"select a skill"}
-              value={selectedSkill}
-              options={skillOptions}
-              onChange={selectSkill}
-            />
-          </div>
-          <div className="h-1/2">
-            <CustomButton>use skill</CustomButton>
-          </div>
-        </div>
-        <CombatActions onAttack={onAttack} />
+      <div className="flex justify-around w-1/2">
+        <div className="text-2xl text-dark-comment mr-2">{"// combat"}</div>
+        <div className="text-2xl text-dark-type mr-2">selected map</div>
       </div>
+      {lastCombatResult !== undefined && (
+        <div className="border border-dark-400 p-2 w-1/3 h-40 flex flex-col items-center mt-4">
+          <CombatRoundOutcome lastCombatResult={lastCombatResult} />
+          <CombatActions onAttack={onAttack} />
+        </div>
+      )}
+      {lastCombatResult == undefined && (
+        <div className="w-1/2 flex flex-col items-center mt-4">
+          <div className="flex items-center justify-around w-full">
+            <div>
+              <Select
+                classNamePrefix={"custom-select"}
+                placeholder={"select a skill"}
+                value={selectedSkill}
+                options={skillOptions}
+                onChange={selectSkill}
+              />
+            </div>
+            <div className="h-1/2">
+              <CustomButton>use skill</CustomButton>
+            </div>
+          </div>
+          <CombatActions onAttack={onAttack} />
+        </div>
+      )}
     </section>
   );
 }

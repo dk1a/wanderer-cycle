@@ -4,7 +4,7 @@ import { useGuises } from "../../mud/hooks/guise";
 import { EntityIndex } from "@latticexyz/recs";
 import { useStartCycle } from "../../mud/hooks/cycle";
 import { useLearnedSkillEntities } from "../../mud/hooks/skill";
-import SkillPermanent from "../Combat/SkillPermanent";
+import SkillPermanent from "./SkillPermanent";
 import Select from "react-select";
 import "../UI/customSelect.scss";
 
