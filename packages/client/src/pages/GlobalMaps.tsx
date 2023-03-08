@@ -9,9 +9,9 @@ import { useLifeCurrent } from "../mud/hooks/currents";
 export function GlobalMaps() {
   const basicMapEntities = useMaps("Global Basic");
   const randomMapEntities = useMaps("Global Random");
+  const bossMapEntities = useMaps("Global Cycle Boss");
   const { cycleEntity } = useWandererContext();
   const lifeCurrent = useLifeCurrent(cycleEntity);
-  const bossMapEntities = useMaps("Global Cycle Boss");
   const bossesDefeated = useBossesDefeated(cycleEntity);
   const bossMapEntitiesUndefeated = useMemo(() => {
     // show up to 3 undefeated bosses

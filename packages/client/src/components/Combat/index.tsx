@@ -10,7 +10,7 @@ import CustomButton from "../UI/Button/CustomButton";
 import { useSkills } from "../../mud/hooks/skill";
 
 export default function Combat() {
-  const { selectedWandererEntity, lastCombatResult, learnedSkillEntities, cycleEntity } = useWandererContext();
+  const { selectedWandererEntity, lastCombatResult, learnedSkillEntities } = useWandererContext();
   const executeCycleCombatRound = useExecuteCycleCombatRound();
   const skills = useSkills(learnedSkillEntities);
 
@@ -35,12 +35,11 @@ export default function Combat() {
         <span className="m-0.5 text-dark-number">{MAX_ROUNDS}</span>
       </div>
       */}
-      <div className="flex justify-around w-1/2">
-        <div className="text-2xl text-dark-comment mr-2">{"// combat"}</div>
+      <div className="flex justify-center w-1/2">
         <div className="text-2xl text-dark-type mr-2">selected map</div>
       </div>
       {lastCombatResult !== undefined && (
-        <div className="border border-dark-400 p-2 w-1/3 h-40 flex flex-col items-center mt-4">
+        <div className=" p-2 w-1/3 h-40 flex flex-col items-center mt-4">
           <CombatRoundOutcome lastCombatResult={lastCombatResult} />
           <CombatActions onAttack={onAttack} />
         </div>

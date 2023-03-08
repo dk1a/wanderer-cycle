@@ -32,7 +32,7 @@ export function CombatResultPage() {
   }, [activateCycleCombat, selectedWandererEntity, repeatMapEntity]);
 
   return (
-    <section className="flex flex-col items-center w-full">
+    <section className="flex flex-col items-center w-full mr-64">
       {/*{lastCombatResult !== undefined && (*/}
       {/*  <div>*/}
       {/*    <CombatRoundOutcome lastCombatResult={lastCombatResult} />*/}

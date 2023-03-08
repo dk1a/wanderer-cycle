@@ -7,5 +7,5 @@ export default function CombatInfo() {
 
   const levelData = useLevel(enemyEntity, undefined);
 
-  return <BaseInfo entity={enemyEntity} name={"Combat"} levelData={levelData} locationName={null} />;
+  return <BaseInfo entity={enemyEntity} name={"Enemy"} levelData={levelData} locationName={null} />;
 }
