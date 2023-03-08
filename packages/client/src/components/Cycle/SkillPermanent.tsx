@@ -9,7 +9,7 @@ export default function SkillPermanent({ entity }: { entity: EntityIndex }) {
   const skill = useSkill(entity);
 
   const { learnCycleSkill } = useWandererContext();
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const onHeaderClick = useCallback(() => {
     // only expand collapsed data
