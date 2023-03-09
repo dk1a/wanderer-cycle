@@ -27,12 +27,12 @@ export default function PassTurnButton() {
   }, [turns, isBusy, enemyEntity]);
 
   return (
-    <>
+    <div className="ml-1">
       {!!turns && (
-        <CustomButton onClick={passTurn} disabled={isDisabled} style={{ fontSize: "12px", border: "none" }}>
+        <CustomButton onClick={passTurn} disabled={isDisabled} style={{ fontSize: "13px", border: "none", width: "" }}>
           {"passTurn"}
         </CustomButton>
       )}
-    </>
+    </div>
   );
 }

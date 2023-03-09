@@ -6,8 +6,9 @@ export default function EffectNameItem({ entity }: { entity: EntityIndex }) {
 
   return (
     <>
-      <span className="text-dark-key mr-1">item</span>
-      <span className="text-dark-method">{loot.name}</span>
+      <span className="text-dark-method" title={loot.name}>
+        {loot.name}
+      </span>
     </>
   );
 }
