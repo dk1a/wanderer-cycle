@@ -41,8 +41,7 @@ export default function CombatActions() {
       actionType: ActionType.SKILL,
       actionEntity: skillEntityId,
     };
-    // TODO doesn't work correctly
-    //await executeCycleCombatRound(selectedWandererEntity, [skillAction]);
+    await executeCycleCombatRound(selectedWandererEntity, [skillAction]);
     setIsBusy(false);
   }, [world, selectedWandererEntity, executeCycleCombatRound, selectedSkill]);
 
