@@ -9,10 +9,16 @@ export default function Wanderer({ wandererEntity }: { wandererEntity: EntityInd
   return (
     <div className="border border-dark-400 w-72 h-auto p-8 flex flex-col justify-between items-center bg-dark-500 transform delay-500">
       <WandererImage entity={wandererEntity} />
-      <div>
-        {wandererEntity === selectedWandererEntity && <span className="text-dark-string">(selected)</span>}
+      <div className="mt-4">
+        {wandererEntity === selectedWandererEntity && (
+          <div className="text-dark-string flex items center justify-center text border border-dark-string py-0.5  w-[96px] h-[28px]">
+            <span className="Selected font-medium">Selected</span>
+          </div>
+        )}
         {wandererEntity !== selectedWandererEntity && (
-          <CustomButton onClick={() => selectWandererEntity(wandererEntity)}>Select</CustomButton>
+          <CustomButton style={{ width: "6rem" }} onClick={() => selectWandererEntity(wandererEntity)}>
+            Select
+          </CustomButton>
         )}
       </div>
     </div>

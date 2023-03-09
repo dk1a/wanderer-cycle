@@ -25,7 +25,7 @@ export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
       >
         <div className="w-full flex cursor-pointer justify-between">
           <div className="flex">
-            <div className="text-dark-number text-lg cursor-pointer">{skill.requiredLevel}.</div>
+            <div className="text-dark-number text-lg cursor-pointer w-6 text-center mr-0.5">{skill.requiredLevel}.</div>
             <div className="text-dark-method text-lg cursor-pointer w-full">{skill.name}</div>
           </div>
         </div>
