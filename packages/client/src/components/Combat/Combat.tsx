@@ -15,7 +15,7 @@ export function Combat() {
       </div>
       */}
       <div className="flex justify-center w-1/2">
-        <div className="text-2xl text-dark-type mr-2">selected map</div>
+        <div className="text-2xl text-dark-type mr-2 mt-4">selected map</div>
       </div>
       {lastCombatResult !== undefined && <CombatRoundOutcome lastCombatResult={lastCombatResult} />}
       <CombatActions />

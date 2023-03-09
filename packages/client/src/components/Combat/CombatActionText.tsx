@@ -16,11 +16,11 @@ export function CombatActionText({ action }: { action: CombatAction }) {
   }, [world, components, actionType, actionEntity]);
 
   if (actionType === ActionType.ATTACK) {
-    return <div className="text-dark-string text-[19px]">you attack</div>;
+    return <div className="text-dark-string text-[19px] h-6">you attack</div>;
   } else if (actionType === ActionType.SKILL) {
-    return <div>you use skill {skillName}</div>;
+    return <div className="h-6">you use skill {skillName}</div>;
   } else {
     console.warn(`Unknown actionType ${actionType}`);
-    return <></>;
+    return <div className="h6"></div>;
   }
 }
