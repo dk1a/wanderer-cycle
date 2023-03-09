@@ -1,7 +1,6 @@
 import { NavLink, Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { GameRoot } from "./GameRoot";
 import { InventoryPage } from "./pages/InventoryPage";
-import classes from "./App.module.scss";
 import WandererSelect from "./pages/WandererSelect";
 import { GlobalMaps } from "./pages/GlobalMaps";
 import { SkillsPage } from "./pages/SkillsPage";
@@ -13,7 +12,7 @@ import github from "./components/img/githubLogo.svg";
 const gameRoutes = [
   // show maps by default
   {
-    title: "Home",
+    title: "Maps",
     path: "",
     element: <GlobalMaps />,
   },

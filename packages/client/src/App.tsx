@@ -18,8 +18,12 @@ export const App = () => {
   return (
     <div className="h-full">
       {loadingState.state !== SyncState.LIVE ? (
-        <div>
-          {loadingState.msg} ({Math.floor(loadingState.percentage)}%)
+        <div className="flex w-full items-center justify-center mt-10">
+          <div className="text-center text-xl">
+            {loadingState.msg} {"("}
+            <span className="text-dark-number">{Math.floor(loadingState.percentage)}</span>
+            {"%)"}
+          </div>
         </div>
       ) : (
         <AppRouter />

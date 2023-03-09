@@ -1,8 +1,8 @@
-import CustomButton from "../UI/Button/CustomButton";
 import { EntityIndex } from "@latticexyz/recs";
 import { useCompleteCycle, useOnCompleteCycleEffect } from "../../mud/hooks/cycle";
 import { useState } from "react";
 import Modal from "../UI/Modal/Modal";
+import CustomButton from "../UI/Button/CustomButton";
 
 export function CycleEnd({ wandererEntity }: { wandererEntity: EntityIndex; cycleEntity: EntityIndex }) {
   const [active, setActive] = useState(false);

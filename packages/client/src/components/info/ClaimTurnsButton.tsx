@@ -22,7 +22,9 @@ export default function ClaimTurnsButton({ claimableTurns }: { claimableTurns: n
     <>
       <CustomButton disabled={isBusy} onClick={claimTurns} style={{ fontSize: "12px", border: "none" }}>
         {"claimTurns"}
-        <span className="text-dark-number">{` (${claimableTurns})`}</span>
+        {"("}
+        <span className="text-dark-number">{claimableTurns}</span>
+        {")"}
       </CustomButton>
     </>
   );

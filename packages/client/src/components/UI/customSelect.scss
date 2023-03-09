@@ -71,12 +71,12 @@
     border-radius: 0;
     margin: 0;
     padding: 0;
-    border: 1px solid #c586c0;
+    border: 1px solid #3c3c3c;
   }
 
   &__option {
     cursor: pointer !important;
-    color: #c586c0;
+    color: #3c3c3c;
     &--is-focused {
       background-color: lighten(#292a2e, 8%) !important;
     }

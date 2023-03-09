@@ -1,7 +1,4 @@
-import {
-  Browser as ECSBrowser,
-  createBrowserDevComponents,
-} from "@latticexyz/ecs-browser";
+import { Browser as ECSBrowser, createBrowserDevComponents } from "@latticexyz/ecs-browser";
 import { Layer } from "@latticexyz/recs";
 import { useEffect, useState } from "react";
 import { useMUD } from "./mud/MUDContext";
@@ -39,14 +36,13 @@ export const ComponentBrowser = () => {
         type="button"
         onClick={() => setShown(!shown)}
         className={twMerge(
-          "fixed right-0 bottom-0 flex items-center justify-center gap-2 m-4 text-sm p-2 rounded leading-none opacity-50 hover:opacity-100",
+          "fixed right-0 bottom-0 flex items-center justify-center " +
+            "gap-2 m-4 text-sm p-2 rounded leading-none opacity-50 " +
+            "hover:opacity-100",
           shown ? "bg-black text-white hover:bg-slate-600" : null
         )}
       >
-        ECS Browser{" "}
-        <code className="bg-black/20 p-1 rounded text-mono text-xs leading-none">
-          `
-        </code>
+        ECS Browser <code className="bg-black/20 p-1 rounded text-mono text-xs leading-none">`</code>
       </button>
     </>
   );

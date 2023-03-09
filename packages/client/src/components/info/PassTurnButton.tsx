@@ -11,9 +11,9 @@ export default function PassTurnButton() {
   const turns = useCycleTurns(cycleEntity);
 
   const [isBusy, setIsBusy] = useState(false);
+
   const passTurn = useCallback(async () => {
     if (selectedWandererEntity === undefined) throw new Error("No wanderer selected");
-
     setIsBusy(true);
     const tx = await systems["system.PassCycleTurn"].executeTyped(world.entities[selectedWandererEntity]);
     await tx.wait();
@@ -23,7 +23,6 @@ export default function PassTurnButton() {
   const isDisabled = useMemo(() => {
     // not available during combat (since it fully heals)
     const isEncounterActive = enemyEntity !== undefined;
-
     return !turns || isBusy || isEncounterActive;
   }, [turns, isBusy, enemyEntity]);
 

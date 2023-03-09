@@ -36,7 +36,7 @@ export function PStatWithProgress({ name, baseLevel, buffedLevel, experience }: 
           <div className="flex flex-col flex-grow pr-2 pl-2">
             <div className="justify-center text-xs">
               <span className="text-dark-200">{nextProgress}</span>
-              <span className="text-dark-200">/</span>
+              <span className="text-dark-200 mx-0.5">/</span>
               <span className="text-dark-200">{nextReq}</span>
             </div>
             <div className="flex h-1 bg-dark-400">

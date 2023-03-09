@@ -5,7 +5,7 @@ export function CombatRoundOutcome({ lastCombatResult }: { lastCombatResult: OnC
   const { initiatorActions, enemyLifeDiff, cycleLifeDiff } = lastCombatResult;
 
   return (
-    <>
+    <div className="flex flex-col items-center">
       {initiatorActions.length > 0 && (
         <div>
           {initiatorActions.map((action, index) => (
@@ -13,22 +13,20 @@ export function CombatRoundOutcome({ lastCombatResult }: { lastCombatResult: OnC
           ))}
         </div>
       )}
-
       {enemyLifeDiff !== 0 && (
         <div>
-          <span>enemy life</span>
-          {": "}
+          <span className="text-dark-key">enemy life</span>
+          <span className="text-dark-method mr-1">{": "}</span>
           <span className="text-dark-number">{enemyLifeDiff}</span>
         </div>
       )}
-
       {cycleLifeDiff !== 0 && (
         <div>
-          <span>your life</span>
-          {": "}
+          <span className="text-dark-key">your life</span>
+          <span className="text-dark-method mr-1">{": "}</span>
           <span className="text-dark-number">{cycleLifeDiff}</span>
         </div>
       )}
-    </>
+    </div>
   );
 }
