@@ -12,7 +12,7 @@ import github from "./components/img/githubLogo.svg";
 const gameRoutes = [
   // show maps by default
   {
-    title: "Home",
+    title: "Maps",
     path: "",
     element: <GlobalMaps />,
   },
