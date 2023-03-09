@@ -11,9 +11,9 @@ export default function Wanderer({ wandererEntity }: { wandererEntity: EntityInd
       <WandererImage entity={wandererEntity} />
       <div className="mt-4">
         {wandererEntity === selectedWandererEntity && (
-          <div className="text-dark-string flex items center justify-center text border border-dark-string py-0.5  w-[96px] h-[28px]">
+          <CustomButton disabled={true}>
             <span className="Selected font-medium">Selected</span>
-          </div>
+          </CustomButton>
         )}
         {wandererEntity !== selectedWandererEntity && (
           <CustomButton style={{ width: "6rem" }} onClick={() => selectWandererEntity(wandererEntity)}>
