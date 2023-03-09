@@ -7,7 +7,12 @@ import { equipmentProtoEntityIds } from "../mud/utils/equipment";
 import { LootData } from "../mud/utils/getLoot";
 import { useWandererContext } from "./WandererContext";
 
-export type InventorySortKey = string;
+export const inventorySortOptions = [
+  { value: "ilvl", label: "ilvl" },
+  { value: "name", label: "name" },
+] as const;
+
+export type InventorySortOption = (typeof inventorySortOptions)[number] | null;
 
 export type EquipmentSlotWithEquip = EquipmentSlot & { equip: () => void };
 
@@ -17,8 +22,8 @@ export type EquipmentData = LootData & {
 };
 
 type InventoryContextType = {
-  sort: InventorySortKey | undefined;
-  setSort: (sort: InventorySortKey | undefined) => void;
+  sort: InventorySortOption;
+  setSort: (sort: InventorySortOption) => void;
   filter: string;
   setFilter: (filter: string) => void;
   presentProtoEntityIds: EntityID[];
@@ -32,7 +37,7 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
   const currentValue = useContext(InventoryContext);
   if (currentValue) throw new Error("InventoryProvider can only be used once");
 
-  const [sort, setSort] = useState<InventorySortKey | undefined>("select");
+  const [sort, setSort] = useState<InventorySortOption>(null);
   const [filter, setFilter] = useState<string>("");
 
   const changeCycleEquipment = useChangeCycleEquipment();
@@ -51,10 +56,12 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
 
   // 3. Sort it
   const sortedEquipmentList = useMemo(() => {
-    if (sort === "name") {
-      return [...filteredEquipmentList].sort((a, b) => a[sort].localeCompare(b[sort]));
-    } else if (sort === "ilvl") {
-      return [...filteredEquipmentList].sort((a, b) => b[sort] - a[sort]);
+    if (sort === null) {
+      return filteredEquipmentList;
+    } else if (sort.value === "name") {
+      return [...filteredEquipmentList].sort((a, b) => a[sort.value].localeCompare(b[sort.value]));
+    } else if (sort.value === "ilvl") {
+      return [...filteredEquipmentList].sort((a, b) => b[sort.value] - a[sort.value]);
     }
     return filteredEquipmentList;
   }, [sort, filteredEquipmentList]);
