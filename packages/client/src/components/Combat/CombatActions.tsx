@@ -3,15 +3,18 @@ import Select from "react-select";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
 import { useSkills } from "../../mud/hooks/skill";
-import { attackAction } from "../../mud/utils/combat";
+import { useMUD } from "../../mud/MUDContext";
+import { ActionType, attackAction, CombatAction } from "../../mud/utils/combat";
 import { SkillType } from "../../mud/utils/skill";
 import CustomButton from "../UI/Button/CustomButton";
 import "../UI/customSelect.scss";
 
 export default function CombatActions() {
+  const { world } = useMUD();
   const { selectedWandererEntity, learnedSkillEntities } = useWandererContext();
   const [isBusy, setIsBusy] = useState(false);
 
+  // attack
   const executeCycleCombatRound = useExecuteCycleCombatRound();
   const onAttack = useCallback(async () => {
     if (!selectedWandererEntity) throw new Error("Must select wanderer entity");
@@ -20,6 +23,7 @@ export default function CombatActions() {
     setIsBusy(false);
   }, [selectedWandererEntity, executeCycleCombatRound]);
 
+  // skill list
   const skills = useSkills(learnedSkillEntities);
   const combatSkills = useMemo(() => skills.filter(({ skillType }) => skillType === SkillType.COMBAT), [skills]);
   const skillOptions = useMemo(
@@ -27,12 +31,20 @@ export default function CombatActions() {
     [combatSkills]
   );
   const [selectedSkill, selectSkill] = useState<(typeof skillOptions)[number] | null>(null);
-  const onSkill = useCallback(() => {
+  // skill use callback
+  const onSkill = useCallback(async () => {
     if (!selectedWandererEntity) throw new Error("Must select wanderer entity");
+    if (selectedSkill === null) throw new Error("No skill selected");
     setIsBusy(true);
-    console.log("TODO onSkill");
+    const skillEntityId = world.entities[selectedSkill.value];
+    const skillAction: CombatAction = {
+      actionType: ActionType.SKILL,
+      actionEntity: skillEntityId,
+    };
+    // TODO doesn't work correctly
+    //await executeCycleCombatRound(selectedWandererEntity, [skillAction]);
     setIsBusy(false);
-  }, [selectedWandererEntity]);
+  }, [world, selectedWandererEntity, executeCycleCombatRound, selectedSkill]);
 
   return (
     <div className="w-1/2 flex flex-col items-center mt-4">
