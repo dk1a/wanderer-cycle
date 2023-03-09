@@ -5,7 +5,7 @@ import { useWandererContext } from "../../contexts/WandererContext";
 import Skill from "../Skill";
 import CustomButton from "../UI/Button/CustomButton";
 import { useLevel } from "../../mud/hooks/charstat";
-import { useGuise } from "../../mud/hooks/guise";
+import { useActiveGuise, useGuise } from "../../mud/hooks/guise";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
   const { learnCycleSkill, learnedSkillEntities, cycleEntity } = useWandererContext();
@@ -22,7 +22,7 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
     }
   }, [visible]);
 
-  const guise = useGuise(cycleEntity);
+  const guise = useActiveGuise(cycleEntity);
   const level = useLevel(cycleEntity, guise?.levelMul)?.level;
 
   return (
