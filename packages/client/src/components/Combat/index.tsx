@@ -2,12 +2,12 @@ import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
 import { attackAction } from "../../mud/utils/combat";
+import { useSkills } from "../../mud/hooks/skill";
 import CombatActions from "./CombatActions";
 import { CombatRoundOutcome } from "./CombatRoundOutcome";
 import Select from "react-select";
 import "../UI/customSelect.scss";
 import CustomButton from "../UI/Button/CustomButton";
-import { useSkills } from "../../mud/hooks/skill";
 
 export default function Combat() {
   const { selectedWandererEntity, lastCombatResult, learnedSkillEntities } = useWandererContext();

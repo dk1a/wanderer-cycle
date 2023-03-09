@@ -7,12 +7,15 @@ import { useMemo } from "react";
 import { useLifeCurrent } from "../mud/hooks/currents";
 
 export function GlobalMaps() {
+  const { cycleEntity } = useWandererContext();
+
   const basicMapEntities = useMaps("Global Basic");
   const randomMapEntities = useMaps("Global Random");
   const bossMapEntities = useMaps("Global Cycle Boss");
-  const { cycleEntity } = useWandererContext();
-  const lifeCurrent = useLifeCurrent(cycleEntity);
+
   const bossesDefeated = useBossesDefeated(cycleEntity);
+  const lifeCurrent = useLifeCurrent(cycleEntity);
+
   const bossMapEntitiesUndefeated = useMemo(() => {
     // show up to 3 undefeated bosses
     return bossMapEntities.filter((entity) => !bossesDefeated.includes(entity)).slice(0, 3);

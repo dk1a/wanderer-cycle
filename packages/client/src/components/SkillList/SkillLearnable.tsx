@@ -1,14 +1,13 @@
 import { EntityIndex } from "@latticexyz/recs";
-import Skill from "../Skill";
 import { useSkill } from "../../mud/hooks/skill";
-import CustomButton from "../UI/Button/CustomButton";
 import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
+import Skill from "../Skill";
+import CustomButton from "../UI/Button/CustomButton";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
-  const skill = useSkill(entity);
-
   const { learnCycleSkill, learnedSkillEntities } = useWandererContext();
+  const skill = useSkill(entity);
 
   const isLearned = useMemo(() => learnedSkillEntities.includes(entity), [learnedSkillEntities, entity]);
 

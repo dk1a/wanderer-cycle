@@ -1,6 +1,6 @@
-import BaseInfo from "./BaseInfo";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useLevel } from "../../mud/hooks/charstat";
+import BaseInfo from "./BaseInfo";
 
 export default function CombatInfo() {
   const { enemyEntity } = useWandererContext();

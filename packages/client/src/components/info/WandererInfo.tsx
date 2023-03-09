@@ -1,5 +1,5 @@
-import BaseInfo from "./BaseInfo";
 import { useWandererContext } from "../../contexts/WandererContext";
+import BaseInfo from "./BaseInfo";
 
 export function WandererInfo() {
   const { cycleEntity } = useWandererContext();

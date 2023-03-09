@@ -1,8 +1,9 @@
-import CustomInput from "../UI/Input/CustomInput";
 import { useInventoryContext } from "../../contexts/InventoryContext";
 import Select, { ActionMeta } from "react-select";
-import "../UI/Modal/modal.module.css";
 import { useCallback } from "react";
+import "../UI/Modal/modal.module.css";
+import CustomInput from "../UI/Input/CustomInput";
+
 type optionsData = {
   readonly value: string;
   readonly label: string;

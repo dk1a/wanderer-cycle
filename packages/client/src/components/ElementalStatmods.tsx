@@ -3,11 +3,6 @@ import { useAttack, useResistance } from "../mud/hooks/charstat";
 import { elementNames, statmodElements } from "../mud/utils/elemental";
 
 export function ElementalStatmods() {
-  const cols = statmodElements.length;
-  // https://tailwindcss.com/docs/content-configuration#dynamic-class-names
-  // this should cause ts(2367) if const's length changes
-  const gridColsClass = cols === 5 ? "grid-cols-6" : "";
-
   const { cycleEntity } = useWandererContext();
   const resistance = useResistance(cycleEntity);
   const attack = useAttack(cycleEntity);

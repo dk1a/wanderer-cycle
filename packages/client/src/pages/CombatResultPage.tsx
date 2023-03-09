@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from "react";
 import { CombatReward } from "../components/Combat/CombatReward";
-import { CombatRoundOutcome } from "../components/Combat/CombatRoundOutcome";
 import CustomButton from "../components/UI/Button/CustomButton";
 import { useWandererContext } from "../contexts/WandererContext";
 import { CombatResult, useActivateCycleCombat } from "../mud/hooks/combat";
 import { useBlockNumber } from "../mud/hooks/useBlockNumber";
+// import { CombatRoundOutcome } from "../components/Combat/CombatRoundOutcome";
 
 export function CombatResultPage() {
   const { selectedWandererEntity, enemyEntity, combatRewardRequests, lastCombatResult, clearCombatResult } =

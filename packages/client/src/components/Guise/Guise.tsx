@@ -1,10 +1,10 @@
-import { Fragment } from "react";
 import { EntityIndex } from "@latticexyz/recs";
+import { GuiseData } from "../../mud/utils/guise";
+import { Fragment } from "react";
 import Tippy from "@tippyjs/react";
 import CustomButton from "../UI/Button/CustomButton";
 import GuiseSkill from "./GuiseSkill";
 import TippyComment from "../TippyComment/TippyComment";
-import { GuiseData } from "../../mud/utils/guise";
 import "tippy.js/dist/tippy.css";
 
 interface GuiseProps {

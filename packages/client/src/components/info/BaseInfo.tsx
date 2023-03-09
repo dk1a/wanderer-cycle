@@ -3,9 +3,9 @@ import { Fragment, ReactNode } from "react";
 import { LevelData, useLife, useMana, usePstats } from "../../mud/hooks/charstat";
 import { useAppliedEffects } from "../../mud/hooks/useAppliedEffects";
 import { useLifeCurrent, useManaCurrent, useIdentityCurrent } from "../../mud/hooks/currents";
-import EffectList from "../EffectList";
 import { ElementalStatmods } from "../ElementalStatmods";
 import { PStatWithProgress } from "./PStatWithProgress";
+import EffectList from "../EffectList";
 
 export interface BaseInfoProps {
   entity: EntityIndex | undefined;
@@ -71,21 +71,19 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
               <span className="text-dark-number">{maxValue}</span>
             </div>
           </div>
-          <div className="flex m-1">
-            {/* TODO regen statmods. They are often absent and shouldn't be displayed */}
-            <>
-              {/*<span className='text-dark-key'>regen:</span>*/}
-              {/*<span className='text-dark-key'>5</span>*/}
-            </>
-          </div>
+          {/*<div className="flex m-1">*/}
+          {/*  /!* TODO regen statmods. They are often absent and shouldn't be displayed *!/*/}
+          {/*  <>*/}
+          {/*    /!*<span className='text-dark-key'>regen:</span>*!/*/}
+          {/*    /!*<span className='text-dark-key'>5</span>*!/*/}
+          {/*  </>*/}
+          {/*</div>*/}
         </Fragment>
       ))}
       {turnsHtml}
-
       {/* TODO styles, this is from old ui and looks terrible */}
       {separator}
       <ElementalStatmods />
-
       {separator}
       <EffectList effects={effects} />
     </section>
