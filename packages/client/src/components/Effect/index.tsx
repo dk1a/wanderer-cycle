@@ -17,8 +17,6 @@ export default function Effect({ entity, protoEntity, removability, statmods, ef
 
   const isItem = effectSource === EffectSource.NFT || effectSource === EffectSource.OWNABLE;
 
-  console.log("duration", duration);
-
   return (
     <div className="p-1.5 border border-dark-400 m-2 ">
       <div className="overflow-hidden text-ellipsis whitespace-nowrap">
