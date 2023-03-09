@@ -20,7 +20,9 @@ export const App = () => {
       {loadingState.state !== SyncState.LIVE ? (
         <div className="flex w-full items-center justify-center mt-10">
           <div className="text-center text-xl">
-            {loadingState.msg} <span className="text-dark-number">({Math.floor(loadingState.percentage)}%)</span>
+            {loadingState.msg} {"("}
+            <span className="text-dark-number">{Math.floor(loadingState.percentage)}</span>
+            {"%)"}
           </div>
         </div>
       ) : (

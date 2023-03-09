@@ -9,7 +9,7 @@ import Select from "react-select";
 import "../UI/customSelect.scss";
 import CustomButton from "../UI/Button/CustomButton";
 
-export default function Combat() {
+export function Combat() {
   const { selectedWandererEntity, lastCombatResult, learnedSkillEntities } = useWandererContext();
   const executeCycleCombatRound = useExecuteCycleCombatRound();
   const skills = useSkills(learnedSkillEntities);
