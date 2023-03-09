@@ -4,9 +4,11 @@ import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import Skill from "../Skill";
 import CustomButton from "../UI/Button/CustomButton";
+import { useLevel } from "../../mud/hooks/charstat";
+import { useGuise } from "../../mud/hooks/guise";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
-  const { learnCycleSkill, learnedSkillEntities } = useWandererContext();
+  const { learnCycleSkill, learnedSkillEntities, cycleEntity } = useWandererContext();
   const skill = useSkill(entity);
 
   const isLearned = useMemo(() => learnedSkillEntities.includes(entity), [learnedSkillEntities, entity]);
@@ -20,8 +22,8 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
     }
   }, [visible]);
 
-  // TODO add real level data
-  const level = 1;
+  const guise = useGuise(cycleEntity);
+  const level = useLevel(cycleEntity, guise?.levelMul)?.level;
 
   return (
     <div className="p-0 flex items-center mb-8">
@@ -33,7 +35,10 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
       />
       <div className="h-1/2 ml-10">
         {!isLearned && (
-          <CustomButton onClick={() => learnCycleSkill(entity)} disabled={level < skill.requiredLevel}>
+          <CustomButton
+            onClick={() => learnCycleSkill(entity)}
+            disabled={level !== undefined && level < skill.requiredLevel}
+          >
             learn
           </CustomButton>
         )}
