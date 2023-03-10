@@ -47,7 +47,7 @@ export default function CombatActions() {
 
   return (
     <div className="w-1/2 flex flex-col items-center mt-4">
-      <div className="flex items-center justify-around w-full">
+      <div className="flex flex-col items-center justify-around w-full">
         <div>
           <Select
             classNamePrefix={"custom-select"}
@@ -57,13 +57,13 @@ export default function CombatActions() {
             onChange={selectSkill}
           />
         </div>
-        <div className="h-1/2">
-          <CustomButton onClick={onSkill} disabled={isBusy}>
+        <div className="h-1/2 my-4">
+          <CustomButton style={{ width: "9rem" }} onClick={onSkill} disabled={isBusy}>
             use skill
           </CustomButton>
         </div>
       </div>
-      <CustomButton onClick={onAttack} disabled={isBusy}>
+      <CustomButton style={{ width: "9rem" }} onClick={onAttack} disabled={isBusy}>
         attack
       </CustomButton>
     </div>
