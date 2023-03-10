@@ -8,14 +8,12 @@ import { useLevel } from "../../mud/hooks/charstat";
 import { useActiveGuise } from "../../mud/hooks/guise";
 import { ActionType, CombatAction } from "../../mud/utils/combat";
 import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
-import { useManaCurrent } from "../../mud/hooks/currents";
 import { useDuration } from "../../mud/hooks/useDuration";
 import UseSkillButton from "../UseSkillButton";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
   const { learnCycleSkill, learnedSkillEntities, cycleEntity, selectedWandererEntity } = useWandererContext();
   const skill = useSkill(entity);
-  const manaCurrent = useManaCurrent(cycleEntity);
   const duration = useDuration(cycleEntity, skill.entity);
 
   const guise = useActiveGuise(cycleEntity);

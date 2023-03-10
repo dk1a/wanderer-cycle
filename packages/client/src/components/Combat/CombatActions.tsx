@@ -46,9 +46,6 @@ export default function CombatActions() {
     setIsBusy(false);
   }, [world, selectedWandererEntity, executeCycleCombatRound, selectedSkill]);
 
-  console.log("selectedSkill", selectedSkill);
-  console.log("valuue", selectedSkill?.value);
-
   return (
     <div className="w-1/2 flex flex-col items-center mt-4">
       <div className="flex flex-col items-center justify-around w-full">

@@ -1,4 +1,4 @@
-import { SkillData, SkillType } from "../mud/utils/skill";
+import { SkillType } from "../mud/utils/skill";
 import CustomButton from "./UI/Button/CustomButton";
 import { useManaCurrent } from "../mud/hooks/currents";
 import { useDuration } from "../mud/hooks/useDuration";
