@@ -4,10 +4,21 @@ import { useCallback, useMemo } from "react";
 import { useMUD } from "../MUDContext";
 import { getSkill } from "../utils/skill";
 
-export const useSkill = (entity: EntityIndex) => {
+export const useSkill = (entity: EntityIndex | undefined) => {
   const { world, components } = useMUD();
 
-  return useMemo(() => getSkill(world, components, entity), [world, components, entity]);
+  return useMemo(() => {
+    if (entity === undefined) return undefined;
+    return getSkill(world, components, entity);
+  }, [world, components, entity]);
+};
+
+export const useSkillStrict = (entity: EntityIndex) => {
+  const { world, components } = useMUD();
+
+  return useMemo(() => {
+    return getSkill(world, components, entity);
+  }, [world, components, entity]);
 };
 
 export const useSkills = (entities: EntityIndex[]) => {

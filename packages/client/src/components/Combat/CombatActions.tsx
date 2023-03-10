@@ -46,9 +46,6 @@ export default function CombatActions() {
     setIsBusy(false);
   }, [world, selectedWandererEntity, executeCycleCombatRound, selectedSkill]);
 
-  console.log("selectedSkill", selectedSkill);
-  console.log("valuue", selectedSkill?.value);
-
   return (
     <div className="w-1/2 flex flex-col items-center mt-4">
       <div className="flex flex-col items-center justify-around w-full">
@@ -63,7 +60,7 @@ export default function CombatActions() {
         </div>
 
         <div className="h-1/2 my-4">
-          <UseSkillButton style={{ width: "9rem" }} onSkill={onSkill} entity={selectedSkill?.value} isLearned={true} />
+          <UseSkillButton entity={selectedSkill?.value} onSkill={onSkill} style={{ width: "9rem" }} />
         </div>
       </div>
       <CustomButton style={{ width: "9rem" }} onClick={onAttack} disabled={isBusy}>

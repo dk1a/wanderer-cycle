@@ -1,14 +1,13 @@
 import { EntityIndex } from "@latticexyz/recs";
-import { useSkill } from "../../mud/hooks/skill";
+import { useSkillStrict } from "../../mud/hooks/skill";
 import Skill from "../Skill";
 import Tippy from "@tippyjs/react";
 import { left } from "@popperjs/core";
 
 export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
-  const skill = useSkill(entity);
-  let content;
-  if (skill) {
-    content = (
+  const skill = useSkillStrict(entity);
+  return (
+    <div className="bg-dark-500 p-2 border border-dark-400 flex">
       <Tippy
         key={entity}
         delay={100}
@@ -30,10 +29,6 @@ export default function GuiseSkill({ entity }: { entity: EntityIndex }) {
           </div>
         </div>
       </Tippy>
-    );
-  } else {
-    content = <span className="text-dark-number">{entity}</span>;
-  }
-
-  return <div className="bg-dark-500 p-2 border border-dark-400 flex">{content}</div>;
+    </div>
+  );
 }
