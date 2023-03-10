@@ -6,7 +6,6 @@ import { GlobalMaps } from "./pages/GlobalMaps";
 import { SkillsPage } from "./pages/SkillsPage";
 import { CyclePage } from "./pages/CyclePage";
 import { RootBoundary } from "./errorBoundaries";
-import github from "./components/img/githubLogo.svg";
 
 // game routes will display e.g. WandererSelect or Combat, if normal pages aren't available
 const gameRoutes = [
@@ -80,9 +79,14 @@ function Layout() {
               {title}
             </NavLink>
           ))}
-          <NavLink to={"https://github.com/dk1a/wanderer-cycle"} target={"_blank"}>
-            <img src={github} alt="logo" className="w-8 h-8" />
-          </NavLink>
+          <div className="flex gap-x-8 text-dark-300">
+            <NavLink to={"https://github.com/dk1a/wanderer-cycle"} target={"_blank"}>
+              github
+            </NavLink>
+            <NavLink to={"https://discord.gg/9pX3h53VnX"} target={"_blank"}>
+              discord
+            </NavLink>
+          </div>
         </nav>
       </div>
       <Outlet />
