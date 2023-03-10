@@ -10,7 +10,6 @@ import { ActionType, CombatAction } from "../../mud/utils/combat";
 import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
 import { useManaCurrent } from "../../mud/hooks/currents";
 import { useDuration } from "../../mud/hooks/useDuration";
-import { SkillType } from "../../mud/utils/skill";
 import UseSkillButton from "../UseSkillButton";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
@@ -63,7 +62,7 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
             learn
           </CustomButton>
         )}
-        <UseSkillButton onSkill={onSkill} isLearned={isLearned} skill={skill} />
+        <UseSkillButton onSkill={onSkill} isLearned={isLearned} entity={entity} />
       </div>
     </div>
   );

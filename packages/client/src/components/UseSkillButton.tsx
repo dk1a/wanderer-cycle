@@ -4,14 +4,17 @@ import { useManaCurrent } from "../mud/hooks/currents";
 import { useDuration } from "../mud/hooks/useDuration";
 import { useWandererContext } from "../contexts/WandererContext";
 import { CSSProperties } from "react";
+import { EntityIndex } from "@latticexyz/recs";
+import { useSkill } from "../mud/hooks/skill";
 
 type UseSkillButtonData = {
+  entity: EntityIndex;
   isLearned?: boolean;
-  onSkill: () => void;
-  skill: SkillData;
-  style: CSSProperties | undefined;
+  onSkill: () => Promise<void>;
+  style?: CSSProperties | undefined;
 };
-export default function UseSkillButton({ isLearned, onSkill, skill, style }: UseSkillButtonData) {
+export default function UseSkillButton({ isLearned, onSkill, style, entity }: UseSkillButtonData) {
+  const skill = useSkill(entity);
   const { cycleEntity } = useWandererContext();
   const manaCurrent = useManaCurrent(cycleEntity);
   const duration = useDuration(cycleEntity, skill.entity);
