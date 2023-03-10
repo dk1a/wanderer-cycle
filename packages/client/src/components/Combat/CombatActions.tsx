@@ -49,7 +49,7 @@ export default function CombatActions() {
   return (
     <div className="w-1/2 flex flex-col items-center mt-4">
       <div className="flex flex-col items-center justify-around w-full">
-        <div className="flex items-center justify-around w-full">
+        <div className="flex items-center justify-center w-full gap-x-8">
           <Select
             classNamePrefix={"custom-select"}
             placeholder={"select a skill"}
