@@ -23,14 +23,14 @@ export function ElementalStatmods() {
           </div>
         ))}
       </div>
-      <div className="">
+      <div>
         {statmodElements.map((statmodElement) => (
           <div className="text-dark-number text-center" key={statmodElement}>
             {resistance[statmodElement]}
           </div>
         ))}
       </div>
-      <div className=" ">
+      <div>
         {statmodElements.map((statmodElement) => (
           <div className="text-dark-number text-center" key={statmodElement}>
             {attack[statmodElement]}

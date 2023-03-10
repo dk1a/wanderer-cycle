@@ -7,9 +7,9 @@ export default function WandererSelect() {
 
   return (
     <div>
-      {wandererEntities.length > 0 && (
-        <section>
-          <div className="flex justify-around">
+      <section>
+        <div className="flex justify-around">
+          {wandererEntities.length > 0 && (
             <div className="flex flex-col w-1/2 ml-5">
               <h3 className="m-10 text-2xl font-bold text-dark-comment text-center">{"// select a wanderer"}</h3>
               <div className="flex flex-wrap gap-x-4 gap-y-4 mt-2 justify-around">
@@ -18,15 +18,15 @@ export default function WandererSelect() {
                 ))}
               </div>
             </div>
-            <div className="flex flex-col w-1/2 mr-5">
-              <h3 className=" mt-10 text-2xl font-bold text-dark-comment mb-10 text-center">
-                {"// select a guise to spawn a new wanderer"}
-              </h3>
-              <WandererSpawn disabled={wandererEntities.length >= 3 ? true : false} />
-            </div>
+          )}
+          <div className="flex flex-col w-1/2 mr-5">
+            <h3 className=" mt-10 text-2xl font-bold text-dark-comment mb-10 text-center">
+              {"// select a guise to spawn a new wanderer"}
+            </h3>
+            <WandererSpawn disabled={wandererEntities.length >= 3 ? true : false} />
           </div>
-        </section>
-      )}
+        </div>
+      </section>
     </div>
   );
 }
