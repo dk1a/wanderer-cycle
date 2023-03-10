@@ -9,7 +9,7 @@ import { useActiveGuise } from "../../mud/hooks/guise";
 import { ActionType, CombatAction } from "../../mud/utils/combat";
 import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
 import { useDuration } from "../../mud/hooks/useDuration";
-import UseSkillButton from "../UseSkillButton";
+import { UseSkillButton } from "../UseSkillButton";
 import { SkillType } from "../../mud/utils/skill";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {

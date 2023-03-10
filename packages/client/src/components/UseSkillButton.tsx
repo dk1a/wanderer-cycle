@@ -11,7 +11,7 @@ type UseSkillButtonData = {
   onSkill: () => Promise<void>;
   style?: CSSProperties;
 };
-export default function UseSkillButton({ entity, onSkill, style }: UseSkillButtonData) {
+export function UseSkillButton({ entity, onSkill, style }: UseSkillButtonData) {
   const skill = useSkill(entity);
   const { cycleEntity } = useWandererContext();
   const manaCurrent = useManaCurrent(cycleEntity);

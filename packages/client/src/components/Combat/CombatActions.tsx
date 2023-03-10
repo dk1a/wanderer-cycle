@@ -8,7 +8,7 @@ import { ActionType, attackAction, CombatAction } from "../../mud/utils/combat";
 import { SkillType } from "../../mud/utils/skill";
 import CustomButton from "../UI/Button/CustomButton";
 import "../UI/customSelect.scss";
-import UseSkillButton from "../UseSkillButton";
+import { UseSkillButton } from "../UseSkillButton";
 
 export default function CombatActions() {
   const { world } = useMUD();
