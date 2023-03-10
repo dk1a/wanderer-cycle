@@ -10,18 +10,12 @@ import { ActionType, CombatAction } from "../../mud/utils/combat";
 import { useMUD } from "../../mud/MUDContext";
 import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
 import { useManaCurrent } from "../../mud/hooks/currents";
-import { util } from "protobufjs";
-import newError = util.newError;
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
   const { learnCycleSkill, learnedSkillEntities, cycleEntity, selectedWandererEntity } = useWandererContext();
   const { world } = useMUD();
   const skill = useSkill(entity);
   const manaCurrent = useManaCurrent(cycleEntity);
-
-  const manaCost = manaCurrent !== undefined && manaCurrent - skill.cost;
-  console.log(skill.cost);
-  console.log({ manaCost });
 
   const guise = useActiveGuise(cycleEntity);
   const level = useLevel(cycleEntity, guise?.levelMul)?.level;
