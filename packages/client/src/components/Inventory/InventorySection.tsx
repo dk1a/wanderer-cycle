@@ -11,14 +11,17 @@ export default function InventorySection({
   equipmentList: EquipmentData[];
   protoEntityId: EntityID;
 }) {
-  const [vision, setVision] = useState(true);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
     <div>
-      <div className="w-1/3 cursor-pointer" onClick={() => setVision(!vision)}>
-        <h3 className="text-xl text-dark-200">{equipmentPrototypes[protoEntityId]}</h3>
+      <div className="w-1/3 cursor-pointer" onClick={() => setCollapsed(!collapsed)}>
+        <h3 className="text-xl text-dark-200">
+          {equipmentPrototypes[protoEntityId]}
+          <span className="text-dark-300">{collapsed ? " >" : " v"}</span>
+        </h3>
       </div>
-      {vision && (
+      {collapsed && (
         <div className="flex justify-start flex-wrap w-auto">
           {equipmentList.map((equipmentData) => (
             <BaseEquipment key={equipmentData.entity} equipmentData={equipmentData} />

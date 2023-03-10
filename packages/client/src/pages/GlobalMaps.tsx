@@ -24,9 +24,7 @@ export function GlobalMaps() {
   return (
     <div className="flex flex-col">
       {!lifeCurrent && (
-        <div className="text-2xl text-dark-comment mb-4">
-          {"// you are out of life, passTurn fully restores life and mana"}
-        </div>
+        <div className="text-dark-comment m-4">{"// you are out of life, passTurn fully restores life and mana"}</div>
       )}
       <div className="flex justify-around flex-wrap">
         <div className="flex flex-col mx-4">
