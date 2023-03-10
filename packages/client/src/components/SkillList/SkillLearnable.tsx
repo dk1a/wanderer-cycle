@@ -10,12 +10,14 @@ import { ActionType, CombatAction } from "../../mud/utils/combat";
 import { useMUD } from "../../mud/MUDContext";
 import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
 import { useManaCurrent } from "../../mud/hooks/currents";
+import { useDuration } from "../../mud/hooks/useDuration";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
   const { learnCycleSkill, learnedSkillEntities, cycleEntity, selectedWandererEntity } = useWandererContext();
   const { world } = useMUD();
   const skill = useSkill(entity);
   const manaCurrent = useManaCurrent(cycleEntity);
+  const duration = useDuration(cycleEntity, skill.entity);
 
   const guise = useActiveGuise(cycleEntity);
   const level = useLevel(cycleEntity, guise?.levelMul)?.level;
@@ -48,7 +50,9 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
     <div className="p-0 flex items-center mb-8">
       <Skill
         skill={skill}
-        className={`bg-dark-500 border border-dark-400 p-2 w-[400px] ${isLearned ? "opacity-30" : ""}`}
+        className={`bg-dark-500 border border-dark-400 p-2 w-[400px] ${
+          duration !== undefined && duration.timeValue < 0 && "opacity-30"
+        }`}
         isCollapsed={!visible}
         onHeaderClick={onHeaderClick}
       />
@@ -62,9 +66,25 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
           </CustomButton>
         )}
         {isLearned && !skillType && (
-          <CustomButton onClick={onSkill} disabled={manaCurrent !== undefined && manaCurrent <= skill.cost}>
+          <CustomButton
+            onClick={onSkill}
+            disabled={
+              (manaCurrent !== undefined && manaCurrent <= skill.cost) ||
+              (duration !== undefined && duration.timeValue < 0)
+            }
+          >
             use skill
           </CustomButton>
+        )}
+        {isLearned && duration !== undefined && (
+          <div>
+            {duration.timeValue > 0 && (
+              <div>
+                <span className="text-dark-key">{duration.timeScopeName}</span>
+                <span className="text-dark-number">{duration.timeValue}</span>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>
