@@ -61,7 +61,7 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
             learn
           </CustomButton>
         )}
-        {skill.skillType === SkillType.NONCOMBAT && <UseSkillButton entity={entity} onSkill={onSkill} />}
+        {isLearned && skill.skillType === SkillType.NONCOMBAT && <UseSkillButton entity={entity} onSkill={onSkill} />}
       </div>
     </div>
   );
