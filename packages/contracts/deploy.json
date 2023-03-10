@@ -47,6 +47,7 @@
 
     "ActiveCycleComponent",
     "ActiveCyclePreviousComponent",
+    "CycleToWandererComponent",
     "CycleTurnsComponent",
     "CycleTurnsLastClaimedComponent",
     "CycleCombatRewardRequestComponent",
@@ -116,6 +117,7 @@
         "OwnedByComponent",
         "WandererComponent",
         "ActiveCycleComponent",
+        "CycleToWandererComponent",
         "CycleTurnsComponent",
         "CycleTurnsLastClaimedComponent",
         "EquipmentSlotAllowedComponent",
@@ -132,6 +134,7 @@
         "OwnedByComponent",
         "WandererComponent",
         "ActiveCycleComponent",
+        "CycleToWandererComponent",
         "CycleTurnsComponent",
         "CycleTurnsLastClaimedComponent",
         "EquipmentSlotAllowedComponent",
@@ -152,6 +155,10 @@
     {
       "name": "LearnCycleSkillSystem",
       "writeAccess": ["LearnedSkillsComponent"]
+    },
+    {
+      "name": "NoncombatSkillSystem",
+      "writeAccess": ["ManaCurrentComponent"]
     },
     {
       "name": "CycleActivateCombatSystem",

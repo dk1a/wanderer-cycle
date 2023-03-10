@@ -9,6 +9,7 @@ import { getAddressById } from "solecs/utils.sol";
 import { ActiveCycleComponent, ID as ActiveCycleComponentID } from "./ActiveCycleComponent.sol";
 import { ActiveCyclePreviousComponent, ID as ActiveCyclePreviousComponentID } from "./ActiveCyclePreviousComponent.sol";
 import { ActiveGuiseComponent, ID as ActiveGuiseComponentID } from "../guise/ActiveGuiseComponent.sol";
+import { CycleToWandererComponent, ID as CycleToWandererComponentID } from "./CycleToWandererComponent.sol";
 import { GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../guise/GuisePrototypeComponent.sol";
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
@@ -42,6 +43,9 @@ library LibCycle {
     IUint256Component components = world.components();
     ActiveCycleComponent activeCycleComp = ActiveCycleComponent(getAddressById(components, ActiveCycleComponentID));
     ActiveGuiseComponent activeGuiseComp = ActiveGuiseComponent(getAddressById(components, ActiveGuiseComponentID));
+    CycleToWandererComponent cycleToWandererComp = CycleToWandererComponent(
+      getAddressById(components, CycleToWandererComponentID)
+    );
     GuisePrototypeComponent guiseProtoComp = GuisePrototypeComponent(
       getAddressById(components, GuisePrototypeComponentID)
     );
@@ -58,6 +62,7 @@ library LibCycle {
 
     // set active cycle
     activeCycleComp.set(targetEntity, cycleEntity);
+    cycleToWandererComp.set(cycleEntity, targetEntity);
     // set active guise
     activeGuiseComp.set(cycleEntity, guiseProtoEntity);
     // init exp
@@ -97,7 +102,11 @@ library LibCycle {
     activeCyclePreviousComp.set(wandererEntity, cycleEntity);
     // clear the current cycle
     ActiveCycleComponent activeCycleComp = ActiveCycleComponent(getAddressById(components, ActiveCycleComponentID));
+    CycleToWandererComponent cycleToWandererComp = CycleToWandererComponent(
+      getAddressById(components, CycleToWandererComponentID)
+    );
     activeCycleComp.remove(wandererEntity);
+    cycleToWandererComp.remove(cycleEntity);
   }
 
   /// @dev Return `cycleEntity` if msg.sender is allowed to use it.
@@ -117,5 +126,15 @@ library LibCycle {
     ActiveCycleComponent activeCycleComp = ActiveCycleComponent(getAddressById(components, ActiveCycleComponentID));
     if (!activeCycleComp.has(wandererEntity)) revert LibCycle__CycleNotActive();
     return activeCycleComp.getValue(wandererEntity);
+  }
+
+  function requirePermission(IUint256Component components, uint256 cycleEntity) internal view {
+    // get wanderer entity
+    CycleToWandererComponent cycleToWandererComp = CycleToWandererComponent(
+      getAddressById(components, CycleToWandererComponentID)
+    );
+    uint256 wandererEntity = cycleToWandererComp.getValue(cycleEntity);
+    // check permission
+    LibToken.requireOwner(components, wandererEntity, msg.sender);
   }
 }

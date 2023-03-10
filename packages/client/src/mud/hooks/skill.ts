@@ -87,3 +87,18 @@ export const usePermSkill = (wandererEntity: EntityIndex | undefined) => {
     [world, systems, wandererEntity]
   );
 };
+
+export const useExecuteNoncombatSkill = () => {
+  const { world, systems } = useMUD();
+
+  return useCallback(
+    async (cycleEntity: EntityIndex, skillEntity: EntityIndex) => {
+      const tx = await systems["system.NoncombatSkill"].executeTyped(
+        world.entities[cycleEntity],
+        world.entities[skillEntity]
+      );
+      await tx.wait();
+    },
+    [world, systems]
+  );
+};

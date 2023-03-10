@@ -2,7 +2,7 @@ import CustomButton from "./UI/Button/CustomButton";
 import { useManaCurrent } from "../mud/hooks/currents";
 import { useDuration } from "../mud/hooks/useDuration";
 import { useWandererContext } from "../contexts/WandererContext";
-import { CSSProperties } from "react";
+import { CSSProperties, useMemo } from "react";
 import { EntityIndex } from "@latticexyz/recs";
 import { useSkill } from "../mud/hooks/skill";
 
@@ -15,10 +15,11 @@ export function UseSkillButton({ entity, onSkill, style }: UseSkillButtonData) {
   const skill = useSkill(entity);
   const { cycleEntity } = useWandererContext();
   const manaCurrent = useManaCurrent(cycleEntity);
-  const duration = useDuration(cycleEntity, skill?.entity);
+  const skillEntity = useMemo(() => skill?.entity, [skill]);
+  const duration = useDuration(cycleEntity, skillEntity);
 
   return (
-    <div>
+    <div className="flex">
       <CustomButton
         style={style}
         onClick={onSkill}
@@ -26,19 +27,19 @@ export function UseSkillButton({ entity, onSkill, style }: UseSkillButtonData) {
           skill === undefined ||
           manaCurrent === undefined ||
           manaCurrent <= skill.cost ||
-          (duration !== undefined && duration.timeValue < 0)
+          (duration !== undefined && duration.timeValue > 0)
         }
       >
         use skill
       </CustomButton>
-      {duration !== undefined && (
-        <div>
-          {duration.timeValue > 0 && (
-            <div>
-              <span className="text-dark-key">{duration.timeScopeName}</span>
-              <span className="text-dark-number">{duration.timeValue}</span>
-            </div>
-          )}
+      {duration !== undefined && duration.timeValue > 0 && (
+        <div className="ml-2">
+          <div className="text-dark-300">
+            {"("}
+            <span className="text-dark-number">{duration.timeValue} </span>
+            <span className="text-dark-string">{duration.timeScopeName}</span>
+            {")"}
+          </div>
         </div>
       )}
     </div>

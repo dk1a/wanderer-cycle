@@ -49,7 +49,7 @@ export default function Skill({ skill, className, isCollapsed = false, onHeaderC
                 <div className="flex">
                   <span className="text-dark-key mr-1">cooldown: </span>
                   <span className="text-dark-number mr-1">{skill.cooldown.timeValue}</span>
-                  <span className="text-dark-string"> {skill.duration.timeScopeName}</span>
+                  <span className="text-dark-string"> {skill.cooldown.timeScopeName}</span>
                 </div>
               )}
               {effect !== undefined && effect.statmods !== undefined && (

@@ -1,35 +1,28 @@
 import { EntityIndex } from "@latticexyz/recs";
-import { useSkillStrict } from "../../mud/hooks/skill";
+import { useExecuteNoncombatSkill, useSkillStrict } from "../../mud/hooks/skill";
 import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import Skill from "../Skill";
 import CustomButton from "../UI/Button/CustomButton";
 import { useLevel } from "../../mud/hooks/charstat";
 import { useActiveGuise } from "../../mud/hooks/guise";
-import { ActionType, CombatAction } from "../../mud/utils/combat";
-import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
 import { useDuration } from "../../mud/hooks/useDuration";
 import { UseSkillButton } from "../UseSkillButton";
 import { SkillType } from "../../mud/utils/skill";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
-  const { learnCycleSkill, learnedSkillEntities, cycleEntity, selectedWandererEntity } = useWandererContext();
+  const { learnCycleSkill, learnedSkillEntities, cycleEntity } = useWandererContext();
   const skill = useSkillStrict(entity);
   const duration = useDuration(cycleEntity, skill.entity);
 
   const guise = useActiveGuise(cycleEntity);
   const level = useLevel(cycleEntity, guise?.levelMul)?.level;
 
-  const executeCycleCombatRound = useExecuteCycleCombatRound();
+  const executeNoncombatSkill = useExecuteNoncombatSkill();
   const onSkill = useCallback(async () => {
-    if (!selectedWandererEntity) throw new Error("Must select wanderer entity");
-    const skillEntityId = skill.entityId;
-    const skillAction: CombatAction = {
-      actionType: ActionType.SKILL,
-      actionEntity: skillEntityId,
-    };
-    await executeCycleCombatRound(selectedWandererEntity, [skillAction]);
-  }, [selectedWandererEntity, executeCycleCombatRound, skill]);
+    if (!cycleEntity) throw new Error("Cycle must be active");
+    await executeNoncombatSkill(cycleEntity, skill.entity);
+  }, [cycleEntity, executeNoncombatSkill, skill]);
 
   const isLearned = useMemo(() => learnedSkillEntities.includes(entity), [learnedSkillEntities, entity]);
 

@@ -13,7 +13,9 @@ import { ID as EquipmentSubSystemID } from "../equipment/EquipmentSubSystem.sol"
 import { ID as CombatSubSystemID } from "../combat/CombatSubSystem.sol";
 import { ID as WNFTSystemID } from "../token/WNFTSystem.sol";
 import { ID as CycleCombatSystemID } from "../cycle/CycleCombatSystem.sol";
+import { ID as PassCycleTurnSystemID } from "../cycle/PassCycleTurnSystem.sol";
 import { ID as RandomEquipmentSubSystemID } from "../loot/RandomEquipmentSubSystem.sol";
+import { ID as NoncombatSkillSystemID } from "../skill/NoncombatSkillSystem.sol";
 
 import { ID as WandererSpawnSystemID } from "../wanderer/WandererSpawnSystem.sol";
 import { ID as CycleActivateCombatSystemID } from "../cycle/CycleActivateCombatSystem.sol";
@@ -43,6 +45,13 @@ library LibInitAuthorizeSubsystems {
 
     // Combat -> Duration, Effect
     writer = getAddressById(systems, CombatSubSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, DurationSubSystemID));
+    subsystem.authorizeWriter(writer);
+    subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
+    subsystem.authorizeWriter(writer);
+
+    // NoncombatSkill -> Duration, Effect
+    writer = getAddressById(systems, NoncombatSkillSystemID);
     subsystem = IOwnableWritable(getAddressById(systems, DurationSubSystemID));
     subsystem.authorizeWriter(writer);
     subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
@@ -78,6 +87,11 @@ library LibInitAuthorizeSubsystems {
     // CycleEquipment -> Equipment
     writer = getAddressById(systems, CycleEquipmentSystemID);
     subsystem = IOwnableWritable(getAddressById(systems, EquipmentSubSystemID));
+    subsystem.authorizeWriter(writer);
+
+    // PassCycleTurn -> Duration
+    writer = getAddressById(systems, PassCycleTurnSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, DurationSubSystemID));
     subsystem.authorizeWriter(writer);
   }
 }
