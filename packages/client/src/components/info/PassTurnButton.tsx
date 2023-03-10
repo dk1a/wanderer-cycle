@@ -28,11 +28,9 @@ export default function PassTurnButton() {
 
   return (
     <div className="ml-1">
-      {!!turns && (
-        <CustomButton onClick={passTurn} disabled={isDisabled} style={{ fontSize: "13px", border: "none", width: "" }}>
-          {"passTurn"}
-        </CustomButton>
-      )}
+      <CustomButton onClick={passTurn} disabled={isDisabled} style={{ fontSize: "13px", border: "none", width: "" }}>
+        {"passTurn"}
+      </CustomButton>
     </div>
   );
 }

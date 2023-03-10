@@ -1,4 +1,3 @@
-import { SkillType } from "../mud/utils/skill";
 import CustomButton from "./UI/Button/CustomButton";
 import { useManaCurrent } from "../mud/hooks/currents";
 import { useDuration } from "../mud/hooks/useDuration";
@@ -8,34 +7,31 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useSkill } from "../mud/hooks/skill";
 
 type UseSkillButtonData = {
-  entity: EntityIndex;
-  isLearned?: boolean;
+  entity: EntityIndex | undefined;
   onSkill: () => Promise<void>;
-  style?: CSSProperties | undefined;
+  style?: CSSProperties;
 };
-export default function UseSkillButton({ isLearned, onSkill, style, entity }: UseSkillButtonData) {
+export default function UseSkillButton({ entity, onSkill, style }: UseSkillButtonData) {
   const skill = useSkill(entity);
   const { cycleEntity } = useWandererContext();
   const manaCurrent = useManaCurrent(cycleEntity);
-  const duration = useDuration(cycleEntity, skill.entity);
-
-  const skillType = skill.skillType;
+  const duration = useDuration(cycleEntity, skill?.entity);
 
   return (
     <div>
-      {isLearned && skillType === SkillType.NONCOMBAT && (
-        <CustomButton
-          style={style}
-          onClick={onSkill}
-          disabled={
-            (manaCurrent !== undefined && manaCurrent <= skill.cost) ||
-            (duration !== undefined && duration.timeValue < 0)
-          }
-        >
-          use skill
-        </CustomButton>
-      )}
-      {isLearned && duration !== undefined && (
+      <CustomButton
+        style={style}
+        onClick={onSkill}
+        disabled={
+          skill === undefined ||
+          manaCurrent === undefined ||
+          manaCurrent <= skill.cost ||
+          (duration !== undefined && duration.timeValue < 0)
+        }
+      >
+        use skill
+      </CustomButton>
+      {duration !== undefined && (
         <div>
           {duration.timeValue > 0 && (
             <div>

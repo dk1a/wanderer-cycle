@@ -1,12 +1,12 @@
 import { EntityIndex } from "@latticexyz/recs";
 import Skill from "../Skill";
-import { useSkill } from "../../mud/hooks/skill";
+import { useSkillStrict } from "../../mud/hooks/skill";
 import CustomButton from "../UI/Button/CustomButton";
 import { useCallback, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 
 export default function SkillPermanent({ entity }: { entity: EntityIndex }) {
-  const skill = useSkill(entity);
+  const skill = useSkillStrict(entity);
 
   const { learnCycleSkill } = useWandererContext();
   const [visible, setVisible] = useState(false);

@@ -1,5 +1,5 @@
 import { EntityIndex } from "@latticexyz/recs";
-import { useSkill } from "../../mud/hooks/skill";
+import { useSkillStrict } from "../../mud/hooks/skill";
 import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import Skill from "../Skill";
@@ -10,10 +10,11 @@ import { ActionType, CombatAction } from "../../mud/utils/combat";
 import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
 import { useDuration } from "../../mud/hooks/useDuration";
 import UseSkillButton from "../UseSkillButton";
+import { SkillType } from "../../mud/utils/skill";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
   const { learnCycleSkill, learnedSkillEntities, cycleEntity, selectedWandererEntity } = useWandererContext();
-  const skill = useSkill(entity);
+  const skill = useSkillStrict(entity);
   const duration = useDuration(cycleEntity, skill.entity);
 
   const guise = useActiveGuise(cycleEntity);
@@ -60,7 +61,7 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
             learn
           </CustomButton>
         )}
-        <UseSkillButton onSkill={onSkill} isLearned={isLearned} entity={entity} />
+        {skill.skillType === SkillType.NONCOMBAT && <UseSkillButton entity={entity} onSkill={onSkill} />}
       </div>
     </div>
   );

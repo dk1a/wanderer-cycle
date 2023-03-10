@@ -49,7 +49,7 @@ export default function CombatActions() {
   return (
     <div className="w-1/2 flex flex-col items-center mt-4">
       <div className="flex flex-col items-center justify-around w-full">
-        <div>
+        <div className="flex items-center justify-around w-full">
           <Select
             classNamePrefix={"custom-select"}
             placeholder={"select a skill"}
@@ -57,15 +57,14 @@ export default function CombatActions() {
             options={skillOptions}
             onChange={selectSkill}
           />
-        </div>
-
-        <div className="h-1/2 my-4">
-          <UseSkillButton style={{ width: "9rem" }} onSkill={onSkill} entity={selectedSkill?.value} isLearned={true} />
+          <UseSkillButton entity={selectedSkill?.value} onSkill={onSkill} style={{ width: "9rem" }} />
         </div>
       </div>
-      <CustomButton style={{ width: "9rem" }} onClick={onAttack} disabled={isBusy}>
-        attack
-      </CustomButton>
+      <div className="mt-4">
+        <CustomButton style={{ width: "9rem" }} onClick={onAttack} disabled={isBusy}>
+          attack
+        </CustomButton>
+      </div>
     </div>
   );
 }
