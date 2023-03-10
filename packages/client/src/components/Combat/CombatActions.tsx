@@ -8,6 +8,7 @@ import { ActionType, attackAction, CombatAction } from "../../mud/utils/combat";
 import { SkillType } from "../../mud/utils/skill";
 import CustomButton from "../UI/Button/CustomButton";
 import "../UI/customSelect.scss";
+import { UseSkillButton } from "../UseSkillButton";
 
 export default function CombatActions() {
   const { world } = useMUD();
@@ -48,7 +49,7 @@ export default function CombatActions() {
   return (
     <div className="w-1/2 flex flex-col items-center mt-4">
       <div className="flex flex-col items-center justify-around w-full">
-        <div>
+        <div className="flex items-center justify-center w-full gap-x-8">
           <Select
             classNamePrefix={"custom-select"}
             placeholder={"select a skill"}
@@ -56,16 +57,14 @@ export default function CombatActions() {
             options={skillOptions}
             onChange={selectSkill}
           />
-        </div>
-        <div className="h-1/2 my-4">
-          <CustomButton style={{ width: "9rem" }} onClick={onSkill} disabled={isBusy}>
-            use skill
-          </CustomButton>
+          <UseSkillButton entity={selectedSkill?.value} onSkill={onSkill} style={{ width: "9rem" }} />
         </div>
       </div>
-      <CustomButton style={{ width: "9rem" }} onClick={onAttack} disabled={isBusy}>
-        attack
-      </CustomButton>
+      <div className="mt-4">
+        <CustomButton style={{ width: "9rem" }} onClick={onAttack} disabled={isBusy}>
+          attack
+        </CustomButton>
+      </div>
     </div>
   );
 }

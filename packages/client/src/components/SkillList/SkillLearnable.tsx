@@ -1,15 +1,35 @@
 import { EntityIndex } from "@latticexyz/recs";
-import { useSkill } from "../../mud/hooks/skill";
+import { useSkillStrict } from "../../mud/hooks/skill";
 import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import Skill from "../Skill";
 import CustomButton from "../UI/Button/CustomButton";
 import { useLevel } from "../../mud/hooks/charstat";
-import { useActiveGuise, useGuise } from "../../mud/hooks/guise";
+import { useActiveGuise } from "../../mud/hooks/guise";
+import { ActionType, CombatAction } from "../../mud/utils/combat";
+import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
+import { useDuration } from "../../mud/hooks/useDuration";
+import { UseSkillButton } from "../UseSkillButton";
+import { SkillType } from "../../mud/utils/skill";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
-  const { learnCycleSkill, learnedSkillEntities, cycleEntity } = useWandererContext();
-  const skill = useSkill(entity);
+  const { learnCycleSkill, learnedSkillEntities, cycleEntity, selectedWandererEntity } = useWandererContext();
+  const skill = useSkillStrict(entity);
+  const duration = useDuration(cycleEntity, skill.entity);
+
+  const guise = useActiveGuise(cycleEntity);
+  const level = useLevel(cycleEntity, guise?.levelMul)?.level;
+
+  const executeCycleCombatRound = useExecuteCycleCombatRound();
+  const onSkill = useCallback(async () => {
+    if (!selectedWandererEntity) throw new Error("Must select wanderer entity");
+    const skillEntityId = skill.entityId;
+    const skillAction: CombatAction = {
+      actionType: ActionType.SKILL,
+      actionEntity: skillEntityId,
+    };
+    await executeCycleCombatRound(selectedWandererEntity, [skillAction]);
+  }, [selectedWandererEntity, executeCycleCombatRound, skill]);
 
   const isLearned = useMemo(() => learnedSkillEntities.includes(entity), [learnedSkillEntities, entity]);
 
@@ -22,14 +42,13 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
     }
   }, [visible]);
 
-  const guise = useActiveGuise(cycleEntity);
-  const level = useLevel(cycleEntity, guise?.levelMul)?.level;
-
   return (
     <div className="p-0 flex items-center mb-8">
       <Skill
         skill={skill}
-        className={`bg-dark-500 border border-dark-400 p-2 w-[400px] ${isLearned ? "opacity-30" : ""}`}
+        className={`bg-dark-500 border border-dark-400 p-2 w-[400px] ${
+          duration !== undefined && duration.timeValue < 0 && "opacity-30"
+        }`}
         isCollapsed={!visible}
         onHeaderClick={onHeaderClick}
       />
@@ -42,6 +61,7 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
             learn
           </CustomButton>
         )}
+        {skill.skillType === SkillType.NONCOMBAT && <UseSkillButton entity={entity} onSkill={onSkill} />}
       </div>
     </div>
   );
