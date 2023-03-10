@@ -63,7 +63,7 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
       {separator}
       {currents.map(({ name, value, maxValue }) => (
         <Fragment key={name}>
-          <div className="text-dark-key flex m-2">
+          <div className="text-dark-key flex mx-2">
             {name}:
             <div className="text-dark-key flex mx-2">
               <span className="text-dark-number">{value}</span>
