@@ -1,71 +1,78 @@
+import { EntityIndex } from "@latticexyz/recs";
+import { useSkill } from "../../mud/hooks/skill";
 import { useCallback, useMemo, useState } from "react";
-import Select from "react-select";
 import { useWandererContext } from "../../contexts/WandererContext";
-import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
-import { useSkills } from "../../mud/hooks/skill";
-import { useMUD } from "../../mud/MUDContext";
-import { ActionType, attackAction, CombatAction } from "../../mud/utils/combat";
-import { SkillType } from "../../mud/utils/skill";
+import Skill from "../Skill";
 import CustomButton from "../UI/Button/CustomButton";
-import "../UI/customSelect.scss";
+import { useLevel } from "../../mud/hooks/charstat";
+import { useActiveGuise } from "../../mud/hooks/guise";
+import { ActionType, CombatAction } from "../../mud/utils/combat";
+import { useMUD } from "../../mud/MUDContext";
+import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
+import { useManaCurrent } from "../../mud/hooks/currents";
+import { util } from "protobufjs";
+import newError = util.newError;
 
-export default function CombatActions() {
+export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
+  const { learnCycleSkill, learnedSkillEntities, cycleEntity, selectedWandererEntity } = useWandererContext();
   const { world } = useMUD();
-  const { selectedWandererEntity, learnedSkillEntities } = useWandererContext();
-  const [isBusy, setIsBusy] = useState(false);
+  const skill = useSkill(entity);
+  const manaCurrent = useManaCurrent(cycleEntity);
 
-  // attack
+  const manaCost = manaCurrent !== undefined && manaCurrent - skill.cost;
+  console.log(skill.cost);
+  console.log({ manaCost });
+
+  const guise = useActiveGuise(cycleEntity);
+  const level = useLevel(cycleEntity, guise?.levelMul)?.level;
+
   const executeCycleCombatRound = useExecuteCycleCombatRound();
-  const onAttack = useCallback(async () => {
-    if (!selectedWandererEntity) throw new Error("Must select wanderer entity");
-    setIsBusy(true);
-    await executeCycleCombatRound(selectedWandererEntity, [attackAction]);
-    setIsBusy(false);
-  }, [selectedWandererEntity, executeCycleCombatRound]);
-
-  // skill list
-  const skills = useSkills(learnedSkillEntities);
-  const combatSkills = useMemo(() => skills.filter(({ skillType }) => skillType === SkillType.COMBAT), [skills]);
-  const skillOptions = useMemo(
-    () => combatSkills.map(({ name, entity }) => ({ value: entity, label: name })),
-    [combatSkills]
-  );
-  const [selectedSkill, selectSkill] = useState<(typeof skillOptions)[number] | null>(null);
-  // skill use callback
   const onSkill = useCallback(async () => {
     if (!selectedWandererEntity) throw new Error("Must select wanderer entity");
-    if (selectedSkill === null) throw new Error("No skill selected");
-    setIsBusy(true);
-    const skillEntityId = world.entities[selectedSkill.value];
+    const skillEntityId = skill.entityId;
     const skillAction: CombatAction = {
       actionType: ActionType.SKILL,
       actionEntity: skillEntityId,
     };
     await executeCycleCombatRound(selectedWandererEntity, [skillAction]);
-    setIsBusy(false);
-  }, [world, selectedWandererEntity, executeCycleCombatRound, selectedSkill]);
+  }, [world, selectedWandererEntity, executeCycleCombatRound, skill]);
+
+  const skillType = skill.skillType;
+
+  const isLearned = useMemo(() => learnedSkillEntities.includes(entity), [learnedSkillEntities, entity]);
+
+  const [visible, setVisible] = useState(!isLearned);
+
+  const onHeaderClick = useCallback(() => {
+    // only expand collapsed data
+    if (!visible) {
+      setVisible(true);
+    }
+  }, [visible]);
 
   return (
-    <div className="w-1/2 flex flex-col items-center mt-4">
-      <div className="flex items-center justify-around w-full">
-        <div>
-          <Select
-            classNamePrefix={"custom-select"}
-            placeholder={"select a skill"}
-            value={selectedSkill}
-            options={skillOptions}
-            onChange={selectSkill}
-          />
-        </div>
-        <div className="h-1/2">
-          <CustomButton onClick={onSkill} disabled={isBusy}>
+    <div className="p-0 flex items-center mb-8">
+      <Skill
+        skill={skill}
+        className={`bg-dark-500 border border-dark-400 p-2 w-[400px] ${isLearned ? "opacity-30" : ""}`}
+        isCollapsed={!visible}
+        onHeaderClick={onHeaderClick}
+      />
+      <div className="h-1/2 ml-10">
+        {!isLearned && (
+          <CustomButton
+            onClick={() => learnCycleSkill(entity)}
+            disabled={level !== undefined && level < skill.requiredLevel}
+          >
+            learn
+          </CustomButton>
+        )}
+        {isLearned && !skillType && (
+          <CustomButton onClick={onSkill} disabled={manaCurrent !== undefined && manaCurrent <= skill.cost}>
             use skill
           </CustomButton>
-        </div>
+        )}
       </div>
-      <CustomButton onClick={onAttack} disabled={isBusy}>
-        attack
-      </CustomButton>
     </div>
   );
 }
