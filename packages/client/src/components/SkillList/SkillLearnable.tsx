@@ -11,6 +11,7 @@ import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
 import { useManaCurrent } from "../../mud/hooks/currents";
 import { useDuration } from "../../mud/hooks/useDuration";
 import { SkillType } from "../../mud/utils/skill";
+import UseSkillButton from "../UseSkillButton";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
   const { learnCycleSkill, learnedSkillEntities, cycleEntity, selectedWandererEntity } = useWandererContext();
@@ -31,8 +32,6 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
     };
     await executeCycleCombatRound(selectedWandererEntity, [skillAction]);
   }, [selectedWandererEntity, executeCycleCombatRound, skill]);
-
-  const skillType = skill.skillType;
 
   const isLearned = useMemo(() => learnedSkillEntities.includes(entity), [learnedSkillEntities, entity]);
 
@@ -64,27 +63,7 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
             learn
           </CustomButton>
         )}
-        {isLearned && skillType === SkillType.NONCOMBAT && (
-          <CustomButton
-            onClick={onSkill}
-            disabled={
-              (manaCurrent !== undefined && manaCurrent <= skill.cost) ||
-              (duration !== undefined && duration.timeValue < 0)
-            }
-          >
-            use skill
-          </CustomButton>
-        )}
-        {isLearned && duration !== undefined && (
-          <div>
-            {duration.timeValue > 0 && (
-              <div>
-                <span className="text-dark-key">{duration.timeScopeName}</span>
-                <span className="text-dark-number">{duration.timeValue}</span>
-              </div>
-            )}
-          </div>
-        )}
+        <UseSkillButton onSkill={onSkill} isLearned={isLearned} skill={skill} />
       </div>
     </div>
   );
