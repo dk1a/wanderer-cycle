@@ -7,14 +7,13 @@ import CustomButton from "../UI/Button/CustomButton";
 import { useLevel } from "../../mud/hooks/charstat";
 import { useActiveGuise } from "../../mud/hooks/guise";
 import { ActionType, CombatAction } from "../../mud/utils/combat";
-import { useMUD } from "../../mud/MUDContext";
 import { useExecuteCycleCombatRound } from "../../mud/hooks/combat";
 import { useManaCurrent } from "../../mud/hooks/currents";
 import { useDuration } from "../../mud/hooks/useDuration";
+import { SkillType } from "../../mud/utils/skill";
 
 export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
   const { learnCycleSkill, learnedSkillEntities, cycleEntity, selectedWandererEntity } = useWandererContext();
-  const { world } = useMUD();
   const skill = useSkill(entity);
   const manaCurrent = useManaCurrent(cycleEntity);
   const duration = useDuration(cycleEntity, skill.entity);
@@ -31,7 +30,7 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
       actionEntity: skillEntityId,
     };
     await executeCycleCombatRound(selectedWandererEntity, [skillAction]);
-  }, [world, selectedWandererEntity, executeCycleCombatRound, skill]);
+  }, [selectedWandererEntity, executeCycleCombatRound, skill]);
 
   const skillType = skill.skillType;
 
@@ -65,7 +64,7 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
             learn
           </CustomButton>
         )}
-        {isLearned && !skillType && (
+        {isLearned && skillType === SkillType.NONCOMBAT && (
           <CustomButton
             onClick={onSkill}
             disabled={
