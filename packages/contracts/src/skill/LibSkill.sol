@@ -44,7 +44,7 @@ library LibSkill {
         world: world,
         protoComp: protoComp,
         charstat: LibCharstat.__construct(components, userEntity),
-        learnedSkills: LibLearnedSkills.__construct(components, userEntity),
+        learnedSkills: LibLearnedSkills.__construct(world, userEntity),
         userEntity: userEntity,
         skillEntity: skillEntity,
         skill: protoComp.getValue(skillEntity)
@@ -111,13 +111,15 @@ library LibSkill {
 
     // start cooldown
     // (doesn't clash with skill effect duration, which has its own entity)
-    durationSubSystem.executeIncrease(targetEntity, __self.skillEntity, __self.skill.cooldown, SystemCallback(0, ""));
+    if (__self.skill.cooldown.timeValue > 0) {
+      durationSubSystem.executeIncrease(targetEntity, __self.skillEntity, __self.skill.cooldown, SystemCallback(0, ""));
+    }
 
     // check and subtract skill cost
     uint32 manaCurrent = __self.charstat.getManaCurrent();
     if (__self.skill.cost > manaCurrent) {
       revert LibSkill__NotEnoughMana();
-    } else {
+    } else if (__self.skill.cost > 0) {
       __self.charstat.setManaCurrent(manaCurrent - __self.skill.cost);
     }
 

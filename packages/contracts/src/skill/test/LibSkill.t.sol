@@ -52,17 +52,17 @@ contract LibSkillTest is BaseTest {
     // init helpers and libs
     revertHelper = new LibSkillRevertHelper();
     charstat = LibCharstat.__construct(components, userEntity);
-    learnedSkills = LibLearnedSkills.__construct(components, userEntity);
-
-    // learn sample skills
-    learnedSkills.learnSkill(cleavePE);
-    learnedSkills.learnSkill(chargePE);
-    learnedSkills.learnSkill(parryPE);
+    learnedSkills = LibLearnedSkills.__construct(world, userEntity);
 
     // give user some mana
     charstat.setManaCurrent(4);
     // allow user to receive experience
     LibExperience.initExp(charstat.exp);
+
+    // learn sample skills
+    learnedSkills.learnSkill(cleavePE);
+    learnedSkills.learnSkill(chargePE);
+    learnedSkills.learnSkill(parryPE);
   }
 
   function _libSkill(uint256 skillEntity) internal view returns (LibSkill.Self memory) {

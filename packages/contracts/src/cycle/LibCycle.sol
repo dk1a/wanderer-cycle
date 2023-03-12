@@ -74,7 +74,7 @@ library LibCycle {
     // spawn equipment slots
     LibSpawnEquipmentSlots.spawnEquipmentSlots(world, cycleEntity);
     // copy permanent skills
-    LibLearnedSkills.__construct(components, cycleEntity).copySkills(targetEntity);
+    LibLearnedSkills.__construct(world, cycleEntity).copySkills(targetEntity);
 
     // TODO wheel
     // TODO wallet

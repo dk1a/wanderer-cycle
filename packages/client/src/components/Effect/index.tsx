@@ -32,8 +32,10 @@ export default function Effect({ entity, protoEntity, removability, statmods, ef
 
       {duration !== undefined && duration.timeValue > 0 && (
         <div className="text-sm">
-          <span className="text-dark-key">{duration.timeScopeName}</span>
-          <span className="text-dark-number">{duration.timeValue}</span>
+          {"("}
+          <span className="text-dark-number">{duration.timeValue} </span>
+          <span className="text-dark-string">{duration.timeScopeName}</span>
+          {")"}
         </div>
       )}
 
