@@ -31,7 +31,7 @@ export function CycleStart({
   const onStart = useCallback(() => {
     if (selectedGuise === null) throw new Error("Invalid guise");
     if (selectedWheel === null) throw new Error("Invalid wheel");
-    startCycle(selectedGuise.value);
+    startCycle(selectedGuise.value, selectedWheel.value);
   }, [startCycle, selectedGuise, selectedWheel]);
 
   return (
