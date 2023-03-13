@@ -41,7 +41,6 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
       setVisible(true);
     }
   }, [visible]);
-
   return (
     <div className="p-0 flex items-center mb-8">
       <Skill

@@ -17,10 +17,10 @@ export const App = () => {
     percentage: 0,
   });
 
-  const { mode } = useWandererContext();
+  const { mode, lightTheme } = useWandererContext();
 
   return (
-    <div className="h-full">
+    <div className={lightTheme ? "dark" : ""}>
       {loadingState.state !== SyncState.LIVE ? (
         <div className="flex w-full items-center justify-center mt-10">
           <div className="text-center text-xl">

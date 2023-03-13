@@ -68,11 +68,14 @@ export function AppRouter() {
 }
 
 function Layout() {
-  const { mode, setMode } = useWandererContext();
+  const { handleThemeSwitch } = useWandererContext();
 
   return (
     <div>
       <div className="flex flex-row flex-wrap items-center justify-around h-16 bg-dark-500 border border-dark-400">
+        <div>
+          <CustomButton onClick={handleThemeSwitch}>change the mode</CustomButton>
+        </div>
         <nav className="flex flex-wrap items-center justify-around w-2/3">
           {[...gameRoutes, ...otherRoutes].map(({ title, path }) => (
             <NavLink
@@ -92,9 +95,6 @@ function Layout() {
             </NavLink>
           </div>
         </nav>
-        <div>
-          <CustomButton onClick={() => setMode(!mode)}>change the mode</CustomButton>
-        </div>
       </div>
       <Outlet />
     </div>

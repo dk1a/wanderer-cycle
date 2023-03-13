@@ -1,6 +1,6 @@
 import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex } from "@latticexyz/recs";
-import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, MouseEventHandler, ReactNode, useCallback, useContext, useMemo, useState } from "react";
 import {
   CycleCombatRewardRequest,
   OnCombatResultData,
@@ -25,6 +25,9 @@ type WandererContextType = {
   learnedSkillEntities: EntityIndex[];
   mode: boolean;
   setMode: (prevState: boolean) => boolean;
+  lightTheme: boolean;
+  setLightTheme: (prevState: boolean) => boolean;
+  handleThemeSwitch: MouseEventHandler<HTMLButtonElement>;
 };
 
 const WandererContext = createContext<WandererContextType | undefined>(undefined);
@@ -61,6 +64,11 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   const learnedSkillEntities = useLearnedSkillEntities(cycleEntity);
 
   const [mode, setMode] = useState(false);
+  const [lightTheme, setLightTheme] = useState(false);
+  const handleThemeSwitch = () => {
+    setMode(!mode);
+    setLightTheme(!lightTheme);
+  };
 
   const value = {
     selectedWandererEntity,
@@ -75,6 +83,9 @@ export const WandererProvider = (props: { children: ReactNode }) => {
     learnCycleSkill,
     mode,
     setMode,
+    lightTheme,
+    setLightTheme,
+    handleThemeSwitch,
   };
   return <WandererContext.Provider value={value}>{props.children}</WandererContext.Provider>;
 };
