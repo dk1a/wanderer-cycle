@@ -2,6 +2,8 @@ import { SyncState } from "@latticexyz/network";
 import { useComponentValue } from "@latticexyz/react";
 import { useMUD } from "./mud/MUDContext";
 import { AppRouter } from "./AppRouter";
+import { useWandererContext } from "./contexts/WandererContext";
+import { SecondAppRouter } from "./SecondRouter";
 
 export const App = () => {
   const {
@@ -15,6 +17,8 @@ export const App = () => {
     percentage: 0,
   });
 
+  const { mode } = useWandererContext();
+
   return (
     <div className="h-full">
       {loadingState.state !== SyncState.LIVE ? (
@@ -25,8 +29,10 @@ export const App = () => {
             {"%)"}
           </div>
         </div>
-      ) : (
+      ) : !mode ? (
         <AppRouter />
+      ) : (
+        <SecondAppRouter />
       )}
     </div>
   );

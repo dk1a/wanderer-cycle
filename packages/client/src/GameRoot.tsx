@@ -9,7 +9,7 @@ import { CombatResult } from "./mud/hooks/combat";
 import { WandererInfo } from "./components/info/WandererInfo";
 
 export function GameRoot() {
-  const { selectedWandererEntity, enemyEntity, combatRewardRequests, lastCombatResult, cycleEntity } =
+  const { selectedWandererEntity, enemyEntity, combatRewardRequests, lastCombatResult, cycleEntity, mode } =
     useWandererContext();
 
   if (selectedWandererEntity === undefined) {
@@ -33,6 +33,14 @@ export function GameRoot() {
       <div className="flex">
         <CycleInfo />
         <CombatResultPage />
+      </div>
+    );
+  }
+
+  if (mode) {
+    return (
+      <div className="flex">
+        <WandererInfo />
       </div>
     );
   }

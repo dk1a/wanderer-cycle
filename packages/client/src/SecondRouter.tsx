@@ -59,7 +59,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-export function AppRouter() {
+export function SecondAppRouter() {
   return (
     <div>
       <RouterProvider router={router} />
