@@ -19,13 +19,7 @@ export default function Guise({ guise, onSelectGuise, disabled }: GuiseProps) {
   return (
     <div className="border border-dark-400 w-72 h-auto p-4 flex flex-col bg-dark-500 transform delay-500">
       <header className="text-2xl text-dark-type text-center">{guise.name}</header>
-      <Tippy
-        animation={"perspective"}
-        placement={"left"}
-        content={<TippyComment content="multiplier of gained stats" />}
-      >
-        <div className="text-dark-comment flex justify-between">{"// stat multipliers"}</div>
-      </Tippy>
+      <div className="text-dark-comment flex justify-between">{"// stat multipliers"}</div>
 
       <div className="flex flex-col justify-start items-baseline">
         {statNames.map((statName) => (
