@@ -12,6 +12,7 @@ export function GlobalMaps() {
   const basicMapEntities = useMaps("Global Basic");
   const randomMapEntities = useMaps("Global Random");
   const bossMapEntities = useMaps("Global Cycle Boss");
+  console.log("basicMapEntities", basicMapEntities);
 
   const bossesDefeated = useBossesDefeated(cycleEntity);
   const lifeCurrent = useLifeCurrent(cycleEntity);

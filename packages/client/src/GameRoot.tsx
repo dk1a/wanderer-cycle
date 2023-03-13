@@ -41,6 +41,7 @@ export function GameRoot() {
     return (
       <div className="flex">
         <WandererInfo />
+        <Outlet />
       </div>
     );
   }

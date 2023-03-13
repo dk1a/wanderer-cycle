@@ -4,9 +4,11 @@ import { left } from "@popperjs/core";
 import { useInventoryContext } from "../../contexts/InventoryContext";
 import { EquipmentSummary } from "./EquipmentSummary";
 import BaseEquipment from "./BaseEquipment";
+import { useWandererContext } from "../../contexts/WandererContext";
 
 export default function CurrentEquipment() {
   const { equipmentSlots } = useInventoryContext();
+  const { mode } = useWandererContext();
 
   return (
     <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-full">
@@ -45,11 +47,13 @@ export default function CurrentEquipment() {
                 <div className="ml-2">
                   <EquipmentSummary affixes={equipped.affixes} />
                 </div>
-                <div className="mr-2">
-                  <CustomButton style={{ height: "25px", fontSize: "13px" }} onClick={() => unequip()}>
-                    unequip
-                  </CustomButton>
-                </div>
+                {!mode && (
+                  <div className="mr-2">
+                    <CustomButton style={{ height: "25px", fontSize: "13px" }} onClick={() => unequip()}>
+                      unequip
+                    </CustomButton>
+                  </div>
+                )}
               </div>
             )}
           </div>

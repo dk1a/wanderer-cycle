@@ -2,12 +2,12 @@ import { NavLink, Outlet, RouterProvider, createBrowserRouter } from "react-rout
 import { GameRoot } from "./GameRoot";
 import { InventoryPage } from "./pages/InventoryPage";
 import WandererSelect from "./pages/WandererSelect";
-import { GlobalMaps } from "./pages/GlobalMaps";
 import { SkillsPage } from "./pages/SkillsPage";
 import { CyclePage } from "./pages/CyclePage";
 import { RootBoundary } from "./errorBoundaries";
 import CustomButton from "./components/UI/Button/CustomButton";
 import { useWandererContext } from "./contexts/WandererContext";
+import { GroupMaps } from "./pages/GroupMaps";
 
 // game routes will display e.g. WandererSelect or Combat, if normal pages aren't available
 const gameRoutes = [
@@ -15,7 +15,7 @@ const gameRoutes = [
   {
     title: "Maps",
     path: "",
-    element: <GlobalMaps />,
+    element: <GroupMaps />,
   },
   // other game pages
   {
@@ -72,7 +72,7 @@ function Layout() {
 
   return (
     <div>
-      <div className="flex flex-row flex-wrap items-center justify-around h-16 bg-dark-500 border border-dark-400">
+      <div className="flex flex-row flex-wrap items-center justify-around h-16 bg-dark-600 border border-dark-400">
         <nav className="flex flex-wrap items-center justify-around w-2/3">
           {[...gameRoutes, ...otherRoutes].map(({ title, path }) => (
             <NavLink
