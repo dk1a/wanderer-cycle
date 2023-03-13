@@ -11,6 +11,8 @@ import { ActiveCyclePreviousComponent, ID as ActiveCyclePreviousComponentID } fr
 import { ActiveGuiseComponent, ID as ActiveGuiseComponentID } from "../guise/ActiveGuiseComponent.sol";
 import { CycleToWandererComponent, ID as CycleToWandererComponentID } from "./CycleToWandererComponent.sol";
 import { GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../guise/GuisePrototypeComponent.sol";
+import { ActiveWheelComponent, ID as ActiveWheelComponentID } from "../wheel/ActiveWheelComponent.sol";
+import { WheelComponent, ID as WheelComponentID } from "../wheel/WheelComponent.sol";
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
@@ -31,11 +33,13 @@ library LibCycle {
   error LibCycle__CycleIsAlreadyActive();
   error LibCycle__CycleNotActive();
   error LibCycle__InvalidGuiseProtoEntity();
+  error LibCycle__InvalidWheelEntity();
 
   function initCycle(
     IWorld world,
     uint256 targetEntity,
-    uint256 guiseProtoEntity
+    uint256 guiseProtoEntity,
+    uint256 wheelEntity
   ) internal returns (uint256 cycleEntity) {
     // cycleEntity is for all the in-cycle components (everything except activeCycle)
     cycleEntity = world.getUniqueEntityId();
@@ -46,25 +50,30 @@ library LibCycle {
     CycleToWandererComponent cycleToWandererComp = CycleToWandererComponent(
       getAddressById(components, CycleToWandererComponentID)
     );
-    GuisePrototypeComponent guiseProtoComp = GuisePrototypeComponent(
-      getAddressById(components, GuisePrototypeComponentID)
-    );
+    ActiveWheelComponent activeWheelComp = ActiveWheelComponent(getAddressById(components, ActiveWheelComponentID));
     LibCharstat.Self memory charstat = LibCharstat.__construct(components, cycleEntity);
 
     // cycle must be inactive
     if (activeCycleComp.has(targetEntity)) {
       revert LibCycle__CycleIsAlreadyActive();
     }
-    // guise prototype must exist
-    if (!guiseProtoComp.has(guiseProtoEntity)) {
+    // prototypes must exist
+    if (!GuisePrototypeComponent(getAddressById(components, GuisePrototypeComponentID)).has(guiseProtoEntity)) {
       revert LibCycle__InvalidGuiseProtoEntity();
     }
+    if (!WheelComponent(getAddressById(components, WheelComponentID)).has(wheelEntity)) {
+      revert LibCycle__InvalidWheelEntity();
+    }
+
+    // TODO check wheel requirements
 
     // set active cycle
     activeCycleComp.set(targetEntity, cycleEntity);
     cycleToWandererComp.set(cycleEntity, targetEntity);
     // set active guise
     activeGuiseComp.set(cycleEntity, guiseProtoEntity);
+    // set active wheel
+    activeWheelComp.set(cycleEntity, wheelEntity);
     // init exp
     charstat.exp.initExp();
     // init currents
@@ -75,9 +84,6 @@ library LibCycle {
     LibSpawnEquipmentSlots.spawnEquipmentSlots(world, cycleEntity);
     // copy permanent skills
     LibLearnedSkills.__construct(world, cycleEntity).copySkills(targetEntity);
-
-    // TODO wheel
-    // TODO wallet
 
     // TODO loot for testing, remove later
     {

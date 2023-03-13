@@ -45,6 +45,11 @@
     "WandererComponent",
     "IdentityComponent",
 
+    "ActiveWheelComponent",
+    "DefaultWheelComponent",
+    "WheelComponent",
+    "WheelsCompletedComponent",
+
     "ActiveCycleComponent",
     "ActiveCyclePreviousComponent",
     "CycleToWandererComponent",
@@ -116,6 +121,7 @@
         "NameComponent",
         "OwnedByComponent",
         "WandererComponent",
+        "ActiveWheelComponent",
         "ActiveCycleComponent",
         "CycleToWandererComponent",
         "CycleTurnsComponent",
@@ -132,7 +138,7 @@
       "writeAccess": [
         "NameComponent",
         "OwnedByComponent",
-        "WandererComponent",
+        "ActiveWheelComponent",
         "ActiveCycleComponent",
         "CycleToWandererComponent",
         "CycleTurnsComponent",
@@ -193,7 +199,7 @@
     },
     {
       "name": "CompleteCycleSystem",
-      "writeAccess": ["ActiveCycleComponent", "ActiveCyclePreviousComponent", "IdentityComponent"]
+      "writeAccess": ["ActiveCycleComponent", "ActiveCyclePreviousComponent", "CycleToWandererComponent", "IdentityComponent", "WheelsCompletedComponent"]
     },
     {
       "name": "PermSkillSystem",
@@ -211,6 +217,7 @@
     "LibInitMapsGlobal",
     "LibInitMapsBoss",
     "LibInitSkill",
-    "LibInitGuise"
+    "LibInitGuise",
+    "LibInitWheel"
   ]
 }

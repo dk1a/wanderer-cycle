@@ -8,6 +8,7 @@ import { IERC721BaseInternal } from "@dk1a/solecslib/contracts/token/ERC721/logi
 
 import { getGuiseProtoEntity } from "../../guise/GuisePrototypeComponent.sol";
 import { LibCycle } from "../../cycle/LibCycle.sol";
+import { SingletonID } from "../../SingletonID.sol";
 
 contract WandererSpawnSystemTest is BaseTest {
   // taken from InitGuiseSystem, initialized by LibDeploy
@@ -15,6 +16,7 @@ contract WandererSpawnSystemTest is BaseTest {
 
   uint256 wandererEntity;
   uint256 cycleEntity;
+  uint256 defaultWheelEntity;
 
   function setUp() public virtual override {
     super.setUp();
@@ -22,6 +24,7 @@ contract WandererSpawnSystemTest is BaseTest {
     vm.prank(alice);
     wandererEntity = wandererSpawnSystem.executeTyped(warriorGuiseProtoEntity);
     cycleEntity = activeCycleComponent.getValue(wandererEntity);
+    defaultWheelEntity = defaultWheelComponent.getValue(SingletonID);
   }
 
   function test_setUp_invalidGuise() public {
@@ -35,12 +38,13 @@ contract WandererSpawnSystemTest is BaseTest {
     uint256 anotherCycleEntity = LibCycle.initCycle(
       world,
       world.getUniqueEntityId(),
-      warriorGuiseProtoEntity
+      warriorGuiseProtoEntity,
+      defaultWheelEntity
     );
     assertNotEq(anotherCycleEntity, cycleEntity);
   }
 
-  function test_entities() public { 
+  function test_entities() public {
     assertNotEq(cycleEntity, wandererEntity);
     assertNotEq(cycleEntity, 0);
   }
