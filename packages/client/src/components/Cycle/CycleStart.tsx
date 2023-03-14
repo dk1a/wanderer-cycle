@@ -7,6 +7,7 @@ import { useLearnedSkillEntities } from "../../mud/hooks/skill";
 import SkillPermanent from "./SkillPermanent";
 import Select from "react-select";
 import "../UI/customSelect.scss";
+import { useWheels } from "../../mud/hooks/wheel";
 
 export function CycleStart({
   wandererEntity,
@@ -18,12 +19,15 @@ export function CycleStart({
   const startCycle = useStartCycle(wandererEntity);
   const learnedSkillEntities = useLearnedSkillEntities(previousCycleEntity);
   const guises = useGuises();
+  const wheels = useWheels();
+
+  console.log("wheels", wheels);
 
   const guiseOptions = useMemo(() => guises.map(({ name, entity }) => ({ value: entity, label: name })), [guises]);
-  const wheelOptions = [
-    { value: 1, label: "Attainment" },
-    { value: 2, label: "Isolation" },
-  ];
+  const wheelOptions = useMemo(
+    () => wheels.map(({ name, entity }) => ({ value: entity, label: name.value })),
+    [wheels]
+  );
 
   const [selectedGuise, selectGuise] = useState<(typeof guiseOptions)[number] | null>(null);
   const [selectedWheel, selectWheel] = useState<(typeof wheelOptions)[number] | null>(null);

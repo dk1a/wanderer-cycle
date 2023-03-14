@@ -1,4 +1,4 @@
-import { EntityIndex, getComponentValueStrict, Has, HasValue, World } from "@latticexyz/recs";
+import { EntityIndex, getComponentValueStrict, Has } from "@latticexyz/recs";
 import { useMUD } from "../MUDContext";
 import { useComponentValue } from "@latticexyz/react";
 import { useMemo } from "react";
@@ -9,9 +9,11 @@ export type WheelData = ReturnType<typeof getWheel>;
 export const getWheel = ({ world, components: { Wheel, Name } }: SetupResult, entity: EntityIndex) => {
   const wheel = getComponentValueStrict(Wheel, entity);
   const name = getComponentValueStrict(Name, entity);
+
   return {
     wheel,
     name,
+    entity,
     wheelEntityId: world.entities[entity],
     totalIdentityRequired: wheel.totalIdentityRequired,
     charges: wheel.charges,
