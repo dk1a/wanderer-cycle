@@ -24,7 +24,7 @@ export const useStartCycle = (wandererEntity: EntityIndex | undefined) => {
         world.entities[wandererEntity],
         world.entities[guiseProtoEntity],
         world.entities[wheelEntity],
-        { gasLimit: 5000000 }
+        { gasLimit: 30000000 }
       );
       await tx.wait();
     },
