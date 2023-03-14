@@ -1,17 +1,17 @@
 import Effect from "../Effect";
 import CustomButton from "../UI/Button/CustomButton";
-import { EntityIndex } from "@latticexyz/recs";
-import { useLoot } from "../../mud/hooks/useLoot";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
 import { EffectSource } from "../../mud/utils/getEffect";
 import { useActivateCycleCombat } from "../../mud/hooks/combat";
 import { useCycleTurns } from "../../mud/hooks/turns";
+import { LootData } from "../../mud/utils/getLoot";
 
-export default function Map({ entity }: { entity: EntityIndex }) {
+export default function Map({ data }: { data: LootData }) {
   const { selectedWandererEntity, cycleEntity } = useWandererContext();
   const activateCycleCombat = useActivateCycleCombat();
-  const loot = useLoot(entity);
+
+  const { entity, name, ilvl, effect } = data;
 
   const turns = useCycleTurns(cycleEntity);
 
@@ -22,12 +22,6 @@ export default function Map({ entity }: { entity: EntityIndex }) {
     activateCycleCombat(selectedWandererEntity, entity);
   }, [entity, selectedWandererEntity, activateCycleCombat]);
 
-  if (!loot) {
-    return <div>TODO placeholder (this can happen while the hook is loading)</div>;
-  }
-  const name = loot.name;
-  const effect = loot.effect;
-
   return (
     <div className="border border-dark-400 w-56 h-62 p-4 flex flex-col bg-dark-500">
       <CustomButton onClick={onMapEnter} disabled={!turns}>
@@ -35,7 +29,7 @@ export default function Map({ entity }: { entity: EntityIndex }) {
       </CustomButton>
       <div className="text-dark-comment mt-1">
         <span className="text-dark-key">level: </span>
-        <span className="text-dark-number">{loot?.ilvl}</span>
+        <span className="text-dark-number">{ilvl}</span>
       </div>
       <div className="text-dark-comment">
         <Effect
