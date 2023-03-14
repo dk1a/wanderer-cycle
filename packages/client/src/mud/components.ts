@@ -273,7 +273,7 @@ export const components = {
       metadata: { contractId: "component.Wheel" },
     }
   ),
-  WheelsCompletedComponent: defineNumberComponent(world, {
+  WheelsCompleted: defineNumberComponent(world, {
     metadata: {
       contractId: "component.WheelsCompleted",
     },
