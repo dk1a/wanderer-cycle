@@ -74,6 +74,9 @@ library LibInitAuthorizeSubsystems {
     writer = getAddressById(systems, StartCycleSystemID);
     subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
     subsystem.authorizeWriter(writer);
+    // TODO for testing, remove later (see LibCycle)
+    subsystem = IOwnableWritable(getAddressById(systems, RandomEquipmentSubSystemID));
+    subsystem.authorizeWriter(writer);
 
     // CycleActivateCombat -> Effect, Combat
     writer = getAddressById(systems, CycleActivateCombatSystemID);
