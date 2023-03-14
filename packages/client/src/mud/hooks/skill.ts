@@ -22,7 +22,7 @@ export const useSkillStrict = (entity: EntityIndex) => {
 };
 
 export const useSkills = (entities: EntityIndex[]) => {
-  const { world, components } = xuseMUD();
+  const { world, components } = useMUD();
 
   return useMemo(() => {
     return entities.map((entity) => {
