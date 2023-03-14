@@ -21,8 +21,6 @@ export function CycleStart({
   const guises = useGuises();
   const wheels = useWheels();
 
-  console.log("wheels", wheels);
-
   const guiseOptions = useMemo(() => guises.map(({ name, entity }) => ({ value: entity, label: name })), [guises]);
   const wheelOptions = useMemo(
     () => wheels.map(({ name, entity }) => ({ value: entity, label: name.value })),
