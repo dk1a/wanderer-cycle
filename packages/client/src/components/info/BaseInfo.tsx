@@ -11,7 +11,7 @@ import CopyAndCopied from "../UI/CopyAndCopied/CopyAndCopied";
 export interface BaseInfoProps {
   entity: EntityIndex | undefined;
   name: string | undefined;
-  entityId?: EntityID;
+  entityId?: EntityID | undefined;
   locationName: string | null | undefined;
   levelData: LevelData;
   turnsHtml?: ReactNode;

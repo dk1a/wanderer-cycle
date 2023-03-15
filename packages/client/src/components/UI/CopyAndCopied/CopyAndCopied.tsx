@@ -2,18 +2,20 @@ import { useState } from "react";
 import copyDark from "../../img/copy.png";
 import copyLight from "../../img/copyLight.png";
 
-export default function CopyAndCopied({ textData }: { textData: string }) {
+export default function CopyAndCopied({ textData }: { textData: string | undefined }) {
   const [copied, setCopied] = useState(false);
   const copyToClipBoard = () => {
     setCopied(true);
-    navigator.clipboard.writeText(textData).then(
-      () => {
-        console.log("copied");
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+    if (textData !== undefined) {
+      navigator.clipboard.writeText(textData).then(
+        () => {
+          console.log("copied");
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
+    }
     setTimeout(() => {
       setCopied(false);
     }, 100);
