@@ -1,11 +1,10 @@
 import { useState } from "react";
 import CustomButton from "../Button/CustomButton";
 
-export default function CopyAndCopied({ textData }: { textData: string }) {
+export default function CopyAndCopied({ textData }: { textData: string | undefined }) {
   const [copied, setCopied] = useState(false);
 
   const truncateFromMiddle = (fullStr: string, strLen: number, middleStr = "...") => {
-    if (fullStr.length <= strLen) return fullStr;
     const midLen = middleStr.length;
     const charsToShow = strLen - midLen;
     const frontChars = Math.ceil(charsToShow / 2);
@@ -32,7 +31,7 @@ export default function CopyAndCopied({ textData }: { textData: string }) {
 
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="text-[14px] text-center text-dark-300">{truncateFromMiddle(textData, 13, "...")}</div>
+      <div className="text-[14px] text-center text-dark-300">{textData && truncateFromMiddle(textData, 13, "...")}</div>
       <div>
         <CustomButton onClick={copyToClipBoard} style={{ border: "none", fontSize: "12px" }}>
           {!copied ? "copy" : "copied"}
