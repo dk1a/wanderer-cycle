@@ -1,16 +1,16 @@
 import { useState } from "react";
 import CustomButton from "../Button/CustomButton";
 
+export const truncateFromMiddle = (fullStr: string, strLen: number, middleStr = "...") => {
+  const midLen = middleStr.length;
+  const charsToShow = strLen - midLen;
+  const frontChars = Math.ceil(charsToShow / 2);
+  const backChars = Math.floor(charsToShow / 2);
+  return fullStr.substr(0, frontChars) + middleStr + fullStr.substr(fullStr.length - backChars);
+};
+
 export default function CopyAndCopied({ textData }: { textData: string | undefined }) {
   const [copied, setCopied] = useState(false);
-
-  const truncateFromMiddle = (fullStr: string, strLen: number, middleStr = "...") => {
-    const midLen = middleStr.length;
-    const charsToShow = strLen - midLen;
-    const frontChars = Math.ceil(charsToShow / 2);
-    const backChars = Math.floor(charsToShow / 2);
-    return fullStr.substr(0, frontChars) + middleStr + fullStr.substr(fullStr.length - backChars);
-  };
 
   const copyToClipBoard = () => {
     setCopied(true);
