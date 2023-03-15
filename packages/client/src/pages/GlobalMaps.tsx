@@ -5,6 +5,7 @@ import { useBossesDefeated } from "../mud/hooks/useBossesDefeated";
 import { useWandererContext } from "../contexts/WandererContext";
 import { useMemo } from "react";
 import { useLifeCurrent } from "../mud/hooks/currents";
+import PartyInvitation from "../components/Party/PartyInvitation";
 
 export function GlobalMaps() {
   const { cycleEntity } = useWandererContext();
@@ -48,6 +49,10 @@ export function GlobalMaps() {
               <Map key={data.entity} data={data} />
             ))}
           </div>
+        </div>
+        <div>
+          <h4 className="text-dark-comment ml-4">{"// Invite"}</h4>
+          <PartyInvitation />
         </div>
       </div>
     </div>

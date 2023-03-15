@@ -8,7 +8,7 @@ import { useCycleTurns } from "../../mud/hooks/turns";
 import { LootData } from "../../mud/utils/getLoot";
 
 export default function BasicMap({ data }: { data: LootData }) {
-  const { selectedWandererEntity, cycleEntity } = useWandererContext();
+  const { selectedWandererEntity, cycleEntity, onParty } = useWandererContext();
   const activateCycleCombat = useActivateCycleCombat();
 
   const { entity, name, ilvl } = data;
@@ -21,6 +21,7 @@ export default function BasicMap({ data }: { data: LootData }) {
     if (!selectedWandererEntity) {
       throw new Error("No selected wanderer entity");
     }
+    onParty();
     activateCycleCombat(selectedWandererEntity, entity);
   }, [entity, selectedWandererEntity, activateCycleCombat]);
 

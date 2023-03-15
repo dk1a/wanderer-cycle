@@ -38,6 +38,7 @@ export default function CycleInfo() {
     <div className="top-16 h-full">
       <BaseInfo
         entity={cycleEntity}
+        entityId={guise?.entityId}
         name={guise?.name}
         locationName={null}
         levelData={levelData}
