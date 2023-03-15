@@ -8,22 +8,16 @@ import { useActiveGuise } from "../../mud/hooks/guise";
 import PartyPersonInfo from "./PartyPersonInfo";
 import { useMemo } from "react";
 import { useLevel } from "../../mud/hooks/charstat";
+import { truncateFromMiddle } from "../UI/CopyAndCopied/CopyAndCopied";
 
 export default function PartyInvitation() {
   const wandererEntities = useWandererEntities();
-  const { selectedWandererEntity, cycleEntity } = useWandererContext();
+  const { cycleEntity } = useWandererContext();
   const guise = useActiveGuise(cycleEntity);
 
   const guiseMul = useMemo(() => guise?.levelMul, [guise]);
   const levelData = useLevel(cycleEntity, guiseMul);
 
-  console.log(selectedWandererEntity, cycleEntity);
-
-  // const filteredWandererEntities = useMemo(() => {
-  //   return wandererEntities.filter((entity) => {
-  //     return entity.includes(filter);
-  //   });
-  // }, [filter, ownedEquipmentList]);
   return (
     <div className="border border-dark-400 w-72 h-96 ml-5 flex flex-col items-center">
       <div className="flex items-center justify-center mt-4 w-4/5">
@@ -47,7 +41,7 @@ export default function PartyInvitation() {
             }
           >
             <div className="border border-dark-400 w-4/5 h-12 my-4 text-dark-key cursor-pointer flex items-center justify-center">
-              <PartyPerson>{entity}</PartyPerson>
+              <PartyPerson>{guise?.entityId && truncateFromMiddle(guise?.entityId, 13, "...")}</PartyPerson>
             </div>
           </Tippy>
         </>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import CustomButton from "../Button/CustomButton";
 
 export const truncateFromMiddle = (fullStr: string, strLen: number, middleStr = "...") => {
+  if (fullStr == undefined) return "error";
   const midLen = middleStr.length;
   const charsToShow = strLen - midLen;
   const frontChars = Math.ceil(charsToShow / 2);

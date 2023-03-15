@@ -15,6 +15,9 @@ import { useMUD } from "../mud/MUDContext";
 type WandererContextType = {
   selectedWandererEntity?: EntityIndex;
   selectWandererEntity: (wanderer: EntityIndex | undefined) => void;
+  party: boolean;
+  setParty: (party: boolean) => void;
+  onParty: () => void;
   cycleEntity?: EntityIndex;
   previousCycleEntity?: EntityIndex;
   enemyEntity?: EntityIndex;
@@ -32,6 +35,10 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   if (currentValue) throw new Error("WandererProvider can only be used once");
 
   const [selectedWandererEntity, selectWandererEntity] = useState<EntityIndex>();
+  const [party, setParty] = useState(false);
+  const onParty = useCallback(() => {
+    setParty(!party);
+  }, [party, setParty]);
   const {
     world,
     components: { ActiveCycle, ActiveCyclePrevious },
@@ -61,6 +68,9 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   const value = {
     selectedWandererEntity,
     selectWandererEntity,
+    party,
+    setParty,
+    onParty,
     cycleEntity,
     previousCycleEntity,
     enemyEntity,
