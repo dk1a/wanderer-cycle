@@ -6,6 +6,7 @@ import { GlobalMaps } from "./pages/GlobalMaps";
 import { SkillsPage } from "./pages/SkillsPage";
 import { CyclePage } from "./pages/CyclePage";
 import { RootBoundary } from "./errorBoundaries";
+import { PartyPage } from "./pages/PartyPage";
 
 // game routes will display e.g. WandererSelect or Combat, if normal pages aren't available
 const gameRoutes = [
@@ -30,6 +31,11 @@ const gameRoutes = [
     title: "Cycle",
     path: "cycle",
     element: <CyclePage />,
+  },
+  {
+    title: "Party",
+    path: "party",
+    element: <PartyPage />,
   },
 ];
 

@@ -11,7 +11,7 @@ import CopyAndCopied from "../UI/CopyAndCopied/CopyAndCopied";
 export interface BaseInfoProps {
   entity: EntityIndex | undefined;
   name: string | undefined;
-  entityId?: EntityID | undefined;
+  entityId?: EntityID;
   locationName: string | null | undefined;
   levelData: LevelData;
   turnsHtml?: ReactNode;
@@ -48,10 +48,7 @@ export default function BaseInfo({ entity, entityId, name, locationName, levelDa
     <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-full">
       <div className="flex flex-col items-center">
         <h4 className="relative col-span-3 text-center text-lg text-dark-type font-medium">{name}</h4>
-        <div className="flex justify-center items-center">
-          <span className="text-[9px] text-center break-all text-dark-key w-2/3">{entityId}</span>
-          <CopyAndCopied textData={entityId} />
-        </div>
+        <CopyAndCopied textData={entityId} />
         {locationName !== null && <div className="col-span-3 text-center text-dark-string">{locationName}</div>}
       </div>
       {identityCurrent !== undefined && (
