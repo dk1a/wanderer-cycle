@@ -5,10 +5,11 @@ import { useBossesDefeated } from "../mud/hooks/useBossesDefeated";
 import { useWandererContext } from "../contexts/WandererContext";
 import { useMemo } from "react";
 import { useLifeCurrent } from "../mud/hooks/currents";
+import Party from "../components/Party";
 import PartyInvitation from "../components/Party/PartyInvitation";
 
 export function GlobalMaps() {
-  const { cycleEntity } = useWandererContext();
+  const { cycleEntity, party } = useWandererContext();
 
   const basicMaps = useMaps("Global Basic");
   const randomMaps = useMaps("Global Random");
@@ -50,10 +51,12 @@ export function GlobalMaps() {
             ))}
           </div>
         </div>
-        <div>
-          <h4 className="text-dark-comment ml-4">{"// Invite"}</h4>
-          <PartyInvitation />
-        </div>
+        {party && (
+          <div className="flex flex-col">
+            <Party />
+            <PartyInvitation />
+          </div>
+        )}
       </div>
     </div>
   );

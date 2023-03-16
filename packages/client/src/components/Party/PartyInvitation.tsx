@@ -19,33 +19,36 @@ export default function PartyInvitation() {
   const levelData = useLevel(cycleEntity, guiseMul);
 
   return (
-    <div className="border border-dark-400 w-72 h-96 ml-5 flex flex-col items-center">
-      <div className="flex items-center justify-center mt-4 w-4/5">
-        <CustomInput placeholder={"Search..."}></CustomInput>
-      </div>
-      {wandererEntities.map((entity) => (
-        <>
-          <Tippy
-            key={entity}
-            delay={100}
-            offset={[0, 20]}
-            placement={right}
-            arrow={true}
-            interactive
-            content={
-              <div style={{ padding: 0 }}>
-                <div className={"bg-dark-500 border border-dark-400 p-2 m-[-10px] w-36"}>
-                  <PartyPersonInfo entity={cycleEntity} name={guise?.name} levelData={levelData} />
+    <>
+      <h4 className="text-dark-comment ml-4">{"// Invite"}</h4>
+      <div className="border border-dark-400 w-72 h-96 ml-5 flex flex-col items-center">
+        <div className="flex items-center justify-center mt-4 w-4/5">
+          <CustomInput placeholder={"Search..."}></CustomInput>
+        </div>
+        {wandererEntities.map((entity) => (
+          <>
+            <Tippy
+              key={entity}
+              delay={100}
+              offset={[0, 20]}
+              placement={right}
+              arrow={true}
+              interactive
+              content={
+                <div style={{ padding: 0 }}>
+                  <div className={"bg-dark-500 border border-dark-400 p-2 m-[-10px] w-36"}>
+                    <PartyPersonInfo entity={cycleEntity} name={guise?.name} levelData={levelData} />
+                  </div>
                 </div>
+              }
+            >
+              <div className="border border-dark-400 w-4/5 h-12 my-4 text-dark-key cursor-pointer flex items-center justify-center">
+                <PartyPerson>{guise?.entityId && truncateFromMiddle(guise?.entityId, 13, "...")}</PartyPerson>
               </div>
-            }
-          >
-            <div className="border border-dark-400 w-4/5 h-12 my-4 text-dark-key cursor-pointer flex items-center justify-center">
-              <PartyPerson>{guise?.entityId && truncateFromMiddle(guise?.entityId, 13, "...")}</PartyPerson>
-            </div>
-          </Tippy>
-        </>
-      ))}
-    </div>
+            </Tippy>
+          </>
+        ))}
+      </div>
+    </>
   );
 }

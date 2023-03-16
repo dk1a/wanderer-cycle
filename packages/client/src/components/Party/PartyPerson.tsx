@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { EntityIndex } from "@latticexyz/recs";
 
 export default function PartyPerson({ children }: EntityIndex) {
