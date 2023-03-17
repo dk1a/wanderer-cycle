@@ -12,29 +12,6 @@ export default function BaseEquipment({ equipmentData, className }: BaseEquipmen
   const { name, ilvl, affixes } = equipmentData;
   const availableSlots = equipmentData.availableSlots;
 
-  console.log("data", equipmentData);
-
-  const handler = () => {
-    const toastId = toast.loading("taking....");
-    const status = equipmentData.equippedToSlot;
-    if (status === undefined) {
-      toast.update(toastId, {
-        isLoading: false,
-        type: "error",
-        render: ``,
-        autoClose: 5000,
-        closeButton: true,
-      });
-    } else if (!status) {
-      toast.update(toastId, {
-        isLoading: true,
-        type: "success",
-        render: `equipped`,
-        autoClose: 5000,
-        closeButton: true,
-      });
-    }
-  };
   return (
     <div className="text-dark-key p-1.5 flex flex-col justify-between border border-dark-400 bg-dark-500 w-64 m-2">
       <div className={className}>
@@ -62,17 +39,22 @@ export default function BaseEquipment({ equipmentData, className }: BaseEquipmen
               key={slotData.entity}
               style={{ width: "80px", fontSize: "12px", padding: "5px", border: "none", marginTop: "5px" }}
               onClick={() => {
-                const toastId = toast.loading("taking....");
-                const status = equipmentData.equippedToSlot;
-                if (!status) {
-                  toast.update(toastId, {
-                    isLoading: false,
-                    type: "success",
-                    render: `equipped`,
-                    autoClose: 1,
-                    closeButton: true,
-                  });
-                }
+                toast.success("equipped", {
+                  style: {
+                    borderRadius: "0",
+                    padding: "10px",
+                    border: "1px solid #3c3c3c",
+                    backgroundColor: "#252526",
+                  },
+                  icon: false,
+                  position: "bottom-right",
+                  autoClose: 2500,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  theme: "dark",
+                });
                 slotData.equip();
               }}
             >

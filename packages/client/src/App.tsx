@@ -4,6 +4,7 @@ import { useMUD } from "./mud/MUDContext";
 import { AppRouter } from "./AppRouter";
 import { useWandererContext } from "./contexts/WandererContext";
 import { SecondAppRouter } from "./SecondRouter";
+import { ToastContainer } from "react-toastify";
 
 export const App = () => {
   const {
@@ -34,6 +35,7 @@ export const App = () => {
       ) : (
         <SecondAppRouter />
       )}
+      <ToastContainer />
     </div>
   );
 };
