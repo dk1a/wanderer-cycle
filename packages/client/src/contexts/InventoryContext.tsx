@@ -29,6 +29,7 @@ type InventoryContextType = {
   presentProtoEntityIds: EntityID[];
   equipmentList: EquipmentData[];
   equipmentSlots: ReturnType<typeof useEquipmentSlots>;
+  canUnequip: boolean;
 };
 
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined);
@@ -41,8 +42,10 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
   const [filter, setFilter] = useState<string>("");
 
   const changeCycleEquipment = useChangeCycleEquipment();
-  const { cycleEntity } = useWandererContext();
+  const { cycleEntity, wandererMode } = useWandererContext();
   const equipmentSlots = useEquipmentSlots(cycleEntity);
+
+  const canUnequip = useMemo(() => !wandererMode, [wandererMode]);
 
   // 1. Get all owned equipment
   const ownedEquipmentList = useOwnedEquipment();
@@ -112,6 +115,7 @@ export const InventoryProvider = (props: { children: ReactNode }) => {
     presentProtoEntityIds,
     equipmentList,
     equipmentSlots,
+    canUnequip,
   };
   return <InventoryContext.Provider value={value}>{props.children}</InventoryContext.Provider>;
 };

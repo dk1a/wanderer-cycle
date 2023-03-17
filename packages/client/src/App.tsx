@@ -2,8 +2,6 @@ import { SyncState } from "@latticexyz/network";
 import { useComponentValue } from "@latticexyz/react";
 import { useMUD } from "./mud/MUDContext";
 import { AppRouter } from "./AppRouter";
-import { useWandererContext } from "./contexts/WandererContext";
-import { SecondAppRouter } from "./SecondRouter";
 import { ToastContainer } from "react-toastify";
 
 export const App = () => {
@@ -18,10 +16,8 @@ export const App = () => {
     percentage: 0,
   });
 
-  const { mode, lightTheme } = useWandererContext();
-
   return (
-    <div className={lightTheme ? "dark" : ""}>
+    <div>
       {loadingState.state !== SyncState.LIVE ? (
         <div className="flex w-full items-center justify-center mt-10">
           <div className="text-center text-xl">
@@ -30,10 +26,8 @@ export const App = () => {
             {"%)"}
           </div>
         </div>
-      ) : !mode ? (
-        <AppRouter />
       ) : (
-        <SecondAppRouter />
+        <AppRouter />
       )}
       <ToastContainer />
     </div>

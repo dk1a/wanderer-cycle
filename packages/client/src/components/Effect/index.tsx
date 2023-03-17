@@ -18,7 +18,7 @@ export default function Effect({ entity, protoEntity, removability, statmods, ef
   const isItem = effectSource === EffectSource.NFT || effectSource === EffectSource.OWNABLE;
 
   return (
-    <div className="p-1.5 border border-dark-400 ">
+    <div className="p-1.5 border border-dark-400">
       <div className="overflow-hidden text-ellipsis whitespace-nowrap">
         {protoEntity && isItem && <EffectNameItem entity={protoEntity} />}
         {protoEntity && effectSource === EffectSource.SKILL && <EffectNameSkill entity={protoEntity} />}

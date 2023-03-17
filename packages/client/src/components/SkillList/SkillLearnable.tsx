@@ -12,8 +12,8 @@ import { useDuration } from "../../mud/hooks/useDuration";
 import { UseSkillButton } from "../UseSkillButton";
 import { SkillType } from "../../mud/utils/skill";
 
-export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
-  const { learnCycleSkill, learnedSkillEntities, cycleEntity, selectedWandererEntity, mode } = useWandererContext();
+export default function SkillLearnable({ entity, withButtons }: { entity: EntityIndex; withButtons: boolean }) {
+  const { learnCycleSkill, learnedSkillEntities, cycleEntity, selectedWandererEntity } = useWandererContext();
   const skill = useSkillStrict(entity);
   const duration = useDuration(cycleEntity, skill.entity);
 
@@ -41,6 +41,7 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
       setVisible(true);
     }
   }, [visible]);
+
   return (
     <div className="p-0 flex items-center mb-8">
       <Skill
@@ -51,19 +52,19 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
         isCollapsed={!visible}
         onHeaderClick={onHeaderClick}
       />
-      <div className="h-1/2 ml-10">
-        {!isLearned && !mode && (
-          <CustomButton
-            onClick={() => learnCycleSkill(entity)}
-            disabled={level !== undefined && level < skill.requiredLevel}
-          >
-            learn
-          </CustomButton>
-        )}
-        {isLearned && !mode && skill.skillType === SkillType.COMBAT && (
-          <UseSkillButton entity={entity} onSkill={onSkill} />
-        )}
-      </div>
+      {withButtons && (
+        <div className="h-1/2 ml-10">
+          {!isLearned && (
+            <CustomButton
+              onClick={() => learnCycleSkill(entity)}
+              disabled={level !== undefined && level < skill.requiredLevel}
+            >
+              learn
+            </CustomButton>
+          )}
+          {isLearned && skill.skillType === SkillType.COMBAT && <UseSkillButton entity={entity} onSkill={onSkill} />}
+        </div>
+      )}
     </div>
   );
 }
