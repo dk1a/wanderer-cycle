@@ -40,7 +40,7 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
     },
   ];
 
-  const separator = <hr className="h-px my-2 bg-dark-400 border-0 " />;
+  const separator = <hr className="h-px my-2 bg-dark-400 border-0" />;
 
   return (
     <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-full">

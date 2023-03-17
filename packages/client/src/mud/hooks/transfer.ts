@@ -3,13 +3,13 @@ import { useCallback } from "react";
 import { useMUD } from "../../mud/MUDContext";
 
 export default function useTransferFrom() {
-  const { world, systems, playerEntityId } = useMUD();
+  const { systems, playerEntityId } = useMUD();
 
   return useCallback(
-    async (toPlayerEntityId: EntityID, tokenId: EntityID | string) => {
+    async (toPlayerEntityId: string, tokenId: EntityID) => {
       const tx = await systems["system.WNFT"].transferFrom(playerEntityId, toPlayerEntityId, tokenId);
       await tx.wait();
     },
-    [world, systems]
+    [systems, playerEntityId]
   );
 }
