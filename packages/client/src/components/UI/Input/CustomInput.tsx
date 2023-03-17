@@ -1,7 +1,7 @@
 import { ChangeEventHandler } from "react";
 
 type InputProps = {
-  value?: string;
+  value: string;
   placeholder: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
