@@ -16,7 +16,7 @@ export const App = () => {
   });
 
   return (
-    <div className="h-full">
+    <div>
       {loadingState.state !== SyncState.LIVE ? (
         <div className="flex w-full items-center justify-center mt-10">
           <div className="text-center text-xl">

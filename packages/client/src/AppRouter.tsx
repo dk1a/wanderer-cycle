@@ -6,6 +6,9 @@ import { GlobalMaps } from "./pages/GlobalMaps";
 import { SkillsPage } from "./pages/SkillsPage";
 import { CyclePage } from "./pages/CyclePage";
 import { RootBoundary } from "./errorBoundaries";
+import CustomButton from "./components/UI/Button/CustomButton";
+import { useWandererContext } from "./contexts/WandererContext";
+import { useMemo } from "react";
 
 // game routes will display e.g. WandererSelect or Combat, if normal pages aren't available
 const gameRoutes = [
@@ -66,10 +69,18 @@ export function AppRouter() {
 }
 
 function Layout() {
+  const { wandererMode, toggleWandererMode } = useWandererContext();
+  const bg = useMemo(() => (wandererMode ? "bg-dark-600" : "bg-dark-500"), [wandererMode]);
+
   return (
     <div>
-      <div className="flex flex-row flex-wrap items-center justify-around h-16 bg-dark-500 border border-dark-400">
-        <nav className="flex flex-wrap items-center justify-around w-1/2">
+      <div className={`flex flex-row flex-wrap items-center justify-around h-16 ${bg} border border-dark-400`}>
+        <div>
+          <CustomButton className="w-20" onClick={toggleWandererMode}>
+            {wandererMode ? "return" : "void"}
+          </CustomButton>
+        </div>
+        <nav className="flex flex-wrap items-center justify-around w-2/3">
           {[...gameRoutes, ...otherRoutes].map(({ title, path }) => (
             <NavLink
               key={path}

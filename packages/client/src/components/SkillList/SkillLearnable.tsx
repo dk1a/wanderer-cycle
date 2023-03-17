@@ -10,7 +10,7 @@ import { useDuration } from "../../mud/hooks/useDuration";
 import { UseSkillButton } from "../UseSkillButton";
 import { SkillType } from "../../mud/utils/skill";
 
-export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
+export default function SkillLearnable({ entity, withButtons }: { entity: EntityIndex; withButtons: boolean }) {
   const { learnCycleSkill, learnedSkillEntities, cycleEntity } = useWandererContext();
   const skill = useSkillStrict(entity);
   const duration = useDuration(cycleEntity, skill.entity);
@@ -45,17 +45,19 @@ export default function SkillLearnable({ entity }: { entity: EntityIndex }) {
         isCollapsed={!visible}
         onHeaderClick={onHeaderClick}
       />
-      <div className="h-1/2 ml-10">
-        {!isLearned && (
-          <CustomButton
-            onClick={() => learnCycleSkill(entity)}
-            disabled={level !== undefined && level < skill.requiredLevel}
-          >
-            learn
-          </CustomButton>
-        )}
-        {isLearned && skill.skillType === SkillType.NONCOMBAT && <UseSkillButton entity={entity} onSkill={onSkill} />}
-      </div>
+      {withButtons && (
+        <div className="h-1/2 ml-10">
+          {!isLearned && (
+            <CustomButton
+              onClick={() => learnCycleSkill(entity)}
+              disabled={level !== undefined && level < skill.requiredLevel}
+            >
+              learn
+            </CustomButton>
+          )}
+          {isLearned && skill.skillType === SkillType.COMBAT && <UseSkillButton entity={entity} onSkill={onSkill} />}
+        </div>
+      )}
     </div>
   );
 }

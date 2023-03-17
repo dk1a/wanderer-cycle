@@ -8,6 +8,7 @@ import { MUDProvider } from "./mud/MUDContext";
 import { ComponentBrowser } from "./ComponentBrowser";
 import "../index.css";
 import { WandererProvider } from "./contexts/WandererContext";
+import { defaultToastOptions } from "./mud/utils/toast";
 
 const rootElement = document.getElementById("react-root");
 if (!rootElement) throw new Error("React root not found");
@@ -19,7 +20,7 @@ setup().then((result) => {
     <MUDProvider {...result}>
       <WandererProvider>
         <App />
-        <ToastContainer position="bottom-right" draggable={false} theme="dark" />
+        <ToastContainer {...defaultToastOptions} />
       </WandererProvider>
       {import.meta.env.DEV ? <ComponentBrowser /> : null}
     </MUDProvider>

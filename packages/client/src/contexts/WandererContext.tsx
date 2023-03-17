@@ -23,6 +23,8 @@ type WandererContextType = {
   clearCombatResult: () => void;
   learnCycleSkill: ReturnType<typeof useLearnCycleSkill>;
   learnedSkillEntities: EntityIndex[];
+  wandererMode: boolean;
+  toggleWandererMode: () => void;
 };
 
 const WandererContext = createContext<WandererContextType | undefined>(undefined);
@@ -58,6 +60,9 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   const learnCycleSkill = useLearnCycleSkill(selectedWandererEntity);
   const learnedSkillEntities = useLearnedSkillEntities(cycleEntity);
 
+  const [wandererMode, setWandererMode] = useState(false);
+  const toggleWandererMode = useCallback(() => setWandererMode((value) => !value), []);
+
   const value = {
     selectedWandererEntity,
     selectWandererEntity,
@@ -69,6 +74,8 @@ export const WandererProvider = (props: { children: ReactNode }) => {
     clearCombatResult,
     learnedSkillEntities,
     learnCycleSkill,
+    wandererMode,
+    toggleWandererMode,
   };
   return <WandererContext.Provider value={value}>{props.children}</WandererContext.Provider>;
 };

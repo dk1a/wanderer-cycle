@@ -10,6 +10,7 @@ type BaseEquipmentProps = {
 export default function BaseEquipment({ equipmentData, className }: BaseEquipmentProps) {
   const { name, ilvl, affixes } = equipmentData;
   const availableSlots = equipmentData.availableSlots;
+
   return (
     <div className="text-dark-key p-1.5 flex flex-col justify-between border border-dark-400 bg-dark-500 w-64 m-2">
       <div className={className}>
