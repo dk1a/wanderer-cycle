@@ -3,6 +3,7 @@ import { EntityIndex, Has } from "@latticexyz/recs";
 import { useCallback, useMemo } from "react";
 import { useMUD } from "../MUDContext";
 import { getSkill } from "../utils/skill";
+import { toastCalling } from "../utils/toast";
 
 export const useSkill = (entity: EntityIndex | undefined) => {
   const { world, components } = useMUD();
@@ -66,7 +67,7 @@ export const useLearnCycleSkill = (wandererEntity: EntityIndex | undefined) => {
         world.entities[wandererEntity],
         world.entities[skillEntity]
       );
-      await tx.wait();
+      await toastCalling(tx.wait(), "skill learning", "skill learned");
     },
     [world, systems, wandererEntity]
   );
