@@ -1,7 +1,6 @@
 import { EquipmentData } from "../../contexts/InventoryContext";
 import { EffectStatmod } from "../Effect/EffectStatmod";
 import CustomButton from "../UI/Button/CustomButton";
-import { toast } from "react-toastify";
 
 type BaseEquipmentProps = {
   equipmentData: EquipmentData;
@@ -38,28 +37,10 @@ export default function BaseEquipment({ equipmentData, className }: BaseEquipmen
             <CustomButton
               key={slotData.entity}
               style={{ width: "80px", fontSize: "12px", padding: "5px", border: "none", marginTop: "5px" }}
-              onClick={() => {
-                toast.success("equipped", {
-                  style: {
-                    borderRadius: "0",
-                    padding: "10px",
-                    border: "1px solid #3c3c3c",
-                    backgroundColor: "#252526",
-                  },
-                  icon: false,
-                  position: "bottom-right",
-                  autoClose: 2500,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  theme: "dark",
-                });
-                slotData.equip();
-              }}
+              onClick={() => slotData.equip()}
             >
               equip
-              {availableSlots.length > 1 && <span className="text-dark-string">{slotData.name}</span>}
+              {availableSlots.length > 1 && <span className="text-dark-string"> {slotData.name}</span>}
             </CustomButton>
           ))}
         </div>
