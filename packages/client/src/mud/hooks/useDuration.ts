@@ -1,5 +1,6 @@
 import { useComponentValue } from "@latticexyz/react";
 import { EntityID, EntityIndex } from "@latticexyz/recs";
+import { BigNumber } from "ethers";
 import { defaultAbiCoder, keccak256 } from "ethers/lib/utils";
 import { useMemo } from "react";
 import { useMUD } from "../MUDContext";
@@ -27,13 +28,14 @@ export const useDuration = (targetEntity: EntityIndex | undefined, protoEntity: 
   const timeScopeId = useMemo(() => {
     if (!durationScope) return;
     const [, timeScopeId] = defaultAbiCoder.decode(["uint256", "uint256"], durationScope.value);
-    return timeScopeId as string;
+    return BigNumber.from(timeScopeId).toHexString();
   }, [durationScope]);
 
-  if (!durationScope || !timeScopeId || !durationValue) return;
-
-  return {
-    durationScopeId: durationScope.value,
-    ...parseScopedDuration(timeScopeId, durationValue.value),
-  };
+  return useMemo(() => {
+    if (!durationScope || !timeScopeId || !durationValue) return;
+    return {
+      durationScopeId: durationScope.value,
+      ...parseScopedDuration(timeScopeId, durationValue.value),
+    };
+  }, [durationScope, timeScopeId, durationValue]);
 };

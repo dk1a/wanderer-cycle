@@ -251,6 +251,34 @@ export const components = {
     },
   }),
 
+  ActiveWheel: defineEntityComponent(world, {
+    metadata: {
+      contractId: "component.ActiveWheel",
+    },
+  }),
+  DefaultWheel: defineEntityComponent(world, {
+    metadata: {
+      contractId: "component.DefaultWheel",
+    },
+  }),
+  Wheel: defineComponent(
+    world,
+    {
+      totalIdentityRequired: Type.Number,
+      charges: Type.Number,
+      isIsolated: Type.Boolean,
+    },
+    {
+      id: "Wheel",
+      metadata: { contractId: "component.Wheel" },
+    }
+  ),
+  WheelsCompleted: defineNumberComponent(world, {
+    metadata: {
+      contractId: "component.WheelsCompleted",
+    },
+  }),
+
   ActiveCycle: defineEntityComponent(world, {
     metadata: {
       contractId: "component.ActiveCycle",
@@ -259,6 +287,11 @@ export const components = {
   ActiveCyclePrevious: defineEntityComponent(world, {
     metadata: {
       contractId: "component.ActiveCyclePrevious",
+    },
+  }),
+  CycleToWanderer: defineEntityComponent(world, {
+    metadata: {
+      contractId: "component.CycleToWanderer",
     },
   }),
   CycleTurns: defineNumberComponent(world, {

@@ -19,7 +19,7 @@ export default function Skill({ skill, className, isCollapsed = false, onHeaderC
       <div onClick={onHeaderClick} className={"text-dark-method text-xl flex justify-between cursor-pointer"}>
         {skill.name}
         <div className="text-dark-key ml-2 text-[16px]">
-          required level: <span className="text-dark-number">{skill.requiredLevel}</span>
+          requiredLevel: <span className="text-dark-number">{skill.requiredLevel}</span>
         </div>
       </div>
       {!isCollapsed && (
@@ -49,16 +49,15 @@ export default function Skill({ skill, className, isCollapsed = false, onHeaderC
                 <div className="flex">
                   <span className="text-dark-key mr-1">cooldown: </span>
                   <span className="text-dark-number mr-1">{skill.cooldown.timeValue}</span>
-                  <span className="text-dark-string"> {skill.duration.timeScopeName}</span>
+                  <span className="text-dark-string"> {skill.cooldown.timeScopeName}</span>
                 </div>
               )}
               {effect !== undefined && effect.statmods !== undefined && (
                 <div className="p-0.5 w-full mt-4">
                   <div className="">
                     <span className="text-dark-key">
-                      effect target: <span className="text-dark-number">{skill.effectTargetName}</span>{" "}
+                      effectTarget: <span className="text-dark-string">{skill.effectTargetName}</span>
                     </span>
-                    <span className="text-dark-string">{skill.skillTypeName}</span>
                   </div>
                   {effect.statmods.map((statmod) => (
                     <SkillEffectStatmod key={statmod.protoEntity} statmod={statmod} />

@@ -2,7 +2,7 @@ import { useComponentValue } from "@latticexyz/react";
 import { EntityIndex } from "@latticexyz/recs";
 import { useMUD } from "../MUDContext";
 import { BigNumber } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const useCycleTurns = (entity: EntityIndex | undefined) => {
   const {
@@ -14,7 +14,7 @@ export const useCycleTurns = (entity: EntityIndex | undefined) => {
 };
 
 // TODO central config for these
-const ACC_PERIOD = 1;
+const ACC_PERIOD = 1 * 60;
 const TURNS_PER_PERIOD = 10;
 const MAX_ACC_PERIODS = 2;
 const MAX_CURRENT_TURNS_FOR_CLAIM = 50;
@@ -37,13 +37,16 @@ function useAccPeriods(entity: EntityIndex | undefined) {
   const [timestamp, setTimestamp] = useState(Date.now() * 0.001);
 
   const lastClaimed = useComponentValue(CycleTurnsLastClaimed, entity);
-  let lastClaimedTimestamp = 0;
-  if (lastClaimed) {
-    lastClaimedTimestamp = BigNumber.from(lastClaimed.value).toNumber();
-  }
-  if (lastClaimedTimestamp === 0) {
-    lastClaimedTimestamp = timestamp - ACC_PERIOD;
-  }
+  const lastClaimedTimestamp = useMemo(() => {
+    let lastClaimedTimestamp = 0;
+    if (lastClaimed) {
+      lastClaimedTimestamp = BigNumber.from(lastClaimed.value).toNumber();
+    }
+    if (lastClaimedTimestamp === 0) {
+      lastClaimedTimestamp = timestamp - ACC_PERIOD * 1000;
+    }
+    return lastClaimedTimestamp;
+  }, [lastClaimed, timestamp]);
 
   const periodsLast = Math.floor(lastClaimedTimestamp / ACC_PERIOD);
   const periodsCurrent = Math.floor(timestamp / ACC_PERIOD);

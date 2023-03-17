@@ -5,10 +5,12 @@ pragma solidity ^0.8.17;
 import { System } from "solecs/System.sol";
 import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { getAddressById } from "solecs/utils.sol";
+import { SingletonID } from "../SingletonID.sol";
 
 import { WNFTSystem, ID as WNFTSystemID } from "../token/WNFTSystem.sol";
 import { WandererComponent, ID as WandererComponentID } from "./WandererComponent.sol";
 import { GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../guise/GuisePrototypeComponent.sol";
+import { DefaultWheelComponent, ID as DefaultWheelComponentID } from "../wheel/DefaultWheelComponent.sol";
 
 import { LibCycle } from "../cycle/LibCycle.sol";
 
@@ -38,8 +40,11 @@ contract WandererSpawnSystem is System {
     WandererComponent wandererComp = WandererComponent(getAddressById(components, WandererComponentID));
     wandererComp.set(wandererEntity);
 
+    DefaultWheelComponent defaultWheelComp = DefaultWheelComponent(getAddressById(components, DefaultWheelComponentID));
+    uint256 defaultWheelEntity = defaultWheelComp.getValue(SingletonID);
+
     // init cycle
-    LibCycle.initCycle(world, wandererEntity, guiseProtoEntity);
+    LibCycle.initCycle(world, wandererEntity, guiseProtoEntity, defaultWheelEntity);
 
     return abi.encode(wandererEntity);
   }

@@ -1,17 +1,17 @@
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useActivateCycleCombat } from "../../mud/hooks/combat";
-import { useLoot } from "../../mud/hooks/useLoot";
 import { useCallback } from "react";
-import { EntityIndex } from "@latticexyz/recs";
 import { useActiveGuise } from "../../mud/hooks/guise";
 import { useLevel } from "../../mud/hooks/charstat";
 import CustomButton from "../UI/Button/CustomButton";
 import { useCycleTurns } from "../../mud/hooks/turns";
+import { LootData } from "../../mud/utils/getLoot";
 
-export default function BasicMap({ entity }: { entity: EntityIndex }) {
+export default function BasicMap({ data }: { data: LootData }) {
   const { selectedWandererEntity, cycleEntity } = useWandererContext();
   const activateCycleCombat = useActivateCycleCombat();
-  const loot = useLoot(entity);
+
+  const { entity, name, ilvl } = data;
 
   const guise = useActiveGuise(cycleEntity);
   const levelData = useLevel(cycleEntity, guise?.levelMul);
@@ -24,12 +24,7 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
     activateCycleCombat(selectedWandererEntity, entity);
   }, [entity, selectedWandererEntity, activateCycleCombat]);
 
-  if (!loot) {
-    return <div>TODO placeholder (this can happen while the hook is loading)</div>;
-  }
-
-  const name = loot.name;
-  const isHighLevel = levelData !== undefined && loot.ilvl - levelData?.level > 2;
+  const isHighLevel = levelData !== undefined && ilvl - levelData?.level > 2;
 
   return (
     <>
@@ -39,7 +34,7 @@ export default function BasicMap({ entity }: { entity: EntityIndex }) {
         </CustomButton>
         <span className="whitespace-nowrap">
           <span className="text-dark-key">level: </span>
-          <span className={isHighLevel ? "text-red-400" : "text-dark-number"}>{loot.ilvl}</span>
+          <span className={isHighLevel ? "text-red-400" : "text-dark-number"}>{ilvl}</span>
         </span>
       </div>
     </>

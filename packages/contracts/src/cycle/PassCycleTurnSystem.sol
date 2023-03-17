@@ -7,6 +7,7 @@ import { IWorld } from "solecs/interfaces/IWorld.sol";
 import { getAddressById } from "solecs/utils.sol";
 
 import { ActiveCycleComponent, ID as ActiveCycleComponentID } from "./ActiveCycleComponent.sol";
+import { DurationSubSystem, ID as DurationSubSystemID, ScopedDuration } from "../duration/DurationSubSystem.sol";
 
 import { LibCycle } from "./LibCycle.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
@@ -31,6 +32,11 @@ contract PassCycleTurnSystem is System {
 
     // subtract 1 turn
     LibCycleTurns.decreaseTurns(components, cycleEntity, 1);
+    DurationSubSystem durationSubSystem = DurationSubSystem(getAddressById(world.systems(), DurationSubSystemID));
+    durationSubSystem.executeDecreaseScope(
+      cycleEntity,
+      ScopedDuration({ timeScopeId: uint256(keccak256("turn")), timeValue: 1 })
+    );
     // fill up currents
     LibCharstat.Self memory charstat = LibCharstat.__construct(components, cycleEntity);
     LibCharstat.setFullCurrents(charstat);

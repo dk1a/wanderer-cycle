@@ -15,18 +15,18 @@ uint256 constant ID = uint256(keccak256("system.StartCycle"));
 contract StartCycleSystem is System {
   constructor(IWorld _world, address _components) System(_world, _components) {}
 
-  function executeTyped(uint256 wandererEntity, uint256 guiseProtoEntity) public returns (uint256 cycleEntity) {
-    return abi.decode(execute(abi.encode(wandererEntity, guiseProtoEntity)), (uint256));
+  function execute(bytes memory) public pure returns (bytes memory) {
+    return "";
   }
 
-  function execute(bytes memory args) public override returns (bytes memory) {
-    (uint256 wandererEntity, uint256 guiseProtoEntity) = abi.decode(args, (uint256, uint256));
-
+  function executeTyped(
+    uint256 wandererEntity,
+    uint256 guiseProtoEntity,
+    uint256 wheelEntity
+  ) public returns (uint256 cycleEntity) {
     // reverts if sender doesn't have permission
     LibToken.requireOwner(components, wandererEntity, msg.sender);
     // init cycle (reverts if a cycle is already active)
-    uint256 cycleEntity = LibCycle.initCycle(world, wandererEntity, guiseProtoEntity);
-
-    return abi.encode(cycleEntity);
+    cycleEntity = LibCycle.initCycle(world, wandererEntity, guiseProtoEntity, wheelEntity);
   }
 }

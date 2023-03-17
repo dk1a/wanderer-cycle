@@ -53,7 +53,7 @@ contract LearnCycleSkillSystem is System {
     }
 
     // learn the skill
-    LibLearnedSkills.__construct(components, cycleEntity).learnSkill(skillEntity);
+    LibLearnedSkills.__construct(world, cycleEntity).learnSkill(skillEntity);
 
     return "";
   }

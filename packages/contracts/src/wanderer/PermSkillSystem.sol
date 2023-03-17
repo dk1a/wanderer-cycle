@@ -66,7 +66,7 @@ contract PermSkillSystem is System {
     identityComponent.set(wandererEntity, currentIdentity - PERM_SKILL_IDENTITY_COST);
 
     // learn the skill
-    LibLearnedSkills.__construct(components, wandererEntity).learnSkill(skillEntity);
+    LibLearnedSkills.__construct(world, wandererEntity).learnSkill(skillEntity);
 
     return "";
   }

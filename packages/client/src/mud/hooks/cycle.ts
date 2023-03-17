@@ -7,7 +7,9 @@ export const useCompleteCycle = (wandererEntity: EntityIndex | undefined) => {
 
   return useCallback(async () => {
     if (wandererEntity === undefined) throw new Error("No wanderer selected");
-    const tx = await systems["system.CompleteCycle"].executeTyped(world.entities[wandererEntity]);
+    const tx = await systems["system.CompleteCycle"].executeTyped(world.entities[wandererEntity], {
+      gasLimit: 5000000,
+    });
     await tx.wait();
   }, [world, systems, wandererEntity]);
 };
@@ -16,12 +18,13 @@ export const useStartCycle = (wandererEntity: EntityIndex | undefined) => {
   const { world, systems } = useMUD();
 
   return useCallback(
-    async (guiseProtoEntity: EntityIndex) => {
+    async (guiseProtoEntity: EntityIndex, wheelEntity: EntityIndex) => {
       if (wandererEntity === undefined) throw new Error("No wanderer selected");
       const tx = await systems["system.StartCycle"].executeTyped(
         world.entities[wandererEntity],
         world.entities[guiseProtoEntity],
-        { gasLimit: 5000000 }
+        world.entities[wheelEntity],
+        { gasLimit: 30000000 }
       );
       await tx.wait();
     },

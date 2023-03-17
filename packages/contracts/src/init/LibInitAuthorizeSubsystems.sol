@@ -13,9 +13,14 @@ import { ID as EquipmentSubSystemID } from "../equipment/EquipmentSubSystem.sol"
 import { ID as CombatSubSystemID } from "../combat/CombatSubSystem.sol";
 import { ID as WNFTSystemID } from "../token/WNFTSystem.sol";
 import { ID as CycleCombatSystemID } from "../cycle/CycleCombatSystem.sol";
+import { ID as PassCycleTurnSystemID } from "../cycle/PassCycleTurnSystem.sol";
+import { ID as LearnCycleSkillSystemID } from "../cycle/LearnCycleSkillSystem.sol";
+import { ID as PermSkillSystemID } from "../wanderer/PermSkillSystem.sol";
 import { ID as RandomEquipmentSubSystemID } from "../loot/RandomEquipmentSubSystem.sol";
+import { ID as NoncombatSkillSystemID } from "../skill/NoncombatSkillSystem.sol";
 
 import { ID as WandererSpawnSystemID } from "../wanderer/WandererSpawnSystem.sol";
+import { ID as StartCycleSystemID } from "../cycle/StartCycleSystem.sol";
 import { ID as CycleActivateCombatSystemID } from "../cycle/CycleActivateCombatSystem.sol";
 import { ID as CycleCombatRewardSystemID } from "../cycle/CycleCombatRewardSystem.sol";
 import { ID as CycleEquipmentSystemID } from "../cycle/CycleEquipmentSystem.sol";
@@ -48,13 +53,28 @@ library LibInitAuthorizeSubsystems {
     subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
     subsystem.authorizeWriter(writer);
 
-    // WandererSpawn -> WNFT
+    // NoncombatSkill -> Duration, Effect
+    writer = getAddressById(systems, NoncombatSkillSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, DurationSubSystemID));
+    subsystem.authorizeWriter(writer);
+    subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
+    subsystem.authorizeWriter(writer);
+
+    // WandererSpawn -> WNFT, Effect
     writer = getAddressById(systems, WandererSpawnSystemID);
     subsystem = IOwnableWritable(getAddressById(systems, WNFTSystemID));
     subsystem.authorizeWriter(writer);
-    // TODO for testing, remove later (see LibCycle)
     subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
     subsystem.authorizeWriter(writer);
+    // TODO for testing, remove later (see LibCycle)
+    subsystem = IOwnableWritable(getAddressById(systems, RandomEquipmentSubSystemID));
+    subsystem.authorizeWriter(writer);
+
+    // StartCycle -> Effect
+    writer = getAddressById(systems, StartCycleSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
+    subsystem.authorizeWriter(writer);
+    // TODO for testing, remove later (see LibCycle)
     subsystem = IOwnableWritable(getAddressById(systems, RandomEquipmentSubSystemID));
     subsystem.authorizeWriter(writer);
 
@@ -78,6 +98,21 @@ library LibInitAuthorizeSubsystems {
     // CycleEquipment -> Equipment
     writer = getAddressById(systems, CycleEquipmentSystemID);
     subsystem = IOwnableWritable(getAddressById(systems, EquipmentSubSystemID));
+    subsystem.authorizeWriter(writer);
+
+    // PassCycleTurn -> Duration
+    writer = getAddressById(systems, PassCycleTurnSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, DurationSubSystemID));
+    subsystem.authorizeWriter(writer);
+
+    // LearnCycleSkill -> Effect
+    writer = getAddressById(systems, LearnCycleSkillSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
+    subsystem.authorizeWriter(writer);
+
+    // PermSkill -> Effect
+    writer = getAddressById(systems, PermSkillSystemID);
+    subsystem = IOwnableWritable(getAddressById(systems, EffectSubSystemID));
     subsystem.authorizeWriter(writer);
   }
 }

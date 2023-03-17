@@ -9,7 +9,10 @@ import { getAddressById } from "solecs/utils.sol";
 import { ActiveCycleComponent, ID as ActiveCycleComponentID } from "./ActiveCycleComponent.sol";
 import { ActiveCyclePreviousComponent, ID as ActiveCyclePreviousComponentID } from "./ActiveCyclePreviousComponent.sol";
 import { ActiveGuiseComponent, ID as ActiveGuiseComponentID } from "../guise/ActiveGuiseComponent.sol";
+import { CycleToWandererComponent, ID as CycleToWandererComponentID } from "./CycleToWandererComponent.sol";
 import { GuisePrototypeComponent, ID as GuisePrototypeComponentID } from "../guise/GuisePrototypeComponent.sol";
+import { ActiveWheelComponent, ID as ActiveWheelComponentID } from "../wheel/ActiveWheelComponent.sol";
+import { WheelComponent, ID as WheelComponentID } from "../wheel/WheelComponent.sol";
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
@@ -30,11 +33,13 @@ library LibCycle {
   error LibCycle__CycleIsAlreadyActive();
   error LibCycle__CycleNotActive();
   error LibCycle__InvalidGuiseProtoEntity();
+  error LibCycle__InvalidWheelEntity();
 
   function initCycle(
     IWorld world,
     uint256 targetEntity,
-    uint256 guiseProtoEntity
+    uint256 guiseProtoEntity,
+    uint256 wheelEntity
   ) internal returns (uint256 cycleEntity) {
     // cycleEntity is for all the in-cycle components (everything except activeCycle)
     cycleEntity = world.getUniqueEntityId();
@@ -42,24 +47,33 @@ library LibCycle {
     IUint256Component components = world.components();
     ActiveCycleComponent activeCycleComp = ActiveCycleComponent(getAddressById(components, ActiveCycleComponentID));
     ActiveGuiseComponent activeGuiseComp = ActiveGuiseComponent(getAddressById(components, ActiveGuiseComponentID));
-    GuisePrototypeComponent guiseProtoComp = GuisePrototypeComponent(
-      getAddressById(components, GuisePrototypeComponentID)
+    CycleToWandererComponent cycleToWandererComp = CycleToWandererComponent(
+      getAddressById(components, CycleToWandererComponentID)
     );
+    ActiveWheelComponent activeWheelComp = ActiveWheelComponent(getAddressById(components, ActiveWheelComponentID));
     LibCharstat.Self memory charstat = LibCharstat.__construct(components, cycleEntity);
 
     // cycle must be inactive
     if (activeCycleComp.has(targetEntity)) {
       revert LibCycle__CycleIsAlreadyActive();
     }
-    // guise prototype must exist
-    if (!guiseProtoComp.has(guiseProtoEntity)) {
+    // prototypes must exist
+    if (!GuisePrototypeComponent(getAddressById(components, GuisePrototypeComponentID)).has(guiseProtoEntity)) {
       revert LibCycle__InvalidGuiseProtoEntity();
     }
+    if (!WheelComponent(getAddressById(components, WheelComponentID)).has(wheelEntity)) {
+      revert LibCycle__InvalidWheelEntity();
+    }
+
+    // TODO check wheel requirements
 
     // set active cycle
     activeCycleComp.set(targetEntity, cycleEntity);
+    cycleToWandererComp.set(cycleEntity, targetEntity);
     // set active guise
     activeGuiseComp.set(cycleEntity, guiseProtoEntity);
+    // set active wheel
+    activeWheelComp.set(cycleEntity, wheelEntity);
     // init exp
     charstat.exp.initExp();
     // init currents
@@ -69,10 +83,7 @@ library LibCycle {
     // spawn equipment slots
     LibSpawnEquipmentSlots.spawnEquipmentSlots(world, cycleEntity);
     // copy permanent skills
-    LibLearnedSkills.__construct(components, cycleEntity).copySkills(targetEntity);
-
-    // TODO wheel
-    // TODO wallet
+    LibLearnedSkills.__construct(world, cycleEntity).copySkills(targetEntity);
 
     // TODO loot for testing, remove later
     {
@@ -97,7 +108,11 @@ library LibCycle {
     activeCyclePreviousComp.set(wandererEntity, cycleEntity);
     // clear the current cycle
     ActiveCycleComponent activeCycleComp = ActiveCycleComponent(getAddressById(components, ActiveCycleComponentID));
+    CycleToWandererComponent cycleToWandererComp = CycleToWandererComponent(
+      getAddressById(components, CycleToWandererComponentID)
+    );
     activeCycleComp.remove(wandererEntity);
+    cycleToWandererComp.remove(cycleEntity);
   }
 
   /// @dev Return `cycleEntity` if msg.sender is allowed to use it.
@@ -117,5 +132,15 @@ library LibCycle {
     ActiveCycleComponent activeCycleComp = ActiveCycleComponent(getAddressById(components, ActiveCycleComponentID));
     if (!activeCycleComp.has(wandererEntity)) revert LibCycle__CycleNotActive();
     return activeCycleComp.getValue(wandererEntity);
+  }
+
+  function requirePermission(IUint256Component components, uint256 cycleEntity) internal view {
+    // get wanderer entity
+    CycleToWandererComponent cycleToWandererComp = CycleToWandererComponent(
+      getAddressById(components, CycleToWandererComponentID)
+    );
+    uint256 wandererEntity = cycleToWandererComp.getValue(cycleEntity);
+    // check permission
+    LibToken.requireOwner(components, wandererEntity, msg.sender);
   }
 }
