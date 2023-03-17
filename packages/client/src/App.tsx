@@ -2,7 +2,6 @@ import { SyncState } from "@latticexyz/network";
 import { useComponentValue } from "@latticexyz/react";
 import { useMUD } from "./mud/MUDContext";
 import { AppRouter } from "./AppRouter";
-import { ToastContainer } from "react-toastify";
 
 export const App = () => {
   const {
@@ -29,7 +28,6 @@ export const App = () => {
       ) : (
         <AppRouter />
       )}
-      <ToastContainer />
     </div>
   );
 };
