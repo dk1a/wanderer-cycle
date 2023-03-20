@@ -58,7 +58,7 @@ export const useLearnedSkillEntities = (targetEntity: EntityIndex | undefined) =
 };
 
 export const useLearnCycleSkill = (wandererEntity: EntityIndex | undefined) => {
-  const { world, systems } = useMUD();
+  const { world, systems, components } = useMUD();
 
   return useCallback(
     async (skillEntity: EntityIndex) => {
@@ -67,14 +67,15 @@ export const useLearnCycleSkill = (wandererEntity: EntityIndex | undefined) => {
         world.entities[wandererEntity],
         world.entities[skillEntity]
       );
-      await toastCalling(tx.wait(), "skill learning", "skill learned");
+      const skill = getSkill(world, components, skillEntity);
+      await toastCalling(tx.wait(), `learning ${skill.name}`, `${skill.name} learned`);
     },
-    [world, systems, wandererEntity]
+    [world, systems, components, wandererEntity]
   );
 };
 
 export const usePermSkill = (wandererEntity: EntityIndex | undefined) => {
-  const { world, systems } = useMUD();
+  const { world, systems, components } = useMUD();
 
   return useCallback(
     async (skillEntity: EntityIndex) => {
@@ -83,14 +84,15 @@ export const usePermSkill = (wandererEntity: EntityIndex | undefined) => {
         world.entities[wandererEntity],
         world.entities[skillEntity]
       );
-      await tx.wait();
+      const skill = getSkill(world, components, skillEntity);
+      await toastCalling(tx.wait(), `use ${skill.name}`, `${skill.name} used`);
     },
-    [world, systems, wandererEntity]
+    [world, systems, components, wandererEntity]
   );
 };
 
 export const useExecuteNoncombatSkill = () => {
-  const { world, systems } = useMUD();
+  const { world, systems, components } = useMUD();
 
   return useCallback(
     async (cycleEntity: EntityIndex, skillEntity: EntityIndex) => {
@@ -98,8 +100,9 @@ export const useExecuteNoncombatSkill = () => {
         world.entities[cycleEntity],
         world.entities[skillEntity]
       );
-      await tx.wait();
+      const skill = getSkill(world, components, skillEntity);
+      await toastCalling(tx.wait(), `use execute ${skill.name}`, `used execute ${skill.name}`);
     },
-    [world, systems]
+    [world, systems, components]
   );
 };

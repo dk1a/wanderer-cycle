@@ -16,7 +16,7 @@ export const toastCalling = async (
       render: loadingRender,
       icon: false,
       position: "bottom-right",
-      autoClose: 500,
+      autoClose: 0,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: false,
