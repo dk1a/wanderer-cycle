@@ -68,7 +68,7 @@ export const useLearnCycleSkill = (wandererEntity: EntityIndex | undefined) => {
         world.entities[skillEntity]
       );
       const skill = getSkill(world, components, skillEntity);
-      await toastCalling(tx.wait(), `learning ${skill.name}`, `${skill.name} learned`);
+      await toastCalling(tx.wait(), `Learning ${skill.name}`, `${skill.name} learned!`);
     },
     [world, systems, components, wandererEntity]
   );
@@ -85,7 +85,7 @@ export const usePermSkill = (wandererEntity: EntityIndex | undefined) => {
         world.entities[skillEntity]
       );
       const skill = getSkill(world, components, skillEntity);
-      await toastCalling(tx.wait(), `use ${skill.name}`, `${skill.name} used`);
+      await toastCalling(tx.wait(), `Use ${skill.name}`, `${skill.name} used`);
     },
     [world, systems, components, wandererEntity]
   );
@@ -101,7 +101,7 @@ export const useExecuteNoncombatSkill = () => {
         world.entities[skillEntity]
       );
       const skill = getSkill(world, components, skillEntity);
-      await toastCalling(tx.wait(), `use execute ${skill.name}`, `used execute ${skill.name}`);
+      await toastCalling(tx.wait(), `Use execute ${skill.name}`, `Execute ${skill.name} is a used`);
     },
     [world, systems, components]
   );

@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useMUD } from "../../mud/MUDContext";
 import CustomButton from "../UI/Button/CustomButton";
+import { toastCalling } from "../../mud/utils/toast";
 
 export default function ClaimTurnsButton({ claimableTurns }: { claimableTurns: number }) {
   const { world, systems } = useMUD();
@@ -14,7 +15,7 @@ export default function ClaimTurnsButton({ claimableTurns }: { claimableTurns: n
     }
     setIsBusy(true);
     const tx = await systems["system.ClaimCycleTurns"].executeTyped(world.entities[selectedWandererEntity]);
-    await tx.wait();
+    await toastCalling(tx.wait(), `Claim Turns `, `Claimed Turns `);
     setIsBusy(false);
   }, [world, systems, selectedWandererEntity]);
 
