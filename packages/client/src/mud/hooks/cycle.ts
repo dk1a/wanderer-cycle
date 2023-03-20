@@ -1,7 +1,7 @@
 import { EntityID, EntityIndex } from "@latticexyz/recs";
 import { useCallback, useEffect } from "react";
 import { useMUD } from "../MUDContext";
-import { toastCalling } from "../utils/toast";
+import { toastPromise } from "../utils/toast";
 
 export const useCompleteCycle = (wandererEntity: EntityIndex | undefined) => {
   const { world, systems } = useMUD();
@@ -11,7 +11,7 @@ export const useCompleteCycle = (wandererEntity: EntityIndex | undefined) => {
     const tx = await systems["system.CompleteCycle"].executeTyped(world.entities[wandererEntity], {
       gasLimit: 5000000,
     });
-    await toastCalling(tx.wait(), `Cycle complete... `, `Cycle completed! `);
+    await toastPromise(tx.wait(), `Cycle complete... `, `Cycle completed! `);
   }, [world, systems, wandererEntity]);
 };
 
@@ -27,7 +27,7 @@ export const useStartCycle = (wandererEntity: EntityIndex | undefined) => {
         world.entities[wheelEntity],
         { gasLimit: 30000000 }
       );
-      await toastCalling(tx.wait(), `Starts cycle... `, `Cycle started!`);
+      await toastPromise(tx.wait(), `Starts cycle... `, `Cycle started!`);
     },
     [world, systems, wandererEntity]
   );

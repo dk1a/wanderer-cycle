@@ -2,7 +2,7 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useCallback } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useMUD } from "../MUDContext";
-import { toastCalling } from "../utils/toast";
+import { toastPromise } from "../utils/toast";
 
 export enum EquipmentAction {
   UNEQUIP,
@@ -27,7 +27,7 @@ export const useChangeCycleEquipment = () => {
         equipmentSlotId,
         equipmentEntityId
       );
-      await toastCalling(tx.wait(), `Сhange equipment`, `Equipment changed`);
+      await toastPromise(tx.wait(), `Сhange equipment`, `Equipment changed`);
     },
     [world, systems, selectedWandererEntity]
   );

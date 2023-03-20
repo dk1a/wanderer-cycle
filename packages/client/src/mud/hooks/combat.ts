@@ -14,7 +14,7 @@ import { useMUD } from "../MUDContext";
 import { useEntityQuery } from "../useEntityQuery";
 import { CombatAction } from "../utils/combat";
 import { parsePStats } from "../utils/experience";
-import { toastCalling } from "../utils/toast";
+import { toastPromise } from "../utils/toast";
 
 export const useActiveCombat = (entity: EntityIndex | undefined) => {
   const mud = useMUD();
@@ -42,7 +42,7 @@ export const useActivateCycleCombat = () => {
         world.entities[wandererEntity],
         world.entities[mapEntity]
       );
-      await toastCalling(tx.wait(), `Activate map...`, `Map is active`);
+      await toastPromise(tx.wait(), `Activate map...`, `Map is active`);
     },
     [world, systems]
   );
@@ -54,7 +54,7 @@ export const useExecuteCycleCombatRound = () => {
   return useCallback(
     async (wandererEntity: EntityIndex, actions: CombatAction[]) => {
       const tx = await systems["system.CycleCombat"].executeTyped(world.entities[wandererEntity], actions);
-      await toastCalling(tx.wait(), `Execute cycle combat round..`, `Combat!`);
+      await toastPromise(tx.wait(), `Execute cycle combat round..`, `Combat!`);
     },
     [world, systems]
   );
@@ -69,7 +69,7 @@ export const useClaimCycleCombatReward = () => {
         world.entities[wandererEntity],
         world.entities[requestEntity]
       );
-      await toastCalling(tx.wait(), `Claim combat reward...`, `Claim is rewarded!`);
+      await toastPromise(tx.wait(), `Claim combat reward...`, `Claim is rewarded!`);
     },
     [world, systems]
   );
@@ -84,7 +84,7 @@ export const useCancelCycleCombatReward = () => {
         world.entities[wandererEntity],
         world.entities[requestEntity]
       );
-      await toastCalling(tx.wait(), `Cancel claim combat reward...`, `Claim is cancelled!`);
+      await toastPromise(tx.wait(), `Cancel claim combat reward...`, `Claim is cancelled!`);
     },
     [world, systems]
   );

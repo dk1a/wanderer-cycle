@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-export const toastCalling = async (
+export const toastPromise = async (
   promise: Promise<unknown> | (() => Promise<unknown>),
   loadingRender: string,
   successRender: string

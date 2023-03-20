@@ -3,7 +3,7 @@ import { EntityIndex, Has } from "@latticexyz/recs";
 import { useCallback, useMemo } from "react";
 import { useMUD } from "../MUDContext";
 import { getSkill } from "../utils/skill";
-import { toastCalling } from "../utils/toast";
+import { toastPromise } from "../utils/toast";
 
 export const useSkill = (entity: EntityIndex | undefined) => {
   const { world, components } = useMUD();
@@ -68,7 +68,7 @@ export const useLearnCycleSkill = (wandererEntity: EntityIndex | undefined) => {
         world.entities[skillEntity]
       );
       const skill = getSkill(world, components, skillEntity);
-      await toastCalling(tx.wait(), `Learning ${skill.name}`, `${skill.name} learned!`);
+      await toastPromise(tx.wait(), `Learning ${skill.name}`, `${skill.name} learned!`);
     },
     [world, systems, components, wandererEntity]
   );
@@ -85,7 +85,7 @@ export const usePermSkill = (wandererEntity: EntityIndex | undefined) => {
         world.entities[skillEntity]
       );
       const skill = getSkill(world, components, skillEntity);
-      await toastCalling(tx.wait(), `Use ${skill.name}`, `${skill.name} used`);
+      await toastPromise(tx.wait(), `Use ${skill.name}`, `${skill.name} used`);
     },
     [world, systems, components, wandererEntity]
   );
@@ -101,7 +101,7 @@ export const useExecuteNoncombatSkill = () => {
         world.entities[skillEntity]
       );
       const skill = getSkill(world, components, skillEntity);
-      await toastCalling(tx.wait(), `Use execute ${skill.name}`, `Execute ${skill.name} is a used`);
+      await toastPromise(tx.wait(), `Use execute ${skill.name}`, `Execute ${skill.name} is a used`);
     },
     [world, systems, components]
   );

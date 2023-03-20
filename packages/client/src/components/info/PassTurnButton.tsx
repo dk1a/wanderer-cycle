@@ -3,7 +3,7 @@ import { useWandererContext } from "../../contexts/WandererContext";
 import { useCycleTurns } from "../../mud/hooks/turns";
 import { useMUD } from "../../mud/MUDContext";
 import CustomButton from "../UI/Button/CustomButton";
-import { toastCalling } from "../../mud/utils/toast";
+import { toastPromise } from "../../mud/utils/toast";
 
 export default function PassTurnButton() {
   const { world, systems } = useMUD();
@@ -17,7 +17,7 @@ export default function PassTurnButton() {
     if (selectedWandererEntity === undefined) throw new Error("No wanderer selected");
     setIsBusy(true);
     const tx = await systems["system.PassCycleTurn"].executeTyped(world.entities[selectedWandererEntity]);
-    await toastCalling(tx.wait(), `Pass turn... `, `Turn is passed`);
+    await toastPromise(tx.wait(), `Pass turn... `, `Turn is passed`);
     setIsBusy(false);
   }, [world, systems, selectedWandererEntity]);
 
