@@ -69,14 +69,14 @@ export function AppRouter() {
 }
 
 function Layout() {
-  const { wandererMode, toggleWandererMode } = useWandererContext();
+  const { wandererMode, setWandererMode } = useWandererContext();
   const bg = useMemo(() => (wandererMode ? "bg-dark-600" : "bg-dark-500"), [wandererMode]);
 
   return (
     <div>
       <div className={`flex flex-row flex-wrap items-center justify-around h-16 ${bg} border border-dark-400`}>
         <div>
-          <CustomButton className="w-20" onClick={toggleWandererMode}>
+          <CustomButton className="w-20" onClick={setWandererMode}>
             {wandererMode ? "return" : "void"}
           </CustomButton>
         </div>

@@ -3,8 +3,7 @@ import { useComponentValue } from "@latticexyz/react";
 import { useMUD } from "./mud/MUDContext";
 import { AppRouter } from "./AppRouter";
 import { WandererProvider } from "./contexts/WandererContext";
-import { useEffect, useState } from "react";
-import { EntityIndex } from "@latticexyz/recs";
+import { useLocalStorage } from "./utils/hooks/useLocalStorage";
 
 export const App = () => {
   const {
@@ -18,7 +17,7 @@ export const App = () => {
     percentage: 0,
   });
 
-  const [selectedWandererEntity, selectWandererEntity] = useState<EntityIndex>();
+  const [selectedWandererEntity, selectWandererEntity] = useLocalStorage([], "selectedWandererEntity");
 
   return (
     <WandererProvider selectedWandererEntity={selectedWandererEntity} selectWandererEntity={selectWandererEntity}>

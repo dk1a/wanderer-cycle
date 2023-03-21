@@ -11,6 +11,8 @@ import {
 import { useLearnCycleSkill } from "../mud/hooks/skill";
 import { useLearnedSkillEntities } from "../mud/hooks/skill";
 import { useMUD } from "../mud/MUDContext";
+import useToggle from "../utils/hooks/useToggle";
+import { useLocalStorage } from "../utils/hooks/useLocalStorage";
 
 type WandererContextType = {
   selectedWandererEntity: EntityIndex;
@@ -24,7 +26,7 @@ type WandererContextType = {
   learnCycleSkill: ReturnType<typeof useLearnCycleSkill>;
   learnedSkillEntities: EntityIndex[];
   wandererMode: boolean;
-  toggleWandererMode: () => void;
+  setWandererMode: () => void;
 };
 
 type WandererProviderType = {
@@ -38,12 +40,10 @@ const WandererContext = createContext<WandererContextType | undefined>(undefined
 export const WandererProvider = ({ children, selectWandererEntity, selectedWandererEntity }: WandererProviderType) => {
   const currentValue = useContext(WandererContext);
   if (currentValue) throw new Error("WandererProvider can only be used once");
-
   const {
     world,
     components: { ActiveCycle, ActiveCyclePrevious },
   } = useMUD();
-
   // current cycle
   const activeCycle = useComponentValue(ActiveCycle, selectedWandererEntity);
   const cycleEntity = useMemo(() => {
@@ -65,8 +65,7 @@ export const WandererProvider = ({ children, selectWandererEntity, selectedWande
   const learnCycleSkill = useLearnCycleSkill(selectedWandererEntity);
   const learnedSkillEntities = useLearnedSkillEntities(cycleEntity);
 
-  const [wandererMode, setWandererMode] = useState(false);
-  const toggleWandererMode = useCallback(() => setWandererMode((value) => !value), []);
+  const [wandererMode, setWandererMode] = useToggle(false);
 
   const value = {
     selectedWandererEntity,
@@ -80,7 +79,7 @@ export const WandererProvider = ({ children, selectWandererEntity, selectedWande
     learnedSkillEntities,
     learnCycleSkill,
     wandererMode,
-    toggleWandererMode,
+    setWandererMode,
   };
   return <WandererContext.Provider value={value}>{children}</WandererContext.Provider>;
 };
