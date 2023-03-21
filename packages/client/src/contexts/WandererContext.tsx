@@ -11,9 +11,11 @@ import {
 import { useLearnCycleSkill } from "../mud/hooks/skill";
 import { useLearnedSkillEntities } from "../mud/hooks/skill";
 import { useMUD } from "../mud/MUDContext";
+import useToggle from "../utils/hooks/useToggle";
+import { useLocalStorage } from "../utils/hooks/useLocalStorage";
 
 type WandererContextType = {
-  selectedWandererEntity?: EntityIndex;
+  selectedWandererEntity: EntityIndex;
   selectWandererEntity: (wanderer: EntityIndex | undefined) => void;
   cycleEntity?: EntityIndex;
   previousCycleEntity?: EntityIndex;
@@ -24,21 +26,24 @@ type WandererContextType = {
   learnCycleSkill: ReturnType<typeof useLearnCycleSkill>;
   learnedSkillEntities: EntityIndex[];
   wandererMode: boolean;
-  toggleWandererMode: () => void;
+  setWandererMode: () => void;
+};
+
+type WandererProviderType = {
+  children: ReactNode;
+  selectWandererEntity: (wanderer: EntityIndex | undefined) => void;
+  selectedWandererEntity: EntityIndex | undefined;
 };
 
 const WandererContext = createContext<WandererContextType | undefined>(undefined);
 
-export const WandererProvider = (props: { children: ReactNode }) => {
+export const WandererProvider = ({ children, selectWandererEntity, selectedWandererEntity }: WandererProviderType) => {
   const currentValue = useContext(WandererContext);
   if (currentValue) throw new Error("WandererProvider can only be used once");
-
-  const [selectedWandererEntity, selectWandererEntity] = useState<EntityIndex>();
   const {
     world,
     components: { ActiveCycle, ActiveCyclePrevious },
   } = useMUD();
-
   // current cycle
   const activeCycle = useComponentValue(ActiveCycle, selectedWandererEntity);
   const cycleEntity = useMemo(() => {
@@ -60,8 +65,7 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   const learnCycleSkill = useLearnCycleSkill(selectedWandererEntity);
   const learnedSkillEntities = useLearnedSkillEntities(cycleEntity);
 
-  const [wandererMode, setWandererMode] = useState(false);
-  const toggleWandererMode = useCallback(() => setWandererMode((value) => !value), []);
+  const [wandererMode, setWandererMode] = useToggle(false);
 
   const value = {
     selectedWandererEntity,
@@ -75,9 +79,9 @@ export const WandererProvider = (props: { children: ReactNode }) => {
     learnedSkillEntities,
     learnCycleSkill,
     wandererMode,
-    toggleWandererMode,
+    setWandererMode,
   };
-  return <WandererContext.Provider value={value}>{props.children}</WandererContext.Provider>;
+  return <WandererContext.Provider value={value}>{children}</WandererContext.Provider>;
 };
 
 export const useWandererContext = () => {
