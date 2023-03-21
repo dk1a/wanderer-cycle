@@ -7,7 +7,6 @@ import { setup } from "./mud/setup";
 import { MUDProvider } from "./mud/MUDContext";
 import { ComponentBrowser } from "./ComponentBrowser";
 import "../index.css";
-import { WandererProvider } from "./contexts/WandererContext";
 import { defaultToastOptions } from "./mud/utils/toast";
 
 const rootElement = document.getElementById("react-root");
@@ -18,10 +17,8 @@ const root = createRoot(rootElement);
 setup().then((result) => {
   root.render(
     <MUDProvider {...result}>
-      <WandererProvider>
-        <App />
-        <ToastContainer {...defaultToastOptions} />
-      </WandererProvider>
+      <App />
+      <ToastContainer {...defaultToastOptions} />
       {import.meta.env.DEV ? <ComponentBrowser /> : null}
     </MUDProvider>
   );

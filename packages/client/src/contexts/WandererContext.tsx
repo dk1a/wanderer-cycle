@@ -13,7 +13,7 @@ import { useLearnedSkillEntities } from "../mud/hooks/skill";
 import { useMUD } from "../mud/MUDContext";
 
 type WandererContextType = {
-  selectedWandererEntity?: EntityIndex;
+  selectedWandererEntity: EntityIndex;
   selectWandererEntity: (wanderer: EntityIndex | undefined) => void;
   cycleEntity?: EntityIndex;
   previousCycleEntity?: EntityIndex;
@@ -27,13 +27,18 @@ type WandererContextType = {
   toggleWandererMode: () => void;
 };
 
+type WandererProviderType = {
+  children: ReactNode;
+  selectWandererEntity: (wanderer: EntityIndex | undefined) => void;
+  selectedWandererEntity: EntityIndex | undefined;
+};
+
 const WandererContext = createContext<WandererContextType | undefined>(undefined);
 
-export const WandererProvider = (props: { children: ReactNode }) => {
+export const WandererProvider = ({ children, selectWandererEntity, selectedWandererEntity }: WandererProviderType) => {
   const currentValue = useContext(WandererContext);
   if (currentValue) throw new Error("WandererProvider can only be used once");
 
-  const [selectedWandererEntity, selectWandererEntity] = useState<EntityIndex>();
   const {
     world,
     components: { ActiveCycle, ActiveCyclePrevious },
@@ -77,7 +82,7 @@ export const WandererProvider = (props: { children: ReactNode }) => {
     wandererMode,
     toggleWandererMode,
   };
-  return <WandererContext.Provider value={value}>{props.children}</WandererContext.Provider>;
+  return <WandererContext.Provider value={value}>{children}</WandererContext.Provider>;
 };
 
 export const useWandererContext = () => {
