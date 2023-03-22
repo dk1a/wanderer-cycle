@@ -1,5 +1,4 @@
 import { useWandererContext } from "./contexts/WandererContext";
-import WandererSelect from "./pages/WandererSelect";
 import CycleInfo from "./components/info/CycleInfo";
 import { Outlet } from "react-router-dom";
 import CombatPage from "./pages/CombatPage";
@@ -7,9 +6,10 @@ import CombatInfo from "./components/info/CombatInfo";
 import { CombatResultPage } from "./pages/CombatResultPage";
 import { CombatResult } from "./mud/hooks/combat";
 import { WandererInfo } from "./components/info/WandererInfo";
+import WandererSelect from "./pages/WandererSelect";
 
 export function GameRoot() {
-  const { selectedWandererEntity, enemyEntity, combatRewardRequests, lastCombatResult, cycleEntity, wandererMode } =
+  const { enemyEntity, combatRewardRequests, lastCombatResult, cycleEntity, wandererMode, selectedWandererEntity } =
     useWandererContext();
 
   if (selectedWandererEntity === undefined) {
