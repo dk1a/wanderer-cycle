@@ -11,6 +11,7 @@ import {
 import { useLearnCycleSkill } from "../mud/hooks/skill";
 import { useLearnedSkillEntities } from "../mud/hooks/skill";
 import { useMUD } from "../mud/MUDContext";
+import { useLocalStorage } from "../mud/utils/useLocalStorage";
 
 type WandererContextType = {
   selectedWandererEntity?: EntityIndex;
@@ -33,7 +34,7 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   const currentValue = useContext(WandererContext);
   if (currentValue) throw new Error("WandererProvider can only be used once");
 
-  const [selectedWandererEntity, selectWandererEntity] = useState<EntityIndex>();
+  const [selectedWandererEntity, selectWandererEntity] = useLocalStorage("selectedWanderer", []);
   const {
     world,
     components: { ActiveCycle, ActiveCyclePrevious },
