@@ -29,11 +29,16 @@ type WandererContextType = {
 
 const WandererContext = createContext<WandererContextType | undefined>(undefined);
 
-export const WandererProvider = (props: { children: ReactNode }) => {
+type WandererProviderProps = {
+  children: ReactNode;
+  selectedWandererEntity: EntityIndex | undefined;
+  selectWandererEntity: (wanderer: EntityIndex | undefined) => void;
+};
+
+export const WandererProvider = ({ children, selectedWandererEntity, selectWandererEntity }: WandererProviderProps) => {
   const currentValue = useContext(WandererContext);
   if (currentValue) throw new Error("WandererProvider can only be used once");
 
-  const [selectedWandererEntity, selectWandererEntity] = useState<EntityIndex>();
   const {
     world,
     components: { ActiveCycle, ActiveCyclePrevious },
@@ -77,7 +82,7 @@ export const WandererProvider = (props: { children: ReactNode }) => {
     wandererMode,
     toggleWandererMode,
   };
-  return <WandererContext.Provider value={value}>{props.children}</WandererContext.Provider>;
+  return <WandererContext.Provider value={value}>{children}</WandererContext.Provider>;
 };
 
 export const useWandererContext = () => {
