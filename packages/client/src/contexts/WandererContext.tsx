@@ -13,7 +13,7 @@ import { useLearnedSkillEntities } from "../mud/hooks/skill";
 import { useMUD } from "../mud/MUDContext";
 
 type WandererContextType = {
-  selectedWandererEntity?: EntityIndex;
+  selectedWandererEntity?: EntityIndex | undefined;
   selectWandererEntity: (wanderer: EntityIndex | undefined) => void;
   cycleEntity?: EntityIndex;
   previousCycleEntity?: EntityIndex;

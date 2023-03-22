@@ -21,20 +21,20 @@ export const App = () => {
   const [selectedWandererEntity, selectWandererEntity] = useState<EntityIndex>();
 
   return (
-    <WandererProvider selectedWandererEntity={selectedWandererEntity} selectWandererEntity={selectWandererEntity}>
-      <div>
-        {loadingState.state !== SyncState.LIVE ? (
-          <div className="flex w-full items-center justify-center mt-10">
-            <div className="text-center text-xl">
-              {loadingState.msg} {"("}
-              <span className="text-dark-number">{Math.floor(loadingState.percentage)}</span>
-              {"%)"}
-            </div>
+    <div>
+      {loadingState.state !== SyncState.LIVE ? (
+        <div className="flex w-full items-center justify-center mt-10">
+          <div className="text-center text-xl">
+            {loadingState.msg} {"("}
+            <span className="text-dark-number">{Math.floor(loadingState.percentage)}</span>
+            {"%)"}
           </div>
-        ) : (
+        </div>
+      ) : (
+        <WandererProvider selectedWandererEntity={selectedWandererEntity} selectWandererEntity={selectWandererEntity}>
           <AppRouter />
-        )}
-      </div>
-    </WandererProvider>
+        </WandererProvider>
+      )}
+    </div>
   );
 };

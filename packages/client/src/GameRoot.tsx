@@ -6,9 +6,15 @@ import CombatInfo from "./components/info/CombatInfo";
 import { CombatResultPage } from "./pages/CombatResultPage";
 import { CombatResult } from "./mud/hooks/combat";
 import { WandererInfo } from "./components/info/WandererInfo";
+import WandererSelect from "./pages/WandererSelect";
 
 export function GameRoot() {
-  const { enemyEntity, combatRewardRequests, lastCombatResult, cycleEntity, wandererMode } = useWandererContext();
+  const { enemyEntity, combatRewardRequests, lastCombatResult, cycleEntity, wandererMode, selectedWandererEntity } =
+    useWandererContext();
+
+  if (selectedWandererEntity === undefined) {
+    return <WandererSelect />;
+  }
 
   if (enemyEntity !== undefined) {
     return (
