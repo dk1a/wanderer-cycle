@@ -68,12 +68,19 @@ export function AppRouter() {
   );
 }
 
+const list = [
+  { id: 1, label: "MULTILEVEL" },
+  { id: 2, label: "MULTILEVEL" },
+  { id: 3, label: "MULTILEVEL" },
+  { id: 4, label: "MULTILEVEL" },
+];
+
 function Layout() {
   const { wandererMode, toggleWandererMode } = useWandererContext();
   const bg = useMemo(() => (wandererMode ? "bg-dark-600" : "bg-dark-500"), [wandererMode]);
 
   return (
-    <div>
+    <>
       <div className={`flex flex-row flex-wrap items-center justify-around h-16 ${bg} border border-dark-400`}>
         <div>
           <CustomButton className="w-20" onClick={toggleWandererMode}>
@@ -100,7 +107,16 @@ function Layout() {
           </div>
         </nav>
       </div>
+      <div className="flex flex-row flex-wrap justify-center items-center h-8 border border-dark-400 bg-dark-500">
+        <div className="w-1/2 flex justify-around">
+          {list.map((map) => (
+            <span key={map.id} className="text-dark-200">
+              {map.label}
+            </span>
+          ))}
+        </div>
+      </div>
       <Outlet />
-    </div>
+    </>
   );
 }
