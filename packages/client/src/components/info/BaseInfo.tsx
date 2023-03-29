@@ -7,6 +7,7 @@ import { ElementalStatmods } from "../ElementalStatmods";
 import { PStatWithProgress } from "./PStatWithProgress";
 import EffectList from "../EffectList";
 import CopyAndCopied from "../UI/CopyAndCopied/CopyAndCopied";
+import { useWandererContext } from "../../contexts/WandererContext";
 
 export interface BaseInfoProps {
   entity: EntityIndex | undefined;
@@ -19,6 +20,7 @@ export interface BaseInfoProps {
 
 export default function BaseInfo({ entity, entityId, name, locationName, levelData, turnsHtml }: BaseInfoProps) {
   const pstats = usePstats(entity);
+  const { cycleEntity } = useWandererContext();
 
   const life = useLife(entity);
   const mana = useMana(entity);
@@ -48,7 +50,7 @@ export default function BaseInfo({ entity, entityId, name, locationName, levelDa
     <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-full">
       <div className="flex flex-col items-center">
         <h4 className="relative col-span-3 text-center text-lg text-dark-type font-medium">{name}</h4>
-        <CopyAndCopied textData={entityId} />
+        {name !== "Enemy" && <CopyAndCopied textData={entityId} />}
         {locationName !== null && <div className="col-span-3 text-center text-dark-string">{locationName}</div>}
       </div>
       {identityCurrent !== undefined && (
@@ -62,7 +64,6 @@ export default function BaseInfo({ entity, entityId, name, locationName, levelDa
       {pstats.map((pstat) => (
         <PStatWithProgress key={pstat.name} {...pstat} />
       ))}
-
       {separator}
       {currents.map(({ name, value, maxValue }) => (
         <Fragment key={name}>
