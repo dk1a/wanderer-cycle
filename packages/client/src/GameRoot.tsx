@@ -39,7 +39,7 @@ export function GameRoot() {
 
   if (wandererMode || cycleEntity === undefined) {
     return (
-      <div className="flex">
+      <div className="flex h-full">
         <WandererInfo />
         <Outlet />
       </div>

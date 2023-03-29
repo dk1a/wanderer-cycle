@@ -6,7 +6,7 @@ export function Cycle() {
   const { selectedWandererEntity, cycleEntity, previousCycleEntity } = useWandererContext();
 
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex justify-center w-full h-full">
       {selectedWandererEntity !== undefined && cycleEntity === undefined && previousCycleEntity !== undefined && (
         <CycleStart wandererEntity={selectedWandererEntity} previousCycleEntity={previousCycleEntity} />
       )}

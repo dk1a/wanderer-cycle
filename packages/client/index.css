@@ -6,6 +6,14 @@
   font-family: "PT Sans", sans-serif;
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
 :root {
   --toastify-toast-background: #343434;
   --toastify-color-progress-success: #c586c0;
