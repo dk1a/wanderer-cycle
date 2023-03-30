@@ -77,7 +77,7 @@ const list = [
 ];
 
 function Layout() {
-  const { wandererMode, toggleWandererMode } = useWandererContext();
+  const { wandererMode, toggleWandererMode, enemyEntity } = useWandererContext();
   const bg = useMemo(() => (wandererMode ? "bg-dark-600" : "bg-dark-500"), [wandererMode]);
 
   return (
@@ -108,13 +108,15 @@ function Layout() {
           </div>
         </nav>
       </div>
-      <div className="flex flex-row flex-wrap justify-center items-center h-8 border-b border-dark-400 bg-dark-500">
-        <div className="w-1/2 flex justify-around">
-          {list.map((map) => (
-            <MapTabs key={map.id} map={map} />
-          ))}
+      {enemyEntity !== undefined && (
+        <div className="flex flex-row flex-wrap justify-center items-center h-8 border-b border-dark-400 bg-dark-500">
+          <div className="w-1/2 flex justify-around">
+            {list.map((map) => (
+              <MapTabs key={map.id} map={map} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       <Outlet />
     </>
   );
