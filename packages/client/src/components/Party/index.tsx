@@ -25,7 +25,9 @@ export default function Party() {
       <div className="border border-dark-400 w-72 h-96 ml-5 flex flex-col items-center mb-4">
         <div className="flex items-center justify-center mt-4 w-4/5">
           <CustomInput placeholder={"Search..."}></CustomInput>
-          <CustomButton onClick={onParty}>start</CustomButton>
+          <CustomButton className="border-0" onClick={onParty}>
+            start
+          </CustomButton>
         </div>
         {wandererEntities.map((entity) => (
           <>
