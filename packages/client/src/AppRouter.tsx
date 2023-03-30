@@ -9,6 +9,7 @@ import { RootBoundary } from "./errorBoundaries";
 import CustomButton from "./components/UI/Button/CustomButton";
 import { useWandererContext } from "./contexts/WandererContext";
 import { useMemo } from "react";
+import MapTabs from "./components/Map/MapTabs";
 
 // game routes will display e.g. WandererSelect or Combat, if normal pages aren't available
 const gameRoutes = [
@@ -107,12 +108,10 @@ function Layout() {
           </div>
         </nav>
       </div>
-      <div className="flex flex-row flex-wrap justify-center items-center h-8 border border-dark-400 bg-dark-500">
+      <div className="flex flex-row flex-wrap justify-center items-center h-8 border-b border-dark-400 bg-dark-500">
         <div className="w-1/2 flex justify-around">
           {list.map((map) => (
-            <span key={map.id} className="text-dark-200">
-              {map.label}
-            </span>
+            <MapTabs key={map.id} map={map} />
           ))}
         </div>
       </div>
