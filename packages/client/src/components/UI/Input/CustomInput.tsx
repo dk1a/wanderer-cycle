@@ -3,12 +3,13 @@ import { ChangeEventHandler } from "react";
 type InputProps = {
   value?: string;
   placeholder: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 };
 // TODO forwardRef
 export default function CustomInput({ onChange, value, placeholder }: InputProps) {
   return (
     <input
+      value={value}
       placeholder={placeholder}
       onChange={onChange}
       className="

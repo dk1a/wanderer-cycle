@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
-import { EntityIndex } from "@latticexyz/recs";
 
-export default function PartyPerson({ children }: EntityIndex) {
+export default function PartyPerson({ name }: { name: string | undefined }) {
   const [invite, setInvite] = useState(false);
 
   const onSelect = useCallback(() => {
@@ -13,7 +12,7 @@ export default function PartyPerson({ children }: EntityIndex) {
   return (
     <>
       <div onClick={onSelect} className={!invite ? styles : styles + " bg-dark-400"}>
-        {children}
+        {name}
       </div>
     </>
   );

@@ -24,7 +24,7 @@ export default function Guise({ guise, onSelectGuise, disabled }: GuiseProps) {
       <div className="flex flex-col justify-start items-baseline">
         {statNames.map((statName) => (
           <Fragment key={statName}>
-            <div className="text-dark-key flex p-1 m-1">
+            <div className="text-dark-key flex p-1 m-0.2 text-[17px]">
               {statName}:<span className="text-dark-number flex mx-2">{guise.levelMul[statName]}</span>
             </div>
           </Fragment>

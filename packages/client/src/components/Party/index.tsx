@@ -1,15 +1,15 @@
-import CustomInput from "../UI/Input/CustomInput";
-import CustomButton from "../UI/Button/CustomButton";
-import { useWandererEntities } from "../../mud/hooks/useWandererEntities";
-import PartyPerson from "./PartyPerson";
-import { truncateFromMiddle } from "../UI/CopyAndCopied/CopyAndCopied";
-import { useWandererContext } from "../../contexts/WandererContext";
-import { useActiveGuise } from "../../mud/hooks/guise";
-import Tippy from "@tippyjs/react";
-import { right } from "@popperjs/core";
-import PartyPersonInfo from "./PartyPersonInfo";
 import { useMemo } from "react";
 import { useLevel } from "../../mud/hooks/charstat";
+import { useWandererEntities } from "../../mud/hooks/useWandererEntities";
+import { useWandererContext } from "../../contexts/WandererContext";
+import { useActiveGuise } from "../../mud/hooks/guise";
+import { truncateFromMiddle } from "../UI/CopyAndCopied/CopyAndCopied";
+import PartyPerson from "./PartyPerson";
+import PartyPersonInfo from "./PartyPersonInfo";
+import CustomInput from "../UI/Input/CustomInput";
+import CustomButton from "../UI/Button/CustomButton";
+import Tippy from "@tippyjs/react";
+import { right } from "@popperjs/core";
 
 export default function Party() {
   const wandererEntities = useWandererEntities();
@@ -45,7 +45,7 @@ export default function Party() {
               }
             >
               <div className="border border-dark-400 w-4/5 h-12 my-4 text-dark-key cursor-pointer flex items-center justify-center">
-                <PartyPerson>{guise?.entityId && truncateFromMiddle(guise?.entityId, 13, "...")}</PartyPerson>
+                <PartyPerson name={guise?.entityId && truncateFromMiddle(guise?.entityId, 13, "...")} />
               </div>
             </Tippy>
           </>
