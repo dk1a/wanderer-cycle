@@ -73,17 +73,17 @@ function Layout() {
           {[...gameRoutes, ...otherRoutes].map(({ title, path }) => (
             <NavLink
               key={path}
-              className={({ isActive }) => `transition duration-700 text-lg ${isActive ? "" : "text-dark-300"}`}
+              className={({ isActive }) => `transition text-lg ${isActive ? "" : "text-dark-300"}`}
               to={path}
             >
               {title}
             </NavLink>
           ))}
           <div className="flex gap-x-8 text-dark-300">
-            <NavLink to={"https://github.com/dk1a/wanderer-cycle"} target={"_blank"}>
+            <NavLink to={"https://github.com/dk1a/wanderer-cycle"} target={"_blank"} className="hover:text-dark-200">
               github
             </NavLink>
-            <NavLink to={"https://discord.gg/9pX3h53VnX"} target={"_blank"}>
+            <NavLink to={"https://discord.gg/9pX3h53VnX"} target={"_blank"} className="hover:text-dark-200">
               discord
             </NavLink>
           </div>
