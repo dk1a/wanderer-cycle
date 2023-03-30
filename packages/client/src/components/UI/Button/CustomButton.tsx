@@ -8,7 +8,7 @@ const CustomButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     <button
       ref={ref}
       disabled={disabled}
-      className={(disabled ? classes.customBtn__disabled : classes.customBtn) + " " + (className ?? "")}
+      className={(disabled ? classes.customBtn__disabled : classes.customBtn) + " " + (className ?? " ")}
       onClick={onClick}
     >
       {children}

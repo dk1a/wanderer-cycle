@@ -11,7 +11,7 @@ import CustomButton from "../UI/Button/CustomButton";
 import Tippy from "@tippyjs/react";
 import { right } from "@popperjs/core";
 
-export default function Party() {
+export default function Party({ header }: { header: string }) {
   const wandererEntities = useWandererEntities();
   const { cycleEntity, onParty } = useWandererContext();
   const guise = useActiveGuise(cycleEntity);
@@ -21,10 +21,10 @@ export default function Party() {
 
   return (
     <>
-      <h4 className="text-dark-comment ml-4">{"// Party"}</h4>
+      <h4 className="text-dark-comment ml-4">{header}</h4>
       <div className="border border-dark-400 w-72 h-96 ml-5 flex flex-col items-center mb-4">
         <div className="flex items-center justify-center mt-4 w-4/5">
-          <CustomInput placeholder={"Search..."}></CustomInput>
+          <CustomInput className="h-8" placeholder={"Search..."}></CustomInput>
           <CustomButton className="border-0" onClick={onParty}>
             start
           </CustomButton>
@@ -40,13 +40,13 @@ export default function Party() {
               interactive
               content={
                 <div style={{ padding: 0 }}>
-                  <div className={"bg-dark-500 border border-dark-400 p-2 m-[-10px] w-36"}>
+                  <div className="bg-dark-500 border border-dark-400 p-2 m-[-10px] w-36">
                     <PartyPersonInfo entity={cycleEntity} name={guise?.name} levelData={levelData} />
                   </div>
                 </div>
               }
             >
-              <div className="border border-dark-400 w-4/5 h-12 my-4 text-dark-key cursor-pointer flex items-center justify-center">
+              <div className="border border-dark-400 w-4/5 h-10 my-4 text-dark-key cursor-pointer flex items-center justify-center">
                 <PartyPerson name={guise?.entityId && truncateFromMiddle(guise?.entityId, 13, "...")} />
               </div>
             </Tippy>

@@ -10,9 +10,11 @@ const CustomInput = React.forwardRef<HTMLInputElement, InputProps>(
       onChange={onChange}
       className={
         `bg-dark-500 border border-dark-400
-        text-dark-200 text-sm h-10 w-full focus:border-dark-string
+        text-dark-200 text-sm focus:border-dark-string
         block w-56 mx-2 p-2 dark:bg-gray-700 dark:border-gray-600 
-        dark:placeholder-gray-400 dark:text-white dark:focus:border-dark-comment` + className
+        dark:placeholder-gray-400 dark:text-white dark:focus:border-dark-comment` +
+        " " +
+        (className ?? " ")
       }
     ></input>
   )

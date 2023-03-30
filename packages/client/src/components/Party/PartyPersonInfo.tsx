@@ -9,7 +9,7 @@ type PartyPersonProps = {
   levelData: LevelData;
 };
 
-export default function PartyPersonInfo({ name, levelData, entity, entityId }: PartyPersonProps) {
+export default function PartyPersonInfo({ name, levelData, entity }: PartyPersonProps) {
   const life = useLife(entity);
   const mana = useMana(entity);
   const lifeCurrent = useLifeCurrent(entity);

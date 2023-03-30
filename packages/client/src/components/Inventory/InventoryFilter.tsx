@@ -15,7 +15,12 @@ export default function InventoryFilter() {
         onChange={setSort}
         options={inventorySortOptions}
       />
-      <CustomInput value={filter} onChange={(e) => setFilter(e.target.value)} placeholder={"Search..."} />
+      <CustomInput
+        className="w-full"
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        placeholder={"Search..."}
+      />
     </div>
   );
 }

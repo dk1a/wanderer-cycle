@@ -1,12 +1,11 @@
 import { useMaps } from "../mud/hooks/useMaps";
-import BasicMap from "../components/Map/BasicMap";
-import Map from "../components/Map";
 import { useBossesDefeated } from "../mud/hooks/useBossesDefeated";
 import { useWandererContext } from "../contexts/WandererContext";
 import { useMemo } from "react";
 import { useLifeCurrent } from "../mud/hooks/currents";
+import BasicMap from "../components/Map/BasicMap";
+import Map from "../components/Map";
 import Party from "../components/Party";
-import PartyInvitation from "../components/Party/PartyInvitation";
 
 export function GlobalMaps() {
   const { cycleEntity, party } = useWandererContext();
@@ -53,8 +52,8 @@ export function GlobalMaps() {
         </div>
         {party && (
           <div className="flex flex-col">
-            <Party />
-            <PartyInvitation />
+            <Party header={"// party"} />
+            <Party header={"// invite"} />
           </div>
         )}
       </div>
