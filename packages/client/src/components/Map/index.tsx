@@ -8,6 +8,7 @@ import { useCycleTurns } from "../../mud/hooks/turns";
 import { LootData } from "../../mud/utils/getLoot";
 import Tippy from "@tippyjs/react";
 import { right } from "@popperjs/core";
+import MapInfo from "./MapInfo";
 
 export default function Map({ data }: { data: LootData }) {
   const { selectedWandererEntity, cycleEntity, onParty } = useWandererContext();
@@ -45,31 +46,13 @@ export default function Map({ data }: { data: LootData }) {
             arrow={true}
             interactive
             content={
-              <div style={{ padding: 0 }}>
-                <div className={"bg-dark-500 border border-dark-400 p-2 m-[-10px] w-48"}>
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <span className="text-dark-type">{name}</span>
-                    </div>
-                    <div className="text-dark-key">
-                      lvl: <span className="text-dark-number">{ilvl}</span>
-                    </div>
-                  </div>
-                  <div className="text-dark-comment">
-                    <Effect
-                      entity={effect.entity}
-                      protoEntity={entity}
-                      removability={effect.removability}
-                      statmods={effect.statmods}
-                      effectSource={EffectSource.MAP}
-                    />
-                  </div>
-                </div>
+              <div>
+                <MapInfo data={data} />
               </div>
             }
           >
             <div>
-              <CustomButton>map info</CustomButton>
+              <CustomButton className="border-0 text-[14px]">map info</CustomButton>
             </div>
           </Tippy>
         </div>
