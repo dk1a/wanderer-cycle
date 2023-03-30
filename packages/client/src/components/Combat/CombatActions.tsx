@@ -57,11 +57,11 @@ export default function CombatActions() {
             options={skillOptions}
             onChange={selectSkill}
           />
-          <UseSkillButton entity={selectedSkill?.value} onSkill={onSkill} style={{ width: "9rem" }} />
+          <UseSkillButton entity={selectedSkill?.value} onSkill={onSkill} className={"w-36"} />
         </div>
       </div>
       <div className="mt-4">
-        <CustomButton style={{ width: "9rem" }} onClick={onAttack} disabled={isBusy}>
+        <CustomButton className="w-36" onClick={onAttack} disabled={isBusy}>
           attack
         </CustomButton>
       </div>

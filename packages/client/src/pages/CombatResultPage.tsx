@@ -62,14 +62,14 @@ export function CombatResultPage() {
         <div className="flex justify-around w-full">
           {selectedWandererEntity && repeatMapEntity && (
             <div className="">
-              <CustomButton onClick={onMapRepeat} style={{ width: "9rem" }}>
+              <CustomButton className="w-36" onClick={onMapRepeat}>
                 Repeat
               </CustomButton>
             </div>
           )}
           {enemyEntity === undefined && combatRewardRequests.length === 0 && (
             <div>
-              <CustomButton style={{ width: "9rem" }} onClick={clearCombatResult}>
+              <CustomButton className="w-36" onClick={clearCombatResult}>
                 Close
               </CustomButton>
             </div>

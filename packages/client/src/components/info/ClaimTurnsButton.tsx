@@ -20,7 +20,7 @@ export default function ClaimTurnsButton({ claimableTurns }: { claimableTurns: n
 
   return (
     <div className="ml-1">
-      <CustomButton disabled={isBusy} onClick={claimTurns} style={{ fontSize: "13px", border: "none", width: "7rem" }}>
+      <CustomButton className="text-[13px] border-0 w-28" disabled={isBusy} onClick={claimTurns}>
         {"claimTurns"}
         <span className="text-white">{" ("}</span>
         <span className="text-dark-number">{claimableTurns}</span>

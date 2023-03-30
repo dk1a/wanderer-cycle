@@ -7,7 +7,6 @@ import { ElementalStatmods } from "../ElementalStatmods";
 import { PStatWithProgress } from "./PStatWithProgress";
 import EffectList from "../EffectList";
 import CopyAndCopied from "../UI/CopyAndCopied/CopyAndCopied";
-import { useWandererContext } from "../../contexts/WandererContext";
 
 export interface BaseInfoProps {
   entity: EntityIndex | undefined;
@@ -20,7 +19,6 @@ export interface BaseInfoProps {
 
 export default function BaseInfo({ entity, entityId, name, locationName, levelData, turnsHtml }: BaseInfoProps) {
   const pstats = usePstats(entity);
-  const { cycleEntity } = useWandererContext();
 
   const life = useLife(entity);
   const mana = useMana(entity);

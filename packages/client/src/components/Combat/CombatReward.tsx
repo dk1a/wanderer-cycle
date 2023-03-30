@@ -29,7 +29,7 @@ export function CombatReward({
     return (
       <div className="flex flex-col items-center justify-around text-dark-200 text-lg">
         expired
-        <CustomButton style={{ width: "9rem" }} onClick={() => cancelCycleCombatReward(requesterEntity, requestEntity)}>
+        <CustomButton className="w-36" onClick={() => cancelCycleCombatReward(requesterEntity, requestEntity)}>
           delete
         </CustomButton>
       </div>
@@ -44,7 +44,7 @@ export function CombatReward({
           <span className="text-dark-200 mx-1">/</span>
           <span className="text-dark-number">{blockNumberLimit}</span>
         </div>
-        <CustomButton onClick={() => claimCycleCombatReward(requesterEntity, requestEntity)} style={{ width: "9rem" }}>
+        <CustomButton className="w-36" onClick={() => claimCycleCombatReward(requesterEntity, requestEntity)}>
           claim reward
         </CustomButton>
       </div>

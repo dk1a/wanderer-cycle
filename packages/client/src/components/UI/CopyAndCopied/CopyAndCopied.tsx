@@ -34,7 +34,7 @@ export default function CopyAndCopied({ textData }: { textData: string | undefin
     <div className="flex w-full items-center justify-center">
       <div className="text-[14px] text-center text-dark-300">{textData && truncateFromMiddle(textData, 13, "...")}</div>
       <div>
-        <CustomButton onClick={copyToClipBoard} style={{ border: "none", fontSize: "12px" }}>
+        <CustomButton onClick={copyToClipBoard} className="border-0 text-[12px] w-6">
           {!copied ? "copy" : "copied"}
         </CustomButton>
       </div>

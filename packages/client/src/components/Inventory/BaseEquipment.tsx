@@ -35,7 +35,7 @@ export default function BaseEquipment({ equipmentData, className }: BaseEquipmen
           {availableSlots.map((slotData) => (
             <CustomButton
               key={slotData.entity}
-              style={{ width: "80px", fontSize: "12px", padding: "5px", border: "none", marginTop: "5px" }}
+              className="w-20 text-[12px] border-0 mt-1 p-1"
               onClick={() => slotData.equip()}
             >
               equip

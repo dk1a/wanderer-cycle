@@ -16,7 +16,7 @@ export default function Wanderer({ wandererEntity }: { wandererEntity: EntityInd
           </CustomButton>
         )}
         {wandererEntity !== selectedWandererEntity && (
-          <CustomButton style={{ width: "6rem" }} onClick={() => selectWandererEntity(wandererEntity)}>
+          <CustomButton className="w-24" onClick={() => selectWandererEntity(wandererEntity)}>
             Select
           </CustomButton>
         )}

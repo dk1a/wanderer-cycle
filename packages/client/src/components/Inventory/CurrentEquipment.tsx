@@ -31,7 +31,7 @@ export default function CurrentEquipment() {
             )
           }
         >
-          <div className="flex flex-wrap flex-col m-2 border border-dark-400 p-1">
+          <div className="flex flex-wrap flex-col m-2 border border-dark-400 p-1 cursor-pointer">
             <div className="text-dark-200 text-[14px] flex ml-1">
               <div className="flex mr-1 whitespace-nowrap">{name}:</div>
               {equipped !== undefined ? (
@@ -46,7 +46,7 @@ export default function CurrentEquipment() {
                   <EquipmentSummary affixes={equipped.affixes} />
                 </div>
                 <div className="mr-2">
-                  <CustomButton style={{ height: "25px", fontSize: "13px" }} onClick={() => unequip()}>
+                  <CustomButton className="text-[13px] h-6 border-0" onClick={() => unequip()}>
                     unequip
                   </CustomButton>
                 </div>

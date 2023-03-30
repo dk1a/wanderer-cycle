@@ -82,7 +82,7 @@ export function CycleStart({
           </div>
           <div className="flex items-center justify-center mt-4">
             <CustomButton
-              style={{ width: "9rem" }}
+              className="w-36"
               onClick={onStart}
               disabled={selectedGuise === null || selectedWheel === null}
             >
