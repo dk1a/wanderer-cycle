@@ -1,11 +1,13 @@
 import { EntityIndex } from "@latticexyz/recs";
-import { Fragment, ReactNode } from "react";
+import { ReactNode } from "react";
 import { LevelData, useLife, useMana, usePstats } from "../../mud/hooks/charstat";
 import { useAppliedEffects } from "../../mud/hooks/useAppliedEffects";
-import { useLifeCurrent, useManaCurrent, useIdentityCurrent } from "../../mud/hooks/currents";
+import { useIdentityCurrent, useLifeCurrent, useManaCurrent } from "../../mud/hooks/currents";
 import { ElementalStatmods } from "../ElementalStatmods";
 import { PStatWithProgress } from "./PStatWithProgress";
 import EffectList from "../EffectList";
+import Tippy from "@tippyjs/react";
+import { right } from "@popperjs/core";
 
 export interface BaseInfoProps {
   entity: EntityIndex | undefined;
@@ -26,6 +28,8 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
   const manaCurrent = useManaCurrent(entity);
 
   const effects = useAppliedEffects(entity);
+
+  console.log("effects", effects);
 
   const currents = [
     {
@@ -62,26 +66,36 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
 
       {separator}
       {currents.map(({ name, value, maxValue }) => (
-        <Fragment key={name}>
+        <Tippy
+          key={name}
+          delay={100}
+          offset={[0, -150]}
+          placement={right}
+          arrow={true}
+          trigger={"click"}
+          interactive
+          content={
+            <div className="flex m-1">
+              {/* TODO regen statmods. They are often absent and shouldn't be displayed */}
+              <>
+                <span className="text-dark-key">regen:</span>
+                <span className="text-dark-number ml-1">5</span>
+              </>
+            </div>
+          }
+        >
           <div className="text-dark-key flex mx-2">
             {name}:
-            <div className="text-dark-key flex mx-2">
+            <div className="text-dark-key flex mx-2 cursor-pointer">
               <span className="text-dark-number">{value}</span>
               <span className="text-dark-200 mx-0.5">/</span>
               <span className="text-dark-number">{maxValue}</span>
+              <span className="text-dark-control ml-1">&#183;</span>
             </div>
           </div>
-          {/*<div className="flex m-1">*/}
-          {/*  /!* TODO regen statmods. They are often absent and shouldn't be displayed *!/*/}
-          {/*  <>*/}
-          {/*    /!*<span className='text-dark-key'>regen:</span>*!/*/}
-          {/*    /!*<span className='text-dark-key'>5</span>*!/*/}
-          {/*  </>*/}
-          {/*</div>*/}
-        </Fragment>
+        </Tippy>
       ))}
       {turnsHtml}
-      {/* TODO styles, this is from old ui and looks terrible */}
       {separator}
       <ElementalStatmods />
       {separator}
