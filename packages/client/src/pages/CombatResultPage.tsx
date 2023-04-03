@@ -1,10 +1,10 @@
-import { useCallback, useMemo } from "react";
-import { CombatReward } from "../components/Combat/CombatReward";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import CustomButton from "../components/UI/Button/CustomButton";
 import { useWandererContext } from "../contexts/WandererContext";
 import { CombatResult, useActivateCycleCombat } from "../mud/hooks/combat";
 import { useBlockNumber } from "../mud/hooks/useBlockNumber";
 import { CombatRoundOutcome } from "../components/Combat/CombatRoundOutcome";
+import { CombatReward } from "../components/Combat/CombatReward";
 
 export function CombatResultPage() {
   const { selectedWandererEntity, enemyEntity, combatRewardRequests, lastCombatResult, clearCombatResult } =
@@ -31,6 +31,15 @@ export function CombatResultPage() {
     activateCycleCombat(selectedWandererEntity, repeatMapEntity);
   }, [activateCycleCombat, selectedWandererEntity, repeatMapEntity]);
 
+  const [dots, setDots] = useState(1);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prevDots) => (prevDots === 1 ? 2 : prevDots === 2 ? 3 : 1));
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="flex flex-col items-center w-full mr-64">
       {lastCombatResult !== undefined && (
@@ -43,8 +52,7 @@ export function CombatResultPage() {
         <h3 className="text-center text-dark-string text-xl">
           {lastCombatResult !== undefined ? CombatResult[lastCombatResult.combatResult] : "Unclaimed combat rewards"}
         </h3>
-
-        <div>
+        <div className="w-1/3">
           {selectedWandererEntity !== undefined && currentBlockNumber !== undefined ? (
             combatRewardRequests.map((rewardRequest) => (
               <CombatReward
@@ -55,7 +63,16 @@ export function CombatResultPage() {
               />
             ))
           ) : (
-            <span>loading...</span>
+            <div className="flex items-center w-full">
+              <span className="text-dark-200 w-1/2">Loading</span>
+              <div className="flex items-center justify-center w-1/3 text-dark-control ">
+                {[...Array(dots)].map((_, index) => (
+                  <div key={index} className="">
+                    <span>.</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
 

@@ -5124,6 +5124,11 @@ react-select@^5.7.0:
     react-transition-group "^4.3.0"
     use-isomorphic-layout-effect "^1.1.2"
 
+react-spinners@^0.13.8:
+  version "0.13.8"
+  resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.13.8.tgz#5262571be0f745d86bbd49a1e6b49f9f9cb19acc"
+  integrity sha512-3e+k56lUkPj0vb5NDXPVFAOkPC//XyhKPJjvcGjyMNPWsBKpplfeyialP74G7H7+It7KzhtET+MvGqbKgAqpZA==
+
 react-tippy@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/react-tippy/-/react-tippy-1.4.0.tgz#e8a8b4085ec985e5c94fe128918b733b588a1465"
