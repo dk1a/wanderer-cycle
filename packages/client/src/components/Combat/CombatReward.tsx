@@ -6,7 +6,6 @@ import {
   useClaimCycleCombatReward,
 } from "../../mud/hooks/combat";
 import CustomButton from "../UI/Button/CustomButton";
-import { PStatWithProgress } from "../info/PStatWithProgress";
 import ProgressBar from "../UI/Progressbar/ProgressBar";
 
 const blockNumberLimit = 256;
@@ -37,14 +36,18 @@ export function CombatReward({
   } else {
     return (
       <div className="flex flex-col items-center justify-around w-56 h-24">
-        <div className="text-dark-200 text-lg">
-          expiring...
-          <span className="text-dark-number ml-1">{currentBlockNumber - requestBlockNumber}</span>
-          <span className="text-dark-200 mx-1">/</span>
-          <span className="text-dark-number">{blockNumberLimit}</span>
+        <div className="text-dark-200 text-lg w-full flex justify-center">
+          <div>
+            <span>expiring...</span>
+            <span className="text-dark-number ml-1">{currentBlockNumber - requestBlockNumber}</span>
+            <span className="text-dark-200 mx-1">/</span>
+            <span className="text-dark-number">{blockNumberLimit}</span>
+            <ProgressBar total={blockNumberLimit} start={currentBlockNumber - requestBlockNumber} />
+          </div>
         </div>
-        <ProgressBar total={blockNumberLimit} start={currentBlockNumber - requestBlockNumber} />
-        <CustomButton onClick={() => claimCycleCombatReward(requesterEntity, requestEntity)}>claim reward</CustomButton>
+        <CustomButton style={{ width: "9rem" }} onClick={() => claimCycleCombatReward(requesterEntity, requestEntity)}>
+          claim reward
+        </CustomButton>
       </div>
     );
   }

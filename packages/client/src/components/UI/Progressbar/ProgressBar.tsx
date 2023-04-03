@@ -19,8 +19,8 @@ export default function ProgressBar({ total, start }: ProgressBarProps) {
   const percent = ((progress - start) / (total - start)) * 100;
 
   return (
-    <div className="w-1/2 h-1 bg-dark-400">
-      <div className="h-full bg-dark-control" style={{ width: `${percent}%` }}></div>
+    <div className="w-full h-1 bg-dark-400">
+      <div className="h-full bg-dark-200" style={{ width: `${percent}%` }}></div>
     </div>
   );
 }
