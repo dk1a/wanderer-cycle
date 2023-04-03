@@ -37,7 +37,6 @@ export function CombatReward({
   } else {
     return (
       <div className="flex flex-col items-center justify-around">
-        {/* TODO make this a bar with small text above it, like experience */}
         <div className="text-dark-200 text-lg">
           expiring...
           <span className="text-dark-number ml-1">{currentBlockNumber - requestBlockNumber}</span>
