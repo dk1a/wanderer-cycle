@@ -1,9 +1,7 @@
 import { EquipmentData } from "../../contexts/InventoryContext";
 import { EffectStatmod } from "../Effect/EffectStatmod";
 import CustomButton from "../UI/Button/CustomButton";
-import Tippy from "@tippyjs/react";
-import { right } from "@popperjs/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type BaseEquipmentProps = {
   equipmentData: EquipmentData;
@@ -14,19 +12,29 @@ export default function BaseEquipment({ equipmentData, className }: BaseEquipmen
   const { name, ilvl, affixes } = equipmentData;
   const availableSlots = equipmentData.availableSlots;
 
-  const [isAltPressed, setIsAltPressed] = useState(false);
+  const [isAltPressed, setIsAltPressed] = useState<boolean>(false);
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    if (event.altKey) {
-      setIsAltPressed(true);
-    }
-  };
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (event.altKey) {
+        setIsAltPressed(true);
+      }
+    };
 
-  const handleKeyUp = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    if (!event.altKey) {
-      setIsAltPressed(false);
-    }
-  };
+    const handleKeyUp = (event: KeyboardEvent): void => {
+      if (!event.altKey) {
+        setIsAltPressed(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []);
 
   return (
     <div className="text-dark-key p-1.5 flex flex-col justify-between border border-dark-400 bg-dark-500 w-64 m-2">
@@ -40,36 +48,27 @@ export default function BaseEquipment({ equipmentData, className }: BaseEquipmen
           </span>
         </div>
         {affixes.map(({ protoEntity, value, partId, statmod, affixPrototype }) => (
-          <Tippy
-            key={`${partId}${protoEntity}`}
-            placement={right}
-            trigger={"click"}
-            offset={[0, -40]}
-            className="m-0 p-0"
-            arrow={true}
-            content={
-              <div className="border border-dark-400 bg-dark-500 m-[-10px] p-2">
+          <div key={`${partId}${protoEntity}`}>
+            {isAltPressed ? (
+              <div className="flex box-content flex-wrap text-[14px]">
                 <div className="flex">
+                  <span className="text-dark-string">+</span>
                   <span className="text-dark-number">{affixPrototype.tier}</span>
-                  <span className="text-dark-string mx-2">{affixPrototype.name}</span>
-                  <span className="text-dark-number">
-                    {affixPrototype.min}-{affixPrototype.max}
+                  <span className="text-dark-string">
+                    (
+                    <span className="text-dark-number">
+                      {affixPrototype.min}-{affixPrototype.max}
+                    </span>
+                    )
                   </span>
+                  <span className="text-dark-string mx-2">{affixPrototype.name}</span>
                 </div>
               </div>
-            }
-          >
-            <div className="flex box-content flex-wrap cursor=pointer">
+            ) : (
               <EffectStatmod protoEntity={statmod.protoEntity} value={value} />
-              {/* TODO add global button to trigger this data: */}
-              {/*{affixPrototype.tier} {affixPrototype.name}
-          ({affixPrototype.min}-{affixPrototype.max})*/}
-            </div>
-          </Tippy>
+            )}
+          </div>
         ))}
-      </div>
-      <div onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} tabIndex={0}>
-        {isAltPressed ? "alt najat" : "alt ne najat"}
       </div>
       {availableSlots && !equipmentData.equippedToSlot && (
         <div className="flex justify-around mt-1">
