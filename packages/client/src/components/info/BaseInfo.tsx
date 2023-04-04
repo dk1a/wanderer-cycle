@@ -29,8 +29,6 @@ export default function BaseInfo({ entity, name, locationName, levelData, turnsH
 
   const effects = useAppliedEffects(entity);
 
-  console.log("effects", effects);
-
   const currents = [
     {
       name: "life",
