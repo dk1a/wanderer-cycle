@@ -2,6 +2,7 @@ import { EquipmentData } from "../../contexts/InventoryContext";
 import { EffectStatmod } from "../Effect/EffectStatmod";
 import CustomButton from "../UI/Button/CustomButton";
 import { useEffect, useState } from "react";
+import useKey from "../../mud/hooks/useKey";
 
 type BaseEquipmentProps = {
   equipmentData: EquipmentData;
@@ -14,27 +15,10 @@ export default function BaseEquipment({ equipmentData, className }: BaseEquipmen
 
   const [isAltPressed, setIsAltPressed] = useState<boolean>(false);
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent): void => {
-      if (event.altKey) {
-        setIsAltPressed(true);
-      }
-    };
-
-    const handleKeyUp = (event: KeyboardEvent): void => {
-      if (!event.altKey) {
-        setIsAltPressed(false);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("keyup", handleKeyUp);
-    };
-  }, []);
+  const handleKeyDown = () => {
+    setIsAltPressed(!isAltPressed);
+  };
+  useKey("Alt", handleKeyDown);
 
   return (
     <div className="text-dark-key p-1.5 flex flex-col justify-between border border-dark-400 bg-dark-500 w-64 m-2">
