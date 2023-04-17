@@ -68,7 +68,7 @@ export function AppRouter() {
   );
 }
 
-function Layout() {
+export function Layout() {
   const { wandererMode, toggleWandererMode } = useWandererContext();
   const bg = useMemo(() => (wandererMode ? "bg-dark-600" : "bg-dark-500"), [wandererMode]);
 
