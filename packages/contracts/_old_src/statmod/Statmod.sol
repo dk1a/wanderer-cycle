@@ -9,97 +9,90 @@ import { StatmodPrototype, Op, OP_L, OP_FINAL, Element, EL_L, StatmodPrototypeCo
 import { ScopedValue } from "@dk1a/solecslib/contracts/scoped-value/ScopedValue.sol";
 import { FromPrototype } from "@dk1a/solecslib/contracts/prototype/FromPrototype.sol";
 import { ScopedValueFromPrototype } from "@dk1a/solecslib/contracts/scoped-value/ScopedValueFromPrototype.sol";
-
-/*StatmodBase: {
-  ...entityKey,
-  schema: "bytes32",
-},
-FromStatmodBase: entityRelation,
-StatmodBaseOpts: {
-  ...entityKey,
-  schema: {
-    statmodOp: "StatmodOp",
-    eleStat: "EleStat",
-  }
-},
-StatmodScope: {
-  primaryKeys: {
-    targetEntity: EntityId,
-    baseEntity: EntityId,
-  },
-  schema: "bytes32"
-},
-StatmodValue: {
-  primaryKeys: {
-    targetEntity: EntityId,
-    baseEntity: EntityId,
-  },
-  schema: "uint32"
-},*/
-
-import { getKeysWithValue } from "@latticexyz/world/src/modules/keyswithvalue/getKeysWithValue.sol";
-
-import { StatmodBase, FromStatmodBase, StatmodBaseOpts, StatmodScope, StatmodValue } from "../codegen/Tables.sol";
+import { ID as StatmodScopeComponentID } from "./StatmodScopeComponent.sol";
+import { ID as StatmodValueComponentID } from "./StatmodValueComponent.sol";
+import { ID as FromPrototypeComponentID } from "../common/FromPrototypeComponent.sol";
 
 /**
  * @title Scoped statmod values with aggregation depending on prototype.
  */
 library Statmod {
-  error Statmod_IncreaseByZero();
-  error Statmod_DecreaseByZero();
-  error Statmod_EntityAbsent();
+  using ScopedValueFromPrototype for ScopedValueFromPrototype.Self;
 
-  /**
-   * @dev Increase statmod value for targeted baseEntity.
-   */
-  function increase(uint256 targetEntity, uint256 baseEntity, uint256 value) internal returns (bool isUpdate) {
-    if (value == 0) revert Statmod_IncreaseByZero();
-
-    uint32 storedValue = StatmodValue.get(targetEntity, baseEntity);
-
-    bytes32 statmodBase = StatmodBase.get(baseEntity);
-
-    isUpdate = storedValue != 0;
-    if (statmodBase != StatmodScope.get(targetEntity, baseEntity)) {
-      StatmodScope.set(targetEntity, baseEntity, statmodBase);
-    }
-    StatmodValue.set(targetEntity, baseEntity, storedValue + value);
-
-    return isUpdate;
+  struct Self {
+    StatmodPrototypeComponent protoComp;
+    ScopedValueFromPrototype.Self sv;
+    uint256 targetEntity;
   }
 
   /**
-   * @dev Decrease statmod value for targeted baseEntity.
+   * @param components world.components()
+   * @param targetEntity context for instances of protoEntities.
+   * Modifying the same protoEntity with different targetEntities will not affect each other.
    */
-  function decrease(uint256 targetEntity, uint256 baseEntity, uint256 value) internal returns (bool isUpdate) {
-    if (value == 0) revert ScopedValue__DecreaseByZero();
+  function __construct(IUint256Component components, uint256 targetEntity) internal view returns (Self memory) {
+    return
+      Self({
+        protoComp: StatmodPrototypeComponent(getAddressById(components, StatmodPrototypeComponentID)),
+        sv: ScopedValueFromPrototype.__construct(
+          ScopedValue.__construct(components, StatmodScopeComponentID, StatmodValueComponentID),
+          FromPrototype.__construct(
+            components,
+            FromPrototypeComponentID,
+            // instance context
+            abi.encode("Statmod", targetEntity)
+          )
+        ),
+        targetEntity: targetEntity
+      });
+  }
 
-    uint32 storedValue = StatmodValue.get(targetEntity, baseEntity);
-    if (storedValue == 0) revert ScopedValue__EntityAbsent();
+  function _scope(Self memory __self, uint256 topicEntity) private pure returns (string memory) {
+    return string(abi.encode(__self.targetEntity, topicEntity));
+  }
 
-    bytes32 statmodBase = StatmodBase.get(baseEntity);
+  // ========== WRITE ==========
 
-    isUpdate = storedValue > value;
-    if (statmodBase != StatmodScope.get(targetEntity, baseEntity)) {
-      StatmodScope.set(targetEntity, baseEntity, statmodBase);
-    }
-    if (isUpdate) {
-      StatmodValue.set(targetEntity, baseEntity, storedValue - value);
-    } else {
-      StatmodValue.deleteRecord(targetEntity, baseEntity);
-    }
+  /**
+   * @dev Increase statmod value for instantiated protoEntity.
+   */
+  function increase(Self memory __self, uint256 protoEntity, uint256 value) internal returns (bool isUpdate) {
+    StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntity);
 
-    return isUpdate;
+    return __self.sv.increaseEntity(_scope(__self, prototype.topicEntity), protoEntity, value);
+  }
+
+  /**
+   * @dev Decrease statmod value for instantiated protoEntity.
+   */
+  function decrease(Self memory __self, uint256 protoEntity, uint256 value) internal returns (bool isUpdate) {
+    StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntity);
+
+    return __self.sv.decreaseEntity(_scope(__self, prototype.topicEntity), protoEntity, value);
   }
 
   // ========== READ ==========
 
   /**
-   * @dev Sum statmod values for `baseEntity`, grouped by Op.
+   * @dev Sum all statmod values for `topicEntity`
+   * TODO is this even useful anywhere?
+   */
+  function getTotal(Self memory __self, uint256 topicEntity) internal view returns (uint32 result) {
+    (, uint256[] memory values) = __self.sv.getEntitiesValues(_scope(__self, topicEntity));
+
+    for (uint256 i; i < values.length; i++) {
+      result += uint32(values[i]);
+    }
+  }
+
+  /**
+   * @dev Sum statmod values for `topicEntity`, grouped by Op.
    * This method shouldn't usually be needed externally, see getValues.
    */
-  function getOperands(uint256 targetEntity, uint256 baseEntity) internal view returns (uint32[OP_L] memory result) {
-    (uint256[] memory protoEntities, uint256[] memory values) = getKeysWithValue()
+  function getOperands(Self memory __self, uint256 topicEntity) internal view returns (uint32[OP_L] memory result) {
+    (uint256[] memory protoEntities, uint256[] memory values) = __self.sv.getEntitiesValues(
+      _scope(__self, topicEntity)
+    );
 
     for (uint256 i; i < protoEntities.length; i++) {
       StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntities[i]);
