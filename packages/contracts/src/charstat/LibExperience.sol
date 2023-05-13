@@ -6,6 +6,21 @@ import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
 import { getAddressById } from "solecs/utils.sol";
 import { PStat, PS_L, ExperienceComponent, ID as ExperienceComponentID } from "./ExperienceComponent.sol";
 
+// const entityKey = {
+//   primaryKeys: {
+//     entity: EntityId,
+//   },
+// } as const
+
+//  Experience: {
+//       ...entityKey,
+//       schema: arrayPStat
+//     },
+
+// const arrayPStat = `uint32[${enumPStat.length}]` as const
+
+import { Experience } from "../codegen/Tables.sol";
+
 library LibExperience {
   error LibExperience__InvalidLevel();
   error LibExperience__ExpNotInitialized();
@@ -26,7 +41,7 @@ library LibExperience {
   }
 
   function getPStats(Self memory __self) internal view returns (uint32[PS_L] memory result) {
-    result = __self.comp.getValue(__self.targetEntity);
+    result = Experience.get(targetEntity);
     for (uint256 i; i < result.length; i++) {
       result[i] = _getLevel(result[i]);
     }
