@@ -3,7 +3,6 @@
 pragma solidity ^0.8.17;
 
 import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
-import { getAddressById } from "solecs/utils.sol";
 import { PStat, PS_L, ExperienceComponent, ID as ExperienceComponentID } from "./ExperienceComponent.sol";
 
 // const entityKey = {
@@ -27,71 +26,61 @@ library LibExperience {
 
   uint32 constant MAX_LEVEL = 16;
 
-  struct Self {
-    ExperienceComponent comp;
-    uint256 targetEntity;
-  }
-
-  function __construct(IUint256Component components, uint256 targetEntity) internal view returns (Self memory) {
-    return
-      Self({
-        comp: ExperienceComponent(getAddressById(components, ExperienceComponentID)),
-        targetEntity: targetEntity
-      });
-  }
-
-  function getPStats(Self memory __self) internal view returns (uint32[PS_L] memory result) {
+  function getPStats(uint256 targetEntity) internal view returns (uint32[PS_L] memory result) {
     result = Experience.get(targetEntity);
     for (uint256 i; i < result.length; i++) {
       result[i] = _getLevel(result[i]);
     }
   }
 
-  function getPStat(Self memory __self, PStat pstatIndex) internal view returns (uint32) {
-    uint32 exp = __self.comp.getValue(__self.targetEntity)[uint256(pstatIndex)];
+  function getPStat(uint256 targetEntity, PStat pstatIndex) internal view returns (uint32) {
+    uint32 exp = Experience.get(targetEntity)[uint256(pstatIndex)];
     return _getLevel(exp);
   }
 
-  function hasExp(Self memory __self) internal view returns (bool) {
-    return __self.comp.has(__self.targetEntity);
+  function hasExp(uint256 targetEntity) internal view returns (bool) {
+    uint32 exp = Experience.get(targetEntity)[uint256(pstatIndex)];
+    if (exp > 0) {
+      return true;
+    }
   }
 
-  function getExp(Self memory __self) internal view returns (uint32[PS_L] memory) {
-    return __self.comp.getValue(__self.targetEntity);
+  function getExp(uint256 targetEntity) internal view returns (uint32[PS_L] memory) {
+    return Experience.get(targetEntity);
   }
 
   /**
    * @dev Allow target to receive exp, set exp to 0s
    */
-  function initExp(Self memory __self) internal {
+  function initExp(uint256 targetEntity) internal {
     uint32[PS_L] memory exp;
-    __self.comp.set(__self.targetEntity, exp);
+    Experience.set(targetEntity, exp);
   }
 
   /**
    * @dev Increase target's experience
    * Exp must be initialized
    */
-  function increaseExp(Self memory __self, uint32[PS_L] memory addExp) internal {
+  function increaseExp(uint256 targetEntity, uint32[PS_L] memory addExp) internal {
     // get current exp, or revert if it doesn't exist
-    if (!__self.comp.has(__self.targetEntity)) {
+    if (!Experience.get(targetEntity)) {
       revert LibExperience__ExpNotInitialized();
     }
-    uint32[PS_L] memory exp = __self.comp.getValue(__self.targetEntity);
+    uint32[PS_L] memory exp = Experience.get(targetEntity);
 
     // increase
     for (uint256 i; i < PS_L; i++) {
       exp[i] += addExp[i];
     }
     // set increased exp
-    __self.comp.set(__self.targetEntity, exp);
+    Experience.set(targetEntity, exp);
   }
 
   /**
    * @dev Calculate aggregate level based on weighted sum of pstat exp
    */
-  function getAggregateLevel(Self memory __self, uint32[PS_L] memory levelMul) internal view returns (uint32) {
-    uint32[PS_L] memory exp = getExp(__self);
+  function getAggregateLevel(uint256 targetEntity, uint32[PS_L] memory levelMul) internal view returns (uint32) {
+    uint32[PS_L] memory exp = getExp(targetEntity);
     uint256 expTotal;
     uint256 mulTotal;
     for (uint256 i; i < PS_L; i++) {
