@@ -122,6 +122,10 @@ export default mudConfig({
       ...entityKey,
       schema: "uint32",
     },
+    Charstat: {
+      ...entityKey,
+      schema: "uint32",
+    },
 
     // initiatorEntity => retaliatorEntity
     // An entity can initiate only 1 combat at a time

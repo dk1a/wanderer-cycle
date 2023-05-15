@@ -99,7 +99,7 @@ library Statmod {
    * This method shouldn't usually be needed externally, see getValues.
    */
   function getOperands(uint256 targetEntity, uint256 baseEntity) internal view returns (uint32[OP_L] memory result) {
-    (uint256[] memory protoEntities, uint256[] memory values) = getKeysWithValue()
+    (uint256[] memory protoEntities, uint256[] memory values) = getKeysWithValue();
 
     for (uint256 i; i < protoEntities.length; i++) {
       StatmodPrototype memory prototype = __self.protoComp.getValue(protoEntities[i]);
