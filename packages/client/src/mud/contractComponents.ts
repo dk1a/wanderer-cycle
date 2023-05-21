@@ -20,5 +20,20 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    Experience: (() => {
+      const tableId = new TableId("", "Experience");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.NumberArray,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
   };
 }
