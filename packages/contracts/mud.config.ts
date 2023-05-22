@@ -53,4 +53,11 @@ export default mudConfig({
       schema: arrayPStat
     },
   },
+  modules: [
+    {
+      name: "KeysInTableModule",
+      root: true,
+      args: [resolveTableId("Experience")],
+    }
+  ]
 });

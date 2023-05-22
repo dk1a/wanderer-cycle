@@ -8,6 +8,12 @@ import { PStat_length } from "../src/CustomTypes.sol";
 contract LibExperienceTest is MudV2Test {
   bytes32 internal targetEntity = keccak256("targetEntity");
 
+  function setUp() public virtual override {
+    super.setUp();
+    // TODO remove this if it's integrated into MUD
+    vm.startPrank(worldAddress);
+  }
+
   function testIncreaseExp() public {
     // Initialize exp
     LibExperience.initExp(targetEntity);

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-import { Experience } from "../codegen/Tables.sol";
+import { hasKey } from "@latticexyz/world/src/modules/keysintable/hasKey.sol";
+import { Experience, ExperienceTableId } from "../codegen/Tables.sol";
 import { PStat, PStat_length } from "../CustomTypes.sol";
 
 library LibExperience {
@@ -23,14 +24,9 @@ library LibExperience {
   }
 
   function hasExp(bytes32 targetEntity) internal view returns (bool) {
-    // TODO use `has`, or make exp unable to be 0
-    uint32[PStat_length] memory exp = Experience.get(targetEntity);
-    for (uint256 i; i < exp.length; i++) {
-      if (exp[i] > 0) {
-        return true;
-      }
-    }
-    return false;
+    bytes32[] memory keyTuple = new bytes32[](1);
+    keyTuple[0] = targetEntity;
+    return hasKey(ExperienceTableId, keyTuple);
   }
 
   function getExp(bytes32 targetEntity) internal view returns (uint32[PStat_length] memory) {

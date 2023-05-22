@@ -15,7 +15,7 @@
     "lint": "pnpm run prettier && pnpm run solhint",
     "prettier": "prettier --write 'src/**/*.sol'",
     "solhint": "solhint --config ./.solhint.json 'src/**/*.sol' --fix",
-    "test": "tsc --noEmit && mud test"
+    "test": "tsc --noEmit && mud test --forgeOptions='-vvv --sender 0x5FbDB2315678afecb367f032d93F642f64180aa3'"
   },
   "dependencies": {
     "@ethersproject/abi": "^5.7.0",
