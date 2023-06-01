@@ -1,46 +1,45 @@
 import { mudConfig, resolveTableId } from "@latticexyz/world/register";
 
-
 // TODO user-defined type
-const EntityId = "uint256" as const
-const EntityIdArray = "uint256[]" as const
+const EntityId = "bytes32" as const;
+const EntityIdArray = "bytes32[]" as const;
 // TODO set
-const EntityIdSet = "uint256[]" as const
+const EntityIdSet = "bytes32[]" as const;
 
 const entityKey = {
-  primaryKeys: {
+  keySchema: {
     entity: EntityId,
   },
-} as const
+} as const;
 
 const entityRelation = {
   ...entityKey,
   schema: EntityId,
-} as const
+} as const;
 
 const systemCallbackSchema = {
   namespace: "bytes16",
   file: "bytes16",
-  funcSelectorAndArgs: "bytes"
-} as const
+  funcSelectorAndArgs: "bytes",
+} as const;
 
 const scopedDurationSchema = {
   scope: "bytes32",
-  value: "uint48"
-} as const
+  value: "uint48",
+} as const;
 
-const enumPStat = ["STRENGTH", "ARCANA", "DEXTERITY"]
-const arrayPStat = `uint32[${enumPStat.length}]` as const
+const enumPStat = ["STRENGTH", "ARCANA", "DEXTERITY"];
+const arrayPStat = `uint32[${enumPStat.length}]` as const;
 
-const enumEleStat = ["NONE", "PHYSICAL", "FIRE", "COLD", "POISON"]
-const arrayEleStat = `uint32[${enumEleStat.length}]` as const
+const enumEleStat = ["NONE", "PHYSICAL", "FIRE", "COLD", "POISON"];
+const arrayEleStat = `uint32[${enumEleStat.length}]` as const;
 
-const keysWithValue = (tableNames: string[]) => tableNames.map(tableName => ({
-  name: "KeysWithValueModule",
-  root: true,
-  args: [resolveTableId(tableName)],
-}))
-
+const keysWithValue = (tableNames: string[]) =>
+  tableNames.map((tableName) => ({
+    name: "KeysWithValueModule",
+    root: true,
+    args: [resolveTableId(tableName)],
+  }));
 
 export default mudConfig({
   tables: {
@@ -50,7 +49,7 @@ export default mudConfig({
     },
     Experience: {
       ...entityKey,
-      schema: arrayPStat
+      schema: arrayPStat,
     },
   },
   modules: [
@@ -58,6 +57,6 @@ export default mudConfig({
       name: "KeysInTableModule",
       root: true,
       args: [resolveTableId("Experience")],
-    }
-  ]
+    },
+  ],
 });
