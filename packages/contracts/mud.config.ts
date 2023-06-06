@@ -51,6 +51,11 @@ export default mudConfig({
       ...entityKey,
       schema: arrayPStat,
     },
+    ActiveGuise: entityRelation,
+    GuisePrototype: {
+     ...entityKey,
+     schema: arrayPStat,
+    },
   },
   modules: [
     {

@@ -35,5 +35,35 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    ActiveGuise: (() => {
+      const tableId = new TableId("", "ActiveGuise");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    GuisePrototype: (() => {
+      const tableId = new TableId("", "GuisePrototype");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.NumberArray,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
   };
 }

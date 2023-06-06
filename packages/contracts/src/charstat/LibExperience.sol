@@ -9,7 +9,7 @@ library LibExperience {
   error LibExperience__InvalidLevel();
   error LibExperience__ExpNotInitialized();
 
-  uint32 constant internal MAX_LEVEL = 16;
+  uint32 internal constant MAX_LEVEL = 16;
 
   function getPStats(bytes32 targetEntity) internal view returns (uint32[PStat_length] memory result) {
     result = Experience.get(targetEntity);
@@ -63,12 +63,16 @@ library LibExperience {
   /**
    * @dev Calculate aggregate level based on weighted sum of pstat exp
    */
-  function getAggregateLevel(bytes32 targetEntity, uint32[PStat_length] memory levelMul) internal view returns (uint32) {
+  function getAggregateLevel(bytes32 targetEntity, uint32[PStat_length] memory levelMul)
+    internal
+    view
+    returns (uint32)
+  {
     uint32[PStat_length] memory exp = getExp(targetEntity);
     uint256 expTotal;
     uint256 mulTotal;
     for (uint256 i; i < PStat_length; i++) {
-      expTotal += exp[i] * levelMul[i];
+      expTotal += uint256(exp[i]) * levelMul[i];
       mulTotal += levelMul[i];
     }
 
@@ -80,7 +84,7 @@ library LibExperience {
   /**
    * @dev Calculate level based on single exp value
    */
-  function _getLevel(uint256 expVal) private pure returns (uint32) {
+  function _getLevel(uint256 expVal) internal pure returns (uint32) {
     // expVal per level rises exponentially with polynomial easing
     // 1-0, 2-96, 3-312, 4-544, 5-804, 6-1121...
     for (uint32 level = 1; level < MAX_LEVEL; level++) {
@@ -105,7 +109,7 @@ library LibExperience {
       level -= 1;
     }
 
-    return uint32(8 * (1 << level) - level ** 6 / 1024 + level * 200 - 120);
+    return uint32(8 * (1 << level) - level**6 / 1024 + level * 200 - 120);
   }
 
   /**
