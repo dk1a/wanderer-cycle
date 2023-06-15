@@ -53,8 +53,37 @@ export default mudConfig({
     },
     ActiveGuise: entityRelation,
     GuisePrototype: {
-     ...entityKey,
-     schema: arrayPStat,
+      ...entityKey,
+      schema: arrayPStat,
+    },
+    Identity: {
+      ...entityKey,
+      schema: "uint32",
+    },
+    Wanderer: {
+      ...entityKey,
+      schema: "bool",
+    },
+
+    ActiveWheel: entityRelation,
+    DefaultWheel: {
+      keySchema: {},
+      schema: EntityId,
+    },
+    Wheel: {
+      ...entityKey,
+      schema: {
+        totalIdentityRequired: "uint32",
+        charges: "uint32",
+        isIsolated: "bool",
+      },
+    },
+    WheelsCompleted: {
+      keySchema: {
+        wandererEntity: EntityId,
+        wheelEntity: EntityId,
+      },
+      schema: "uint32",
     },
   },
   modules: [

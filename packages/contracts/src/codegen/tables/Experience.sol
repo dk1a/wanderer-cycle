@@ -92,11 +92,7 @@ library Experience {
   }
 
   /** Set value (using the specified store) */
-  function set(
-    IStore _store,
-    bytes32 entity,
-    uint32[3] memory value
-  ) internal {
+  function set(IStore _store, bytes32 entity, uint32[3] memory value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -131,11 +127,7 @@ library Experience {
   }
 
   /** Get an item of value (using the specified store) (unchecked, returns invalid data if index overflows) */
-  function getItem(
-    IStore _store,
-    bytes32 entity,
-    uint256 _index
-  ) internal view returns (uint32) {
+  function getItem(IStore _store, bytes32 entity, uint256 _index) internal view returns (uint32) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -152,11 +144,7 @@ library Experience {
   }
 
   /** Push an element to value (using the specified store) */
-  function push(
-    IStore _store,
-    bytes32 entity,
-    uint32 _element
-  ) internal {
+  function push(IStore _store, bytes32 entity, uint32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -180,11 +168,7 @@ library Experience {
   }
 
   /** Update an element of value at `_index` */
-  function update(
-    bytes32 entity,
-    uint256 _index,
-    uint32 _element
-  ) internal {
+  function update(bytes32 entity, uint256 _index, uint32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -192,12 +176,7 @@ library Experience {
   }
 
   /** Update an element of value (using the specified store) at `_index` */
-  function update(
-    IStore _store,
-    bytes32 entity,
-    uint256 _index,
-    uint32 _element
-  ) internal {
+  function update(IStore _store, bytes32 entity, uint256 _index, uint32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 

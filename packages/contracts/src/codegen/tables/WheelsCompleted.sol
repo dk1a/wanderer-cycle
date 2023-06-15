@@ -17,21 +17,22 @@ import { EncodeArray } from "@latticexyz/store/src/tightcoder/EncodeArray.sol";
 import { Schema, SchemaLib } from "@latticexyz/store/src/Schema.sol";
 import { PackedCounter, PackedCounterLib } from "@latticexyz/store/src/PackedCounter.sol";
 
-bytes32 constant _tableId = bytes32(abi.encodePacked(bytes16(""), bytes16("ActiveGuise")));
-bytes32 constant ActiveGuiseTableId = _tableId;
+bytes32 constant _tableId = bytes32(abi.encodePacked(bytes16(""), bytes16("WheelsCompleted")));
+bytes32 constant WheelsCompletedTableId = _tableId;
 
-library ActiveGuise {
+library WheelsCompleted {
   /** Get the table's schema */
   function getSchema() internal pure returns (Schema) {
     SchemaType[] memory _schema = new SchemaType[](1);
-    _schema[0] = SchemaType.BYTES32;
+    _schema[0] = SchemaType.UINT32;
 
     return SchemaLib.encode(_schema);
   }
 
   function getKeySchema() internal pure returns (Schema) {
-    SchemaType[] memory _schema = new SchemaType[](1);
+    SchemaType[] memory _schema = new SchemaType[](2);
     _schema[0] = SchemaType.BYTES32;
+    _schema[1] = SchemaType.BYTES32;
 
     return SchemaLib.encode(_schema);
   }
@@ -40,7 +41,7 @@ library ActiveGuise {
   function getMetadata() internal pure returns (string memory, string[] memory) {
     string[] memory _fieldNames = new string[](1);
     _fieldNames[0] = "value";
-    return ("ActiveGuise", _fieldNames);
+    return ("WheelsCompleted", _fieldNames);
   }
 
   /** Register the table's schema */
@@ -66,62 +67,72 @@ library ActiveGuise {
   }
 
   /** Get value */
-  function get(bytes32 entity) internal view returns (bytes32 value) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((entity));
+  function get(bytes32 wandererEntity, bytes32 wheelEntity) internal view returns (uint32 value) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((wandererEntity));
+    _keyTuple[1] = bytes32((wheelEntity));
 
     bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 0);
-    return (Bytes.slice32(_blob, 0));
+    return (uint32(Bytes.slice4(_blob, 0)));
   }
 
   /** Get value (using the specified store) */
-  function get(IStore _store, bytes32 entity) internal view returns (bytes32 value) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((entity));
+  function get(IStore _store, bytes32 wandererEntity, bytes32 wheelEntity) internal view returns (uint32 value) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((wandererEntity));
+    _keyTuple[1] = bytes32((wheelEntity));
 
     bytes memory _blob = _store.getField(_tableId, _keyTuple, 0);
-    return (Bytes.slice32(_blob, 0));
+    return (uint32(Bytes.slice4(_blob, 0)));
   }
 
   /** Set value */
-  function set(bytes32 entity, bytes32 value) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((entity));
+  function set(bytes32 wandererEntity, bytes32 wheelEntity, uint32 value) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((wandererEntity));
+    _keyTuple[1] = bytes32((wheelEntity));
 
     StoreSwitch.setField(_tableId, _keyTuple, 0, abi.encodePacked((value)));
   }
 
   /** Set value (using the specified store) */
-  function set(IStore _store, bytes32 entity, bytes32 value) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((entity));
+  function set(IStore _store, bytes32 wandererEntity, bytes32 wheelEntity, uint32 value) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((wandererEntity));
+    _keyTuple[1] = bytes32((wheelEntity));
 
     _store.setField(_tableId, _keyTuple, 0, abi.encodePacked((value)));
   }
 
   /** Tightly pack full data using this table's schema */
-  function encode(bytes32 value) internal view returns (bytes memory) {
+  function encode(uint32 value) internal view returns (bytes memory) {
     return abi.encodePacked(value);
   }
 
   /** Encode keys as a bytes32 array using this table's schema */
-  function encodeKeyTuple(bytes32 entity) internal pure returns (bytes32[] memory _keyTuple) {
-    _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((entity));
+  function encodeKeyTuple(
+    bytes32 wandererEntity,
+    bytes32 wheelEntity
+  ) internal pure returns (bytes32[] memory _keyTuple) {
+    _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((wandererEntity));
+    _keyTuple[1] = bytes32((wheelEntity));
   }
 
   /* Delete all data for given keys */
-  function deleteRecord(bytes32 entity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((entity));
+  function deleteRecord(bytes32 wandererEntity, bytes32 wheelEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((wandererEntity));
+    _keyTuple[1] = bytes32((wheelEntity));
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
 
   /* Delete all data for given keys (using the specified store) */
-  function deleteRecord(IStore _store, bytes32 entity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = bytes32((entity));
+  function deleteRecord(IStore _store, bytes32 wandererEntity, bytes32 wheelEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = bytes32((wandererEntity));
+    _keyTuple[1] = bytes32((wheelEntity));
 
     _store.deleteRecord(_tableId, _keyTuple);
   }
