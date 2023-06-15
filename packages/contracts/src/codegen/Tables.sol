@@ -9,6 +9,7 @@ import { ActiveGuise, ActiveGuiseTableId } from "./tables/ActiveGuise.sol";
 import { GuisePrototype, GuisePrototypeTableId } from "./tables/GuisePrototype.sol";
 import { Identity, IdentityTableId } from "./tables/Identity.sol";
 import { Wanderer, WandererTableId } from "./tables/Wanderer.sol";
+import { PreviousCycle, PreviousCycleTableId } from "./tables/PreviousCycle.sol";
 import { ActiveWheel, ActiveWheelTableId } from "./tables/ActiveWheel.sol";
 import { DefaultWheel, DefaultWheelTableId } from "./tables/DefaultWheel.sol";
 import { Wheel, WheelData, WheelTableId } from "./tables/Wheel.sol";

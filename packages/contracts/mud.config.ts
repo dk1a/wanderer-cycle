@@ -64,7 +64,7 @@ export default mudConfig({
       ...entityKey,
       schema: "bool",
     },
-
+    PreviousCycle: entityRelation,
     ActiveWheel: entityRelation,
     DefaultWheel: {
       keySchema: {},
