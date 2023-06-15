@@ -18,11 +18,6 @@ library LibWanderer {
 
     uint32 wheelsCompleted = 0;
 
-    //    if (wheelsCompletedComp.has(wheelsCompletedEntity)) {
-    //      wheelsCompleted = wheelsCompletedComp.getValue(wheelsCompletedEntity);
-    //    }
-    //    TODO
-
     // reward identity if charges remain
     if (wheelsCompleted < wheel.charges) {
       _rewardIdentity(wandererEntity);
