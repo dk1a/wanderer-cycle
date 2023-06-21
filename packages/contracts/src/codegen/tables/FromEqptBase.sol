@@ -17,10 +17,10 @@ import { EncodeArray } from "@latticexyz/store/src/tightcoder/EncodeArray.sol";
 import { Schema, SchemaLib } from "@latticexyz/store/src/Schema.sol";
 import { PackedCounter, PackedCounterLib } from "@latticexyz/store/src/PackedCounter.sol";
 
-bytes32 constant _tableId = bytes32(abi.encodePacked(bytes16(""), bytes16("ActiveGuise")));
-bytes32 constant ActiveGuiseTableId = _tableId;
+bytes32 constant _tableId = bytes32(abi.encodePacked(bytes16(""), bytes16("FromEqptBase")));
+bytes32 constant FromEqptBaseTableId = _tableId;
 
-library ActiveGuise {
+library FromEqptBase {
   /** Get the table's schema */
   function getSchema() internal pure returns (Schema) {
     SchemaType[] memory _schema = new SchemaType[](1);
@@ -40,7 +40,7 @@ library ActiveGuise {
   function getMetadata() internal pure returns (string memory, string[] memory) {
     string[] memory _fieldNames = new string[](1);
     _fieldNames[0] = "value";
-    return ("ActiveGuise", _fieldNames);
+    return ("FromEqptBase", _fieldNames);
   }
 
   /** Register the table's schema */
