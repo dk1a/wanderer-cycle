@@ -94,5 +94,10 @@ export default mudConfig({
       root: true,
       args: [resolveTableId("Experience")],
     },
+    {
+      name: "UniqueEntityModule",
+      root: true,
+      args: [resolveTableId("Name")],
+    },
   ],
 });
