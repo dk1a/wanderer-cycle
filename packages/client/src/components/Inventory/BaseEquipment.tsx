@@ -1,6 +1,8 @@
 import { EquipmentData } from "../../contexts/InventoryContext";
 import { EffectStatmod } from "../Effect/EffectStatmod";
 import CustomButton from "../UI/Button/CustomButton";
+import { useEffect, useState } from "react";
+import useKey from "../../mud/hooks/useKey";
 
 type BaseEquipmentProps = {
   equipmentData: EquipmentData;
@@ -10,6 +12,13 @@ type BaseEquipmentProps = {
 export default function BaseEquipment({ equipmentData, className }: BaseEquipmentProps) {
   const { name, ilvl, affixes } = equipmentData;
   const availableSlots = equipmentData.availableSlots;
+
+  const [isAltPressed, setIsAltPressed] = useState<boolean>(false);
+
+  const handleKeyDown = () => {
+    setIsAltPressed(!isAltPressed);
+  };
+  useKey("Alt", handleKeyDown);
 
   return (
     <div className="text-dark-key p-1.5 flex flex-col justify-between border border-dark-400 bg-dark-500 w-64 m-2">
@@ -22,12 +31,26 @@ export default function BaseEquipment({ equipmentData, className }: BaseEquipmen
             ilvl:<span className="ml-1 text-dark-number">{ilvl}</span>
           </span>
         </div>
-        {affixes.map(({ protoEntity, value, partId, statmod }) => (
-          <div className="flex box-content flex-wrap" key={`${partId}${protoEntity}`}>
-            <EffectStatmod protoEntity={statmod.protoEntity} value={value} />
-            {/* TODO add global button to trigger this data: */}
-            {/*{affixPrototype.tier} {affixPrototype.name}
-          ({affixPrototype.min}-{affixPrototype.max})*/}
+        {affixes.map(({ protoEntity, value, partId, statmod, affixPrototype }) => (
+          <div key={`${partId}${protoEntity}`}>
+            {isAltPressed ? (
+              <div className="flex box-content flex-wrap text-[14px]">
+                <div className="flex">
+                  <span className="text-dark-string">+</span>
+                  <span className="text-dark-number">{affixPrototype.tier}</span>
+                  <span className="text-dark-string">
+                    (
+                    <span className="text-dark-number">
+                      {affixPrototype.min}-{affixPrototype.max}
+                    </span>
+                    )
+                  </span>
+                  <span className="text-dark-string mx-2">{affixPrototype.name}</span>
+                </div>
+              </div>
+            ) : (
+              <EffectStatmod protoEntity={statmod.protoEntity} value={value} />
+            )}
           </div>
         ))}
       </div>
