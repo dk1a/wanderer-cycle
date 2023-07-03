@@ -4,8 +4,9 @@ import { CombatRoundOutcome } from "./CombatRoundOutcome";
 
 export function Combat() {
   const { lastCombatResult } = useWandererContext();
+
   return (
-    <section className="p-2 flex flex-col justify-center items-center w-full">
+    <section className="flex flex-col justify-center items-center w-full">
       {/* TODO re-enable after implementing rounds
       <div className="flex justify-center">
         <span className="text-dark-key text-xl">rounds: </span>
