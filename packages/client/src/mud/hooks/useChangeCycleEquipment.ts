@@ -2,6 +2,8 @@ import { EntityIndex } from "@latticexyz/recs";
 import { useCallback } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useMUD } from "../MUDContext";
+import { toastPromise } from "../utils/toast";
+import { getLoot } from "../utils/getLoot";
 
 export enum EquipmentAction {
   UNEQUIP,
@@ -9,7 +11,7 @@ export enum EquipmentAction {
 }
 
 export const useChangeCycleEquipment = () => {
-  const { world, systems } = useMUD();
+  const { world, systems, components } = useMUD();
   const { selectedWandererEntity } = useWandererContext();
 
   return useCallback(
@@ -26,7 +28,8 @@ export const useChangeCycleEquipment = () => {
         equipmentSlotId,
         equipmentEntityId
       );
-      await tx.wait();
+      const loot = getLoot(world, components, equipmentEntity);
+      await toastPromise(tx.wait(), `Equip ${loot.name}...`, `${loot.name} equipped...`);
     },
     [world, systems, selectedWandererEntity]
   );

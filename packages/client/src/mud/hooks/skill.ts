@@ -3,6 +3,7 @@ import { EntityIndex, Has } from "@latticexyz/recs";
 import { useCallback, useMemo } from "react";
 import { useMUD } from "../MUDContext";
 import { getSkill } from "../utils/skill";
+import { toastPromise } from "../utils/toast";
 
 export const useSkill = (entity: EntityIndex | undefined) => {
   const { world, components } = useMUD();
@@ -57,7 +58,7 @@ export const useLearnedSkillEntities = (targetEntity: EntityIndex | undefined) =
 };
 
 export const useLearnCycleSkill = (wandererEntity: EntityIndex | undefined) => {
-  const { world, systems } = useMUD();
+  const { world, systems, components } = useMUD();
 
   return useCallback(
     async (skillEntity: EntityIndex) => {
@@ -66,14 +67,15 @@ export const useLearnCycleSkill = (wandererEntity: EntityIndex | undefined) => {
         world.entities[wandererEntity],
         world.entities[skillEntity]
       );
-      await tx.wait();
+      const skill = getSkill(world, components, skillEntity);
+      await toastPromise(tx.wait(), `Learning ${skill.name}`, `${skill.name} learned!`);
     },
-    [world, systems, wandererEntity]
+    [world, systems, components, wandererEntity]
   );
 };
 
 export const usePermSkill = (wandererEntity: EntityIndex | undefined) => {
-  const { world, systems } = useMUD();
+  const { world, systems, components } = useMUD();
 
   return useCallback(
     async (skillEntity: EntityIndex) => {
@@ -82,14 +84,15 @@ export const usePermSkill = (wandererEntity: EntityIndex | undefined) => {
         world.entities[wandererEntity],
         world.entities[skillEntity]
       );
-      await tx.wait();
+      const skill = getSkill(world, components, skillEntity);
+      await toastPromise(tx.wait(), `Use ${skill.name}`, `${skill.name} used`);
     },
-    [world, systems, wandererEntity]
+    [world, systems, components, wandererEntity]
   );
 };
 
 export const useExecuteNoncombatSkill = () => {
-  const { world, systems } = useMUD();
+  const { world, systems, components } = useMUD();
 
   return useCallback(
     async (cycleEntity: EntityIndex, skillEntity: EntityIndex) => {
@@ -97,8 +100,9 @@ export const useExecuteNoncombatSkill = () => {
         world.entities[cycleEntity],
         world.entities[skillEntity]
       );
-      await tx.wait();
+      const skill = getSkill(world, components, skillEntity);
+      await toastPromise(tx.wait(), `Use execute ${skill.name}`, `Execute ${skill.name} is a used`);
     },
-    [world, systems]
+    [world, systems, components]
   );
 };
