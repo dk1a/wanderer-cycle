@@ -59,17 +59,6 @@ export default mudConfig({
     EqptBase: {
       ...entityKey,
       schema: "bytes32",
-      //     {
-      //   weapon: EntityId,
-      //   shield: EntityId,
-      //   hat: EntityId,
-      //   clothing: EntityId,
-      //   gloves: EntityId,
-      //   pants: EntityId,
-      //   boots: EntityId,
-      //   amulet: EntityId,
-      //   ring: EntityId,
-      // }
     },
     FromEqptBase: entityRelation,
     SlotAllowedBases: {

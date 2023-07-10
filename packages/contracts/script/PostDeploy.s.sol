@@ -5,7 +5,7 @@ import { Script } from "forge-std/Script.sol";
 import { console } from "forge-std/console.sol";
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 
-import { LibInitEquip } from "../src/equipment/LibInitEquip.sol";
+import { LibInitEquip } from "../src/equipment/LibInitEquipment.sol";
 
 contract PostDeploy is Script {
   function run(address worldAddress) external {
