@@ -7,5 +7,8 @@ import { Counter, CounterTableId } from "./tables/Counter.sol";
 import { Experience, ExperienceTableId } from "./tables/Experience.sol";
 import { ActiveGuise, ActiveGuiseTableId } from "./tables/ActiveGuise.sol";
 import { GuisePrototype, GuisePrototypeTableId } from "./tables/GuisePrototype.sol";
+import { ActiveCycle, ActiveCycleTableId } from "./tables/ActiveCycle.sol";
+import { CycleTurns, CycleTurnsTableId } from "./tables/CycleTurns.sol";
+import { CycleTurnsLastClaimed, CycleTurnsLastClaimedTableId } from "./tables/CycleTurnsLastClaimed.sol";
 import { RNGPrecommit, RNGPrecommitTableId } from "./tables/RNGPrecommit.sol";
 import { RNGRequestOwner, RNGRequestOwnerTableId } from "./tables/RNGRequestOwner.sol";

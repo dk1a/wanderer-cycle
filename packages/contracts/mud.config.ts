@@ -56,6 +56,18 @@ export default mudConfig({
       ...entityKey,
       schema: arrayPStat,
     },
+    ActiveCycle: {
+      ...entityKey,
+      schema: "uint32",
+    },
+    CycleTurns: {
+      ...entityKey,
+      schema: "uint32",
+    },
+    CycleTurnsLastClaimed: {
+      ...entityKey,
+      schema: "uint48",
+    },
     RNGPrecommit: {
       ...entityKey,
       schema: "uint256",

@@ -50,12 +50,42 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    CycleTurns: (() => {
+      const tableId = new TableId("", "CycleTurns");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.Number,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
     GuisePrototype: (() => {
       const tableId = new TableId("", "GuisePrototype");
       return defineComponent(
         world,
         {
           value: RecsType.NumberArray,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    CycleTurnsLastClaimed: (() => {
+      const tableId = new TableId("", "CycleTurnsLastCl");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.Number,
         },
         {
           metadata: {

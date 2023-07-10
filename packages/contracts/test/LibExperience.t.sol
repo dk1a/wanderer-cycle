@@ -22,10 +22,10 @@ contract LibExperienceTest is MudV2Test {
     assertTrue(LibExperience.hasExp(targetEntity));
   }
 
-  function _testIncreaseExp(uint32[PStat_length] memory initialExp, uint32[PStat_length] memory addExp)
-    internal
-    returns (uint32[PStat_length] memory resultExp)
-  {
+  function _testIncreaseExp(
+    uint32[PStat_length] memory initialExp,
+    uint32[PStat_length] memory addExp
+  ) internal returns (uint32[PStat_length] memory resultExp) {
     LibExperience.increaseExp(targetEntity, addExp);
 
     resultExp = LibExperience.getExp(targetEntity);
