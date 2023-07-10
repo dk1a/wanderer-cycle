@@ -53,15 +53,26 @@ export default mudConfig({
     },
     ActiveGuise: entityRelation,
     GuisePrototype: {
-     ...entityKey,
-     schema: arrayPStat,
+      ...entityKey,
+      schema: arrayPStat,
     },
+    RNGPrecommit: {
+      ...entityKey,
+      schema: "uint256",
+    },
+    // requestId => ownerEntity
+    RNGRequestOwner: entityRelation,
   },
   modules: [
     {
       name: "KeysInTableModule",
       root: true,
       args: [resolveTableId("Experience")],
+    },
+    {
+      name: "UniqueEntityModule",
+      root: true,
+      args: [],
     },
   ],
 });
