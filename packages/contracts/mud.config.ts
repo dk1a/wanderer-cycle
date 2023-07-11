@@ -86,7 +86,7 @@ export default mudConfig({
     {
       name: "UniqueEntityModule",
       root: true,
-      args: [resolveTableId("Name")],
+      args: [],
     },
   ],
 });

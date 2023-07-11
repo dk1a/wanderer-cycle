@@ -6,10 +6,10 @@ import { getUniqueEntity } from "@latticexyz/world/src/modules/uniqueentity/getU
 import { Name, NameTableId, EqptBase } from "../codegen/Tables.sol";
 
 library LibInitEquipment {
-  function _newBaseEquipment(string memory slot) private returns (bytes32 baseEquipment) {
+  function _newBaseEquipment(string memory base) private returns (bytes32 eqptBase) {
     bytes32 eqptBase = getUniqueEntity();
-    Name.set(eqptBase, slot);
-    EqptBase.set(eqptBase, slot);
+    Name.set(eqptBase, base);
+    EqptBase.set(eqptBase, base);
     return eqptBase;
   }
 
