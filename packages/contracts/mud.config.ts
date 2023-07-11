@@ -56,6 +56,9 @@ export default mudConfig({
       ...entityKey,
       schema: arrayPStat,
     },
+    // initiatorEntity => retaliatorEntity
+    // An entity can initiate only 1 combat at a time
+    ActiveCombat: entityRelation,
     ActiveCycle: {
       ...entityKey,
       schema: "uint32",
