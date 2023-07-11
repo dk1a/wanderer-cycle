@@ -5,12 +5,13 @@ import { getUniqueEntity } from "@latticexyz/world/src/modules/uniqueentity/getU
 
 import { ActiveGuise, ActiveWheel, PreviousCycle, Wheel, GuisePrototype, ActiveCycle } from "../codegen/Tables.sol";
 
-import { LibCharstat } from "../charstat/LibCharstat.sol";
+//import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
-import { LibToken } from "../token/LibToken.sol";
-import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
-import { LibLearnedSkills } from "../skill/LibLearnedSkills.sol";
+
+//import { LibToken } from "../token/LibToken.sol";
+//import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
+//import { LibLearnedSkills } from "../skill/LibLearnedSkills.sol";
 
 library LibCycle {
   error LibCycle__CycleIsAlreadyActive();
@@ -45,16 +46,16 @@ library LibCycle {
     ActiveGuise.set(cycleEntity, guiseProtoEntity);
     // set active wheel
     ActiveWheel.set(cycleEntity, wheelEntity);
-    // init exp
-    LibCharstat.initExp();
-    // init currents
-    LibCharstat.setFullCurrents();
+    //    // init exp
+    //    LibCharstat.initExp();
+    //    // init currents
+    //    LibCharstat.setFullCurrents();
     // claim initial cycle turns
     LibCycleTurns.claimTurns(cycleEntity);
     // spawn equipment slots
-    LibSpawnEquipmentSlots.spawnEquipmentSlots(cycleEntity);
+    //    LibSpawnEquipmentSlots.spawnEquipmentSlots(cycleEntity);
     // copy permanent skills
-    LibLearnedSkills.copySkills(targetEntity);
+    //    LibLearnedSkills.copySkills(targetEntity);
 
     return cycleEntity;
   }
@@ -77,17 +78,17 @@ library LibCycle {
   /// you probably shouldn't need this method either, and should know cycle entities directly.
   function getCycleEntityPermissioned(bytes32 wandererEntity) internal view returns (bytes32 cycleEntity) {
     // check permission
-    LibToken.requireOwner(wandererEntity, msg.sender);
+    //    LibToken.requireOwner(wandererEntity, msg.sender);
     // get cycle entity
     if (ActiveCycle.get(wandererEntity) == 0) revert LibCycle__CycleNotActive();
     return ActiveCycle.get(wandererEntity);
   }
 
-  function requirePermission(bytes32 cycleEntity) internal view {
-    // get wanderer entity
-    // TODO new table?
-    //    bytes32 wandererEntity = cycleToWandererComp.get(cycleEntity);
-    // check permission
-    LibToken.requireOwner(wandererEntity, msg.sender);
-  }
+  //  function requirePermission(bytes32 cycleEntity) internal view {
+  //    // get wanderer entity
+  //    // TODO new table?
+  //    //    bytes32 wandererEntity = cycleToWandererComp.get(cycleEntity);
+  //    // check permission
+  //    LibToken.requireOwner(wandererEntity, msg.sender);
+  //  }
 }

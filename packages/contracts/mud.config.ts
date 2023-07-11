@@ -62,6 +62,14 @@ export default mudConfig({
     },
     CurrentCycle: entityRelation,
     PreviousCycle: entityRelation,
+    CycleTurns: {
+      ...entityKey,
+      schema: "uint32",
+    },
+    CycleTurnsLastClaimed: {
+      ...entityKey,
+      schema: "uint48",
+    },
     ActiveWheel: entityRelation,
     Wheel: {
       ...entityKey,
@@ -75,6 +83,15 @@ export default mudConfig({
       ...entityKey,
       schema: "bool",
     },
+    // initiatorEntity => retaliatorEntity
+    // An entity can initiate only 1 combat at a time
+    ActiveCombat: entityRelation,
+    RNGPrecommit: {
+      ...entityKey,
+      schema: "uint256",
+    },
+    // requestId => ownerEntity
+    RNGRequestOwner: entityRelation,
   },
   modules: [
     {
@@ -85,7 +102,7 @@ export default mudConfig({
     {
       name: "UniqueEntityModule",
       root: true,
-      args: [resolveTableId("CurrentCycle")],
+      args: [],
     },
   ],
 });

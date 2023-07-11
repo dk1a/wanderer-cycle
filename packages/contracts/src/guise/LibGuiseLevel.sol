@@ -16,11 +16,10 @@ library LibGuiseLevel {
   }
 
   /// @dev Multiply gained experience by guise's level multiplier
-  function multiplyExperience(bytes32 targetEntity, uint32[PStat_length] memory exp)
-    internal
-    view
-    returns (uint32[PStat_length] memory expMultiplied)
-  {
+  function multiplyExperience(
+    bytes32 targetEntity,
+    uint32[PStat_length] memory exp
+  ) internal view returns (uint32[PStat_length] memory expMultiplied) {
     bytes32 guiseProtoEntity = ActiveGuise.get(targetEntity);
     uint32[PStat_length] memory levelMul = GuisePrototype.get(guiseProtoEntity);
 

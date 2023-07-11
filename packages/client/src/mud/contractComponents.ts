@@ -65,5 +65,172 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    ActiveCycle: (() => {
+      const tableId = new TableId("", "ActiveCycle");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    CurrentCycle: (() => {
+      const tableId = new TableId("", "CurrentCycle");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    PreviousCycle: (() => {
+      const tableId = new TableId("", "PreviousCycle");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    CycleTurns: (() => {
+      const tableId = new TableId("", "CycleTurns");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.Number,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    CycleTurnsLastClaimed: (() => {
+      const tableId = new TableId("", "CycleTurnsLastCl");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.Number,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    ActiveWheel: (() => {
+      const tableId = new TableId("", "ActiveWheel");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    Wheel: (() => {
+      const tableId = new TableId("", "Wheel");
+      return defineComponent(
+        world,
+        {
+          totalIdentityRequired: RecsType.Number,
+          charges: RecsType.Number,
+          isIsolated: RecsType.Boolean,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    Wanderer: (() => {
+      const tableId = new TableId("", "Wanderer");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.Boolean,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    ActiveCombat: (() => {
+      const tableId = new TableId("", "ActiveCombat");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    RNGPrecommit: (() => {
+      const tableId = new TableId("", "RNGPrecommit");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.BigInt,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    RNGRequestOwner: (() => {
+      const tableId = new TableId("", "RNGRequestOwner");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
   };
 }
