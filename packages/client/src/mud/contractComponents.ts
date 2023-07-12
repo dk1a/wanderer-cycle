@@ -65,5 +65,95 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    EqptBase: (() => {
+      const tableId = new TableId("", "EqptBase");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    FromEqptBase: (() => {
+      const tableId = new TableId("", "FromEqptBase");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    SlotAllowedBases: (() => {
+      const tableId = new TableId("", "SlotAllowedBases");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.StringArray,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    SlotEquipment: (() => {
+      const tableId = new TableId("", "SlotEquipment");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    Name: (() => {
+      const tableId = new TableId("", "Name");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    OwnedBy: (() => {
+      const tableId = new TableId("", "OwnedBy");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
   };
 }

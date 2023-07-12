@@ -12,31 +12,32 @@ import { Name, NameTableId } from "../codegen/Tables.sol";
 import { OwnedBy, OwnedByTableId } from "../codegen/Tables.sol";
 
 library LibSpawnEquipmentSlots {
-  function spawnEquipmentSlots(bytes32 ownerEntity) internal {
-    bytes32 WEAPON = _newSlotEquipment(ownerEntity, "WEAPON");
-    bytes32 SHIELD = _newSlotEquipment(ownerEntity, "SHIELD");
-    bytes32 HAT = _newSlotEquipment(ownerEntity, "HAT");
-    bytes32 CLOTHING = _newSlotEquipment(ownerEntity, "CLOTHING");
-    bytes32 GLOVES = _newSlotEquipment(ownerEntity, "GLOVES");
-    bytes32 PANTS = _newSlotEquipment(ownerEntity, "PANTS");
-    bytes32 BOOTS = _newSlotEquipment(ownerEntity, "BOOTS");
-    bytes32 AMULET = _newSlotEquipment(ownerEntity, "AMULET");
-    bytes32 RING = _newSlotEquipment(ownerEntity, "RING");
+  string[] constant equipmentSlots = [
+    "R Hand",
+    "L Hand",
+    "Head",
+    "Body",
+    "Hands",
+    "Legs",
+    "Feet",
+    "Neck",
+    "R Ring",
+    "L Ring"
+  ];
+  string constant R_HAND = "R Hand";
+  string constant L_HAND = "L Hand";
+  string constant HEAD = "Head";
+  string constant BODY = "Body";
+  string constant HANDS = "Hands";
+  string constant LEGS = "Legs";
+  string constant FEET = "Feet";
+  string constant NECK = "Neck";
+  string constant R_RING = "R Ring";
+  string constant L_RING = "L Ring";
 
-    _newSlotEntity(ownerEntity, "R Hand", WEAPON, SHIELD);
-    // TODO dual wielding to conditionally let L Hand use weapon too
-    _newSlotEntity(ownerEntity, "L Hand", SHIELD);
-    _newSlotEntity(ownerEntity, "Head", HAT);
-    _newSlotEntity(ownerEntity, "Body", CLOTHING);
-    _newSlotEntity(ownerEntity, "Hands", GLOVES);
-    _newSlotEntity(ownerEntity, "Legs", PANTS);
-    _newSlotEntity(ownerEntity, "Feet", BOOTS);
-    _newSlotEntity(ownerEntity, "Neck", AMULET);
-    _newSlotEntity(ownerEntity, "R Ring", RING);
-    _newSlotEntity(ownerEntity, "L Ring", RING);
-  }
+  function spawnEquipmentSlots() private {}
 
-  function _newSlotEquipment(bytes32 ownerEntity, string memory slot) private returns (bytes32 slotEquipment) {
+  function _newSlotEquipment(string memory slot) private returns (bytes32 slotEquipment) {
     bytes32 eqptProto = getUniqueEntity();
     Name.set(eqptProto, slot);
     OwnedBy.set(eqptProto, ownerEntity);
