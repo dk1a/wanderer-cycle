@@ -2,14 +2,10 @@
 pragma solidity >=0.8.0;
 
 import { getUniqueEntity } from "@latticexyz/world/src/modules/uniqueentity/getUniqueEntity.sol";
+import { getKeysWithValue } from "@latticexyz/world/src/modules/keyswithvalue/getKeysWithValue.sol";
 
-import { EqptBase, EqptBaseTableId } from "../codegen/Tables.sol";
-import { FromEqptBase, FromEqptBaseTableId } from "../codegen/Tables.sol";
-import { SlotAllowedBases, SlotAllowedBasesTableId } from "../codegen/Tables.sol";
-import { SlotEquipment, SlotEquipmentTableId } from "../codegen/Tables.sol";
+import { SlotAllowedBases, Name, NameTableId, OwnedBy } from "../codegen/Tables.sol";
 
-import { Name, NameTableId } from "../codegen/Tables.sol";
-import { OwnedBy, OwnedByTableId } from "../codegen/Tables.sol";
 import { LibInitEquipment } from "./LibInitEquipment.sol";
 
 library LibSpawnEquipmentSlots {
@@ -73,5 +69,13 @@ library LibSpawnEquipmentSlots {
     assembly {
       result := mload(add(strBytes, 32))
     }
+  }
+
+  function getSlotByName(string memory slotName) private view returns (bytes32) {
+    bytes32[] memory slotKeys = getKeysWithValue(world, NameTableId, bytes(slotName));
+    if (slotKeys.length == 0) {
+      revert("slotEntity not found");
+    }
+    return slotEntities[0];
   }
 }
