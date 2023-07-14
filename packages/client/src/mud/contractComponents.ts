@@ -70,7 +70,7 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          value: RecsType.String,
+          value: RecsType.Boolean,
         },
         {
           metadata: {

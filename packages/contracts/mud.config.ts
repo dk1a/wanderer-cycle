@@ -58,7 +58,7 @@ export default mudConfig({
     },
     EqptBase: {
       ...entityKey,
-      schema: "bytes32",
+      schema: "bool",
     },
     FromEqptBase: entityRelation,
     SlotAllowedBases: {
@@ -82,6 +82,11 @@ export default mudConfig({
       name: "KeysInTableModule",
       root: true,
       args: [resolveTableId("Experience")],
+    },
+    {
+      name: "KeysWithValueModule",
+      root: true,
+      args: [resolveTableId("Name")],
     },
     {
       name: "UniqueEntityModule",
