@@ -56,6 +56,17 @@ export default mudConfig({
       ...entityKey,
       schema: arrayPStat,
     },
+    EffectTemplate: {
+      ...entityKey,
+      schema: {
+        entities: EntityIdArray,
+        values: "uint32[]",
+      },
+    },
+    StatmodBase: {
+      ...entityKey,
+      schema: "bytes32",
+    },
     // initiatorEntity => retaliatorEntity
     // An entity can initiate only 1 combat at a time
     ActiveCombat: entityRelation,
@@ -78,6 +89,7 @@ export default mudConfig({
     // requestId => ownerEntity
     RNGRequestOwner: entityRelation,
   },
+
   modules: [
     {
       name: "KeysInTableModule",
