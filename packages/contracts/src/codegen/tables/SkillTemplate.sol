@@ -114,7 +114,11 @@ library SkillTemplate {
   }
 
   /** Set requiredLevel (using the specified store) */
-  function setRequiredLevel(IStore _store, bytes32 entity, uint8 requiredLevel) internal {
+  function setRequiredLevel(
+    IStore _store,
+    bytes32 entity,
+    uint8 requiredLevel
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -148,7 +152,11 @@ library SkillTemplate {
   }
 
   /** Set skillType (using the specified store) */
-  function setSkillType(IStore _store, bytes32 entity, SkillType skillType) internal {
+  function setSkillType(
+    IStore _store,
+    bytes32 entity,
+    SkillType skillType
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -182,7 +190,11 @@ library SkillTemplate {
   }
 
   /** Set withAttack (using the specified store) */
-  function setWithAttack(IStore _store, bytes32 entity, bool withAttack) internal {
+  function setWithAttack(
+    IStore _store,
+    bytes32 entity,
+    bool withAttack
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -216,7 +228,11 @@ library SkillTemplate {
   }
 
   /** Set withSpell (using the specified store) */
-  function setWithSpell(IStore _store, bytes32 entity, bool withSpell) internal {
+  function setWithSpell(
+    IStore _store,
+    bytes32 entity,
+    bool withSpell
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -250,7 +266,11 @@ library SkillTemplate {
   }
 
   /** Set cost (using the specified store) */
-  function setCost(IStore _store, bytes32 entity, uint32 cost) internal {
+  function setCost(
+    IStore _store,
+    bytes32 entity,
+    uint32 cost
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -284,7 +304,11 @@ library SkillTemplate {
   }
 
   /** Set targetType (using the specified store) */
-  function setTargetType(IStore _store, bytes32 entity, TargetType targetType) internal {
+  function setTargetType(
+    IStore _store,
+    bytes32 entity,
+    TargetType targetType
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -360,7 +384,11 @@ library SkillTemplate {
   }
 
   /** Set the full data using the data struct (using the specified store) */
-  function set(IStore _store, bytes32 entity, SkillTemplateData memory _table) internal {
+  function set(
+    IStore _store,
+    bytes32 entity,
+    SkillTemplateData memory _table
+  ) internal {
     set(
       _store,
       entity,

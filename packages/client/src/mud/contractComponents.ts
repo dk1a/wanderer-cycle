@@ -20,6 +20,53 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    Name: (() => {
+      const tableId = new TableId("", "Name");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    DefaultWheel: (() => {
+      const tableId = new TableId("", "DefaultWheel");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.String,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    Wheel: (() => {
+      const tableId = new TableId("", "Wheel");
+      return defineComponent(
+        world,
+        {
+          totalIdentityRequired: RecsType.Number,
+          charges: RecsType.Number,
+          isIsolated: RecsType.Boolean,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
     Experience: (() => {
       const tableId = new TableId("", "Experience");
       return defineComponent(

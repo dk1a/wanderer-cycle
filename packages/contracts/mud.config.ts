@@ -54,6 +54,22 @@ export default mudConfig({
       keySchema: {},
       schema: "uint32",
     },
+    Name: {
+      ...entityKey,
+      schema: "string",
+    },
+    DefaultWheel: {
+      keySchema: {},
+      schema: EntityId,
+    },
+    Wheel: {
+      ...entityKey,
+      schema: {
+        totalIdentityRequired: "uint32",
+        charges: "uint32",
+        isIsolated: "bool",
+      },
+    },
     Experience: {
       ...entityKey,
       schema: arrayPStat,

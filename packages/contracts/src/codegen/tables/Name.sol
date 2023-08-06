@@ -17,14 +17,14 @@ import { EncodeArray } from "@latticexyz/store/src/tightcoder/EncodeArray.sol";
 import { Schema, SchemaLib } from "@latticexyz/store/src/Schema.sol";
 import { PackedCounter, PackedCounterLib } from "@latticexyz/store/src/PackedCounter.sol";
 
-bytes32 constant _tableId = bytes32(abi.encodePacked(bytes16(""), bytes16("LearnedSkills")));
-bytes32 constant LearnedSkillsTableId = _tableId;
+bytes32 constant _tableId = bytes32(abi.encodePacked(bytes16(""), bytes16("Name")));
+bytes32 constant NameTableId = _tableId;
 
-library LearnedSkills {
+library Name {
   /** Get the table's schema */
   function getSchema() internal pure returns (Schema) {
     SchemaType[] memory _schema = new SchemaType[](1);
-    _schema[0] = SchemaType.BYTES32_ARRAY;
+    _schema[0] = SchemaType.STRING;
 
     return SchemaLib.encode(_schema);
   }
@@ -40,7 +40,7 @@ library LearnedSkills {
   function getMetadata() internal pure returns (string memory, string[] memory) {
     string[] memory _fieldNames = new string[](1);
     _fieldNames[0] = "value";
-    return ("LearnedSkills", _fieldNames);
+    return ("Name", _fieldNames);
   }
 
   /** Register the table's schema */
@@ -66,41 +66,37 @@ library LearnedSkills {
   }
 
   /** Get value */
-  function get(bytes32 entity) internal view returns (bytes32[] memory value) {
+  function get(bytes32 entity) internal view returns (string memory value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
     bytes memory _blob = StoreSwitch.getField(_tableId, _keyTuple, 0);
-    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
+    return (string(_blob));
   }
 
   /** Get value (using the specified store) */
-  function get(IStore _store, bytes32 entity) internal view returns (bytes32[] memory value) {
+  function get(IStore _store, bytes32 entity) internal view returns (string memory value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
     bytes memory _blob = _store.getField(_tableId, _keyTuple, 0);
-    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
+    return (string(_blob));
   }
 
   /** Set value */
-  function set(bytes32 entity, bytes32[] memory value) internal {
+  function set(bytes32 entity, string memory value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
-    StoreSwitch.setField(_tableId, _keyTuple, 0, EncodeArray.encode((value)));
+    StoreSwitch.setField(_tableId, _keyTuple, 0, bytes((value)));
   }
 
   /** Set value (using the specified store) */
-  function set(
-    IStore _store,
-    bytes32 entity,
-    bytes32[] memory value
-  ) internal {
+  function set(IStore _store, bytes32 entity, string memory value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
-    _store.setField(_tableId, _keyTuple, 0, EncodeArray.encode((value)));
+    _store.setField(_tableId, _keyTuple, 0, bytes((value)));
   }
 
   /** Get the length of value */
@@ -109,7 +105,7 @@ library LearnedSkills {
     _keyTuple[0] = bytes32((entity));
 
     uint256 _byteLength = StoreSwitch.getFieldLength(_tableId, _keyTuple, 0, getSchema());
-    return _byteLength / 32;
+    return _byteLength / 1;
   }
 
   /** Get the length of value (using the specified store) */
@@ -118,99 +114,82 @@ library LearnedSkills {
     _keyTuple[0] = bytes32((entity));
 
     uint256 _byteLength = _store.getFieldLength(_tableId, _keyTuple, 0, getSchema());
-    return _byteLength / 32;
+    return _byteLength / 1;
   }
 
   /** Get an item of value (unchecked, returns invalid data if index overflows) */
-  function getItem(bytes32 entity, uint256 _index) internal view returns (bytes32) {
+  function getItem(bytes32 entity, uint256 _index) internal view returns (string memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
-    bytes memory _blob = StoreSwitch.getFieldSlice(_tableId, _keyTuple, 0, getSchema(), _index * 32, (_index + 1) * 32);
-    return (Bytes.slice32(_blob, 0));
+    bytes memory _blob = StoreSwitch.getFieldSlice(_tableId, _keyTuple, 0, getSchema(), _index * 1, (_index + 1) * 1);
+    return (string(_blob));
   }
 
   /** Get an item of value (using the specified store) (unchecked, returns invalid data if index overflows) */
-  function getItem(
-    IStore _store,
-    bytes32 entity,
-    uint256 _index
-  ) internal view returns (bytes32) {
+  function getItem(IStore _store, bytes32 entity, uint256 _index) internal view returns (string memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
-    bytes memory _blob = _store.getFieldSlice(_tableId, _keyTuple, 0, getSchema(), _index * 32, (_index + 1) * 32);
-    return (Bytes.slice32(_blob, 0));
+    bytes memory _blob = _store.getFieldSlice(_tableId, _keyTuple, 0, getSchema(), _index * 1, (_index + 1) * 1);
+    return (string(_blob));
   }
 
-  /** Push an element to value */
-  function push(bytes32 entity, bytes32 _element) internal {
+  /** Push a slice to value */
+  function push(bytes32 entity, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
-    StoreSwitch.pushToField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
+    StoreSwitch.pushToField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
 
-  /** Push an element to value (using the specified store) */
-  function push(
-    IStore _store,
-    bytes32 entity,
-    bytes32 _element
-  ) internal {
+  /** Push a slice to value (using the specified store) */
+  function push(IStore _store, bytes32 entity, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
-    _store.pushToField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
+    _store.pushToField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
 
-  /** Pop an element from value */
+  /** Pop a slice from value */
   function pop(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
-    StoreSwitch.popFromField(_tableId, _keyTuple, 0, 32);
+    StoreSwitch.popFromField(_tableId, _keyTuple, 0, 1);
   }
 
-  /** Pop an element from value (using the specified store) */
+  /** Pop a slice from value (using the specified store) */
   function pop(IStore _store, bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
-    _store.popFromField(_tableId, _keyTuple, 0, 32);
+    _store.popFromField(_tableId, _keyTuple, 0, 1);
   }
 
-  /** Update an element of value at `_index` */
-  function update(
-    bytes32 entity,
-    uint256 _index,
-    bytes32 _element
-  ) internal {
+  /** Update a slice of value at `_index` */
+  function update(bytes32 entity, uint256 _index, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
-    StoreSwitch.updateInField(_tableId, _keyTuple, 0, _index * 32, abi.encodePacked((_element)));
+    StoreSwitch.updateInField(_tableId, _keyTuple, 0, _index * 1, bytes((_slice)));
   }
 
-  /** Update an element of value (using the specified store) at `_index` */
-  function update(
-    IStore _store,
-    bytes32 entity,
-    uint256 _index,
-    bytes32 _element
-  ) internal {
+  /** Update a slice of value (using the specified store) at `_index` */
+  function update(IStore _store, bytes32 entity, uint256 _index, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
-    _store.updateInField(_tableId, _keyTuple, 0, _index * 32, abi.encodePacked((_element)));
+    _store.updateInField(_tableId, _keyTuple, 0, _index * 1, bytes((_slice)));
   }
 
   /** Tightly pack full data using this table's schema */
-  function encode(bytes32[] memory value) internal view returns (bytes memory) {
+  function encode(string memory value) internal view returns (bytes memory) {
     uint40[] memory _counters = new uint40[](1);
-    _counters[0] = uint40(value.length * 32);
+    _counters[0] = uint40(bytes(value).length);
     PackedCounter _encodedLengths = PackedCounterLib.pack(_counters);
 
-    return abi.encodePacked(_encodedLengths.unwrap(), EncodeArray.encode((value)));
+    return abi.encodePacked(_encodedLengths.unwrap(), bytes((value)));
   }
 
   /** Encode keys as a bytes32 array using this table's schema */
