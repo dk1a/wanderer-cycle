@@ -92,7 +92,11 @@ library StatmodBase {
   }
 
   /** Set value (using the specified store) */
-  function set(IStore _store, bytes32 entity, bytes32 value) internal {
+  function set(
+    IStore _store,
+    bytes32 entity,
+    bytes32 value
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 

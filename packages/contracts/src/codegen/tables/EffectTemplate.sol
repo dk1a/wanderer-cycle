@@ -99,7 +99,11 @@ library EffectTemplate {
   }
 
   /** Set entities (using the specified store) */
-  function setEntities(IStore _store, bytes32 entity, bytes32[] memory entities) internal {
+  function setEntities(
+    IStore _store,
+    bytes32 entity,
+    bytes32[] memory entities
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -134,7 +138,11 @@ library EffectTemplate {
   }
 
   /** Get an item of entities (using the specified store) (unchecked, returns invalid data if index overflows) */
-  function getItemEntities(IStore _store, bytes32 entity, uint256 _index) internal view returns (bytes32) {
+  function getItemEntities(
+    IStore _store,
+    bytes32 entity,
+    uint256 _index
+  ) internal view returns (bytes32) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -151,7 +159,11 @@ library EffectTemplate {
   }
 
   /** Push an element to entities (using the specified store) */
-  function pushEntities(IStore _store, bytes32 entity, bytes32 _element) internal {
+  function pushEntities(
+    IStore _store,
+    bytes32 entity,
+    bytes32 _element
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -175,7 +187,11 @@ library EffectTemplate {
   }
 
   /** Update an element of entities at `_index` */
-  function updateEntities(bytes32 entity, uint256 _index, bytes32 _element) internal {
+  function updateEntities(
+    bytes32 entity,
+    uint256 _index,
+    bytes32 _element
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -183,7 +199,12 @@ library EffectTemplate {
   }
 
   /** Update an element of entities (using the specified store) at `_index` */
-  function updateEntities(IStore _store, bytes32 entity, uint256 _index, bytes32 _element) internal {
+  function updateEntities(
+    IStore _store,
+    bytes32 entity,
+    uint256 _index,
+    bytes32 _element
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -217,7 +238,11 @@ library EffectTemplate {
   }
 
   /** Set values (using the specified store) */
-  function setValues(IStore _store, bytes32 entity, uint32[] memory values) internal {
+  function setValues(
+    IStore _store,
+    bytes32 entity,
+    uint32[] memory values
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -252,7 +277,11 @@ library EffectTemplate {
   }
 
   /** Get an item of values (using the specified store) (unchecked, returns invalid data if index overflows) */
-  function getItemValues(IStore _store, bytes32 entity, uint256 _index) internal view returns (uint32) {
+  function getItemValues(
+    IStore _store,
+    bytes32 entity,
+    uint256 _index
+  ) internal view returns (uint32) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -269,7 +298,11 @@ library EffectTemplate {
   }
 
   /** Push an element to values (using the specified store) */
-  function pushValues(IStore _store, bytes32 entity, uint32 _element) internal {
+  function pushValues(
+    IStore _store,
+    bytes32 entity,
+    uint32 _element
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -293,7 +326,11 @@ library EffectTemplate {
   }
 
   /** Update an element of values at `_index` */
-  function updateValues(bytes32 entity, uint256 _index, uint32 _element) internal {
+  function updateValues(
+    bytes32 entity,
+    uint256 _index,
+    uint32 _element
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -301,7 +338,12 @@ library EffectTemplate {
   }
 
   /** Update an element of values (using the specified store) at `_index` */
-  function updateValues(IStore _store, bytes32 entity, uint256 _index, uint32 _element) internal {
+  function updateValues(
+    IStore _store,
+    bytes32 entity,
+    uint256 _index,
+    uint32 _element
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = bytes32((entity));
 
@@ -327,7 +369,11 @@ library EffectTemplate {
   }
 
   /** Set the full data using individual values */
-  function set(bytes32 entity, bytes32[] memory entities, uint32[] memory values) internal {
+  function set(
+    bytes32 entity,
+    bytes32[] memory entities,
+    uint32[] memory values
+  ) internal {
     bytes memory _data = encode(entities, values);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -337,7 +383,12 @@ library EffectTemplate {
   }
 
   /** Set the full data using individual values (using the specified store) */
-  function set(IStore _store, bytes32 entity, bytes32[] memory entities, uint32[] memory values) internal {
+  function set(
+    IStore _store,
+    bytes32 entity,
+    bytes32[] memory entities,
+    uint32[] memory values
+  ) internal {
     bytes memory _data = encode(entities, values);
 
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -352,7 +403,11 @@ library EffectTemplate {
   }
 
   /** Set the full data using the data struct (using the specified store) */
-  function set(IStore _store, bytes32 entity, EffectTemplateData memory _table) internal {
+  function set(
+    IStore _store,
+    bytes32 entity,
+    EffectTemplateData memory _table
+  ) internal {
     set(_store, entity, _table.entities, _table.values);
   }
 

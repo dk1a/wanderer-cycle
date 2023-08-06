@@ -41,6 +41,13 @@ const keysWithValue = (tableNames: string[]) =>
     args: [resolveTableId(tableName)],
   }));
 
+const keysInTable = (tableNames: string[]) =>
+  tableNames.map((tableName) => ({
+    name: "KeysInTableModule",
+    root: true,
+    args: [resolveTableId(tableName)],
+  }));
+
 export default mudConfig({
   tables: {
     Counter: {
@@ -55,6 +62,27 @@ export default mudConfig({
     GuisePrototype: {
       ...entityKey,
       schema: arrayPStat,
+    },
+    LearnedSkills: {
+      ...entityKey,
+      schema: EntityIdSet,
+    },
+    SkillTemplate: {
+      ...entityKey,
+      schema: {
+        // level required to learn it
+        requiredLevel: "uint8",
+        // when/how it can be used
+        skillType: "SkillType",
+        // flag to also trigger an attack afterwards (base attack damage is not based on the skill)
+        withAttack: "bool",
+        // flag to also trigger a spell afterwards (`SpellDamage` is used for base damage)
+        withSpell: "bool",
+        // mana cost to be subtracted on use
+        cost: "uint32",
+        // who it can be used on
+        targetType: "TargetType",
+      },
     },
     EffectTemplate: {
       ...entityKey,
@@ -89,13 +117,13 @@ export default mudConfig({
     // requestId => ownerEntity
     RNGRequestOwner: entityRelation,
   },
+  enums: {
+    SkillType: ["COMBAT", "NONCOMBAT", "PASSIVE"],
+    TargetType: ["SELF", "ENEMY", "ALLY", "SELF_OR_ALLY"],
+  },
 
   modules: [
-    {
-      name: "KeysInTableModule",
-      root: true,
-      args: [resolveTableId("Experience")],
-    },
+    ...keysInTable(["Experience", "LearnedSkills"]),
     {
       name: "UniqueEntityModule",
       root: true,

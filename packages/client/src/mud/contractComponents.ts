@@ -65,6 +65,41 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    LearnedSkills: (() => {
+      const tableId = new TableId("", "LearnedSkills");
+      return defineComponent(
+        world,
+        {
+          value: RecsType.StringArray,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
+    SkillTemplate: (() => {
+      const tableId = new TableId("", "SkillTemplate");
+      return defineComponent(
+        world,
+        {
+          requiredLevel: RecsType.Number,
+          skillType: RecsType.Number,
+          withAttack: RecsType.Boolean,
+          withSpell: RecsType.Boolean,
+          cost: RecsType.Number,
+          targetType: RecsType.Number,
+        },
+        {
+          metadata: {
+            contractId: tableId.toHexString(),
+            tableId: tableId.toString(),
+          },
+        }
+      );
+    })(),
     EffectTemplate: (() => {
       const tableId = new TableId("", "EffectTemplate");
       return defineComponent(
