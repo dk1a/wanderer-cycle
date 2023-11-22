@@ -1,0 +1,915 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "node_modules/@latticexyz/world-modules/src/modules/keysintable/hasKey.sol",
+    "id": 75533,
+    "exportedSymbols": {
+      "IStore": [
+        67922
+      ],
+      "ResourceId": [
+        68611
+      ],
+      "UsedKeysIndex": [
+        124530
+      ],
+      "hasKey": [
+        75500,
+        75532
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:951:110",
+    "nodes": [
+      {
+        "id": 75466,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:110",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 75468,
+        "nodeType": "ImportDirective",
+        "src": "59:58:110",
+        "nodes": [],
+        "absolutePath": "node_modules/@latticexyz/store/src/IStore.sol",
+        "file": "@latticexyz/store/src/IStore.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 75533,
+        "sourceUnit": 67923,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 75467,
+              "name": "IStore",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 67922,
+              "src": "68:6:110",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 75470,
+        "nodeType": "ImportDirective",
+        "src": "118:66:110",
+        "nodes": [],
+        "absolutePath": "node_modules/@latticexyz/store/src/ResourceId.sol",
+        "file": "@latticexyz/store/src/ResourceId.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 75533,
+        "sourceUnit": 68683,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 75469,
+              "name": "ResourceId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 68611,
+              "src": "127:10:110",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 75472,
+        "nodeType": "ImportDirective",
+        "src": "186:59:110",
+        "nodes": [],
+        "absolutePath": "node_modules/@latticexyz/world-modules/src/modules/keysintable/tables/UsedKeysIndex.sol",
+        "file": "./tables/UsedKeysIndex.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 75533,
+        "sourceUnit": 124541,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 75471,
+              "name": "UsedKeysIndex",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 124530,
+              "src": "195:13:110",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 75500,
+        "nodeType": "FunctionDefinition",
+        "src": "498:191:110",
+        "nodes": [],
+        "body": {
+          "id": 75499,
+          "nodeType": "Block",
+          "src": "581:108:110",
+          "nodes": [],
+          "statements": [
+            {
+              "assignments": [
+                75485
+              ],
+              "declarations": [
+                {
+                  "constant": false,
+                  "id": 75485,
+                  "mutability": "mutable",
+                  "name": "keysHash",
+                  "nameLocation": "593:8:110",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 75499,
+                  "src": "585:16:110",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 75484,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "585:7:110",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "id": 75492,
+              "initialValue": {
+                "arguments": [
+                  {
+                    "arguments": [
+                      {
+                        "id": 75489,
+                        "name": "keyTuple",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 75479,
+                        "src": "625:8:110",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                          "typeString": "bytes32[] memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                          "typeString": "bytes32[] memory"
+                        }
+                      ],
+                      "expression": {
+                        "id": 75487,
+                        "name": "abi",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": -1,
+                        "src": "614:3:110",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_magic_abi",
+                          "typeString": "abi"
+                        }
+                      },
+                      "id": 75488,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "memberLocation": "618:6:110",
+                      "memberName": "encode",
+                      "nodeType": "MemberAccess",
+                      "src": "614:10:110",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_abiencode_pure$__$returns$_t_bytes_memory_ptr_$",
+                        "typeString": "function () pure returns (bytes memory)"
+                      }
+                    },
+                    "id": 75490,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "614:20:110",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_memory_ptr",
+                      "typeString": "bytes memory"
+                    }
+                  }
+                ],
+                "expression": {
+                  "argumentTypes": [
+                    {
+                      "typeIdentifier": "t_bytes_memory_ptr",
+                      "typeString": "bytes memory"
+                    }
+                  ],
+                  "id": 75486,
+                  "name": "keccak256",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": -8,
+                  "src": "604:9:110",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
+                    "typeString": "function (bytes memory) pure returns (bytes32)"
+                  }
+                },
+                "id": 75491,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": false,
+                "kind": "functionCall",
+                "lValueRequested": false,
+                "nameLocations": [],
+                "names": [],
+                "nodeType": "FunctionCall",
+                "src": "604:31:110",
+                "tryCall": false,
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "nodeType": "VariableDeclarationStatement",
+              "src": "585:50:110"
+            },
+            {
+              "expression": {
+                "arguments": [
+                  {
+                    "id": 75495,
+                    "name": "tableId",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 75476,
+                    "src": "668:7:110",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_userDefinedValueType$_ResourceId_$68611",
+                      "typeString": "ResourceId"
+                    }
+                  },
+                  {
+                    "id": 75496,
+                    "name": "keysHash",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 75485,
+                    "src": "677:8:110",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  }
+                ],
+                "expression": {
+                  "argumentTypes": [
+                    {
+                      "typeIdentifier": "t_userDefinedValueType$_ResourceId_$68611",
+                      "typeString": "ResourceId"
+                    },
+                    {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  ],
+                  "expression": {
+                    "id": 75493,
+                    "name": "UsedKeysIndex",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 124530,
+                    "src": "647:13:110",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_type$_t_contract$_UsedKeysIndex_$124530_$",
+                      "typeString": "type(library UsedKeysIndex)"
+                    }
+                  },
+                  "id": 75494,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": false,
+                  "lValueRequested": false,
+                  "memberLocation": "661:6:110",
+                  "memberName": "getHas",
+                  "nodeType": "MemberAccess",
+                  "referencedDeclaration": 123250,
+                  "src": "647:20:110",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_function_internal_view$_t_userDefinedValueType$_ResourceId_$68611_$_t_bytes32_$returns$_t_bool_$",
+                    "typeString": "function (ResourceId,bytes32) view returns (bool)"
+                  }
+                },
+                "id": 75497,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": false,
+                "kind": "functionCall",
+                "lValueRequested": false,
+                "nameLocations": [],
+                "names": [],
+                "nodeType": "FunctionCall",
+                "src": "647:39:110",
+                "tryCall": false,
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                }
+              },
+              "functionReturnParameters": 75483,
+              "id": 75498,
+              "nodeType": "Return",
+              "src": "640:46:110"
+            }
+          ]
+        },
+        "documentation": {
+          "id": 75473,
+          "nodeType": "StructuredDocumentation",
+          "src": "247:250:110",
+          "text": " Get whether the keyTuple is in the given table.\n Note: this util can only be called within the context of a Store (e.g. from a System or Module).\n For usage outside of a Store, use the overload that takes an explicit store argument."
+        },
+        "implemented": true,
+        "kind": "freeFunction",
+        "modifiers": [],
+        "name": "hasKey",
+        "nameLocation": "507:6:110",
+        "parameters": {
+          "id": 75480,
+          "nodeType": "ParameterList",
+          "parameters": [
+            {
+              "constant": false,
+              "id": 75476,
+              "mutability": "mutable",
+              "name": "tableId",
+              "nameLocation": "525:7:110",
+              "nodeType": "VariableDeclaration",
+              "scope": 75500,
+              "src": "514:18:110",
+              "stateVariable": false,
+              "storageLocation": "default",
+              "typeDescriptions": {
+                "typeIdentifier": "t_userDefinedValueType$_ResourceId_$68611",
+                "typeString": "ResourceId"
+              },
+              "typeName": {
+                "id": 75475,
+                "nodeType": "UserDefinedTypeName",
+                "pathNode": {
+                  "id": 75474,
+                  "name": "ResourceId",
+                  "nameLocations": [
+                    "514:10:110"
+                  ],
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 68611,
+                  "src": "514:10:110"
+                },
+                "referencedDeclaration": 68611,
+                "src": "514:10:110",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_userDefinedValueType$_ResourceId_$68611",
+                  "typeString": "ResourceId"
+                }
+              },
+              "visibility": "internal"
+            },
+            {
+              "constant": false,
+              "id": 75479,
+              "mutability": "mutable",
+              "name": "keyTuple",
+              "nameLocation": "551:8:110",
+              "nodeType": "VariableDeclaration",
+              "scope": 75500,
+              "src": "534:25:110",
+              "stateVariable": false,
+              "storageLocation": "memory",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                "typeString": "bytes32[]"
+              },
+              "typeName": {
+                "baseType": {
+                  "id": 75477,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "534:7:110",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "id": 75478,
+                "nodeType": "ArrayTypeName",
+                "src": "534:9:110",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
+                  "typeString": "bytes32[]"
+                }
+              },
+              "visibility": "internal"
+            }
+          ],
+          "src": "513:47:110"
+        },
+        "returnParameters": {
+          "id": 75483,
+          "nodeType": "ParameterList",
+          "parameters": [
+            {
+              "constant": false,
+              "id": 75482,
+              "mutability": "mutable",
+              "name": "",
+              "nameLocation": "-1:-1:-1",
+              "nodeType": "VariableDeclaration",
+              "scope": 75500,
+              "src": "575:4:110",
+              "stateVariable": false,
+              "storageLocation": "default",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              },
+              "typeName": {
+                "id": 75481,
+                "name": "bool",
+                "nodeType": "ElementaryTypeName",
+                "src": "575:4:110",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                }
+              },
+              "visibility": "internal"
+            }
+          ],
+          "src": "574:6:110"
+        },
+        "scope": 75533,
+        "stateMutability": "view",
+        "virtual": false,
+        "visibility": "internal"
+      },
+      {
+        "id": 75532,
+        "nodeType": "FunctionDefinition",
+        "src": "770:212:110",
+        "nodes": [],
+        "body": {
+          "id": 75531,
+          "nodeType": "Block",
+          "src": "867:115:110",
+          "nodes": [],
+          "statements": [
+            {
+              "assignments": [
+                75516
+              ],
+              "declarations": [
+                {
+                  "constant": false,
+                  "id": 75516,
+                  "mutability": "mutable",
+                  "name": "keysHash",
+                  "nameLocation": "879:8:110",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 75531,
+                  "src": "871:16:110",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 75515,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "871:7:110",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "id": 75523,
+              "initialValue": {
+                "arguments": [
+                  {
+                    "arguments": [
+                      {
+                        "id": 75520,
+                        "name": "keyTuple",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 75510,
+                        "src": "911:8:110",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                          "typeString": "bytes32[] memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                          "typeString": "bytes32[] memory"
+                        }
+                      ],
+                      "expression": {
+                        "id": 75518,
+                        "name": "abi",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": -1,
+                        "src": "900:3:110",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_magic_abi",
+                          "typeString": "abi"
+                        }
+                      },
+                      "id": 75519,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "lValueRequested": false,
+                      "memberLocation": "904:6:110",
+                      "memberName": "encode",
+                      "nodeType": "MemberAccess",
+                      "src": "900:10:110",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_abiencode_pure$__$returns$_t_bytes_memory_ptr_$",
+                        "typeString": "function () pure returns (bytes memory)"
+                      }
+                    },
+                    "id": 75521,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "900:20:110",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_memory_ptr",
+                      "typeString": "bytes memory"
+                    }
+                  }
+                ],
+                "expression": {
+                  "argumentTypes": [
+                    {
+                      "typeIdentifier": "t_bytes_memory_ptr",
+                      "typeString": "bytes memory"
+                    }
+                  ],
+                  "id": 75517,
+                  "name": "keccak256",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": -8,
+                  "src": "890:9:110",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
+                    "typeString": "function (bytes memory) pure returns (bytes32)"
+                  }
+                },
+                "id": 75522,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": false,
+                "kind": "functionCall",
+                "lValueRequested": false,
+                "nameLocations": [],
+                "names": [],
+                "nodeType": "FunctionCall",
+                "src": "890:31:110",
+                "tryCall": false,
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "nodeType": "VariableDeclarationStatement",
+              "src": "871:50:110"
+            },
+            {
+              "expression": {
+                "arguments": [
+                  {
+                    "id": 75526,
+                    "name": "store",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 75504,
+                    "src": "954:5:110",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IStore_$67922",
+                      "typeString": "contract IStore"
+                    }
+                  },
+                  {
+                    "id": 75527,
+                    "name": "tableId",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 75507,
+                    "src": "961:7:110",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_userDefinedValueType$_ResourceId_$68611",
+                      "typeString": "ResourceId"
+                    }
+                  },
+                  {
+                    "id": 75528,
+                    "name": "keysHash",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 75516,
+                    "src": "970:8:110",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  }
+                ],
+                "expression": {
+                  "argumentTypes": [
+                    {
+                      "typeIdentifier": "t_contract$_IStore_$67922",
+                      "typeString": "contract IStore"
+                    },
+                    {
+                      "typeIdentifier": "t_userDefinedValueType$_ResourceId_$68611",
+                      "typeString": "ResourceId"
+                    },
+                    {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  ],
+                  "expression": {
+                    "id": 75524,
+                    "name": "UsedKeysIndex",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 124530,
+                    "src": "933:13:110",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_type$_t_contract$_UsedKeysIndex_$124530_$",
+                      "typeString": "type(library UsedKeysIndex)"
+                    }
+                  },
+                  "id": 75525,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": false,
+                  "lValueRequested": false,
+                  "memberLocation": "947:6:110",
+                  "memberName": "getHas",
+                  "nodeType": "MemberAccess",
+                  "referencedDeclaration": 123371,
+                  "src": "933:20:110",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_function_internal_view$_t_contract$_IStore_$67922_$_t_userDefinedValueType$_ResourceId_$68611_$_t_bytes32_$returns$_t_bool_$",
+                    "typeString": "function (contract IStore,ResourceId,bytes32) view returns (bool)"
+                  }
+                },
+                "id": 75529,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": false,
+                "kind": "functionCall",
+                "lValueRequested": false,
+                "nameLocations": [],
+                "names": [],
+                "nodeType": "FunctionCall",
+                "src": "933:46:110",
+                "tryCall": false,
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                }
+              },
+              "functionReturnParameters": 75514,
+              "id": 75530,
+              "nodeType": "Return",
+              "src": "926:53:110"
+            }
+          ]
+        },
+        "documentation": {
+          "id": 75501,
+          "nodeType": "StructuredDocumentation",
+          "src": "691:78:110",
+          "text": " Get whether the keyTuple is in the given table for the given store."
+        },
+        "implemented": true,
+        "kind": "freeFunction",
+        "modifiers": [],
+        "name": "hasKey",
+        "nameLocation": "779:6:110",
+        "parameters": {
+          "id": 75511,
+          "nodeType": "ParameterList",
+          "parameters": [
+            {
+              "constant": false,
+              "id": 75504,
+              "mutability": "mutable",
+              "name": "store",
+              "nameLocation": "793:5:110",
+              "nodeType": "VariableDeclaration",
+              "scope": 75532,
+              "src": "786:12:110",
+              "stateVariable": false,
+              "storageLocation": "default",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IStore_$67922",
+                "typeString": "contract IStore"
+              },
+              "typeName": {
+                "id": 75503,
+                "nodeType": "UserDefinedTypeName",
+                "pathNode": {
+                  "id": 75502,
+                  "name": "IStore",
+                  "nameLocations": [
+                    "786:6:110"
+                  ],
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 67922,
+                  "src": "786:6:110"
+                },
+                "referencedDeclaration": 67922,
+                "src": "786:6:110",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_contract$_IStore_$67922",
+                  "typeString": "contract IStore"
+                }
+              },
+              "visibility": "internal"
+            },
+            {
+              "constant": false,
+              "id": 75507,
+              "mutability": "mutable",
+              "name": "tableId",
+              "nameLocation": "811:7:110",
+              "nodeType": "VariableDeclaration",
+              "scope": 75532,
+              "src": "800:18:110",
+              "stateVariable": false,
+              "storageLocation": "default",
+              "typeDescriptions": {
+                "typeIdentifier": "t_userDefinedValueType$_ResourceId_$68611",
+                "typeString": "ResourceId"
+              },
+              "typeName": {
+                "id": 75506,
+                "nodeType": "UserDefinedTypeName",
+                "pathNode": {
+                  "id": 75505,
+                  "name": "ResourceId",
+                  "nameLocations": [
+                    "800:10:110"
+                  ],
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 68611,
+                  "src": "800:10:110"
+                },
+                "referencedDeclaration": 68611,
+                "src": "800:10:110",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_userDefinedValueType$_ResourceId_$68611",
+                  "typeString": "ResourceId"
+                }
+              },
+              "visibility": "internal"
+            },
+            {
+              "constant": false,
+              "id": 75510,
+              "mutability": "mutable",
+              "name": "keyTuple",
+              "nameLocation": "837:8:110",
+              "nodeType": "VariableDeclaration",
+              "scope": 75532,
+              "src": "820:25:110",
+              "stateVariable": false,
+              "storageLocation": "memory",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_bytes32_$dyn_memory_ptr",
+                "typeString": "bytes32[]"
+              },
+              "typeName": {
+                "baseType": {
+                  "id": 75508,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "820:7:110",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "id": 75509,
+                "nodeType": "ArrayTypeName",
+                "src": "820:9:110",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_bytes32_$dyn_storage_ptr",
+                  "typeString": "bytes32[]"
+                }
+              },
+              "visibility": "internal"
+            }
+          ],
+          "src": "785:61:110"
+        },
+        "returnParameters": {
+          "id": 75514,
+          "nodeType": "ParameterList",
+          "parameters": [
+            {
+              "constant": false,
+              "id": 75513,
+              "mutability": "mutable",
+              "name": "",
+              "nameLocation": "-1:-1:-1",
+              "nodeType": "VariableDeclaration",
+              "scope": 75532,
+              "src": "861:4:110",
+              "stateVariable": false,
+              "storageLocation": "default",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              },
+              "typeName": {
+                "id": 75512,
+                "name": "bool",
+                "nodeType": "ElementaryTypeName",
+                "src": "861:4:110",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                }
+              },
+              "visibility": "internal"
+            }
+          ],
+          "src": "860:6:110"
+        },
+        "scope": 75533,
+        "stateMutability": "view",
+        "virtual": false,
+        "visibility": "internal"
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 110
+}

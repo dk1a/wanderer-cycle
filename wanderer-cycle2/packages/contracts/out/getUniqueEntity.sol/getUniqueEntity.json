@@ -1,0 +1,761 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "node_modules/@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol",
+    "id": 75588,
+    "exportedSymbols": {
+      "IBaseWorld": [
+        76493
+      ],
+      "IUniqueEntitySystem": [
+        124548
+      ],
+      "SYSTEM_ID": [
+        124649
+      ],
+      "SystemSwitch": [
+        124823
+      ],
+      "UniqueEntitySystem": [
+        124587
+      ],
+      "getUniqueEntity": [
+        75568,
+        75587
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:992:114",
+    "nodes": [
+      {
+        "id": 75534,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:114",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 75536,
+        "nodeType": "ImportDirective",
+        "src": "59:85:114",
+        "nodes": [],
+        "absolutePath": "node_modules/@latticexyz/world/src/codegen/interfaces/IBaseWorld.sol",
+        "file": "@latticexyz/world/src/codegen/interfaces/IBaseWorld.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 75588,
+        "sourceUnit": 76494,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 75535,
+              "name": "IBaseWorld",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 76493,
+              "src": "68:10:114",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 75538,
+        "nodeType": "ImportDirective",
+        "src": "146:79:114",
+        "nodes": [],
+        "absolutePath": "node_modules/@latticexyz/world-modules/src/interfaces/IUniqueEntitySystem.sol",
+        "file": "../../interfaces/IUniqueEntitySystem.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 75588,
+        "sourceUnit": 124549,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 75537,
+              "name": "IUniqueEntitySystem",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 124548,
+              "src": "155:19:114",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 75540,
+        "nodeType": "ImportDirective",
+        "src": "226:62:114",
+        "nodes": [],
+        "absolutePath": "node_modules/@latticexyz/world-modules/src/modules/uniqueentity/UniqueEntitySystem.sol",
+        "file": "./UniqueEntitySystem.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 75588,
+        "sourceUnit": 124588,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 75539,
+              "name": "UniqueEntitySystem",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 124587,
+              "src": "235:18:114",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 75542,
+        "nodeType": "ImportDirective",
+        "src": "290:60:114",
+        "nodes": [],
+        "absolutePath": "node_modules/@latticexyz/world-modules/src/utils/SystemSwitch.sol",
+        "file": "../../utils/SystemSwitch.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 75588,
+        "sourceUnit": 124824,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 75541,
+              "name": "SystemSwitch",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 124823,
+              "src": "299:12:114",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 75544,
+        "nodeType": "ImportDirective",
+        "src": "351:44:114",
+        "nodes": [],
+        "absolutePath": "node_modules/@latticexyz/world-modules/src/modules/uniqueentity/constants.sol",
+        "file": "./constants.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 75588,
+        "sourceUnit": 124650,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 75543,
+              "name": "SYSTEM_ID",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 124649,
+              "src": "360:9:114",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 75568,
+        "nodeType": "FunctionDefinition",
+        "src": "635:179:114",
+        "nodes": [],
+        "body": {
+          "id": 75567,
+          "nodeType": "Block",
+          "src": "693:121:114",
+          "nodes": [],
+          "statements": [
+            {
+              "expression": {
+                "arguments": [
+                  {
+                    "arguments": [
+                      {
+                        "id": 75554,
+                        "name": "SYSTEM_ID",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 124649,
+                        "src": "733:9:114",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_userDefinedValueType$_ResourceId_$68611",
+                          "typeString": "ResourceId"
+                        }
+                      },
+                      {
+                        "arguments": [
+                          {
+                            "expression": {
+                              "id": 75557,
+                              "name": "UniqueEntitySystem",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 124587,
+                              "src": "759:18:114",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_contract$_UniqueEntitySystem_$124587_$",
+                                "typeString": "type(contract UniqueEntitySystem)"
+                              }
+                            },
+                            "id": 75558,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "memberLocation": "778:15:114",
+                            "memberName": "getUniqueEntity",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 124586,
+                            "src": "759:34:114",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_declaration_nonpayable$__$returns$_t_bytes32_$",
+                              "typeString": "function UniqueEntitySystem.getUniqueEntity() returns (bytes32)"
+                            }
+                          },
+                          {
+                            "components": [],
+                            "id": 75559,
+                            "isConstant": false,
+                            "isInlineArray": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "TupleExpression",
+                            "src": "795:2:114",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_tuple$__$",
+                              "typeString": "tuple()"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_function_declaration_nonpayable$__$returns$_t_bytes32_$",
+                              "typeString": "function UniqueEntitySystem.getUniqueEntity() returns (bytes32)"
+                            },
+                            {
+                              "typeIdentifier": "t_tuple$__$",
+                              "typeString": "tuple()"
+                            }
+                          ],
+                          "expression": {
+                            "id": 75555,
+                            "name": "abi",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": -1,
+                            "src": "744:3:114",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_magic_abi",
+                              "typeString": "abi"
+                            }
+                          },
+                          "id": 75556,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "memberLocation": "748:10:114",
+                          "memberName": "encodeCall",
+                          "nodeType": "MemberAccess",
+                          "src": "744:14:114",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_abiencodecall_pure$__$returns$_t_bytes_memory_ptr_$",
+                            "typeString": "function () pure returns (bytes memory)"
+                          }
+                        },
+                        "id": 75560,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "744:54:114",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes_memory_ptr",
+                          "typeString": "bytes memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_userDefinedValueType$_ResourceId_$68611",
+                          "typeString": "ResourceId"
+                        },
+                        {
+                          "typeIdentifier": "t_bytes_memory_ptr",
+                          "typeString": "bytes memory"
+                        }
+                      ],
+                      "expression": {
+                        "id": 75552,
+                        "name": "SystemSwitch",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 124823,
+                        "src": "715:12:114",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_SystemSwitch_$124823_$",
+                          "typeString": "type(library SystemSwitch)"
+                        }
+                      },
+                      "id": 75553,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "728:4:114",
+                      "memberName": "call",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 124776,
+                      "src": "715:17:114",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_userDefinedValueType$_ResourceId_$68611_$_t_bytes_memory_ptr_$returns$_t_bytes_memory_ptr_$",
+                        "typeString": "function (ResourceId,bytes memory) returns (bytes memory)"
+                      }
+                    },
+                    "id": 75561,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "715:84:114",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_memory_ptr",
+                      "typeString": "bytes memory"
+                    }
+                  },
+                  {
+                    "components": [
+                      {
+                        "id": 75563,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "802:7:114",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_bytes32_$",
+                          "typeString": "type(bytes32)"
+                        },
+                        "typeName": {
+                          "id": 75562,
+                          "name": "bytes32",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "802:7:114",
+                          "typeDescriptions": {}
+                        }
+                      }
+                    ],
+                    "id": 75564,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "801:9:114",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_type$_t_bytes32_$",
+                      "typeString": "type(bytes32)"
+                    }
+                  }
+                ],
+                "expression": {
+                  "argumentTypes": [
+                    {
+                      "typeIdentifier": "t_bytes_memory_ptr",
+                      "typeString": "bytes memory"
+                    },
+                    {
+                      "typeIdentifier": "t_type$_t_bytes32_$",
+                      "typeString": "type(bytes32)"
+                    }
+                  ],
+                  "expression": {
+                    "id": 75550,
+                    "name": "abi",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": -1,
+                    "src": "704:3:114",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_magic_abi",
+                      "typeString": "abi"
+                    }
+                  },
+                  "id": 75551,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "memberLocation": "708:6:114",
+                  "memberName": "decode",
+                  "nodeType": "MemberAccess",
+                  "src": "704:10:114",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_function_abidecode_pure$__$returns$__$",
+                    "typeString": "function () pure"
+                  }
+                },
+                "id": 75565,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": false,
+                "kind": "functionCall",
+                "lValueRequested": false,
+                "nameLocations": [],
+                "names": [],
+                "nodeType": "FunctionCall",
+                "src": "704:107:114",
+                "tryCall": false,
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "functionReturnParameters": 75549,
+              "id": 75566,
+              "nodeType": "Return",
+              "src": "697:114:114"
+            }
+          ]
+        },
+        "documentation": {
+          "id": 75545,
+          "nodeType": "StructuredDocumentation",
+          "src": "397:237:114",
+          "text": " Increment and get an entity nonce.\n Note: this util can only be called within the context of a World (e.g. from a System or Module).\n For usage outside of a World, use the overload that takes an explicit store argument."
+        },
+        "implemented": true,
+        "kind": "freeFunction",
+        "modifiers": [],
+        "name": "getUniqueEntity",
+        "nameLocation": "644:15:114",
+        "parameters": {
+          "id": 75546,
+          "nodeType": "ParameterList",
+          "parameters": [],
+          "src": "659:2:114"
+        },
+        "returnParameters": {
+          "id": 75549,
+          "nodeType": "ParameterList",
+          "parameters": [
+            {
+              "constant": false,
+              "id": 75548,
+              "mutability": "mutable",
+              "name": "uniqueEntity",
+              "nameLocation": "679:12:114",
+              "nodeType": "VariableDeclaration",
+              "scope": 75568,
+              "src": "671:20:114",
+              "stateVariable": false,
+              "storageLocation": "default",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              },
+              "typeName": {
+                "id": 75547,
+                "name": "bytes32",
+                "nodeType": "ElementaryTypeName",
+                "src": "671:7:114",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "visibility": "internal"
+            }
+          ],
+          "src": "670:22:114"
+        },
+        "scope": 75588,
+        "stateMutability": "nonpayable",
+        "virtual": false,
+        "visibility": "internal"
+      },
+      {
+        "id": 75587,
+        "nodeType": "FunctionDefinition",
+        "src": "862:161:114",
+        "nodes": [],
+        "body": {
+          "id": 75586,
+          "nodeType": "Block",
+          "src": "936:87:114",
+          "nodes": [],
+          "statements": [
+            {
+              "expression": {
+                "arguments": [],
+                "expression": {
+                  "argumentTypes": [],
+                  "expression": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "id": 75580,
+                            "name": "world",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 75572,
+                            "src": "975:5:114",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_IBaseWorld_$76493",
+                              "typeString": "contract IBaseWorld"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_contract$_IBaseWorld_$76493",
+                              "typeString": "contract IBaseWorld"
+                            }
+                          ],
+                          "id": 75579,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "nodeType": "ElementaryTypeNameExpression",
+                          "src": "967:7:114",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_address_$",
+                            "typeString": "type(address)"
+                          },
+                          "typeName": {
+                            "id": 75578,
+                            "name": "address",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "967:7:114",
+                            "typeDescriptions": {}
+                          }
+                        },
+                        "id": 75581,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "967:14:114",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 75577,
+                      "name": "IUniqueEntitySystem",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 124548,
+                      "src": "947:19:114",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_contract$_IUniqueEntitySystem_$124548_$",
+                        "typeString": "type(contract IUniqueEntitySystem)"
+                      }
+                    },
+                    "id": 75582,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "typeConversion",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "947:35:114",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IUniqueEntitySystem_$124548",
+                      "typeString": "contract IUniqueEntitySystem"
+                    }
+                  },
+                  "id": 75583,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": false,
+                  "lValueRequested": false,
+                  "memberLocation": "983:35:114",
+                  "memberName": "uniqueEntity_system_getUniqueEntity",
+                  "nodeType": "MemberAccess",
+                  "referencedDeclaration": 124547,
+                  "src": "947:71:114",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_function_external_nonpayable$__$returns$_t_bytes32_$",
+                    "typeString": "function () external returns (bytes32)"
+                  }
+                },
+                "id": 75584,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": false,
+                "kind": "functionCall",
+                "lValueRequested": false,
+                "nameLocations": [],
+                "names": [],
+                "nodeType": "FunctionCall",
+                "src": "947:73:114",
+                "tryCall": false,
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "functionReturnParameters": 75576,
+              "id": 75585,
+              "nodeType": "Return",
+              "src": "940:80:114"
+            }
+          ]
+        },
+        "documentation": {
+          "id": 75569,
+          "nodeType": "StructuredDocumentation",
+          "src": "816:45:114",
+          "text": " Increment and get an entity nonce."
+        },
+        "implemented": true,
+        "kind": "freeFunction",
+        "modifiers": [],
+        "name": "getUniqueEntity",
+        "nameLocation": "871:15:114",
+        "parameters": {
+          "id": 75573,
+          "nodeType": "ParameterList",
+          "parameters": [
+            {
+              "constant": false,
+              "id": 75572,
+              "mutability": "mutable",
+              "name": "world",
+              "nameLocation": "898:5:114",
+              "nodeType": "VariableDeclaration",
+              "scope": 75587,
+              "src": "887:16:114",
+              "stateVariable": false,
+              "storageLocation": "default",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IBaseWorld_$76493",
+                "typeString": "contract IBaseWorld"
+              },
+              "typeName": {
+                "id": 75571,
+                "nodeType": "UserDefinedTypeName",
+                "pathNode": {
+                  "id": 75570,
+                  "name": "IBaseWorld",
+                  "nameLocations": [
+                    "887:10:114"
+                  ],
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 76493,
+                  "src": "887:10:114"
+                },
+                "referencedDeclaration": 76493,
+                "src": "887:10:114",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_contract$_IBaseWorld_$76493",
+                  "typeString": "contract IBaseWorld"
+                }
+              },
+              "visibility": "internal"
+            }
+          ],
+          "src": "886:18:114"
+        },
+        "returnParameters": {
+          "id": 75576,
+          "nodeType": "ParameterList",
+          "parameters": [
+            {
+              "constant": false,
+              "id": 75575,
+              "mutability": "mutable",
+              "name": "uniqueEntity",
+              "nameLocation": "922:12:114",
+              "nodeType": "VariableDeclaration",
+              "scope": 75587,
+              "src": "914:20:114",
+              "stateVariable": false,
+              "storageLocation": "default",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes32",
+                "typeString": "bytes32"
+              },
+              "typeName": {
+                "id": 75574,
+                "name": "bytes32",
+                "nodeType": "ElementaryTypeName",
+                "src": "914:7:114",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "visibility": "internal"
+            }
+          ],
+          "src": "913:22:114"
+        },
+        "scope": 75588,
+        "stateMutability": "nonpayable",
+        "virtual": false,
+        "visibility": "internal"
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 114
+}

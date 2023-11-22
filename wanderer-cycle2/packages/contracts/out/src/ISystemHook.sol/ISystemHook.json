@@ -1,0 +1,852 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "msgSender",
+          "type": "address"
+        },
+        {
+          "internalType": "ResourceId",
+          "name": "systemId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "callData",
+          "type": "bytes"
+        }
+      ],
+      "name": "onAfterCallSystem",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "msgSender",
+          "type": "address"
+        },
+        {
+          "internalType": "ResourceId",
+          "name": "systemId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "callData",
+          "type": "bytes"
+        }
+      ],
+      "name": "onBeforeCallSystem",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceID",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {
+    "onAfterCallSystem(address,bytes32,bytes)": "973d8f99",
+    "onBeforeCallSystem(address,bytes32,bytes)": "c3323031",
+    "supportsInterface(bytes4)": "01ffc9a7"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.21+commit.d9974bed\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"msgSender\",\"type\":\"address\"},{\"internalType\":\"ResourceId\",\"name\":\"systemId\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"callData\",\"type\":\"bytes\"}],\"name\":\"onAfterCallSystem\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"msgSender\",\"type\":\"address\"},{\"internalType\":\"ResourceId\",\"name\":\"systemId\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"callData\",\"type\":\"bytes\"}],\"name\":\"onBeforeCallSystem\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceID\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Interface defining system hooks for external functionality. Provides pre and post hooks that can be triggered before and after a system call respectively. This interface adheres to the ERC-165 standard for determining interface support.\",\"kind\":\"dev\",\"methods\":{\"onAfterCallSystem(address,bytes32,bytes)\":{\"details\":\"Provides the ability to add custom logic or checks after a system call completes.\",\"params\":{\"callData\":\"Data that was sent as part of the system call.\",\"msgSender\":\"The original sender of the system call.\",\"systemId\":\"The identifier for the system that was called.\"}},\"onBeforeCallSystem(address,bytes32,bytes)\":{\"details\":\"Provides the ability to add custom logic or checks before a system is invoked.\",\"params\":{\"callData\":\"Data being sent as part of the system call.\",\"msgSender\":\"The original sender of the system call.\",\"systemId\":\"The identifier for the system being called.\"}},\"supportsInterface(bytes4)\":{\"details\":\"Interface identification is specified in ERC-165. This function uses less than 30,000 gas.\",\"params\":{\"interfaceID\":\"The interface identifier, as specified in ERC-165.\"},\"returns\":{\"_0\":\"True if the contract implements `interfaceID` and `interfaceID` is not 0xffffffff, false otherwise.\"}}},\"title\":\"ISystemHook\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"onAfterCallSystem(address,bytes32,bytes)\":{\"notice\":\"Executes after a system call.\"},\"onBeforeCallSystem(address,bytes32,bytes)\":{\"notice\":\"Executes before a system call.\"},\"supportsInterface(bytes4)\":{\"notice\":\"Query if a contract implements an interface.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/ISystemHook.sol\":\"ISystemHook\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":3000},\"remappings\":[\":@latticexyz/=node_modules/@latticexyz/\",\":ds-test/=node_modules/ds-test/src/\",\":forge-std/=node_modules/forge-std/src/\"]},\"sources\":{\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/IERC165.sol\":{\"keccak256\":\"0x7997ebbdee6a2493f28e7032c7a8b906ade40f807d95734e2653c8f1b023ff47\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c8ca41bb2619bf27e5bf886d1322f0e2dffd096c49f7ae6e716541dd1e1ddce5\",\"dweb:/ipfs/Qmb8zATUWWTtiWaSLjbAe6PGnJPes9ANvEyk7pYoWR3P3Y\"]},\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/ISystemHook.sol\":{\"keccak256\":\"0xb2114b6b66c0e7d8304d9e1d06aa1d0731f089daa6a0584e6cf744d9c48cf4db\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ebbb172970b106dd4ae5a6d5e417ac75cad7529d2b94c1601e10b886d0edf510\",\"dweb:/ipfs/QmPGn4F92hjkFch6Jh2NB37EYLLfstw6JxJKUZjXBFqGCw\"]},\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/WorldResourceId.sol\":{\"keccak256\":\"0xb7bfae2890004001221b3902d185c14cfea0e606d16914f6b7f81cf112aa9417\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://acfd0d09166fc1bf16a8a5c80fbae1bd42426b2fcbab3c492bc836ea5c0375fb\",\"dweb:/ipfs/QmTzZWHVBkx8hipFVpgEwAbZpr4c6hfr7yf7R71JojT3NK\"]},\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/constants.sol\":{\"keccak256\":\"0x07faffa7dc4a2adc4f9bfe93d5a59a7dd89241d360996537608e38f61c2d0588\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b96d4ce331b257a24de2f18503a11b986ed32d218810db9d5e3e7eddc17c2218\",\"dweb:/ipfs/Qme7Cw4RN1eaFWt2j3hk6ZMB7GWUfMY5oyZKYfMvAVxdBc\"]},\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/worldResourceTypes.sol\":{\"keccak256\":\"0xe31ee781596541f60ed71ef327c9d26ffc899e7fb3f4991c67406518bfc00746\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f7b864fea8c77833a322b16c4673f110d5065d0cafcedecd07895699cf4258c2\",\"dweb:/ipfs/QmRkzXVjMLwQFWxjEjgfdXVPAp6SU4zfxPo4NJcmz8HwH9\"]},\"node_modules/@latticexyz/store/src/Bytes.sol\":{\"keccak256\":\"0xab31edce915377852bb5f29f7f2ccfc50cac087d64d2a8aae669715ad862d558\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3187e86e43be1fbdd59df45c695294f1114aa1ac48e6445c0cb26089434be5c4\",\"dweb:/ipfs/Qmck7shMVrcKMVkgN2pC1byPY7hb3V9fTxnUcGgxAUeXYk\"]},\"node_modules/@latticexyz/store/src/ResourceId.sol\":{\"keccak256\":\"0x40983c580b8958e55db4520095934a535e98544ffe8228327e598973eb6647ed\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://839d658fa2bb2b1f09a08149d2bf0c26a26c301ad2dda8154fc99458085a695d\",\"dweb:/ipfs/Qmd5jHHYrgqraPqF8bjzT4xyjsoPk8K7pkxXLLfz6MRT6d\"]},\"node_modules/@latticexyz/store/src/storeResourceTypes.sol\":{\"keccak256\":\"0xada1867ba72930fc5cf5562dd4e36de849dbac9c833b7969cb1b046a808fabf2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6e4b5fdcaa54f567a3f8561c2c3fbc0d68c8dad892a4a8e5418bbce8efc53d84\",\"dweb:/ipfs/QmTWbYJX1yrCqrEwUKB9rGpHdRvLNU8GCkBbxnLjGD4d2t\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.21+commit.d9974bed"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "msgSender",
+              "type": "address"
+            },
+            {
+              "internalType": "ResourceId",
+              "name": "systemId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes",
+              "name": "callData",
+              "type": "bytes"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "onAfterCallSystem"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "msgSender",
+              "type": "address"
+            },
+            {
+              "internalType": "ResourceId",
+              "name": "systemId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes",
+              "name": "callData",
+              "type": "bytes"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "onBeforeCallSystem"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes4",
+              "name": "interfaceID",
+              "type": "bytes4"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "supportsInterface",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ]
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {
+          "onAfterCallSystem(address,bytes32,bytes)": {
+            "details": "Provides the ability to add custom logic or checks after a system call completes.",
+            "params": {
+              "callData": "Data that was sent as part of the system call.",
+              "msgSender": "The original sender of the system call.",
+              "systemId": "The identifier for the system that was called."
+            }
+          },
+          "onBeforeCallSystem(address,bytes32,bytes)": {
+            "details": "Provides the ability to add custom logic or checks before a system is invoked.",
+            "params": {
+              "callData": "Data being sent as part of the system call.",
+              "msgSender": "The original sender of the system call.",
+              "systemId": "The identifier for the system being called."
+            }
+          },
+          "supportsInterface(bytes4)": {
+            "details": "Interface identification is specified in ERC-165. This function uses less than 30,000 gas.",
+            "params": {
+              "interfaceID": "The interface identifier, as specified in ERC-165."
+            },
+            "returns": {
+              "_0": "True if the contract implements `interfaceID` and `interfaceID` is not 0xffffffff, false otherwise."
+            }
+          }
+        },
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {
+          "onAfterCallSystem(address,bytes32,bytes)": {
+            "notice": "Executes after a system call."
+          },
+          "onBeforeCallSystem(address,bytes32,bytes)": {
+            "notice": "Executes before a system call."
+          },
+          "supportsInterface(bytes4)": {
+            "notice": "Query if a contract implements an interface."
+          }
+        },
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@latticexyz/=node_modules/@latticexyz/",
+        "ds-test/=node_modules/ds-test/src/",
+        "forge-std/=node_modules/forge-std/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 3000
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/ISystemHook.sol": "ISystemHook"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/IERC165.sol": {
+        "keccak256": "0x7997ebbdee6a2493f28e7032c7a8b906ade40f807d95734e2653c8f1b023ff47",
+        "urls": [
+          "bzz-raw://c8ca41bb2619bf27e5bf886d1322f0e2dffd096c49f7ae6e716541dd1e1ddce5",
+          "dweb:/ipfs/Qmb8zATUWWTtiWaSLjbAe6PGnJPes9ANvEyk7pYoWR3P3Y"
+        ],
+        "license": "MIT"
+      },
+      "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/ISystemHook.sol": {
+        "keccak256": "0xb2114b6b66c0e7d8304d9e1d06aa1d0731f089daa6a0584e6cf744d9c48cf4db",
+        "urls": [
+          "bzz-raw://ebbb172970b106dd4ae5a6d5e417ac75cad7529d2b94c1601e10b886d0edf510",
+          "dweb:/ipfs/QmPGn4F92hjkFch6Jh2NB37EYLLfstw6JxJKUZjXBFqGCw"
+        ],
+        "license": "MIT"
+      },
+      "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/WorldResourceId.sol": {
+        "keccak256": "0xb7bfae2890004001221b3902d185c14cfea0e606d16914f6b7f81cf112aa9417",
+        "urls": [
+          "bzz-raw://acfd0d09166fc1bf16a8a5c80fbae1bd42426b2fcbab3c492bc836ea5c0375fb",
+          "dweb:/ipfs/QmTzZWHVBkx8hipFVpgEwAbZpr4c6hfr7yf7R71JojT3NK"
+        ],
+        "license": "MIT"
+      },
+      "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/constants.sol": {
+        "keccak256": "0x07faffa7dc4a2adc4f9bfe93d5a59a7dd89241d360996537608e38f61c2d0588",
+        "urls": [
+          "bzz-raw://b96d4ce331b257a24de2f18503a11b986ed32d218810db9d5e3e7eddc17c2218",
+          "dweb:/ipfs/Qme7Cw4RN1eaFWt2j3hk6ZMB7GWUfMY5oyZKYfMvAVxdBc"
+        ],
+        "license": "MIT"
+      },
+      "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/worldResourceTypes.sol": {
+        "keccak256": "0xe31ee781596541f60ed71ef327c9d26ffc899e7fb3f4991c67406518bfc00746",
+        "urls": [
+          "bzz-raw://f7b864fea8c77833a322b16c4673f110d5065d0cafcedecd07895699cf4258c2",
+          "dweb:/ipfs/QmRkzXVjMLwQFWxjEjgfdXVPAp6SU4zfxPo4NJcmz8HwH9"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Bytes.sol": {
+        "keccak256": "0xab31edce915377852bb5f29f7f2ccfc50cac087d64d2a8aae669715ad862d558",
+        "urls": [
+          "bzz-raw://3187e86e43be1fbdd59df45c695294f1114aa1ac48e6445c0cb26089434be5c4",
+          "dweb:/ipfs/Qmck7shMVrcKMVkgN2pC1byPY7hb3V9fTxnUcGgxAUeXYk"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/ResourceId.sol": {
+        "keccak256": "0x40983c580b8958e55db4520095934a535e98544ffe8228327e598973eb6647ed",
+        "urls": [
+          "bzz-raw://839d658fa2bb2b1f09a08149d2bf0c26a26c301ad2dda8154fc99458085a695d",
+          "dweb:/ipfs/Qmd5jHHYrgqraPqF8bjzT4xyjsoPk8K7pkxXLLfz6MRT6d"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/storeResourceTypes.sol": {
+        "keccak256": "0xada1867ba72930fc5cf5562dd4e36de849dbac9c833b7969cb1b046a808fabf2",
+        "urls": [
+          "bzz-raw://6e4b5fdcaa54f567a3f8561c2c3fbc0d68c8dad892a4a8e5418bbce8efc53d84",
+          "dweb:/ipfs/QmTWbYJX1yrCqrEwUKB9rGpHdRvLNU8GCkBbxnLjGD4d2t"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/ISystemHook.sol",
+    "id": 20172,
+    "exportedSymbols": {
+      "ERC165_INTERFACE_ID": [
+        20062
+      ],
+      "IERC165": [
+        20072
+      ],
+      "ISystemHook": [
+        20171
+      ],
+      "ResourceId": [
+        63969
+      ],
+      "SYSTEM_HOOK_INTERFACE_ID": [
+        20145
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:1704:35",
+    "nodes": [
+      {
+        "id": 20128,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:35",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 20131,
+        "nodeType": "ImportDirective",
+        "src": "59:61:35",
+        "nodes": [],
+        "absolutePath": "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/IERC165.sol",
+        "file": "./IERC165.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 20172,
+        "sourceUnit": 20073,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 20129,
+              "name": "IERC165",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 20072,
+              "src": "68:7:35",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 20130,
+              "name": "ERC165_INTERFACE_ID",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 20062,
+              "src": "77:19:35",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 20133,
+        "nodeType": "ImportDirective",
+        "src": "121:51:35",
+        "nodes": [],
+        "absolutePath": "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/WorldResourceId.sol",
+        "file": "./WorldResourceId.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 20172,
+        "sourceUnit": 20934,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 20132,
+              "name": "ResourceId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 63969,
+              "src": "130:10:35",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 20145,
+        "nodeType": "VariableDeclaration",
+        "src": "378:149:35",
+        "nodes": [],
+        "constant": true,
+        "mutability": "constant",
+        "name": "SYSTEM_HOOK_INTERFACE_ID",
+        "nameLocation": "394:24:35",
+        "scope": 20172,
+        "stateVariable": false,
+        "storageLocation": "default",
+        "typeDescriptions": {
+          "typeIdentifier": "t_bytes4",
+          "typeString": "bytes4"
+        },
+        "typeName": {
+          "id": 20135,
+          "name": "bytes4",
+          "nodeType": "ElementaryTypeName",
+          "src": "378:6:35",
+          "typeDescriptions": {
+            "typeIdentifier": "t_bytes4",
+            "typeString": "bytes4"
+          }
+        },
+        "value": {
+          "commonType": {
+            "typeIdentifier": "t_bytes4",
+            "typeString": "bytes4"
+          },
+          "id": 20144,
+          "isConstant": false,
+          "isLValue": false,
+          "isPure": true,
+          "lValueRequested": false,
+          "leftExpression": {
+            "commonType": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            },
+            "id": 20142,
+            "isConstant": false,
+            "isLValue": false,
+            "isPure": true,
+            "lValueRequested": false,
+            "leftExpression": {
+              "expression": {
+                "expression": {
+                  "id": 20136,
+                  "name": "ISystemHook",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 20171,
+                  "src": "421:11:35",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_type$_t_contract$_ISystemHook_$20171_$",
+                    "typeString": "type(contract ISystemHook)"
+                  }
+                },
+                "id": 20137,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "lValueRequested": false,
+                "memberLocation": "433:18:35",
+                "memberName": "onBeforeCallSystem",
+                "nodeType": "MemberAccess",
+                "referencedDeclaration": 20159,
+                "src": "421:30:35",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_function_declaration_nonpayable$_t_address_$_t_userDefinedValueType$_ResourceId_$63969_$_t_bytes_memory_ptr_$returns$__$",
+                  "typeString": "function ISystemHook.onBeforeCallSystem(address,ResourceId,bytes memory)"
+                }
+              },
+              "id": 20138,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "lValueRequested": false,
+              "memberLocation": "452:8:35",
+              "memberName": "selector",
+              "nodeType": "MemberAccess",
+              "src": "421:39:35",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "nodeType": "BinaryOperation",
+            "operator": "^",
+            "rightExpression": {
+              "expression": {
+                "expression": {
+                  "id": 20139,
+                  "name": "ISystemHook",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 20171,
+                  "src": "465:11:35",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_type$_t_contract$_ISystemHook_$20171_$",
+                    "typeString": "type(contract ISystemHook)"
+                  }
+                },
+                "id": 20140,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "lValueRequested": false,
+                "memberLocation": "477:17:35",
+                "memberName": "onAfterCallSystem",
+                "nodeType": "MemberAccess",
+                "referencedDeclaration": 20170,
+                "src": "465:29:35",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_function_declaration_nonpayable$_t_address_$_t_userDefinedValueType$_ResourceId_$63969_$_t_bytes_memory_ptr_$returns$__$",
+                  "typeString": "function ISystemHook.onAfterCallSystem(address,ResourceId,bytes memory)"
+                }
+              },
+              "id": 20141,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "lValueRequested": false,
+              "memberLocation": "495:8:35",
+              "memberName": "selector",
+              "nodeType": "MemberAccess",
+              "src": "465:38:35",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "src": "421:82:35",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            }
+          },
+          "nodeType": "BinaryOperation",
+          "operator": "^",
+          "rightExpression": {
+            "id": 20143,
+            "name": "ERC165_INTERFACE_ID",
+            "nodeType": "Identifier",
+            "overloadedDeclarations": [],
+            "referencedDeclaration": 20062,
+            "src": "508:19:35",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            }
+          },
+          "src": "421:106:35",
+          "typeDescriptions": {
+            "typeIdentifier": "t_bytes4",
+            "typeString": "bytes4"
+          }
+        },
+        "visibility": "internal"
+      },
+      {
+        "id": 20171,
+        "nodeType": "ContractDefinition",
+        "src": "811:924:35",
+        "nodes": [
+          {
+            "id": 20159,
+            "nodeType": "FunctionDefinition",
+            "src": "1185:100:35",
+            "nodes": [],
+            "documentation": {
+              "id": 20149,
+              "nodeType": "StructuredDocumentation",
+              "src": "848:334:35",
+              "text": " @notice Executes before a system call.\n @dev Provides the ability to add custom logic or checks before a system is invoked.\n @param msgSender The original sender of the system call.\n @param systemId The identifier for the system being called.\n @param callData Data being sent as part of the system call."
+            },
+            "functionSelector": "c3323031",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "onBeforeCallSystem",
+            "nameLocation": "1194:18:35",
+            "parameters": {
+              "id": 20157,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20151,
+                  "mutability": "mutable",
+                  "name": "msgSender",
+                  "nameLocation": "1221:9:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20159,
+                  "src": "1213:17:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20150,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1213:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20154,
+                  "mutability": "mutable",
+                  "name": "systemId",
+                  "nameLocation": "1243:8:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20159,
+                  "src": "1232:19:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                    "typeString": "ResourceId"
+                  },
+                  "typeName": {
+                    "id": 20153,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 20152,
+                      "name": "ResourceId",
+                      "nameLocations": [
+                        "1232:10:35"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 63969,
+                      "src": "1232:10:35"
+                    },
+                    "referencedDeclaration": 63969,
+                    "src": "1232:10:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                      "typeString": "ResourceId"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20156,
+                  "mutability": "mutable",
+                  "name": "callData",
+                  "nameLocation": "1266:8:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20159,
+                  "src": "1253:21:35",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 20155,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1253:5:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1212:63:35"
+            },
+            "returnParameters": {
+              "id": 20158,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1284:0:35"
+            },
+            "scope": 20171,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 20170,
+            "nodeType": "FunctionDefinition",
+            "src": "1634:99:35",
+            "nodes": [],
+            "documentation": {
+              "id": 20160,
+              "nodeType": "StructuredDocumentation",
+              "src": "1289:342:35",
+              "text": " @notice Executes after a system call.\n @dev Provides the ability to add custom logic or checks after a system call completes.\n @param msgSender The original sender of the system call.\n @param systemId The identifier for the system that was called.\n @param callData Data that was sent as part of the system call."
+            },
+            "functionSelector": "973d8f99",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "onAfterCallSystem",
+            "nameLocation": "1643:17:35",
+            "parameters": {
+              "id": 20168,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20162,
+                  "mutability": "mutable",
+                  "name": "msgSender",
+                  "nameLocation": "1669:9:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20170,
+                  "src": "1661:17:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20161,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1661:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20165,
+                  "mutability": "mutable",
+                  "name": "systemId",
+                  "nameLocation": "1691:8:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20170,
+                  "src": "1680:19:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                    "typeString": "ResourceId"
+                  },
+                  "typeName": {
+                    "id": 20164,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 20163,
+                      "name": "ResourceId",
+                      "nameLocations": [
+                        "1680:10:35"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 63969,
+                      "src": "1680:10:35"
+                    },
+                    "referencedDeclaration": 63969,
+                    "src": "1680:10:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                      "typeString": "ResourceId"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20167,
+                  "mutability": "mutable",
+                  "name": "callData",
+                  "nameLocation": "1714:8:35",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20170,
+                  "src": "1701:21:35",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 20166,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1701:5:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1660:63:35"
+            },
+            "returnParameters": {
+              "id": 20169,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1732:0:35"
+            },
+            "scope": 20171,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 20147,
+              "name": "IERC165",
+              "nameLocations": [
+                "836:7:35"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 20072,
+              "src": "836:7:35"
+            },
+            "id": 20148,
+            "nodeType": "InheritanceSpecifier",
+            "src": "836:7:35"
+          }
+        ],
+        "canonicalName": "ISystemHook",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 20146,
+          "nodeType": "StructuredDocumentation",
+          "src": "530:280:35",
+          "text": " @title ISystemHook\n @dev Interface defining system hooks for external functionality.\n Provides pre and post hooks that can be triggered before and after a system call respectively.\n This interface adheres to the ERC-165 standard for determining interface support."
+        },
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          20171,
+          20072
+        ],
+        "name": "ISystemHook",
+        "nameLocation": "821:11:35",
+        "scope": 20172,
+        "usedErrors": [],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 35
+}

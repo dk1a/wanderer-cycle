@@ -1,0 +1,112 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "src/codegen/common.sol",
+    "id": 92213,
+    "exportedSymbols": {
+      "SkillType": [
+        92207
+      ],
+      "TargetType": [
+        92212
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:188:168",
+    "nodes": [
+      {
+        "id": 92203,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:168",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 92207,
+        "nodeType": "EnumDefinition",
+        "src": "107:51:168",
+        "nodes": [],
+        "canonicalName": "SkillType",
+        "members": [
+          {
+            "id": 92204,
+            "name": "COMBAT",
+            "nameLocation": "126:6:168",
+            "nodeType": "EnumValue",
+            "src": "126:6:168"
+          },
+          {
+            "id": 92205,
+            "name": "NONCOMBAT",
+            "nameLocation": "136:9:168",
+            "nodeType": "EnumValue",
+            "src": "136:9:168"
+          },
+          {
+            "id": 92206,
+            "name": "PASSIVE",
+            "nameLocation": "149:7:168",
+            "nodeType": "EnumValue",
+            "src": "149:7:168"
+          }
+        ],
+        "name": "SkillType",
+        "nameLocation": "112:9:168"
+      },
+      {
+        "id": 92212,
+        "nodeType": "EnumDefinition",
+        "src": "160:59:168",
+        "nodes": [],
+        "canonicalName": "TargetType",
+        "members": [
+          {
+            "id": 92208,
+            "name": "SELF",
+            "nameLocation": "180:4:168",
+            "nodeType": "EnumValue",
+            "src": "180:4:168"
+          },
+          {
+            "id": 92209,
+            "name": "ENEMY",
+            "nameLocation": "188:5:168",
+            "nodeType": "EnumValue",
+            "src": "188:5:168"
+          },
+          {
+            "id": 92210,
+            "name": "ALLY",
+            "nameLocation": "197:4:168",
+            "nodeType": "EnumValue",
+            "src": "197:4:168"
+          },
+          {
+            "id": 92211,
+            "name": "SELF_OR_ALLY",
+            "nameLocation": "205:12:168",
+            "nodeType": "EnumValue",
+            "src": "205:12:168"
+          }
+        ],
+        "name": "TargetType",
+        "nameLocation": "165:10:168"
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 168
+}

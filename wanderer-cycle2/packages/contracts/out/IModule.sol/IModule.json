@@ -1,0 +1,911 @@
+{
+  "abi": [
+    {
+      "inputs": [],
+      "name": "Module_AlreadyInstalled",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "dependency",
+          "type": "string"
+        }
+      ],
+      "name": "Module_MissingDependency",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Module_NonRootInstallNotSupported",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Module_RootInstallNotSupported",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "getName",
+      "outputs": [
+        {
+          "internalType": "bytes16",
+          "name": "name",
+          "type": "bytes16"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "args",
+          "type": "bytes"
+        }
+      ],
+      "name": "install",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "args",
+          "type": "bytes"
+        }
+      ],
+      "name": "installRoot",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceID",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {
+    "getName()": "17d7de7c",
+    "install(bytes)": "13861fb5",
+    "installRoot(bytes)": "7c5b0335",
+    "supportsInterface(bytes4)": "01ffc9a7"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.21+commit.d9974bed\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"Module_AlreadyInstalled\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"dependency\",\"type\":\"string\"}],\"name\":\"Module_MissingDependency\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Module_NonRootInstallNotSupported\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Module_RootInstallNotSupported\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"getName\",\"outputs\":[{\"internalType\":\"bytes16\",\"name\":\"name\",\"type\":\"bytes16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"args\",\"type\":\"bytes\"}],\"name\":\"install\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"args\",\"type\":\"bytes\"}],\"name\":\"installRoot\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceID\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Interface for the Module system. A module can be installed within the context of a world, either as a root or non-root module. This interface adheres to the ERC-165 standard for determining interface support.\",\"errors\":{\"Module_RootInstallNotSupported()\":[{\"details\":\"Errors to represent non-support of specific installation types.\"}]},\"kind\":\"dev\",\"methods\":{\"getName()\":{\"details\":\"Provides a way to identify the module by a unique name.\",\"returns\":{\"name\":\"The name of the module as a bytes16.\"}},\"install(bytes)\":{\"details\":\"This function is invoked by the World contract during `installModule` process. The module expects to be called via the World contract and thus installs itself on the `msg.sender`. Logic might differ from `installRoot`, for example, this might accept namespace parameters.\",\"params\":{\"args\":\"Arguments that may be needed during the installation process.\"}},\"installRoot(bytes)\":{\"details\":\"This function is invoked by the World contract during `installRootModule` process. The module expects to be called via the World contract and thus installs itself on the `msg.sender`.\",\"params\":{\"args\":\"Arguments that may be needed during the installation process.\"}},\"supportsInterface(bytes4)\":{\"details\":\"Interface identification is specified in ERC-165. This function uses less than 30,000 gas.\",\"params\":{\"interfaceID\":\"The interface identifier, as specified in ERC-165.\"},\"returns\":{\"_0\":\"True if the contract implements `interfaceID` and `interfaceID` is not 0xffffffff, false otherwise.\"}}},\"title\":\"IModule\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getName()\":{\"notice\":\"Return the name of the module.\"},\"install(bytes)\":{\"notice\":\"Installs the module.\"},\"installRoot(bytes)\":{\"notice\":\"Installs the module as a root module.\"},\"supportsInterface(bytes4)\":{\"notice\":\"Query if a contract implements an interface.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world/src/IModule.sol\":\"IModule\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":3000},\"remappings\":[\":@latticexyz/=node_modules/@latticexyz/\",\":ds-test/=node_modules/ds-test/src/\",\":forge-std/=node_modules/forge-std/src/\"]},\"sources\":{\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world/src/IERC165.sol\":{\"keccak256\":\"0x7997ebbdee6a2493f28e7032c7a8b906ade40f807d95734e2653c8f1b023ff47\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c8ca41bb2619bf27e5bf886d1322f0e2dffd096c49f7ae6e716541dd1e1ddce5\",\"dweb:/ipfs/Qmb8zATUWWTtiWaSLjbAe6PGnJPes9ANvEyk7pYoWR3P3Y\"]},\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world/src/IModule.sol\":{\"keccak256\":\"0x4535542ceb57e77096f24b943285bc158c48ef5291999f9c1e27f5682f8a9581\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ec670524d19c50c659e385bc4dcb4757b065e1b5fe14160244537a7cd7a4b883\",\"dweb:/ipfs/QmT7NSWFSQ6MxYefe665srKMT2GTWomrPRZAHLjrFhQzV6\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.21+commit.d9974bed"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "Module_AlreadyInstalled"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "string",
+              "name": "dependency",
+              "type": "string"
+            }
+          ],
+          "type": "error",
+          "name": "Module_MissingDependency"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "Module_NonRootInstallNotSupported"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "Module_RootInstallNotSupported"
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getName",
+          "outputs": [
+            {
+              "internalType": "bytes16",
+              "name": "name",
+              "type": "bytes16"
+            }
+          ]
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes",
+              "name": "args",
+              "type": "bytes"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "install"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes",
+              "name": "args",
+              "type": "bytes"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "installRoot"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes4",
+              "name": "interfaceID",
+              "type": "bytes4"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "supportsInterface",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ]
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {
+          "getName()": {
+            "details": "Provides a way to identify the module by a unique name.",
+            "returns": {
+              "name": "The name of the module as a bytes16."
+            }
+          },
+          "install(bytes)": {
+            "details": "This function is invoked by the World contract during `installModule` process. The module expects to be called via the World contract and thus installs itself on the `msg.sender`. Logic might differ from `installRoot`, for example, this might accept namespace parameters.",
+            "params": {
+              "args": "Arguments that may be needed during the installation process."
+            }
+          },
+          "installRoot(bytes)": {
+            "details": "This function is invoked by the World contract during `installRootModule` process. The module expects to be called via the World contract and thus installs itself on the `msg.sender`.",
+            "params": {
+              "args": "Arguments that may be needed during the installation process."
+            }
+          },
+          "supportsInterface(bytes4)": {
+            "details": "Interface identification is specified in ERC-165. This function uses less than 30,000 gas.",
+            "params": {
+              "interfaceID": "The interface identifier, as specified in ERC-165."
+            },
+            "returns": {
+              "_0": "True if the contract implements `interfaceID` and `interfaceID` is not 0xffffffff, false otherwise."
+            }
+          }
+        },
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {
+          "getName()": {
+            "notice": "Return the name of the module."
+          },
+          "install(bytes)": {
+            "notice": "Installs the module."
+          },
+          "installRoot(bytes)": {
+            "notice": "Installs the module as a root module."
+          },
+          "supportsInterface(bytes4)": {
+            "notice": "Query if a contract implements an interface."
+          }
+        },
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@latticexyz/=node_modules/@latticexyz/",
+        "ds-test/=node_modules/ds-test/src/",
+        "forge-std/=node_modules/forge-std/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 3000
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world/src/IModule.sol": "IModule"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world/src/IERC165.sol": {
+        "keccak256": "0x7997ebbdee6a2493f28e7032c7a8b906ade40f807d95734e2653c8f1b023ff47",
+        "urls": [
+          "bzz-raw://c8ca41bb2619bf27e5bf886d1322f0e2dffd096c49f7ae6e716541dd1e1ddce5",
+          "dweb:/ipfs/Qmb8zATUWWTtiWaSLjbAe6PGnJPes9ANvEyk7pYoWR3P3Y"
+        ],
+        "license": "MIT"
+      },
+      "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world/src/IModule.sol": {
+        "keccak256": "0x4535542ceb57e77096f24b943285bc158c48ef5291999f9c1e27f5682f8a9581",
+        "urls": [
+          "bzz-raw://ec670524d19c50c659e385bc4dcb4757b065e1b5fe14160244537a7cd7a4b883",
+          "dweb:/ipfs/QmT7NSWFSQ6MxYefe665srKMT2GTWomrPRZAHLjrFhQzV6"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world/src/IModule.sol",
+    "id": 22860,
+    "exportedSymbols": {
+      "ERC165_INTERFACE_ID": [
+        22795
+      ],
+      "IERC165": [
+        22805
+      ],
+      "IModule": [
+        22859
+      ],
+      "MODULE_INTERFACE_ID": [
+        22826
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:2070:40",
+    "nodes": [
+      {
+        "id": 22807,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:40",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 22810,
+        "nodeType": "ImportDirective",
+        "src": "59:61:40",
+        "nodes": [],
+        "absolutePath": "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world/src/IERC165.sol",
+        "file": "./IERC165.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 22860,
+        "sourceUnit": 22806,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 22808,
+              "name": "IERC165",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 22805,
+              "src": "68:7:40",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 22809,
+              "name": "ERC165_INTERFACE_ID",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 22795,
+              "src": "77:19:40",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 22826,
+        "nodeType": "VariableDeclaration",
+        "src": "322:148:40",
+        "nodes": [],
+        "constant": true,
+        "mutability": "constant",
+        "name": "MODULE_INTERFACE_ID",
+        "nameLocation": "338:19:40",
+        "scope": 22860,
+        "stateVariable": false,
+        "storageLocation": "default",
+        "typeDescriptions": {
+          "typeIdentifier": "t_bytes4",
+          "typeString": "bytes4"
+        },
+        "typeName": {
+          "id": 22812,
+          "name": "bytes4",
+          "nodeType": "ElementaryTypeName",
+          "src": "322:6:40",
+          "typeDescriptions": {
+            "typeIdentifier": "t_bytes4",
+            "typeString": "bytes4"
+          }
+        },
+        "value": {
+          "commonType": {
+            "typeIdentifier": "t_bytes4",
+            "typeString": "bytes4"
+          },
+          "id": 22825,
+          "isConstant": false,
+          "isLValue": false,
+          "isPure": true,
+          "lValueRequested": false,
+          "leftExpression": {
+            "commonType": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            },
+            "id": 22823,
+            "isConstant": false,
+            "isLValue": false,
+            "isPure": true,
+            "lValueRequested": false,
+            "leftExpression": {
+              "commonType": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              },
+              "id": 22819,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "lValueRequested": false,
+              "leftExpression": {
+                "expression": {
+                  "expression": {
+                    "id": 22813,
+                    "name": "IModule",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 22859,
+                    "src": "360:7:40",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_type$_t_contract$_IModule_$22859_$",
+                      "typeString": "type(contract IModule)"
+                    }
+                  },
+                  "id": 22814,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "memberLocation": "368:7:40",
+                  "memberName": "getName",
+                  "nodeType": "MemberAccess",
+                  "referencedDeclaration": 22846,
+                  "src": "360:15:40",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_function_declaration_view$__$returns$_t_bytes16_$",
+                    "typeString": "function IModule.getName() view returns (bytes16)"
+                  }
+                },
+                "id": 22815,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "lValueRequested": false,
+                "memberLocation": "376:8:40",
+                "memberName": "selector",
+                "nodeType": "MemberAccess",
+                "src": "360:24:40",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes4",
+                  "typeString": "bytes4"
+                }
+              },
+              "nodeType": "BinaryOperation",
+              "operator": "^",
+              "rightExpression": {
+                "expression": {
+                  "expression": {
+                    "id": 22816,
+                    "name": "IModule",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 22859,
+                    "src": "389:7:40",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_type$_t_contract$_IModule_$22859_$",
+                      "typeString": "type(contract IModule)"
+                    }
+                  },
+                  "id": 22817,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "memberLocation": "397:11:40",
+                  "memberName": "installRoot",
+                  "nodeType": "MemberAccess",
+                  "referencedDeclaration": 22852,
+                  "src": "389:19:40",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_function_declaration_nonpayable$_t_bytes_memory_ptr_$returns$__$",
+                    "typeString": "function IModule.installRoot(bytes memory)"
+                  }
+                },
+                "id": 22818,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "lValueRequested": false,
+                "memberLocation": "409:8:40",
+                "memberName": "selector",
+                "nodeType": "MemberAccess",
+                "src": "389:28:40",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes4",
+                  "typeString": "bytes4"
+                }
+              },
+              "src": "360:57:40",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "nodeType": "BinaryOperation",
+            "operator": "^",
+            "rightExpression": {
+              "expression": {
+                "expression": {
+                  "id": 22820,
+                  "name": "IModule",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 22859,
+                  "src": "422:7:40",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_type$_t_contract$_IModule_$22859_$",
+                    "typeString": "type(contract IModule)"
+                  }
+                },
+                "id": 22821,
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "lValueRequested": false,
+                "memberLocation": "430:7:40",
+                "memberName": "install",
+                "nodeType": "MemberAccess",
+                "referencedDeclaration": 22858,
+                "src": "422:15:40",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_function_declaration_nonpayable$_t_bytes_memory_ptr_$returns$__$",
+                  "typeString": "function IModule.install(bytes memory)"
+                }
+              },
+              "id": 22822,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "lValueRequested": false,
+              "memberLocation": "438:8:40",
+              "memberName": "selector",
+              "nodeType": "MemberAccess",
+              "src": "422:24:40",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "src": "360:86:40",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            }
+          },
+          "nodeType": "BinaryOperation",
+          "operator": "^",
+          "rightExpression": {
+            "id": 22824,
+            "name": "ERC165_INTERFACE_ID",
+            "nodeType": "Identifier",
+            "overloadedDeclarations": [],
+            "referencedDeclaration": 22795,
+            "src": "451:19:40",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            }
+          },
+          "src": "360:110:40",
+          "typeDescriptions": {
+            "typeIdentifier": "t_bytes4",
+            "typeString": "bytes4"
+          }
+        },
+        "visibility": "internal"
+      },
+      {
+        "id": 22859,
+        "nodeType": "ContractDefinition",
+        "src": "722:1379:40",
+        "nodes": [
+          {
+            "id": 22832,
+            "nodeType": "ErrorDefinition",
+            "src": "830:39:40",
+            "nodes": [],
+            "documentation": {
+              "id": 22830,
+              "nodeType": "StructuredDocumentation",
+              "src": "755:72:40",
+              "text": "@dev Errors to represent non-support of specific installation types."
+            },
+            "errorSelector": "b6622fc0",
+            "name": "Module_RootInstallNotSupported",
+            "nameLocation": "836:30:40",
+            "parameters": {
+              "id": 22831,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "866:2:40"
+            }
+          },
+          {
+            "id": 22834,
+            "nodeType": "ErrorDefinition",
+            "src": "872:42:40",
+            "nodes": [],
+            "errorSelector": "ea8b184c",
+            "name": "Module_NonRootInstallNotSupported",
+            "nameLocation": "878:33:40",
+            "parameters": {
+              "id": 22833,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "911:2:40"
+            }
+          },
+          {
+            "id": 22836,
+            "nodeType": "ErrorDefinition",
+            "src": "917:32:40",
+            "nodes": [],
+            "errorSelector": "14012068",
+            "name": "Module_AlreadyInstalled",
+            "nameLocation": "923:23:40",
+            "parameters": {
+              "id": 22835,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "946:2:40"
+            }
+          },
+          {
+            "id": 22840,
+            "nodeType": "ErrorDefinition",
+            "src": "952:50:40",
+            "nodes": [],
+            "errorSelector": "217ef925",
+            "name": "Module_MissingDependency",
+            "nameLocation": "958:24:40",
+            "parameters": {
+              "id": 22839,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 22838,
+                  "mutability": "mutable",
+                  "name": "dependency",
+                  "nameLocation": "990:10:40",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 22840,
+                  "src": "983:17:40",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 22837,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "983:6:40",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "982:19:40"
+            }
+          },
+          {
+            "id": 22846,
+            "nodeType": "FunctionDefinition",
+            "src": "1183:56:40",
+            "nodes": [],
+            "documentation": {
+              "id": 22841,
+              "nodeType": "StructuredDocumentation",
+              "src": "1006:174:40",
+              "text": " @notice Return the name of the module.\n @dev Provides a way to identify the module by a unique name.\n @return name The name of the module as a bytes16."
+            },
+            "functionSelector": "17d7de7c",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getName",
+            "nameLocation": "1192:7:40",
+            "parameters": {
+              "id": 22842,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1199:2:40"
+            },
+            "returnParameters": {
+              "id": 22845,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 22844,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nameLocation": "1233:4:40",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 22846,
+                  "src": "1225:12:40",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes16",
+                    "typeString": "bytes16"
+                  },
+                  "typeName": {
+                    "id": 22843,
+                    "name": "bytes16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1225:7:40",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes16",
+                      "typeString": "bytes16"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1224:14:40"
+            },
+            "scope": 22859,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 22852,
+            "nodeType": "FunctionDefinition",
+            "src": "1584:49:40",
+            "nodes": [],
+            "documentation": {
+              "id": 22847,
+              "nodeType": "StructuredDocumentation",
+              "src": "1243:338:40",
+              "text": " @notice Installs the module as a root module.\n @dev This function is invoked by the World contract during `installRootModule` process.\n The module expects to be called via the World contract and thus installs itself on the `msg.sender`.\n @param args Arguments that may be needed during the installation process."
+            },
+            "functionSelector": "7c5b0335",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "installRoot",
+            "nameLocation": "1593:11:40",
+            "parameters": {
+              "id": 22850,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 22849,
+                  "mutability": "mutable",
+                  "name": "args",
+                  "nameLocation": "1618:4:40",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 22852,
+                  "src": "1605:17:40",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 22848,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1605:5:40",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1604:19:40"
+            },
+            "returnParameters": {
+              "id": 22851,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1632:0:40"
+            },
+            "scope": 22859,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 22858,
+            "nodeType": "FunctionDefinition",
+            "src": "2054:45:40",
+            "nodes": [],
+            "documentation": {
+              "id": 22853,
+              "nodeType": "StructuredDocumentation",
+              "src": "1637:414:40",
+              "text": " @notice Installs the module.\n @dev This function is invoked by the World contract during `installModule` process.\n The module expects to be called via the World contract and thus installs itself on the `msg.sender`.\n Logic might differ from `installRoot`, for example, this might accept namespace parameters.\n @param args Arguments that may be needed during the installation process."
+            },
+            "functionSelector": "13861fb5",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "install",
+            "nameLocation": "2063:7:40",
+            "parameters": {
+              "id": 22856,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 22855,
+                  "mutability": "mutable",
+                  "name": "args",
+                  "nameLocation": "2084:4:40",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 22858,
+                  "src": "2071:17:40",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 22854,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2071:5:40",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2070:19:40"
+            },
+            "returnParameters": {
+              "id": 22857,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2098:0:40"
+            },
+            "scope": 22859,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 22828,
+              "name": "IERC165",
+              "nameLocations": [
+                "743:7:40"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 22805,
+              "src": "743:7:40"
+            },
+            "id": 22829,
+            "nodeType": "InheritanceSpecifier",
+            "src": "743:7:40"
+          }
+        ],
+        "canonicalName": "IModule",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 22827,
+          "nodeType": "StructuredDocumentation",
+          "src": "473:248:40",
+          "text": " @title IModule\n @dev Interface for the Module system.\n A module can be installed within the context of a world, either as a root or non-root module.\n This interface adheres to the ERC-165 standard for determining interface support."
+        },
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          22859,
+          22805
+        ],
+        "name": "IModule",
+        "nameLocation": "732:7:40",
+        "scope": 22860,
+        "usedErrors": [
+          22832,
+          22834,
+          22836,
+          22840
+        ],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 40
+}

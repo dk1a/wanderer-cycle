@@ -1,0 +1,3269 @@
+{
+  "abi": [
+    {
+      "inputs": [],
+      "name": "LibCycleTurns__NotEnoughTurns",
+      "type": "error"
+    }
+  ],
+  "bytecode": {
+    "object": "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220b59e9690a36ccd5916214f5d07255df4e999bcbf41639f5093c3eabef6b39a2964736f6c63430008150033",
+    "sourceMap": "147:2739:190:-:0;;;;;;;;;;;;;;;-1:-1:-1;;;147:2739:190;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220b59e9690a36ccd5916214f5d07255df4e999bcbf41639f5093c3eabef6b39a2964736f6c63430008150033",
+    "sourceMap": "147:2739:190:-:0;;;;;;;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.21+commit.d9974bed\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"LibCycleTurns__NotEnoughTurns\",\"type\":\"error\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/cycle/LibCycleTurns.sol\":\"LibCycleTurns\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":3000},\"remappings\":[\":@latticexyz/=node_modules/@latticexyz/\",\":ds-test/=node_modules/ds-test/src/\",\":forge-std/=node_modules/forge-std/src/\"]},\"sources\":{\"node_modules/@latticexyz/schema-type/src/solidity/SchemaType.sol\":{\"keccak256\":\"0x770eff7a38b9b7b1613dc11ca09db4f28b42a117c9b39b2a06a650a58a250bdb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://39f544110658a53def52c2a4e33b8b158b95a4f14fccea58d5268b6e728d86d4\",\"dweb:/ipfs/QmTesj6tjSFbfAiKUitXapdNYWPStS8bLkB3r22qfyHwUC\"]},\"node_modules/@latticexyz/store/src/Bytes.sol\":{\"keccak256\":\"0xab31edce915377852bb5f29f7f2ccfc50cac087d64d2a8aae669715ad862d558\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3187e86e43be1fbdd59df45c695294f1114aa1ac48e6445c0cb26089434be5c4\",\"dweb:/ipfs/Qmck7shMVrcKMVkgN2pC1byPY7hb3V9fTxnUcGgxAUeXYk\"]},\"node_modules/@latticexyz/store/src/FieldLayout.sol\":{\"keccak256\":\"0x2a0536cd6cecc479d0b81d5aad6380231f4d6873beadc54814d801c2036b02c0\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e07c041e19146a9ec258cc700a450b4d49440202895eb12f3bb17508427c23ba\",\"dweb:/ipfs/QmXoqrCGDSkuFgNSMURRFdjokjREL78nLDzNaUi6rjefy9\"]},\"node_modules/@latticexyz/store/src/Hook.sol\":{\"keccak256\":\"0x045024523eb55d08ad8d13eca6185bff2988865f4aa12e3f9372029c2ecb8ddd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6621c53b49f8fe0557d1a1db47bfe1561801c09256948dd0652fb41541891a18\",\"dweb:/ipfs/QmZgFVCUH1pKcc9MeFyzMe1VW87SLz6c9szGwrDRUp6BZe\"]},\"node_modules/@latticexyz/store/src/IERC165.sol\":{\"keccak256\":\"0x2bbc3c43400c15a91a5cb35430a91309cb64a4d13a0a170eacec71dcf334feaf\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f44dfc9605067de539de07a76a34bf469faa9e6dad8c192abafc2e05860c7dd2\",\"dweb:/ipfs/QmX8xgG6XWokM7YFwFZvmMhuh1uhkSjxCMD2oTHjUVdapb\"]},\"node_modules/@latticexyz/store/src/IStore.sol\":{\"keccak256\":\"0x9092b65551d0f910e5645cebb5acadb387cdd192d75fa89cd6b293bd65b28827\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://478825a6f7eff9ddab968e71e1d55ebee279d3b318f10976d9334384000059c0\",\"dweb:/ipfs/Qme7NY976woRy3RQjE4tkkiwoXnoVtTmER3PbWCSbjZ2kb\"]},\"node_modules/@latticexyz/store/src/IStoreData.sol\":{\"keccak256\":\"0xa8eade05c551aeef35c84727d7a44af239516deb2d8a0cfb7ebeb5d88c6995e5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5335910bd8a204abb5f4396fb911a5ee5c221bd7fa63b1cc8ae5e737c6458c6a\",\"dweb:/ipfs/QmckkCAfrNcWo3yDxoD1jCe1k4iDA2GzVDpFjJZs7W79vx\"]},\"node_modules/@latticexyz/store/src/IStoreErrors.sol\":{\"keccak256\":\"0xb9070663ded3cad82285bb7610949e422f88abb48c2ddbd792af83d127d64212\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://830490f1c888bec86df1e7ef43773d60ebdbdfdb2b91ab7fe074e2f38d7439dc\",\"dweb:/ipfs/QmS26fpXdZuGgMmjcdQDf9k1Bedn2dhjk9byFZJoNkctPZ\"]},\"node_modules/@latticexyz/store/src/IStoreEvents.sol\":{\"keccak256\":\"0xdd3104680808f975462a85cbd4fa87783ba5395797419caeeca37e8f8627a16f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://943864b7eb16ad2047ade5a8598e85c8a4b46d1aed6aef02bfb7cee8de732b4d\",\"dweb:/ipfs/QmTEij4caToSNk15PFpubXYDy9QhwmPyP9tMXjUse2cTdv\"]},\"node_modules/@latticexyz/store/src/IStoreHook.sol\":{\"keccak256\":\"0xa6777c7868333996ad9c61a94457dcac702d8d7445a104dfdc86543d25e7470e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6268a16449d7529a94746d0103670dd0e38faf5117bf914fb01da9947ab44c2e\",\"dweb:/ipfs/QmaSfbx1QRA3jw2K8bGkQTw4CTGPUzNqnCJW7LwaFUJCXy\"]},\"node_modules/@latticexyz/store/src/IStoreRead.sol\":{\"keccak256\":\"0xd2180d53ecd31069b1166f170ecdcd85917ac50f45fc26fb39b49cee7ba00e37\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1494bb0a3228e2d194bddaed4761fd3ca865979f0e3f3a53acd271143a4aa0ac\",\"dweb:/ipfs/Qmaddnzzmu99iP9dTWK9ZeByh5dZyjY9SpVnRdvyr2fBAo\"]},\"node_modules/@latticexyz/store/src/IStoreRegistration.sol\":{\"keccak256\":\"0xf448fbb2bc9c982721a43234463656da5a49cea08543e62148d54f11e1ac3e2f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://64b3579d9b9dcd73dca2beab3d4fcf60237420945ebbb2e9f4ffcc88f4110115\",\"dweb:/ipfs/QmaW5nN3zGEriSYHncye6Nz2TkAw1oo1CyG2JuJTJrJoXg\"]},\"node_modules/@latticexyz/store/src/IStoreWrite.sol\":{\"keccak256\":\"0x8b6c7af5ee330928aebb58c8872d3944304ee10ed11f8a325b6accc4ec5df81b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b866d158701c7a40834bed735194b804ef219f2bbe574e2307785fff7bcf9da1\",\"dweb:/ipfs/QmXzJfZkXVfyr2RFGwDuazeVnV3UWYmQxjKZ3KzFbbe75U\"]},\"node_modules/@latticexyz/store/src/Memory.sol\":{\"keccak256\":\"0x69295976e61a1a108d1b4d6eb497b238730309f3047c4320d48e01a0ce8d4ec7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://559c451b21fb9dd4fec27b41bef42f4362f1e7ebb7992106d548b9d4f733b3e5\",\"dweb:/ipfs/QmeSE7YTW5zUrfZYFVb2pFnDe3XxiT8XNecfwC3wfpxCRv\"]},\"node_modules/@latticexyz/store/src/PackedCounter.sol\":{\"keccak256\":\"0x44ddfa9eb8a861462c550f0a9d66c40c68acdb347a61fa765949608407a2c7fb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://47ee957f4b19cab9e20bf5fc569c015eca13852fb3351f2a105a8be9c48204c0\",\"dweb:/ipfs/QmNkyzDobVQLoq9BtQ8HtgsPLiqnmi97EZx1wsu6wp8nKH\"]},\"node_modules/@latticexyz/store/src/ResourceId.sol\":{\"keccak256\":\"0x40983c580b8958e55db4520095934a535e98544ffe8228327e598973eb6647ed\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://839d658fa2bb2b1f09a08149d2bf0c26a26c301ad2dda8154fc99458085a695d\",\"dweb:/ipfs/Qmd5jHHYrgqraPqF8bjzT4xyjsoPk8K7pkxXLLfz6MRT6d\"]},\"node_modules/@latticexyz/store/src/Schema.sol\":{\"keccak256\":\"0x58aef318ba03f8ff8866ef70f8a30f549b150657ea699734aefe16c298956401\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7dc104690a7e2bcf5ce1afadcd58f8ef4d639b4b92b9ad9293656235d54395f3\",\"dweb:/ipfs/QmYJJvEv5KBJ3kzf9AkgRn7Uu5dp4exGTRddf4cae1btgE\"]},\"node_modules/@latticexyz/store/src/Slice.sol\":{\"keccak256\":\"0xfaf54b1f5acccd4c6ce3f8377050ee84efbb423cb604b4651e8b9ea3b467bf32\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://acf2ce7ffec21f28ad1dc6da06c342f1212a03a3d16a0be7ee85715a5940718c\",\"dweb:/ipfs/QmTCN3NSdFg87hi7KS2Xtq7PsmRUMG64SxC8PtP3p2GzuT\"]},\"node_modules/@latticexyz/store/src/Storage.sol\":{\"keccak256\":\"0x0893905ebe431a414226b479a84a54804091001a406222c748adbd4b651853a5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://bcfcd3848127884041f0bcd727a0e7acbddec283aa6c16ba47abc6a3be720648\",\"dweb:/ipfs/QmY5fBd53e4Ro6vzTZYsteSibSTXVA3GHTeCAiUZTa5DPZ\"]},\"node_modules/@latticexyz/store/src/StoreCore.sol\":{\"keccak256\":\"0x95b7d62d84b43777c54dd1c7d941dbb5ba0afc02c444c30cfdb1de671bbbf180\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fe62a2fdb2a73610c3072f31b7f88ed3f9d03c1009fe0f0ef37a7eb814b23534\",\"dweb:/ipfs/QmV85zaV5HAD6eGc5N4RmdtmpR6EwkswVLQTaR2aJqsXrj\"]},\"node_modules/@latticexyz/store/src/StoreSwitch.sol\":{\"keccak256\":\"0xf132af10f960a498f49c0534027056e715f4bdcb8fbdb53ac6879c92309ab416\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e85a09aeb7543bcd9d74b7ad319ae61e1f7f15a6a0ad9e79aff750fbd18111c7\",\"dweb:/ipfs/QmY6xgqeeaR1FsCPLmFbVgjm1D2UyrXNABKXWLfFaSmBhR\"]},\"node_modules/@latticexyz/store/src/codegen/index.sol\":{\"keccak256\":\"0xf337a5abb2d43ef00c1c200e7fbec30fc89c7c701e457ab4277194b700d2aea3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://eccdf6158076b4e8f1b587a0310228f53323705e054a44eaa7733f38805c3ee6\",\"dweb:/ipfs/QmbXEVNTctg54dK9awdCVyAjeuUjR6ckfmmXBP8DrFmjyq\"]},\"node_modules/@latticexyz/store/src/codegen/tables/Hooks.sol\":{\"keccak256\":\"0xc5c6f807cff6b4dc486525c559ba3f7cbb034ac5895636ee64c9d01defa6a38e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://84d3a3b3fd3afa2ab3231fd7fe981889dfb0600deec34c5d4e9c07d3187af8a5\",\"dweb:/ipfs/Qmanj7WjETqBYQXkxKLjqWs4vMp3en3N69B5MacKme5fpD\"]},\"node_modules/@latticexyz/store/src/codegen/tables/ResourceIds.sol\":{\"keccak256\":\"0xf7a9bf3e37b486377005c556cdf5b813ea1a41278b3a0349f81e3c82a2f1c789\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://92cc87add89abcb126bf3cd0b284f25065c2b9c90a49f8dba4629b28a5b87751\",\"dweb:/ipfs/QmNNBDSK5GNujERGiSUhorbmtpdD2UnGz7MqSSDasEGdub\"]},\"node_modules/@latticexyz/store/src/codegen/tables/StoreHooks.sol\":{\"keccak256\":\"0xa1186b8b6143b4a87cea1624785494398be1613cb7c6f9e57734e1cca1d5dd14\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://488c158082622689d035d7964c6ca063295e53078291c340eb6a23db08e8ff95\",\"dweb:/ipfs/QmWcjo3B5SH7jStXKAuf7qvF2ouz6syw9c7aT86PnTgRqW\"]},\"node_modules/@latticexyz/store/src/codegen/tables/Tables.sol\":{\"keccak256\":\"0xd47e1921c07fc8608157b5dc343fcef7235e891ea6a21dec1fb118a0bd797fcb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://01a6ad068e6991994a0939f22a55245e0c7c82fc5e274da0af616286a8acfc7a\",\"dweb:/ipfs/QmPokA3pSexzZY33MMV6BGx48ZwQegdUN5AijiAfycSDxy\"]},\"node_modules/@latticexyz/store/src/constants.sol\":{\"keccak256\":\"0x9e37c64c119ef07ad914bc589ee3f6d67946ab95877978c1ee3e2c1ffae07076\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3fad47e542025382aa28e8171253e34f93b2f149434b67a26989542d70218793\",\"dweb:/ipfs/QmW6JsKNwPc6oAMrgcikgR2EPwMUtQANiuZSQSGCd29HHC\"]},\"node_modules/@latticexyz/store/src/leftMask.sol\":{\"keccak256\":\"0xd0360567e4d77c6a8e3d8a5f4bf3653ccde4d268674c50988d55695dc6193f6f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://53e6bcb53fcb08ee9426225fdab7c41df91e12cb4f80d92895a6117338627401\",\"dweb:/ipfs/QmeLcaPGeMBpNSTSsPYK3PHpzKuGMjuitCweAWcoXK2mXr\"]},\"node_modules/@latticexyz/store/src/storeHookTypes.sol\":{\"keccak256\":\"0x60880298016fa117ed9a43ddfd020f11d98a2d345bdcb08e5884e40df98eddd5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3619dfda1fd514c0fc5fb34c14d5b5aa41dd6ba6045d37d5f4c8199f3a826f81\",\"dweb:/ipfs/QmbzRBYfVa423gNzCitpGN3i2N9oeGYfinVE1jgtqxnNZX\"]},\"node_modules/@latticexyz/store/src/storeResourceTypes.sol\":{\"keccak256\":\"0xada1867ba72930fc5cf5562dd4e36de849dbac9c833b7969cb1b046a808fabf2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6e4b5fdcaa54f567a3f8561c2c3fbc0d68c8dad892a4a8e5418bbce8efc53d84\",\"dweb:/ipfs/QmTWbYJX1yrCqrEwUKB9rGpHdRvLNU8GCkBbxnLjGD4d2t\"]},\"node_modules/@latticexyz/store/src/tightcoder/DecodeSlice.sol\":{\"keccak256\":\"0x1af0fd984640123391ec2df855d00298504b7ce186a56c2caca769cfd9e08e04\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7305a62318890d2cc6420ba7dec13d9f2c1cb67ac689015fc83b9cbccd0696f1\",\"dweb:/ipfs/QmR8jGNLbt64Tv1YZKRVBCVsd71oeUQFzGHHtpsrs4PuRq\"]},\"node_modules/@latticexyz/store/src/tightcoder/EncodeArray.sol\":{\"keccak256\":\"0x1c280d24360282e196d9c4833c58c2437108cea2af0ac7596f95be81389e306d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6b4556b6eeae9328fbd9adcce346547e823c397503276a4d63effb67e00b5b49\",\"dweb:/ipfs/QmUsynVsMYzjh8oJR8YB7SRrwFMdXcsQsHBrXxLEEFxsiB\"]},\"node_modules/@latticexyz/store/src/tightcoder/TightCoder.sol\":{\"keccak256\":\"0x5cacd4cb371e0a79bc8d64f62349d568fd8b08093c11ae0c3db4f16480d8808b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://12b64ddf2b5c19cf68ba93a8153ed79cbafe7a91e015d4b2f25eb1d42ab06256\",\"dweb:/ipfs/QmQz5WwztcuTbSGFv2pkhU3w5scUj1gmavoyUpduxk2v3A\"]},\"node_modules/@latticexyz/store/src/version.sol\":{\"keccak256\":\"0x01029999a48b7c1d85de84cae465dd24ec126c95b8a865cd20c7ed5dfcc0f02c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9750164ce996badb0fd7df2f526780b9cb9558912405fe46f31064bd7c522491\",\"dweb:/ipfs/QmYf8m2ZXFANRc9ysHgNkNtSF327ccxKYjCUJ49UXBKADk\"]},\"src/codegen/common.sol\":{\"keccak256\":\"0x3d34d5d8d6e7ad2a3e31e899c028ef9ba19a21a3b970d32709cb4afd757b7d13\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8ea61d660644bafd6670215d6df44694c0717674db8b2bff924a16031489d8e2\",\"dweb:/ipfs/QmcnuUEXmx9Dvu6et3kZRRw3rPUYgED6Ro6U9qqN5FZzag\"]},\"src/codegen/index.sol\":{\"keccak256\":\"0xfc495d5744b7c03464dbeb2322f7127a66b23c79739878079ffd0b46907dc850\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b34ac7d1e4dbd72c096ace9346e10564b252fd42badef56e1b8153050d39a8eb\",\"dweb:/ipfs/QmbMgE8ZngKfwuRPMjLWeWSPPUXfiNuKbR3i3ZCTPLz1mu\"]},\"src/codegen/tables/ActiveCombat.sol\":{\"keccak256\":\"0x2314aa92ae500ada724a268b247e1fc0e495ba53f9dc97ae2c97a41f1a7d7440\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://465265485f2ef7e9d52ce4b9d66daf1ab1358fd639eb0830ea0aa987fa9fffbf\",\"dweb:/ipfs/Qmczr2JhHMH1vJPxZBfMBegxmr9N6enZGptKQDz6cAesJK\"]},\"src/codegen/tables/ActiveCycle.sol\":{\"keccak256\":\"0xe1c0235fd72c903893b4770184922eed1c666cf49667ae9f8ee2e2edf35aada9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1a427b876db258a49810ac25c5bdf604b5177d58b53d0ae4fa2e298d29b659bf\",\"dweb:/ipfs/QmUFVKw7utt1Lvqq3vsPtxpGtPF22eHWBKLUMRV7BXuSug\"]},\"src/codegen/tables/ActiveGuise.sol\":{\"keccak256\":\"0xd4a85ad3143037484491f1567faccdb003266b44cd354f9210fc81a17062c7c2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://43b5868066361f3cf90263ee352a9831008a04b33f08b89843693b2311fd25ef\",\"dweb:/ipfs/QmaMZmEspS2gVzhqxPrzuzmeLvQKdWr9Ph95oa9YHr9WuU\"]},\"src/codegen/tables/CycleTurns.sol\":{\"keccak256\":\"0x7a28bfabb9112ee14eb9b8c625097ff4d1fb5378ecbefd5e81a33d7e7c055275\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3474e9911e7ab6219a30f856f24d0f15f8f357fc85f2f8a6dc3f7400d14a6306\",\"dweb:/ipfs/QmZKASdNt29HfoT6wH6aZA8s1WhKgQ8TuZfWEjBrdAEm1s\"]},\"src/codegen/tables/CycleTurnsLastClaimed.sol\":{\"keccak256\":\"0xb55e4bb77b294b32cdd9d8437c9d3870afe4441b499c93defda8c799e8ebbb01\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8894e4156d43e4e8d8658b149d6189778eac8f9486e29a6de69aefe5efbefb30\",\"dweb:/ipfs/QmPskPTe7WM8Kirdyz6PHTpvEokwfQr9Mhn2p2JvcxrUtL\"]},\"src/codegen/tables/DefaultWheel.sol\":{\"keccak256\":\"0x2d374ba7045af19700eb18c856b86ece0903595b228954450661f9731534097b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://14b9b86181410ff33218722b906728025a8f3aa3955f16af0cb7c61088dd420c\",\"dweb:/ipfs/QmdMdoLCeUhyc8TQBxYJ9ajqTdMsF8uoTMsyQB9B9429zs\"]},\"src/codegen/tables/EffectTemplate.sol\":{\"keccak256\":\"0xf3983a2741c4f00f9c3f84db525a03c1b87c82cfddac034b7612a14a8b7388a7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4facd626a5a0d58b1a323adfd397e7d8230103383cadeb85628f98409c5c4076\",\"dweb:/ipfs/QmUAtD2H24NumpkDg9scC2YUiJRnNDiz8Sx2NEF8ATuEAW\"]},\"src/codegen/tables/Experience.sol\":{\"keccak256\":\"0x418bbec96a9f2f3f0ba58216ff2e75f6abfa3ac86a951fb79f31274bc8142e5d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f738aa40d07e85fe82a3f35b533ac284ea24417d106210a165472492ce48feb6\",\"dweb:/ipfs/QmZwhmCXhxMk4YH3GofWgiMiBX8Zxm9CSVxkSqTijrMpSm\"]},\"src/codegen/tables/GuisePrototype.sol\":{\"keccak256\":\"0x049174056b252c98c4fed8a9b1bdbcda04cebe570a90cbd377a92404b46411d2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2d72e239915536f23990d277ed2a35c2dbfcfe152f6833f53c5c8083c390dadd\",\"dweb:/ipfs/QmY7Cb8CSDg5PphwC3WuZGWyJPFSNfaq8YMe9VAiQ786N6\"]},\"src/codegen/tables/LearnedSkills.sol\":{\"keccak256\":\"0xdff3aef915fb55b02926c8864ca931166ec20fd6d5bb7506ea1e256630c06aba\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f6d895527e0dce7c0b66aebffc7f1bb6a769f5aedf69fb3ceae615e491b4140b\",\"dweb:/ipfs/QmTnf9Uv9mQ9w2w9jyrWgE1KKdw9nHkan1U5eLJtSJwc4p\"]},\"src/codegen/tables/Name.sol\":{\"keccak256\":\"0x36c512676ff57026996d64f5aa34ac1246ee701cd2a61d57f9b6b99f60b8efb5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a8f4175803b58c11243b20118235cd41cb1ab6d057b404f9f0811e6ad90fb65c\",\"dweb:/ipfs/QmZC9r27tr7bh2pXgaT9HEXqeMmViSYqE8xiZ3bJmUvPrq\"]},\"src/codegen/tables/RNGPrecommit.sol\":{\"keccak256\":\"0x94e4d9b39879b3b298a9f9f2aaede65f568b13a58468b8933c1f6e04f96d7e58\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://24e458808bb7693185e0a6e87a929017bce6d34938d2bbccd9feb847140bf814\",\"dweb:/ipfs/Qmb8xSYvqg3H3aixVHzukA52K84ALMMkLi9HRkfdTMQnhv\"]},\"src/codegen/tables/RNGRequestOwner.sol\":{\"keccak256\":\"0x02d32e080a7e25acc645c90a5f7cd2863e9acdf9e31077b6ea3e6f50ed22df14\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://81a36e3548497d7db8337db237bdb45b4980af3acd4619e10111a3d70dc3e695\",\"dweb:/ipfs/QmUnpAegeTqx2embD1rRghrPFpedSCePhY9StAKDeABFNZ\"]},\"src/codegen/tables/SkillTemplate.sol\":{\"keccak256\":\"0xb94afc8669aa380c16203e272976ddde4b70008d5b5106e734a1825340d3e4cf\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://17190845106257f7b484e73676aa39608690ebe94d1faad24bf64cde4434271f\",\"dweb:/ipfs/QmYLKZMdZv8YKzJibLfXeERgYYeubxhKS7vfehny17z7Zp\"]},\"src/codegen/tables/StatmodBase.sol\":{\"keccak256\":\"0xc7807d705d6e6fa96fdea627de4a2cbcc8192117b154b79593272a9e8afa03db\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8c7e8e88d611a1f67f97a98b2b1ac72d9bd7e6fcda6292bbcaed7ac654dd4cd0\",\"dweb:/ipfs/QmeBSyRqGFePZ3SkPa1bZqhUxMv61FYC37CtmPrvtGxLCV\"]},\"src/codegen/tables/Tasks.sol\":{\"keccak256\":\"0x63bdaa88f20801cc0d8be8b33676b021a14ff9e389253974f4837761f4080300\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ce5212f2f5f0a2b33b2fc7b623bdd6c7ef03a743e39dad98f9921cfebaf97634\",\"dweb:/ipfs/Qmbc5ZDW1DnuV4mKrpMdo4MZ7UgYQWiaFvveABUYPd5xxu\"]},\"src/codegen/tables/Wheel.sol\":{\"keccak256\":\"0xb36bb0586cae6a7f773ac7fcc9dc3ffcfff6d66aa9a89abb4d35de5e98752823\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1613a6b8619b258ea61e6ec6242b7c3142c0b4f7bc8511b0528e7671db0173c5\",\"dweb:/ipfs/Qmd8ywHy99c8BsY6tvATmGWu2HVMdWDNpUyCvsBerJ7UAz\"]},\"src/cycle/LibCycleTurns.sol\":{\"keccak256\":\"0xfd3590a2c80eea62e864abe750f79574db255caab93163e2b71fd4679ee7578e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://71d7db7314b44ae86627f0e4cf51e24947d75e0dcddebb3129375eb274a86684\",\"dweb:/ipfs/QmU1kwLXahjq1r8ANdVeM4wheErmcK4bVsJq8X5wHFJyaY\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.21+commit.d9974bed"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "LibCycleTurns__NotEnoughTurns"
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@latticexyz/=node_modules/@latticexyz/",
+        "ds-test/=node_modules/ds-test/src/",
+        "forge-std/=node_modules/forge-std/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 3000
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "src/cycle/LibCycleTurns.sol": "LibCycleTurns"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "node_modules/@latticexyz/schema-type/src/solidity/SchemaType.sol": {
+        "keccak256": "0x770eff7a38b9b7b1613dc11ca09db4f28b42a117c9b39b2a06a650a58a250bdb",
+        "urls": [
+          "bzz-raw://39f544110658a53def52c2a4e33b8b158b95a4f14fccea58d5268b6e728d86d4",
+          "dweb:/ipfs/QmTesj6tjSFbfAiKUitXapdNYWPStS8bLkB3r22qfyHwUC"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Bytes.sol": {
+        "keccak256": "0xab31edce915377852bb5f29f7f2ccfc50cac087d64d2a8aae669715ad862d558",
+        "urls": [
+          "bzz-raw://3187e86e43be1fbdd59df45c695294f1114aa1ac48e6445c0cb26089434be5c4",
+          "dweb:/ipfs/Qmck7shMVrcKMVkgN2pC1byPY7hb3V9fTxnUcGgxAUeXYk"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/FieldLayout.sol": {
+        "keccak256": "0x2a0536cd6cecc479d0b81d5aad6380231f4d6873beadc54814d801c2036b02c0",
+        "urls": [
+          "bzz-raw://e07c041e19146a9ec258cc700a450b4d49440202895eb12f3bb17508427c23ba",
+          "dweb:/ipfs/QmXoqrCGDSkuFgNSMURRFdjokjREL78nLDzNaUi6rjefy9"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Hook.sol": {
+        "keccak256": "0x045024523eb55d08ad8d13eca6185bff2988865f4aa12e3f9372029c2ecb8ddd",
+        "urls": [
+          "bzz-raw://6621c53b49f8fe0557d1a1db47bfe1561801c09256948dd0652fb41541891a18",
+          "dweb:/ipfs/QmZgFVCUH1pKcc9MeFyzMe1VW87SLz6c9szGwrDRUp6BZe"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IERC165.sol": {
+        "keccak256": "0x2bbc3c43400c15a91a5cb35430a91309cb64a4d13a0a170eacec71dcf334feaf",
+        "urls": [
+          "bzz-raw://f44dfc9605067de539de07a76a34bf469faa9e6dad8c192abafc2e05860c7dd2",
+          "dweb:/ipfs/QmX8xgG6XWokM7YFwFZvmMhuh1uhkSjxCMD2oTHjUVdapb"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStore.sol": {
+        "keccak256": "0x9092b65551d0f910e5645cebb5acadb387cdd192d75fa89cd6b293bd65b28827",
+        "urls": [
+          "bzz-raw://478825a6f7eff9ddab968e71e1d55ebee279d3b318f10976d9334384000059c0",
+          "dweb:/ipfs/Qme7NY976woRy3RQjE4tkkiwoXnoVtTmER3PbWCSbjZ2kb"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreData.sol": {
+        "keccak256": "0xa8eade05c551aeef35c84727d7a44af239516deb2d8a0cfb7ebeb5d88c6995e5",
+        "urls": [
+          "bzz-raw://5335910bd8a204abb5f4396fb911a5ee5c221bd7fa63b1cc8ae5e737c6458c6a",
+          "dweb:/ipfs/QmckkCAfrNcWo3yDxoD1jCe1k4iDA2GzVDpFjJZs7W79vx"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreErrors.sol": {
+        "keccak256": "0xb9070663ded3cad82285bb7610949e422f88abb48c2ddbd792af83d127d64212",
+        "urls": [
+          "bzz-raw://830490f1c888bec86df1e7ef43773d60ebdbdfdb2b91ab7fe074e2f38d7439dc",
+          "dweb:/ipfs/QmS26fpXdZuGgMmjcdQDf9k1Bedn2dhjk9byFZJoNkctPZ"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreEvents.sol": {
+        "keccak256": "0xdd3104680808f975462a85cbd4fa87783ba5395797419caeeca37e8f8627a16f",
+        "urls": [
+          "bzz-raw://943864b7eb16ad2047ade5a8598e85c8a4b46d1aed6aef02bfb7cee8de732b4d",
+          "dweb:/ipfs/QmTEij4caToSNk15PFpubXYDy9QhwmPyP9tMXjUse2cTdv"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreHook.sol": {
+        "keccak256": "0xa6777c7868333996ad9c61a94457dcac702d8d7445a104dfdc86543d25e7470e",
+        "urls": [
+          "bzz-raw://6268a16449d7529a94746d0103670dd0e38faf5117bf914fb01da9947ab44c2e",
+          "dweb:/ipfs/QmaSfbx1QRA3jw2K8bGkQTw4CTGPUzNqnCJW7LwaFUJCXy"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreRead.sol": {
+        "keccak256": "0xd2180d53ecd31069b1166f170ecdcd85917ac50f45fc26fb39b49cee7ba00e37",
+        "urls": [
+          "bzz-raw://1494bb0a3228e2d194bddaed4761fd3ca865979f0e3f3a53acd271143a4aa0ac",
+          "dweb:/ipfs/Qmaddnzzmu99iP9dTWK9ZeByh5dZyjY9SpVnRdvyr2fBAo"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreRegistration.sol": {
+        "keccak256": "0xf448fbb2bc9c982721a43234463656da5a49cea08543e62148d54f11e1ac3e2f",
+        "urls": [
+          "bzz-raw://64b3579d9b9dcd73dca2beab3d4fcf60237420945ebbb2e9f4ffcc88f4110115",
+          "dweb:/ipfs/QmaW5nN3zGEriSYHncye6Nz2TkAw1oo1CyG2JuJTJrJoXg"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreWrite.sol": {
+        "keccak256": "0x8b6c7af5ee330928aebb58c8872d3944304ee10ed11f8a325b6accc4ec5df81b",
+        "urls": [
+          "bzz-raw://b866d158701c7a40834bed735194b804ef219f2bbe574e2307785fff7bcf9da1",
+          "dweb:/ipfs/QmXzJfZkXVfyr2RFGwDuazeVnV3UWYmQxjKZ3KzFbbe75U"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Memory.sol": {
+        "keccak256": "0x69295976e61a1a108d1b4d6eb497b238730309f3047c4320d48e01a0ce8d4ec7",
+        "urls": [
+          "bzz-raw://559c451b21fb9dd4fec27b41bef42f4362f1e7ebb7992106d548b9d4f733b3e5",
+          "dweb:/ipfs/QmeSE7YTW5zUrfZYFVb2pFnDe3XxiT8XNecfwC3wfpxCRv"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/PackedCounter.sol": {
+        "keccak256": "0x44ddfa9eb8a861462c550f0a9d66c40c68acdb347a61fa765949608407a2c7fb",
+        "urls": [
+          "bzz-raw://47ee957f4b19cab9e20bf5fc569c015eca13852fb3351f2a105a8be9c48204c0",
+          "dweb:/ipfs/QmNkyzDobVQLoq9BtQ8HtgsPLiqnmi97EZx1wsu6wp8nKH"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/ResourceId.sol": {
+        "keccak256": "0x40983c580b8958e55db4520095934a535e98544ffe8228327e598973eb6647ed",
+        "urls": [
+          "bzz-raw://839d658fa2bb2b1f09a08149d2bf0c26a26c301ad2dda8154fc99458085a695d",
+          "dweb:/ipfs/Qmd5jHHYrgqraPqF8bjzT4xyjsoPk8K7pkxXLLfz6MRT6d"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Schema.sol": {
+        "keccak256": "0x58aef318ba03f8ff8866ef70f8a30f549b150657ea699734aefe16c298956401",
+        "urls": [
+          "bzz-raw://7dc104690a7e2bcf5ce1afadcd58f8ef4d639b4b92b9ad9293656235d54395f3",
+          "dweb:/ipfs/QmYJJvEv5KBJ3kzf9AkgRn7Uu5dp4exGTRddf4cae1btgE"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Slice.sol": {
+        "keccak256": "0xfaf54b1f5acccd4c6ce3f8377050ee84efbb423cb604b4651e8b9ea3b467bf32",
+        "urls": [
+          "bzz-raw://acf2ce7ffec21f28ad1dc6da06c342f1212a03a3d16a0be7ee85715a5940718c",
+          "dweb:/ipfs/QmTCN3NSdFg87hi7KS2Xtq7PsmRUMG64SxC8PtP3p2GzuT"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Storage.sol": {
+        "keccak256": "0x0893905ebe431a414226b479a84a54804091001a406222c748adbd4b651853a5",
+        "urls": [
+          "bzz-raw://bcfcd3848127884041f0bcd727a0e7acbddec283aa6c16ba47abc6a3be720648",
+          "dweb:/ipfs/QmY5fBd53e4Ro6vzTZYsteSibSTXVA3GHTeCAiUZTa5DPZ"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/StoreCore.sol": {
+        "keccak256": "0x95b7d62d84b43777c54dd1c7d941dbb5ba0afc02c444c30cfdb1de671bbbf180",
+        "urls": [
+          "bzz-raw://fe62a2fdb2a73610c3072f31b7f88ed3f9d03c1009fe0f0ef37a7eb814b23534",
+          "dweb:/ipfs/QmV85zaV5HAD6eGc5N4RmdtmpR6EwkswVLQTaR2aJqsXrj"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/StoreSwitch.sol": {
+        "keccak256": "0xf132af10f960a498f49c0534027056e715f4bdcb8fbdb53ac6879c92309ab416",
+        "urls": [
+          "bzz-raw://e85a09aeb7543bcd9d74b7ad319ae61e1f7f15a6a0ad9e79aff750fbd18111c7",
+          "dweb:/ipfs/QmY6xgqeeaR1FsCPLmFbVgjm1D2UyrXNABKXWLfFaSmBhR"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/codegen/index.sol": {
+        "keccak256": "0xf337a5abb2d43ef00c1c200e7fbec30fc89c7c701e457ab4277194b700d2aea3",
+        "urls": [
+          "bzz-raw://eccdf6158076b4e8f1b587a0310228f53323705e054a44eaa7733f38805c3ee6",
+          "dweb:/ipfs/QmbXEVNTctg54dK9awdCVyAjeuUjR6ckfmmXBP8DrFmjyq"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/codegen/tables/Hooks.sol": {
+        "keccak256": "0xc5c6f807cff6b4dc486525c559ba3f7cbb034ac5895636ee64c9d01defa6a38e",
+        "urls": [
+          "bzz-raw://84d3a3b3fd3afa2ab3231fd7fe981889dfb0600deec34c5d4e9c07d3187af8a5",
+          "dweb:/ipfs/Qmanj7WjETqBYQXkxKLjqWs4vMp3en3N69B5MacKme5fpD"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/codegen/tables/ResourceIds.sol": {
+        "keccak256": "0xf7a9bf3e37b486377005c556cdf5b813ea1a41278b3a0349f81e3c82a2f1c789",
+        "urls": [
+          "bzz-raw://92cc87add89abcb126bf3cd0b284f25065c2b9c90a49f8dba4629b28a5b87751",
+          "dweb:/ipfs/QmNNBDSK5GNujERGiSUhorbmtpdD2UnGz7MqSSDasEGdub"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/codegen/tables/StoreHooks.sol": {
+        "keccak256": "0xa1186b8b6143b4a87cea1624785494398be1613cb7c6f9e57734e1cca1d5dd14",
+        "urls": [
+          "bzz-raw://488c158082622689d035d7964c6ca063295e53078291c340eb6a23db08e8ff95",
+          "dweb:/ipfs/QmWcjo3B5SH7jStXKAuf7qvF2ouz6syw9c7aT86PnTgRqW"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/codegen/tables/Tables.sol": {
+        "keccak256": "0xd47e1921c07fc8608157b5dc343fcef7235e891ea6a21dec1fb118a0bd797fcb",
+        "urls": [
+          "bzz-raw://01a6ad068e6991994a0939f22a55245e0c7c82fc5e274da0af616286a8acfc7a",
+          "dweb:/ipfs/QmPokA3pSexzZY33MMV6BGx48ZwQegdUN5AijiAfycSDxy"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/constants.sol": {
+        "keccak256": "0x9e37c64c119ef07ad914bc589ee3f6d67946ab95877978c1ee3e2c1ffae07076",
+        "urls": [
+          "bzz-raw://3fad47e542025382aa28e8171253e34f93b2f149434b67a26989542d70218793",
+          "dweb:/ipfs/QmW6JsKNwPc6oAMrgcikgR2EPwMUtQANiuZSQSGCd29HHC"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/leftMask.sol": {
+        "keccak256": "0xd0360567e4d77c6a8e3d8a5f4bf3653ccde4d268674c50988d55695dc6193f6f",
+        "urls": [
+          "bzz-raw://53e6bcb53fcb08ee9426225fdab7c41df91e12cb4f80d92895a6117338627401",
+          "dweb:/ipfs/QmeLcaPGeMBpNSTSsPYK3PHpzKuGMjuitCweAWcoXK2mXr"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/storeHookTypes.sol": {
+        "keccak256": "0x60880298016fa117ed9a43ddfd020f11d98a2d345bdcb08e5884e40df98eddd5",
+        "urls": [
+          "bzz-raw://3619dfda1fd514c0fc5fb34c14d5b5aa41dd6ba6045d37d5f4c8199f3a826f81",
+          "dweb:/ipfs/QmbzRBYfVa423gNzCitpGN3i2N9oeGYfinVE1jgtqxnNZX"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/storeResourceTypes.sol": {
+        "keccak256": "0xada1867ba72930fc5cf5562dd4e36de849dbac9c833b7969cb1b046a808fabf2",
+        "urls": [
+          "bzz-raw://6e4b5fdcaa54f567a3f8561c2c3fbc0d68c8dad892a4a8e5418bbce8efc53d84",
+          "dweb:/ipfs/QmTWbYJX1yrCqrEwUKB9rGpHdRvLNU8GCkBbxnLjGD4d2t"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/tightcoder/DecodeSlice.sol": {
+        "keccak256": "0x1af0fd984640123391ec2df855d00298504b7ce186a56c2caca769cfd9e08e04",
+        "urls": [
+          "bzz-raw://7305a62318890d2cc6420ba7dec13d9f2c1cb67ac689015fc83b9cbccd0696f1",
+          "dweb:/ipfs/QmR8jGNLbt64Tv1YZKRVBCVsd71oeUQFzGHHtpsrs4PuRq"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/tightcoder/EncodeArray.sol": {
+        "keccak256": "0x1c280d24360282e196d9c4833c58c2437108cea2af0ac7596f95be81389e306d",
+        "urls": [
+          "bzz-raw://6b4556b6eeae9328fbd9adcce346547e823c397503276a4d63effb67e00b5b49",
+          "dweb:/ipfs/QmUsynVsMYzjh8oJR8YB7SRrwFMdXcsQsHBrXxLEEFxsiB"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/tightcoder/TightCoder.sol": {
+        "keccak256": "0x5cacd4cb371e0a79bc8d64f62349d568fd8b08093c11ae0c3db4f16480d8808b",
+        "urls": [
+          "bzz-raw://12b64ddf2b5c19cf68ba93a8153ed79cbafe7a91e015d4b2f25eb1d42ab06256",
+          "dweb:/ipfs/QmQz5WwztcuTbSGFv2pkhU3w5scUj1gmavoyUpduxk2v3A"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/version.sol": {
+        "keccak256": "0x01029999a48b7c1d85de84cae465dd24ec126c95b8a865cd20c7ed5dfcc0f02c",
+        "urls": [
+          "bzz-raw://9750164ce996badb0fd7df2f526780b9cb9558912405fe46f31064bd7c522491",
+          "dweb:/ipfs/QmYf8m2ZXFANRc9ysHgNkNtSF327ccxKYjCUJ49UXBKADk"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/common.sol": {
+        "keccak256": "0x3d34d5d8d6e7ad2a3e31e899c028ef9ba19a21a3b970d32709cb4afd757b7d13",
+        "urls": [
+          "bzz-raw://8ea61d660644bafd6670215d6df44694c0717674db8b2bff924a16031489d8e2",
+          "dweb:/ipfs/QmcnuUEXmx9Dvu6et3kZRRw3rPUYgED6Ro6U9qqN5FZzag"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/index.sol": {
+        "keccak256": "0xfc495d5744b7c03464dbeb2322f7127a66b23c79739878079ffd0b46907dc850",
+        "urls": [
+          "bzz-raw://b34ac7d1e4dbd72c096ace9346e10564b252fd42badef56e1b8153050d39a8eb",
+          "dweb:/ipfs/QmbMgE8ZngKfwuRPMjLWeWSPPUXfiNuKbR3i3ZCTPLz1mu"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/ActiveCombat.sol": {
+        "keccak256": "0x2314aa92ae500ada724a268b247e1fc0e495ba53f9dc97ae2c97a41f1a7d7440",
+        "urls": [
+          "bzz-raw://465265485f2ef7e9d52ce4b9d66daf1ab1358fd639eb0830ea0aa987fa9fffbf",
+          "dweb:/ipfs/Qmczr2JhHMH1vJPxZBfMBegxmr9N6enZGptKQDz6cAesJK"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/ActiveCycle.sol": {
+        "keccak256": "0xe1c0235fd72c903893b4770184922eed1c666cf49667ae9f8ee2e2edf35aada9",
+        "urls": [
+          "bzz-raw://1a427b876db258a49810ac25c5bdf604b5177d58b53d0ae4fa2e298d29b659bf",
+          "dweb:/ipfs/QmUFVKw7utt1Lvqq3vsPtxpGtPF22eHWBKLUMRV7BXuSug"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/ActiveGuise.sol": {
+        "keccak256": "0xd4a85ad3143037484491f1567faccdb003266b44cd354f9210fc81a17062c7c2",
+        "urls": [
+          "bzz-raw://43b5868066361f3cf90263ee352a9831008a04b33f08b89843693b2311fd25ef",
+          "dweb:/ipfs/QmaMZmEspS2gVzhqxPrzuzmeLvQKdWr9Ph95oa9YHr9WuU"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/CycleTurns.sol": {
+        "keccak256": "0x7a28bfabb9112ee14eb9b8c625097ff4d1fb5378ecbefd5e81a33d7e7c055275",
+        "urls": [
+          "bzz-raw://3474e9911e7ab6219a30f856f24d0f15f8f357fc85f2f8a6dc3f7400d14a6306",
+          "dweb:/ipfs/QmZKASdNt29HfoT6wH6aZA8s1WhKgQ8TuZfWEjBrdAEm1s"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/CycleTurnsLastClaimed.sol": {
+        "keccak256": "0xb55e4bb77b294b32cdd9d8437c9d3870afe4441b499c93defda8c799e8ebbb01",
+        "urls": [
+          "bzz-raw://8894e4156d43e4e8d8658b149d6189778eac8f9486e29a6de69aefe5efbefb30",
+          "dweb:/ipfs/QmPskPTe7WM8Kirdyz6PHTpvEokwfQr9Mhn2p2JvcxrUtL"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/DefaultWheel.sol": {
+        "keccak256": "0x2d374ba7045af19700eb18c856b86ece0903595b228954450661f9731534097b",
+        "urls": [
+          "bzz-raw://14b9b86181410ff33218722b906728025a8f3aa3955f16af0cb7c61088dd420c",
+          "dweb:/ipfs/QmdMdoLCeUhyc8TQBxYJ9ajqTdMsF8uoTMsyQB9B9429zs"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/EffectTemplate.sol": {
+        "keccak256": "0xf3983a2741c4f00f9c3f84db525a03c1b87c82cfddac034b7612a14a8b7388a7",
+        "urls": [
+          "bzz-raw://4facd626a5a0d58b1a323adfd397e7d8230103383cadeb85628f98409c5c4076",
+          "dweb:/ipfs/QmUAtD2H24NumpkDg9scC2YUiJRnNDiz8Sx2NEF8ATuEAW"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/Experience.sol": {
+        "keccak256": "0x418bbec96a9f2f3f0ba58216ff2e75f6abfa3ac86a951fb79f31274bc8142e5d",
+        "urls": [
+          "bzz-raw://f738aa40d07e85fe82a3f35b533ac284ea24417d106210a165472492ce48feb6",
+          "dweb:/ipfs/QmZwhmCXhxMk4YH3GofWgiMiBX8Zxm9CSVxkSqTijrMpSm"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/GuisePrototype.sol": {
+        "keccak256": "0x049174056b252c98c4fed8a9b1bdbcda04cebe570a90cbd377a92404b46411d2",
+        "urls": [
+          "bzz-raw://2d72e239915536f23990d277ed2a35c2dbfcfe152f6833f53c5c8083c390dadd",
+          "dweb:/ipfs/QmY7Cb8CSDg5PphwC3WuZGWyJPFSNfaq8YMe9VAiQ786N6"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/LearnedSkills.sol": {
+        "keccak256": "0xdff3aef915fb55b02926c8864ca931166ec20fd6d5bb7506ea1e256630c06aba",
+        "urls": [
+          "bzz-raw://f6d895527e0dce7c0b66aebffc7f1bb6a769f5aedf69fb3ceae615e491b4140b",
+          "dweb:/ipfs/QmTnf9Uv9mQ9w2w9jyrWgE1KKdw9nHkan1U5eLJtSJwc4p"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/Name.sol": {
+        "keccak256": "0x36c512676ff57026996d64f5aa34ac1246ee701cd2a61d57f9b6b99f60b8efb5",
+        "urls": [
+          "bzz-raw://a8f4175803b58c11243b20118235cd41cb1ab6d057b404f9f0811e6ad90fb65c",
+          "dweb:/ipfs/QmZC9r27tr7bh2pXgaT9HEXqeMmViSYqE8xiZ3bJmUvPrq"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/RNGPrecommit.sol": {
+        "keccak256": "0x94e4d9b39879b3b298a9f9f2aaede65f568b13a58468b8933c1f6e04f96d7e58",
+        "urls": [
+          "bzz-raw://24e458808bb7693185e0a6e87a929017bce6d34938d2bbccd9feb847140bf814",
+          "dweb:/ipfs/Qmb8xSYvqg3H3aixVHzukA52K84ALMMkLi9HRkfdTMQnhv"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/RNGRequestOwner.sol": {
+        "keccak256": "0x02d32e080a7e25acc645c90a5f7cd2863e9acdf9e31077b6ea3e6f50ed22df14",
+        "urls": [
+          "bzz-raw://81a36e3548497d7db8337db237bdb45b4980af3acd4619e10111a3d70dc3e695",
+          "dweb:/ipfs/QmUnpAegeTqx2embD1rRghrPFpedSCePhY9StAKDeABFNZ"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/SkillTemplate.sol": {
+        "keccak256": "0xb94afc8669aa380c16203e272976ddde4b70008d5b5106e734a1825340d3e4cf",
+        "urls": [
+          "bzz-raw://17190845106257f7b484e73676aa39608690ebe94d1faad24bf64cde4434271f",
+          "dweb:/ipfs/QmYLKZMdZv8YKzJibLfXeERgYYeubxhKS7vfehny17z7Zp"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/StatmodBase.sol": {
+        "keccak256": "0xc7807d705d6e6fa96fdea627de4a2cbcc8192117b154b79593272a9e8afa03db",
+        "urls": [
+          "bzz-raw://8c7e8e88d611a1f67f97a98b2b1ac72d9bd7e6fcda6292bbcaed7ac654dd4cd0",
+          "dweb:/ipfs/QmeBSyRqGFePZ3SkPa1bZqhUxMv61FYC37CtmPrvtGxLCV"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/Tasks.sol": {
+        "keccak256": "0x63bdaa88f20801cc0d8be8b33676b021a14ff9e389253974f4837761f4080300",
+        "urls": [
+          "bzz-raw://ce5212f2f5f0a2b33b2fc7b623bdd6c7ef03a743e39dad98f9921cfebaf97634",
+          "dweb:/ipfs/Qmbc5ZDW1DnuV4mKrpMdo4MZ7UgYQWiaFvveABUYPd5xxu"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/Wheel.sol": {
+        "keccak256": "0xb36bb0586cae6a7f773ac7fcc9dc3ffcfff6d66aa9a89abb4d35de5e98752823",
+        "urls": [
+          "bzz-raw://1613a6b8619b258ea61e6ec6242b7c3142c0b4f7bc8511b0528e7671db0173c5",
+          "dweb:/ipfs/Qmd8ywHy99c8BsY6tvATmGWu2HVMdWDNpUyCvsBerJ7UAz"
+        ],
+        "license": "MIT"
+      },
+      "src/cycle/LibCycleTurns.sol": {
+        "keccak256": "0xfd3590a2c80eea62e864abe750f79574db255caab93163e2b71fd4679ee7578e",
+        "urls": [
+          "bzz-raw://71d7db7314b44ae86627f0e4cf51e24947d75e0dcddebb3129375eb274a86684",
+          "dweb:/ipfs/QmU1kwLXahjq1r8ANdVeM4wheErmcK4bVsJq8X5wHFJyaY"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "src/cycle/LibCycleTurns.sol",
+    "id": 112707,
+    "exportedSymbols": {
+      "ActiveGuise": [
+        94348
+      ],
+      "CycleTurns": [
+        95049
+      ],
+      "CycleTurnsLastClaimed": [
+        95750
+      ],
+      "LibCycleTurns": [
+        112706
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:2854:190",
+    "nodes": [
+      {
+        "id": 112491,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:190",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 112495,
+        "nodeType": "ImportDirective",
+        "src": "59:86:190",
+        "nodes": [],
+        "absolutePath": "src/codegen/index.sol",
+        "file": "../codegen/index.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 112707,
+        "sourceUnit": 92270,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 112492,
+              "name": "CycleTurns",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 95049,
+              "src": "68:10:190",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 112493,
+              "name": "CycleTurnsLastClaimed",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 95750,
+              "src": "80:21:190",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 112494,
+              "name": "ActiveGuise",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 94348,
+              "src": "103:11:190",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 112706,
+        "nodeType": "ContractDefinition",
+        "src": "147:2739:190",
+        "nodes": [
+          {
+            "id": 112497,
+            "nodeType": "ErrorDefinition",
+            "src": "173:38:190",
+            "nodes": [],
+            "errorSelector": "237276f2",
+            "name": "LibCycleTurns__NotEnoughTurns",
+            "nameLocation": "179:29:190",
+            "parameters": {
+              "id": 112496,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "208:2:190"
+            }
+          },
+          {
+            "id": 112500,
+            "nodeType": "VariableDeclaration",
+            "src": "264:39:190",
+            "nodes": [],
+            "constant": true,
+            "mutability": "constant",
+            "name": "ACC_PERIOD",
+            "nameLocation": "281:10:190",
+            "scope": 112706,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 112498,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "264:7:190",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "hexValue": "31",
+              "id": 112499,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "294:9:190",
+              "subdenomination": "minutes",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_60_by_1",
+                "typeString": "int_const 60"
+              },
+              "value": "1"
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 112503,
+            "nodeType": "VariableDeclaration",
+            "src": "307:37:190",
+            "nodes": [],
+            "constant": true,
+            "mutability": "constant",
+            "name": "TURNS_PER_PERIOD",
+            "nameLocation": "323:16:190",
+            "scope": 112706,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint32",
+              "typeString": "uint32"
+            },
+            "typeName": {
+              "id": 112501,
+              "name": "uint32",
+              "nodeType": "ElementaryTypeName",
+              "src": "307:6:190",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint32",
+                "typeString": "uint32"
+              }
+            },
+            "value": {
+              "hexValue": "3130",
+              "id": 112502,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "342:2:190",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_10_by_1",
+                "typeString": "int_const 10"
+              },
+              "value": "10"
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 112506,
+            "nodeType": "VariableDeclaration",
+            "src": "348:35:190",
+            "nodes": [],
+            "constant": true,
+            "mutability": "constant",
+            "name": "MAX_ACC_PERIODS",
+            "nameLocation": "364:15:190",
+            "scope": 112706,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint32",
+              "typeString": "uint32"
+            },
+            "typeName": {
+              "id": 112504,
+              "name": "uint32",
+              "nodeType": "ElementaryTypeName",
+              "src": "348:6:190",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint32",
+                "typeString": "uint32"
+              }
+            },
+            "value": {
+              "hexValue": "32",
+              "id": 112505,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "382:1:190",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_2_by_1",
+                "typeString": "int_const 2"
+              },
+              "value": "2"
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 112509,
+            "nodeType": "VariableDeclaration",
+            "src": "387:48:190",
+            "nodes": [],
+            "constant": true,
+            "mutability": "constant",
+            "name": "MAX_CURRENT_TURNS_FOR_CLAIM",
+            "nameLocation": "403:27:190",
+            "scope": 112706,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint32",
+              "typeString": "uint32"
+            },
+            "typeName": {
+              "id": 112507,
+              "name": "uint32",
+              "nodeType": "ElementaryTypeName",
+              "src": "387:6:190",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint32",
+                "typeString": "uint32"
+              }
+            },
+            "value": {
+              "hexValue": "3530",
+              "id": 112508,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "433:2:190",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_50_by_1",
+                "typeString": "int_const 50"
+              },
+              "value": "50"
+            },
+            "visibility": "internal"
+          },
+          {
+            "id": 112523,
+            "nodeType": "FunctionDefinition",
+            "src": "502:115:190",
+            "nodes": [],
+            "body": {
+              "id": 112522,
+              "nodeType": "Block",
+              "src": "572:45:190",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 112519,
+                        "name": "cycleEntity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112512,
+                        "src": "600:11:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      ],
+                      "expression": {
+                        "id": 112517,
+                        "name": "CycleTurns",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 95049,
+                        "src": "585:10:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_CycleTurns_$95049_$",
+                          "typeString": "type(library CycleTurns)"
+                        }
+                      },
+                      "id": 112518,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "596:3:190",
+                      "memberName": "get",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 94705,
+                      "src": "585:14:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$_t_bytes32_$returns$_t_uint32_$",
+                        "typeString": "function (bytes32) view returns (uint32)"
+                      }
+                    },
+                    "id": 112520,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "585:27:190",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "functionReturnParameters": 112516,
+                  "id": 112521,
+                  "nodeType": "Return",
+                  "src": "578:34:190"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 112510,
+              "nodeType": "StructuredDocumentation",
+              "src": "440:59:190",
+              "text": "@dev Get the number of currently available cycle turns."
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTurns",
+            "nameLocation": "511:8:190",
+            "parameters": {
+              "id": 112513,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 112512,
+                  "mutability": "mutable",
+                  "name": "cycleEntity",
+                  "nameLocation": "528:11:190",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112523,
+                  "src": "520:19:190",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 112511,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "520:7:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "519:21:190"
+            },
+            "returnParameters": {
+              "id": 112516,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 112515,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112523,
+                  "src": "564:6:190",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 112514,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "564:6:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "563:8:190"
+            },
+            "scope": 112706,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "id": 112555,
+            "nodeType": "FunctionDefinition",
+            "src": "681:261:190",
+            "nodes": [],
+            "body": {
+              "id": 112554,
+              "nodeType": "Block",
+              "src": "751:191:190",
+              "nodes": [],
+              "statements": [
+                {
+                  "assignments": [
+                    112532
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 112532,
+                      "mutability": "mutable",
+                      "name": "currentTurns",
+                      "nameLocation": "764:12:190",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 112554,
+                      "src": "757:19:190",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint32",
+                        "typeString": "uint32"
+                      },
+                      "typeName": {
+                        "id": 112531,
+                        "name": "uint32",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "757:6:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 112537,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "id": 112535,
+                        "name": "cycleEntity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112526,
+                        "src": "794:11:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      ],
+                      "expression": {
+                        "id": 112533,
+                        "name": "CycleTurns",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 95049,
+                        "src": "779:10:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_CycleTurns_$95049_$",
+                          "typeString": "type(library CycleTurns)"
+                        }
+                      },
+                      "id": 112534,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "790:3:190",
+                      "memberName": "get",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 94705,
+                      "src": "779:14:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$_t_bytes32_$returns$_t_uint32_$",
+                        "typeString": "function (bytes32) view returns (uint32)"
+                      }
+                    },
+                    "id": 112536,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "779:27:190",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "757:49:190"
+                },
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    },
+                    "id": 112540,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 112538,
+                      "name": "subTurns",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112528,
+                      "src": "816:8:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint32",
+                        "typeString": "uint32"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": ">",
+                    "rightExpression": {
+                      "id": 112539,
+                      "name": "currentTurns",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112532,
+                      "src": "827:12:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint32",
+                        "typeString": "uint32"
+                      }
+                    },
+                    "src": "816:23:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 112544,
+                  "nodeType": "IfStatement",
+                  "src": "812:67:190",
+                  "trueBody": {
+                    "errorCall": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "id": 112541,
+                        "name": "LibCycleTurns__NotEnoughTurns",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112497,
+                        "src": "848:29:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_error_pure$__$returns$__$",
+                          "typeString": "function () pure"
+                        }
+                      },
+                      "id": 112542,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "848:31:190",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_tuple$__$",
+                        "typeString": "tuple()"
+                      }
+                    },
+                    "id": 112543,
+                    "nodeType": "RevertStatement",
+                    "src": "841:38:190"
+                  }
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 112548,
+                        "name": "cycleEntity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112526,
+                        "src": "900:11:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "commonType": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        },
+                        "id": 112551,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "id": 112549,
+                          "name": "currentTurns",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 112532,
+                          "src": "913:12:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "-",
+                        "rightExpression": {
+                          "id": 112550,
+                          "name": "subTurns",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 112528,
+                          "src": "928:8:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          }
+                        },
+                        "src": "913:23:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      ],
+                      "expression": {
+                        "id": 112545,
+                        "name": "CycleTurns",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 95049,
+                        "src": "885:10:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_CycleTurns_$95049_$",
+                          "typeString": "type(library CycleTurns)"
+                        }
+                      },
+                      "id": 112547,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "896:3:190",
+                      "memberName": "set",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 94870,
+                      "src": "885:14:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_uint32_$returns$__$",
+                        "typeString": "function (bytes32,uint32)"
+                      }
+                    },
+                    "id": 112552,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "885:52:190",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 112553,
+                  "nodeType": "ExpressionStatement",
+                  "src": "885:52:190"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 112524,
+              "nodeType": "StructuredDocumentation",
+              "src": "621:57:190",
+              "text": "@dev Decrease entity's available turns by `subTurns`."
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "decreaseTurns",
+            "nameLocation": "690:13:190",
+            "parameters": {
+              "id": 112529,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 112526,
+                  "mutability": "mutable",
+                  "name": "cycleEntity",
+                  "nameLocation": "712:11:190",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112555,
+                  "src": "704:19:190",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 112525,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "704:7:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 112528,
+                  "mutability": "mutable",
+                  "name": "subTurns",
+                  "nameLocation": "732:8:190",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112555,
+                  "src": "725:15:190",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 112527,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "725:6:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "703:38:190"
+            },
+            "returnParameters": {
+              "id": 112530,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "751:0:190"
+            },
+            "scope": 112706,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "id": 112596,
+            "nodeType": "FunctionDefinition",
+            "src": "985:301:190",
+            "nodes": [],
+            "body": {
+              "id": 112595,
+              "nodeType": "Block",
+              "src": "1035:251:190",
+              "nodes": [],
+              "statements": [
+                {
+                  "assignments": [
+                    112562
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 112562,
+                      "mutability": "mutable",
+                      "name": "claimableTurns",
+                      "nameLocation": "1048:14:190",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 112595,
+                      "src": "1041:21:190",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint32",
+                        "typeString": "uint32"
+                      },
+                      "typeName": {
+                        "id": 112561,
+                        "name": "uint32",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "1041:6:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 112566,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "id": 112564,
+                        "name": "cycleEntity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112558,
+                        "src": "1083:11:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      ],
+                      "id": 112563,
+                      "name": "getClaimableTurns",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112650,
+                      "src": "1065:17:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$_t_bytes32_$returns$_t_uint32_$",
+                        "typeString": "function (bytes32) view returns (uint32)"
+                      }
+                    },
+                    "id": 112565,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1065:30:190",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1041:54:190"
+                },
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    },
+                    "id": 112569,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 112567,
+                      "name": "claimableTurns",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112562,
+                      "src": "1105:14:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint32",
+                        "typeString": "uint32"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "hexValue": "30",
+                      "id": 112568,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "1123:1:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "src": "1105:19:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 112571,
+                  "nodeType": "IfStatement",
+                  "src": "1101:32:190",
+                  "trueBody": {
+                    "functionReturnParameters": 112560,
+                    "id": 112570,
+                    "nodeType": "Return",
+                    "src": "1126:7:190"
+                  }
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 112575,
+                        "name": "cycleEntity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112558,
+                        "src": "1154:11:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "commonType": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        },
+                        "id": 112581,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "arguments": [
+                            {
+                              "id": 112578,
+                              "name": "cycleEntity",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 112558,
+                              "src": "1182:11:190",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_bytes32",
+                                "typeString": "bytes32"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_bytes32",
+                                "typeString": "bytes32"
+                              }
+                            ],
+                            "expression": {
+                              "id": 112576,
+                              "name": "CycleTurns",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 95049,
+                              "src": "1167:10:190",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_contract$_CycleTurns_$95049_$",
+                                "typeString": "type(library CycleTurns)"
+                              }
+                            },
+                            "id": 112577,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberLocation": "1178:3:190",
+                            "memberName": "get",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": 94705,
+                            "src": "1167:14:190",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_internal_view$_t_bytes32_$returns$_t_uint32_$",
+                              "typeString": "function (bytes32) view returns (uint32)"
+                            }
+                          },
+                          "id": 112579,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "nameLocations": [],
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1167:27:190",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "+",
+                        "rightExpression": {
+                          "id": 112580,
+                          "name": "claimableTurns",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 112562,
+                          "src": "1197:14:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          }
+                        },
+                        "src": "1167:44:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      ],
+                      "expression": {
+                        "id": 112572,
+                        "name": "CycleTurns",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 95049,
+                        "src": "1139:10:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_CycleTurns_$95049_$",
+                          "typeString": "type(library CycleTurns)"
+                        }
+                      },
+                      "id": 112574,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "1150:3:190",
+                      "memberName": "set",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 94870,
+                      "src": "1139:14:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_uint32_$returns$__$",
+                        "typeString": "function (bytes32,uint32)"
+                      }
+                    },
+                    "id": 112582,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1139:73:190",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 112583,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1139:73:190"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 112587,
+                        "name": "cycleEntity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112558,
+                        "src": "1244:11:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "arguments": [
+                          {
+                            "expression": {
+                              "id": 112590,
+                              "name": "block",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": -4,
+                              "src": "1264:5:190",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_magic_block",
+                                "typeString": "block"
+                              }
+                            },
+                            "id": 112591,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberLocation": "1270:9:190",
+                            "memberName": "timestamp",
+                            "nodeType": "MemberAccess",
+                            "src": "1264:15:190",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          ],
+                          "id": 112589,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "nodeType": "ElementaryTypeNameExpression",
+                          "src": "1257:6:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_uint48_$",
+                            "typeString": "type(uint48)"
+                          },
+                          "typeName": {
+                            "id": 112588,
+                            "name": "uint48",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "1257:6:190",
+                            "typeDescriptions": {}
+                          }
+                        },
+                        "id": 112592,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1257:23:190",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint48",
+                          "typeString": "uint48"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_uint48",
+                          "typeString": "uint48"
+                        }
+                      ],
+                      "expression": {
+                        "id": 112584,
+                        "name": "CycleTurnsLastClaimed",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 95750,
+                        "src": "1218:21:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_CycleTurnsLastClaimed_$95750_$",
+                          "typeString": "type(library CycleTurnsLastClaimed)"
+                        }
+                      },
+                      "id": 112586,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "1240:3:190",
+                      "memberName": "set",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 95571,
+                      "src": "1218:25:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_uint48_$returns$__$",
+                        "typeString": "function (bytes32,uint48)"
+                      }
+                    },
+                    "id": 112593,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1218:63:190",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 112594,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1218:63:190"
+                }
+              ]
+            },
+            "documentation": {
+              "id": 112556,
+              "nodeType": "StructuredDocumentation",
+              "src": "946:36:190",
+              "text": "@dev Claims all claimable turns."
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "claimTurns",
+            "nameLocation": "994:10:190",
+            "parameters": {
+              "id": 112559,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 112558,
+                  "mutability": "mutable",
+                  "name": "cycleEntity",
+                  "nameLocation": "1013:11:190",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112596,
+                  "src": "1005:19:190",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 112557,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1005:7:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1004:21:190"
+            },
+            "returnParameters": {
+              "id": 112560,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1035:0:190"
+            },
+            "scope": 112706,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "id": 112650,
+            "nodeType": "FunctionDefinition",
+            "src": "1385:592:190",
+            "nodes": [],
+            "body": {
+              "id": 112649,
+              "nodeType": "Block",
+              "src": "1464:513:190",
+              "nodes": [],
+              "statements": [
+                {
+                  "assignments": [
+                    112605
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 112605,
+                      "mutability": "mutable",
+                      "name": "accumulatedTurns",
+                      "nameLocation": "1506:16:190",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 112649,
+                      "src": "1499:23:190",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint32",
+                        "typeString": "uint32"
+                      },
+                      "typeName": {
+                        "id": 112604,
+                        "name": "uint32",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "1499:6:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 112611,
+                  "initialValue": {
+                    "commonType": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    },
+                    "id": 112610,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 112606,
+                      "name": "TURNS_PER_PERIOD",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112503,
+                      "src": "1525:16:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint32",
+                        "typeString": "uint32"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "*",
+                    "rightExpression": {
+                      "arguments": [
+                        {
+                          "id": 112608,
+                          "name": "cycleEntity",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 112599,
+                          "src": "1559:11:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        ],
+                        "id": 112607,
+                        "name": "_getAccPeriods",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112705,
+                        "src": "1544:14:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_view$_t_bytes32_$returns$_t_uint32_$",
+                          "typeString": "function (bytes32) view returns (uint32)"
+                        }
+                      },
+                      "id": 112609,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1544:27:190",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint32",
+                        "typeString": "uint32"
+                      }
+                    },
+                    "src": "1525:46:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1499:72:190"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "commonType": {
+                          "typeIdentifier": "t_uint32",
+                          "typeString": "uint32"
+                        },
+                        "id": 112617,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "id": 112613,
+                          "name": "accumulatedTurns",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 112605,
+                          "src": "1584:16:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "<=",
+                        "rightExpression": {
+                          "commonType": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          },
+                          "id": 112616,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "id": 112614,
+                            "name": "TURNS_PER_PERIOD",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 112503,
+                            "src": "1604:16:190",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint32",
+                              "typeString": "uint32"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "*",
+                          "rightExpression": {
+                            "id": 112615,
+                            "name": "MAX_ACC_PERIODS",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 112506,
+                            "src": "1623:15:190",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint32",
+                              "typeString": "uint32"
+                            }
+                          },
+                          "src": "1604:34:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          }
+                        },
+                        "src": "1584:54:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 112612,
+                      "name": "assert",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": -3,
+                      "src": "1577:6:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_assert_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 112618,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1577:62:190",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 112619,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1577:62:190"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 112629,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "commonType": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          },
+                          "id": 112623,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "leftExpression": {
+                            "id": 112621,
+                            "name": "TURNS_PER_PERIOD",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 112503,
+                            "src": "1652:16:190",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint32",
+                              "typeString": "uint32"
+                            }
+                          },
+                          "nodeType": "BinaryOperation",
+                          "operator": "*",
+                          "rightExpression": {
+                            "id": 112622,
+                            "name": "MAX_ACC_PERIODS",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 112506,
+                            "src": "1671:15:190",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint32",
+                              "typeString": "uint32"
+                            }
+                          },
+                          "src": "1652:34:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "<",
+                        "rightExpression": {
+                          "expression": {
+                            "arguments": [
+                              {
+                                "id": 112626,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": true,
+                                "lValueRequested": false,
+                                "nodeType": "ElementaryTypeNameExpression",
+                                "src": "1694:7:190",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_type$_t_uint256_$",
+                                  "typeString": "type(uint256)"
+                                },
+                                "typeName": {
+                                  "id": 112625,
+                                  "name": "uint256",
+                                  "nodeType": "ElementaryTypeName",
+                                  "src": "1694:7:190",
+                                  "typeDescriptions": {}
+                                }
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_type$_t_uint256_$",
+                                  "typeString": "type(uint256)"
+                                }
+                              ],
+                              "id": 112624,
+                              "name": "type",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": -27,
+                              "src": "1689:4:190",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_metatype_pure$__$returns$__$",
+                                "typeString": "function () pure"
+                              }
+                            },
+                            "id": 112627,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "nameLocations": [],
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "1689:13:190",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_magic_meta_type_t_uint256",
+                              "typeString": "type(uint256)"
+                            }
+                          },
+                          "id": 112628,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "memberLocation": "1703:3:190",
+                          "memberName": "max",
+                          "nodeType": "MemberAccess",
+                          "src": "1689:17:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "src": "1652:54:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 112620,
+                      "name": "assert",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": -3,
+                      "src": "1645:6:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_assert_pure$_t_bool_$returns$__$",
+                        "typeString": "function (bool) pure"
+                      }
+                    },
+                    "id": 112630,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1645:62:190",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 112631,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1645:62:190"
+                },
+                {
+                  "assignments": [
+                    112633
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 112633,
+                      "mutability": "mutable",
+                      "name": "currentTurns",
+                      "nameLocation": "1810:12:190",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 112649,
+                      "src": "1802:20:190",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 112632,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "1802:7:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 112638,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "id": 112636,
+                        "name": "cycleEntity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112599,
+                        "src": "1840:11:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      ],
+                      "expression": {
+                        "id": 112634,
+                        "name": "CycleTurns",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 95049,
+                        "src": "1825:10:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_CycleTurns_$95049_$",
+                          "typeString": "type(library CycleTurns)"
+                        }
+                      },
+                      "id": 112635,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "1836:3:190",
+                      "memberName": "get",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 94705,
+                      "src": "1825:14:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$_t_bytes32_$returns$_t_uint32_$",
+                        "typeString": "function (bytes32) view returns (uint32)"
+                      }
+                    },
+                    "id": 112637,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1825:27:190",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1802:50:190"
+                },
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 112641,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 112639,
+                      "name": "currentTurns",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112633,
+                      "src": "1862:12:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": ">",
+                    "rightExpression": {
+                      "id": 112640,
+                      "name": "MAX_CURRENT_TURNS_FOR_CLAIM",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112509,
+                      "src": "1877:27:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint32",
+                        "typeString": "uint32"
+                      }
+                    },
+                    "src": "1862:42:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": {
+                    "id": 112647,
+                    "nodeType": "Block",
+                    "src": "1935:38:190",
+                    "statements": [
+                      {
+                        "expression": {
+                          "id": 112645,
+                          "name": "accumulatedTurns",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 112605,
+                          "src": "1950:16:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          }
+                        },
+                        "functionReturnParameters": 112603,
+                        "id": 112646,
+                        "nodeType": "Return",
+                        "src": "1943:23:190"
+                      }
+                    ]
+                  },
+                  "id": 112648,
+                  "nodeType": "IfStatement",
+                  "src": "1858:115:190",
+                  "trueBody": {
+                    "id": 112644,
+                    "nodeType": "Block",
+                    "src": "1906:23:190",
+                    "statements": [
+                      {
+                        "expression": {
+                          "hexValue": "30",
+                          "id": 112642,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "1921:1:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        },
+                        "functionReturnParameters": 112603,
+                        "id": 112643,
+                        "nodeType": "Return",
+                        "src": "1914:8:190"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "documentation": {
+              "id": 112597,
+              "nodeType": "StructuredDocumentation",
+              "src": "1290:92:190",
+              "text": "@dev Get accumulated turns that can be claimed (both accumulation and claim have a cap)."
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getClaimableTurns",
+            "nameLocation": "1394:17:190",
+            "parameters": {
+              "id": 112600,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 112599,
+                  "mutability": "mutable",
+                  "name": "cycleEntity",
+                  "nameLocation": "1420:11:190",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112650,
+                  "src": "1412:19:190",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 112598,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1412:7:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1411:21:190"
+            },
+            "returnParameters": {
+              "id": 112603,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 112602,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112650,
+                  "src": "1456:6:190",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 112601,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1456:6:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1455:8:190"
+            },
+            "scope": 112706,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "id": 112705,
+            "nodeType": "FunctionDefinition",
+            "src": "2127:757:190",
+            "nodes": [],
+            "body": {
+              "id": 112704,
+              "nodeType": "Block",
+              "src": "2202:682:190",
+              "nodes": [],
+              "statements": [
+                {
+                  "assignments": [
+                    112659
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 112659,
+                      "mutability": "mutable",
+                      "name": "lastClaimedTimestamp",
+                      "nameLocation": "2216:20:190",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 112704,
+                      "src": "2208:28:190",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 112658,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "2208:7:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 112664,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "id": 112662,
+                        "name": "cycleEntity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112653,
+                        "src": "2265:11:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      ],
+                      "expression": {
+                        "id": 112660,
+                        "name": "CycleTurnsLastClaimed",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 95750,
+                        "src": "2239:21:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_CycleTurnsLastClaimed_$95750_$",
+                          "typeString": "type(library CycleTurnsLastClaimed)"
+                        }
+                      },
+                      "id": 112661,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "2261:3:190",
+                      "memberName": "get",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 95406,
+                      "src": "2239:25:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_view$_t_bytes32_$returns$_t_uint48_$",
+                        "typeString": "function (bytes32) view returns (uint48)"
+                      }
+                    },
+                    "id": 112663,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2239:38:190",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint48",
+                      "typeString": "uint48"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "2208:69:190"
+                },
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 112667,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 112665,
+                      "name": "lastClaimedTimestamp",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112659,
+                      "src": "2287:20:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "hexValue": "30",
+                      "id": 112666,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "number",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "2311:1:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_rational_0_by_1",
+                        "typeString": "int_const 0"
+                      },
+                      "value": "0"
+                    },
+                    "src": "2287:25:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 112671,
+                  "nodeType": "IfStatement",
+                  "src": "2283:102:190",
+                  "trueBody": {
+                    "id": 112670,
+                    "nodeType": "Block",
+                    "src": "2314:71:190",
+                    "statements": [
+                      {
+                        "expression": {
+                          "hexValue": "31",
+                          "id": 112668,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "2377:1:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_1_by_1",
+                            "typeString": "int_const 1"
+                          },
+                          "value": "1"
+                        },
+                        "functionReturnParameters": 112657,
+                        "id": 112669,
+                        "nodeType": "Return",
+                        "src": "2370:8:190"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "assignments": [
+                    112673
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 112673,
+                      "mutability": "mutable",
+                      "name": "periodsLast",
+                      "nameLocation": "2446:11:190",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 112704,
+                      "src": "2438:19:190",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 112672,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "2438:7:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 112677,
+                  "initialValue": {
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 112676,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 112674,
+                      "name": "lastClaimedTimestamp",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112659,
+                      "src": "2460:20:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "/",
+                    "rightExpression": {
+                      "id": 112675,
+                      "name": "ACC_PERIOD",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112500,
+                      "src": "2483:10:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "2460:33:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "2438:55:190"
+                },
+                {
+                  "assignments": [
+                    112679
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 112679,
+                      "mutability": "mutable",
+                      "name": "periodsCurrent",
+                      "nameLocation": "2551:14:190",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 112704,
+                      "src": "2543:22:190",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 112678,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "2543:7:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 112684,
+                  "initialValue": {
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 112683,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "expression": {
+                        "id": 112680,
+                        "name": "block",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": -4,
+                        "src": "2568:5:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_magic_block",
+                          "typeString": "block"
+                        }
+                      },
+                      "id": 112681,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "2574:9:190",
+                      "memberName": "timestamp",
+                      "nodeType": "MemberAccess",
+                      "src": "2568:15:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "/",
+                    "rightExpression": {
+                      "id": 112682,
+                      "name": "ACC_PERIOD",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112500,
+                      "src": "2586:10:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "2568:28:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "2543:53:190"
+                },
+                {
+                  "assignments": [
+                    112686
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 112686,
+                      "mutability": "mutable",
+                      "name": "accPeriods",
+                      "nameLocation": "2656:10:190",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 112704,
+                      "src": "2648:18:190",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 112685,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "2648:7:190",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 112690,
+                  "initialValue": {
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 112689,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 112687,
+                      "name": "periodsCurrent",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112679,
+                      "src": "2669:14:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "-",
+                    "rightExpression": {
+                      "id": 112688,
+                      "name": "periodsLast",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112673,
+                      "src": "2686:11:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "2669:28:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "2648:49:190"
+                },
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    },
+                    "id": 112693,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 112691,
+                      "name": "accPeriods",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112686,
+                      "src": "2707:10:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": ">",
+                    "rightExpression": {
+                      "id": 112692,
+                      "name": "MAX_ACC_PERIODS",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112506,
+                      "src": "2720:15:190",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint32",
+                        "typeString": "uint32"
+                      }
+                    },
+                    "src": "2707:28:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": {
+                    "id": 112702,
+                    "nodeType": "Block",
+                    "src": "2780:100:190",
+                    "statements": [
+                      {
+                        "expression": {
+                          "arguments": [
+                            {
+                              "id": 112699,
+                              "name": "accPeriods",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 112686,
+                              "src": "2862:10:190",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              }
+                            ],
+                            "id": 112698,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "2855:6:190",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_uint32_$",
+                              "typeString": "type(uint32)"
+                            },
+                            "typeName": {
+                              "id": 112697,
+                              "name": "uint32",
+                              "nodeType": "ElementaryTypeName",
+                              "src": "2855:6:190",
+                              "typeDescriptions": {}
+                            }
+                          },
+                          "id": 112700,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "nameLocations": [],
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "2855:18:190",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          }
+                        },
+                        "functionReturnParameters": 112657,
+                        "id": 112701,
+                        "nodeType": "Return",
+                        "src": "2848:25:190"
+                      }
+                    ]
+                  },
+                  "id": 112703,
+                  "nodeType": "IfStatement",
+                  "src": "2703:177:190",
+                  "trueBody": {
+                    "id": 112696,
+                    "nodeType": "Block",
+                    "src": "2737:37:190",
+                    "statements": [
+                      {
+                        "expression": {
+                          "id": 112694,
+                          "name": "MAX_ACC_PERIODS",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 112506,
+                          "src": "2752:15:190",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint32",
+                            "typeString": "uint32"
+                          }
+                        },
+                        "functionReturnParameters": 112657,
+                        "id": 112695,
+                        "nodeType": "Return",
+                        "src": "2745:22:190"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "documentation": {
+              "id": 112651,
+              "nodeType": "StructuredDocumentation",
+              "src": "1981:143:190",
+              "text": "@dev Can accumulate ACC_PERIODs up to MAX_ACC_PERIODS, claimTurns resets accumulation.\n The accumulation moment is equal for everyone."
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_getAccPeriods",
+            "nameLocation": "2136:14:190",
+            "parameters": {
+              "id": 112654,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 112653,
+                  "mutability": "mutable",
+                  "name": "cycleEntity",
+                  "nameLocation": "2159:11:190",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112705,
+                  "src": "2151:19:190",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 112652,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2151:7:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2150:21:190"
+            },
+            "returnParameters": {
+              "id": 112657,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 112656,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112705,
+                  "src": "2194:6:190",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint32",
+                    "typeString": "uint32"
+                  },
+                  "typeName": {
+                    "id": 112655,
+                    "name": "uint32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2194:6:190",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint32",
+                      "typeString": "uint32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2193:8:190"
+            },
+            "scope": 112706,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "private"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "LibCycleTurns",
+        "contractDependencies": [],
+        "contractKind": "library",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          112706
+        ],
+        "name": "LibCycleTurns",
+        "nameLocation": "155:13:190",
+        "scope": 112707,
+        "usedErrors": [
+          112497
+        ],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 190
+}

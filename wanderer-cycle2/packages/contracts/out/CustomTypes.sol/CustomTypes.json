@@ -1,0 +1,117 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "src/CustomTypes.sol",
+    "id": 91793,
+    "exportedSymbols": {
+      "PStat": [
+        91789
+      ],
+      "PStat_length": [
+        91792
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:121:166",
+    "nodes": [
+      {
+        "id": 91785,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:166",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 91789,
+        "nodeType": "EnumDefinition",
+        "src": "61:56:166",
+        "nodes": [],
+        "canonicalName": "PStat",
+        "members": [
+          {
+            "id": 91786,
+            "name": "STRENGTH",
+            "nameLocation": "78:8:166",
+            "nodeType": "EnumValue",
+            "src": "78:8:166"
+          },
+          {
+            "id": 91787,
+            "name": "ARCANA",
+            "nameLocation": "92:6:166",
+            "nodeType": "EnumValue",
+            "src": "92:6:166"
+          },
+          {
+            "id": 91788,
+            "name": "DEXTERITY",
+            "nameLocation": "104:9:166",
+            "nodeType": "EnumValue",
+            "src": "104:9:166"
+          }
+        ],
+        "name": "PStat",
+        "nameLocation": "66:5:166"
+      },
+      {
+        "id": 91792,
+        "nodeType": "VariableDeclaration",
+        "src": "119:33:166",
+        "nodes": [],
+        "constant": true,
+        "mutability": "constant",
+        "name": "PStat_length",
+        "nameLocation": "136:12:166",
+        "scope": 91793,
+        "stateVariable": false,
+        "storageLocation": "default",
+        "typeDescriptions": {
+          "typeIdentifier": "t_uint256",
+          "typeString": "uint256"
+        },
+        "typeName": {
+          "id": 91790,
+          "name": "uint256",
+          "nodeType": "ElementaryTypeName",
+          "src": "119:7:166",
+          "typeDescriptions": {
+            "typeIdentifier": "t_uint256",
+            "typeString": "uint256"
+          }
+        },
+        "value": {
+          "hexValue": "33",
+          "id": 91791,
+          "isConstant": false,
+          "isLValue": false,
+          "isPure": true,
+          "kind": "number",
+          "lValueRequested": false,
+          "nodeType": "Literal",
+          "src": "151:1:166",
+          "typeDescriptions": {
+            "typeIdentifier": "t_rational_3_by_1",
+            "typeString": "int_const 3"
+          },
+          "value": "3"
+        },
+        "visibility": "internal"
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 166
+}

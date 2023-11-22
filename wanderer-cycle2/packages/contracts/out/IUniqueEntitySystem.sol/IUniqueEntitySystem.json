@@ -1,0 +1,197 @@
+{
+  "abi": [
+    {
+      "inputs": [],
+      "name": "uniqueEntity_system_getUniqueEntity",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "uniqueEntity",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {
+    "uniqueEntity_system_getUniqueEntity()": "8459353e"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.21+commit.d9974bed\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"uniqueEntity_system_getUniqueEntity\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"uniqueEntity\",\"type\":\"bytes32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world-modules@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world-modules/src/interfaces/IUniqueEntitySystem.sol\":\"IUniqueEntitySystem\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":3000},\"remappings\":[\":@latticexyz/=node_modules/@latticexyz/\",\":ds-test/=node_modules/ds-test/src/\",\":forge-std/=node_modules/forge-std/src/\"]},\"sources\":{\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world-modules@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world-modules/src/interfaces/IUniqueEntitySystem.sol\":{\"keccak256\":\"0x522fec5a5d0005c6902235f49e9c59570c158ff470472d91afb81c8934d1f8b9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c65e929a0196d5333f3642a62c21334df295fbdac98660e4ace31ad9d2a22cea\",\"dweb:/ipfs/QmeLXDZrnMQKaBF6nALVsV6HyutugrsCQaqch64YnZ69ya\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.21+commit.d9974bed"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "uniqueEntity_system_getUniqueEntity",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "uniqueEntity",
+              "type": "bytes32"
+            }
+          ]
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@latticexyz/=node_modules/@latticexyz/",
+        "ds-test/=node_modules/ds-test/src/",
+        "forge-std/=node_modules/forge-std/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 3000
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world-modules@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world-modules/src/interfaces/IUniqueEntitySystem.sol": "IUniqueEntitySystem"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world-modules@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world-modules/src/interfaces/IUniqueEntitySystem.sol": {
+        "keccak256": "0x522fec5a5d0005c6902235f49e9c59570c158ff470472d91afb81c8934d1f8b9",
+        "urls": [
+          "bzz-raw://c65e929a0196d5333f3642a62c21334df295fbdac98660e4ace31ad9d2a22cea",
+          "dweb:/ipfs/QmeLXDZrnMQKaBF6nALVsV6HyutugrsCQaqch64YnZ69ya"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world-modules@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/world-modules/src/interfaces/IUniqueEntitySystem.sol",
+    "id": 20063,
+    "exportedSymbols": {
+      "IUniqueEntitySystem": [
+        20062
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:233:33",
+    "nodes": [
+      {
+        "id": 20056,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:33",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 20062,
+        "nodeType": "ContractDefinition",
+        "src": "141:123:33",
+        "nodes": [
+          {
+            "id": 20061,
+            "nodeType": "FunctionDefinition",
+            "src": "175:87:33",
+            "nodes": [],
+            "functionSelector": "8459353e",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "uniqueEntity_system_getUniqueEntity",
+            "nameLocation": "184:35:33",
+            "parameters": {
+              "id": 20057,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "219:2:33"
+            },
+            "returnParameters": {
+              "id": 20060,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20059,
+                  "mutability": "mutable",
+                  "name": "uniqueEntity",
+                  "nameLocation": "248:12:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20061,
+                  "src": "240:20:33",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 20058,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "240:7:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "239:22:33"
+            },
+            "scope": 20062,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IUniqueEntitySystem",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          20062
+        ],
+        "name": "IUniqueEntitySystem",
+        "nameLocation": "151:19:33",
+        "scope": 20063,
+        "usedErrors": [],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 33
+}

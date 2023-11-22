@@ -1,0 +1,116 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.21+commit.d9974bed\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"details\":\"This interface is automatically generated from the corresponding system contract. Do not edit manually.\",\"kind\":\"dev\",\"methods\":{},\"title\":\"ICoreSystem\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/codegen/interfaces/ICoreSystem.sol\":\"ICoreSystem\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":3000},\"remappings\":[\":@latticexyz/=node_modules/@latticexyz/\",\":ds-test/=node_modules/ds-test/src/\",\":forge-std/=node_modules/forge-std/src/\"]},\"sources\":{\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/codegen/interfaces/ICoreSystem.sol\":{\"keccak256\":\"0xf837b53eaa348da3b3650e0b7159de02d3f84897d96e487ece2f932c272dbe57\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fbdc52e9e519c8c6d4a00caf4de08688eb8eb34dbfc6236308f281d7cf05b51b\",\"dweb:/ipfs/QmWnogXiA5KA6JGxCTJR5W1MNFowrH7baSAYhSXjV1xM47\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.21+commit.d9974bed"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@latticexyz/=node_modules/@latticexyz/",
+        "ds-test/=node_modules/ds-test/src/",
+        "forge-std/=node_modules/forge-std/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 3000
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/codegen/interfaces/ICoreSystem.sol": "ICoreSystem"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/codegen/interfaces/ICoreSystem.sol": {
+        "keccak256": "0xf837b53eaa348da3b3650e0b7159de02d3f84897d96e487ece2f932c272dbe57",
+        "urls": [
+          "bzz-raw://fbdc52e9e519c8c6d4a00caf4de08688eb8eb34dbfc6236308f281d7cf05b51b",
+          "dweb:/ipfs/QmWnogXiA5KA6JGxCTJR5W1MNFowrH7baSAYhSXjV1xM47"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/codegen/interfaces/ICoreSystem.sol",
+    "id": 21022,
+    "exportedSymbols": {
+      "ICoreSystem": [
+        21021
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:245:44",
+    "nodes": [
+      {
+        "id": 21019,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:44",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 21021,
+        "nodeType": "ContractDefinition",
+        "src": "250:26:44",
+        "nodes": [],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ICoreSystem",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 21020,
+          "nodeType": "StructuredDocumentation",
+          "src": "108:141:44",
+          "text": " @title ICoreSystem\n @dev This interface is automatically generated from the corresponding system contract. Do not edit manually."
+        },
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          21021
+        ],
+        "name": "ICoreSystem",
+        "nameLocation": "260:11:44",
+        "scope": 21022,
+        "usedErrors": [],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 44
+}

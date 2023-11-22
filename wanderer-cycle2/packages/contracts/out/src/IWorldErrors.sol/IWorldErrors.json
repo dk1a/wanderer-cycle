@@ -1,0 +1,1463 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "resource",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "caller",
+          "type": "address"
+        }
+      ],
+      "name": "World_AccessDenied",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "World_AlreadyInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "functionSelector",
+          "type": "bytes4"
+        }
+      ],
+      "name": "World_CallbackNotAllowed",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "delegator",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "delegatee",
+          "type": "address"
+        }
+      ],
+      "name": "World_DelegationNotFound",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "functionSelector",
+          "type": "bytes4"
+        }
+      ],
+      "name": "World_FunctionSelectorAlreadyExists",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "functionSelector",
+          "type": "bytes4"
+        }
+      ],
+      "name": "World_FunctionSelectorNotFound",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "World_InsufficientBalance",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "contractAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "World_InterfaceNotSupported",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "ResourceId",
+          "name": "resourceId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "resourceIdString",
+          "type": "string"
+        }
+      ],
+      "name": "World_InvalidResourceId",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes2",
+          "name": "expected",
+          "type": "bytes2"
+        },
+        {
+          "internalType": "ResourceId",
+          "name": "resourceId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "resourceIdString",
+          "type": "string"
+        }
+      ],
+      "name": "World_InvalidResourceType",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "ResourceId",
+          "name": "resourceId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "resourceIdString",
+          "type": "string"
+        }
+      ],
+      "name": "World_ResourceAlreadyExists",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "ResourceId",
+          "name": "resourceId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "resourceIdString",
+          "type": "string"
+        }
+      ],
+      "name": "World_ResourceNotFound",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "system",
+          "type": "address"
+        }
+      ],
+      "name": "World_SystemAlreadyExists",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "World_UnlimitedDelegationNotAllowed",
+      "type": "error"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.21+commit.d9974bed\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"resource\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"caller\",\"type\":\"address\"}],\"name\":\"World_AccessDenied\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"World_AlreadyInitialized\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"functionSelector\",\"type\":\"bytes4\"}],\"name\":\"World_CallbackNotAllowed\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"delegator\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"delegatee\",\"type\":\"address\"}],\"name\":\"World_DelegationNotFound\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"functionSelector\",\"type\":\"bytes4\"}],\"name\":\"World_FunctionSelectorAlreadyExists\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"functionSelector\",\"type\":\"bytes4\"}],\"name\":\"World_FunctionSelectorNotFound\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"World_InsufficientBalance\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"contractAddress\",\"type\":\"address\"},{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"World_InterfaceNotSupported\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"ResourceId\",\"name\":\"resourceId\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"resourceIdString\",\"type\":\"string\"}],\"name\":\"World_InvalidResourceId\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"bytes2\",\"name\":\"expected\",\"type\":\"bytes2\"},{\"internalType\":\"ResourceId\",\"name\":\"resourceId\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"resourceIdString\",\"type\":\"string\"}],\"name\":\"World_InvalidResourceType\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"ResourceId\",\"name\":\"resourceId\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"resourceIdString\",\"type\":\"string\"}],\"name\":\"World_ResourceAlreadyExists\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"ResourceId\",\"name\":\"resourceId\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"resourceIdString\",\"type\":\"string\"}],\"name\":\"World_ResourceNotFound\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"system\",\"type\":\"address\"}],\"name\":\"World_SystemAlreadyExists\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"World_UnlimitedDelegationNotAllowed\",\"type\":\"error\"}],\"devdoc\":{\"details\":\"This interface contains custom error types for the World contract. These errors provide more informative messages for certain operations within the World contract.\",\"errors\":{\"World_AccessDenied(string,address)\":[{\"params\":{\"caller\":\"The address of the user trying to access the resource.\",\"resource\":\"The resource's identifier.\"}}],\"World_CallbackNotAllowed(bytes4)\":[{\"params\":{\"functionSelector\":\"The function selector of the disallowed callback.\"}}],\"World_DelegationNotFound(address,address)\":[{\"params\":{\"delegatee\":\"The address of the delegatee.\",\"delegator\":\"The address of the delegator.\"}}],\"World_FunctionSelectorAlreadyExists(bytes4)\":[{\"params\":{\"functionSelector\":\"The function selector in question.\"}}],\"World_FunctionSelectorNotFound(bytes4)\":[{\"params\":{\"functionSelector\":\"The function selector in question.\"}}],\"World_InsufficientBalance(uint256,uint256)\":[{\"params\":{\"amount\":\"The amount needed.\",\"balance\":\"The current balance.\"}}],\"World_InterfaceNotSupported(address,bytes4)\":[{\"params\":{\"contractAddress\":\"The address of the contract in question.\",\"interfaceId\":\"The ID of the interface.\"}}],\"World_InvalidResourceId(bytes32,string)\":[{\"params\":{\"resourceId\":\"The ID of the resource.\",\"resourceIdString\":\"The string representation of the resource ID.\"}}],\"World_InvalidResourceType(bytes2,bytes32,string)\":[{\"params\":{\"expected\":\"The expected resource type.\",\"resourceId\":\"The ID of the resource.\",\"resourceIdString\":\"The string representation of the resource ID.\"}}],\"World_ResourceAlreadyExists(bytes32,string)\":[{\"params\":{\"resourceId\":\"The ID of the resource.\",\"resourceIdString\":\"The string representation of the resource ID.\"}}],\"World_ResourceNotFound(bytes32,string)\":[{\"params\":{\"resourceId\":\"The ID of the resource.\",\"resourceIdString\":\"The string representation of the resource ID.\"}}],\"World_SystemAlreadyExists(address)\":[{\"params\":{\"system\":\"The address of the system.\"}}]},\"kind\":\"dev\",\"methods\":{},\"title\":\"World Errors Interface\",\"version\":1},\"userdoc\":{\"errors\":{\"World_AccessDenied(string,address)\":[{\"notice\":\"Raised when a user tries to access a resource they don't have permission for.\"}],\"World_AlreadyInitialized()\":[{\"notice\":\"Raised when trying to initialize an already initialized World.\"}],\"World_CallbackNotAllowed(bytes4)\":[{\"notice\":\"Raised when the World is calling itself via an external call.\"}],\"World_DelegationNotFound(address,address)\":[{\"notice\":\"Raised when the specified delegation is not found.\"}],\"World_FunctionSelectorAlreadyExists(bytes4)\":[{\"notice\":\"Raised when trying to register a function selector that already exists.\"}],\"World_FunctionSelectorNotFound(bytes4)\":[{\"notice\":\"Raised when the specified function selector is not found.\"}],\"World_InsufficientBalance(uint256,uint256)\":[{\"notice\":\"Raised when there's an insufficient balance for a particular operation.\"}],\"World_InterfaceNotSupported(address,bytes4)\":[{\"notice\":\"Raised when the specified interface is not supported by the contract.\"}],\"World_InvalidResourceId(bytes32,string)\":[{\"notice\":\"Raised when an invalid resource ID is provided.\"}],\"World_InvalidResourceType(bytes2,bytes32,string)\":[{\"notice\":\"Raised when an invalid resource type is provided.\"}],\"World_ResourceAlreadyExists(bytes32,string)\":[{\"notice\":\"Raised when trying to register a resource that already exists.\"}],\"World_ResourceNotFound(bytes32,string)\":[{\"notice\":\"Raised when the specified resource is not found.\"}],\"World_SystemAlreadyExists(address)\":[{\"notice\":\"Raised when trying to register a system that already exists.\"}],\"World_UnlimitedDelegationNotAllowed()\":[{\"notice\":\"Raised when trying to create an unlimited delegation in a context where it is not allowed, e.g. when registering a namespace fallback delegation.\"}]},\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/IWorldErrors.sol\":\"IWorldErrors\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":3000},\"remappings\":[\":@latticexyz/=node_modules/@latticexyz/\",\":ds-test/=node_modules/ds-test/src/\",\":forge-std/=node_modules/forge-std/src/\"]},\"sources\":{\"/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/IWorldErrors.sol\":{\"keccak256\":\"0xc3e7975e5785574543229eac51e3441f4185863d7f5346c0ae08a27b4541f8a7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://62cc0dc109e6e5475bb07fb95643a31c74337c23521db0557a36dad6117a1e83\",\"dweb:/ipfs/Qmb8jbE1XQTUdreKFr4Jw3xmjctaLuReRZjPxZKQ2uW9p4\"]},\"node_modules/@latticexyz/store/src/ResourceId.sol\":{\"keccak256\":\"0x40983c580b8958e55db4520095934a535e98544ffe8228327e598973eb6647ed\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://839d658fa2bb2b1f09a08149d2bf0c26a26c301ad2dda8154fc99458085a695d\",\"dweb:/ipfs/Qmd5jHHYrgqraPqF8bjzT4xyjsoPk8K7pkxXLLfz6MRT6d\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.21+commit.d9974bed"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "string",
+              "name": "resource",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "caller",
+              "type": "address"
+            }
+          ],
+          "type": "error",
+          "name": "World_AccessDenied"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "World_AlreadyInitialized"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes4",
+              "name": "functionSelector",
+              "type": "bytes4"
+            }
+          ],
+          "type": "error",
+          "name": "World_CallbackNotAllowed"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "delegator",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "delegatee",
+              "type": "address"
+            }
+          ],
+          "type": "error",
+          "name": "World_DelegationNotFound"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes4",
+              "name": "functionSelector",
+              "type": "bytes4"
+            }
+          ],
+          "type": "error",
+          "name": "World_FunctionSelectorAlreadyExists"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes4",
+              "name": "functionSelector",
+              "type": "bytes4"
+            }
+          ],
+          "type": "error",
+          "name": "World_FunctionSelectorNotFound"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "balance",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "type": "error",
+          "name": "World_InsufficientBalance"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "contractAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes4",
+              "name": "interfaceId",
+              "type": "bytes4"
+            }
+          ],
+          "type": "error",
+          "name": "World_InterfaceNotSupported"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "ResourceId",
+              "name": "resourceId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "resourceIdString",
+              "type": "string"
+            }
+          ],
+          "type": "error",
+          "name": "World_InvalidResourceId"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes2",
+              "name": "expected",
+              "type": "bytes2"
+            },
+            {
+              "internalType": "ResourceId",
+              "name": "resourceId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "resourceIdString",
+              "type": "string"
+            }
+          ],
+          "type": "error",
+          "name": "World_InvalidResourceType"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "ResourceId",
+              "name": "resourceId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "resourceIdString",
+              "type": "string"
+            }
+          ],
+          "type": "error",
+          "name": "World_ResourceAlreadyExists"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "ResourceId",
+              "name": "resourceId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "resourceIdString",
+              "type": "string"
+            }
+          ],
+          "type": "error",
+          "name": "World_ResourceNotFound"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "system",
+              "type": "address"
+            }
+          ],
+          "type": "error",
+          "name": "World_SystemAlreadyExists"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "World_UnlimitedDelegationNotAllowed"
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@latticexyz/=node_modules/@latticexyz/",
+        "ds-test/=node_modules/ds-test/src/",
+        "forge-std/=node_modules/forge-std/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 3000
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/IWorldErrors.sol": "IWorldErrors"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/IWorldErrors.sol": {
+        "keccak256": "0xc3e7975e5785574543229eac51e3441f4185863d7f5346c0ae08a27b4541f8a7",
+        "urls": [
+          "bzz-raw://62cc0dc109e6e5475bb07fb95643a31c74337c23521db0557a36dad6117a1e83",
+          "dweb:/ipfs/Qmb8jbE1XQTUdreKFr4Jw3xmjctaLuReRZjPxZKQ2uW9p4"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/ResourceId.sol": {
+        "keccak256": "0x40983c580b8958e55db4520095934a535e98544ffe8228327e598973eb6647ed",
+        "urls": [
+          "bzz-raw://839d658fa2bb2b1f09a08149d2bf0c26a26c301ad2dda8154fc99458085a695d",
+          "dweb:/ipfs/Qmd5jHHYrgqraPqF8bjzT4xyjsoPk8K7pkxXLLfz6MRT6d"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+world@2.0.0-next.14_typescript@5.1.6/node_modules/@latticexyz/world/src/IWorldErrors.sol",
+    "id": 20309,
+    "exportedSymbols": {
+      "IWorldErrors": [
+        20308
+      ],
+      "ResourceId": [
+        63969
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:3819:37",
+    "nodes": [
+      {
+        "id": 20216,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:37",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 20218,
+        "nodeType": "ImportDirective",
+        "src": "59:66:37",
+        "nodes": [],
+        "absolutePath": "node_modules/@latticexyz/store/src/ResourceId.sol",
+        "file": "@latticexyz/store/src/ResourceId.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 20309,
+        "sourceUnit": 64041,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 20217,
+              "name": "ResourceId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 63969,
+              "src": "68:10:37",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 20308,
+        "nodeType": "ContractDefinition",
+        "src": "343:3507:37",
+        "nodes": [
+          {
+            "id": 20222,
+            "nodeType": "ErrorDefinition",
+            "src": "458:33:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20220,
+              "nodeType": "StructuredDocumentation",
+              "src": "370:85:37",
+              "text": " @notice Raised when trying to initialize an already initialized World."
+            },
+            "errorSelector": "15e34a48",
+            "name": "World_AlreadyInitialized",
+            "nameLocation": "464:24:37",
+            "parameters": {
+              "id": 20221,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "488:2:37"
+            }
+          },
+          {
+            "id": 20230,
+            "nodeType": "ErrorDefinition",
+            "src": "705:82:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20223,
+              "nodeType": "StructuredDocumentation",
+              "src": "495:207:37",
+              "text": " @notice Raised when trying to register a resource that already exists.\n @param resourceId The ID of the resource.\n @param resourceIdString The string representation of the resource ID."
+            },
+            "errorSelector": "0dc28f6a",
+            "name": "World_ResourceAlreadyExists",
+            "nameLocation": "711:27:37",
+            "parameters": {
+              "id": 20229,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20226,
+                  "mutability": "mutable",
+                  "name": "resourceId",
+                  "nameLocation": "750:10:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20230,
+                  "src": "739:21:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                    "typeString": "ResourceId"
+                  },
+                  "typeName": {
+                    "id": 20225,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 20224,
+                      "name": "ResourceId",
+                      "nameLocations": [
+                        "739:10:37"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 63969,
+                      "src": "739:10:37"
+                    },
+                    "referencedDeclaration": 63969,
+                    "src": "739:10:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                      "typeString": "ResourceId"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20228,
+                  "mutability": "mutable",
+                  "name": "resourceIdString",
+                  "nameLocation": "769:16:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20230,
+                  "src": "762:23:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 20227,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "762:6:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "738:48:37"
+            }
+          },
+          {
+            "id": 20238,
+            "nodeType": "ErrorDefinition",
+            "src": "987:77:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20231,
+              "nodeType": "StructuredDocumentation",
+              "src": "791:193:37",
+              "text": " @notice Raised when the specified resource is not found.\n @param resourceId The ID of the resource.\n @param resourceIdString The string representation of the resource ID."
+            },
+            "errorSelector": "fbf10ce6",
+            "name": "World_ResourceNotFound",
+            "nameLocation": "993:22:37",
+            "parameters": {
+              "id": 20237,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20234,
+                  "mutability": "mutable",
+                  "name": "resourceId",
+                  "nameLocation": "1027:10:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20238,
+                  "src": "1016:21:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                    "typeString": "ResourceId"
+                  },
+                  "typeName": {
+                    "id": 20233,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 20232,
+                      "name": "ResourceId",
+                      "nameLocations": [
+                        "1016:10:37"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 63969,
+                      "src": "1016:10:37"
+                    },
+                    "referencedDeclaration": 63969,
+                    "src": "1016:10:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                      "typeString": "ResourceId"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20236,
+                  "mutability": "mutable",
+                  "name": "resourceIdString",
+                  "nameLocation": "1046:16:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20238,
+                  "src": "1039:23:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 20235,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1039:6:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1015:48:37"
+            }
+          },
+          {
+            "id": 20245,
+            "nodeType": "ErrorDefinition",
+            "src": "1293:58:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20239,
+              "nodeType": "StructuredDocumentation",
+              "src": "1068:222:37",
+              "text": " @notice Raised when a user tries to access a resource they don't have permission for.\n @param resource The resource's identifier.\n @param caller The address of the user trying to access the resource."
+            },
+            "errorSelector": "d787b737",
+            "name": "World_AccessDenied",
+            "nameLocation": "1299:18:37",
+            "parameters": {
+              "id": 20244,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20241,
+                  "mutability": "mutable",
+                  "name": "resource",
+                  "nameLocation": "1325:8:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20245,
+                  "src": "1318:15:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 20240,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1318:6:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20243,
+                  "mutability": "mutable",
+                  "name": "caller",
+                  "nameLocation": "1343:6:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20245,
+                  "src": "1335:14:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20242,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1335:7:37",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1317:33:37"
+            }
+          },
+          {
+            "id": 20253,
+            "nodeType": "ErrorDefinition",
+            "src": "1550:78:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20246,
+              "nodeType": "StructuredDocumentation",
+              "src": "1355:192:37",
+              "text": " @notice Raised when an invalid resource ID is provided.\n @param resourceId The ID of the resource.\n @param resourceIdString The string representation of the resource ID."
+            },
+            "errorSelector": "e4ac069e",
+            "name": "World_InvalidResourceId",
+            "nameLocation": "1556:23:37",
+            "parameters": {
+              "id": 20252,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20249,
+                  "mutability": "mutable",
+                  "name": "resourceId",
+                  "nameLocation": "1591:10:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20253,
+                  "src": "1580:21:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                    "typeString": "ResourceId"
+                  },
+                  "typeName": {
+                    "id": 20248,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 20247,
+                      "name": "ResourceId",
+                      "nameLocations": [
+                        "1580:10:37"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 63969,
+                      "src": "1580:10:37"
+                    },
+                    "referencedDeclaration": 63969,
+                    "src": "1580:10:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                      "typeString": "ResourceId"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20251,
+                  "mutability": "mutable",
+                  "name": "resourceIdString",
+                  "nameLocation": "1610:16:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20253,
+                  "src": "1603:23:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 20250,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1603:6:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1579:48:37"
+            }
+          },
+          {
+            "id": 20258,
+            "nodeType": "ErrorDefinition",
+            "src": "1764:48:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20254,
+              "nodeType": "StructuredDocumentation",
+              "src": "1632:129:37",
+              "text": " @notice Raised when trying to register a system that already exists.\n @param system The address of the system."
+            },
+            "errorSelector": "c0b70741",
+            "name": "World_SystemAlreadyExists",
+            "nameLocation": "1770:25:37",
+            "parameters": {
+              "id": 20257,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20256,
+                  "mutability": "mutable",
+                  "name": "system",
+                  "nameLocation": "1804:6:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20258,
+                  "src": "1796:14:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20255,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1796:7:37",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1795:16:37"
+            }
+          },
+          {
+            "id": 20263,
+            "nodeType": "ErrorDefinition",
+            "src": "1977:67:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20259,
+              "nodeType": "StructuredDocumentation",
+              "src": "1816:158:37",
+              "text": " @notice Raised when trying to register a function selector that already exists.\n @param functionSelector The function selector in question."
+            },
+            "errorSelector": "3d1d1ae2",
+            "name": "World_FunctionSelectorAlreadyExists",
+            "nameLocation": "1983:35:37",
+            "parameters": {
+              "id": 20262,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20261,
+                  "mutability": "mutable",
+                  "name": "functionSelector",
+                  "nameLocation": "2026:16:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20263,
+                  "src": "2019:23:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 20260,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2019:6:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2018:25:37"
+            }
+          },
+          {
+            "id": 20268,
+            "nodeType": "ErrorDefinition",
+            "src": "2195:62:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20264,
+              "nodeType": "StructuredDocumentation",
+              "src": "2048:144:37",
+              "text": " @notice Raised when the specified function selector is not found.\n @param functionSelector The function selector in question."
+            },
+            "errorSelector": "fdde54e2",
+            "name": "World_FunctionSelectorNotFound",
+            "nameLocation": "2201:30:37",
+            "parameters": {
+              "id": 20267,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20266,
+                  "mutability": "mutable",
+                  "name": "functionSelector",
+                  "nameLocation": "2239:16:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20268,
+                  "src": "2232:23:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 20265,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2232:6:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2231:25:37"
+            }
+          },
+          {
+            "id": 20275,
+            "nodeType": "ErrorDefinition",
+            "src": "2441:69:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20269,
+              "nodeType": "StructuredDocumentation",
+              "src": "2261:177:37",
+              "text": " @notice Raised when the specified delegation is not found.\n @param delegator The address of the delegator.\n @param delegatee The address of the delegatee."
+            },
+            "errorSelector": "c86745f9",
+            "name": "World_DelegationNotFound",
+            "nameLocation": "2447:24:37",
+            "parameters": {
+              "id": 20274,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20271,
+                  "mutability": "mutable",
+                  "name": "delegator",
+                  "nameLocation": "2480:9:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20275,
+                  "src": "2472:17:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20270,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2472:7:37",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20273,
+                  "mutability": "mutable",
+                  "name": "delegatee",
+                  "nameLocation": "2499:9:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20275,
+                  "src": "2491:17:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20272,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2491:7:37",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2471:38:37"
+            }
+          },
+          {
+            "id": 20278,
+            "nodeType": "ErrorDefinition",
+            "src": "2690:44:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20276,
+              "nodeType": "StructuredDocumentation",
+              "src": "2514:173:37",
+              "text": " @notice Raised when trying to create an unlimited delegation in a context where it is not allowed,\n e.g. when registering a namespace fallback delegation."
+            },
+            "errorSelector": "71ee9e81",
+            "name": "World_UnlimitedDelegationNotAllowed",
+            "nameLocation": "2696:35:37",
+            "parameters": {
+              "id": 20277,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2731:2:37"
+            }
+          },
+          {
+            "id": 20285,
+            "nodeType": "ErrorDefinition",
+            "src": "2914:65:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20279,
+              "nodeType": "StructuredDocumentation",
+              "src": "2738:173:37",
+              "text": " @notice Raised when there's an insufficient balance for a particular operation.\n @param balance The current balance.\n @param amount The amount needed."
+            },
+            "errorSelector": "0e0e2d4d",
+            "name": "World_InsufficientBalance",
+            "nameLocation": "2920:25:37",
+            "parameters": {
+              "id": 20284,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20281,
+                  "mutability": "mutable",
+                  "name": "balance",
+                  "nameLocation": "2954:7:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20285,
+                  "src": "2946:15:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 20280,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2946:7:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20283,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "2971:6:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20285,
+                  "src": "2963:14:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 20282,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2963:7:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2945:33:37"
+            }
+          },
+          {
+            "id": 20292,
+            "nodeType": "ErrorDefinition",
+            "src": "3196:79:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20286,
+              "nodeType": "StructuredDocumentation",
+              "src": "2983:210:37",
+              "text": " @notice Raised when the specified interface is not supported by the contract.\n @param contractAddress The address of the contract in question.\n @param interfaceId The ID of the interface."
+            },
+            "errorSelector": "74b5e6ff",
+            "name": "World_InterfaceNotSupported",
+            "nameLocation": "3202:27:37",
+            "parameters": {
+              "id": 20291,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20288,
+                  "mutability": "mutable",
+                  "name": "contractAddress",
+                  "nameLocation": "3238:15:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20292,
+                  "src": "3230:23:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20287,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3230:7:37",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20290,
+                  "mutability": "mutable",
+                  "name": "interfaceId",
+                  "nameLocation": "3262:11:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20292,
+                  "src": "3255:18:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 20289,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3255:6:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3229:45:37"
+            }
+          },
+          {
+            "id": 20302,
+            "nodeType": "ErrorDefinition",
+            "src": "3525:97:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20293,
+              "nodeType": "StructuredDocumentation",
+              "src": "3279:243:37",
+              "text": " @notice Raised when an invalid resource type is provided.\n @param expected The expected resource type.\n @param resourceId The ID of the resource.\n @param resourceIdString The string representation of the resource ID."
+            },
+            "errorSelector": "5c30fb6f",
+            "name": "World_InvalidResourceType",
+            "nameLocation": "3531:25:37",
+            "parameters": {
+              "id": 20301,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20295,
+                  "mutability": "mutable",
+                  "name": "expected",
+                  "nameLocation": "3564:8:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20302,
+                  "src": "3557:15:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes2",
+                    "typeString": "bytes2"
+                  },
+                  "typeName": {
+                    "id": 20294,
+                    "name": "bytes2",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3557:6:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes2",
+                      "typeString": "bytes2"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20298,
+                  "mutability": "mutable",
+                  "name": "resourceId",
+                  "nameLocation": "3585:10:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20302,
+                  "src": "3574:21:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                    "typeString": "ResourceId"
+                  },
+                  "typeName": {
+                    "id": 20297,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 20296,
+                      "name": "ResourceId",
+                      "nameLocations": [
+                        "3574:10:37"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 63969,
+                      "src": "3574:10:37"
+                    },
+                    "referencedDeclaration": 63969,
+                    "src": "3574:10:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_userDefinedValueType$_ResourceId_$63969",
+                      "typeString": "ResourceId"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 20300,
+                  "mutability": "mutable",
+                  "name": "resourceIdString",
+                  "nameLocation": "3604:16:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20302,
+                  "src": "3597:23:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 20299,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3597:6:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3556:65:37"
+            }
+          },
+          {
+            "id": 20307,
+            "nodeType": "ErrorDefinition",
+            "src": "3792:56:37",
+            "nodes": [],
+            "documentation": {
+              "id": 20303,
+              "nodeType": "StructuredDocumentation",
+              "src": "3626:163:37",
+              "text": " @notice Raised when the World is calling itself via an external call.\n @param functionSelector The function selector of the disallowed callback."
+            },
+            "errorSelector": "9e85182c",
+            "name": "World_CallbackNotAllowed",
+            "nameLocation": "3798:24:37",
+            "parameters": {
+              "id": 20306,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20305,
+                  "mutability": "mutable",
+                  "name": "functionSelector",
+                  "nameLocation": "3830:16:37",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20307,
+                  "src": "3823:23:37",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 20304,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3823:6:37",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3822:25:37"
+            }
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IWorldErrors",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 20219,
+          "nodeType": "StructuredDocumentation",
+          "src": "127:215:37",
+          "text": " @title World Errors Interface\n @dev This interface contains custom error types for the World contract. These errors provide\n more informative messages for certain operations within the World contract."
+        },
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          20308
+        ],
+        "name": "IWorldErrors",
+        "nameLocation": "353:12:37",
+        "scope": 20309,
+        "usedErrors": [
+          20222,
+          20230,
+          20238,
+          20245,
+          20253,
+          20258,
+          20263,
+          20268,
+          20275,
+          20278,
+          20285,
+          20292,
+          20302,
+          20307
+        ],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 37
+}

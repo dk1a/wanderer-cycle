@@ -1,0 +1,489 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        }
+      ],
+      "name": "addTask",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "key",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "key",
+          "type": "bytes32"
+        }
+      ],
+      "name": "completeTask",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "key",
+          "type": "bytes32"
+        }
+      ],
+      "name": "deleteTask",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "key",
+          "type": "bytes32"
+        }
+      ],
+      "name": "resetTask",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {
+    "addTask(string)": "67238562",
+    "completeTask(bytes32)": "7c0390f7",
+    "deleteTask(bytes32)": "e64f15a2",
+    "resetTask(bytes32)": "ec5c29ce"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.21+commit.d9974bed\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"}],\"name\":\"addTask\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"key\",\"type\":\"bytes32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"key\",\"type\":\"bytes32\"}],\"name\":\"completeTask\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"key\",\"type\":\"bytes32\"}],\"name\":\"deleteTask\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"key\",\"type\":\"bytes32\"}],\"name\":\"resetTask\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"This interface is automatically generated from the corresponding system contract. Do not edit manually.\",\"kind\":\"dev\",\"methods\":{},\"title\":\"ITasksSystem\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/codegen/world/ITasksSystem.sol\":\"ITasksSystem\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":3000},\"remappings\":[\":@latticexyz/=node_modules/@latticexyz/\",\":ds-test/=node_modules/ds-test/src/\",\":forge-std/=node_modules/forge-std/src/\"]},\"sources\":{\"src/codegen/world/ITasksSystem.sol\":{\"keccak256\":\"0xed5245397ff285cce2b123b03ea63e8bc3030b8973c71fc6fdd9a0e599f7e1a0\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://761403c8bb786d5d74da7eb30e32b88b2f1b2318b3889978e6bce41c94ee92b9\",\"dweb:/ipfs/QmXoC1mtADf873z1nXCyaUEUL8FgWktmd6pCm8VfqMZJZ3\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.21+commit.d9974bed"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "addTask",
+          "outputs": [
+            {
+              "internalType": "bytes32",
+              "name": "key",
+              "type": "bytes32"
+            }
+          ]
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "key",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "completeTask"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "key",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "deleteTask"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "key",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "resetTask"
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@latticexyz/=node_modules/@latticexyz/",
+        "ds-test/=node_modules/ds-test/src/",
+        "forge-std/=node_modules/forge-std/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 3000
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "src/codegen/world/ITasksSystem.sol": "ITasksSystem"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "src/codegen/world/ITasksSystem.sol": {
+        "keccak256": "0xed5245397ff285cce2b123b03ea63e8bc3030b8973c71fc6fdd9a0e599f7e1a0",
+        "urls": [
+          "bzz-raw://761403c8bb786d5d74da7eb30e32b88b2f1b2318b3889978e6bce41c94ee92b9",
+          "dweb:/ipfs/QmXoC1mtADf873z1nXCyaUEUL8FgWktmd6pCm8VfqMZJZ3"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "src/codegen/world/ITasksSystem.sol",
+    "id": 83296,
+    "exportedSymbols": {
+      "ITasksSystem": [
+        83295
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:463:144",
+    "nodes": [
+      {
+        "id": 83271,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:144",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 83295,
+        "nodeType": "ContractDefinition",
+        "src": "251:243:144",
+        "nodes": [
+          {
+            "id": 83279,
+            "nodeType": "FunctionDefinition",
+            "src": "278:75:144",
+            "nodes": [],
+            "functionSelector": "67238562",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addTask",
+            "nameLocation": "287:7:144",
+            "parameters": {
+              "id": 83275,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 83274,
+                  "mutability": "mutable",
+                  "name": "description",
+                  "nameLocation": "309:11:144",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 83279,
+                  "src": "295:25:144",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 83273,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "295:6:144",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "294:27:144"
+            },
+            "returnParameters": {
+              "id": 83278,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 83277,
+                  "mutability": "mutable",
+                  "name": "key",
+                  "nameLocation": "348:3:144",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 83279,
+                  "src": "340:11:144",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 83276,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "340:7:144",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "339:13:144"
+            },
+            "scope": 83295,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 83284,
+            "nodeType": "FunctionDefinition",
+            "src": "357:44:144",
+            "nodes": [],
+            "functionSelector": "7c0390f7",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "completeTask",
+            "nameLocation": "366:12:144",
+            "parameters": {
+              "id": 83282,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 83281,
+                  "mutability": "mutable",
+                  "name": "key",
+                  "nameLocation": "387:3:144",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 83284,
+                  "src": "379:11:144",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 83280,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "379:7:144",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "378:13:144"
+            },
+            "returnParameters": {
+              "id": 83283,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "400:0:144"
+            },
+            "scope": 83295,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 83289,
+            "nodeType": "FunctionDefinition",
+            "src": "405:41:144",
+            "nodes": [],
+            "functionSelector": "ec5c29ce",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "resetTask",
+            "nameLocation": "414:9:144",
+            "parameters": {
+              "id": 83287,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 83286,
+                  "mutability": "mutable",
+                  "name": "key",
+                  "nameLocation": "432:3:144",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 83289,
+                  "src": "424:11:144",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 83285,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "424:7:144",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "423:13:144"
+            },
+            "returnParameters": {
+              "id": 83288,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "445:0:144"
+            },
+            "scope": 83295,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 83294,
+            "nodeType": "FunctionDefinition",
+            "src": "450:42:144",
+            "nodes": [],
+            "functionSelector": "e64f15a2",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "deleteTask",
+            "nameLocation": "459:10:144",
+            "parameters": {
+              "id": 83292,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 83291,
+                  "mutability": "mutable",
+                  "name": "key",
+                  "nameLocation": "478:3:144",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 83294,
+                  "src": "470:11:144",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 83290,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "470:7:144",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "469:13:144"
+            },
+            "returnParameters": {
+              "id": 83293,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "491:0:144"
+            },
+            "scope": 83295,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ITasksSystem",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": {
+          "id": 83272,
+          "nodeType": "StructuredDocumentation",
+          "src": "108:142:144",
+          "text": " @title ITasksSystem\n @dev This interface is automatically generated from the corresponding system contract. Do not edit manually."
+        },
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          83295
+        ],
+        "name": "ITasksSystem",
+        "nameLocation": "261:12:144",
+        "scope": 83296,
+        "usedErrors": [],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 144
+}

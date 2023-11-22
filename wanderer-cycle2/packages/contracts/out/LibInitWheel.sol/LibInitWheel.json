@@ -1,0 +1,1738 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122008c21df834beae771c4c22688c142fb0f9fca6ce81e465732860463c183610ef64736f6c63430008150033",
+    "sourceMap": "244:543:193:-:0;;;;;;;;;;;;;;;-1:-1:-1;;;244:543:193;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122008c21df834beae771c4c22688c142fb0f9fca6ce81e465732860463c183610ef64736f6c63430008150033",
+    "sourceMap": "244:543:193:-:0;;;;;;;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.21+commit.d9974bed\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/init/LibInitWheel.sol\":\"LibInitWheel\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":3000},\"remappings\":[\":@latticexyz/=node_modules/@latticexyz/\",\":ds-test/=node_modules/ds-test/src/\",\":forge-std/=node_modules/forge-std/src/\"]},\"sources\":{\"node_modules/@latticexyz/schema-type/src/solidity/SchemaType.sol\":{\"keccak256\":\"0x770eff7a38b9b7b1613dc11ca09db4f28b42a117c9b39b2a06a650a58a250bdb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://39f544110658a53def52c2a4e33b8b158b95a4f14fccea58d5268b6e728d86d4\",\"dweb:/ipfs/QmTesj6tjSFbfAiKUitXapdNYWPStS8bLkB3r22qfyHwUC\"]},\"node_modules/@latticexyz/store/src/Bytes.sol\":{\"keccak256\":\"0xab31edce915377852bb5f29f7f2ccfc50cac087d64d2a8aae669715ad862d558\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3187e86e43be1fbdd59df45c695294f1114aa1ac48e6445c0cb26089434be5c4\",\"dweb:/ipfs/Qmck7shMVrcKMVkgN2pC1byPY7hb3V9fTxnUcGgxAUeXYk\"]},\"node_modules/@latticexyz/store/src/FieldLayout.sol\":{\"keccak256\":\"0x2a0536cd6cecc479d0b81d5aad6380231f4d6873beadc54814d801c2036b02c0\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e07c041e19146a9ec258cc700a450b4d49440202895eb12f3bb17508427c23ba\",\"dweb:/ipfs/QmXoqrCGDSkuFgNSMURRFdjokjREL78nLDzNaUi6rjefy9\"]},\"node_modules/@latticexyz/store/src/Hook.sol\":{\"keccak256\":\"0x045024523eb55d08ad8d13eca6185bff2988865f4aa12e3f9372029c2ecb8ddd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6621c53b49f8fe0557d1a1db47bfe1561801c09256948dd0652fb41541891a18\",\"dweb:/ipfs/QmZgFVCUH1pKcc9MeFyzMe1VW87SLz6c9szGwrDRUp6BZe\"]},\"node_modules/@latticexyz/store/src/IERC165.sol\":{\"keccak256\":\"0x2bbc3c43400c15a91a5cb35430a91309cb64a4d13a0a170eacec71dcf334feaf\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f44dfc9605067de539de07a76a34bf469faa9e6dad8c192abafc2e05860c7dd2\",\"dweb:/ipfs/QmX8xgG6XWokM7YFwFZvmMhuh1uhkSjxCMD2oTHjUVdapb\"]},\"node_modules/@latticexyz/store/src/IStore.sol\":{\"keccak256\":\"0x9092b65551d0f910e5645cebb5acadb387cdd192d75fa89cd6b293bd65b28827\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://478825a6f7eff9ddab968e71e1d55ebee279d3b318f10976d9334384000059c0\",\"dweb:/ipfs/Qme7NY976woRy3RQjE4tkkiwoXnoVtTmER3PbWCSbjZ2kb\"]},\"node_modules/@latticexyz/store/src/IStoreData.sol\":{\"keccak256\":\"0xa8eade05c551aeef35c84727d7a44af239516deb2d8a0cfb7ebeb5d88c6995e5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5335910bd8a204abb5f4396fb911a5ee5c221bd7fa63b1cc8ae5e737c6458c6a\",\"dweb:/ipfs/QmckkCAfrNcWo3yDxoD1jCe1k4iDA2GzVDpFjJZs7W79vx\"]},\"node_modules/@latticexyz/store/src/IStoreErrors.sol\":{\"keccak256\":\"0xb9070663ded3cad82285bb7610949e422f88abb48c2ddbd792af83d127d64212\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://830490f1c888bec86df1e7ef43773d60ebdbdfdb2b91ab7fe074e2f38d7439dc\",\"dweb:/ipfs/QmS26fpXdZuGgMmjcdQDf9k1Bedn2dhjk9byFZJoNkctPZ\"]},\"node_modules/@latticexyz/store/src/IStoreEvents.sol\":{\"keccak256\":\"0xdd3104680808f975462a85cbd4fa87783ba5395797419caeeca37e8f8627a16f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://943864b7eb16ad2047ade5a8598e85c8a4b46d1aed6aef02bfb7cee8de732b4d\",\"dweb:/ipfs/QmTEij4caToSNk15PFpubXYDy9QhwmPyP9tMXjUse2cTdv\"]},\"node_modules/@latticexyz/store/src/IStoreHook.sol\":{\"keccak256\":\"0xa6777c7868333996ad9c61a94457dcac702d8d7445a104dfdc86543d25e7470e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6268a16449d7529a94746d0103670dd0e38faf5117bf914fb01da9947ab44c2e\",\"dweb:/ipfs/QmaSfbx1QRA3jw2K8bGkQTw4CTGPUzNqnCJW7LwaFUJCXy\"]},\"node_modules/@latticexyz/store/src/IStoreRead.sol\":{\"keccak256\":\"0xd2180d53ecd31069b1166f170ecdcd85917ac50f45fc26fb39b49cee7ba00e37\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1494bb0a3228e2d194bddaed4761fd3ca865979f0e3f3a53acd271143a4aa0ac\",\"dweb:/ipfs/Qmaddnzzmu99iP9dTWK9ZeByh5dZyjY9SpVnRdvyr2fBAo\"]},\"node_modules/@latticexyz/store/src/IStoreRegistration.sol\":{\"keccak256\":\"0xf448fbb2bc9c982721a43234463656da5a49cea08543e62148d54f11e1ac3e2f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://64b3579d9b9dcd73dca2beab3d4fcf60237420945ebbb2e9f4ffcc88f4110115\",\"dweb:/ipfs/QmaW5nN3zGEriSYHncye6Nz2TkAw1oo1CyG2JuJTJrJoXg\"]},\"node_modules/@latticexyz/store/src/IStoreWrite.sol\":{\"keccak256\":\"0x8b6c7af5ee330928aebb58c8872d3944304ee10ed11f8a325b6accc4ec5df81b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b866d158701c7a40834bed735194b804ef219f2bbe574e2307785fff7bcf9da1\",\"dweb:/ipfs/QmXzJfZkXVfyr2RFGwDuazeVnV3UWYmQxjKZ3KzFbbe75U\"]},\"node_modules/@latticexyz/store/src/Memory.sol\":{\"keccak256\":\"0x69295976e61a1a108d1b4d6eb497b238730309f3047c4320d48e01a0ce8d4ec7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://559c451b21fb9dd4fec27b41bef42f4362f1e7ebb7992106d548b9d4f733b3e5\",\"dweb:/ipfs/QmeSE7YTW5zUrfZYFVb2pFnDe3XxiT8XNecfwC3wfpxCRv\"]},\"node_modules/@latticexyz/store/src/PackedCounter.sol\":{\"keccak256\":\"0x44ddfa9eb8a861462c550f0a9d66c40c68acdb347a61fa765949608407a2c7fb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://47ee957f4b19cab9e20bf5fc569c015eca13852fb3351f2a105a8be9c48204c0\",\"dweb:/ipfs/QmNkyzDobVQLoq9BtQ8HtgsPLiqnmi97EZx1wsu6wp8nKH\"]},\"node_modules/@latticexyz/store/src/ResourceId.sol\":{\"keccak256\":\"0x40983c580b8958e55db4520095934a535e98544ffe8228327e598973eb6647ed\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://839d658fa2bb2b1f09a08149d2bf0c26a26c301ad2dda8154fc99458085a695d\",\"dweb:/ipfs/Qmd5jHHYrgqraPqF8bjzT4xyjsoPk8K7pkxXLLfz6MRT6d\"]},\"node_modules/@latticexyz/store/src/Schema.sol\":{\"keccak256\":\"0x58aef318ba03f8ff8866ef70f8a30f549b150657ea699734aefe16c298956401\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7dc104690a7e2bcf5ce1afadcd58f8ef4d639b4b92b9ad9293656235d54395f3\",\"dweb:/ipfs/QmYJJvEv5KBJ3kzf9AkgRn7Uu5dp4exGTRddf4cae1btgE\"]},\"node_modules/@latticexyz/store/src/Slice.sol\":{\"keccak256\":\"0xfaf54b1f5acccd4c6ce3f8377050ee84efbb423cb604b4651e8b9ea3b467bf32\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://acf2ce7ffec21f28ad1dc6da06c342f1212a03a3d16a0be7ee85715a5940718c\",\"dweb:/ipfs/QmTCN3NSdFg87hi7KS2Xtq7PsmRUMG64SxC8PtP3p2GzuT\"]},\"node_modules/@latticexyz/store/src/Storage.sol\":{\"keccak256\":\"0x0893905ebe431a414226b479a84a54804091001a406222c748adbd4b651853a5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://bcfcd3848127884041f0bcd727a0e7acbddec283aa6c16ba47abc6a3be720648\",\"dweb:/ipfs/QmY5fBd53e4Ro6vzTZYsteSibSTXVA3GHTeCAiUZTa5DPZ\"]},\"node_modules/@latticexyz/store/src/StoreCore.sol\":{\"keccak256\":\"0x95b7d62d84b43777c54dd1c7d941dbb5ba0afc02c444c30cfdb1de671bbbf180\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fe62a2fdb2a73610c3072f31b7f88ed3f9d03c1009fe0f0ef37a7eb814b23534\",\"dweb:/ipfs/QmV85zaV5HAD6eGc5N4RmdtmpR6EwkswVLQTaR2aJqsXrj\"]},\"node_modules/@latticexyz/store/src/StoreSwitch.sol\":{\"keccak256\":\"0xf132af10f960a498f49c0534027056e715f4bdcb8fbdb53ac6879c92309ab416\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e85a09aeb7543bcd9d74b7ad319ae61e1f7f15a6a0ad9e79aff750fbd18111c7\",\"dweb:/ipfs/QmY6xgqeeaR1FsCPLmFbVgjm1D2UyrXNABKXWLfFaSmBhR\"]},\"node_modules/@latticexyz/store/src/codegen/index.sol\":{\"keccak256\":\"0xf337a5abb2d43ef00c1c200e7fbec30fc89c7c701e457ab4277194b700d2aea3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://eccdf6158076b4e8f1b587a0310228f53323705e054a44eaa7733f38805c3ee6\",\"dweb:/ipfs/QmbXEVNTctg54dK9awdCVyAjeuUjR6ckfmmXBP8DrFmjyq\"]},\"node_modules/@latticexyz/store/src/codegen/tables/Hooks.sol\":{\"keccak256\":\"0xc5c6f807cff6b4dc486525c559ba3f7cbb034ac5895636ee64c9d01defa6a38e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://84d3a3b3fd3afa2ab3231fd7fe981889dfb0600deec34c5d4e9c07d3187af8a5\",\"dweb:/ipfs/Qmanj7WjETqBYQXkxKLjqWs4vMp3en3N69B5MacKme5fpD\"]},\"node_modules/@latticexyz/store/src/codegen/tables/ResourceIds.sol\":{\"keccak256\":\"0xf7a9bf3e37b486377005c556cdf5b813ea1a41278b3a0349f81e3c82a2f1c789\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://92cc87add89abcb126bf3cd0b284f25065c2b9c90a49f8dba4629b28a5b87751\",\"dweb:/ipfs/QmNNBDSK5GNujERGiSUhorbmtpdD2UnGz7MqSSDasEGdub\"]},\"node_modules/@latticexyz/store/src/codegen/tables/StoreHooks.sol\":{\"keccak256\":\"0xa1186b8b6143b4a87cea1624785494398be1613cb7c6f9e57734e1cca1d5dd14\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://488c158082622689d035d7964c6ca063295e53078291c340eb6a23db08e8ff95\",\"dweb:/ipfs/QmWcjo3B5SH7jStXKAuf7qvF2ouz6syw9c7aT86PnTgRqW\"]},\"node_modules/@latticexyz/store/src/codegen/tables/Tables.sol\":{\"keccak256\":\"0xd47e1921c07fc8608157b5dc343fcef7235e891ea6a21dec1fb118a0bd797fcb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://01a6ad068e6991994a0939f22a55245e0c7c82fc5e274da0af616286a8acfc7a\",\"dweb:/ipfs/QmPokA3pSexzZY33MMV6BGx48ZwQegdUN5AijiAfycSDxy\"]},\"node_modules/@latticexyz/store/src/constants.sol\":{\"keccak256\":\"0x9e37c64c119ef07ad914bc589ee3f6d67946ab95877978c1ee3e2c1ffae07076\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3fad47e542025382aa28e8171253e34f93b2f149434b67a26989542d70218793\",\"dweb:/ipfs/QmW6JsKNwPc6oAMrgcikgR2EPwMUtQANiuZSQSGCd29HHC\"]},\"node_modules/@latticexyz/store/src/leftMask.sol\":{\"keccak256\":\"0xd0360567e4d77c6a8e3d8a5f4bf3653ccde4d268674c50988d55695dc6193f6f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://53e6bcb53fcb08ee9426225fdab7c41df91e12cb4f80d92895a6117338627401\",\"dweb:/ipfs/QmeLcaPGeMBpNSTSsPYK3PHpzKuGMjuitCweAWcoXK2mXr\"]},\"node_modules/@latticexyz/store/src/storeHookTypes.sol\":{\"keccak256\":\"0x60880298016fa117ed9a43ddfd020f11d98a2d345bdcb08e5884e40df98eddd5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3619dfda1fd514c0fc5fb34c14d5b5aa41dd6ba6045d37d5f4c8199f3a826f81\",\"dweb:/ipfs/QmbzRBYfVa423gNzCitpGN3i2N9oeGYfinVE1jgtqxnNZX\"]},\"node_modules/@latticexyz/store/src/storeResourceTypes.sol\":{\"keccak256\":\"0xada1867ba72930fc5cf5562dd4e36de849dbac9c833b7969cb1b046a808fabf2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6e4b5fdcaa54f567a3f8561c2c3fbc0d68c8dad892a4a8e5418bbce8efc53d84\",\"dweb:/ipfs/QmTWbYJX1yrCqrEwUKB9rGpHdRvLNU8GCkBbxnLjGD4d2t\"]},\"node_modules/@latticexyz/store/src/tightcoder/DecodeSlice.sol\":{\"keccak256\":\"0x1af0fd984640123391ec2df855d00298504b7ce186a56c2caca769cfd9e08e04\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7305a62318890d2cc6420ba7dec13d9f2c1cb67ac689015fc83b9cbccd0696f1\",\"dweb:/ipfs/QmR8jGNLbt64Tv1YZKRVBCVsd71oeUQFzGHHtpsrs4PuRq\"]},\"node_modules/@latticexyz/store/src/tightcoder/EncodeArray.sol\":{\"keccak256\":\"0x1c280d24360282e196d9c4833c58c2437108cea2af0ac7596f95be81389e306d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6b4556b6eeae9328fbd9adcce346547e823c397503276a4d63effb67e00b5b49\",\"dweb:/ipfs/QmUsynVsMYzjh8oJR8YB7SRrwFMdXcsQsHBrXxLEEFxsiB\"]},\"node_modules/@latticexyz/store/src/tightcoder/TightCoder.sol\":{\"keccak256\":\"0x5cacd4cb371e0a79bc8d64f62349d568fd8b08093c11ae0c3db4f16480d8808b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://12b64ddf2b5c19cf68ba93a8153ed79cbafe7a91e015d4b2f25eb1d42ab06256\",\"dweb:/ipfs/QmQz5WwztcuTbSGFv2pkhU3w5scUj1gmavoyUpduxk2v3A\"]},\"node_modules/@latticexyz/store/src/version.sol\":{\"keccak256\":\"0x01029999a48b7c1d85de84cae465dd24ec126c95b8a865cd20c7ed5dfcc0f02c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9750164ce996badb0fd7df2f526780b9cb9558912405fe46f31064bd7c522491\",\"dweb:/ipfs/QmYf8m2ZXFANRc9ysHgNkNtSF327ccxKYjCUJ49UXBKADk\"]},\"node_modules/@latticexyz/world-modules/src/interfaces/IUniqueEntitySystem.sol\":{\"keccak256\":\"0x522fec5a5d0005c6902235f49e9c59570c158ff470472d91afb81c8934d1f8b9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c65e929a0196d5333f3642a62c21334df295fbdac98660e4ace31ad9d2a22cea\",\"dweb:/ipfs/QmeLXDZrnMQKaBF6nALVsV6HyutugrsCQaqch64YnZ69ya\"]},\"node_modules/@latticexyz/world-modules/src/modules/uniqueentity/UniqueEntitySystem.sol\":{\"keccak256\":\"0x7459e16f89df6b682f5dd355d0f9178c0d540d6388db0740fdb832d871a8e4bf\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://64667b045d4af2ec8ee9856a8377e0d61563cbcd4953bdff75e60dc08e055d65\",\"dweb:/ipfs/QmUAHh1AMyG1Mq4SH5is2q97V3tAc3nqjcx5AzRWkATe5K\"]},\"node_modules/@latticexyz/world-modules/src/modules/uniqueentity/constants.sol\":{\"keccak256\":\"0xd75446c0fac3b5f27c028657696ddc78b3abcdfaf4ce778e828f37e8cbee042d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7eb04a357265fd23227be7ede0ce2d57440c17ad72c2ccf11b60b5ad3a7d72fd\",\"dweb:/ipfs/QmVRFEWtYMKqP1nQRq5UCVQfDKPGuaqZ7YwtRnLm39b43G\"]},\"node_modules/@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol\":{\"keccak256\":\"0xf83b6e046aae9e6bb8b83102118bfaa08851adf5fc0322dd80d1c5515e0a85b1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://09388d89f2a78968f12ad01570798191d772e5236948bce50c85cb12eb5d47f6\",\"dweb:/ipfs/QmYCbh4uGErTdyDWw3PLpRrQXbGtca8JmwD5KPUfA6kk8U\"]},\"node_modules/@latticexyz/world-modules/src/modules/uniqueentity/tables/UniqueEntity.sol\":{\"keccak256\":\"0x083c28de7434bfc85fbb2cd061a443ca8b861f23e29673754bd106012e42c976\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ec386e0f999c31215eff528a9adc19153eb84132e0cb1f26111f2bf187c91de9\",\"dweb:/ipfs/QmVrJEPqnx6t2rbGJ2wjJY2Zb8Cv4syD2c2BancK2fwmVH\"]},\"node_modules/@latticexyz/world-modules/src/utils/SystemSwitch.sol\":{\"keccak256\":\"0x8242e32af7f919eebac06852a64d354f8d24ee777079244d430852f22d47230e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d32745bde5e8e24e0c293545b1047a580a77602f01b8695c2236192187bdc1da\",\"dweb:/ipfs/QmeX59sxxU6SoM9o1KbCDxuR4DmHB3nyx1Kee4nLgfq6UH\"]},\"node_modules/@latticexyz/world/src/AccessControl.sol\":{\"keccak256\":\"0x10ca29a5d7075edb2fe5cd559077fc34857129182f9d6ea074a234dfbcdb313e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1fe2783b7d0592d14a20b8be192dd3fa4216f8e541adea579859ea2bf1224da3\",\"dweb:/ipfs/QmTi9XDP5jsQpbqvJxPvkqyDByv7i88wKidrYnTtLdPhka\"]},\"node_modules/@latticexyz/world/src/IERC165.sol\":{\"keccak256\":\"0x7997ebbdee6a2493f28e7032c7a8b906ade40f807d95734e2653c8f1b023ff47\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c8ca41bb2619bf27e5bf886d1322f0e2dffd096c49f7ae6e716541dd1e1ddce5\",\"dweb:/ipfs/Qmb8zATUWWTtiWaSLjbAe6PGnJPes9ANvEyk7pYoWR3P3Y\"]},\"node_modules/@latticexyz/world/src/IModule.sol\":{\"keccak256\":\"0x4535542ceb57e77096f24b943285bc158c48ef5291999f9c1e27f5682f8a9581\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ec670524d19c50c659e385bc4dcb4757b065e1b5fe14160244537a7cd7a4b883\",\"dweb:/ipfs/QmT7NSWFSQ6MxYefe665srKMT2GTWomrPRZAHLjrFhQzV6\"]},\"node_modules/@latticexyz/world/src/ISystemHook.sol\":{\"keccak256\":\"0xb2114b6b66c0e7d8304d9e1d06aa1d0731f089daa6a0584e6cf744d9c48cf4db\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ebbb172970b106dd4ae5a6d5e417ac75cad7529d2b94c1601e10b886d0edf510\",\"dweb:/ipfs/QmPGn4F92hjkFch6Jh2NB37EYLLfstw6JxJKUZjXBFqGCw\"]},\"node_modules/@latticexyz/world/src/IWorldContextConsumer.sol\":{\"keccak256\":\"0x22b8cb3ffcc21cb1657d57fc8ac929d2d6fdd199328e6f43ad2cb54f53dcd500\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://47c001f6b7c6d6e453c340618d23b1532078abb7d0fd7283405071e4e8ff8d2d\",\"dweb:/ipfs/QmRW3femBhqQCPwDEj4Jop2Dnd3EU21ufg7GDVwN4joCQu\"]},\"node_modules/@latticexyz/world/src/IWorldErrors.sol\":{\"keccak256\":\"0xc3e7975e5785574543229eac51e3441f4185863d7f5346c0ae08a27b4541f8a7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://62cc0dc109e6e5475bb07fb95643a31c74337c23521db0557a36dad6117a1e83\",\"dweb:/ipfs/Qmb8jbE1XQTUdreKFr4Jw3xmjctaLuReRZjPxZKQ2uW9p4\"]},\"node_modules/@latticexyz/world/src/IWorldKernel.sol\":{\"keccak256\":\"0x9dc133cb55dc23fd6fcbbef8078bb4ea9bf67d698400cf89fc62b905b60cf5eb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7c1a57df7052218483eafe72d873660f39a73e2e06c1b14ad8a579d85b94bc6c\",\"dweb:/ipfs/Qme7dnjvADGZyM2L7nZ51nSjsjXXF9isTVCpWaUCd1cEGs\"]},\"node_modules/@latticexyz/world/src/System.sol\":{\"keccak256\":\"0x7bece0ec86fdc458054e6db0ac4316fc98882fa3ba76b2fa107d3de5382053cd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d154183426723bbf133d4dc5f8d051e9521f7b7cabe63925731fa4af99379cdd\",\"dweb:/ipfs/QmZXxPGcqknGLCwTByaZFKhqvKbrfiZkywmnh8buGTC2Mc\"]},\"node_modules/@latticexyz/world/src/WorldContext.sol\":{\"keccak256\":\"0xa11d93077d94f18683f1098b69c4713a48001ae15054476135ec9569041abb9a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9b1d3384def68b4061c445b55602dd9cbcd4e8c58c13db5e945f284a05c1b518\",\"dweb:/ipfs/Qma5DUZrSKZUxrxiGCpyRPWMJNdHU2wu6qDEsFWEJSnLfN\"]},\"node_modules/@latticexyz/world/src/WorldResourceId.sol\":{\"keccak256\":\"0xb7bfae2890004001221b3902d185c14cfea0e606d16914f6b7f81cf112aa9417\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://acfd0d09166fc1bf16a8a5c80fbae1bd42426b2fcbab3c492bc836ea5c0375fb\",\"dweb:/ipfs/QmTzZWHVBkx8hipFVpgEwAbZpr4c6hfr7yf7R71JojT3NK\"]},\"node_modules/@latticexyz/world/src/codegen/interfaces/IAccessManagementSystem.sol\":{\"keccak256\":\"0xc912f14d0f2e2e9e728a9d18e250ebe3eb2f51d0b4d79993c9d997991bbd5593\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://29621425847a1c11205307896b04e2a6c97934dd619f23ce6774ce52520f1255\",\"dweb:/ipfs/QmeuTe3q8U11Dqkp5tahxVWnp9Cd5ezQmRZ5vhEHtv14Eu\"]},\"node_modules/@latticexyz/world/src/codegen/interfaces/IBalanceTransferSystem.sol\":{\"keccak256\":\"0xf04594c29c5c5b3110453ac189a8008735753de864ab4a7dfa97ccd3ae5f4a55\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4a3061f72b969a294dc96c3b2e59277e762ce6571cedcc7e280412431453dde5\",\"dweb:/ipfs/QmWB9aboakrCH9AmzGiZ1mCceh9atF4ks5ndEYFzUVbaHT\"]},\"node_modules/@latticexyz/world/src/codegen/interfaces/IBaseWorld.sol\":{\"keccak256\":\"0xf96aee478cc770cd9cd417b7939c38c9b9b075c91f3f47bdf8c6742f5591e9dc\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9c59c4c9a6ab3d64e2b0d7c9f3df2d330a36fc93ac2ab5e5f907fa881fbed1f8\",\"dweb:/ipfs/QmTbd82cCtDwc8Ga1UsWAKXmFYrWU1zkbCCk1nMspqWdZu\"]},\"node_modules/@latticexyz/world/src/codegen/interfaces/IBatchCallSystem.sol\":{\"keccak256\":\"0xb4d323470e22b1d3f0168a44196eb09466f602b7564c75e5739c5f53a5036f97\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://acad752208d00b731baaa1cfa192ff3981001fd030953bdc604e4f69ec2cd0b8\",\"dweb:/ipfs/QmRFw3RgmX2CHqg7PqsP3rqVKxBVYNq5hHcFiyA2Y7iAaX\"]},\"node_modules/@latticexyz/world/src/codegen/interfaces/ICoreSystem.sol\":{\"keccak256\":\"0xf837b53eaa348da3b3650e0b7159de02d3f84897d96e487ece2f932c272dbe57\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fbdc52e9e519c8c6d4a00caf4de08688eb8eb34dbfc6236308f281d7cf05b51b\",\"dweb:/ipfs/QmWnogXiA5KA6JGxCTJR5W1MNFowrH7baSAYhSXjV1xM47\"]},\"node_modules/@latticexyz/world/src/codegen/interfaces/IModuleInstallationSystem.sol\":{\"keccak256\":\"0x5be1d1ee90a7a03258e8c4fce7542453332c637a51b015e0cc29151ef2792263\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://df6d97356b2ca9d97b7593f4c0772742529fea73f1665e55a879a368b399cae0\",\"dweb:/ipfs/QmXCs5X4Z95isKRzjP4TQjQxwiB7773tHiJWLWkjLv3SLj\"]},\"node_modules/@latticexyz/world/src/codegen/interfaces/IWorldRegistrationSystem.sol\":{\"keccak256\":\"0xd7e31957e7fcf056912fe16e10a0411bdb071c14c45853e7da264dfbfd6bcb62\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c4ce02327ac8971177685fc2655733ed3c07f5dfb72846680544a48953180aad\",\"dweb:/ipfs/QmQMNtkeCXdZfyyvtY8vUrKh5RUbpM7HYMGrzbxZGzTEFh\"]},\"node_modules/@latticexyz/world/src/codegen/tables/Balances.sol\":{\"keccak256\":\"0xd71faf03c782ac29483e94c2ea166fcc4e50179c7605357b1ba31bca4de29514\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://099db3f65835e395450f49119c4211b8394f2783ded4aa86eac32b3ca951f662\",\"dweb:/ipfs/QmV9FEcdDnCLbEoiAzAWYwN66P1Wf2bgkbicHNnBXD7Xrd\"]},\"node_modules/@latticexyz/world/src/codegen/tables/FunctionSelectors.sol\":{\"keccak256\":\"0x873f8d46f75ec8a85c392aa7cf2dd3f2183684dadde18b7dfca12643ab6249ed\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1eaf7aeee1487c967ce419db0e96abd1cb8f6b75670009f2cac26dda94caec81\",\"dweb:/ipfs/QmXs5wmrwP23g3LNPP6J3NPgemu85VVQvx8rfHz2RFXRtk\"]},\"node_modules/@latticexyz/world/src/codegen/tables/NamespaceOwner.sol\":{\"keccak256\":\"0xb0b7c13673a1629118cb0c3c341380fa6d4795c9b7cf6a6c73443750f1a3b34d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b3c8eb44785f61c0470273cac40a228ae458b74f48d2bff8faf8915861fc49ac\",\"dweb:/ipfs/QmUF52hgGCL9TMyTQqrxGVharwfFgKNsCpD3VNqfbhid9X\"]},\"node_modules/@latticexyz/world/src/codegen/tables/ResourceAccess.sol\":{\"keccak256\":\"0xe2a4e6a75ffda6971c16e9218a0f076d5b89572d37780cd4c2375a2de683fd60\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f04dbdf5295c0ddbda4ba0eb5fdebd84dce2ff3fe86d34681f71522bcb0e6e93\",\"dweb:/ipfs/QmUMkPg1vhSz2zVweN5bqtWbUCj3UQKZPgYfBkQ3QGS7gF\"]},\"node_modules/@latticexyz/world/src/codegen/tables/SystemHooks.sol\":{\"keccak256\":\"0xd069f1f65243ffcc3ace23804851bc902c5e58d525b962575a659e47aa76236b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4f86b3d93b5bcf81e0d3da0abbd6fc3924be59e7c8d147cfeb3307108431f6a3\",\"dweb:/ipfs/QmRrkBXGsdtbo28xznUWUuqNUGyfAbu1kadKGjL7n6KiKb\"]},\"node_modules/@latticexyz/world/src/codegen/tables/Systems.sol\":{\"keccak256\":\"0x3bf40b7e71a1953f21b447975ec1a850994a250325fdb88489d24175cf8440d9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7fc1d4ce3096dfbd5510d2558d6fcae01ede446032ae232bd3e8656071e21ef1\",\"dweb:/ipfs/QmNSmK5Mt7tt5isSuo216vVnn6rHBprYjz9Sdodf8YRPAy\"]},\"node_modules/@latticexyz/world/src/constants.sol\":{\"keccak256\":\"0x07faffa7dc4a2adc4f9bfe93d5a59a7dd89241d360996537608e38f61c2d0588\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b96d4ce331b257a24de2f18503a11b986ed32d218810db9d5e3e7eddc17c2218\",\"dweb:/ipfs/Qme7Cw4RN1eaFWt2j3hk6ZMB7GWUfMY5oyZKYfMvAVxdBc\"]},\"node_modules/@latticexyz/world/src/modules/core/types.sol\":{\"keccak256\":\"0x256b3269e1e7eb6c8b6e26432bbe6799b4d45a88ef1b0e795ea71e604cec3a8a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://99bf6320ce9671ed74e7352b4e6c462d741ca9a894c48b526e7d8513308fa6b3\",\"dweb:/ipfs/QmRFJcWFMDRkg7soJ4r4MrqacKmj16vUEMFEGWJuvFi4vJ\"]},\"node_modules/@latticexyz/world/src/revertWithBytes.sol\":{\"keccak256\":\"0x16795bdbfd7956d733df9ada1030ee7a1a714e3b9da5899149a7b07568c4af55\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7a71128b4989e78215d5fc57dae8c2f84c6b5e503c159178c0df6f642b8228df\",\"dweb:/ipfs/QmNYTfBe62SdGESZ32fxME72CbAxEqk4j79jBT7655C4u7\"]},\"node_modules/@latticexyz/world/src/systemHookTypes.sol\":{\"keccak256\":\"0xdd201aa30700e70c35c1d4e50c375e511d798961183c8531f947c2d15969debb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d9c165b1beb7c1d3f75107407c34a5b3424ec8cb322d494892bceed23323ffb9\",\"dweb:/ipfs/QmdH8rtgJaENsMc6HodAbahKg7PiZUJwoZufnHCw3TwrBx\"]},\"node_modules/@latticexyz/world/src/worldResourceTypes.sol\":{\"keccak256\":\"0xe31ee781596541f60ed71ef327c9d26ffc899e7fb3f4991c67406518bfc00746\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f7b864fea8c77833a322b16c4673f110d5065d0cafcedecd07895699cf4258c2\",\"dweb:/ipfs/QmRkzXVjMLwQFWxjEjgfdXVPAp6SU4zfxPo4NJcmz8HwH9\"]},\"src/codegen/common.sol\":{\"keccak256\":\"0x3d34d5d8d6e7ad2a3e31e899c028ef9ba19a21a3b970d32709cb4afd757b7d13\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8ea61d660644bafd6670215d6df44694c0717674db8b2bff924a16031489d8e2\",\"dweb:/ipfs/QmcnuUEXmx9Dvu6et3kZRRw3rPUYgED6Ro6U9qqN5FZzag\"]},\"src/codegen/index.sol\":{\"keccak256\":\"0xfc495d5744b7c03464dbeb2322f7127a66b23c79739878079ffd0b46907dc850\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b34ac7d1e4dbd72c096ace9346e10564b252fd42badef56e1b8153050d39a8eb\",\"dweb:/ipfs/QmbMgE8ZngKfwuRPMjLWeWSPPUXfiNuKbR3i3ZCTPLz1mu\"]},\"src/codegen/tables/ActiveCombat.sol\":{\"keccak256\":\"0x2314aa92ae500ada724a268b247e1fc0e495ba53f9dc97ae2c97a41f1a7d7440\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://465265485f2ef7e9d52ce4b9d66daf1ab1358fd639eb0830ea0aa987fa9fffbf\",\"dweb:/ipfs/Qmczr2JhHMH1vJPxZBfMBegxmr9N6enZGptKQDz6cAesJK\"]},\"src/codegen/tables/ActiveCycle.sol\":{\"keccak256\":\"0xe1c0235fd72c903893b4770184922eed1c666cf49667ae9f8ee2e2edf35aada9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1a427b876db258a49810ac25c5bdf604b5177d58b53d0ae4fa2e298d29b659bf\",\"dweb:/ipfs/QmUFVKw7utt1Lvqq3vsPtxpGtPF22eHWBKLUMRV7BXuSug\"]},\"src/codegen/tables/ActiveGuise.sol\":{\"keccak256\":\"0xd4a85ad3143037484491f1567faccdb003266b44cd354f9210fc81a17062c7c2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://43b5868066361f3cf90263ee352a9831008a04b33f08b89843693b2311fd25ef\",\"dweb:/ipfs/QmaMZmEspS2gVzhqxPrzuzmeLvQKdWr9Ph95oa9YHr9WuU\"]},\"src/codegen/tables/CycleTurns.sol\":{\"keccak256\":\"0x7a28bfabb9112ee14eb9b8c625097ff4d1fb5378ecbefd5e81a33d7e7c055275\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3474e9911e7ab6219a30f856f24d0f15f8f357fc85f2f8a6dc3f7400d14a6306\",\"dweb:/ipfs/QmZKASdNt29HfoT6wH6aZA8s1WhKgQ8TuZfWEjBrdAEm1s\"]},\"src/codegen/tables/CycleTurnsLastClaimed.sol\":{\"keccak256\":\"0xb55e4bb77b294b32cdd9d8437c9d3870afe4441b499c93defda8c799e8ebbb01\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8894e4156d43e4e8d8658b149d6189778eac8f9486e29a6de69aefe5efbefb30\",\"dweb:/ipfs/QmPskPTe7WM8Kirdyz6PHTpvEokwfQr9Mhn2p2JvcxrUtL\"]},\"src/codegen/tables/DefaultWheel.sol\":{\"keccak256\":\"0x2d374ba7045af19700eb18c856b86ece0903595b228954450661f9731534097b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://14b9b86181410ff33218722b906728025a8f3aa3955f16af0cb7c61088dd420c\",\"dweb:/ipfs/QmdMdoLCeUhyc8TQBxYJ9ajqTdMsF8uoTMsyQB9B9429zs\"]},\"src/codegen/tables/EffectTemplate.sol\":{\"keccak256\":\"0xf3983a2741c4f00f9c3f84db525a03c1b87c82cfddac034b7612a14a8b7388a7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4facd626a5a0d58b1a323adfd397e7d8230103383cadeb85628f98409c5c4076\",\"dweb:/ipfs/QmUAtD2H24NumpkDg9scC2YUiJRnNDiz8Sx2NEF8ATuEAW\"]},\"src/codegen/tables/Experience.sol\":{\"keccak256\":\"0x418bbec96a9f2f3f0ba58216ff2e75f6abfa3ac86a951fb79f31274bc8142e5d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f738aa40d07e85fe82a3f35b533ac284ea24417d106210a165472492ce48feb6\",\"dweb:/ipfs/QmZwhmCXhxMk4YH3GofWgiMiBX8Zxm9CSVxkSqTijrMpSm\"]},\"src/codegen/tables/GuisePrototype.sol\":{\"keccak256\":\"0x049174056b252c98c4fed8a9b1bdbcda04cebe570a90cbd377a92404b46411d2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2d72e239915536f23990d277ed2a35c2dbfcfe152f6833f53c5c8083c390dadd\",\"dweb:/ipfs/QmY7Cb8CSDg5PphwC3WuZGWyJPFSNfaq8YMe9VAiQ786N6\"]},\"src/codegen/tables/LearnedSkills.sol\":{\"keccak256\":\"0xdff3aef915fb55b02926c8864ca931166ec20fd6d5bb7506ea1e256630c06aba\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f6d895527e0dce7c0b66aebffc7f1bb6a769f5aedf69fb3ceae615e491b4140b\",\"dweb:/ipfs/QmTnf9Uv9mQ9w2w9jyrWgE1KKdw9nHkan1U5eLJtSJwc4p\"]},\"src/codegen/tables/Name.sol\":{\"keccak256\":\"0x36c512676ff57026996d64f5aa34ac1246ee701cd2a61d57f9b6b99f60b8efb5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a8f4175803b58c11243b20118235cd41cb1ab6d057b404f9f0811e6ad90fb65c\",\"dweb:/ipfs/QmZC9r27tr7bh2pXgaT9HEXqeMmViSYqE8xiZ3bJmUvPrq\"]},\"src/codegen/tables/RNGPrecommit.sol\":{\"keccak256\":\"0x94e4d9b39879b3b298a9f9f2aaede65f568b13a58468b8933c1f6e04f96d7e58\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://24e458808bb7693185e0a6e87a929017bce6d34938d2bbccd9feb847140bf814\",\"dweb:/ipfs/Qmb8xSYvqg3H3aixVHzukA52K84ALMMkLi9HRkfdTMQnhv\"]},\"src/codegen/tables/RNGRequestOwner.sol\":{\"keccak256\":\"0x02d32e080a7e25acc645c90a5f7cd2863e9acdf9e31077b6ea3e6f50ed22df14\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://81a36e3548497d7db8337db237bdb45b4980af3acd4619e10111a3d70dc3e695\",\"dweb:/ipfs/QmUnpAegeTqx2embD1rRghrPFpedSCePhY9StAKDeABFNZ\"]},\"src/codegen/tables/SkillTemplate.sol\":{\"keccak256\":\"0xb94afc8669aa380c16203e272976ddde4b70008d5b5106e734a1825340d3e4cf\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://17190845106257f7b484e73676aa39608690ebe94d1faad24bf64cde4434271f\",\"dweb:/ipfs/QmYLKZMdZv8YKzJibLfXeERgYYeubxhKS7vfehny17z7Zp\"]},\"src/codegen/tables/StatmodBase.sol\":{\"keccak256\":\"0xc7807d705d6e6fa96fdea627de4a2cbcc8192117b154b79593272a9e8afa03db\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8c7e8e88d611a1f67f97a98b2b1ac72d9bd7e6fcda6292bbcaed7ac654dd4cd0\",\"dweb:/ipfs/QmeBSyRqGFePZ3SkPa1bZqhUxMv61FYC37CtmPrvtGxLCV\"]},\"src/codegen/tables/Tasks.sol\":{\"keccak256\":\"0x63bdaa88f20801cc0d8be8b33676b021a14ff9e389253974f4837761f4080300\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ce5212f2f5f0a2b33b2fc7b623bdd6c7ef03a743e39dad98f9921cfebaf97634\",\"dweb:/ipfs/Qmbc5ZDW1DnuV4mKrpMdo4MZ7UgYQWiaFvveABUYPd5xxu\"]},\"src/codegen/tables/Wheel.sol\":{\"keccak256\":\"0xb36bb0586cae6a7f773ac7fcc9dc3ffcfff6d66aa9a89abb4d35de5e98752823\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1613a6b8619b258ea61e6ec6242b7c3142c0b4f7bc8511b0528e7671db0173c5\",\"dweb:/ipfs/Qmd8ywHy99c8BsY6tvATmGWu2HVMdWDNpUyCvsBerJ7UAz\"]},\"src/init/LibInitWheel.sol\":{\"keccak256\":\"0x490e4e415d10adb2fd371ceafd10192c279bd62d547a5a68fbe1391bec0e3a10\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e5356c64762a082310d2a8cca5752f616bccfdf3b76c9d0f4759a2bf7d978a83\",\"dweb:/ipfs/Qmai2vsoBmEC4RnJVREvyw3zZqGT8P3WMdbYZFVpgFE6xa\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.21+commit.d9974bed"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@latticexyz/=node_modules/@latticexyz/",
+        "ds-test/=node_modules/ds-test/src/",
+        "forge-std/=node_modules/forge-std/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 3000
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "src/init/LibInitWheel.sol": "LibInitWheel"
+      },
+      "libraries": {}
+    },
+    "sources": {
+      "node_modules/@latticexyz/schema-type/src/solidity/SchemaType.sol": {
+        "keccak256": "0x770eff7a38b9b7b1613dc11ca09db4f28b42a117c9b39b2a06a650a58a250bdb",
+        "urls": [
+          "bzz-raw://39f544110658a53def52c2a4e33b8b158b95a4f14fccea58d5268b6e728d86d4",
+          "dweb:/ipfs/QmTesj6tjSFbfAiKUitXapdNYWPStS8bLkB3r22qfyHwUC"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Bytes.sol": {
+        "keccak256": "0xab31edce915377852bb5f29f7f2ccfc50cac087d64d2a8aae669715ad862d558",
+        "urls": [
+          "bzz-raw://3187e86e43be1fbdd59df45c695294f1114aa1ac48e6445c0cb26089434be5c4",
+          "dweb:/ipfs/Qmck7shMVrcKMVkgN2pC1byPY7hb3V9fTxnUcGgxAUeXYk"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/FieldLayout.sol": {
+        "keccak256": "0x2a0536cd6cecc479d0b81d5aad6380231f4d6873beadc54814d801c2036b02c0",
+        "urls": [
+          "bzz-raw://e07c041e19146a9ec258cc700a450b4d49440202895eb12f3bb17508427c23ba",
+          "dweb:/ipfs/QmXoqrCGDSkuFgNSMURRFdjokjREL78nLDzNaUi6rjefy9"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Hook.sol": {
+        "keccak256": "0x045024523eb55d08ad8d13eca6185bff2988865f4aa12e3f9372029c2ecb8ddd",
+        "urls": [
+          "bzz-raw://6621c53b49f8fe0557d1a1db47bfe1561801c09256948dd0652fb41541891a18",
+          "dweb:/ipfs/QmZgFVCUH1pKcc9MeFyzMe1VW87SLz6c9szGwrDRUp6BZe"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IERC165.sol": {
+        "keccak256": "0x2bbc3c43400c15a91a5cb35430a91309cb64a4d13a0a170eacec71dcf334feaf",
+        "urls": [
+          "bzz-raw://f44dfc9605067de539de07a76a34bf469faa9e6dad8c192abafc2e05860c7dd2",
+          "dweb:/ipfs/QmX8xgG6XWokM7YFwFZvmMhuh1uhkSjxCMD2oTHjUVdapb"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStore.sol": {
+        "keccak256": "0x9092b65551d0f910e5645cebb5acadb387cdd192d75fa89cd6b293bd65b28827",
+        "urls": [
+          "bzz-raw://478825a6f7eff9ddab968e71e1d55ebee279d3b318f10976d9334384000059c0",
+          "dweb:/ipfs/Qme7NY976woRy3RQjE4tkkiwoXnoVtTmER3PbWCSbjZ2kb"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreData.sol": {
+        "keccak256": "0xa8eade05c551aeef35c84727d7a44af239516deb2d8a0cfb7ebeb5d88c6995e5",
+        "urls": [
+          "bzz-raw://5335910bd8a204abb5f4396fb911a5ee5c221bd7fa63b1cc8ae5e737c6458c6a",
+          "dweb:/ipfs/QmckkCAfrNcWo3yDxoD1jCe1k4iDA2GzVDpFjJZs7W79vx"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreErrors.sol": {
+        "keccak256": "0xb9070663ded3cad82285bb7610949e422f88abb48c2ddbd792af83d127d64212",
+        "urls": [
+          "bzz-raw://830490f1c888bec86df1e7ef43773d60ebdbdfdb2b91ab7fe074e2f38d7439dc",
+          "dweb:/ipfs/QmS26fpXdZuGgMmjcdQDf9k1Bedn2dhjk9byFZJoNkctPZ"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreEvents.sol": {
+        "keccak256": "0xdd3104680808f975462a85cbd4fa87783ba5395797419caeeca37e8f8627a16f",
+        "urls": [
+          "bzz-raw://943864b7eb16ad2047ade5a8598e85c8a4b46d1aed6aef02bfb7cee8de732b4d",
+          "dweb:/ipfs/QmTEij4caToSNk15PFpubXYDy9QhwmPyP9tMXjUse2cTdv"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreHook.sol": {
+        "keccak256": "0xa6777c7868333996ad9c61a94457dcac702d8d7445a104dfdc86543d25e7470e",
+        "urls": [
+          "bzz-raw://6268a16449d7529a94746d0103670dd0e38faf5117bf914fb01da9947ab44c2e",
+          "dweb:/ipfs/QmaSfbx1QRA3jw2K8bGkQTw4CTGPUzNqnCJW7LwaFUJCXy"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreRead.sol": {
+        "keccak256": "0xd2180d53ecd31069b1166f170ecdcd85917ac50f45fc26fb39b49cee7ba00e37",
+        "urls": [
+          "bzz-raw://1494bb0a3228e2d194bddaed4761fd3ca865979f0e3f3a53acd271143a4aa0ac",
+          "dweb:/ipfs/Qmaddnzzmu99iP9dTWK9ZeByh5dZyjY9SpVnRdvyr2fBAo"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreRegistration.sol": {
+        "keccak256": "0xf448fbb2bc9c982721a43234463656da5a49cea08543e62148d54f11e1ac3e2f",
+        "urls": [
+          "bzz-raw://64b3579d9b9dcd73dca2beab3d4fcf60237420945ebbb2e9f4ffcc88f4110115",
+          "dweb:/ipfs/QmaW5nN3zGEriSYHncye6Nz2TkAw1oo1CyG2JuJTJrJoXg"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/IStoreWrite.sol": {
+        "keccak256": "0x8b6c7af5ee330928aebb58c8872d3944304ee10ed11f8a325b6accc4ec5df81b",
+        "urls": [
+          "bzz-raw://b866d158701c7a40834bed735194b804ef219f2bbe574e2307785fff7bcf9da1",
+          "dweb:/ipfs/QmXzJfZkXVfyr2RFGwDuazeVnV3UWYmQxjKZ3KzFbbe75U"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Memory.sol": {
+        "keccak256": "0x69295976e61a1a108d1b4d6eb497b238730309f3047c4320d48e01a0ce8d4ec7",
+        "urls": [
+          "bzz-raw://559c451b21fb9dd4fec27b41bef42f4362f1e7ebb7992106d548b9d4f733b3e5",
+          "dweb:/ipfs/QmeSE7YTW5zUrfZYFVb2pFnDe3XxiT8XNecfwC3wfpxCRv"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/PackedCounter.sol": {
+        "keccak256": "0x44ddfa9eb8a861462c550f0a9d66c40c68acdb347a61fa765949608407a2c7fb",
+        "urls": [
+          "bzz-raw://47ee957f4b19cab9e20bf5fc569c015eca13852fb3351f2a105a8be9c48204c0",
+          "dweb:/ipfs/QmNkyzDobVQLoq9BtQ8HtgsPLiqnmi97EZx1wsu6wp8nKH"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/ResourceId.sol": {
+        "keccak256": "0x40983c580b8958e55db4520095934a535e98544ffe8228327e598973eb6647ed",
+        "urls": [
+          "bzz-raw://839d658fa2bb2b1f09a08149d2bf0c26a26c301ad2dda8154fc99458085a695d",
+          "dweb:/ipfs/Qmd5jHHYrgqraPqF8bjzT4xyjsoPk8K7pkxXLLfz6MRT6d"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Schema.sol": {
+        "keccak256": "0x58aef318ba03f8ff8866ef70f8a30f549b150657ea699734aefe16c298956401",
+        "urls": [
+          "bzz-raw://7dc104690a7e2bcf5ce1afadcd58f8ef4d639b4b92b9ad9293656235d54395f3",
+          "dweb:/ipfs/QmYJJvEv5KBJ3kzf9AkgRn7Uu5dp4exGTRddf4cae1btgE"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Slice.sol": {
+        "keccak256": "0xfaf54b1f5acccd4c6ce3f8377050ee84efbb423cb604b4651e8b9ea3b467bf32",
+        "urls": [
+          "bzz-raw://acf2ce7ffec21f28ad1dc6da06c342f1212a03a3d16a0be7ee85715a5940718c",
+          "dweb:/ipfs/QmTCN3NSdFg87hi7KS2Xtq7PsmRUMG64SxC8PtP3p2GzuT"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/Storage.sol": {
+        "keccak256": "0x0893905ebe431a414226b479a84a54804091001a406222c748adbd4b651853a5",
+        "urls": [
+          "bzz-raw://bcfcd3848127884041f0bcd727a0e7acbddec283aa6c16ba47abc6a3be720648",
+          "dweb:/ipfs/QmY5fBd53e4Ro6vzTZYsteSibSTXVA3GHTeCAiUZTa5DPZ"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/StoreCore.sol": {
+        "keccak256": "0x95b7d62d84b43777c54dd1c7d941dbb5ba0afc02c444c30cfdb1de671bbbf180",
+        "urls": [
+          "bzz-raw://fe62a2fdb2a73610c3072f31b7f88ed3f9d03c1009fe0f0ef37a7eb814b23534",
+          "dweb:/ipfs/QmV85zaV5HAD6eGc5N4RmdtmpR6EwkswVLQTaR2aJqsXrj"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/StoreSwitch.sol": {
+        "keccak256": "0xf132af10f960a498f49c0534027056e715f4bdcb8fbdb53ac6879c92309ab416",
+        "urls": [
+          "bzz-raw://e85a09aeb7543bcd9d74b7ad319ae61e1f7f15a6a0ad9e79aff750fbd18111c7",
+          "dweb:/ipfs/QmY6xgqeeaR1FsCPLmFbVgjm1D2UyrXNABKXWLfFaSmBhR"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/codegen/index.sol": {
+        "keccak256": "0xf337a5abb2d43ef00c1c200e7fbec30fc89c7c701e457ab4277194b700d2aea3",
+        "urls": [
+          "bzz-raw://eccdf6158076b4e8f1b587a0310228f53323705e054a44eaa7733f38805c3ee6",
+          "dweb:/ipfs/QmbXEVNTctg54dK9awdCVyAjeuUjR6ckfmmXBP8DrFmjyq"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/codegen/tables/Hooks.sol": {
+        "keccak256": "0xc5c6f807cff6b4dc486525c559ba3f7cbb034ac5895636ee64c9d01defa6a38e",
+        "urls": [
+          "bzz-raw://84d3a3b3fd3afa2ab3231fd7fe981889dfb0600deec34c5d4e9c07d3187af8a5",
+          "dweb:/ipfs/Qmanj7WjETqBYQXkxKLjqWs4vMp3en3N69B5MacKme5fpD"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/codegen/tables/ResourceIds.sol": {
+        "keccak256": "0xf7a9bf3e37b486377005c556cdf5b813ea1a41278b3a0349f81e3c82a2f1c789",
+        "urls": [
+          "bzz-raw://92cc87add89abcb126bf3cd0b284f25065c2b9c90a49f8dba4629b28a5b87751",
+          "dweb:/ipfs/QmNNBDSK5GNujERGiSUhorbmtpdD2UnGz7MqSSDasEGdub"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/codegen/tables/StoreHooks.sol": {
+        "keccak256": "0xa1186b8b6143b4a87cea1624785494398be1613cb7c6f9e57734e1cca1d5dd14",
+        "urls": [
+          "bzz-raw://488c158082622689d035d7964c6ca063295e53078291c340eb6a23db08e8ff95",
+          "dweb:/ipfs/QmWcjo3B5SH7jStXKAuf7qvF2ouz6syw9c7aT86PnTgRqW"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/codegen/tables/Tables.sol": {
+        "keccak256": "0xd47e1921c07fc8608157b5dc343fcef7235e891ea6a21dec1fb118a0bd797fcb",
+        "urls": [
+          "bzz-raw://01a6ad068e6991994a0939f22a55245e0c7c82fc5e274da0af616286a8acfc7a",
+          "dweb:/ipfs/QmPokA3pSexzZY33MMV6BGx48ZwQegdUN5AijiAfycSDxy"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/constants.sol": {
+        "keccak256": "0x9e37c64c119ef07ad914bc589ee3f6d67946ab95877978c1ee3e2c1ffae07076",
+        "urls": [
+          "bzz-raw://3fad47e542025382aa28e8171253e34f93b2f149434b67a26989542d70218793",
+          "dweb:/ipfs/QmW6JsKNwPc6oAMrgcikgR2EPwMUtQANiuZSQSGCd29HHC"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/leftMask.sol": {
+        "keccak256": "0xd0360567e4d77c6a8e3d8a5f4bf3653ccde4d268674c50988d55695dc6193f6f",
+        "urls": [
+          "bzz-raw://53e6bcb53fcb08ee9426225fdab7c41df91e12cb4f80d92895a6117338627401",
+          "dweb:/ipfs/QmeLcaPGeMBpNSTSsPYK3PHpzKuGMjuitCweAWcoXK2mXr"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/storeHookTypes.sol": {
+        "keccak256": "0x60880298016fa117ed9a43ddfd020f11d98a2d345bdcb08e5884e40df98eddd5",
+        "urls": [
+          "bzz-raw://3619dfda1fd514c0fc5fb34c14d5b5aa41dd6ba6045d37d5f4c8199f3a826f81",
+          "dweb:/ipfs/QmbzRBYfVa423gNzCitpGN3i2N9oeGYfinVE1jgtqxnNZX"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/storeResourceTypes.sol": {
+        "keccak256": "0xada1867ba72930fc5cf5562dd4e36de849dbac9c833b7969cb1b046a808fabf2",
+        "urls": [
+          "bzz-raw://6e4b5fdcaa54f567a3f8561c2c3fbc0d68c8dad892a4a8e5418bbce8efc53d84",
+          "dweb:/ipfs/QmTWbYJX1yrCqrEwUKB9rGpHdRvLNU8GCkBbxnLjGD4d2t"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/tightcoder/DecodeSlice.sol": {
+        "keccak256": "0x1af0fd984640123391ec2df855d00298504b7ce186a56c2caca769cfd9e08e04",
+        "urls": [
+          "bzz-raw://7305a62318890d2cc6420ba7dec13d9f2c1cb67ac689015fc83b9cbccd0696f1",
+          "dweb:/ipfs/QmR8jGNLbt64Tv1YZKRVBCVsd71oeUQFzGHHtpsrs4PuRq"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/tightcoder/EncodeArray.sol": {
+        "keccak256": "0x1c280d24360282e196d9c4833c58c2437108cea2af0ac7596f95be81389e306d",
+        "urls": [
+          "bzz-raw://6b4556b6eeae9328fbd9adcce346547e823c397503276a4d63effb67e00b5b49",
+          "dweb:/ipfs/QmUsynVsMYzjh8oJR8YB7SRrwFMdXcsQsHBrXxLEEFxsiB"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/tightcoder/TightCoder.sol": {
+        "keccak256": "0x5cacd4cb371e0a79bc8d64f62349d568fd8b08093c11ae0c3db4f16480d8808b",
+        "urls": [
+          "bzz-raw://12b64ddf2b5c19cf68ba93a8153ed79cbafe7a91e015d4b2f25eb1d42ab06256",
+          "dweb:/ipfs/QmQz5WwztcuTbSGFv2pkhU3w5scUj1gmavoyUpduxk2v3A"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/store/src/version.sol": {
+        "keccak256": "0x01029999a48b7c1d85de84cae465dd24ec126c95b8a865cd20c7ed5dfcc0f02c",
+        "urls": [
+          "bzz-raw://9750164ce996badb0fd7df2f526780b9cb9558912405fe46f31064bd7c522491",
+          "dweb:/ipfs/QmYf8m2ZXFANRc9ysHgNkNtSF327ccxKYjCUJ49UXBKADk"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world-modules/src/interfaces/IUniqueEntitySystem.sol": {
+        "keccak256": "0x522fec5a5d0005c6902235f49e9c59570c158ff470472d91afb81c8934d1f8b9",
+        "urls": [
+          "bzz-raw://c65e929a0196d5333f3642a62c21334df295fbdac98660e4ace31ad9d2a22cea",
+          "dweb:/ipfs/QmeLXDZrnMQKaBF6nALVsV6HyutugrsCQaqch64YnZ69ya"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world-modules/src/modules/uniqueentity/UniqueEntitySystem.sol": {
+        "keccak256": "0x7459e16f89df6b682f5dd355d0f9178c0d540d6388db0740fdb832d871a8e4bf",
+        "urls": [
+          "bzz-raw://64667b045d4af2ec8ee9856a8377e0d61563cbcd4953bdff75e60dc08e055d65",
+          "dweb:/ipfs/QmUAHh1AMyG1Mq4SH5is2q97V3tAc3nqjcx5AzRWkATe5K"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world-modules/src/modules/uniqueentity/constants.sol": {
+        "keccak256": "0xd75446c0fac3b5f27c028657696ddc78b3abcdfaf4ce778e828f37e8cbee042d",
+        "urls": [
+          "bzz-raw://7eb04a357265fd23227be7ede0ce2d57440c17ad72c2ccf11b60b5ad3a7d72fd",
+          "dweb:/ipfs/QmVRFEWtYMKqP1nQRq5UCVQfDKPGuaqZ7YwtRnLm39b43G"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol": {
+        "keccak256": "0xf83b6e046aae9e6bb8b83102118bfaa08851adf5fc0322dd80d1c5515e0a85b1",
+        "urls": [
+          "bzz-raw://09388d89f2a78968f12ad01570798191d772e5236948bce50c85cb12eb5d47f6",
+          "dweb:/ipfs/QmYCbh4uGErTdyDWw3PLpRrQXbGtca8JmwD5KPUfA6kk8U"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world-modules/src/modules/uniqueentity/tables/UniqueEntity.sol": {
+        "keccak256": "0x083c28de7434bfc85fbb2cd061a443ca8b861f23e29673754bd106012e42c976",
+        "urls": [
+          "bzz-raw://ec386e0f999c31215eff528a9adc19153eb84132e0cb1f26111f2bf187c91de9",
+          "dweb:/ipfs/QmVrJEPqnx6t2rbGJ2wjJY2Zb8Cv4syD2c2BancK2fwmVH"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world-modules/src/utils/SystemSwitch.sol": {
+        "keccak256": "0x8242e32af7f919eebac06852a64d354f8d24ee777079244d430852f22d47230e",
+        "urls": [
+          "bzz-raw://d32745bde5e8e24e0c293545b1047a580a77602f01b8695c2236192187bdc1da",
+          "dweb:/ipfs/QmeX59sxxU6SoM9o1KbCDxuR4DmHB3nyx1Kee4nLgfq6UH"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/AccessControl.sol": {
+        "keccak256": "0x10ca29a5d7075edb2fe5cd559077fc34857129182f9d6ea074a234dfbcdb313e",
+        "urls": [
+          "bzz-raw://1fe2783b7d0592d14a20b8be192dd3fa4216f8e541adea579859ea2bf1224da3",
+          "dweb:/ipfs/QmTi9XDP5jsQpbqvJxPvkqyDByv7i88wKidrYnTtLdPhka"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/IERC165.sol": {
+        "keccak256": "0x7997ebbdee6a2493f28e7032c7a8b906ade40f807d95734e2653c8f1b023ff47",
+        "urls": [
+          "bzz-raw://c8ca41bb2619bf27e5bf886d1322f0e2dffd096c49f7ae6e716541dd1e1ddce5",
+          "dweb:/ipfs/Qmb8zATUWWTtiWaSLjbAe6PGnJPes9ANvEyk7pYoWR3P3Y"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/IModule.sol": {
+        "keccak256": "0x4535542ceb57e77096f24b943285bc158c48ef5291999f9c1e27f5682f8a9581",
+        "urls": [
+          "bzz-raw://ec670524d19c50c659e385bc4dcb4757b065e1b5fe14160244537a7cd7a4b883",
+          "dweb:/ipfs/QmT7NSWFSQ6MxYefe665srKMT2GTWomrPRZAHLjrFhQzV6"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/ISystemHook.sol": {
+        "keccak256": "0xb2114b6b66c0e7d8304d9e1d06aa1d0731f089daa6a0584e6cf744d9c48cf4db",
+        "urls": [
+          "bzz-raw://ebbb172970b106dd4ae5a6d5e417ac75cad7529d2b94c1601e10b886d0edf510",
+          "dweb:/ipfs/QmPGn4F92hjkFch6Jh2NB37EYLLfstw6JxJKUZjXBFqGCw"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/IWorldContextConsumer.sol": {
+        "keccak256": "0x22b8cb3ffcc21cb1657d57fc8ac929d2d6fdd199328e6f43ad2cb54f53dcd500",
+        "urls": [
+          "bzz-raw://47c001f6b7c6d6e453c340618d23b1532078abb7d0fd7283405071e4e8ff8d2d",
+          "dweb:/ipfs/QmRW3femBhqQCPwDEj4Jop2Dnd3EU21ufg7GDVwN4joCQu"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/IWorldErrors.sol": {
+        "keccak256": "0xc3e7975e5785574543229eac51e3441f4185863d7f5346c0ae08a27b4541f8a7",
+        "urls": [
+          "bzz-raw://62cc0dc109e6e5475bb07fb95643a31c74337c23521db0557a36dad6117a1e83",
+          "dweb:/ipfs/Qmb8jbE1XQTUdreKFr4Jw3xmjctaLuReRZjPxZKQ2uW9p4"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/IWorldKernel.sol": {
+        "keccak256": "0x9dc133cb55dc23fd6fcbbef8078bb4ea9bf67d698400cf89fc62b905b60cf5eb",
+        "urls": [
+          "bzz-raw://7c1a57df7052218483eafe72d873660f39a73e2e06c1b14ad8a579d85b94bc6c",
+          "dweb:/ipfs/Qme7dnjvADGZyM2L7nZ51nSjsjXXF9isTVCpWaUCd1cEGs"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/System.sol": {
+        "keccak256": "0x7bece0ec86fdc458054e6db0ac4316fc98882fa3ba76b2fa107d3de5382053cd",
+        "urls": [
+          "bzz-raw://d154183426723bbf133d4dc5f8d051e9521f7b7cabe63925731fa4af99379cdd",
+          "dweb:/ipfs/QmZXxPGcqknGLCwTByaZFKhqvKbrfiZkywmnh8buGTC2Mc"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/WorldContext.sol": {
+        "keccak256": "0xa11d93077d94f18683f1098b69c4713a48001ae15054476135ec9569041abb9a",
+        "urls": [
+          "bzz-raw://9b1d3384def68b4061c445b55602dd9cbcd4e8c58c13db5e945f284a05c1b518",
+          "dweb:/ipfs/Qma5DUZrSKZUxrxiGCpyRPWMJNdHU2wu6qDEsFWEJSnLfN"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/WorldResourceId.sol": {
+        "keccak256": "0xb7bfae2890004001221b3902d185c14cfea0e606d16914f6b7f81cf112aa9417",
+        "urls": [
+          "bzz-raw://acfd0d09166fc1bf16a8a5c80fbae1bd42426b2fcbab3c492bc836ea5c0375fb",
+          "dweb:/ipfs/QmTzZWHVBkx8hipFVpgEwAbZpr4c6hfr7yf7R71JojT3NK"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/interfaces/IAccessManagementSystem.sol": {
+        "keccak256": "0xc912f14d0f2e2e9e728a9d18e250ebe3eb2f51d0b4d79993c9d997991bbd5593",
+        "urls": [
+          "bzz-raw://29621425847a1c11205307896b04e2a6c97934dd619f23ce6774ce52520f1255",
+          "dweb:/ipfs/QmeuTe3q8U11Dqkp5tahxVWnp9Cd5ezQmRZ5vhEHtv14Eu"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/interfaces/IBalanceTransferSystem.sol": {
+        "keccak256": "0xf04594c29c5c5b3110453ac189a8008735753de864ab4a7dfa97ccd3ae5f4a55",
+        "urls": [
+          "bzz-raw://4a3061f72b969a294dc96c3b2e59277e762ce6571cedcc7e280412431453dde5",
+          "dweb:/ipfs/QmWB9aboakrCH9AmzGiZ1mCceh9atF4ks5ndEYFzUVbaHT"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/interfaces/IBaseWorld.sol": {
+        "keccak256": "0xf96aee478cc770cd9cd417b7939c38c9b9b075c91f3f47bdf8c6742f5591e9dc",
+        "urls": [
+          "bzz-raw://9c59c4c9a6ab3d64e2b0d7c9f3df2d330a36fc93ac2ab5e5f907fa881fbed1f8",
+          "dweb:/ipfs/QmTbd82cCtDwc8Ga1UsWAKXmFYrWU1zkbCCk1nMspqWdZu"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/interfaces/IBatchCallSystem.sol": {
+        "keccak256": "0xb4d323470e22b1d3f0168a44196eb09466f602b7564c75e5739c5f53a5036f97",
+        "urls": [
+          "bzz-raw://acad752208d00b731baaa1cfa192ff3981001fd030953bdc604e4f69ec2cd0b8",
+          "dweb:/ipfs/QmRFw3RgmX2CHqg7PqsP3rqVKxBVYNq5hHcFiyA2Y7iAaX"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/interfaces/ICoreSystem.sol": {
+        "keccak256": "0xf837b53eaa348da3b3650e0b7159de02d3f84897d96e487ece2f932c272dbe57",
+        "urls": [
+          "bzz-raw://fbdc52e9e519c8c6d4a00caf4de08688eb8eb34dbfc6236308f281d7cf05b51b",
+          "dweb:/ipfs/QmWnogXiA5KA6JGxCTJR5W1MNFowrH7baSAYhSXjV1xM47"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/interfaces/IModuleInstallationSystem.sol": {
+        "keccak256": "0x5be1d1ee90a7a03258e8c4fce7542453332c637a51b015e0cc29151ef2792263",
+        "urls": [
+          "bzz-raw://df6d97356b2ca9d97b7593f4c0772742529fea73f1665e55a879a368b399cae0",
+          "dweb:/ipfs/QmXCs5X4Z95isKRzjP4TQjQxwiB7773tHiJWLWkjLv3SLj"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/interfaces/IWorldRegistrationSystem.sol": {
+        "keccak256": "0xd7e31957e7fcf056912fe16e10a0411bdb071c14c45853e7da264dfbfd6bcb62",
+        "urls": [
+          "bzz-raw://c4ce02327ac8971177685fc2655733ed3c07f5dfb72846680544a48953180aad",
+          "dweb:/ipfs/QmQMNtkeCXdZfyyvtY8vUrKh5RUbpM7HYMGrzbxZGzTEFh"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/tables/Balances.sol": {
+        "keccak256": "0xd71faf03c782ac29483e94c2ea166fcc4e50179c7605357b1ba31bca4de29514",
+        "urls": [
+          "bzz-raw://099db3f65835e395450f49119c4211b8394f2783ded4aa86eac32b3ca951f662",
+          "dweb:/ipfs/QmV9FEcdDnCLbEoiAzAWYwN66P1Wf2bgkbicHNnBXD7Xrd"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/tables/FunctionSelectors.sol": {
+        "keccak256": "0x873f8d46f75ec8a85c392aa7cf2dd3f2183684dadde18b7dfca12643ab6249ed",
+        "urls": [
+          "bzz-raw://1eaf7aeee1487c967ce419db0e96abd1cb8f6b75670009f2cac26dda94caec81",
+          "dweb:/ipfs/QmXs5wmrwP23g3LNPP6J3NPgemu85VVQvx8rfHz2RFXRtk"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/tables/NamespaceOwner.sol": {
+        "keccak256": "0xb0b7c13673a1629118cb0c3c341380fa6d4795c9b7cf6a6c73443750f1a3b34d",
+        "urls": [
+          "bzz-raw://b3c8eb44785f61c0470273cac40a228ae458b74f48d2bff8faf8915861fc49ac",
+          "dweb:/ipfs/QmUF52hgGCL9TMyTQqrxGVharwfFgKNsCpD3VNqfbhid9X"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/tables/ResourceAccess.sol": {
+        "keccak256": "0xe2a4e6a75ffda6971c16e9218a0f076d5b89572d37780cd4c2375a2de683fd60",
+        "urls": [
+          "bzz-raw://f04dbdf5295c0ddbda4ba0eb5fdebd84dce2ff3fe86d34681f71522bcb0e6e93",
+          "dweb:/ipfs/QmUMkPg1vhSz2zVweN5bqtWbUCj3UQKZPgYfBkQ3QGS7gF"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/tables/SystemHooks.sol": {
+        "keccak256": "0xd069f1f65243ffcc3ace23804851bc902c5e58d525b962575a659e47aa76236b",
+        "urls": [
+          "bzz-raw://4f86b3d93b5bcf81e0d3da0abbd6fc3924be59e7c8d147cfeb3307108431f6a3",
+          "dweb:/ipfs/QmRrkBXGsdtbo28xznUWUuqNUGyfAbu1kadKGjL7n6KiKb"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/codegen/tables/Systems.sol": {
+        "keccak256": "0x3bf40b7e71a1953f21b447975ec1a850994a250325fdb88489d24175cf8440d9",
+        "urls": [
+          "bzz-raw://7fc1d4ce3096dfbd5510d2558d6fcae01ede446032ae232bd3e8656071e21ef1",
+          "dweb:/ipfs/QmNSmK5Mt7tt5isSuo216vVnn6rHBprYjz9Sdodf8YRPAy"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/constants.sol": {
+        "keccak256": "0x07faffa7dc4a2adc4f9bfe93d5a59a7dd89241d360996537608e38f61c2d0588",
+        "urls": [
+          "bzz-raw://b96d4ce331b257a24de2f18503a11b986ed32d218810db9d5e3e7eddc17c2218",
+          "dweb:/ipfs/Qme7Cw4RN1eaFWt2j3hk6ZMB7GWUfMY5oyZKYfMvAVxdBc"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/modules/core/types.sol": {
+        "keccak256": "0x256b3269e1e7eb6c8b6e26432bbe6799b4d45a88ef1b0e795ea71e604cec3a8a",
+        "urls": [
+          "bzz-raw://99bf6320ce9671ed74e7352b4e6c462d741ca9a894c48b526e7d8513308fa6b3",
+          "dweb:/ipfs/QmRFJcWFMDRkg7soJ4r4MrqacKmj16vUEMFEGWJuvFi4vJ"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/revertWithBytes.sol": {
+        "keccak256": "0x16795bdbfd7956d733df9ada1030ee7a1a714e3b9da5899149a7b07568c4af55",
+        "urls": [
+          "bzz-raw://7a71128b4989e78215d5fc57dae8c2f84c6b5e503c159178c0df6f642b8228df",
+          "dweb:/ipfs/QmNYTfBe62SdGESZ32fxME72CbAxEqk4j79jBT7655C4u7"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/systemHookTypes.sol": {
+        "keccak256": "0xdd201aa30700e70c35c1d4e50c375e511d798961183c8531f947c2d15969debb",
+        "urls": [
+          "bzz-raw://d9c165b1beb7c1d3f75107407c34a5b3424ec8cb322d494892bceed23323ffb9",
+          "dweb:/ipfs/QmdH8rtgJaENsMc6HodAbahKg7PiZUJwoZufnHCw3TwrBx"
+        ],
+        "license": "MIT"
+      },
+      "node_modules/@latticexyz/world/src/worldResourceTypes.sol": {
+        "keccak256": "0xe31ee781596541f60ed71ef327c9d26ffc899e7fb3f4991c67406518bfc00746",
+        "urls": [
+          "bzz-raw://f7b864fea8c77833a322b16c4673f110d5065d0cafcedecd07895699cf4258c2",
+          "dweb:/ipfs/QmRkzXVjMLwQFWxjEjgfdXVPAp6SU4zfxPo4NJcmz8HwH9"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/common.sol": {
+        "keccak256": "0x3d34d5d8d6e7ad2a3e31e899c028ef9ba19a21a3b970d32709cb4afd757b7d13",
+        "urls": [
+          "bzz-raw://8ea61d660644bafd6670215d6df44694c0717674db8b2bff924a16031489d8e2",
+          "dweb:/ipfs/QmcnuUEXmx9Dvu6et3kZRRw3rPUYgED6Ro6U9qqN5FZzag"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/index.sol": {
+        "keccak256": "0xfc495d5744b7c03464dbeb2322f7127a66b23c79739878079ffd0b46907dc850",
+        "urls": [
+          "bzz-raw://b34ac7d1e4dbd72c096ace9346e10564b252fd42badef56e1b8153050d39a8eb",
+          "dweb:/ipfs/QmbMgE8ZngKfwuRPMjLWeWSPPUXfiNuKbR3i3ZCTPLz1mu"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/ActiveCombat.sol": {
+        "keccak256": "0x2314aa92ae500ada724a268b247e1fc0e495ba53f9dc97ae2c97a41f1a7d7440",
+        "urls": [
+          "bzz-raw://465265485f2ef7e9d52ce4b9d66daf1ab1358fd639eb0830ea0aa987fa9fffbf",
+          "dweb:/ipfs/Qmczr2JhHMH1vJPxZBfMBegxmr9N6enZGptKQDz6cAesJK"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/ActiveCycle.sol": {
+        "keccak256": "0xe1c0235fd72c903893b4770184922eed1c666cf49667ae9f8ee2e2edf35aada9",
+        "urls": [
+          "bzz-raw://1a427b876db258a49810ac25c5bdf604b5177d58b53d0ae4fa2e298d29b659bf",
+          "dweb:/ipfs/QmUFVKw7utt1Lvqq3vsPtxpGtPF22eHWBKLUMRV7BXuSug"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/ActiveGuise.sol": {
+        "keccak256": "0xd4a85ad3143037484491f1567faccdb003266b44cd354f9210fc81a17062c7c2",
+        "urls": [
+          "bzz-raw://43b5868066361f3cf90263ee352a9831008a04b33f08b89843693b2311fd25ef",
+          "dweb:/ipfs/QmaMZmEspS2gVzhqxPrzuzmeLvQKdWr9Ph95oa9YHr9WuU"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/CycleTurns.sol": {
+        "keccak256": "0x7a28bfabb9112ee14eb9b8c625097ff4d1fb5378ecbefd5e81a33d7e7c055275",
+        "urls": [
+          "bzz-raw://3474e9911e7ab6219a30f856f24d0f15f8f357fc85f2f8a6dc3f7400d14a6306",
+          "dweb:/ipfs/QmZKASdNt29HfoT6wH6aZA8s1WhKgQ8TuZfWEjBrdAEm1s"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/CycleTurnsLastClaimed.sol": {
+        "keccak256": "0xb55e4bb77b294b32cdd9d8437c9d3870afe4441b499c93defda8c799e8ebbb01",
+        "urls": [
+          "bzz-raw://8894e4156d43e4e8d8658b149d6189778eac8f9486e29a6de69aefe5efbefb30",
+          "dweb:/ipfs/QmPskPTe7WM8Kirdyz6PHTpvEokwfQr9Mhn2p2JvcxrUtL"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/DefaultWheel.sol": {
+        "keccak256": "0x2d374ba7045af19700eb18c856b86ece0903595b228954450661f9731534097b",
+        "urls": [
+          "bzz-raw://14b9b86181410ff33218722b906728025a8f3aa3955f16af0cb7c61088dd420c",
+          "dweb:/ipfs/QmdMdoLCeUhyc8TQBxYJ9ajqTdMsF8uoTMsyQB9B9429zs"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/EffectTemplate.sol": {
+        "keccak256": "0xf3983a2741c4f00f9c3f84db525a03c1b87c82cfddac034b7612a14a8b7388a7",
+        "urls": [
+          "bzz-raw://4facd626a5a0d58b1a323adfd397e7d8230103383cadeb85628f98409c5c4076",
+          "dweb:/ipfs/QmUAtD2H24NumpkDg9scC2YUiJRnNDiz8Sx2NEF8ATuEAW"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/Experience.sol": {
+        "keccak256": "0x418bbec96a9f2f3f0ba58216ff2e75f6abfa3ac86a951fb79f31274bc8142e5d",
+        "urls": [
+          "bzz-raw://f738aa40d07e85fe82a3f35b533ac284ea24417d106210a165472492ce48feb6",
+          "dweb:/ipfs/QmZwhmCXhxMk4YH3GofWgiMiBX8Zxm9CSVxkSqTijrMpSm"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/GuisePrototype.sol": {
+        "keccak256": "0x049174056b252c98c4fed8a9b1bdbcda04cebe570a90cbd377a92404b46411d2",
+        "urls": [
+          "bzz-raw://2d72e239915536f23990d277ed2a35c2dbfcfe152f6833f53c5c8083c390dadd",
+          "dweb:/ipfs/QmY7Cb8CSDg5PphwC3WuZGWyJPFSNfaq8YMe9VAiQ786N6"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/LearnedSkills.sol": {
+        "keccak256": "0xdff3aef915fb55b02926c8864ca931166ec20fd6d5bb7506ea1e256630c06aba",
+        "urls": [
+          "bzz-raw://f6d895527e0dce7c0b66aebffc7f1bb6a769f5aedf69fb3ceae615e491b4140b",
+          "dweb:/ipfs/QmTnf9Uv9mQ9w2w9jyrWgE1KKdw9nHkan1U5eLJtSJwc4p"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/Name.sol": {
+        "keccak256": "0x36c512676ff57026996d64f5aa34ac1246ee701cd2a61d57f9b6b99f60b8efb5",
+        "urls": [
+          "bzz-raw://a8f4175803b58c11243b20118235cd41cb1ab6d057b404f9f0811e6ad90fb65c",
+          "dweb:/ipfs/QmZC9r27tr7bh2pXgaT9HEXqeMmViSYqE8xiZ3bJmUvPrq"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/RNGPrecommit.sol": {
+        "keccak256": "0x94e4d9b39879b3b298a9f9f2aaede65f568b13a58468b8933c1f6e04f96d7e58",
+        "urls": [
+          "bzz-raw://24e458808bb7693185e0a6e87a929017bce6d34938d2bbccd9feb847140bf814",
+          "dweb:/ipfs/Qmb8xSYvqg3H3aixVHzukA52K84ALMMkLi9HRkfdTMQnhv"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/RNGRequestOwner.sol": {
+        "keccak256": "0x02d32e080a7e25acc645c90a5f7cd2863e9acdf9e31077b6ea3e6f50ed22df14",
+        "urls": [
+          "bzz-raw://81a36e3548497d7db8337db237bdb45b4980af3acd4619e10111a3d70dc3e695",
+          "dweb:/ipfs/QmUnpAegeTqx2embD1rRghrPFpedSCePhY9StAKDeABFNZ"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/SkillTemplate.sol": {
+        "keccak256": "0xb94afc8669aa380c16203e272976ddde4b70008d5b5106e734a1825340d3e4cf",
+        "urls": [
+          "bzz-raw://17190845106257f7b484e73676aa39608690ebe94d1faad24bf64cde4434271f",
+          "dweb:/ipfs/QmYLKZMdZv8YKzJibLfXeERgYYeubxhKS7vfehny17z7Zp"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/StatmodBase.sol": {
+        "keccak256": "0xc7807d705d6e6fa96fdea627de4a2cbcc8192117b154b79593272a9e8afa03db",
+        "urls": [
+          "bzz-raw://8c7e8e88d611a1f67f97a98b2b1ac72d9bd7e6fcda6292bbcaed7ac654dd4cd0",
+          "dweb:/ipfs/QmeBSyRqGFePZ3SkPa1bZqhUxMv61FYC37CtmPrvtGxLCV"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/Tasks.sol": {
+        "keccak256": "0x63bdaa88f20801cc0d8be8b33676b021a14ff9e389253974f4837761f4080300",
+        "urls": [
+          "bzz-raw://ce5212f2f5f0a2b33b2fc7b623bdd6c7ef03a743e39dad98f9921cfebaf97634",
+          "dweb:/ipfs/Qmbc5ZDW1DnuV4mKrpMdo4MZ7UgYQWiaFvveABUYPd5xxu"
+        ],
+        "license": "MIT"
+      },
+      "src/codegen/tables/Wheel.sol": {
+        "keccak256": "0xb36bb0586cae6a7f773ac7fcc9dc3ffcfff6d66aa9a89abb4d35de5e98752823",
+        "urls": [
+          "bzz-raw://1613a6b8619b258ea61e6ec6242b7c3142c0b4f7bc8511b0528e7671db0173c5",
+          "dweb:/ipfs/Qmd8ywHy99c8BsY6tvATmGWu2HVMdWDNpUyCvsBerJ7UAz"
+        ],
+        "license": "MIT"
+      },
+      "src/init/LibInitWheel.sol": {
+        "keccak256": "0x490e4e415d10adb2fd371ceafd10192c279bd62d547a5a68fbe1391bec0e3a10",
+        "urls": [
+          "bzz-raw://e5356c64762a082310d2a8cca5752f616bccfdf3b76c9d0f4759a2bf7d978a83",
+          "dweb:/ipfs/Qmai2vsoBmEC4RnJVREvyw3zZqGT8P3WMdbYZFVpgFE6xa"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "ast": {
+    "absolutePath": "src/init/LibInitWheel.sol",
+    "id": 112952,
+    "exportedSymbols": {
+      "DefaultWheel": [
+        96338
+      ],
+      "LibInitWheel": [
+        112951
+      ],
+      "Name": [
+        105095
+      ],
+      "Wheel": [
+        112350
+      ],
+      "WheelData": [
+        111106
+      ],
+      "getUniqueEntity": [
+        75568,
+        75587
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:755:193",
+    "nodes": [
+      {
+        "id": 112883,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:193",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 112885,
+        "nodeType": "ImportDirective",
+        "src": "59:105:193",
+        "nodes": [],
+        "absolutePath": "node_modules/@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol",
+        "file": "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 112952,
+        "sourceUnit": 75588,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 112884,
+              "name": "getUniqueEntity",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "src": "68:15:193",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 112890,
+        "nodeType": "ImportDirective",
+        "src": "166:76:193",
+        "nodes": [],
+        "absolutePath": "src/codegen/index.sol",
+        "file": "../codegen/index.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 112952,
+        "sourceUnit": 92270,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 112886,
+              "name": "Wheel",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 112350,
+              "src": "175:5:193",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 112887,
+              "name": "DefaultWheel",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 96338,
+              "src": "182:12:193",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 112888,
+              "name": "Name",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 105095,
+              "src": "196:4:193",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 112889,
+              "name": "WheelData",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 111106,
+              "src": "202:9:193",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 112951,
+        "nodeType": "ContractDefinition",
+        "src": "244:543:193",
+        "nodes": [
+          {
+            "id": 112920,
+            "nodeType": "FunctionDefinition",
+            "src": "269:317:193",
+            "nodes": [],
+            "body": {
+              "id": 112919,
+              "nodeType": "Block",
+              "src": "294:292:193",
+              "nodes": [],
+              "statements": [
+                {
+                  "assignments": [
+                    112894
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 112894,
+                      "mutability": "mutable",
+                      "name": "wheelEntity",
+                      "nameLocation": "308:11:193",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 112919,
+                      "src": "300:19:193",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      },
+                      "typeName": {
+                        "id": 112893,
+                        "name": "bytes32",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "300:7:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 112903,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "hexValue": "576865656c206f662041747461696e6d656e74",
+                        "id": 112896,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "334:21:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_f823bbb6bfc90c774b2c4e34abb36f301408c1e25f693ce4d4b7b46fdd563093",
+                          "typeString": "literal_string \"Wheel of Attainment\""
+                        },
+                        "value": "Wheel of Attainment"
+                      },
+                      {
+                        "arguments": [
+                          {
+                            "hexValue": "30",
+                            "id": 112898,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "398:1:193",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          },
+                          {
+                            "hexValue": "33",
+                            "id": 112899,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "410:1:193",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_3_by_1",
+                              "typeString": "int_const 3"
+                            },
+                            "value": "3"
+                          },
+                          {
+                            "hexValue": "66616c7365",
+                            "id": 112900,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "bool",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "425:5:193",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            },
+                            "value": "false"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            {
+                              "typeIdentifier": "t_rational_3_by_1",
+                              "typeString": "int_const 3"
+                            },
+                            {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          ],
+                          "id": 112897,
+                          "name": "WheelData",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 111106,
+                          "src": "363:9:193",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_struct$_WheelData_$111106_storage_ptr_$",
+                            "typeString": "type(struct WheelData storage pointer)"
+                          }
+                        },
+                        "id": 112901,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "structConstructorCall",
+                        "lValueRequested": false,
+                        "nameLocations": [
+                          "375:21:193",
+                          "401:7:193",
+                          "413:10:193"
+                        ],
+                        "names": [
+                          "totalIdentityRequired",
+                          "charges",
+                          "isIsolated"
+                        ],
+                        "nodeType": "FunctionCall",
+                        "src": "363:70:193",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_WheelData_$111106_memory_ptr",
+                          "typeString": "struct WheelData memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_f823bbb6bfc90c774b2c4e34abb36f301408c1e25f693ce4d4b7b46fdd563093",
+                          "typeString": "literal_string \"Wheel of Attainment\""
+                        },
+                        {
+                          "typeIdentifier": "t_struct$_WheelData_$111106_memory_ptr",
+                          "typeString": "struct WheelData memory"
+                        }
+                      ],
+                      "id": 112895,
+                      "name": "_add",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112950,
+                      "src": "322:4:193",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_struct$_WheelData_$111106_memory_ptr_$returns$_t_bytes32_$",
+                        "typeString": "function (string memory,struct WheelData memory) returns (bytes32)"
+                      }
+                    },
+                    "id": 112902,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "322:117:193",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "300:139:193"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 112907,
+                        "name": "wheelEntity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112894,
+                        "src": "463:11:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      ],
+                      "expression": {
+                        "id": 112904,
+                        "name": "DefaultWheel",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 96338,
+                        "src": "446:12:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_DefaultWheel_$96338_$",
+                          "typeString": "type(library DefaultWheel)"
+                        }
+                      },
+                      "id": 112906,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "459:3:193",
+                      "memberName": "set",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 96191,
+                      "src": "446:16:193",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$returns$__$",
+                        "typeString": "function (bytes32)"
+                      }
+                    },
+                    "id": 112908,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "446:29:193",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 112909,
+                  "nodeType": "ExpressionStatement",
+                  "src": "446:29:193"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "hexValue": "576865656c206f662049736f6c6174696f6e",
+                        "id": 112911,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "487:20:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_aa1f12d8956f91bc61d2e39eaf379edf8b348855ff1202298d65c1e5bd502cdc",
+                          "typeString": "literal_string \"Wheel of Isolation\""
+                        },
+                        "value": "Wheel of Isolation"
+                      },
+                      {
+                        "arguments": [
+                          {
+                            "hexValue": "313238",
+                            "id": 112913,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "544:3:193",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_128_by_1",
+                              "typeString": "int_const 128"
+                            },
+                            "value": "128"
+                          },
+                          {
+                            "hexValue": "34",
+                            "id": 112914,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "558:1:193",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_4_by_1",
+                              "typeString": "int_const 4"
+                            },
+                            "value": "4"
+                          },
+                          {
+                            "hexValue": "74727565",
+                            "id": 112915,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "bool",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "573:4:193",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            },
+                            "value": "true"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_rational_128_by_1",
+                              "typeString": "int_const 128"
+                            },
+                            {
+                              "typeIdentifier": "t_rational_4_by_1",
+                              "typeString": "int_const 4"
+                            },
+                            {
+                              "typeIdentifier": "t_bool",
+                              "typeString": "bool"
+                            }
+                          ],
+                          "id": 112912,
+                          "name": "WheelData",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 111106,
+                          "src": "509:9:193",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_struct$_WheelData_$111106_storage_ptr_$",
+                            "typeString": "type(struct WheelData storage pointer)"
+                          }
+                        },
+                        "id": 112916,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "structConstructorCall",
+                        "lValueRequested": false,
+                        "nameLocations": [
+                          "521:21:193",
+                          "549:7:193",
+                          "561:10:193"
+                        ],
+                        "names": [
+                          "totalIdentityRequired",
+                          "charges",
+                          "isIsolated"
+                        ],
+                        "nodeType": "FunctionCall",
+                        "src": "509:71:193",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_WheelData_$111106_memory_ptr",
+                          "typeString": "struct WheelData memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_stringliteral_aa1f12d8956f91bc61d2e39eaf379edf8b348855ff1202298d65c1e5bd502cdc",
+                          "typeString": "literal_string \"Wheel of Isolation\""
+                        },
+                        {
+                          "typeIdentifier": "t_struct$_WheelData_$111106_memory_ptr",
+                          "typeString": "struct WheelData memory"
+                        }
+                      ],
+                      "id": 112910,
+                      "name": "_add",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112950,
+                      "src": "482:4:193",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_struct$_WheelData_$111106_memory_ptr_$returns$_t_bytes32_$",
+                        "typeString": "function (string memory,struct WheelData memory) returns (bytes32)"
+                      }
+                    },
+                    "id": 112917,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "482:99:193",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "id": 112918,
+                  "nodeType": "ExpressionStatement",
+                  "src": "482:99:193"
+                }
+              ]
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "init",
+            "nameLocation": "278:4:193",
+            "parameters": {
+              "id": 112891,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "282:2:193"
+            },
+            "returnParameters": {
+              "id": 112892,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "294:0:193"
+            },
+            "scope": 112951,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "internal"
+          },
+          {
+            "id": 112950,
+            "nodeType": "FunctionDefinition",
+            "src": "590:195:193",
+            "nodes": [],
+            "body": {
+              "id": 112949,
+              "nodeType": "Block",
+              "src": "685:100:193",
+              "nodes": [],
+              "statements": [
+                {
+                  "expression": {
+                    "id": 112933,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 112930,
+                      "name": "entity",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 112928,
+                      "src": "691:6:193",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "id": 112931,
+                        "name": "getUniqueEntity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [
+                          75568,
+                          75587
+                        ],
+                        "referencedDeclaration": 75568,
+                        "src": "700:15:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_internal_nonpayable$__$returns$_t_bytes32_$",
+                          "typeString": "function () returns (bytes32)"
+                        }
+                      },
+                      "id": 112932,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "700:17:193",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes32",
+                        "typeString": "bytes32"
+                      }
+                    },
+                    "src": "691:26:193",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "id": 112934,
+                  "nodeType": "ExpressionStatement",
+                  "src": "691:26:193"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 112938,
+                        "name": "entity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112928,
+                        "src": "734:6:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "id": 112939,
+                        "name": "wheelData",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112925,
+                        "src": "742:9:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_WheelData_$111106_memory_ptr",
+                          "typeString": "struct WheelData memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_struct$_WheelData_$111106_memory_ptr",
+                          "typeString": "struct WheelData memory"
+                        }
+                      ],
+                      "expression": {
+                        "id": 112935,
+                        "name": "Wheel",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112350,
+                        "src": "724:5:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_Wheel_$112350_$",
+                          "typeString": "type(library Wheel)"
+                        }
+                      },
+                      "id": 112937,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "730:3:193",
+                      "memberName": "set",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 112064,
+                      "src": "724:9:193",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_struct$_WheelData_$111106_memory_ptr_$returns$__$",
+                        "typeString": "function (bytes32,struct WheelData memory)"
+                      }
+                    },
+                    "id": 112940,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "724:28:193",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 112941,
+                  "nodeType": "ExpressionStatement",
+                  "src": "724:28:193"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 112945,
+                        "name": "entity",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112928,
+                        "src": "767:6:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "id": 112946,
+                        "name": "name",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 112922,
+                        "src": "775:4:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      ],
+                      "expression": {
+                        "id": 112942,
+                        "name": "Name",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 105095,
+                        "src": "758:4:193",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_Name_$105095_$",
+                          "typeString": "type(library Name)"
+                        }
+                      },
+                      "id": 112944,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "763:3:193",
+                      "memberName": "set",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 104000,
+                      "src": "758:8:193",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bytes32,string memory)"
+                      }
+                    },
+                    "id": 112947,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "758:22:193",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 112948,
+                  "nodeType": "ExpressionStatement",
+                  "src": "758:22:193"
+                }
+              ]
+            },
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_add",
+            "nameLocation": "599:4:193",
+            "parameters": {
+              "id": 112926,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 112922,
+                  "mutability": "mutable",
+                  "name": "name",
+                  "nameLocation": "618:4:193",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112950,
+                  "src": "604:18:193",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 112921,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "604:6:193",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 112925,
+                  "mutability": "mutable",
+                  "name": "wheelData",
+                  "nameLocation": "641:9:193",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112950,
+                  "src": "624:26:193",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_WheelData_$111106_memory_ptr",
+                    "typeString": "struct WheelData"
+                  },
+                  "typeName": {
+                    "id": 112924,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 112923,
+                      "name": "WheelData",
+                      "nameLocations": [
+                        "624:9:193"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 111106,
+                      "src": "624:9:193"
+                    },
+                    "referencedDeclaration": 111106,
+                    "src": "624:9:193",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_WheelData_$111106_storage_ptr",
+                      "typeString": "struct WheelData"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "603:48:193"
+            },
+            "returnParameters": {
+              "id": 112929,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 112928,
+                  "mutability": "mutable",
+                  "name": "entity",
+                  "nameLocation": "677:6:193",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112950,
+                  "src": "669:14:193",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 112927,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "669:7:193",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "668:16:193"
+            },
+            "scope": 112951,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "private"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "LibInitWheel",
+        "contractDependencies": [],
+        "contractKind": "library",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          112951
+        ],
+        "name": "LibInitWheel",
+        "nameLocation": "252:12:193",
+        "scope": 112952,
+        "usedErrors": [],
+        "usedEvents": []
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 193
+}

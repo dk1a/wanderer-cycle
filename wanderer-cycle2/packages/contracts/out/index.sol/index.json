@@ -1,0 +1,843 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "src/codegen/index.sol",
+    "id": 92270,
+    "exportedSymbols": {
+      "ActiveCombat": [
+        92958
+      ],
+      "ActiveCombatTableId": [
+        92326
+      ],
+      "ActiveCycle": [
+        93659
+      ],
+      "ActiveCycleTableId": [
+        93015
+      ],
+      "ActiveGuise": [
+        94348
+      ],
+      "ActiveGuiseTableId": [
+        93716
+      ],
+      "CycleTurns": [
+        95049
+      ],
+      "CycleTurnsLastClaimed": [
+        95750
+      ],
+      "CycleTurnsLastClaimedTableId": [
+        95106
+      ],
+      "CycleTurnsTableId": [
+        94405
+      ],
+      "DefaultWheel": [
+        96338
+      ],
+      "DefaultWheelTableId": [
+        95807
+      ],
+      "EffectTemplate": [
+        98435
+      ],
+      "EffectTemplateData": [
+        96409
+      ],
+      "EffectTemplateTableId": [
+        96395
+      ],
+      "Experience": [
+        100095
+      ],
+      "ExperienceTableId": [
+        98492
+      ],
+      "GuisePrototype": [
+        101812
+      ],
+      "GuisePrototypeTableId": [
+        100209
+      ],
+      "LearnedSkills": [
+        103497
+      ],
+      "LearnedSkillsTableId": [
+        101926
+      ],
+      "Name": [
+        105095
+      ],
+      "NameTableId": [
+        103554
+      ],
+      "RNGPrecommit": [
+        105796
+      ],
+      "RNGPrecommitTableId": [
+        105152
+      ],
+      "RNGRequestOwner": [
+        106485
+      ],
+      "RNGRequestOwnerTableId": [
+        105853
+      ],
+      "SkillTemplate": [
+        108494
+      ],
+      "SkillTemplateData": [
+        106567
+      ],
+      "SkillTemplateTableId": [
+        106545
+      ],
+      "StatmodBase": [
+        109193
+      ],
+      "StatmodBaseTableId": [
+        108561
+      ],
+      "Tasks": [
+        111035
+      ],
+      "TasksData": [
+        109264
+      ],
+      "TasksTableId": [
+        109250
+      ],
+      "Wheel": [
+        112350
+      ],
+      "WheelData": [
+        111106
+      ],
+      "WheelTableId": [
+        111092
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:1447:169",
+    "nodes": [
+      {
+        "id": 92214,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:169",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 92218,
+        "nodeType": "ImportDirective",
+        "src": "108:68:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/Tasks.sol",
+        "file": "./tables/Tasks.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 111036,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92215,
+              "name": "Tasks",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 111035,
+              "src": "117:5:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92216,
+              "name": "TasksData",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 109264,
+              "src": "124:9:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92217,
+              "name": "TasksTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 109250,
+              "src": "135:12:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92221,
+        "nodeType": "ImportDirective",
+        "src": "177:54:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/Name.sol",
+        "file": "./tables/Name.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 105096,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92219,
+              "name": "Name",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 105095,
+              "src": "186:4:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92220,
+              "name": "NameTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 103554,
+              "src": "192:11:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92224,
+        "nodeType": "ImportDirective",
+        "src": "232:78:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/DefaultWheel.sol",
+        "file": "./tables/DefaultWheel.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 96339,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92222,
+              "name": "DefaultWheel",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 96338,
+              "src": "241:12:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92223,
+              "name": "DefaultWheelTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 95807,
+              "src": "255:19:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92228,
+        "nodeType": "ImportDirective",
+        "src": "311:68:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/Wheel.sol",
+        "file": "./tables/Wheel.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 112361,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92225,
+              "name": "Wheel",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 112350,
+              "src": "320:5:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92226,
+              "name": "WheelData",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 111106,
+              "src": "327:9:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92227,
+              "name": "WheelTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 111092,
+              "src": "338:12:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92231,
+        "nodeType": "ImportDirective",
+        "src": "380:72:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/Experience.sol",
+        "file": "./tables/Experience.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 100153,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92229,
+              "name": "Experience",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 100095,
+              "src": "389:10:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92230,
+              "name": "ExperienceTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 98492,
+              "src": "401:17:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92234,
+        "nodeType": "ImportDirective",
+        "src": "453:75:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/ActiveGuise.sol",
+        "file": "./tables/ActiveGuise.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 94349,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92232,
+              "name": "ActiveGuise",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 94348,
+              "src": "462:11:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92233,
+              "name": "ActiveGuiseTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 93716,
+              "src": "475:18:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92237,
+        "nodeType": "ImportDirective",
+        "src": "529:84:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/GuisePrototype.sol",
+        "file": "./tables/GuisePrototype.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 101870,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92235,
+              "name": "GuisePrototype",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 101812,
+              "src": "538:14:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92236,
+              "name": "GuisePrototypeTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 100209,
+              "src": "554:21:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92240,
+        "nodeType": "ImportDirective",
+        "src": "614:81:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/LearnedSkills.sol",
+        "file": "./tables/LearnedSkills.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 103498,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92238,
+              "name": "LearnedSkills",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 103497,
+              "src": "623:13:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92239,
+              "name": "LearnedSkillsTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 101926,
+              "src": "638:20:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92244,
+        "nodeType": "ImportDirective",
+        "src": "696:100:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/SkillTemplate.sol",
+        "file": "./tables/SkillTemplate.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 108505,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92241,
+              "name": "SkillTemplate",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 108494,
+              "src": "705:13:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92242,
+              "name": "SkillTemplateData",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 106567,
+              "src": "720:17:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92243,
+              "name": "SkillTemplateTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 106545,
+              "src": "739:20:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92248,
+        "nodeType": "ImportDirective",
+        "src": "797:104:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/EffectTemplate.sol",
+        "file": "./tables/EffectTemplate.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 98436,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92245,
+              "name": "EffectTemplate",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 98435,
+              "src": "806:14:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92246,
+              "name": "EffectTemplateData",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 96409,
+              "src": "822:18:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92247,
+              "name": "EffectTemplateTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 96395,
+              "src": "842:21:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92251,
+        "nodeType": "ImportDirective",
+        "src": "902:75:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/StatmodBase.sol",
+        "file": "./tables/StatmodBase.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 109194,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92249,
+              "name": "StatmodBase",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 109193,
+              "src": "911:11:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92250,
+              "name": "StatmodBaseTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 108561,
+              "src": "924:18:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92254,
+        "nodeType": "ImportDirective",
+        "src": "978:78:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/ActiveCombat.sol",
+        "file": "./tables/ActiveCombat.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 92959,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92252,
+              "name": "ActiveCombat",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 92958,
+              "src": "987:12:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92253,
+              "name": "ActiveCombatTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 92326,
+              "src": "1001:19:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92257,
+        "nodeType": "ImportDirective",
+        "src": "1057:75:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/ActiveCycle.sol",
+        "file": "./tables/ActiveCycle.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 93660,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92255,
+              "name": "ActiveCycle",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 93659,
+              "src": "1066:11:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92256,
+              "name": "ActiveCycleTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 93015,
+              "src": "1079:18:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92260,
+        "nodeType": "ImportDirective",
+        "src": "1133:72:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/CycleTurns.sol",
+        "file": "./tables/CycleTurns.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 95050,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92258,
+              "name": "CycleTurns",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 95049,
+              "src": "1142:10:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92259,
+              "name": "CycleTurnsTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 94405,
+              "src": "1154:17:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92263,
+        "nodeType": "ImportDirective",
+        "src": "1206:105:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/CycleTurnsLastClaimed.sol",
+        "file": "./tables/CycleTurnsLastClaimed.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 95751,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92261,
+              "name": "CycleTurnsLastClaimed",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 95750,
+              "src": "1215:21:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92262,
+              "name": "CycleTurnsLastClaimedTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 95106,
+              "src": "1238:28:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92266,
+        "nodeType": "ImportDirective",
+        "src": "1312:78:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/RNGPrecommit.sol",
+        "file": "./tables/RNGPrecommit.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 105797,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92264,
+              "name": "RNGPrecommit",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 105796,
+              "src": "1321:12:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92265,
+              "name": "RNGPrecommitTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 105152,
+              "src": "1335:19:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "id": 92269,
+        "nodeType": "ImportDirective",
+        "src": "1391:87:169",
+        "nodes": [],
+        "absolutePath": "src/codegen/tables/RNGRequestOwner.sol",
+        "file": "./tables/RNGRequestOwner.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 92270,
+        "sourceUnit": 106486,
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 92267,
+              "name": "RNGRequestOwner",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 106485,
+              "src": "1400:15:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          },
+          {
+            "foreign": {
+              "id": 92268,
+              "name": "RNGRequestOwnerTableId",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 105853,
+              "src": "1417:22:169",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 169
+}

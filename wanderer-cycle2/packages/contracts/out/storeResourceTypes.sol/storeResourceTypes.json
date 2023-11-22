@@ -1,0 +1,129 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "/home/parallels/projects/wanderer-cycle2/node_modules/.pnpm/@latticexyz+store@2.0.0-next.14_typescript@5.3.2/node_modules/@latticexyz/store/src/storeResourceTypes.sol",
+    "id": 15259,
+    "exportedSymbols": {
+      "RESOURCE_OFFCHAIN_TABLE": [
+        15258
+      ],
+      "RESOURCE_TABLE": [
+        15254
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:417:28",
+    "nodes": [
+      {
+        "id": 15250,
+        "nodeType": "PragmaDirective",
+        "src": "32:25:28",
+        "nodes": [],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.8",
+          ".21"
+        ]
+      },
+      {
+        "id": 15254,
+        "nodeType": "VariableDeclaration",
+        "src": "309:37:28",
+        "nodes": [],
+        "constant": true,
+        "mutability": "constant",
+        "name": "RESOURCE_TABLE",
+        "nameLocation": "325:14:28",
+        "scope": 15259,
+        "stateVariable": false,
+        "storageLocation": "default",
+        "typeDescriptions": {
+          "typeIdentifier": "t_bytes2",
+          "typeString": "bytes2"
+        },
+        "typeName": {
+          "id": 15252,
+          "name": "bytes2",
+          "nodeType": "ElementaryTypeName",
+          "src": "309:6:28",
+          "typeDescriptions": {
+            "typeIdentifier": "t_bytes2",
+            "typeString": "bytes2"
+          }
+        },
+        "value": {
+          "hexValue": "7462",
+          "id": 15253,
+          "isConstant": false,
+          "isLValue": false,
+          "isPure": true,
+          "kind": "string",
+          "lValueRequested": false,
+          "nodeType": "Literal",
+          "src": "342:4:28",
+          "typeDescriptions": {
+            "typeIdentifier": "t_stringliteral_2247cf150cccbcd7e60e84d03accbfaaa19844b686b28ba6fef474fca5fe0879",
+            "typeString": "literal_string \"tb\""
+          },
+          "value": "tb"
+        },
+        "visibility": "internal"
+      },
+      {
+        "id": 15258,
+        "nodeType": "VariableDeclaration",
+        "src": "401:46:28",
+        "nodes": [],
+        "constant": true,
+        "mutability": "constant",
+        "name": "RESOURCE_OFFCHAIN_TABLE",
+        "nameLocation": "417:23:28",
+        "scope": 15259,
+        "stateVariable": false,
+        "storageLocation": "default",
+        "typeDescriptions": {
+          "typeIdentifier": "t_bytes2",
+          "typeString": "bytes2"
+        },
+        "typeName": {
+          "id": 15256,
+          "name": "bytes2",
+          "nodeType": "ElementaryTypeName",
+          "src": "401:6:28",
+          "typeDescriptions": {
+            "typeIdentifier": "t_bytes2",
+            "typeString": "bytes2"
+          }
+        },
+        "value": {
+          "hexValue": "6f74",
+          "id": 15257,
+          "isConstant": false,
+          "isLValue": false,
+          "isPure": true,
+          "kind": "string",
+          "lValueRequested": false,
+          "nodeType": "Literal",
+          "src": "443:4:28",
+          "typeDescriptions": {
+            "typeIdentifier": "t_stringliteral_0ee56aa7ffcb81cfd943c08888441a893adff32a8fba66dcd1320d38c11d602a",
+            "typeString": "literal_string \"ot\""
+          },
+          "value": "ot"
+        },
+        "visibility": "internal"
+      }
+    ],
+    "license": "MIT"
+  },
+  "id": 28
+}
