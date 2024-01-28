@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { getUniqueEntity } from "@latticexyz/world/src/modules/uniqueentity/getUniqueEntity.sol";
+import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { Wheel, DefaultWheel, Name, WheelData } from "../codegen/Tables.sol";
+import { Wheel, DefaultWheel, Name, WheelData } from "../codegen/index.sol";
 
 library LibInitWheel {
   function init() internal {

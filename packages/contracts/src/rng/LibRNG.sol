@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { getUniqueEntity } from "@latticexyz/world/src/modules/uniqueentity/getUniqueEntity.sol";
+import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { RNGPrecommit, RNGRequestOwner } from "../codegen/Tables.sol";
+import { RNGPrecommit, RNGRequestOwner } from "../codegen/index.sol";
 
 /// @dev Simple blockhash rng.
 /// Get requestId from `requestRandomness`, then after `WAIT_BLOCKS` call `getRandomness` with that requestId.

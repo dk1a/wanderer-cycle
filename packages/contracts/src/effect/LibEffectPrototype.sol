@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { EffectTemplate, EffectTemplateData, StatmodBase, StatmodBaseTableId } from "../codegen/Tables.sol";
+import { EffectTemplate, EffectTemplateData, StatmodBase, StatmodBaseTableId } from "../codegen/index.sol";
 
 library LibEffectPrototype {
   error LibEffectPrototype__LengthMismatch();

@@ -1,25 +1,28 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { MudV2Test } from "@latticexyz/std-contracts/src/test/MudV2Test.t.sol";
-import { getUniqueEntity } from "@latticexyz/world/src/modules/uniqueentity/getUniqueEntity.sol";
+import "forge-std/Test.sol";
+import { IWorld } from "../src/codegen/world/IWorld.sol";
+import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
+import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
 
 import { LibRNG } from "../src/rng/LibRNG.sol";
-import { RNGPrecommit, RNGRequestOwner } from "../src/codegen/Tables.sol";
+import { RNGPrecommit, RNGRequestOwner } from "../src/codegen/index.sol";
+import { MudLibTest } from "./MudLibTest.t.sol";
 
 contract GetRandomnessRevertHelper {
+  constructor(address worldAddress) {
+    // hack to avoid registering a system, works because `getRandomness` is read-only
+    StoreSwitch.setStoreAddress(worldAddress);
+  }
+
   function getRandomness(bytes32 requestOwner, bytes32 requestId) public view {
     LibRNG.getRandomness(requestOwner, requestId);
   }
 }
 
-contract LibRNGTest is MudV2Test {
+contract LibRNGTest is MudLibTest {
   GetRandomnessRevertHelper revertHelper;
-
-  function setUp() public virtual override {
-    super.setUp();
-    vm.startPrank(worldAddress);
-  }
 
   function _initEntity() internal returns (bytes32 requestOwner, bytes32 notOwner) {
     requestOwner = getUniqueEntity();
@@ -38,7 +41,7 @@ contract LibRNGTest is MudV2Test {
   function test_getRandomness_revert_NotRequestOwner() public {
     (bytes32 requestOwner, bytes32 notOwner) = _initEntity();
 
-    revertHelper = new GetRandomnessRevertHelper();
+    revertHelper = new GetRandomnessRevertHelper(worldAddress);
     bytes32 requestId = LibRNG.requestRandomness(requestOwner);
 
     vm.expectRevert(LibRNG.LibRNG__NotRequestOwner.selector);
@@ -48,7 +51,7 @@ contract LibRNGTest is MudV2Test {
   function test_getRandomness_revert_sameBlock() public {
     (bytes32 requestOwner, ) = _initEntity();
 
-    revertHelper = new GetRandomnessRevertHelper();
+    revertHelper = new GetRandomnessRevertHelper(worldAddress);
     bytes32 requestId = LibRNG.requestRandomness(requestOwner);
 
     vm.expectRevert(LibRNG.LibRNG__InvalidPrecommit.selector);
@@ -58,7 +61,7 @@ contract LibRNGTest is MudV2Test {
   function test_getRandomness_revert_tooLate() public {
     (bytes32 requestOwner, ) = _initEntity();
 
-    revertHelper = new GetRandomnessRevertHelper();
+    revertHelper = new GetRandomnessRevertHelper(worldAddress);
     bytes32 requestId = LibRNG.requestRandomness(requestOwner);
 
     vm.roll(block.number + LibRNG.WAIT_BLOCKS + 256 + 1);
