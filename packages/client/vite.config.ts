@@ -13,5 +13,8 @@ export default defineConfig({
     target: "es2022",
     minify: true,
     sourcemap: true,
+    rollupOptions: {
+      external: ["contracts/world.json"],
+    }
   },
 });
