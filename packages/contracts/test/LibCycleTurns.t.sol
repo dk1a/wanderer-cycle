@@ -1,21 +1,15 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { MudV2Test } from "@latticexyz/std-contracts/src/test/MudV2Test.t.sol";
 import { LibCycleTurns } from "../src/cycle/LibCycleTurns.sol";
-import { CycleTurns, CycleTurnsLastClaimed, ActiveGuise, ActiveCycle } from "../src/codegen/Tables.sol";
+import { CycleTurns, CycleTurnsLastClaimed, ActiveGuise, ActiveCycle } from "../src/codegen/index.sol";
+import { MudLibTest } from "./MudLibTest.t.sol";
 
-contract LibExperienceTest is MudV2Test {
+contract LibCycleTurnsTest is MudLibTest {
   bytes32 internal targetEntity = keccak256("targetEntity");
   bytes32 internal cycleEntity = keccak256("cycleEntity");
 
   uint32 initialTurns;
-
-  function setUp() public virtual override {
-    super.setUp();
-    // TODO remove this if it's integrated into MUD
-    vm.startPrank(worldAddress);
-  }
 
   function test_setUp() public {
     LibCycleTurns.claimTurns(cycleEntity);

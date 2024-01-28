@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { ActiveCombat } from "../codegen/Tables.sol";
+import { ActiveCombat } from "../codegen/index.sol";
 
 library LibActiveCombat {
   error LibActiveCombat__CombatActive();

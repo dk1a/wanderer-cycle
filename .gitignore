@@ -1,4 +1,14 @@
+.DS_STORE
+
 node_modules
-.idea/
-.DS_Store
+package-lock.json
+yarn.lock
+
 .eslintcache
+.parcel-cache
+.docs
+lerna-debug.log
+yarn-error.log
+.turbo
+
+.env
