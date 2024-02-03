@@ -12,7 +12,10 @@ import { GuisePrototype, GuisePrototypeTableId } from "./tables/GuisePrototype.s
 import { LearnedSkills, LearnedSkillsTableId } from "./tables/LearnedSkills.sol";
 import { SkillTemplate, SkillTemplateData, SkillTemplateTableId } from "./tables/SkillTemplate.sol";
 import { EffectTemplate, EffectTemplateData, EffectTemplateTableId } from "./tables/EffectTemplate.sol";
-import { StatmodBase, StatmodBaseTableId } from "./tables/StatmodBase.sol";
+import { StatmodBase, StatmodBaseData, StatmodBaseTableId } from "./tables/StatmodBase.sol";
+import { StatmodValue, StatmodValueTableId } from "./tables/StatmodValue.sol";
+import { StatmodIdxList, StatmodIdxListTableId } from "./tables/StatmodIdxList.sol";
+import { StatmodIdxMap, StatmodIdxMapTableId } from "./tables/StatmodIdxMap.sol";
 import { ActiveCombat, ActiveCombatTableId } from "./tables/ActiveCombat.sol";
 import { ActiveCycle, ActiveCycleTableId } from "./tables/ActiveCycle.sol";
 import { CycleTurns, CycleTurnsTableId } from "./tables/CycleTurns.sol";

@@ -22,24 +22,17 @@ import { RESOURCE_TABLE, RESOURCE_OFFCHAIN_TABLE } from "@latticexyz/store/src/s
 
 // Import user types
 import { StatmodTopic } from "./../../statmod/StatmodTopic.sol";
-import { StatmodOp, EleStat } from "./../common.sol";
 
 ResourceId constant _tableId = ResourceId.wrap(
-  bytes32(abi.encodePacked(RESOURCE_TABLE, bytes14(""), bytes16("StatmodBase")))
+  bytes32(abi.encodePacked(RESOURCE_TABLE, bytes14(""), bytes16("StatmodIdxMap")))
 );
-ResourceId constant StatmodBaseTableId = _tableId;
+ResourceId constant StatmodIdxMapTableId = _tableId;
 
 FieldLayout constant _fieldLayout = FieldLayout.wrap(
-  0x0022030020010100000000000000000000000000000000000000000000000000
+  0x0026030020010500000000000000000000000000000000000000000000000000
 );
 
-struct StatmodBaseData {
-  StatmodTopic statmodTopic;
-  StatmodOp statmodOp;
-  EleStat eleStat;
-}
-
-library StatmodBase {
+library StatmodIdxMap {
   /**
    * @notice Get the table values' field layout.
    * @return _fieldLayout The field layout for the table.
@@ -53,8 +46,9 @@ library StatmodBase {
    * @return _keySchema The key schema for the table.
    */
   function getKeySchema() internal pure returns (Schema) {
-    SchemaType[] memory _keySchema = new SchemaType[](1);
+    SchemaType[] memory _keySchema = new SchemaType[](2);
     _keySchema[0] = SchemaType.BYTES32;
+    _keySchema[1] = SchemaType.BYTES32;
 
     return SchemaLib.encode(_keySchema);
   }
@@ -66,8 +60,8 @@ library StatmodBase {
   function getValueSchema() internal pure returns (Schema) {
     SchemaType[] memory _valueSchema = new SchemaType[](3);
     _valueSchema[0] = SchemaType.BYTES32;
-    _valueSchema[1] = SchemaType.UINT8;
-    _valueSchema[2] = SchemaType.UINT8;
+    _valueSchema[1] = SchemaType.BOOL;
+    _valueSchema[2] = SchemaType.UINT40;
 
     return SchemaLib.encode(_valueSchema);
   }
@@ -77,8 +71,9 @@ library StatmodBase {
    * @return keyNames An array of strings with the names of key fields.
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
-    keyNames = new string[](1);
-    keyNames[0] = "entity";
+    keyNames = new string[](2);
+    keyNames[0] = "targetEntity";
+    keyNames[1] = "baseEntity";
   }
 
   /**
@@ -88,8 +83,8 @@ library StatmodBase {
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](3);
     fieldNames[0] = "statmodTopic";
-    fieldNames[1] = "statmodOp";
-    fieldNames[2] = "eleStat";
+    fieldNames[1] = "has";
+    fieldNames[2] = "index";
   }
 
   /**
@@ -109,9 +104,10 @@ library StatmodBase {
   /**
    * @notice Get statmodTopic.
    */
-  function getStatmodTopic(bytes32 entity) internal view returns (StatmodTopic statmodTopic) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function getStatmodTopic(bytes32 targetEntity, bytes32 baseEntity) internal view returns (StatmodTopic statmodTopic) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return StatmodTopic.wrap(bytes32(_blob));
@@ -120,9 +116,13 @@ library StatmodBase {
   /**
    * @notice Get statmodTopic.
    */
-  function _getStatmodTopic(bytes32 entity) internal view returns (StatmodTopic statmodTopic) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function _getStatmodTopic(
+    bytes32 targetEntity,
+    bytes32 baseEntity
+  ) internal view returns (StatmodTopic statmodTopic) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return StatmodTopic.wrap(bytes32(_blob));
@@ -131,9 +131,10 @@ library StatmodBase {
   /**
    * @notice Set statmodTopic.
    */
-  function setStatmodTopic(bytes32 entity, StatmodTopic statmodTopic) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function setStatmodTopic(bytes32 targetEntity, bytes32 baseEntity, StatmodTopic statmodTopic) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     StoreSwitch.setStaticField(
       _tableId,
@@ -147,103 +148,116 @@ library StatmodBase {
   /**
    * @notice Set statmodTopic.
    */
-  function _setStatmodTopic(bytes32 entity, StatmodTopic statmodTopic) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function _setStatmodTopic(bytes32 targetEntity, bytes32 baseEntity, StatmodTopic statmodTopic) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked(StatmodTopic.unwrap(statmodTopic)), _fieldLayout);
   }
 
   /**
-   * @notice Get statmodOp.
+   * @notice Get has.
    */
-  function getStatmodOp(bytes32 entity) internal view returns (StatmodOp statmodOp) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function getHas(bytes32 targetEntity, bytes32 baseEntity) internal view returns (bool has) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
-    return StatmodOp(uint8(bytes1(_blob)));
+    return (_toBool(uint8(bytes1(_blob))));
   }
 
   /**
-   * @notice Get statmodOp.
+   * @notice Get has.
    */
-  function _getStatmodOp(bytes32 entity) internal view returns (StatmodOp statmodOp) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function _getHas(bytes32 targetEntity, bytes32 baseEntity) internal view returns (bool has) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
-    return StatmodOp(uint8(bytes1(_blob)));
+    return (_toBool(uint8(bytes1(_blob))));
   }
 
   /**
-   * @notice Set statmodOp.
+   * @notice Set has.
    */
-  function setStatmodOp(bytes32 entity, StatmodOp statmodOp) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function setHas(bytes32 targetEntity, bytes32 baseEntity, bool has) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked(uint8(statmodOp)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((has)), _fieldLayout);
   }
 
   /**
-   * @notice Set statmodOp.
+   * @notice Set has.
    */
-  function _setStatmodOp(bytes32 entity, StatmodOp statmodOp) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function _setHas(bytes32 targetEntity, bytes32 baseEntity, bool has) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked(uint8(statmodOp)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((has)), _fieldLayout);
   }
 
   /**
-   * @notice Get eleStat.
+   * @notice Get index.
    */
-  function getEleStat(bytes32 entity) internal view returns (EleStat eleStat) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function getIndex(bytes32 targetEntity, bytes32 baseEntity) internal view returns (uint40 index) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
-    return EleStat(uint8(bytes1(_blob)));
+    return (uint40(bytes5(_blob)));
   }
 
   /**
-   * @notice Get eleStat.
+   * @notice Get index.
    */
-  function _getEleStat(bytes32 entity) internal view returns (EleStat eleStat) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function _getIndex(bytes32 targetEntity, bytes32 baseEntity) internal view returns (uint40 index) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
-    return EleStat(uint8(bytes1(_blob)));
+    return (uint40(bytes5(_blob)));
   }
 
   /**
-   * @notice Set eleStat.
+   * @notice Set index.
    */
-  function setEleStat(bytes32 entity, EleStat eleStat) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function setIndex(bytes32 targetEntity, bytes32 baseEntity, uint40 index) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked(uint8(eleStat)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((index)), _fieldLayout);
   }
 
   /**
-   * @notice Set eleStat.
+   * @notice Set index.
    */
-  function _setEleStat(bytes32 entity, EleStat eleStat) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function _setIndex(bytes32 targetEntity, bytes32 baseEntity, uint40 index) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked(uint8(eleStat)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((index)), _fieldLayout);
   }
 
   /**
    * @notice Get the full data.
    */
-  function get(bytes32 entity) internal view returns (StatmodBaseData memory _table) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function get(
+    bytes32 targetEntity,
+    bytes32 baseEntity
+  ) internal view returns (StatmodTopic statmodTopic, bool has, uint40 index) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     (bytes memory _staticData, PackedCounter _encodedLengths, bytes memory _dynamicData) = StoreSwitch.getRecord(
       _tableId,
@@ -256,9 +270,13 @@ library StatmodBase {
   /**
    * @notice Get the full data.
    */
-  function _get(bytes32 entity) internal view returns (StatmodBaseData memory _table) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function _get(
+    bytes32 targetEntity,
+    bytes32 baseEntity
+  ) internal view returns (StatmodTopic statmodTopic, bool has, uint40 index) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     (bytes memory _staticData, PackedCounter _encodedLengths, bytes memory _dynamicData) = StoreCore.getRecord(
       _tableId,
@@ -271,14 +289,15 @@ library StatmodBase {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(bytes32 entity, StatmodTopic statmodTopic, StatmodOp statmodOp, EleStat eleStat) internal {
-    bytes memory _staticData = encodeStatic(statmodTopic, statmodOp, eleStat);
+  function set(bytes32 targetEntity, bytes32 baseEntity, StatmodTopic statmodTopic, bool has, uint40 index) internal {
+    bytes memory _staticData = encodeStatic(statmodTopic, has, index);
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
   }
@@ -286,44 +305,15 @@ library StatmodBase {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(bytes32 entity, StatmodTopic statmodTopic, StatmodOp statmodOp, EleStat eleStat) internal {
-    bytes memory _staticData = encodeStatic(statmodTopic, statmodOp, eleStat);
+  function _set(bytes32 targetEntity, bytes32 baseEntity, StatmodTopic statmodTopic, bool has, uint40 index) internal {
+    bytes memory _staticData = encodeStatic(statmodTopic, has, index);
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
-
-    StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
-  }
-
-  /**
-   * @notice Set the full data using the data struct.
-   */
-  function set(bytes32 entity, StatmodBaseData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.statmodTopic, _table.statmodOp, _table.eleStat);
-
-    PackedCounter _encodedLengths;
-    bytes memory _dynamicData;
-
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
-
-    StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
-  }
-
-  /**
-   * @notice Set the full data using the data struct.
-   */
-  function _set(bytes32 entity, StatmodBaseData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.statmodTopic, _table.statmodOp, _table.eleStat);
-
-    PackedCounter _encodedLengths;
-    bytes memory _dynamicData;
-
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
   }
@@ -331,14 +321,12 @@ library StatmodBase {
   /**
    * @notice Decode the tightly packed blob of static data using this table's field layout.
    */
-  function decodeStatic(
-    bytes memory _blob
-  ) internal pure returns (StatmodTopic statmodTopic, StatmodOp statmodOp, EleStat eleStat) {
+  function decodeStatic(bytes memory _blob) internal pure returns (StatmodTopic statmodTopic, bool has, uint40 index) {
     statmodTopic = StatmodTopic.wrap(Bytes.slice32(_blob, 0));
 
-    statmodOp = StatmodOp(uint8(Bytes.slice1(_blob, 32)));
+    has = (_toBool(uint8(Bytes.slice1(_blob, 32))));
 
-    eleStat = EleStat(uint8(Bytes.slice1(_blob, 33)));
+    index = (uint40(Bytes.slice5(_blob, 33)));
   }
 
   /**
@@ -351,16 +339,17 @@ library StatmodBase {
     bytes memory _staticData,
     PackedCounter,
     bytes memory
-  ) internal pure returns (StatmodBaseData memory _table) {
-    (_table.statmodTopic, _table.statmodOp, _table.eleStat) = decodeStatic(_staticData);
+  ) internal pure returns (StatmodTopic statmodTopic, bool has, uint40 index) {
+    (statmodTopic, has, index) = decodeStatic(_staticData);
   }
 
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(bytes32 entity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function deleteRecord(bytes32 targetEntity, bytes32 baseEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -368,9 +357,10 @@ library StatmodBase {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(bytes32 entity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function _deleteRecord(bytes32 targetEntity, bytes32 baseEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -379,12 +369,8 @@ library StatmodBase {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(
-    StatmodTopic statmodTopic,
-    StatmodOp statmodOp,
-    EleStat eleStat
-  ) internal pure returns (bytes memory) {
-    return abi.encodePacked(statmodTopic, statmodOp, eleStat);
+  function encodeStatic(StatmodTopic statmodTopic, bool has, uint40 index) internal pure returns (bytes memory) {
+    return abi.encodePacked(statmodTopic, has, index);
   }
 
   /**
@@ -395,10 +381,10 @@ library StatmodBase {
    */
   function encode(
     StatmodTopic statmodTopic,
-    StatmodOp statmodOp,
-    EleStat eleStat
+    bool has,
+    uint40 index
   ) internal pure returns (bytes memory, PackedCounter, bytes memory) {
-    bytes memory _staticData = encodeStatic(statmodTopic, statmodOp, eleStat);
+    bytes memory _staticData = encodeStatic(statmodTopic, has, index);
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
@@ -409,10 +395,23 @@ library StatmodBase {
   /**
    * @notice Encode keys as a bytes32 array using this table's field layout.
    */
-  function encodeKeyTuple(bytes32 entity) internal pure returns (bytes32[] memory) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+  function encodeKeyTuple(bytes32 targetEntity, bytes32 baseEntity) internal pure returns (bytes32[] memory) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = targetEntity;
+    _keyTuple[1] = baseEntity;
 
     return _keyTuple;
+  }
+}
+
+/**
+ * @notice Cast a value to a bool.
+ * @dev Boolean values are encoded as uint8 (1 = true, 0 = false), but Solidity doesn't allow casting between uint8 and bool.
+ * @param value The uint8 value to convert.
+ * @return result The boolean value.
+ */
+function _toBool(uint8 value) pure returns (bool result) {
+  assembly {
+    result := value
   }
 }

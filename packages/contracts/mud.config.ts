@@ -30,7 +30,7 @@ const scopedDurationSchema = {
 const enumPStat = ["STRENGTH", "ARCANA", "DEXTERITY"];
 const arrayPStat = `uint32[${enumPStat.length}]` as const;
 
-//const enumEleStat = ["NONE", "PHYSICAL", "FIRE", "COLD", "POISON"];
+const enumEleStat = ["NONE", "PHYSICAL", "FIRE", "COLD", "POISON"];
 //const arrayEleStat = `uint32[${enumEleStat.length}]` as const;
 
 /*const keysWithValue = (tableNames: string[]) =>
@@ -104,7 +104,39 @@ export default mudConfig({
     },
     StatmodBase: {
       ...entityKey,
-      valueSchema: "bytes32",
+      valueSchema: {
+        statmodTopic: "StatmodTopic",
+        statmodOp: "StatmodOp",
+        eleStat: "EleStat",
+      },
+    },
+    StatmodValue: {
+      keySchema: {
+        targetEntity: EntityId,
+        baseEntity: EntityId,
+      },
+      valueSchema: "uint32",
+    },
+    StatmodIdxList: {
+      keySchema: {
+        targetEntity: EntityId,
+        statmodTopic: "StatmodTopic",
+      },
+      valueSchema: {
+        baseEntities: EntityIdArray,
+      },
+    },
+    StatmodIdxMap: {
+      keySchema: {
+        targetEntity: EntityId,
+        baseEntity: EntityId,
+      },
+      valueSchema: {
+        statmodTopic: "StatmodTopic",
+        has: "bool",
+        index: "uint40",
+      },
+      dataStruct: false,
     },
     // initiatorEntity => retaliatorEntity
     // An entity can initiate only 1 combat at a time
@@ -130,8 +162,17 @@ export default mudConfig({
   },
 
   enums: {
+    EleStat: enumEleStat,
     SkillType: ["COMBAT", "NONCOMBAT", "PASSIVE"],
     TargetType: ["SELF", "ENEMY", "ALLY", "SELF_OR_ALLY"],
+    StatmodOp: ["ADD", "MUL", "BADD"],
+  },
+
+  userTypes: {
+    StatmodTopic: {
+      filePath: "./src/statmod/StatmodTopic.sol",
+      internalType: "bytes32",
+    },
   },
 
   modules: [
