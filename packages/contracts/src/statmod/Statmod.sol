@@ -137,8 +137,11 @@ library Statmod {
     uint32 baseValue
   ) internal view returns (uint32[StatmodOp_length] memory result) {
     uint32[StatmodOp_length] memory ops = getOperands(targetEntity, statmodTopic);
+
     result[uint256(StatmodOp.BADD)] = baseValue + ops[uint256(StatmodOp.BADD)];
+
     result[uint256(StatmodOp.MUL)] = (result[uint256(StatmodOp.BADD)] * (100 + ops[uint256(StatmodOp.MUL)])) / 100;
+
     result[uint256(StatmodOp.ADD)] = result[uint256(StatmodOp.MUL)] + ops[uint256(StatmodOp.ADD)];
   }
 

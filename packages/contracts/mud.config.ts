@@ -53,6 +53,10 @@ export default mudConfig({
       ...entityKey,
       valueSchema: "string",
     },
+    ReverseHashName: {
+      ...entityKey,
+      valueSchema: "string",
+    },
     DefaultWheel: {
       keySchema: {},
       valueSchema: EntityId,
