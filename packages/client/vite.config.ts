@@ -14,7 +14,7 @@ export default defineConfig({
     minify: true,
     sourcemap: true,
     rollupOptions: {
-      external: ["contracts/world.json"],
-    }
+      external: ["contracts/worlds.json"],
+    },
   },
 });

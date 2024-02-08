@@ -4,6 +4,7 @@ pragma solidity >=0.8.21;
 import { Script } from "forge-std/Script.sol";
 import { console } from "forge-std/console.sol";
 import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
+import { LibInitStatmod } from "../src/init/LibInitStatmod.sol";
 
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 
@@ -17,6 +18,8 @@ contract PostDeploy is Script {
 
     // Start broadcasting transactions from the deployer account
     vm.startBroadcast(deployerPrivateKey);
+
+    LibInitStatmod.init();
 
     vm.stopBroadcast();
   }

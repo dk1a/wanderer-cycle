@@ -127,6 +127,9 @@ importers:
         specifier: 2.0.0-next.16
         version: 2.0.0-next.16(typescript@5.3.3)
     devDependencies:
+      '@dk1a/solidity-stringutils':
+        specifier: ^0.3.3
+        version: 0.3.3
       '@types/node':
         specifier: ^18.15.11
         version: 18.18.12
@@ -384,6 +387,10 @@ packages:
       '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+    dev: true
+
+  /@dk1a/solidity-stringutils@0.3.3:
+    resolution: {integrity: sha512-IQodjgcYtYudV1vXUl3f5B/cau0gSji1Izae6a9UiVP5VdJOk+D4QcmCrjy8Rzdb5i2vlPVtrBHhbYncW1+Kcg==}
     dev: true
 
   /@esbuild/android-arm64@0.17.19:
