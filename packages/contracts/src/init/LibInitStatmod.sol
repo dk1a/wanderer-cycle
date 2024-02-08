@@ -5,7 +5,7 @@ import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueent
 
 import { StatmodTopics, StatmodTopic, toStatmodEntity } from "../statmod/StatmodTopic.sol";
 import { statmodName } from "../statmod/statmodName.sol";
-import { Name, ReverseHashName, StatmodBase, StatmodBaseData, StatmodIdxList, StatmodIdxMap, StatmodValue } from "../codegen/index.sol";
+import { Name, StatmodBase, StatmodBaseData, StatmodIdxList, StatmodIdxMap, StatmodValue } from "../codegen/index.sol";
 import { PStat, PStat_length, StatmodOp, EleStat } from "../CustomTypes.sol";
 
 library LibInitStatmod {
