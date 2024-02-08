@@ -4,7 +4,7 @@ pragma solidity >=0.8.21;
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
 import { StatmodTopics, StatmodTopic, toStatmodEntity } from "../statmod/StatmodTopic.sol";
-import { statmodName } from "../statmod/StatmodName.sol";
+import { statmodName } from "../statmod/statmodName.sol";
 import { Name, ReverseHashName, StatmodBase, StatmodBaseData, StatmodIdxList, StatmodIdxMap, StatmodValue } from "../codegen/index.sol";
 import { PStat, PStat_length, StatmodOp, EleStat } from "../CustomTypes.sol";
 
@@ -39,10 +39,10 @@ library LibInitStatmod {
     // attack
     _add(StatmodTopics.ATTACK, StatmodOp.BADD, EleStat.PHYSICAL);
 
-    _add(StatmodTopics.ATTACK, StatmodOp.MUL);
-
+    _add(StatmodTopics.ATTACK, StatmodOp.MUL, EleStat.PHYSICAL);
     _add(StatmodTopics.ATTACK, StatmodOp.MUL, EleStat.FIRE);
     _add(StatmodTopics.ATTACK, StatmodOp.MUL, EleStat.COLD);
+    _add(StatmodTopics.ATTACK, StatmodOp.MUL, EleStat.POISON);
 
     _add(StatmodTopics.ATTACK, StatmodOp.ADD, EleStat.PHYSICAL);
     _add(StatmodTopics.ATTACK, StatmodOp.ADD, EleStat.FIRE);
@@ -89,10 +89,10 @@ library LibInitStatmod {
   }
 
   function _add(StatmodBaseData memory statmodBase) internal {
-    bytes32 statmodEntity = toStatmodEntity(statmodBase.statmodTopic, statmodBase.statmodOp, statmodBase.eleStat);
+    bytes32 statmodEntity = statmodBase.statmodTopic.toStatmodEntity(statmodBase.statmodOp, statmodBase.eleStat);
     StatmodBase.set(statmodEntity, statmodBase);
 
-    string memory name = statmodName(statmodBase.statmodTopic.toEntity(), statmodBase.statmodOp, statmodBase.eleStat);
+    string memory name = statmodName(statmodBase);
     Name.set(statmodEntity, name);
   }
 }

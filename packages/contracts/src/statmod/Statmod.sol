@@ -8,6 +8,15 @@ import { StatmodOp, EleStat } from "../codegen/common.sol";
 import { StatmodOpFinal, StatmodOp_length, EleStat_length } from "../CustomTypes.sol";
 import { StatmodTopic } from "./StatmodTopic.sol";
 
+error Statmod_NotInitialized(bytes32 baseEntity);
+
+function getAndCheckStatmodTopic(bytes32 baseEntity) view returns (StatmodTopic statmodTopic) {
+  statmodTopic = StatmodBase.getStatmodTopic(baseEntity);
+  if (StatmodTopic.unwrap(statmodTopic) == bytes32(0)) {
+    revert Statmod_NotInitialized(baseEntity);
+  }
+}
+
 function swapAndPopStatmodIdx(bytes32 targetEntity, bytes32 baseEntity, StatmodTopic statmodTopic, uint256 index) {
   uint256 lastIndex = StatmodIdxList.length(targetEntity, statmodTopic) - 1;
   bytes32 baseEntityToSwap = StatmodIdxList.getItem(targetEntity, statmodTopic, lastIndex);
@@ -26,6 +35,9 @@ function pushStatmodIdx(bytes32 targetEntity, bytes32 baseEntity, StatmodTopic s
 // TODO less hacky indexing (you could use hooks)
 function setStatmodValue(bytes32 targetEntity, bytes32 baseEntity, uint32 value) {
   StatmodTopic statmodTopic = StatmodBase.getStatmodTopic(baseEntity);
+  if (StatmodTopic.unwrap(statmodTopic) == bytes32(0)) {
+    revert Statmod_NotInitialized(baseEntity);
+  }
 
   StatmodValue.set(targetEntity, baseEntity, value);
   (StatmodTopic savedStatmodTopic, bool has, uint40 index) = StatmodIdxMap.get(targetEntity, baseEntity);

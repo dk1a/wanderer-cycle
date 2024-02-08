@@ -18,7 +18,7 @@ contract StatmodTest is MudLibTest {
   bytes32 baddLifePE = StatmodTopics.LIFE.toStatmodEntity(StatmodOp.BADD, EleStat.NONE);
 
   StatmodTopic attackTopic = StatmodTopics.ATTACK;
-  bytes32 mulAttackPE = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.MUL, EleStat.NONE);
+  bytes32 mulPhysicalAttackPE = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.MUL, EleStat.PHYSICAL);
   bytes32 mulFireAttackPE = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.MUL, EleStat.FIRE);
   bytes32 addFireAttackPE = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.ADD, EleStat.FIRE);
   bytes32 addColdAttackPE = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.ADD, EleStat.COLD);
@@ -63,7 +63,7 @@ contract StatmodTest is MudLibTest {
   }
 
   function test_statmod_getValuesElementalFinal() public {
-    Statmod.increase(targetEntity, mulAttackPE, 40);
+    Statmod.increase(targetEntity, mulPhysicalAttackPE, 40);
     Statmod.increase(targetEntity, addFireAttackPE, 100);
     Statmod.increase(targetEntity, mulFireAttackPE, 40);
     Statmod.increase(targetEntity, addColdAttackPE, 50);
@@ -77,34 +77,9 @@ contract StatmodTest is MudLibTest {
     uint32[EleStat_length] memory expected;
     expected[uint256(EleStat.NONE)] = 0;
     expected[uint256(EleStat.PHYSICAL)] = 280;
-    expected[uint256(EleStat.FIRE)] = 640;
-    expected[uint256(EleStat.COLD)] = 610;
-    expected[uint256(EleStat.POISON)] = 700;
-
-    for (uint256 el; el < EleStat_length; el++) {
-      assertEq(result[el], expected[el]);
-    }
-  }
-
-  // TODO Element.ALL is confusing and useless. You should replace it with NONE and make this test obsolete
-  function test_statmod_getValuesElemental_withBaseAll() public {
-    Statmod.increase(targetEntity, mulAttackPE, 40);
-    Statmod.increase(targetEntity, addFireAttackPE, 100);
-    Statmod.increase(targetEntity, mulFireAttackPE, 40);
-    Statmod.increase(targetEntity, addColdAttackPE, 50);
-
-    uint32[EleStat_length] memory result = Statmod.getValuesElementalFinal(
-      targetEntity,
-      attackTopic,
-      [uint32(100), 200, 300, 400, 500]
-    );
-
-    uint32[EleStat_length] memory expected;
-    expected[uint256(EleStat.NONE)] = 140;
-    expected[uint256(EleStat.PHYSICAL)] = 420;
-    expected[uint256(EleStat.FIRE)] = 820;
-    expected[uint256(EleStat.COLD)] = 750;
-    expected[uint256(EleStat.POISON)] = 840;
+    expected[uint256(EleStat.FIRE)] = 520;
+    expected[uint256(EleStat.COLD)] = 450;
+    expected[uint256(EleStat.POISON)] = 500;
 
     for (uint256 el; el < EleStat_length; el++) {
       assertEq(result[el], expected[el]);
