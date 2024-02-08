@@ -39,7 +39,11 @@ library StatmodTopics {
   StatmodTopic constant LEVEL = StatmodTopic.wrap("level");
 }
 
-using { toStatmodEntity, eq as ==, ne as != } for StatmodTopic global;
+using { toEntity, toStatmodEntity, eq as ==, ne as != } for StatmodTopic global;
+
+function toEntity(StatmodTopic topic) pure returns (bytes32) {
+  return StatmodTopic.unwrap(topic);
+}
 
 function toStatmodEntity(StatmodTopic statmodTopic, StatmodOp statmodOp, EleStat eleStat) pure returns (bytes32) {
   return keccak256(abi.encode(StatmodBaseData({ statmodTopic: statmodTopic, statmodOp: statmodOp, eleStat: eleStat })));

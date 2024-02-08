@@ -21,9 +21,9 @@ function statmodName(bytes32 topicEntity, StatmodOp statmodOp, EleStat eleStat) 
   // prefix
   if (statmodOp == StatmodOp.ADD) {
     nameParts[0] = toSlice("+#");
-  } else if (op == statmodOp.MUL) {
+  } else if (statmodOp == StatmodOp.MUL) {
     nameParts[0] = toSlice("#% increased");
-  } else if (op == statmodOp.BADD) {
+  } else if (statmodOp == StatmodOp.BADD) {
     nameParts[0] = toSlice("+# base");
   } else {
     revert("unknown op");

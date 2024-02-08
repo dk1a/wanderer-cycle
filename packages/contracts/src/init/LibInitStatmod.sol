@@ -1,119 +1,98 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-//import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
-//
-//import { Wheel, DefaultWheel, Name, WheelData } from "../codegen/index.sol";
-//
-//import { IWorld } from "solecs/interfaces/IWorld.sol";
-//import { IUint256Component } from "solecs/interfaces/IUint256Component.sol";
-//import { getAddressById } from "solecs/utils.sol";
-//
-//import { Topics, Topic } from "../charstat/Topics.sol";
-//import { statmodName } from "../statmod/statmodName.sol";
-//import { getStatmodProtoEntity, Op, Element, StatmodPrototype, StatmodPrototypeComponent, ID as StatmodPrototypeComponentID } from "../statmod/StatmodPrototypeComponent.sol";
-//import { NameComponent, ID as NameComponentID } from "../common/NameComponent.sol";
-//import { ReverseHashNameComponent, ID as ReverseHashNameComponentID } from "../common/ReverseHashNameComponent.sol";
-//
-//library LibInitStatmod {
-//  struct Comps {
-//    StatmodPrototypeComponent proto;
-//    NameComponent name;
-//    ReverseHashNameComponent rhName;
-//  }
-//
-//  function getComps(IUint256Component components) internal view returns (Comps memory result) {
-//    result.proto = StatmodPrototypeComponent(getAddressById(components, StatmodPrototypeComponentID));
-//    result.name = NameComponent(getAddressById(components, NameComponentID));
-//    result.rhName = ReverseHashNameComponent(getAddressById(components, ReverseHashNameComponentID));
-//  }
-//
-//  function init(IWorld world) internal {
-//    Comps memory comps = getComps(world.components());
-//
-//    // primary stats
-//    for (uint256 i; i < Topics.PSTAT().length; i++) {
-//      add(comps, Topics.PSTAT()[i], Op.MUL);
-//      add(comps, Topics.PSTAT()[i], Op.ADD);
-//    }
-//
-//    // secondary stats
-//    add(comps, Topics.FORTUNE, Op.MUL);
-//    add(comps, Topics.FORTUNE, Op.ADD);
-//
-//    add(comps, Topics.CONNECTION, Op.MUL);
-//    add(comps, Topics.CONNECTION, Op.ADD);
-//
-//    // currents
-//    add(comps, Topics.LIFE, Op.MUL);
-//    add(comps, Topics.LIFE, Op.ADD);
-//    add(comps, Topics.LIFE, Op.BADD);
-//
-//    add(comps, Topics.MANA, Op.MUL);
-//    add(comps, Topics.MANA, Op.ADD);
-//    add(comps, Topics.MANA, Op.BADD);
-//
-//    // currents gained per turn
-//    add(comps, Topics.LIFE_GAINED_PER_TURN, Op.ADD);
-//    add(comps, Topics.MANA_GAINED_PER_TURN, Op.ADD);
-//
-//    // attack
-//    add(comps, Topics.ATTACK, Op.BADD, Element.PHYSICAL);
-//
-//    add(comps, Topics.ATTACK, Op.MUL);
-//
-//    add(comps, Topics.ATTACK, Op.MUL, Element.FIRE);
-//    add(comps, Topics.ATTACK, Op.MUL, Element.COLD);
-//
-//    add(comps, Topics.ATTACK, Op.ADD, Element.PHYSICAL);
-//    add(comps, Topics.ATTACK, Op.ADD, Element.FIRE);
-//    add(comps, Topics.ATTACK, Op.ADD, Element.COLD);
-//    add(comps, Topics.ATTACK, Op.ADD, Element.POISON);
-//
-//    // attack special
-//    add(comps, Topics.PERCENT_OF_MISSING_LIFE_TO_ATTACK, Op.ADD, Element.PHYSICAL);
-//
-//    // spell
-//    add(comps, Topics.SPELL, Op.MUL);
-//
-//    add(comps, Topics.SPELL, Op.ADD, Element.PHYSICAL);
-//    add(comps, Topics.SPELL, Op.ADD, Element.FIRE);
-//    add(comps, Topics.SPELL, Op.ADD, Element.COLD);
-//
-//    // resistance
-//    add(comps, Topics.RESISTANCE, Op.ADD, Element.PHYSICAL);
-//    add(comps, Topics.RESISTANCE, Op.ADD, Element.FIRE);
-//    add(comps, Topics.RESISTANCE, Op.ADD, Element.COLD);
-//    add(comps, Topics.RESISTANCE, Op.ADD, Element.POISON);
-//
-//    // damage taken per round
-//    add(comps, Topics.DAMAGE_TAKEN_PER_ROUND, Op.ADD, Element.PHYSICAL);
-//    add(comps, Topics.DAMAGE_TAKEN_PER_ROUND, Op.ADD, Element.FIRE);
-//    add(comps, Topics.DAMAGE_TAKEN_PER_ROUND, Op.ADD, Element.COLD);
-//    add(comps, Topics.DAMAGE_TAKEN_PER_ROUND, Op.ADD, Element.POISON);
-//
-//    // debuffs
-//    add(comps, Topics.DAMAGE_TAKEN, Op.MUL);
-//    add(comps, Topics.REDUCED_DAMAGE_DONE, Op.ADD);
-//    add(comps, Topics.ROUNDS_STUNNED, Op.ADD);
-//
-//    // level
-//    add(comps, Topics.LEVEL, Op.BADD);
-//  }
-//
-//  function add(Comps memory comps, Topic topic, Op op) internal {
-//    add(comps, topic, op, Element.ALL);
-//  }
-//
-//  function _add(Comps memory comps, Topic topic, Op op, Element element) internal {
-//    add(comps, StatmodPrototype({ topicEntity: topic.toEntity(), op: op, element: element }));
-//  }
-//
-//  function _add(Comps memory comps, StatmodPrototype memory prototype) internal {
-//    uint256 protoEntity = getStatmodProtoEntity(prototype);
-//    comps.proto.set(protoEntity, prototype);
-//
-//    string memory name = statmodName(comps.rhName, prototype.topicEntity, prototype.op, prototype.element);
-//    comps.name.set(protoEntity, name);
-//  }
-//}
+import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
+
+import { StatmodTopics, StatmodTopic, toStatmodEntity } from "../statmod/StatmodTopic.sol";
+import { statmodName } from "../statmod/StatmodName.sol";
+import { Name, ReverseHashName, StatmodBase, StatmodBaseData, StatmodIdxList, StatmodIdxMap, StatmodValue } from "../codegen/index.sol";
+import { PStat, PStat_length, StatmodOp, EleStat } from "../CustomTypes.sol";
+
+library LibInitStatmod {
+  function init() internal {
+    // primary stats
+    for (uint256 i; i < StatmodTopics.PSTAT().length; i++) {
+      _add(StatmodTopics.PSTAT()[i], StatmodOp.MUL);
+      _add(StatmodTopics.PSTAT()[i], StatmodOp.ADD);
+    }
+
+    // secondary stats
+    _add(StatmodTopics.FORTUNE, StatmodOp.MUL);
+    _add(StatmodTopics.FORTUNE, StatmodOp.ADD);
+
+    _add(StatmodTopics.CONNECTION, StatmodOp.MUL);
+    _add(StatmodTopics.CONNECTION, StatmodOp.ADD);
+
+    // currents
+    _add(StatmodTopics.LIFE, StatmodOp.MUL);
+    _add(StatmodTopics.LIFE, StatmodOp.ADD);
+    _add(StatmodTopics.LIFE, StatmodOp.BADD);
+
+    _add(StatmodTopics.MANA, StatmodOp.MUL);
+    _add(StatmodTopics.MANA, StatmodOp.ADD);
+    _add(StatmodTopics.MANA, StatmodOp.BADD);
+
+    // currents gained per turn
+    _add(StatmodTopics.LIFE_GAINED_PER_TURN, StatmodOp.ADD);
+    _add(StatmodTopics.MANA_GAINED_PER_TURN, StatmodOp.ADD);
+
+    // attack
+    _add(StatmodTopics.ATTACK, StatmodOp.BADD, EleStat.PHYSICAL);
+
+    _add(StatmodTopics.ATTACK, StatmodOp.MUL);
+
+    _add(StatmodTopics.ATTACK, StatmodOp.MUL, EleStat.FIRE);
+    _add(StatmodTopics.ATTACK, StatmodOp.MUL, EleStat.COLD);
+
+    _add(StatmodTopics.ATTACK, StatmodOp.ADD, EleStat.PHYSICAL);
+    _add(StatmodTopics.ATTACK, StatmodOp.ADD, EleStat.FIRE);
+    _add(StatmodTopics.ATTACK, StatmodOp.ADD, EleStat.COLD);
+    _add(StatmodTopics.ATTACK, StatmodOp.ADD, EleStat.POISON);
+
+    // attack special
+    _add(StatmodTopics.PERCENT_OF_MISSING_LIFE_TO_ATTACK, StatmodOp.ADD, EleStat.PHYSICAL);
+
+    // spell
+    _add(StatmodTopics.SPELL, StatmodOp.MUL);
+
+    _add(StatmodTopics.SPELL, StatmodOp.ADD, EleStat.PHYSICAL);
+    _add(StatmodTopics.SPELL, StatmodOp.ADD, EleStat.FIRE);
+    _add(StatmodTopics.SPELL, StatmodOp.ADD, EleStat.COLD);
+
+    // resistance
+    _add(StatmodTopics.RESISTANCE, StatmodOp.ADD, EleStat.PHYSICAL);
+    _add(StatmodTopics.RESISTANCE, StatmodOp.ADD, EleStat.FIRE);
+    _add(StatmodTopics.RESISTANCE, StatmodOp.ADD, EleStat.COLD);
+    _add(StatmodTopics.RESISTANCE, StatmodOp.ADD, EleStat.POISON);
+
+    // damage taken per round
+    _add(StatmodTopics.DAMAGE_TAKEN_PER_ROUND, StatmodOp.ADD, EleStat.PHYSICAL);
+    _add(StatmodTopics.DAMAGE_TAKEN_PER_ROUND, StatmodOp.ADD, EleStat.FIRE);
+    _add(StatmodTopics.DAMAGE_TAKEN_PER_ROUND, StatmodOp.ADD, EleStat.COLD);
+    _add(StatmodTopics.DAMAGE_TAKEN_PER_ROUND, StatmodOp.ADD, EleStat.POISON);
+
+    // debuffs
+    _add(StatmodTopics.DAMAGE_TAKEN, StatmodOp.MUL);
+    _add(StatmodTopics.REDUCED_DAMAGE_DONE, StatmodOp.ADD);
+    _add(StatmodTopics.ROUNDS_STUNNED, StatmodOp.ADD);
+
+    // level
+    _add(StatmodTopics.LEVEL, StatmodOp.BADD);
+  }
+
+  function _add(StatmodTopic topic, StatmodOp statmodOp) internal {
+    _add(topic, statmodOp, EleStat.NONE);
+  }
+
+  function _add(StatmodTopic topic, StatmodOp statmodOp, EleStat eleStat) internal {
+    _add(StatmodBaseData({ statmodTopic: topic, statmodOp: statmodOp, eleStat: eleStat }));
+  }
+
+  function _add(StatmodBaseData memory statmodBase) internal {
+    bytes32 statmodEntity = toStatmodEntity(statmodBase.statmodTopic, statmodBase.statmodOp, statmodBase.eleStat);
+    StatmodBase.set(statmodEntity, statmodBase);
+
+    string memory name = statmodName(statmodBase.statmodTopic.toEntity(), statmodBase.statmodOp, statmodBase.eleStat);
+    Name.set(statmodEntity, name);
+  }
+}
