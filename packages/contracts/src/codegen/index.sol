@@ -10,6 +10,8 @@ import { Experience, ExperienceTableId } from "./tables/Experience.sol";
 import { ActiveGuise, ActiveGuiseTableId } from "./tables/ActiveGuise.sol";
 import { GuisePrototype, GuisePrototypeTableId } from "./tables/GuisePrototype.sol";
 import { LearnedSkills, LearnedSkillsTableId } from "./tables/LearnedSkills.sol";
+import { LifeCurrent, LifeCurrentTableId } from "./tables/LifeCurrent.sol";
+import { ManaCurrent, ManaCurrentTableId } from "./tables/ManaCurrent.sol";
 import { SkillTemplate, SkillTemplateData, SkillTemplateTableId } from "./tables/SkillTemplate.sol";
 import { EffectTemplate, EffectTemplateData, EffectTemplateTableId } from "./tables/EffectTemplate.sol";
 import { StatmodBase, StatmodBaseData, StatmodBaseTableId } from "./tables/StatmodBase.sol";

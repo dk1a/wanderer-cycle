@@ -78,6 +78,14 @@ export default mudConfig({
       ...entityKey,
       valueSchema: EntityIdSet,
     },
+    LifeCurrent: {
+      ...entityKey,
+      valueSchema: "uint32",
+    },
+    ManaCurrent: {
+      ...entityKey,
+      valueSchema: "uint32",
+    },
     SkillTemplate: {
       ...entityKey,
       valueSchema: {
