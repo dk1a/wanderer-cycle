@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { hasKey } from "@latticexyz/world/src/modules/keysintable/hasKey.sol";
-import { Experience, ExperienceTableId } from "../codegen/Tables.sol";
+import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
+import { Experience, ExperienceTableId } from "../codegen/index.sol";
 import { PStat, PStat_length } from "../CustomTypes.sol";
 
 library LibExperience {

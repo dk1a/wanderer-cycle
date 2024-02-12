@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { CycleTurns, CycleTurnsLastClaimed, ActiveGuise } from "../codegen/Tables.sol";
+import { CycleTurns, CycleTurnsLastClaimed, ActiveGuise } from "../codegen/index.sol";
 
 library LibCycleTurns {
   error LibCycleTurns__NotEnoughTurns();

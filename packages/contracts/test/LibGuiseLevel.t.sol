@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { MudV2Test } from "@latticexyz/std-contracts/src/test/MudV2Test.t.sol";
 import { LibGuiseLevel } from "../src/guise/LibGuiseLevel.sol";
 import { LibExperience } from "../src/charstat/LibExperience.sol";
-import { ActiveGuise, GuisePrototype } from "../src/codegen/Tables.sol";
+import { ActiveGuise, GuisePrototype } from "../src/codegen/index.sol";
 import { PStat_length } from "../src/CustomTypes.sol";
+import { MudLibTest } from "./MudLibTest.t.sol";
 
-contract LibGuiseLevelTest is MudV2Test {
+contract LibGuiseLevelTest is MudLibTest {
   bytes32 internal targetEntity = keccak256("targetEntity");
   uint32[PStat_length] internal levelMul = [8, 8, 8];
-
-  function setUp() public virtual override {
-    super.setUp();
-    vm.startPrank(worldAddress);
-  }
 
   // Initialize exp and levelMul
   function _init(uint32[PStat_length] memory addExp) internal {

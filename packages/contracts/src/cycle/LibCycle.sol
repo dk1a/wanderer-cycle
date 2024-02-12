@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-import { getUniqueEntity } from "@latticexyz/world/src/modules/uniqueentity/getUniqueEntity.sol";
+import { getUniqueEntity } from "@latticexyz/world-modules/uniqueentity/getUniqueEntity.sol";
 
 import { ActiveGuise, ActiveWheel, PreviousCycle, Wheel, GuisePrototype, ActiveCycle } from "../codegen/Tables.sol";
 
-//import { LibCharstat } from "../charstat/LibCharstat.sol";
+import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
 
 //import { LibToken } from "../token/LibToken.sol";
 //import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
-//import { LibLearnedSkills } from "../skill/LibLearnedSkills.sol";
+import { LibLearnedSkills } from "../skill/LibLearnedSkills.sol";
 
 library LibCycle {
   error LibCycle__CycleIsAlreadyActive();
