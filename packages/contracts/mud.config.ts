@@ -200,7 +200,7 @@ export default mudConfig({
   modules: [
     ...keysInTable(["Experience", "LearnedSkills"]),
     {
-      name: "UnigueEntityModule",
+      name: "UniqueEntityModule",
       root: true,
       args: [],
     },
