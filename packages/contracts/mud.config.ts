@@ -146,10 +146,7 @@ export default mudConfig({
       },
       dataStruct: false,
     },
-    ActiveCycle: {
-      ...entityKey,
-      valueSchema: "bytes32",
-    },
+    ActiveCycle: entityRelation,
     CurrentCycle: entityRelation,
     PreviousCycle: entityRelation,
     CycleTurns: {
