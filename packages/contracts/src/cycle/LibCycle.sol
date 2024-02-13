@@ -26,8 +26,6 @@ library LibCycle {
   ) internal returns (bytes32 cycleEntity) {
     // cycleEntity is for all the in-cycle components (everything except activeCycle)
     cycleEntity = getUniqueEntity();
-    // bridge for connection cycle and wanderer
-    bytes32 bridgeEntity = getUniqueEntity();
     // cycle must be inactive
     if (ActiveCycle.get(targetEntity) != bytes32(0)) {
       revert LibCycle__CycleIsAlreadyActive();
@@ -42,10 +40,9 @@ library LibCycle {
       revert LibCycle__InvalidWheelEntity();
     }
 
-    // set active cycle
+    // set active cycle and its reverse mapping
     ActiveCycle.set(targetEntity, cycleEntity);
-    // set CycleToWanderer bridge
-    CycleToWanderer.set(cycleEntity, bridgeEntity, targetEntity);
+    CycleToWanderer.set(cycleEntity, targetEntity);
     // set active guise
     ActiveGuise.set(cycleEntity, guiseProtoEntity);
     // set active wheel
@@ -64,13 +61,12 @@ library LibCycle {
     return cycleEntity;
   }
 
-  function endCycle(bytes32 wandererEntity, bytes32 cycleEntity, bytes32 bridgeEntity) internal {
+  function endCycle(bytes32 wandererEntity, bytes32 cycleEntity) internal {
     // save the previous cycle entity
-    ActiveCycle.set(wandererEntity, cycleEntity);
+    PreviousCycle.set(wandererEntity, cycleEntity);
     // clear the current cycle
     ActiveCycle.deleteRecord(wandererEntity);
-    // clear bridge
-    CycleToWanderer.deleteRecord(cycleEntity, bridgeEntity);
+    CycleToWanderer.deleteRecord(cycleEntity);
   }
 
   /// @dev Return `cycleEntity` if msg.sender is allowed to use it.
@@ -88,9 +84,9 @@ library LibCycle {
     return ActiveCycle.get(wandererEntity);
   }
 
-  function requirePermission(bytes32 cycleEntity, bytes32 bridgeEntity) internal view {
+  function requirePermission(bytes32 cycleEntity) internal view {
     // get wanderer entity
-    bytes32 wandererEntity = CycleToWanderer.get(cycleEntity, bridgeEntity);
+    bytes32 wandererEntity = CycleToWanderer.get(cycleEntity);
     // check permission
     // LibToken.requireOwner(wandererEntity, msg.sender);
   }

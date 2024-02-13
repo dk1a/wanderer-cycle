@@ -147,6 +147,7 @@ export default mudConfig({
       dataStruct: false,
     },
     ActiveCycle: entityRelation,
+    CycleToWanderer: entityRelation,
     CurrentCycle: entityRelation,
     PreviousCycle: entityRelation,
     CycleTurns: {
@@ -171,13 +172,6 @@ export default mudConfig({
     },
     // requestId => ownerEntity
     RNGRequestOwner: entityRelation,
-    CycleToWanderer: {
-      keySchema: {
-        cycleEntity: EntityId,
-        sourceEntity: EntityId,
-      },
-      valueSchema: "bytes32",
-    },
   },
 
   enums: {
