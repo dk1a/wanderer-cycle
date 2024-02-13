@@ -148,7 +148,7 @@ export default mudConfig({
     },
     ActiveCycle: {
       ...entityKey,
-      valueSchema: "uint32",
+      valueSchema: "bytes32",
     },
     CurrentCycle: entityRelation,
     PreviousCycle: entityRelation,
@@ -174,6 +174,13 @@ export default mudConfig({
     },
     // requestId => ownerEntity
     RNGRequestOwner: entityRelation,
+    CycleToWanderer: {
+      keySchema: {
+        cycleEntity: EntityId,
+        sourceEntity: EntityId,
+      },
+      valueSchema: "bytes32",
+    },
   },
 
   enums: {
@@ -190,5 +197,12 @@ export default mudConfig({
     },
   },
 
-  modules: [...keysInTable(["Experience", "LearnedSkills"])],
+  modules: [
+    ...keysInTable(["Experience", "LearnedSkills"]),
+    {
+      name: "UnigueEntityModule",
+      root: true,
+      args: [],
+    },
+  ],
 });

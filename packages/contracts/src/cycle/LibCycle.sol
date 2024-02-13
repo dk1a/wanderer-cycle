@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-import { getUniqueEntity } from "@latticexyz/world-modules/uniqueentity/getUniqueEntity.sol";
+import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { ActiveGuise, ActiveWheel, PreviousCycle, Wheel, GuisePrototype, ActiveCycle } from "../codegen/Tables.sol";
+import { ActiveGuise, ActiveWheel, PreviousCycle, Wheel, WheelData, GuisePrototype, ActiveCycle, CycleToWanderer } from "../codegen/index.sol";
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
+import { LibLearnedSkills } from "../skill/LibLearnedSkill.sol";
 
 //import { LibToken } from "../token/LibToken.sol";
 //import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
-import { LibLearnedSkills } from "../skill/LibLearnedSkills.sol";
 
 library LibCycle {
   error LibCycle__CycleIsAlreadyActive();
@@ -26,47 +26,51 @@ library LibCycle {
   ) internal returns (bytes32 cycleEntity) {
     // cycleEntity is for all the in-cycle components (everything except activeCycle)
     cycleEntity = getUniqueEntity();
+    // bridge for connection cycle and wanderer
+    bytes32 bridgeEntity = getUniqueEntity();
     // cycle must be inactive
-    if (!ActiveCycle.get(targetEntity) == 0) {
+    if (ActiveCycle.get(targetEntity) != bytes32(0)) {
       revert LibCycle__CycleIsAlreadyActive();
     }
     // prototypes must exist
-    if (GuisePrototype.get(guiseProtoEntity) == 0) {
+    uint32[3] memory guiseProto = GuisePrototype.get(guiseProtoEntity);
+    if (guiseProto[0] == 0 && guiseProto[1] == 0 && guiseProto[2] == 0) {
       revert LibCycle__InvalidGuiseProtoEntity();
     }
-    if (Wheel.get(wheelEntity) == 0) {
+    WheelData memory wheel = Wheel.get(wheelEntity);
+    if (wheel.totalIdentityRequired == 0 && wheel.charges == 0 && !wheel.isIsolated) {
       revert LibCycle__InvalidWheelEntity();
     }
 
     // set active cycle
     ActiveCycle.set(targetEntity, cycleEntity);
-    // TODO new table?
-    //    cycleToWandererComp.set(cycleEntity, targetEntity);
+    // set CycleToWanderer bridge
+    CycleToWanderer.set(cycleEntity, bridgeEntity, targetEntity);
     // set active guise
     ActiveGuise.set(cycleEntity, guiseProtoEntity);
     // set active wheel
     ActiveWheel.set(cycleEntity, wheelEntity);
-    //    // init exp
-    //    LibCharstat.initExp();
-    //    // init currents
-    //    LibCharstat.setFullCurrents();
+    // init exp
+    LibExperience.initExp(targetEntity);
+    // init currents
+    LibCharstat.setFullCurrents(targetEntity);
     // claim initial cycle turns
     LibCycleTurns.claimTurns(cycleEntity);
     // spawn equipment slots
     //    LibSpawnEquipmentSlots.spawnEquipmentSlots(cycleEntity);
     // copy permanent skills
-    //    LibLearnedSkills.copySkills(targetEntity);
+    LibLearnedSkills.copySkills(targetEntity, guiseProtoEntity);
 
     return cycleEntity;
   }
 
-  function endCycle(bytes32 wandererEntity, bytes32 cycleEntity) internal {
+  function endCycle(bytes32 wandererEntity, bytes32 cycleEntity, bytes32 bridgeEntity) internal {
     // save the previous cycle entity
     ActiveCycle.set(wandererEntity, cycleEntity);
     // clear the current cycle
     ActiveCycle.deleteRecord(wandererEntity);
-    // TODO new table?
-    //    cycleToWandererComp.deleteRecord(cycleEntity);
+    // clear bridge
+    CycleToWanderer.deleteRecord(cycleEntity, bridgeEntity);
   }
 
   /// @dev Return `cycleEntity` if msg.sender is allowed to use it.
@@ -84,11 +88,10 @@ library LibCycle {
     return ActiveCycle.get(wandererEntity);
   }
 
-  //  function requirePermission(bytes32 cycleEntity) internal view {
-  //    // get wanderer entity
-  //    // TODO new table?
-  //    //    bytes32 wandererEntity = cycleToWandererComp.get(cycleEntity);
-  //    // check permission
-  //    LibToken.requireOwner(wandererEntity, msg.sender);
-  //  }
+  function requirePermission(bytes32 cycleEntity, bytes32 bridgeEntity) internal view {
+    // get wanderer entity
+    bytes32 wandererEntity = CycleToWanderer.get(cycleEntity, bridgeEntity);
+    // check permission
+    // LibToken.requireOwner(wandererEntity, msg.sender);
+  }
 }

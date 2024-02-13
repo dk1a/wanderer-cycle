@@ -28,3 +28,4 @@ import { Wanderer, WandererTableId } from "./tables/Wanderer.sol";
 import { ActiveCombat, ActiveCombatTableId } from "./tables/ActiveCombat.sol";
 import { RNGPrecommit, RNGPrecommitTableId } from "./tables/RNGPrecommit.sol";
 import { RNGRequestOwner, RNGRequestOwnerTableId } from "./tables/RNGRequestOwner.sol";
+import { CycleToWanderer, CycleToWandererTableId } from "./tables/CycleToWanderer.sol";
