@@ -47,6 +47,13 @@ const keysInTable = (tableNames: string[]) =>
     args: [resolveTableId(tableName)],
   }));
 
+const durationIdx = (tableNames: string[]) =>
+  tableNames.map((tableName) => ({
+    name: "DurationIdxModule",
+    root: true,
+    args: [resolveTableId(tableName)],
+  }));
+
 export default mudConfig({
   tables: {
     Name: {
@@ -102,6 +109,42 @@ export default mudConfig({
         // who it can be used on
         targetType: "TargetType",
       },
+    },
+    DurationValue: {
+      keySchema: {
+        targetEntity: EntityId,
+        applicationEntity: EntityId,
+        applicationType: "bytes32",
+      },
+      valueSchema: {
+        timeId: "bytes32",
+        timeValue: "uint256",
+      },
+    },
+    DurationIdxList: {
+      keySchema: {
+        sourceTableId: "ResourceId",
+        targetEntity: EntityId,
+        timeId: "bytes32",
+      },
+      valueSchema: {
+        applicationEntities: EntityIdArray,
+        applicationTypes: "bytes32[]",
+      },
+      dataStruct: false,
+    },
+    DurationIdxMap: {
+      keySchema: {
+        sourceTableId: "ResourceId",
+        targetEntity: EntityId,
+        applicationEntity: EntityId,
+        applicationType: "bytes32",
+      },
+      valueSchema: {
+        has: "bool",
+        index: "uint40",
+      },
+      dataStruct: false,
     },
     EffectTemplate: {
       ...entityKey,
@@ -182,6 +225,7 @@ export default mudConfig({
   },
 
   userTypes: {
+    ResourceId: { filePath: "@latticexyz/store/src/ResourceId.sol", internalType: "bytes32" },
     StatmodTopic: {
       filePath: "./src/statmod/StatmodTopic.sol",
       internalType: "bytes32",
@@ -195,5 +239,6 @@ export default mudConfig({
       root: true,
       args: [],
     },
+    ...durationIdx(["DurationValue"]),
   ],
 });

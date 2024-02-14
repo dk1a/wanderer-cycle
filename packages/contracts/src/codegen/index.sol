@@ -13,6 +13,9 @@ import { LearnedSkills, LearnedSkillsTableId } from "./tables/LearnedSkills.sol"
 import { LifeCurrent, LifeCurrentTableId } from "./tables/LifeCurrent.sol";
 import { ManaCurrent, ManaCurrentTableId } from "./tables/ManaCurrent.sol";
 import { SkillTemplate, SkillTemplateData, SkillTemplateTableId } from "./tables/SkillTemplate.sol";
+import { DurationValue, DurationValueData, DurationValueTableId } from "./tables/DurationValue.sol";
+import { DurationIdxList, DurationIdxListTableId } from "./tables/DurationIdxList.sol";
+import { DurationIdxMap, DurationIdxMapTableId } from "./tables/DurationIdxMap.sol";
 import { EffectTemplate, EffectTemplateData, EffectTemplateTableId } from "./tables/EffectTemplate.sol";
 import { StatmodBase, StatmodBaseData, StatmodBaseTableId } from "./tables/StatmodBase.sol";
 import { StatmodValue, StatmodValueTableId } from "./tables/StatmodValue.sol";
