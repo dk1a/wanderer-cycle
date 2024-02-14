@@ -21,15 +21,15 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { RESOURCE_TABLE, RESOURCE_OFFCHAIN_TABLE } from "@latticexyz/store/src/storeResourceTypes.sol";
 
 ResourceId constant _tableId = ResourceId.wrap(
-  bytes32(abi.encodePacked(RESOURCE_TABLE, bytes14(""), bytes16("ActiveCycle")))
+  bytes32(abi.encodePacked(RESOURCE_TABLE, bytes14(""), bytes16("CurrentCycle")))
 );
-ResourceId constant ActiveCycleTableId = _tableId;
+ResourceId constant CurrentCycleTableId = _tableId;
 
 FieldLayout constant _fieldLayout = FieldLayout.wrap(
   0x0020010020000000000000000000000000000000000000000000000000000000
 );
 
-library ActiveCycle {
+library CurrentCycle {
   /**
    * @notice Get the table values' field layout.
    * @return _fieldLayout The field layout for the table.

@@ -21,15 +21,15 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { RESOURCE_TABLE, RESOURCE_OFFCHAIN_TABLE } from "@latticexyz/store/src/storeResourceTypes.sol";
 
 ResourceId constant _tableId = ResourceId.wrap(
-  bytes32(abi.encodePacked(RESOURCE_TABLE, bytes14(""), bytes16("ActiveCycle")))
+  bytes32(abi.encodePacked(RESOURCE_TABLE, bytes14(""), bytes16("Wanderer")))
 );
-ResourceId constant ActiveCycleTableId = _tableId;
+ResourceId constant WandererTableId = _tableId;
 
 FieldLayout constant _fieldLayout = FieldLayout.wrap(
-  0x0020010020000000000000000000000000000000000000000000000000000000
+  0x0001010001000000000000000000000000000000000000000000000000000000
 );
 
-library ActiveCycle {
+library Wanderer {
   /**
    * @notice Get the table values' field layout.
    * @return _fieldLayout The field layout for the table.
@@ -55,7 +55,7 @@ library ActiveCycle {
    */
   function getValueSchema() internal pure returns (Schema) {
     SchemaType[] memory _valueSchema = new SchemaType[](1);
-    _valueSchema[0] = SchemaType.BYTES32;
+    _valueSchema[0] = SchemaType.BOOL;
 
     return SchemaLib.encode(_valueSchema);
   }
@@ -95,51 +95,51 @@ library ActiveCycle {
   /**
    * @notice Get value.
    */
-  function getValue(bytes32 entity) internal view returns (bytes32 value) {
+  function getValue(bytes32 entity) internal view returns (bool value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (bytes32(_blob));
+    return (_toBool(uint8(bytes1(_blob))));
   }
 
   /**
    * @notice Get value.
    */
-  function _getValue(bytes32 entity) internal view returns (bytes32 value) {
+  function _getValue(bytes32 entity) internal view returns (bool value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (bytes32(_blob));
+    return (_toBool(uint8(bytes1(_blob))));
   }
 
   /**
    * @notice Get value.
    */
-  function get(bytes32 entity) internal view returns (bytes32 value) {
+  function get(bytes32 entity) internal view returns (bool value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (bytes32(_blob));
+    return (_toBool(uint8(bytes1(_blob))));
   }
 
   /**
    * @notice Get value.
    */
-  function _get(bytes32 entity) internal view returns (bytes32 value) {
+  function _get(bytes32 entity) internal view returns (bool value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (bytes32(_blob));
+    return (_toBool(uint8(bytes1(_blob))));
   }
 
   /**
    * @notice Set value.
    */
-  function setValue(bytes32 entity, bytes32 value) internal {
+  function setValue(bytes32 entity, bool value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -149,7 +149,7 @@ library ActiveCycle {
   /**
    * @notice Set value.
    */
-  function _setValue(bytes32 entity, bytes32 value) internal {
+  function _setValue(bytes32 entity, bool value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -159,7 +159,7 @@ library ActiveCycle {
   /**
    * @notice Set value.
    */
-  function set(bytes32 entity, bytes32 value) internal {
+  function set(bytes32 entity, bool value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -169,7 +169,7 @@ library ActiveCycle {
   /**
    * @notice Set value.
    */
-  function _set(bytes32 entity, bytes32 value) internal {
+  function _set(bytes32 entity, bool value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -200,7 +200,7 @@ library ActiveCycle {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(bytes32 value) internal pure returns (bytes memory) {
+  function encodeStatic(bool value) internal pure returns (bytes memory) {
     return abi.encodePacked(value);
   }
 
@@ -210,7 +210,7 @@ library ActiveCycle {
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(bytes32 value) internal pure returns (bytes memory, PackedCounter, bytes memory) {
+  function encode(bool value) internal pure returns (bytes memory, PackedCounter, bytes memory) {
     bytes memory _staticData = encodeStatic(value);
 
     PackedCounter _encodedLengths;
@@ -227,5 +227,17 @@ library ActiveCycle {
     _keyTuple[0] = entity;
 
     return _keyTuple;
+  }
+}
+
+/**
+ * @notice Cast a value to a bool.
+ * @dev Boolean values are encoded as uint8 (1 = true, 0 = false), but Solidity doesn't allow casting between uint8 and bool.
+ * @param value The uint8 value to convert.
+ * @return result The boolean value.
+ */
+function _toBool(uint8 value) pure returns (bool result) {
+  assembly {
+    result := value
   }
 }

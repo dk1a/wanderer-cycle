@@ -146,13 +146,10 @@ export default mudConfig({
       },
       dataStruct: false,
     },
-    // initiatorEntity => retaliatorEntity
-    // An entity can initiate only 1 combat at a time
-    ActiveCombat: entityRelation,
-    ActiveCycle: {
-      ...entityKey,
-      valueSchema: "uint32",
-    },
+    ActiveCycle: entityRelation,
+    CycleToWanderer: entityRelation,
+    CurrentCycle: entityRelation,
+    PreviousCycle: entityRelation,
     CycleTurns: {
       ...entityKey,
       valueSchema: "uint32",
@@ -161,6 +158,14 @@ export default mudConfig({
       ...entityKey,
       valueSchema: "uint48",
     },
+    ActiveWheel: entityRelation,
+    Wanderer: {
+      ...entityKey,
+      valueSchema: "bool",
+    },
+    // initiatorEntity => retaliatorEntity
+    // An entity can initiate only 1 combat at a time
+    ActiveCombat: entityRelation,
     RNGPrecommit: {
       ...entityKey,
       valueSchema: "uint256",
