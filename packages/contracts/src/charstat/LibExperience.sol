@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { hasKey } from "@latticexyz/world/src/modules/keysintable/hasKey.sol";
-import { Experience, ExperienceTableId } from "../codegen/Tables.sol";
+import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
+import { Experience, ExperienceTableId } from "../codegen/index.sol";
 import { PStat, PStat_length } from "../CustomTypes.sol";
 
 library LibExperience {
@@ -63,11 +63,10 @@ library LibExperience {
   /**
    * @dev Calculate aggregate level based on weighted sum of pstat exp
    */
-  function getAggregateLevel(bytes32 targetEntity, uint32[PStat_length] memory levelMul)
-    internal
-    view
-    returns (uint32)
-  {
+  function getAggregateLevel(
+    bytes32 targetEntity,
+    uint32[PStat_length] memory levelMul
+  ) internal view returns (uint32) {
     uint32[PStat_length] memory exp = getExp(targetEntity);
     uint256 expTotal;
     uint256 mulTotal;
@@ -109,7 +108,7 @@ library LibExperience {
       level -= 1;
     }
 
-    return uint32(8 * (1 << level) - level**6 / 1024 + level * 200 - 120);
+    return uint32(8 * (1 << level) - level ** 6 / 1024 + level * 200 - 120);
   }
 
   /**

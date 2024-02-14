@@ -1,19 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { MudV2Test } from "@latticexyz/std-contracts/src/test/MudV2Test.t.sol";
 import { LibExperience } from "../src/charstat/LibExperience.sol";
-import { Experience, ExperienceTableId } from "../src/codegen/Tables.sol";
+import { Experience, ExperienceTableId } from "../src/codegen/index.sol";
 import { PStat_length } from "../src/CustomTypes.sol";
+import { MudLibTest } from "./MudLibTest.t.sol";
 
-contract LibExperienceTest is MudV2Test {
+contract LibExperienceTest is MudLibTest {
   bytes32 internal targetEntity = keccak256("targetEntity");
-
-  function setUp() public virtual override {
-    super.setUp();
-    // TODO remove this if it's integrated into MUD
-    vm.startPrank(worldAddress);
-  }
 
   function testHasExp() public {
     assertFalse(LibExperience.hasExp(targetEntity));
@@ -22,10 +16,10 @@ contract LibExperienceTest is MudV2Test {
     assertTrue(LibExperience.hasExp(targetEntity));
   }
 
-  function _testIncreaseExp(uint32[PStat_length] memory initialExp, uint32[PStat_length] memory addExp)
-    internal
-    returns (uint32[PStat_length] memory resultExp)
-  {
+  function _testIncreaseExp(
+    uint32[PStat_length] memory initialExp,
+    uint32[PStat_length] memory addExp
+  ) internal returns (uint32[PStat_length] memory resultExp) {
     LibExperience.increaseExp(targetEntity, addExp);
 
     resultExp = LibExperience.getExp(targetEntity);

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { ActiveGuise, GuisePrototype } from "../codegen/Tables.sol";
+import { ActiveGuise, GuisePrototype } from "../codegen/index.sol";
 
 import { PStat_length } from "../CustomTypes.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
@@ -16,11 +16,10 @@ library LibGuiseLevel {
   }
 
   /// @dev Multiply gained experience by guise's level multiplier
-  function multiplyExperience(bytes32 targetEntity, uint32[PStat_length] memory exp)
-    internal
-    view
-    returns (uint32[PStat_length] memory expMultiplied)
-  {
+  function multiplyExperience(
+    bytes32 targetEntity,
+    uint32[PStat_length] memory exp
+  ) internal view returns (uint32[PStat_length] memory expMultiplied) {
     bytes32 guiseProtoEntity = ActiveGuise.get(targetEntity);
     uint32[PStat_length] memory levelMul = GuisePrototype.get(guiseProtoEntity);
 
