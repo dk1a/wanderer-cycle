@@ -75,7 +75,7 @@ library SlotAllowedBases {
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](1);
-    fieldNames[0] = "value";
+    fieldNames[0] = "equipmentTypes";
   }
 
   /**
@@ -93,9 +93,9 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Get value.
+   * @notice Get equipmentTypes.
    */
-  function getValue(bytes32 entity) internal view returns (bytes32[] memory value) {
+  function getEquipmentTypes(bytes32 entity) internal view returns (bytes32[] memory equipmentTypes) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -104,9 +104,9 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Get value.
+   * @notice Get equipmentTypes.
    */
-  function _getValue(bytes32 entity) internal view returns (bytes32[] memory value) {
+  function _getEquipmentTypes(bytes32 entity) internal view returns (bytes32[] memory equipmentTypes) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -115,9 +115,9 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Get value.
+   * @notice Get equipmentTypes.
    */
-  function get(bytes32 entity) internal view returns (bytes32[] memory value) {
+  function get(bytes32 entity) internal view returns (bytes32[] memory equipmentTypes) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -126,9 +126,9 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Get value.
+   * @notice Get equipmentTypes.
    */
-  function _get(bytes32 entity) internal view returns (bytes32[] memory value) {
+  function _get(bytes32 entity) internal view returns (bytes32[] memory equipmentTypes) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -137,49 +137,49 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Set value.
+   * @notice Set equipmentTypes.
    */
-  function setValue(bytes32 entity, bytes32[] memory value) internal {
+  function setEquipmentTypes(bytes32 entity, bytes32[] memory equipmentTypes) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((value)));
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((equipmentTypes)));
   }
 
   /**
-   * @notice Set value.
+   * @notice Set equipmentTypes.
    */
-  function _setValue(bytes32 entity, bytes32[] memory value) internal {
+  function _setEquipmentTypes(bytes32 entity, bytes32[] memory equipmentTypes) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((value)));
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((equipmentTypes)));
   }
 
   /**
-   * @notice Set value.
+   * @notice Set equipmentTypes.
    */
-  function set(bytes32 entity, bytes32[] memory value) internal {
+  function set(bytes32 entity, bytes32[] memory equipmentTypes) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((value)));
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((equipmentTypes)));
   }
 
   /**
-   * @notice Set value.
+   * @notice Set equipmentTypes.
    */
-  function _set(bytes32 entity, bytes32[] memory value) internal {
+  function _set(bytes32 entity, bytes32[] memory equipmentTypes) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((value)));
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((equipmentTypes)));
   }
 
   /**
-   * @notice Get the length of value.
+   * @notice Get the length of equipmentTypes.
    */
-  function lengthValue(bytes32 entity) internal view returns (uint256) {
+  function lengthEquipmentTypes(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -190,9 +190,9 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Get the length of value.
+   * @notice Get the length of equipmentTypes.
    */
-  function _lengthValue(bytes32 entity) internal view returns (uint256) {
+  function _lengthEquipmentTypes(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -203,7 +203,7 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Get the length of value.
+   * @notice Get the length of equipmentTypes.
    */
   function length(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -216,7 +216,7 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Get the length of value.
+   * @notice Get the length of equipmentTypes.
    */
   function _length(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -229,10 +229,10 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Get an item of value.
+   * @notice Get an item of equipmentTypes.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItemValue(bytes32 entity, uint256 _index) internal view returns (bytes32) {
+  function getItemEquipmentTypes(bytes32 entity, uint256 _index) internal view returns (bytes32) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -243,10 +243,10 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Get an item of value.
+   * @notice Get an item of equipmentTypes.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItemValue(bytes32 entity, uint256 _index) internal view returns (bytes32) {
+  function _getItemEquipmentTypes(bytes32 entity, uint256 _index) internal view returns (bytes32) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -257,7 +257,7 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Get an item of value.
+   * @notice Get an item of equipmentTypes.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
   function getItem(bytes32 entity, uint256 _index) internal view returns (bytes32) {
@@ -271,7 +271,7 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Get an item of value.
+   * @notice Get an item of equipmentTypes.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
   function _getItem(bytes32 entity, uint256 _index) internal view returns (bytes32) {
@@ -285,9 +285,9 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Push an element to value.
+   * @notice Push an element to equipmentTypes.
    */
-  function pushValue(bytes32 entity, bytes32 _element) internal {
+  function pushEquipmentTypes(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -295,9 +295,9 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Push an element to value.
+   * @notice Push an element to equipmentTypes.
    */
-  function _pushValue(bytes32 entity, bytes32 _element) internal {
+  function _pushEquipmentTypes(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -305,7 +305,7 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Push an element to value.
+   * @notice Push an element to equipmentTypes.
    */
   function push(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -315,7 +315,7 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Push an element to value.
+   * @notice Push an element to equipmentTypes.
    */
   function _push(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -325,9 +325,9 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Pop an element from value.
+   * @notice Pop an element from equipmentTypes.
    */
-  function popValue(bytes32 entity) internal {
+  function popEquipmentTypes(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -335,9 +335,9 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Pop an element from value.
+   * @notice Pop an element from equipmentTypes.
    */
-  function _popValue(bytes32 entity) internal {
+  function _popEquipmentTypes(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -345,7 +345,7 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Pop an element from value.
+   * @notice Pop an element from equipmentTypes.
    */
   function pop(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -355,7 +355,7 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Pop an element from value.
+   * @notice Pop an element from equipmentTypes.
    */
   function _pop(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -365,9 +365,9 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Update an element of value at `_index`.
+   * @notice Update an element of equipmentTypes at `_index`.
    */
-  function updateValue(bytes32 entity, uint256 _index, bytes32 _element) internal {
+  function updateEquipmentTypes(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -378,9 +378,9 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Update an element of value at `_index`.
+   * @notice Update an element of equipmentTypes at `_index`.
    */
-  function _updateValue(bytes32 entity, uint256 _index, bytes32 _element) internal {
+  function _updateEquipmentTypes(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -391,7 +391,7 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Update an element of value at `_index`.
+   * @notice Update an element of equipmentTypes at `_index`.
    */
   function update(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -404,7 +404,7 @@ library SlotAllowedBases {
   }
 
   /**
-   * @notice Update an element of value at `_index`.
+   * @notice Update an element of equipmentTypes at `_index`.
    */
   function _update(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -440,10 +440,10 @@ library SlotAllowedBases {
    * @notice Tightly pack dynamic data lengths using this table's schema.
    * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
    */
-  function encodeLengths(bytes32[] memory value) internal pure returns (PackedCounter _encodedLengths) {
+  function encodeLengths(bytes32[] memory equipmentTypes) internal pure returns (PackedCounter _encodedLengths) {
     // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
     unchecked {
-      _encodedLengths = PackedCounterLib.pack(value.length * 32);
+      _encodedLengths = PackedCounterLib.pack(equipmentTypes.length * 32);
     }
   }
 
@@ -451,8 +451,8 @@ library SlotAllowedBases {
    * @notice Tightly pack dynamic (variable length) data using this table's schema.
    * @return The dynamic data, encoded into a sequence of bytes.
    */
-  function encodeDynamic(bytes32[] memory value) internal pure returns (bytes memory) {
-    return abi.encodePacked(EncodeArray.encode((value)));
+  function encodeDynamic(bytes32[] memory equipmentTypes) internal pure returns (bytes memory) {
+    return abi.encodePacked(EncodeArray.encode((equipmentTypes)));
   }
 
   /**
@@ -461,10 +461,10 @@ library SlotAllowedBases {
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(bytes32[] memory value) internal pure returns (bytes memory, PackedCounter, bytes memory) {
+  function encode(bytes32[] memory equipmentTypes) internal pure returns (bytes memory, PackedCounter, bytes memory) {
     bytes memory _staticData;
-    PackedCounter _encodedLengths = encodeLengths(value);
-    bytes memory _dynamicData = encodeDynamic(value);
+    PackedCounter _encodedLengths = encodeLengths(equipmentTypes);
+    bytes memory _dynamicData = encodeDynamic(equipmentTypes);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }

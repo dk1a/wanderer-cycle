@@ -1,59 +1,45 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { SlotAllowedBases, Name, OwnedBy } from "../codegen/index.sol";
-import { LibInitEquipment, Equipment } from "../init/LibInitEquipment.sol";
+import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-type EqptSlot is bytes32;
+import { Name, OwnedBy, SlotAllowedBases } from "../codegen/index.sol";
+import { EquipmentType, EquipmentTypes } from "./EquipmentType.sol";
 
 library LibSpawnEquipmentSlots {
-  EqptSlot constant R_HAND = EqptSlot.wrap("R Hand");
-  EqptSlot constant L_HAND = EqptSlot.wrap("L HAND");
-  EqptSlot constant HEAD = EqptSlot.wrap("HEAD");
-  EqptSlot constant BODY = EqptSlot.wrap("BODY");
-  EqptSlot constant HANDS = EqptSlot.wrap("HANDS");
-  EqptSlot constant LEGS = EqptSlot.wrap("LEGS");
-  EqptSlot constant FEET = EqptSlot.wrap("FEET");
-  EqptSlot constant NECK = EqptSlot.wrap("NECK");
-  EqptSlot constant R_RING = EqptSlot.wrap("R RING");
-  EqptSlot constant L_RING = EqptSlot.wrap("L RING");
-
   function spawnEquipmentSlots(bytes32 ownerEntity) external {
-    _newSlotEquipment(
-      ownerEntity,
-      EqptSlot.unwrap(R_HAND),
-      Equipment.unwrap(LibInitEquipment.WEAPON),
-      Equipment.unwrap(LibInitEquipment.SHIELD)
-    );
-    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(L_HAND), Equipment.unwrap(LibInitEquipment.SHIELD));
-    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(HEAD), Equipment.unwrap(LibInitEquipment.HAT));
-    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(BODY), Equipment.unwrap(LibInitEquipment.CLOTHING));
-    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(HANDS), Equipment.unwrap(LibInitEquipment.GLOVES));
-    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(LEGS), Equipment.unwrap(LibInitEquipment.PANTS));
-    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(FEET), Equipment.unwrap(LibInitEquipment.BOOTS));
-    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(NECK), Equipment.unwrap(LibInitEquipment.AMULET));
-    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(R_RING), Equipment.unwrap(LibInitEquipment.RING));
-    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(L_RING), Equipment.unwrap(LibInitEquipment.RING));
+    _newSlotEntity(ownerEntity, "R Hand", EquipmentTypes.WEAPON, EquipmentTypes.SHIELD);
+    // TODO dual wielding to conditionally let L Hand use weapon too
+    _newSlotEntity(ownerEntity, "L Hand", EquipmentTypes.SHIELD);
+    _newSlotEntity(ownerEntity, "Head", EquipmentTypes.HAT);
+    _newSlotEntity(ownerEntity, "Body", EquipmentTypes.CLOTHING);
+    _newSlotEntity(ownerEntity, "Hands", EquipmentTypes.GLOVES);
+    _newSlotEntity(ownerEntity, "Legs", EquipmentTypes.PANTS);
+    _newSlotEntity(ownerEntity, "Feet", EquipmentTypes.BOOTS);
+    _newSlotEntity(ownerEntity, "Neck", EquipmentTypes.AMULET);
+    _newSlotEntity(ownerEntity, "R Ring", EquipmentTypes.RING);
+    _newSlotEntity(ownerEntity, "L Ring", EquipmentTypes.RING);
   }
 
-  function _newSlotEquipment(bytes32 ownerEntity, bytes32 slot, bytes32 eqpt) private {
-    string memory name = toString(slot);
+  function _newSlotEntity(bytes32 ownerEntity, string memory name, EquipmentType equipmentType) private {
+    bytes32 slotEntity = getUniqueEntity();
 
-    Name.set(slot, name);
-    OwnedBy.set(slot, ownerEntity);
-    SlotAllowedBases.push(slot, eqpt);
+    Name.set(slotEntity, name);
+    OwnedBy.set(slotEntity, ownerEntity);
+    SlotAllowedBases.push(slotEntity, equipmentType.toBytes32());
   }
 
-  function _newSlotEquipment(bytes32 ownerEntity, bytes32 slot, bytes32 eqpt0, bytes32 eqpt1) private {
-    string memory name = toString(slot);
+  function _newSlotEntity(
+    bytes32 ownerEntity,
+    string memory name,
+    EquipmentType equipmentType0,
+    EquipmentType equipmentType1
+  ) private {
+    bytes32 slotEntity = getUniqueEntity();
 
-    Name.set(slot, name);
-    OwnedBy.set(slot, ownerEntity);
-    SlotAllowedBases.push(slot, eqpt0);
-    SlotAllowedBases.push(slot, eqpt1);
-  }
-
-  function toString(bytes32 slot) public returns (string memory) {
-    return string(abi.encodePacked(slot));
+    Name.set(slotEntity, name);
+    OwnedBy.set(slotEntity, ownerEntity);
+    SlotAllowedBases.push(slotEntity, equipmentType0.toBytes32());
+    SlotAllowedBases.push(slotEntity, equipmentType1.toBytes32());
   }
 }

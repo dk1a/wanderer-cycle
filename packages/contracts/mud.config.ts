@@ -174,8 +174,9 @@ export default mudConfig({
     FromEqptBase: entityRelation,
     SlotAllowedBases: {
       ...entityKey,
-      // set of base equipment entities
-      valueSchema: EntityIdSet,
+      valueSchema: {
+        equipmentTypes: "bytes32[]",
+      },
     },
     SlotEquipment: {
       ...entityKey,
