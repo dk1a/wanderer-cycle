@@ -1,88 +1,59 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-//import { getKeysWithValue } from "@latticexyz/world-modules/src/modules/keyswithvalue/getKeysWithValue.sol";
-//import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
-//
-//import { SlotAllowedBases, Name, NameTableId, OwnedBy} from "../codegen/index.sol";
-//
-//import { LibInitEquipment } from "../init/LibInitEquipment.sol";
-//
-//library LibSpawnEquipmentSlots {
-//  string constant R_HAND = "R HAND";
-//  string constant L_HAND = "L HAND";
-//  string constant HEAD = "HEAD";
-//  string constant BODY = "BODY";
-//  string constant HANDS = "HANDS";
-//  string constant LEGS = "LEGS";
-//  string constant FEET = "FEET";
-//  string constant NECK = "NECK";
-//  string constant R_RING = "R RING";
-//  string constant L_RING = "L RING";
-//
-//  function spawnEquipmentSlots(bytes32 ownerEntity) external {
-//    bytes32 weapon = LibInitEquipment.getEquipmentId("WEAPON");
-//    bytes32 shield = LibInitEquipment.getEquipmentId("SHIELD");
-//    bytes32 hat = LibInitEquipment.getEquipmentId("HAT");
-//    bytes32 clothing = LibInitEquipment.getEquipmentId("CLOTHING");
-//    bytes32 gloves = LibInitEquipment.getEquipmentId("GLOVES");
-//    bytes32 pants = LibInitEquipment.getEquipmentId("PANTS");
-//    bytes32 boots = LibInitEquipment.getEquipmentId("BOOTS");
-//    bytes32 amulet = LibInitEquipment.getEquipmentId("AMULET");
-//    bytes32 ring = LibInitEquipment.getEquipmentId("RING");
-//
-//    _newSlotEquipment(ownerEntity, R_HAND, weapon, shield);
-//    _newSlotEquipment(ownerEntity, L_HAND, shield);
-//    _newSlotEquipment(ownerEntity, HEAD, hat);
-//    _newSlotEquipment(ownerEntity, BODY, clothing);
-//    _newSlotEquipment(ownerEntity, HANDS, gloves);
-//    _newSlotEquipment(ownerEntity, LEGS, pants);
-//    _newSlotEquipment(ownerEntity, FEET, boots);
-//    _newSlotEquipment(ownerEntity, NECK, amulet);
-//    _newSlotEquipment(ownerEntity, R_RING, ring);
-//    _newSlotEquipment(ownerEntity, L_RING, ring);
-//  }
-//
-//  function _newSlotEquipment(
-//    bytes32 ownerEntity,
-//    string memory slot,
-//    bytes32 eqptBaseId
-//  ) private returns (bytes32 slotEntity) {
-//    slotEntity = getUniqueEntity();
-//
-//    Name.set(slotEntity, slot);
-//    OwnedBy.set(slotEntity, ownerEntity);
-//    SlotAllowedBases.push(slotEntity, eqptBaseId);
-//  }
-//
-//  function _newSlotEquipment(
-//    bytes32 ownerEntity,
-//    string memory slot,
-//    bytes32 eqptBaseId0,
-//    bytes32 eqptBaseId1
-//  ) private returns (bytes32 slotEntity) {
-//    slotEntity = getUniqueEntity();
-//
-//    Name.set(slotEntity, slot);
-//    OwnedBy.set(slotEntity, ownerEntity);
-//    SlotAllowedBases.push(slotEntity, eqptBaseId0);
-//    SlotAllowedBases.push(slotEntity, eqptBaseId1);
-//  }
-//
-//  function stringToBytes32(string memory str) private pure returns (bytes32 result) {
-//    bytes memory strBytes = bytes(str);
-//    require(strBytes.length <= 32, "String too long");
-//
-//    assembly {
-//      result := mload(add(strBytes, 32))
-//    }
-//  }
-//
-//  function getSlotByName(string memory slotName) private view returns (bytes32) {
-//    bytes32[] memory slotKeys = getKeysWithValue(NameTableId, bytes(slotName));
-//    if (slotKeys.length == 0) {
-//      revert("slotEntity not found");
-//    }
-//    return slotKeys[0];
-//  }
-//}
+import { SlotAllowedBases, Name, OwnedBy } from "../codegen/index.sol";
+import { LibInitEquipment, Equipment } from "../init/LibInitEquipment.sol";
+
+type EqptSlot is bytes32;
+
+library LibSpawnEquipmentSlots {
+  EqptSlot constant R_HAND = EqptSlot.wrap("R Hand");
+  EqptSlot constant L_HAND = EqptSlot.wrap("L HAND");
+  EqptSlot constant HEAD = EqptSlot.wrap("HEAD");
+  EqptSlot constant BODY = EqptSlot.wrap("BODY");
+  EqptSlot constant HANDS = EqptSlot.wrap("HANDS");
+  EqptSlot constant LEGS = EqptSlot.wrap("LEGS");
+  EqptSlot constant FEET = EqptSlot.wrap("FEET");
+  EqptSlot constant NECK = EqptSlot.wrap("NECK");
+  EqptSlot constant R_RING = EqptSlot.wrap("R RING");
+  EqptSlot constant L_RING = EqptSlot.wrap("L RING");
+
+  function spawnEquipmentSlots(bytes32 ownerEntity) external {
+    _newSlotEquipment(
+      ownerEntity,
+      EqptSlot.unwrap(R_HAND),
+      Equipment.unwrap(LibInitEquipment.WEAPON),
+      Equipment.unwrap(LibInitEquipment.SHIELD)
+    );
+    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(L_HAND), Equipment.unwrap(LibInitEquipment.SHIELD));
+    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(HEAD), Equipment.unwrap(LibInitEquipment.HAT));
+    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(BODY), Equipment.unwrap(LibInitEquipment.CLOTHING));
+    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(HANDS), Equipment.unwrap(LibInitEquipment.GLOVES));
+    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(LEGS), Equipment.unwrap(LibInitEquipment.PANTS));
+    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(FEET), Equipment.unwrap(LibInitEquipment.BOOTS));
+    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(NECK), Equipment.unwrap(LibInitEquipment.AMULET));
+    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(R_RING), Equipment.unwrap(LibInitEquipment.RING));
+    _newSlotEquipment(ownerEntity, EqptSlot.unwrap(L_RING), Equipment.unwrap(LibInitEquipment.RING));
+  }
+
+  function _newSlotEquipment(bytes32 ownerEntity, bytes32 slot, bytes32 eqpt) private {
+    string memory name = toString(slot);
+
+    Name.set(slot, name);
+    OwnedBy.set(slot, ownerEntity);
+    SlotAllowedBases.push(slot, eqpt);
+  }
+
+  function _newSlotEquipment(bytes32 ownerEntity, bytes32 slot, bytes32 eqpt0, bytes32 eqpt1) private {
+    string memory name = toString(slot);
+
+    Name.set(slot, name);
+    OwnedBy.set(slot, ownerEntity);
+    SlotAllowedBases.push(slot, eqpt0);
+    SlotAllowedBases.push(slot, eqpt1);
+  }
+
+  function toString(bytes32 slot) public returns (string memory) {
+    return string(abi.encodePacked(slot));
+  }
+}

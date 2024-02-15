@@ -1,43 +1,41 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-//import { getKeysWithValue } from "@latticexyz/world-modules/src/modules/keyswithvalue/getKeysWithValue.sol";
-//import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
-//import { Name, NameTableId, EqptBase } from "../codegen/index.sol";
-//
-//library LibInitEquipment {
-//  mapping(string => bytes32) private equipmentIds;
-//
-//  function init() external {
-//    string[9] memory equipmentTypes = [
-//          "WEAPON",
-//          "SHIELD",
-//          "HAT",
-//          "CLOTHING",
-//          "GLOVES",
-//          "PANTS",
-//          "BOOTS",
-//          "AMULET",
-//          "RING"
-//      ];
-//
-//    for (uint i = 0; i < equipmentTypes.length; i++) {
-//      bytes32 eqptId = _newBaseEquipment(equipmentTypes[i]);
-//      equipmentIds[equipmentTypes[i]] = eqptId;
-//    }
-//  }
-//
-//  function _newBaseEquipment(string memory eqptBaseName) private returns (bytes32 eqptBase) {
-//    eqptBase = getUniqueEntity();
-//
-//    Name.set(eqptBase, eqptBaseName);
-//    EqptBase.set(eqptBase, true);
-//
-//    return eqptBase;
-//  }
-//
-//  function getEquipmentId(string memory name) external view returns (bytes32) {
-//    require(equipmentIds[name] != bytes32(0), "Equipment not found");
-//    return equipmentIds[name];
-//  }
-//}
+import { Name, NameTableId, EqptBase } from "../codegen/index.sol";
+
+type Equipment is bytes32;
+
+library LibInitEquipment {
+  Equipment constant WEAPON = Equipment.wrap("Weapon");
+  Equipment constant SHIELD = Equipment.wrap("Shield");
+  Equipment constant HAT = Equipment.wrap("Hat");
+  Equipment constant CLOTHING = Equipment.wrap("Clothing");
+  Equipment constant GLOVES = Equipment.wrap("Gloves");
+  Equipment constant PANTS = Equipment.wrap("Pants");
+  Equipment constant BOOTS = Equipment.wrap("Boots");
+  Equipment constant AMULET = Equipment.wrap("Amulet");
+  Equipment constant RING = Equipment.wrap("Ring");
+
+  function spawnEquipments() external {
+    _newBaseEquipment(WEAPON);
+    _newBaseEquipment(SHIELD);
+    _newBaseEquipment(HAT);
+    _newBaseEquipment(CLOTHING);
+    _newBaseEquipment(GLOVES);
+    _newBaseEquipment(PANTS);
+    _newBaseEquipment(BOOTS);
+    _newBaseEquipment(AMULET);
+    _newBaseEquipment(RING);
+  }
+
+  function _newBaseEquipment(Equipment eqpt) private {
+    string memory name = toString(Equipment.unwrap(eqpt));
+
+    Name.set(Equipment.unwrap(eqpt), name);
+    EqptBase.set(Equipment.unwrap(eqpt), true);
+  }
+
+  function toString(bytes32 eqpt) public returns (string memory) {
+    return string(abi.encodePacked(eqpt));
+  }
+}
