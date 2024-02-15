@@ -172,6 +172,18 @@ export default mudConfig({
     },
     // requestId => ownerEntity
     RNGRequestOwner: entityRelation,
+    SlotAllowedTypes: {
+      ...entityKey,
+      valueSchema: {
+        equipmentTypes: "bytes32[]",
+      },
+    },
+    SlotEquipment: {
+      ...entityKey,
+      // equipment entity (not base)
+      valueSchema: EntityId,
+    },
+    OwnedBy: entityRelation,
   },
 
   enums: {

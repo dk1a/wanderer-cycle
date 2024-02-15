@@ -29,3 +29,6 @@ import { Wanderer, WandererTableId } from "./tables/Wanderer.sol";
 import { ActiveCombat, ActiveCombatTableId } from "./tables/ActiveCombat.sol";
 import { RNGPrecommit, RNGPrecommitTableId } from "./tables/RNGPrecommit.sol";
 import { RNGRequestOwner, RNGRequestOwnerTableId } from "./tables/RNGRequestOwner.sol";
+import { SlotAllowedTypes, SlotAllowedTypesTableId } from "./tables/SlotAllowedTypes.sol";
+import { SlotEquipment, SlotEquipmentTableId } from "./tables/SlotEquipment.sol";
+import { OwnedBy, OwnedByTableId } from "./tables/OwnedBy.sol";
