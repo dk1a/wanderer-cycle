@@ -3,7 +3,7 @@ pragma solidity >=0.8.21;
 
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { Name, OwnedBy, SlotAllowedBases } from "../codegen/index.sol";
+import { Name, OwnedBy, SlotAllowedTypes } from "../codegen/index.sol";
 import { EquipmentType, EquipmentTypes } from "./EquipmentType.sol";
 
 library LibSpawnEquipmentSlots {
@@ -26,7 +26,7 @@ library LibSpawnEquipmentSlots {
 
     Name.set(slotEntity, name);
     OwnedBy.set(slotEntity, ownerEntity);
-    SlotAllowedBases.push(slotEntity, equipmentType.toBytes32());
+    SlotAllowedTypes.push(slotEntity, equipmentType.toBytes32());
   }
 
   function _newSlotEntity(
@@ -39,7 +39,7 @@ library LibSpawnEquipmentSlots {
 
     Name.set(slotEntity, name);
     OwnedBy.set(slotEntity, ownerEntity);
-    SlotAllowedBases.push(slotEntity, equipmentType0.toBytes32());
-    SlotAllowedBases.push(slotEntity, equipmentType1.toBytes32());
+    SlotAllowedTypes.push(slotEntity, equipmentType0.toBytes32());
+    SlotAllowedTypes.push(slotEntity, equipmentType1.toBytes32());
   }
 }

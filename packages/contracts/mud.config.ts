@@ -167,12 +167,7 @@ export default mudConfig({
     },
     // requestId => ownerEntity
     RNGRequestOwner: entityRelation,
-    EqptBase: {
-      ...entityKey,
-      valueSchema: "bool",
-    },
-    FromEqptBase: entityRelation,
-    SlotAllowedBases: {
+    SlotAllowedTypes: {
       ...entityKey,
       valueSchema: {
         equipmentTypes: "bytes32[]",
