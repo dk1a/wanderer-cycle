@@ -13,20 +13,18 @@ import { InstalledModules } from "@latticexyz/world/src/codegen/index.sol";
 import { ResourceId, WorldResourceIdInstance } from "@latticexyz/world/src/WorldResourceId.sol";
 import { revertWithBytes } from "@latticexyz/world/src/revertWithBytes.sol";
 
-import { DurationIdxHook } from "./DurationIdxHook.sol";
-import { DurationValue } from "../../codegen/tables/DurationValue.sol";
-import { DurationIdxList, DurationIdxListTableId } from "../../codegen/tables/DurationIdxList.sol";
-import { DurationIdxMap, DurationIdxMapTableId } from "../../codegen/tables/DurationIdxMap.sol";
+import { DurationHook } from "./DurationHook.sol";
+import { GenericDuration, DurationIdxList, DurationIdxListTableId, DurationIdxMap, DurationIdxMapTableId } from "../../codegen/index.sol";
 
-contract DurationIdxModule is Module {
+contract DurationModule is Module {
   using WorldResourceIdInstance for ResourceId;
 
-  error DurationIdxModule_InvalidKeySchema();
-  error DurationIdxModule_InvalidValueSchema();
+  error DurationModule_InvalidKeySchema();
+  error DurationModule_InvalidValueSchema();
 
-  // The DurationIdxHook is deployed once and infers the target table id
+  // The DurationHook is deployed once and infers the target table id
   // from the source table id (passed as argument to the hook methods)
-  DurationIdxHook private immutable hook = new DurationIdxHook();
+  DurationHook private immutable hook = new DurationHook();
 
   function installRoot(bytes memory encodedArgs) public override {
     // Naive check to ensure this is only installed once
@@ -39,11 +37,11 @@ contract DurationIdxModule is Module {
     IBaseWorld world = IBaseWorld(_world());
 
     // This is a custom module for a specific table, and it expects the appropriate schemas
-    if (world.getKeySchema(sourceTableId).unwrap() != DurationValue.getKeySchema().unwrap()) {
-      revert DurationIdxModule_InvalidKeySchema();
+    if (world.getKeySchema(sourceTableId).unwrap() != GenericDuration.getKeySchema().unwrap()) {
+      revert DurationModule_InvalidKeySchema();
     }
-    if (world.getValueSchema(sourceTableId).unwrap() != DurationValue.getValueSchema().unwrap()) {
-      revert DurationIdxModule_InvalidValueSchema();
+    if (world.getValueSchema(sourceTableId).unwrap() != GenericDuration.getValueSchema().unwrap()) {
+      revert DurationModule_InvalidValueSchema();
     }
 
     // Initialize variable to reuse in low level calls

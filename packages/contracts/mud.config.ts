@@ -40,6 +40,17 @@ const enumEleStat = ["NONE", "PHYSICAL", "FIRE", "COLD", "POISON"];
     args: [resolveTableId(tableName)],
   }));*/
 
+const durationTable = {
+  keySchema: {
+    targetEntity: EntityId,
+    applicationEntity: EntityId,
+  },
+  valueSchema: {
+    timeId: "bytes32",
+    timeValue: "uint256",
+  },
+} as const;
+
 const keysInTable = (tableNames: string[]) =>
   tableNames.map((tableName) => ({
     name: "KeysInTableModule",
@@ -47,9 +58,9 @@ const keysInTable = (tableNames: string[]) =>
     args: [resolveTableId(tableName)],
   }));
 
-const durationIdx = (tableNames: string[]) =>
+const duration = (tableNames: string[]) =>
   tableNames.map((tableName) => ({
-    name: "DurationIdxModule",
+    name: "DurationModule",
     root: true,
     args: [resolveTableId(tableName)],
   }));
@@ -110,42 +121,7 @@ export default mudConfig({
         targetType: "TargetType",
       },
     },
-    DurationValue: {
-      keySchema: {
-        targetEntity: EntityId,
-        applicationEntity: EntityId,
-        applicationType: "bytes32",
-      },
-      valueSchema: {
-        timeId: "bytes32",
-        timeValue: "uint256",
-      },
-    },
-    DurationIdxList: {
-      keySchema: {
-        sourceTableId: "ResourceId",
-        targetEntity: EntityId,
-        timeId: "bytes32",
-      },
-      valueSchema: {
-        applicationEntities: EntityIdArray,
-        applicationTypes: "bytes32[]",
-      },
-      dataStruct: false,
-    },
-    DurationIdxMap: {
-      keySchema: {
-        sourceTableId: "ResourceId",
-        targetEntity: EntityId,
-        applicationEntity: EntityId,
-        applicationType: "bytes32",
-      },
-      valueSchema: {
-        has: "bool",
-        index: "uint40",
-      },
-      dataStruct: false,
-    },
+    EffectDuration: durationTable,
     EffectTemplate: {
       ...entityKey,
       valueSchema: {
@@ -215,6 +191,39 @@ export default mudConfig({
     },
     // requestId => ownerEntity
     RNGRequestOwner: entityRelation,
+
+    /************************************************************************
+     *
+     *    DURATION MODULE
+     *
+     ************************************************************************/
+    GenericDuration: {
+      ...durationTable,
+      tableIdArgument: true,
+    },
+    DurationIdxList: {
+      keySchema: {
+        sourceTableId: "ResourceId",
+        targetEntity: EntityId,
+        timeId: "bytes32",
+      },
+      valueSchema: {
+        applicationEntities: EntityIdArray,
+      },
+      dataStruct: false,
+    },
+    DurationIdxMap: {
+      keySchema: {
+        sourceTableId: "ResourceId",
+        targetEntity: EntityId,
+        applicationEntity: EntityId,
+      },
+      valueSchema: {
+        has: "bool",
+        index: "uint40",
+      },
+      dataStruct: false,
+    },
   },
 
   enums: {
@@ -239,6 +248,6 @@ export default mudConfig({
       root: true,
       args: [],
     },
-    ...durationIdx(["DurationValue"]),
+    ...duration(["EffectDuration"]),
   ],
 });

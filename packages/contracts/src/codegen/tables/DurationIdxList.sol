@@ -29,7 +29,7 @@ ResourceId constant _tableId = ResourceId.wrap(
 ResourceId constant DurationIdxListTableId = _tableId;
 
 FieldLayout constant _fieldLayout = FieldLayout.wrap(
-  0x0000000200000000000000000000000000000000000000000000000000000000
+  0x0000000100000000000000000000000000000000000000000000000000000000
 );
 
 library DurationIdxList {
@@ -59,9 +59,8 @@ library DurationIdxList {
    * @return _valueSchema The value schema for the table.
    */
   function getValueSchema() internal pure returns (Schema) {
-    SchemaType[] memory _valueSchema = new SchemaType[](2);
+    SchemaType[] memory _valueSchema = new SchemaType[](1);
     _valueSchema[0] = SchemaType.BYTES32_ARRAY;
-    _valueSchema[1] = SchemaType.BYTES32_ARRAY;
 
     return SchemaLib.encode(_valueSchema);
   }
@@ -82,9 +81,8 @@ library DurationIdxList {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](2);
+    fieldNames = new string[](1);
     fieldNames[0] = "applicationEntities";
-    fieldNames[1] = "applicationTypes";
   }
 
   /**
@@ -136,6 +134,40 @@ library DurationIdxList {
   }
 
   /**
+   * @notice Get applicationEntities.
+   */
+  function get(
+    ResourceId sourceTableId,
+    bytes32 targetEntity,
+    bytes32 timeId
+  ) internal view returns (bytes32[] memory applicationEntities) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
+    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
+  }
+
+  /**
+   * @notice Get applicationEntities.
+   */
+  function _get(
+    ResourceId sourceTableId,
+    bytes32 targetEntity,
+    bytes32 timeId
+  ) internal view returns (bytes32[] memory applicationEntities) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
+    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
+  }
+
+  /**
    * @notice Set applicationEntities.
    */
   function setApplicationEntities(
@@ -156,6 +188,40 @@ library DurationIdxList {
    * @notice Set applicationEntities.
    */
   function _setApplicationEntities(
+    ResourceId sourceTableId,
+    bytes32 targetEntity,
+    bytes32 timeId,
+    bytes32[] memory applicationEntities
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((applicationEntities)));
+  }
+
+  /**
+   * @notice Set applicationEntities.
+   */
+  function set(
+    ResourceId sourceTableId,
+    bytes32 targetEntity,
+    bytes32 timeId,
+    bytes32[] memory applicationEntities
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((applicationEntities)));
+  }
+
+  /**
+   * @notice Set applicationEntities.
+   */
+  function _set(
     ResourceId sourceTableId,
     bytes32 targetEntity,
     bytes32 timeId,
@@ -196,6 +262,36 @@ library DurationIdxList {
     bytes32 targetEntity,
     bytes32 timeId
   ) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
+    unchecked {
+      return _byteLength / 32;
+    }
+  }
+
+  /**
+   * @notice Get the length of applicationEntities.
+   */
+  function length(ResourceId sourceTableId, bytes32 targetEntity, bytes32 timeId) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
+    unchecked {
+      return _byteLength / 32;
+    }
+  }
+
+  /**
+   * @notice Get the length of applicationEntities.
+   */
+  function _length(ResourceId sourceTableId, bytes32 targetEntity, bytes32 timeId) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
@@ -250,6 +346,48 @@ library DurationIdxList {
   }
 
   /**
+   * @notice Get an item of applicationEntities.
+   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
+   */
+  function getItem(
+    ResourceId sourceTableId,
+    bytes32 targetEntity,
+    bytes32 timeId,
+    uint256 _index
+  ) internal view returns (bytes32) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    unchecked {
+      bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
+      return (bytes32(_blob));
+    }
+  }
+
+  /**
+   * @notice Get an item of applicationEntities.
+   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
+   */
+  function _getItem(
+    ResourceId sourceTableId,
+    bytes32 targetEntity,
+    bytes32 timeId,
+    uint256 _index
+  ) internal view returns (bytes32) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    unchecked {
+      bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
+      return (bytes32(_blob));
+    }
+  }
+
+  /**
    * @notice Push an element to applicationEntities.
    */
   function pushApplicationEntities(
@@ -284,6 +422,30 @@ library DurationIdxList {
   }
 
   /**
+   * @notice Push an element to applicationEntities.
+   */
+  function push(ResourceId sourceTableId, bytes32 targetEntity, bytes32 timeId, bytes32 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
+  }
+
+  /**
+   * @notice Push an element to applicationEntities.
+   */
+  function _push(ResourceId sourceTableId, bytes32 targetEntity, bytes32 timeId, bytes32 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
+  }
+
+  /**
    * @notice Pop an element from applicationEntities.
    */
   function popApplicationEntities(ResourceId sourceTableId, bytes32 targetEntity, bytes32 timeId) internal {
@@ -299,6 +461,30 @@ library DurationIdxList {
    * @notice Pop an element from applicationEntities.
    */
   function _popApplicationEntities(ResourceId sourceTableId, bytes32 targetEntity, bytes32 timeId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 32);
+  }
+
+  /**
+   * @notice Pop an element from applicationEntities.
+   */
+  function pop(ResourceId sourceTableId, bytes32 targetEntity, bytes32 timeId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
+    _keyTuple[1] = targetEntity;
+    _keyTuple[2] = timeId;
+
+    StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 32);
+  }
+
+  /**
+   * @notice Pop an element from applicationEntities.
+   */
+  function _pop(ResourceId sourceTableId, bytes32 targetEntity, bytes32 timeId) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
@@ -350,215 +536,9 @@ library DurationIdxList {
   }
 
   /**
-   * @notice Get applicationTypes.
+   * @notice Update an element of applicationEntities at `_index`.
    */
-  function getApplicationTypes(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId
-  ) internal view returns (bytes32[] memory applicationTypes) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 1);
-    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
-  }
-
-  /**
-   * @notice Get applicationTypes.
-   */
-  function _getApplicationTypes(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId
-  ) internal view returns (bytes32[] memory applicationTypes) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 1);
-    return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
-  }
-
-  /**
-   * @notice Set applicationTypes.
-   */
-  function setApplicationTypes(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId,
-    bytes32[] memory applicationTypes
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 1, EncodeArray.encode((applicationTypes)));
-  }
-
-  /**
-   * @notice Set applicationTypes.
-   */
-  function _setApplicationTypes(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId,
-    bytes32[] memory applicationTypes
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    StoreCore.setDynamicField(_tableId, _keyTuple, 1, EncodeArray.encode((applicationTypes)));
-  }
-
-  /**
-   * @notice Get the length of applicationTypes.
-   */
-  function lengthApplicationTypes(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId
-  ) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 1);
-    unchecked {
-      return _byteLength / 32;
-    }
-  }
-
-  /**
-   * @notice Get the length of applicationTypes.
-   */
-  function _lengthApplicationTypes(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId
-  ) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 1);
-    unchecked {
-      return _byteLength / 32;
-    }
-  }
-
-  /**
-   * @notice Get an item of applicationTypes.
-   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
-   */
-  function getItemApplicationTypes(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId,
-    uint256 _index
-  ) internal view returns (bytes32) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    unchecked {
-      bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 1, _index * 32, (_index + 1) * 32);
-      return (bytes32(_blob));
-    }
-  }
-
-  /**
-   * @notice Get an item of applicationTypes.
-   * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
-   */
-  function _getItemApplicationTypes(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId,
-    uint256 _index
-  ) internal view returns (bytes32) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    unchecked {
-      bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 1, _index * 32, (_index + 1) * 32);
-      return (bytes32(_blob));
-    }
-  }
-
-  /**
-   * @notice Push an element to applicationTypes.
-   */
-  function pushApplicationTypes(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId,
-    bytes32 _element
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 1, abi.encodePacked((_element)));
-  }
-
-  /**
-   * @notice Push an element to applicationTypes.
-   */
-  function _pushApplicationTypes(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId,
-    bytes32 _element
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    StoreCore.pushToDynamicField(_tableId, _keyTuple, 1, abi.encodePacked((_element)));
-  }
-
-  /**
-   * @notice Pop an element from applicationTypes.
-   */
-  function popApplicationTypes(ResourceId sourceTableId, bytes32 targetEntity, bytes32 timeId) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 1, 32);
-  }
-
-  /**
-   * @notice Pop an element from applicationTypes.
-   */
-  function _popApplicationTypes(ResourceId sourceTableId, bytes32 targetEntity, bytes32 timeId) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    StoreCore.popFromDynamicField(_tableId, _keyTuple, 1, 32);
-  }
-
-  /**
-   * @notice Update an element of applicationTypes at `_index`.
-   */
-  function updateApplicationTypes(
+  function update(
     ResourceId sourceTableId,
     bytes32 targetEntity,
     bytes32 timeId,
@@ -572,14 +552,14 @@ library DurationIdxList {
 
     unchecked {
       bytes memory _encoded = abi.encodePacked((_element));
-      StoreSwitch.spliceDynamicData(_tableId, _keyTuple, 1, uint40(_index * 32), uint40(_encoded.length), _encoded);
+      StoreSwitch.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 32), uint40(_encoded.length), _encoded);
     }
   }
 
   /**
-   * @notice Update an element of applicationTypes at `_index`.
+   * @notice Update an element of applicationEntities at `_index`.
    */
-  function _updateApplicationTypes(
+  function _update(
     ResourceId sourceTableId,
     bytes32 targetEntity,
     bytes32 timeId,
@@ -593,129 +573,8 @@ library DurationIdxList {
 
     unchecked {
       bytes memory _encoded = abi.encodePacked((_element));
-      StoreCore.spliceDynamicData(_tableId, _keyTuple, 1, uint40(_index * 32), uint40(_encoded.length), _encoded);
+      StoreCore.spliceDynamicData(_tableId, _keyTuple, 0, uint40(_index * 32), uint40(_encoded.length), _encoded);
     }
-  }
-
-  /**
-   * @notice Get the full data.
-   */
-  function get(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId
-  ) internal view returns (bytes32[] memory applicationEntities, bytes32[] memory applicationTypes) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    (bytes memory _staticData, PackedCounter _encodedLengths, bytes memory _dynamicData) = StoreSwitch.getRecord(
-      _tableId,
-      _keyTuple,
-      _fieldLayout
-    );
-    return decode(_staticData, _encodedLengths, _dynamicData);
-  }
-
-  /**
-   * @notice Get the full data.
-   */
-  function _get(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId
-  ) internal view returns (bytes32[] memory applicationEntities, bytes32[] memory applicationTypes) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    (bytes memory _staticData, PackedCounter _encodedLengths, bytes memory _dynamicData) = StoreCore.getRecord(
-      _tableId,
-      _keyTuple,
-      _fieldLayout
-    );
-    return decode(_staticData, _encodedLengths, _dynamicData);
-  }
-
-  /**
-   * @notice Set the full data using individual values.
-   */
-  function set(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId,
-    bytes32[] memory applicationEntities,
-    bytes32[] memory applicationTypes
-  ) internal {
-    bytes memory _staticData;
-    PackedCounter _encodedLengths = encodeLengths(applicationEntities, applicationTypes);
-    bytes memory _dynamicData = encodeDynamic(applicationEntities, applicationTypes);
-
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
-  }
-
-  /**
-   * @notice Set the full data using individual values.
-   */
-  function _set(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 timeId,
-    bytes32[] memory applicationEntities,
-    bytes32[] memory applicationTypes
-  ) internal {
-    bytes memory _staticData;
-    PackedCounter _encodedLengths = encodeLengths(applicationEntities, applicationTypes);
-    bytes memory _dynamicData = encodeDynamic(applicationEntities, applicationTypes);
-
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = ResourceId.unwrap(sourceTableId);
-    _keyTuple[1] = targetEntity;
-    _keyTuple[2] = timeId;
-
-    StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
-  }
-
-  /**
-   * @notice Decode the tightly packed blob of dynamic data using the encoded lengths.
-   */
-  function decodeDynamic(
-    PackedCounter _encodedLengths,
-    bytes memory _blob
-  ) internal pure returns (bytes32[] memory applicationEntities, bytes32[] memory applicationTypes) {
-    uint256 _start;
-    uint256 _end;
-    unchecked {
-      _end = _encodedLengths.atIndex(0);
-    }
-    applicationEntities = (SliceLib.getSubslice(_blob, _start, _end).decodeArray_bytes32());
-
-    _start = _end;
-    unchecked {
-      _end += _encodedLengths.atIndex(1);
-    }
-    applicationTypes = (SliceLib.getSubslice(_blob, _start, _end).decodeArray_bytes32());
-  }
-
-  /**
-   * @notice Decode the tightly packed blobs using this table's field layout.
-   *
-   * @param _encodedLengths Encoded lengths of dynamic fields.
-   * @param _dynamicData Tightly packed dynamic fields.
-   */
-  function decode(
-    bytes memory,
-    PackedCounter _encodedLengths,
-    bytes memory _dynamicData
-  ) internal pure returns (bytes32[] memory applicationEntities, bytes32[] memory applicationTypes) {
-    (applicationEntities, applicationTypes) = decodeDynamic(_encodedLengths, _dynamicData);
   }
 
   /**
@@ -746,13 +605,10 @@ library DurationIdxList {
    * @notice Tightly pack dynamic data lengths using this table's schema.
    * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
    */
-  function encodeLengths(
-    bytes32[] memory applicationEntities,
-    bytes32[] memory applicationTypes
-  ) internal pure returns (PackedCounter _encodedLengths) {
+  function encodeLengths(bytes32[] memory applicationEntities) internal pure returns (PackedCounter _encodedLengths) {
     // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
     unchecked {
-      _encodedLengths = PackedCounterLib.pack(applicationEntities.length * 32, applicationTypes.length * 32);
+      _encodedLengths = PackedCounterLib.pack(applicationEntities.length * 32);
     }
   }
 
@@ -760,11 +616,8 @@ library DurationIdxList {
    * @notice Tightly pack dynamic (variable length) data using this table's schema.
    * @return The dynamic data, encoded into a sequence of bytes.
    */
-  function encodeDynamic(
-    bytes32[] memory applicationEntities,
-    bytes32[] memory applicationTypes
-  ) internal pure returns (bytes memory) {
-    return abi.encodePacked(EncodeArray.encode((applicationEntities)), EncodeArray.encode((applicationTypes)));
+  function encodeDynamic(bytes32[] memory applicationEntities) internal pure returns (bytes memory) {
+    return abi.encodePacked(EncodeArray.encode((applicationEntities)));
   }
 
   /**
@@ -774,12 +627,11 @@ library DurationIdxList {
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
   function encode(
-    bytes32[] memory applicationEntities,
-    bytes32[] memory applicationTypes
+    bytes32[] memory applicationEntities
   ) internal pure returns (bytes memory, PackedCounter, bytes memory) {
     bytes memory _staticData;
-    PackedCounter _encodedLengths = encodeLengths(applicationEntities, applicationTypes);
-    bytes memory _dynamicData = encodeDynamic(applicationEntities, applicationTypes);
+    PackedCounter _encodedLengths = encodeLengths(applicationEntities);
+    bytes memory _dynamicData = encodeDynamic(applicationEntities);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }

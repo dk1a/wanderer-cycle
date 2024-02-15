@@ -21,20 +21,20 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { RESOURCE_TABLE, RESOURCE_OFFCHAIN_TABLE } from "@latticexyz/store/src/storeResourceTypes.sol";
 
 ResourceId constant _tableId = ResourceId.wrap(
-  bytes32(abi.encodePacked(RESOURCE_TABLE, bytes14(""), bytes16("DurationValue")))
+  bytes32(abi.encodePacked(RESOURCE_TABLE, bytes14(""), bytes16("EffectDuration")))
 );
-ResourceId constant DurationValueTableId = _tableId;
+ResourceId constant EffectDurationTableId = _tableId;
 
 FieldLayout constant _fieldLayout = FieldLayout.wrap(
   0x0040020020200000000000000000000000000000000000000000000000000000
 );
 
-struct DurationValueData {
+struct EffectDurationData {
   bytes32 timeId;
   uint256 timeValue;
 }
 
-library DurationValue {
+library EffectDuration {
   /**
    * @notice Get the table values' field layout.
    * @return _fieldLayout The field layout for the table.
@@ -48,10 +48,9 @@ library DurationValue {
    * @return _keySchema The key schema for the table.
    */
   function getKeySchema() internal pure returns (Schema) {
-    SchemaType[] memory _keySchema = new SchemaType[](3);
+    SchemaType[] memory _keySchema = new SchemaType[](2);
     _keySchema[0] = SchemaType.BYTES32;
     _keySchema[1] = SchemaType.BYTES32;
-    _keySchema[2] = SchemaType.BYTES32;
 
     return SchemaLib.encode(_keySchema);
   }
@@ -73,10 +72,9 @@ library DurationValue {
    * @return keyNames An array of strings with the names of key fields.
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
-    keyNames = new string[](3);
+    keyNames = new string[](2);
     keyNames[0] = "targetEntity";
     keyNames[1] = "applicationEntity";
-    keyNames[2] = "applicationType";
   }
 
   /**
@@ -106,15 +104,10 @@ library DurationValue {
   /**
    * @notice Get timeId.
    */
-  function getTimeId(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
-  ) internal view returns (bytes32 timeId) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+  function getTimeId(bytes32 targetEntity, bytes32 applicationEntity) internal view returns (bytes32 timeId) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
@@ -123,15 +116,10 @@ library DurationValue {
   /**
    * @notice Get timeId.
    */
-  function _getTimeId(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
-  ) internal view returns (bytes32 timeId) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+  function _getTimeId(bytes32 targetEntity, bytes32 applicationEntity) internal view returns (bytes32 timeId) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
@@ -140,16 +128,10 @@ library DurationValue {
   /**
    * @notice Set timeId.
    */
-  function setTimeId(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    bytes32 timeId
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+  function setTimeId(bytes32 targetEntity, bytes32 applicationEntity, bytes32 timeId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((timeId)), _fieldLayout);
   }
@@ -157,16 +139,10 @@ library DurationValue {
   /**
    * @notice Set timeId.
    */
-  function _setTimeId(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    bytes32 timeId
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+  function _setTimeId(bytes32 targetEntity, bytes32 applicationEntity, bytes32 timeId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((timeId)), _fieldLayout);
   }
@@ -174,15 +150,10 @@ library DurationValue {
   /**
    * @notice Get timeValue.
    */
-  function getTimeValue(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
-  ) internal view returns (uint256 timeValue) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+  function getTimeValue(bytes32 targetEntity, bytes32 applicationEntity) internal view returns (uint256 timeValue) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
     return (uint256(bytes32(_blob)));
@@ -191,15 +162,10 @@ library DurationValue {
   /**
    * @notice Get timeValue.
    */
-  function _getTimeValue(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
-  ) internal view returns (uint256 timeValue) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+  function _getTimeValue(bytes32 targetEntity, bytes32 applicationEntity) internal view returns (uint256 timeValue) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
     return (uint256(bytes32(_blob)));
@@ -208,16 +174,10 @@ library DurationValue {
   /**
    * @notice Set timeValue.
    */
-  function setTimeValue(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    uint256 timeValue
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+  function setTimeValue(bytes32 targetEntity, bytes32 applicationEntity, uint256 timeValue) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((timeValue)), _fieldLayout);
   }
@@ -225,16 +185,10 @@ library DurationValue {
   /**
    * @notice Set timeValue.
    */
-  function _setTimeValue(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    uint256 timeValue
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+  function _setTimeValue(bytes32 targetEntity, bytes32 applicationEntity, uint256 timeValue) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((timeValue)), _fieldLayout);
   }
@@ -244,13 +198,11 @@ library DurationValue {
    */
   function get(
     bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
-  ) internal view returns (DurationValueData memory _table) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+    bytes32 applicationEntity
+  ) internal view returns (EffectDurationData memory _table) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     (bytes memory _staticData, PackedCounter _encodedLengths, bytes memory _dynamicData) = StoreSwitch.getRecord(
       _tableId,
@@ -265,13 +217,11 @@ library DurationValue {
    */
   function _get(
     bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
-  ) internal view returns (DurationValueData memory _table) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+    bytes32 applicationEntity
+  ) internal view returns (EffectDurationData memory _table) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     (bytes memory _staticData, PackedCounter _encodedLengths, bytes memory _dynamicData) = StoreCore.getRecord(
       _tableId,
@@ -284,22 +234,15 @@ library DurationValue {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    bytes32 timeId,
-    uint256 timeValue
-  ) internal {
+  function set(bytes32 targetEntity, bytes32 applicationEntity, bytes32 timeId, uint256 timeValue) internal {
     bytes memory _staticData = encodeStatic(timeId, timeValue);
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](3);
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
   }
@@ -307,22 +250,15 @@ library DurationValue {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    bytes32 timeId,
-    uint256 timeValue
-  ) internal {
+  function _set(bytes32 targetEntity, bytes32 applicationEntity, bytes32 timeId, uint256 timeValue) internal {
     bytes memory _staticData = encodeStatic(timeId, timeValue);
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](3);
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
   }
@@ -330,21 +266,15 @@ library DurationValue {
   /**
    * @notice Set the full data using the data struct.
    */
-  function set(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    DurationValueData memory _table
-  ) internal {
+  function set(bytes32 targetEntity, bytes32 applicationEntity, EffectDurationData memory _table) internal {
     bytes memory _staticData = encodeStatic(_table.timeId, _table.timeValue);
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](3);
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
   }
@@ -352,21 +282,15 @@ library DurationValue {
   /**
    * @notice Set the full data using the data struct.
    */
-  function _set(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    DurationValueData memory _table
-  ) internal {
+  function _set(bytes32 targetEntity, bytes32 applicationEntity, EffectDurationData memory _table) internal {
     bytes memory _staticData = encodeStatic(_table.timeId, _table.timeValue);
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](3);
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
   }
@@ -390,18 +314,17 @@ library DurationValue {
     bytes memory _staticData,
     PackedCounter,
     bytes memory
-  ) internal pure returns (DurationValueData memory _table) {
+  ) internal pure returns (EffectDurationData memory _table) {
     (_table.timeId, _table.timeValue) = decodeStatic(_staticData);
   }
 
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(bytes32 targetEntity, bytes32 applicationEntity, bytes32 applicationType) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+  function deleteRecord(bytes32 targetEntity, bytes32 applicationEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -409,11 +332,10 @@ library DurationValue {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(bytes32 targetEntity, bytes32 applicationEntity, bytes32 applicationType) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+  function _deleteRecord(bytes32 targetEntity, bytes32 applicationEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -444,15 +366,10 @@ library DurationValue {
   /**
    * @notice Encode keys as a bytes32 array using this table's field layout.
    */
-  function encodeKeyTuple(
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
-  ) internal pure returns (bytes32[] memory) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
+  function encodeKeyTuple(bytes32 targetEntity, bytes32 applicationEntity) internal pure returns (bytes32[] memory) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
-    _keyTuple[2] = applicationType;
 
     return _keyTuple;
   }

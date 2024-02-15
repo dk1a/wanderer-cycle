@@ -46,11 +46,10 @@ library DurationIdxMap {
    * @return _keySchema The key schema for the table.
    */
   function getKeySchema() internal pure returns (Schema) {
-    SchemaType[] memory _keySchema = new SchemaType[](4);
+    SchemaType[] memory _keySchema = new SchemaType[](3);
     _keySchema[0] = SchemaType.BYTES32;
     _keySchema[1] = SchemaType.BYTES32;
     _keySchema[2] = SchemaType.BYTES32;
-    _keySchema[3] = SchemaType.BYTES32;
 
     return SchemaLib.encode(_keySchema);
   }
@@ -72,11 +71,10 @@ library DurationIdxMap {
    * @return keyNames An array of strings with the names of key fields.
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
-    keyNames = new string[](4);
+    keyNames = new string[](3);
     keyNames[0] = "sourceTableId";
     keyNames[1] = "targetEntity";
     keyNames[2] = "applicationEntity";
-    keyNames[3] = "applicationType";
   }
 
   /**
@@ -109,14 +107,12 @@ library DurationIdxMap {
   function getHas(
     ResourceId sourceTableId,
     bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
+    bytes32 applicationEntity
   ) internal view returns (bool has) {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (_toBool(uint8(bytes1(_blob))));
@@ -128,14 +124,12 @@ library DurationIdxMap {
   function _getHas(
     ResourceId sourceTableId,
     bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
+    bytes32 applicationEntity
   ) internal view returns (bool has) {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (_toBool(uint8(bytes1(_blob))));
@@ -144,18 +138,11 @@ library DurationIdxMap {
   /**
    * @notice Set has.
    */
-  function setHas(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    bool has
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+  function setHas(ResourceId sourceTableId, bytes32 targetEntity, bytes32 applicationEntity, bool has) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((has)), _fieldLayout);
   }
@@ -163,18 +150,11 @@ library DurationIdxMap {
   /**
    * @notice Set has.
    */
-  function _setHas(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    bool has
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+  function _setHas(ResourceId sourceTableId, bytes32 targetEntity, bytes32 applicationEntity, bool has) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((has)), _fieldLayout);
   }
@@ -185,14 +165,12 @@ library DurationIdxMap {
   function getIndex(
     ResourceId sourceTableId,
     bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
+    bytes32 applicationEntity
   ) internal view returns (uint40 index) {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
     return (uint40(bytes5(_blob)));
@@ -204,14 +182,12 @@ library DurationIdxMap {
   function _getIndex(
     ResourceId sourceTableId,
     bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
+    bytes32 applicationEntity
   ) internal view returns (uint40 index) {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
     return (uint40(bytes5(_blob)));
@@ -220,18 +196,11 @@ library DurationIdxMap {
   /**
    * @notice Set index.
    */
-  function setIndex(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    uint40 index
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+  function setIndex(ResourceId sourceTableId, bytes32 targetEntity, bytes32 applicationEntity, uint40 index) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((index)), _fieldLayout);
   }
@@ -239,18 +208,11 @@ library DurationIdxMap {
   /**
    * @notice Set index.
    */
-  function _setIndex(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType,
-    uint40 index
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+  function _setIndex(ResourceId sourceTableId, bytes32 targetEntity, bytes32 applicationEntity, uint40 index) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((index)), _fieldLayout);
   }
@@ -261,14 +223,12 @@ library DurationIdxMap {
   function get(
     ResourceId sourceTableId,
     bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
+    bytes32 applicationEntity
   ) internal view returns (bool has, uint40 index) {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     (bytes memory _staticData, PackedCounter _encodedLengths, bytes memory _dynamicData) = StoreSwitch.getRecord(
       _tableId,
@@ -284,14 +244,12 @@ library DurationIdxMap {
   function _get(
     ResourceId sourceTableId,
     bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
+    bytes32 applicationEntity
   ) internal view returns (bool has, uint40 index) {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     (bytes memory _staticData, PackedCounter _encodedLengths, bytes memory _dynamicData) = StoreCore.getRecord(
       _tableId,
@@ -308,7 +266,6 @@ library DurationIdxMap {
     ResourceId sourceTableId,
     bytes32 targetEntity,
     bytes32 applicationEntity,
-    bytes32 applicationType,
     bool has,
     uint40 index
   ) internal {
@@ -317,11 +274,10 @@ library DurationIdxMap {
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](4);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
   }
@@ -333,7 +289,6 @@ library DurationIdxMap {
     ResourceId sourceTableId,
     bytes32 targetEntity,
     bytes32 applicationEntity,
-    bytes32 applicationType,
     bool has,
     uint40 index
   ) internal {
@@ -342,11 +297,10 @@ library DurationIdxMap {
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](4);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
   }
@@ -377,17 +331,11 @@ library DurationIdxMap {
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+  function deleteRecord(ResourceId sourceTableId, bytes32 targetEntity, bytes32 applicationEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -395,17 +343,11 @@ library DurationIdxMap {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(
-    ResourceId sourceTableId,
-    bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+  function _deleteRecord(ResourceId sourceTableId, bytes32 targetEntity, bytes32 applicationEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -439,14 +381,12 @@ library DurationIdxMap {
   function encodeKeyTuple(
     ResourceId sourceTableId,
     bytes32 targetEntity,
-    bytes32 applicationEntity,
-    bytes32 applicationType
+    bytes32 applicationEntity
   ) internal pure returns (bytes32[] memory) {
-    bytes32[] memory _keyTuple = new bytes32[](4);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = ResourceId.unwrap(sourceTableId);
     _keyTuple[1] = targetEntity;
     _keyTuple[2] = applicationEntity;
-    _keyTuple[3] = applicationType;
 
     return _keyTuple;
   }
