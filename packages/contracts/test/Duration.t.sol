@@ -1,190 +1,97 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-/*
-import { PRBTest } from "@prb/test/src/PRBTest.sol";
+import { MudLibTest } from "./MudLibTest.t.sol";
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
+import { GenericDuration, GenericDurationData, DurationIdxList, DurationIdxMap } from "../src/codegen/index.sol";
+import { Duration } from "../src/modules/duration/Duration.sol";
 
-import { World } from "@latticexyz/solecs/src/World.sol";
+contract DurationTest is MudLibTest {
+  ResourceId _tableId = keccak256("_tableId");
 
-import { Uint256Component } from "@latticexyz/solecs/src/components/Uint256Component.sol";
-import { 
-  SystemCallbackBareComponent,
-  SystemCallback,
-  executeSystemCallback
-} from "@latticexyz/std-contracts/src/components/SystemCallbackBareComponent.sol";
-import { ScopeComponent } from "../../scoped-value/ScopeComponent.sol";
-import { ValueComponent } from "../../scoped-value/ValueComponent.sol";
+  bytes32 targetEntity = keccak256("targetEntity");
+  bytes32 applicationEntity = keccak256("applicationEntity");
 
-import { ScopedDurationSubsystem, ScopedDuration } from "../../duration/ScopedDurationSubsystem.sol";
-import { SetValueSystem, ID as SetValueSystemID } from "./SetValueSystem.sol";
+  bytes32 timeId = keccak256("timeId");
+  bytes32 anotherTimeScopeId = keccak256("anotherTimeId");
 
-contract ScopedDurationSubsystemTest is PRBTest {
-  World world;
-
-  ScopeComponent scopeComponent;
-  uint256 constant TimeScopeComponentID = uint256(keccak256("test.component.TimeScope"));
-
-  ValueComponent valueComponent;
-  uint256 constant TimeValueComponentID = uint256(keccak256("test.component.TimeValue"));
-
-  SystemCallbackBareComponent cbComponent;
-  uint256 constant SystemCallbackBareComponentID = uint256(keccak256("test.component.SystemCallbackBare"));
-
-  Uint256Component uintComponent;
-  uint256 constant Uint256ComponentID = uint256(keccak256("test.component.Uint256"));
-
-  ScopedDurationSubsystem durationSubsystem;
-  uint256 constant ScopedDurationSubsystemID = uint256(keccak256("test.system.ScopedDuration"));
-
-  SetValueSystem setValueSystem;
-
-  uint256 targetEntity = uint256(keccak256('targetEntity'));
-
-  uint256 timeScopeId = uint256(keccak256('timeScopeId'));
-  uint256 anotherTimeScopeId = uint256(keccak256('anotherTimeScopeId'));
-  // duration prototype entities
-  uint256 de1 = uint256(keccak256('duration1'));
-  uint256 de2 = uint256(keccak256('duration2'));
-  uint256 de3 = uint256(keccak256('duration3'));
-
-  function setUp() public {
-    // deploy world
-    world = new World();
-    world.init();
-
-    // deploy components
-    scopeComponent = new ScopeComponent(address(world), TimeScopeComponentID);
-    valueComponent = new ValueComponent(address(world), TimeValueComponentID);
-    cbComponent = new SystemCallbackBareComponent(address(world), SystemCallbackBareComponentID);
-    uintComponent = new Uint256Component(address(world), Uint256ComponentID);
-
-    // deploy systems
-    setValueSystem = new SetValueSystem(world, address(world.components()));
-    world.registerSystem(address(setValueSystem), SetValueSystemID);
-    uintComponent.authorizeWriter(address(setValueSystem));
-
-    durationSubsystem = new ScopedDurationSubsystem(
-      world,
-      address(world.components()),
-      TimeScopeComponentID,
-      TimeValueComponentID,
-      SystemCallbackBareComponentID
-    );
-    world.registerSystem(address(durationSubsystem), ScopedDurationSubsystemID);
-    scopeComponent.authorizeWriter(address(durationSubsystem));
-    valueComponent.authorizeWriter(address(durationSubsystem));
-    cbComponent.authorizeWriter(address(durationSubsystem));
-  }
+  function setUp() public {}
 
   function _increaseBy10() internal {
-    durationSubsystem.executeIncrease(
+    Duration.increase(
+      _tableId,
       targetEntity,
-      de1,
-      ScopedDuration({
-        timeScopeId: timeScopeId,
-        timeValue: 10
-      }),
-      SystemCallback({
-        systemId: SetValueSystemID,
-        args: abi.encode(Uint256ComponentID, de1, abi.encode(1337))
-      })
+      applicationEntity,
+      GenericDurationData({ timeId: timeId, timeValue: 10 })
     );
   }
 
   function testGetDuration() public {
     _increaseBy10();
 
-    ScopedDuration memory duration = durationSubsystem.getDuration(targetEntity, de1);
-    assertEq(duration.timeScopeId, timeScopeId);
+    GenericDurationData memory duration = GenericDuration.get(_tableId, targetEntity, applicationEntity);
+    assertEq(duration.timeId, timeId);
     assertEq(duration.timeValue, 10);
 
-    uint256 timeValue = durationSubsystem.getValue(targetEntity, de1);
+    uint256 timeValue = GenericDuration.getTimeValue(_tableId, targetEntity, applicationEntity);
     assertEq(timeValue, 10);
   }
 
   function testDecreaseScopeCallback() public {
     _increaseBy10();
 
-    assertTrue(durationSubsystem.has(targetEntity, de1));
+    assertTrue(DurationIdxMap.getHas(_tableId, targetEntity, applicationEntity));
 
-    durationSubsystem.executeDecreaseScope(
-      targetEntity,
-      ScopedDuration({
-        timeScopeId: timeScopeId,
-        timeValue: 5
-      })
-    );
+    Duration.decreaseApplications(_tableId, targetEntity, DurationValueData({ timeId: timeId, timeValue: 5 }));
 
     // not yet (it was 10 - 5)
-    assertFalse(uintComponent.has(de1));
-    assertTrue(durationSubsystem.has(targetEntity, de1));
-    assertEq(durationSubsystem.getValue(targetEntity, de1), 5);
+    //    assertFalse(uintComponent.has(de1));
+    assertTrue(DurationIdxMap.getHas(_tableId, targetEntity, applicationEntity));
+    assertEq(GenericDuration.getTimeValue(_tableId, targetEntity, applicationEntity), 5);
 
-    durationSubsystem.executeDecreaseScope(
+    Duration.decreaseApplications(
+      _tableId,
       targetEntity,
-      ScopedDuration({
-        timeScopeId: anotherTimeScopeId,
-        timeValue: 5
-      })
+      DurationValueData({ timeScopeId: anotherTimeScopeId, timeValue: 5 })
     );
 
     // anotherTimeScopeId shouldn't have affected timeScopeId
-    assertFalse(uintComponent.has(de1));
-    assertTrue(durationSubsystem.has(targetEntity, de1));
-    assertEq(durationSubsystem.getValue(targetEntity, de1), 5);
+    //    assertFalse(uintComponent.has(de1));
+    assertTrue(DurationIdxMap.getHas(_tableId, targetEntity, applicationEntity));
+    assertEq(GenericDuration.getTimeValue(_tableId, targetEntity, applicationEntity), 5);
 
-    durationSubsystem.executeDecreaseScope(
-      targetEntity,
-      ScopedDuration({
-        timeScopeId: timeScopeId,
-        timeValue: 5
-      })
-    );
+    Duration.decreaseApplications(_tableId, targetEntity, ScopedDuration({ timeScopeId: timeScopeId, timeValue: 5 }));
 
     // now the callback must have been called
-    assertEq(uintComponent.getValue(de1), 1337);
-    assertFalse(durationSubsystem.has(targetEntity, de1));
+    //    assertEq(uintComponent.getValue(de1), 1337);
+    assertFalse(DurationIdxMap.getHas(_tableId, targetEntity, applicationEntity));
 
     // remove the value and make sure the callback isn't called to set it again
-    uintComponent.remove(de1);
+    //    uintComponent.remove(de1);
 
-    durationSubsystem.executeDecreaseScope(
-      targetEntity,
-      ScopedDuration({
-        timeScopeId: timeScopeId,
-        timeValue: 10
-      })
-    );
+    Duration.decreaseApplications(_tableId, targetEntity, ScopedDuration({ timeScopeId: timeScopeId, timeValue: 10 }));
 
-    assertFalse(uintComponent.has(de1));
-    assertFalse(durationSubsystem.has(targetEntity, de1));
+    //    assertFalse(uintComponent.has(de1));
+    assertFalse(DurationIdxMap.getHas(_tableId, targetEntity, applicationEntity));
   }
 
   function testRemoveNoCallback() public {
     _increaseBy10();
 
-    assertTrue(durationSubsystem.has(targetEntity, de1));
+    GenericDurationData duration = GenericDuration.get(_tableId, targetEntity, applicationEntity);
 
-    durationSubsystem.executeRemove(
+    assertTrue(DurationIdxMap.getHas(DurationValue, targetEntity, applicationEntity));
+
+    Duration.remove(_tableId, targetEntity, applicationEntity);
+
+    assertFalse(DurationIdxMap.getHas(DurationValue, targetEntity, applicationEntity, applicationType));
+
+    durationSubsystem.decreaseApplications(
+      _tableId,
       targetEntity,
-      de1
+      DurationValueData({ timeId: timeId, timeValue: 10 })
     );
 
-    // remove never executes the callback
-    assertFalse(uintComponent.has(de1));
-    assertFalse(durationSubsystem.has(targetEntity, de1));
-
-    durationSubsystem.executeDecreaseScope(
-      targetEntity,
-      ScopedDuration({
-        timeScopeId: timeScopeId,
-        timeValue: 10
-      })
-    );
-
-    // since the entity is now removed, executeDecreaseScope won't do anything either
-    assertFalse(uintComponent.has(de1));
-    assertFalse(durationSubsystem.has(targetEntity, de1));
+    assertFalse(DurationIdxMap.getHas(DurationValue, targetEntity, applicationEntity, applicationType));
   }
 }
-*/
