@@ -48,8 +48,8 @@ contract DurationModule is Module {
     bool success;
     bytes memory returnData;
 
+    // Register the tables
     if (!ResourceIds._getExists(DurationIdxListTableId)) {
-      // Register the tables
       (success, returnData) = address(world).delegatecall(
         abi.encodeCall(
           world.registerTable,
@@ -64,7 +64,8 @@ contract DurationModule is Module {
         )
       );
       if (!success) revertWithBytes(returnData);
-
+    }
+    if (!ResourceIds._getExists(DurationIdxMapTableId)) {
       (success, returnData) = address(world).delegatecall(
         abi.encodeCall(
           world.registerTable,
@@ -79,18 +80,18 @@ contract DurationModule is Module {
         )
       );
       if (!success) revertWithBytes(returnData);
-
-      // Grant the hook access to the tables
-      (success, returnData) = address(world).delegatecall(
-        abi.encodeCall(world.grantAccess, (DurationIdxListTableId, address(hook)))
-      );
-      if (!success) revertWithBytes(returnData);
-
-      (success, returnData) = address(world).delegatecall(
-        abi.encodeCall(world.grantAccess, (DurationIdxMapTableId, address(hook)))
-      );
-      if (!success) revertWithBytes(returnData);
     }
+
+    // Grant the hook access to the tables
+    (success, returnData) = address(world).delegatecall(
+      abi.encodeCall(world.grantAccess, (DurationIdxListTableId, address(hook)))
+    );
+    if (!success) revertWithBytes(returnData);
+
+    (success, returnData) = address(world).delegatecall(
+      abi.encodeCall(world.grantAccess, (DurationIdxMapTableId, address(hook)))
+    );
+    if (!success) revertWithBytes(returnData);
 
     // Register a hook that is called when a value is set in the source table
     (success, returnData) = address(world).delegatecall(

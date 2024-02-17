@@ -60,4 +60,24 @@ library Duration {
       }
     }
   }
+
+  function get(
+    ResourceId tableId,
+    bytes32 targetEntity,
+    bytes32 applicationEntity
+  ) internal returns (GenericDurationData memory) {
+    return GenericDuration.get(tableId, targetEntity, applicationEntity);
+  }
+
+  function getTimeId(ResourceId tableId, bytes32 targetEntity, bytes32 applicationEntity) internal returns (bytes32) {
+    return GenericDuration.getTimeId(tableId, targetEntity, applicationEntity);
+  }
+
+  function getTimeValue(
+    ResourceId tableId,
+    bytes32 targetEntity,
+    bytes32 applicationEntity
+  ) internal returns (uint256) {
+    return GenericDuration.getTimeValue(tableId, targetEntity, applicationEntity);
+  }
 }
