@@ -3,95 +3,107 @@ pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
-import { GenericDuration, GenericDurationData, DurationIdxList, DurationIdxMap } from "../src/codegen/index.sol";
+import { GenericDuration, GenericDurationData, EffectDurationTableId, DurationIdxMap } from "../src/codegen/index.sol";
 import { Duration } from "../src/modules/duration/Duration.sol";
 
 contract DurationTest is MudLibTest {
-  ResourceId _tableId = keccak256("_tableId");
-
   bytes32 targetEntity = keccak256("targetEntity");
-  bytes32 applicationEntity = keccak256("applicationEntity");
+  bytes32 app10 = keccak256("app10");
+  bytes32 app5 = keccak256("app5");
 
   bytes32 timeId = keccak256("timeId");
-  bytes32 anotherTimeScopeId = keccak256("anotherTimeId");
+  bytes32 anotherTimeId = keccak256("anotherTimeId");
 
-  function setUp() public {}
-
-  function _increaseBy10() internal {
-    Duration.increase(
-      _tableId,
-      targetEntity,
-      applicationEntity,
-      GenericDurationData({ timeId: timeId, timeValue: 10 })
-    );
+  function setUp() public virtual override {
+    super.setUp();
   }
 
-  function testGetDuration() public {
-    _increaseBy10();
+  function _increaseApps() internal {
+    // Increase app10 by 10
+    Duration.increase(
+      EffectDurationTableId,
+      targetEntity,
+      app10,
+      GenericDurationData({ timeId: timeId, timeValue: 10 })
+    );
+    // Increase app5 by 5
+    Duration.increase(EffectDurationTableId, targetEntity, app5, GenericDurationData({ timeId: timeId, timeValue: 5 }));
+  }
 
-    GenericDurationData memory duration = GenericDuration.get(_tableId, targetEntity, applicationEntity);
+  function testIncreaseDuration() public {
+    _increaseApps();
+
+    GenericDurationData memory duration = Duration.get(EffectDurationTableId, targetEntity, app10);
     assertEq(duration.timeId, timeId);
     assertEq(duration.timeValue, 10);
 
-    uint256 timeValue = GenericDuration.getTimeValue(_tableId, targetEntity, applicationEntity);
-    assertEq(timeValue, 10);
+    assertEq(Duration.getTimeId(EffectDurationTableId, targetEntity, app10), timeId);
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app10), 10);
+
+    _increaseApps();
+
+    duration = Duration.get(EffectDurationTableId, targetEntity, app10);
+    assertEq(duration.timeId, timeId);
+    assertEq(duration.timeValue, 20);
+
+    assertEq(Duration.getTimeId(EffectDurationTableId, targetEntity, app10), timeId);
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app10), 20);
   }
 
-  function testDecreaseScopeCallback() public {
-    _increaseBy10();
+  function testDecreaseApplications() public {
+    _increaseApps();
 
-    assertTrue(DurationIdxMap.getHas(_tableId, targetEntity, applicationEntity));
+    assertTrue(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, app10));
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app10), 10);
+    assertTrue(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, app5));
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app5), 5);
 
-    Duration.decreaseApplications(_tableId, targetEntity, DurationValueData({ timeId: timeId, timeValue: 5 }));
-
-    // not yet (it was 10 - 5)
-    //    assertFalse(uintComponent.has(de1));
-    assertTrue(DurationIdxMap.getHas(_tableId, targetEntity, applicationEntity));
-    assertEq(GenericDuration.getTimeValue(_tableId, targetEntity, applicationEntity), 5);
-
+    // Decrease by 5
     Duration.decreaseApplications(
-      _tableId,
+      EffectDurationTableId,
       targetEntity,
-      DurationValueData({ timeScopeId: anotherTimeScopeId, timeValue: 5 })
+      GenericDurationData({ timeId: timeId, timeValue: 5 })
     );
 
-    // anotherTimeScopeId shouldn't have affected timeScopeId
-    //    assertFalse(uintComponent.has(de1));
-    assertTrue(DurationIdxMap.getHas(_tableId, targetEntity, applicationEntity));
-    assertEq(GenericDuration.getTimeValue(_tableId, targetEntity, applicationEntity), 5);
+    assertTrue(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, app10));
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app10), 5);
+    assertFalse(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, app5));
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app5), 0);
 
-    Duration.decreaseApplications(_tableId, targetEntity, ScopedDuration({ timeScopeId: timeScopeId, timeValue: 5 }));
+    // anotherTimeId shouldn't affect timeId
+    Duration.decreaseApplications(
+      EffectDurationTableId,
+      targetEntity,
+      GenericDurationData({ timeId: anotherTimeId, timeValue: 5 })
+    );
 
-    // now the callback must have been called
-    //    assertEq(uintComponent.getValue(de1), 1337);
-    assertFalse(DurationIdxMap.getHas(_tableId, targetEntity, applicationEntity));
+    assertTrue(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, app10));
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app10), 5);
+    assertFalse(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, app5));
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app5), 0);
 
-    // remove the value and make sure the callback isn't called to set it again
-    //    uintComponent.remove(de1);
+    // Decrease by 5
+    Duration.decreaseApplications(
+      EffectDurationTableId,
+      targetEntity,
+      GenericDurationData({ timeId: timeId, timeValue: 5 })
+    );
 
-    Duration.decreaseApplications(_tableId, targetEntity, ScopedDuration({ timeScopeId: timeScopeId, timeValue: 10 }));
-
-    //    assertFalse(uintComponent.has(de1));
-    assertFalse(DurationIdxMap.getHas(_tableId, targetEntity, applicationEntity));
+    assertFalse(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, app10));
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app10), 0);
+    assertFalse(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, app5));
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app5), 0);
   }
 
-  function testRemoveNoCallback() public {
-    _increaseBy10();
+  function testRemove() public {
+    _increaseApps();
 
-    GenericDurationData duration = GenericDuration.get(_tableId, targetEntity, applicationEntity);
-
-    assertTrue(DurationIdxMap.getHas(DurationValue, targetEntity, applicationEntity));
-
-    Duration.remove(_tableId, targetEntity, applicationEntity);
-
-    assertFalse(DurationIdxMap.getHas(DurationValue, targetEntity, applicationEntity, applicationType));
-
-    durationSubsystem.decreaseApplications(
-      _tableId,
-      targetEntity,
-      DurationValueData({ timeId: timeId, timeValue: 10 })
-    );
-
-    assertFalse(DurationIdxMap.getHas(DurationValue, targetEntity, applicationEntity, applicationType));
+    Duration.remove(EffectDurationTableId, targetEntity, app10);
+    // Check the removed entity
+    assertFalse(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, app10));
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app10), 0);
+    // The other entity should be unaffected
+    assertTrue(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, app5));
+    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, app5), 5);
   }
 }
