@@ -40,9 +40,27 @@ const enumEleStat = ["NONE", "PHYSICAL", "FIRE", "COLD", "POISON"];
     args: [resolveTableId(tableName)],
   }));*/
 
+const durationTable = {
+  keySchema: {
+    targetEntity: EntityId,
+    applicationEntity: EntityId,
+  },
+  valueSchema: {
+    timeId: "bytes32",
+    timeValue: "uint256",
+  },
+} as const;
+
 const keysInTable = (tableNames: string[]) =>
   tableNames.map((tableName) => ({
     name: "KeysInTableModule",
+    root: true,
+    args: [resolveTableId(tableName)],
+  }));
+
+const duration = (tableNames: string[]) =>
+  tableNames.map((tableName) => ({
+    name: "DurationModule",
     root: true,
     args: [resolveTableId(tableName)],
   }));
@@ -103,6 +121,7 @@ export default mudConfig({
         targetType: "TargetType",
       },
     },
+    EffectDuration: durationTable,
     EffectTemplate: {
       ...entityKey,
       valueSchema: {
@@ -184,6 +203,39 @@ export default mudConfig({
       valueSchema: EntityId,
     },
     OwnedBy: entityRelation,
+
+    /************************************************************************
+     *
+     *    DURATION MODULE
+     *
+     ************************************************************************/
+    GenericDuration: {
+      ...durationTable,
+      tableIdArgument: true,
+    },
+    DurationIdxList: {
+      keySchema: {
+        sourceTableId: "ResourceId",
+        targetEntity: EntityId,
+        timeId: "bytes32",
+      },
+      valueSchema: {
+        applicationEntities: EntityIdArray,
+      },
+      dataStruct: false,
+    },
+    DurationIdxMap: {
+      keySchema: {
+        sourceTableId: "ResourceId",
+        targetEntity: EntityId,
+        applicationEntity: EntityId,
+      },
+      valueSchema: {
+        has: "bool",
+        index: "uint40",
+      },
+      dataStruct: false,
+    },
   },
 
   enums: {
@@ -194,6 +246,7 @@ export default mudConfig({
   },
 
   userTypes: {
+    ResourceId: { filePath: "@latticexyz/store/src/ResourceId.sol", internalType: "bytes32" },
     StatmodTopic: {
       filePath: "./src/statmod/StatmodTopic.sol",
       internalType: "bytes32",
@@ -207,5 +260,6 @@ export default mudConfig({
       root: true,
       args: [],
     },
+    ...duration(["EffectDuration"]),
   ],
 });
