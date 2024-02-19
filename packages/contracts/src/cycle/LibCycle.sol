@@ -8,7 +8,7 @@ import { ActiveGuise, ActiveWheel, PreviousCycle, Wheel, WheelData, GuisePrototy
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
-import { LibLearnedSkills } from "../skill/LibLearnedSkill.sol";
+import { LibLearnedSkills } from "../skill/LibLearnedSkills.sol";
 
 //import { LibToken } from "../token/LibToken.sol";
 //import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
