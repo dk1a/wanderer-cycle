@@ -29,11 +29,10 @@ library LibSkill {
   /**
    * @dev Change Self to use a different skill prototype
    */
-  //  function switchSkill(bytes32 skillEntity) internal view {
-  //    __self.skillEntity = skillEntity;
-  //    __self.skill = __self.protoComp.getValue(skillEntity);
-  //    return __self;
-  //  }
+  function switchSkill(bytes32 skillEntity) internal view returns (SkillTemplateData skill) {
+    skill = SkillTemplate.get(skillEntity);
+    return skill;
+  }
 
   //  function requireCombat(bytes32 skillEntity) internal pure {
   //    if (skill.skillType != SkillType.COMBAT) {
