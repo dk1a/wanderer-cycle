@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { PStat, PStat_length, StatmodOp, EleStat } from "../CustomTypes.sol";
-import { StatmodBaseData } from "../codegen/tables/StatmodBase.sol";
+import { PStat, PStat_length, StatmodOp, EleStat } from "../../CustomTypes.sol";
+import { StatmodBaseData } from "../../codegen/tables/StatmodBase.sol";
 
 type StatmodTopic is bytes32;
 

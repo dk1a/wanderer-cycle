@@ -129,42 +129,6 @@ export default mudConfig({
         values: "uint32[]",
       },
     },
-    StatmodBase: {
-      ...entityKey,
-      valueSchema: {
-        statmodTopic: "StatmodTopic",
-        statmodOp: "StatmodOp",
-        eleStat: "EleStat",
-      },
-    },
-    StatmodValue: {
-      keySchema: {
-        targetEntity: EntityId,
-        baseEntity: EntityId,
-      },
-      valueSchema: "uint32",
-    },
-    StatmodIdxList: {
-      keySchema: {
-        targetEntity: EntityId,
-        statmodTopic: "StatmodTopic",
-      },
-      valueSchema: {
-        baseEntities: EntityIdArray,
-      },
-    },
-    StatmodIdxMap: {
-      keySchema: {
-        targetEntity: EntityId,
-        baseEntity: EntityId,
-      },
-      valueSchema: {
-        statmodTopic: "StatmodTopic",
-        has: "bool",
-        index: "uint40",
-      },
-      dataStruct: false,
-    },
     ActiveCycle: entityRelation,
     CycleToWanderer: entityRelation,
     CurrentCycle: entityRelation,
@@ -236,6 +200,48 @@ export default mudConfig({
       },
       dataStruct: false,
     },
+
+    /************************************************************************
+     *
+     *    STATMOD MODULE
+     *
+     ************************************************************************/
+    StatmodBase: {
+      ...entityKey,
+      valueSchema: {
+        statmodTopic: "StatmodTopic",
+        statmodOp: "StatmodOp",
+        eleStat: "EleStat",
+      },
+    },
+    StatmodValue: {
+      keySchema: {
+        targetEntity: EntityId,
+        baseEntity: EntityId,
+      },
+      valueSchema: "uint32",
+    },
+    StatmodIdxList: {
+      keySchema: {
+        targetEntity: EntityId,
+        statmodTopic: "StatmodTopic",
+      },
+      valueSchema: {
+        baseEntities: EntityIdArray,
+      },
+    },
+    StatmodIdxMap: {
+      keySchema: {
+        targetEntity: EntityId,
+        baseEntity: EntityId,
+      },
+      valueSchema: {
+        statmodTopic: "StatmodTopic",
+        has: "bool",
+        index: "uint40",
+      },
+      dataStruct: false,
+    },
   },
 
   enums: {
@@ -248,7 +254,7 @@ export default mudConfig({
   userTypes: {
     ResourceId: { filePath: "@latticexyz/store/src/ResourceId.sol", internalType: "bytes32" },
     StatmodTopic: {
-      filePath: "./src/statmod/StatmodTopic.sol",
+      filePath: "./src/modules/statmod/StatmodTopic.sol",
       internalType: "bytes32",
     },
   },
@@ -261,5 +267,10 @@ export default mudConfig({
       args: [],
     },
     ...duration(["EffectDuration"]),
+    {
+      name: "StatmodModule",
+      root: true,
+      args: [],
+    },
   ],
 });

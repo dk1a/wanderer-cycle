@@ -3,8 +3,8 @@ pragma solidity >=0.8.21;
 
 import { StrSlice, toSlice } from "@dk1a/solidity-stringutils/src/StrSlice.sol";
 
-import { StatmodBaseData } from "../codegen/index.sol";
-import { StatmodOp, EleStat } from "../codegen/common.sol";
+import { StatmodBaseData } from "../../codegen/index.sol";
+import { StatmodOp, EleStat } from "../../codegen/common.sol";
 
 using { toSlice } for string;
 
