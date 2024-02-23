@@ -2,11 +2,10 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { Statmod } from "../src/statmod/Statmod.sol";
-import { StatmodTopic, StatmodTopics } from "../src/statmod/StatmodTopic.sol";
+import { Statmod } from "../src/modules/statmod/Statmod.sol";
+import { StatmodTopic, StatmodTopics } from "../src/modules/statmod/StatmodTopic.sol";
 import { StatmodOp, EleStat } from "../src/codegen/common.sol";
-import { StatmodOp_length, EleStat_length, StatmodOpFinal } from "../src/CustomTypes.sol";
-import { StatmodBase, StatmodBaseData, StatmodValue, StatmodIdxList, StatmodIdxMap } from "../src/codegen/index.sol";
+import { StatmodOp_length, EleStat_length } from "../src/CustomTypes.sol";
 
 contract StatmodTest is MudLibTest {
   bytes32 internal targetEntity = keccak256("targetEntity");

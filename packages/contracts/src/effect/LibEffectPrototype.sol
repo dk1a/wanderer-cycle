@@ -2,7 +2,7 @@
 pragma solidity >=0.8.21;
 
 import { EffectTemplate, EffectTemplateData, StatmodBase } from "../codegen/index.sol";
-import { StatmodTopic } from "../statmod/StatmodTopic.sol";
+import { StatmodTopic } from "../modules/statmod/StatmodTopic.sol";
 
 library LibEffectPrototype {
   error LibEffectPrototype_LengthMismatch();

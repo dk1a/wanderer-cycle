@@ -3,8 +3,8 @@ pragma solidity >=0.8.21;
 
 import { Experience, LifeCurrent, ManaCurrent } from "../codegen/index.sol";
 
-import { Statmod } from "../statmod/Statmod.sol";
-import { StatmodTopics, StatmodTopic } from "../statmod/StatmodTopic.sol";
+import { Statmod } from "../modules/statmod/Statmod.sol";
+import { StatmodTopics, StatmodTopic } from "../modules/statmod/StatmodTopic.sol";
 import { LibExperience } from "./LibExperience.sol";
 
 import { StatmodOp, EleStat } from "../codegen/common.sol";

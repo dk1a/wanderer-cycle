@@ -21,7 +21,7 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { RESOURCE_TABLE, RESOURCE_OFFCHAIN_TABLE } from "@latticexyz/store/src/storeResourceTypes.sol";
 
 // Import user types
-import { StatmodTopic } from "./../../statmod/StatmodTopic.sol";
+import { StatmodTopic } from "./../../modules/statmod/StatmodTopic.sol";
 import { StatmodOp, EleStat } from "./../common.sol";
 
 ResourceId constant _tableId = ResourceId.wrap(
