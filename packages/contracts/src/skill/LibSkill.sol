@@ -3,69 +3,49 @@ pragma solidity >=0.8.21;
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibLearnedSkills } from "./LibLearnedSkills.sol";
-import { SkillTemplate, SkillTemplateTableId, SkillTemplateData, LearnedSkills, EffectDuration, EffectTemplate, DurationIdxMap, ManaCurrent, LifeCurrent, GenericDurationData } from "../codegen/index.sol";
+import { SkillTemplate, SkillTemplateData, SkillCooldownTableId, LearnedSkills, EffectDuration, EffectTemplate, ManaCurrent, LifeCurrent, GenericDurationData } from "../codegen/index.sol";
 import { LibEffect } from "../modules/effect/LibEffect.sol";
 import { SkillType, TargetType } from "../codegen/common.sol";
 import { LibEffectPrototype } from "../effect/LibEffectPrototype.sol";
 import { Duration } from "../modules/duration/Duration.sol";
 
 library LibSkill {
-  error LibSkill__SkillMustBeLearned();
-  error LibSkill__SkillOnCooldown();
-  error LibSkill__NotEnoughMana();
-  error LibSkill__InvalidSkillTarget();
-  error LibSkill__RequiredCombat();
-  error LibSkill__RequiredNonCombat();
+  error LibSkill_SkillMustBeLearned();
+  error LibSkill_SkillOnCooldown();
+  error LibSkill_NotEnoughMana();
+  error LibSkill_InvalidSkillTarget();
+  error LibSkill_RequiredCombat();
+  error LibSkill_RequiredNonCombat();
 
-  //    return
-  //      Self({
-  //      world: world,
-  //      protoComp: protoComp,
-  //      charstat: LibCharstat.__construct(components, userEntity),
-  //      learnedSkills: LibLearnedSkills.__construct(world, userEntity),
-  //      userEntity: userEntity,
-  //      skillEntity: skillEntity,
-  //      skill: protoComp.getValue(skillEntity)
-  //    });
-  //  }
-
-  /**
-   * @dev Change Self to use a different skill prototype
-   */
-  function switchSkill(bytes32 skillEntity) internal view returns (SkillTemplateData memory skill) {
-    skill = SkillTemplate.get(skillEntity);
-    return skill;
-  }
-
-  function requireCombat(bytes32 skillEntity) internal pure {
+  function requireCombat(bytes32 skillEntity) internal view {
     if (SkillTemplate.getSkillType(skillEntity) != SkillType.COMBAT) {
-      revert LibSkill__RequiredCombat();
+      revert LibSkill_RequiredCombat();
     }
   }
 
-  function requireNonCombat(bytes32 skillEntity) internal pure {
+  function requireNonCombat(bytes32 skillEntity) internal view {
     if (SkillTemplate.getSkillType(skillEntity) == SkillType.COMBAT) {
-      revert LibSkill__RequiredNonCombat();
+      revert LibSkill_RequiredNonCombat();
     }
   }
 
   /**
-   * @dev Combat skills may target either self or enemy, depending on skill prototype
+   * @dev Combat skills may target either self or enemy, depending on skill template
    */
   function chooseCombatTarget(
-    bytes32 enemyEntity,
     bytes32 userEntity,
-    bytes32 skillEntity
-  ) internal pure returns (bytes32) {
+    bytes32 skillEntity,
+    bytes32 enemyEntity
+  ) internal view returns (bytes32) {
     TargetType targetType = SkillTemplate.getTargetType(skillEntity);
     if (targetType == TargetType.SELF || targetType == TargetType.SELF_OR_ALLY) {
-      // self
+      // Self
       return userEntity;
     } else if (targetType == TargetType.ENEMY) {
-      // enemy
+      // Enemy
       return enemyEntity;
     } else {
-      revert LibSkill__InvalidSkillTarget();
+      revert LibSkill_InvalidSkillTarget();
     }
   }
 
@@ -73,57 +53,51 @@ library LibSkill {
    * @dev Check some requirements, subtract cost, start cooldown, apply effect.
    * However this method is NOT combat aware and doesn't do attack/spell damage
    */
-  function useSkill(
-    bytes32 userEntity,
-    bytes32 skillEntity,
-    bytes32 targetEntity,
-    bytes32 timeId,
-    uint256 timeValue
-  ) internal {
-    // must be learned
+  function useSkill(bytes32 userEntity, bytes32 skillEntity, bytes32 targetEntity) internal {
+    SkillTemplateData memory skill = SkillTemplate.get(skillEntity);
+
+    // Must be learned
     if (!LibLearnedSkills.hasSkill(userEntity, skillEntity)) {
-      revert LibSkill__SkillMustBeLearned();
+      revert LibSkill_SkillMustBeLearned();
     }
-    // must be off cooldown
-    if (DurationIdxMap.getHas(SkillTemplateTableId, targetEntity, skillEntity)) {
-      revert LibSkill__SkillOnCooldown();
+    // Must be off cooldown
+    if (Duration.has(SkillCooldownTableId, targetEntity, skillEntity)) {
+      revert LibSkill_SkillOnCooldown();
     }
-    // verify self-only skill
-    if (SkillTemplate.getTargetType(skillEntity) == TargetType.SELF & userEntity != targetEntity) {
-      revert LibSkill__InvalidSkillTarget();
+    // Verify self-only skill
+    if (skill.targetType == TargetType.SELF && userEntity != targetEntity) {
+      revert LibSkill_InvalidSkillTarget();
     }
     // TODO verify other target types?
 
-    // start cooldown
-    // (doesn't clash with skill effect duration, which has its own entity)
-    if (Duration.getTimeValue(SkillTemplateTableId, targetEntity, skillEntity) > 0) {
+    // Start cooldown
+    if (Duration.getTimeValue(SkillCooldownTableId, targetEntity, skillEntity) > 0) {
       Duration.increase(
-        SkillTemplateTableId,
+        SkillCooldownTableId,
         targetEntity,
         skillEntity,
-        GenericDurationData({ timeId: timeId, timeValue: timeValue })
+        GenericDurationData({ timeId: skill.cooldownTimeId, timeValue: skill.cooldownTimeValue })
       );
     }
 
-    // check and subtract skill cost
+    // Check and subtract skill cost
     uint32 manaCurrent = LibCharstat.getManaCurrent(targetEntity);
-    uint32 cost = SkillTemplate.getCost(skillEntity);
-    if (cost > manaCurrent) {
-      revert LibSkill__NotEnoughMana();
-    } else if (cost > 0) {
-      LibCharstat.setManaCurrent(skillEntity, manaCurrent - cost);
+    if (skill.cost > manaCurrent) {
+      revert LibSkill_NotEnoughMana();
+    } else if (skill.cost > 0) {
+      LibCharstat.setManaCurrent(skillEntity, manaCurrent - skill.cost);
     }
 
-    _applySkillEffect(targetEntity, skillEntity);
+    _applySkillEffect(skillEntity, skill, targetEntity);
   }
 
-  function _applySkillEffect(bytes32 targetEntity, bytes32 skillEntity) private {
+  function _applySkillEffect(bytes32 skillEntity, SkillTemplateData memory skill, bytes32 targetEntity) private {
     if (!LibEffect.hasEffectTemplate(skillEntity)) {
       // skip if skill has no effect
       return;
     }
 
-    if (SkillTemplate.getTargetType(skillEntity) == SkillType.PASSIVE) {
+    if (skill.skillType == SkillType.PASSIVE) {
       // toggle passive skill
       if (LibEffect.hasEffectApplied(targetEntity, skillEntity)) {
         LibEffect.remove(targetEntity, skillEntity);
@@ -132,7 +106,10 @@ library LibSkill {
       }
     } else {
       // apply active skill
-      GenericDurationData memory duration = Duration.get(SkillTemplateTableId, targetEntity, skillEntity);
+      GenericDurationData memory duration = GenericDurationData({
+        timeId: skill.durationTimeId,
+        timeValue: skill.durationTimeValue
+      });
       LibEffect.applyTimedEffect(targetEntity, skillEntity, duration);
     }
   }

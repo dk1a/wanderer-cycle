@@ -119,8 +119,15 @@ export default mudConfig({
         cost: "uint32",
         // who it can be used on
         targetType: "TargetType",
+        // cooldown
+        cooldownTimeId: "bytes32",
+        cooldownTimeValue: "uint256",
+        // duration
+        durationTimeId: "bytes32",
+        durationTimeValue: "uint256",
       },
     },
+    SkillCooldown: durationTable,
     ActiveCycle: entityRelation,
     CycleToWanderer: entityRelation,
     CurrentCycle: entityRelation,
