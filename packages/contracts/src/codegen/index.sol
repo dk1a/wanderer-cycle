@@ -13,6 +13,7 @@ import { LearnedSkills, LearnedSkillsTableId } from "./tables/LearnedSkills.sol"
 import { LifeCurrent, LifeCurrentTableId } from "./tables/LifeCurrent.sol";
 import { ManaCurrent, ManaCurrentTableId } from "./tables/ManaCurrent.sol";
 import { SkillTemplate, SkillTemplateData, SkillTemplateTableId } from "./tables/SkillTemplate.sol";
+import { SkillCooldown, SkillCooldownData, SkillCooldownTableId } from "./tables/SkillCooldown.sol";
 import { ActiveCycle, ActiveCycleTableId } from "./tables/ActiveCycle.sol";
 import { CycleToWanderer, CycleToWandererTableId } from "./tables/CycleToWanderer.sol";
 import { CurrentCycle, CurrentCycleTableId } from "./tables/CurrentCycle.sol";

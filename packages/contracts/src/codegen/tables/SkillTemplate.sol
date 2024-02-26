@@ -29,7 +29,7 @@ ResourceId constant _tableId = ResourceId.wrap(
 ResourceId constant SkillTemplateTableId = _tableId;
 
 FieldLayout constant _fieldLayout = FieldLayout.wrap(
-  0x0009060001010101040100000000000000000000000000000000000000000000
+  0x00890a0001010101040120202020000000000000000000000000000000000000
 );
 
 struct SkillTemplateData {
@@ -39,6 +39,10 @@ struct SkillTemplateData {
   bool withSpell;
   uint32 cost;
   TargetType targetType;
+  bytes32 cooldownTimeId;
+  uint256 cooldownTimeValue;
+  bytes32 durationTimeId;
+  uint256 durationTimeValue;
 }
 
 library SkillTemplate {
@@ -66,13 +70,17 @@ library SkillTemplate {
    * @return _valueSchema The value schema for the table.
    */
   function getValueSchema() internal pure returns (Schema) {
-    SchemaType[] memory _valueSchema = new SchemaType[](6);
+    SchemaType[] memory _valueSchema = new SchemaType[](10);
     _valueSchema[0] = SchemaType.UINT8;
     _valueSchema[1] = SchemaType.UINT8;
     _valueSchema[2] = SchemaType.BOOL;
     _valueSchema[3] = SchemaType.BOOL;
     _valueSchema[4] = SchemaType.UINT32;
     _valueSchema[5] = SchemaType.UINT8;
+    _valueSchema[6] = SchemaType.BYTES32;
+    _valueSchema[7] = SchemaType.UINT256;
+    _valueSchema[8] = SchemaType.BYTES32;
+    _valueSchema[9] = SchemaType.UINT256;
 
     return SchemaLib.encode(_valueSchema);
   }
@@ -91,13 +99,17 @@ library SkillTemplate {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](6);
+    fieldNames = new string[](10);
     fieldNames[0] = "requiredLevel";
     fieldNames[1] = "skillType";
     fieldNames[2] = "withAttack";
     fieldNames[3] = "withSpell";
     fieldNames[4] = "cost";
     fieldNames[5] = "targetType";
+    fieldNames[6] = "cooldownTimeId";
+    fieldNames[7] = "cooldownTimeValue";
+    fieldNames[8] = "durationTimeId";
+    fieldNames[9] = "durationTimeValue";
   }
 
   /**
@@ -367,6 +379,174 @@ library SkillTemplate {
   }
 
   /**
+   * @notice Get cooldownTimeId.
+   */
+  function getCooldownTimeId(bytes32 entity) internal view returns (bytes32 cooldownTimeId) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Get cooldownTimeId.
+   */
+  function _getCooldownTimeId(bytes32 entity) internal view returns (bytes32 cooldownTimeId) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 6, _fieldLayout);
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Set cooldownTimeId.
+   */
+  function setCooldownTimeId(bytes32 entity, bytes32 cooldownTimeId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((cooldownTimeId)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set cooldownTimeId.
+   */
+  function _setCooldownTimeId(bytes32 entity, bytes32 cooldownTimeId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 6, abi.encodePacked((cooldownTimeId)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get cooldownTimeValue.
+   */
+  function getCooldownTimeValue(bytes32 entity) internal view returns (uint256 cooldownTimeValue) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Get cooldownTimeValue.
+   */
+  function _getCooldownTimeValue(bytes32 entity) internal view returns (uint256 cooldownTimeValue) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 7, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Set cooldownTimeValue.
+   */
+  function setCooldownTimeValue(bytes32 entity, uint256 cooldownTimeValue) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((cooldownTimeValue)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set cooldownTimeValue.
+   */
+  function _setCooldownTimeValue(bytes32 entity, uint256 cooldownTimeValue) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 7, abi.encodePacked((cooldownTimeValue)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get durationTimeId.
+   */
+  function getDurationTimeId(bytes32 entity) internal view returns (bytes32 durationTimeId) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 8, _fieldLayout);
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Get durationTimeId.
+   */
+  function _getDurationTimeId(bytes32 entity) internal view returns (bytes32 durationTimeId) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 8, _fieldLayout);
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Set durationTimeId.
+   */
+  function setDurationTimeId(bytes32 entity, bytes32 durationTimeId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 8, abi.encodePacked((durationTimeId)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set durationTimeId.
+   */
+  function _setDurationTimeId(bytes32 entity, bytes32 durationTimeId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 8, abi.encodePacked((durationTimeId)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get durationTimeValue.
+   */
+  function getDurationTimeValue(bytes32 entity) internal view returns (uint256 durationTimeValue) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 9, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Get durationTimeValue.
+   */
+  function _getDurationTimeValue(bytes32 entity) internal view returns (uint256 durationTimeValue) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 9, _fieldLayout);
+    return (uint256(bytes32(_blob)));
+  }
+
+  /**
+   * @notice Set durationTimeValue.
+   */
+  function setDurationTimeValue(bytes32 entity, uint256 durationTimeValue) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 9, abi.encodePacked((durationTimeValue)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set durationTimeValue.
+   */
+  function _setDurationTimeValue(bytes32 entity, uint256 durationTimeValue) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 9, abi.encodePacked((durationTimeValue)), _fieldLayout);
+  }
+
+  /**
    * @notice Get the full data.
    */
   function get(bytes32 entity) internal view returns (SkillTemplateData memory _table) {
@@ -406,9 +586,24 @@ library SkillTemplate {
     bool withAttack,
     bool withSpell,
     uint32 cost,
-    TargetType targetType
+    TargetType targetType,
+    bytes32 cooldownTimeId,
+    uint256 cooldownTimeValue,
+    bytes32 durationTimeId,
+    uint256 durationTimeValue
   ) internal {
-    bytes memory _staticData = encodeStatic(requiredLevel, skillType, withAttack, withSpell, cost, targetType);
+    bytes memory _staticData = encodeStatic(
+      requiredLevel,
+      skillType,
+      withAttack,
+      withSpell,
+      cost,
+      targetType,
+      cooldownTimeId,
+      cooldownTimeValue,
+      durationTimeId,
+      durationTimeValue
+    );
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
@@ -429,9 +624,24 @@ library SkillTemplate {
     bool withAttack,
     bool withSpell,
     uint32 cost,
-    TargetType targetType
+    TargetType targetType,
+    bytes32 cooldownTimeId,
+    uint256 cooldownTimeValue,
+    bytes32 durationTimeId,
+    uint256 durationTimeValue
   ) internal {
-    bytes memory _staticData = encodeStatic(requiredLevel, skillType, withAttack, withSpell, cost, targetType);
+    bytes memory _staticData = encodeStatic(
+      requiredLevel,
+      skillType,
+      withAttack,
+      withSpell,
+      cost,
+      targetType,
+      cooldownTimeId,
+      cooldownTimeValue,
+      durationTimeId,
+      durationTimeValue
+    );
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
@@ -452,7 +662,11 @@ library SkillTemplate {
       _table.withAttack,
       _table.withSpell,
       _table.cost,
-      _table.targetType
+      _table.targetType,
+      _table.cooldownTimeId,
+      _table.cooldownTimeValue,
+      _table.durationTimeId,
+      _table.durationTimeValue
     );
 
     PackedCounter _encodedLengths;
@@ -474,7 +688,11 @@ library SkillTemplate {
       _table.withAttack,
       _table.withSpell,
       _table.cost,
-      _table.targetType
+      _table.targetType,
+      _table.cooldownTimeId,
+      _table.cooldownTimeValue,
+      _table.durationTimeId,
+      _table.durationTimeValue
     );
 
     PackedCounter _encodedLengths;
@@ -500,7 +718,11 @@ library SkillTemplate {
       bool withAttack,
       bool withSpell,
       uint32 cost,
-      TargetType targetType
+      TargetType targetType,
+      bytes32 cooldownTimeId,
+      uint256 cooldownTimeValue,
+      bytes32 durationTimeId,
+      uint256 durationTimeValue
     )
   {
     requiredLevel = (uint8(Bytes.slice1(_blob, 0)));
@@ -514,6 +736,14 @@ library SkillTemplate {
     cost = (uint32(Bytes.slice4(_blob, 4)));
 
     targetType = TargetType(uint8(Bytes.slice1(_blob, 8)));
+
+    cooldownTimeId = (Bytes.slice32(_blob, 9));
+
+    cooldownTimeValue = (uint256(Bytes.slice32(_blob, 41)));
+
+    durationTimeId = (Bytes.slice32(_blob, 73));
+
+    durationTimeValue = (uint256(Bytes.slice32(_blob, 105)));
   }
 
   /**
@@ -533,7 +763,11 @@ library SkillTemplate {
       _table.withAttack,
       _table.withSpell,
       _table.cost,
-      _table.targetType
+      _table.targetType,
+      _table.cooldownTimeId,
+      _table.cooldownTimeValue,
+      _table.durationTimeId,
+      _table.durationTimeValue
     ) = decodeStatic(_staticData);
   }
 
@@ -567,9 +801,25 @@ library SkillTemplate {
     bool withAttack,
     bool withSpell,
     uint32 cost,
-    TargetType targetType
+    TargetType targetType,
+    bytes32 cooldownTimeId,
+    uint256 cooldownTimeValue,
+    bytes32 durationTimeId,
+    uint256 durationTimeValue
   ) internal pure returns (bytes memory) {
-    return abi.encodePacked(requiredLevel, skillType, withAttack, withSpell, cost, targetType);
+    return
+      abi.encodePacked(
+        requiredLevel,
+        skillType,
+        withAttack,
+        withSpell,
+        cost,
+        targetType,
+        cooldownTimeId,
+        cooldownTimeValue,
+        durationTimeId,
+        durationTimeValue
+      );
   }
 
   /**
@@ -584,9 +834,24 @@ library SkillTemplate {
     bool withAttack,
     bool withSpell,
     uint32 cost,
-    TargetType targetType
+    TargetType targetType,
+    bytes32 cooldownTimeId,
+    uint256 cooldownTimeValue,
+    bytes32 durationTimeId,
+    uint256 durationTimeValue
   ) internal pure returns (bytes memory, PackedCounter, bytes memory) {
-    bytes memory _staticData = encodeStatic(requiredLevel, skillType, withAttack, withSpell, cost, targetType);
+    bytes memory _staticData = encodeStatic(
+      requiredLevel,
+      skillType,
+      withAttack,
+      withSpell,
+      cost,
+      targetType,
+      cooldownTimeId,
+      cooldownTimeValue,
+      durationTimeId,
+      durationTimeValue
+    );
 
     PackedCounter _encodedLengths;
     bytes memory _dynamicData;
