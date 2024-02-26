@@ -13,8 +13,6 @@ import { LearnedSkills, LearnedSkillsTableId } from "./tables/LearnedSkills.sol"
 import { LifeCurrent, LifeCurrentTableId } from "./tables/LifeCurrent.sol";
 import { ManaCurrent, ManaCurrentTableId } from "./tables/ManaCurrent.sol";
 import { SkillTemplate, SkillTemplateData, SkillTemplateTableId } from "./tables/SkillTemplate.sol";
-import { EffectDuration, EffectDurationData, EffectDurationTableId } from "./tables/EffectDuration.sol";
-import { EffectTemplate, EffectTemplateData, EffectTemplateTableId } from "./tables/EffectTemplate.sol";
 import { ActiveCycle, ActiveCycleTableId } from "./tables/ActiveCycle.sol";
 import { CycleToWanderer, CycleToWandererTableId } from "./tables/CycleToWanderer.sol";
 import { CurrentCycle, CurrentCycleTableId } from "./tables/CurrentCycle.sol";
@@ -36,3 +34,6 @@ import { StatmodBase, StatmodBaseData, StatmodBaseTableId } from "./tables/Statm
 import { StatmodValue, StatmodValueTableId } from "./tables/StatmodValue.sol";
 import { StatmodIdxList, StatmodIdxListTableId } from "./tables/StatmodIdxList.sol";
 import { StatmodIdxMap, StatmodIdxMapTableId } from "./tables/StatmodIdxMap.sol";
+import { EffectDuration, EffectDurationData, EffectDurationTableId } from "./tables/EffectDuration.sol";
+import { EffectTemplate, EffectTemplateData, EffectTemplateTableId } from "./tables/EffectTemplate.sol";
+import { EffectApplied, EffectAppliedData, EffectAppliedTableId } from "./tables/EffectApplied.sol";

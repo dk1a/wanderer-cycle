@@ -121,14 +121,6 @@ export default mudConfig({
         targetType: "TargetType",
       },
     },
-    EffectDuration: durationTable,
-    EffectTemplate: {
-      ...entityKey,
-      valueSchema: {
-        entities: EntityIdArray,
-        values: "uint32[]",
-      },
-    },
     ActiveCycle: entityRelation,
     CycleToWanderer: entityRelation,
     CurrentCycle: entityRelation,
@@ -242,6 +234,30 @@ export default mudConfig({
       },
       dataStruct: false,
     },
+
+    /************************************************************************
+     *
+     *    EFFECT MODULE
+     *
+     ************************************************************************/
+    EffectDuration: durationTable,
+    EffectTemplate: {
+      ...entityKey,
+      valueSchema: {
+        entities: EntityIdArray,
+        values: "uint32[]",
+      },
+    },
+    EffectApplied: {
+      keySchema: {
+        targetEntity: EntityId,
+        applicationEntity: EntityId,
+      },
+      valueSchema: {
+        entities: EntityIdArray,
+        values: "uint32[]",
+      },
+    },
   },
 
   enums: {
@@ -260,7 +276,7 @@ export default mudConfig({
   },
 
   modules: [
-    ...keysInTable(["Experience", "LearnedSkills"]),
+    ...keysInTable(["Experience", "LearnedSkills", "EffectTemplate", "EffectApplied"]),
     {
       name: "UniqueEntityModule",
       root: true,
@@ -269,6 +285,11 @@ export default mudConfig({
     ...duration(["EffectDuration"]),
     {
       name: "StatmodModule",
+      root: true,
+      args: [],
+    },
+    {
+      name: "EffectModule",
       root: true,
       args: [],
     },
