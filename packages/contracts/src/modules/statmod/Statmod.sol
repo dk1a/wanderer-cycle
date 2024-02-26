@@ -1,64 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { getKeysWithValue } from "@latticexyz/world-modules/src/modules/keyswithvalue/getKeysWithValue.sol";
-
-import { StatmodBase, StatmodBaseData, StatmodValue, StatmodIdxList, StatmodIdxMap } from "../codegen/index.sol";
-import { StatmodOp, EleStat } from "../codegen/common.sol";
-import { StatmodOpFinal, StatmodOp_length, EleStat_length } from "../CustomTypes.sol";
+import { StatmodBase, StatmodBaseData, StatmodValue, StatmodIdxList } from "../../codegen/index.sol";
+import { StatmodOp, EleStat } from "../../codegen/common.sol";
+import { StatmodOpFinal, StatmodOp_length, EleStat_length } from "../../CustomTypes.sol";
 import { StatmodTopic } from "./StatmodTopic.sol";
-
-error Statmod_NotInitialized(bytes32 baseEntity);
-
-function getAndCheckStatmodTopic(bytes32 baseEntity) view returns (StatmodTopic statmodTopic) {
-  statmodTopic = StatmodBase.getStatmodTopic(baseEntity);
-  if (StatmodTopic.unwrap(statmodTopic) == bytes32(0)) {
-    revert Statmod_NotInitialized(baseEntity);
-  }
-}
-
-function swapAndPopStatmodIdx(bytes32 targetEntity, bytes32 baseEntity, StatmodTopic statmodTopic, uint256 index) {
-  uint256 lastIndex = StatmodIdxList.length(targetEntity, statmodTopic) - 1;
-  bytes32 baseEntityToSwap = StatmodIdxList.getItem(targetEntity, statmodTopic, lastIndex);
-  StatmodIdxMap.set(targetEntity, baseEntityToSwap, statmodTopic, true, uint40(index));
-  StatmodIdxList.update(targetEntity, statmodTopic, index, baseEntityToSwap);
-  StatmodIdxList.pop(targetEntity, statmodTopic);
-  StatmodIdxMap.set(targetEntity, baseEntity, StatmodTopic.wrap(0), false, 0);
-}
-
-function pushStatmodIdx(bytes32 targetEntity, bytes32 baseEntity, StatmodTopic statmodTopic) {
-  uint256 newIndex = StatmodIdxList.length(targetEntity, statmodTopic);
-  StatmodIdxList.push(targetEntity, statmodTopic, baseEntity);
-  StatmodIdxMap.set(targetEntity, baseEntity, statmodTopic, true, uint40(newIndex));
-}
-
-// TODO less hacky indexing (you could use hooks)
-function setStatmodValue(bytes32 targetEntity, bytes32 baseEntity, uint32 value) {
-  StatmodTopic statmodTopic = StatmodBase.getStatmodTopic(baseEntity);
-  if (StatmodTopic.unwrap(statmodTopic) == bytes32(0)) {
-    revert Statmod_NotInitialized(baseEntity);
-  }
-
-  StatmodValue.set(targetEntity, baseEntity, value);
-  (StatmodTopic savedStatmodTopic, bool has, uint40 index) = StatmodIdxMap.get(targetEntity, baseEntity);
-  if (has) {
-    if (savedStatmodTopic != statmodTopic) {
-      swapAndPopStatmodIdx(targetEntity, baseEntity, savedStatmodTopic, index);
-      pushStatmodIdx(targetEntity, baseEntity, statmodTopic);
-    }
-  } else {
-    pushStatmodIdx(targetEntity, baseEntity, statmodTopic);
-  }
-}
-
-function deleteStatmodValue(bytes32 targetEntity, bytes32 baseEntity) {
-  StatmodValue.deleteRecord(targetEntity, baseEntity);
-
-  (StatmodTopic savedStatmodTopic, bool has, uint40 index) = StatmodIdxMap.get(targetEntity, baseEntity);
-  if (has) {
-    swapAndPopStatmodIdx(targetEntity, baseEntity, savedStatmodTopic, index);
-  }
-}
 
 library Statmod {
   error Statmod_IncreaseByZero();
@@ -74,7 +20,7 @@ library Statmod {
     uint32 storedValue = StatmodValue.get(targetEntity, baseEntity);
     isUpdate = storedValue != 0;
 
-    setStatmodValue(targetEntity, baseEntity, storedValue + value);
+    StatmodValue.set(targetEntity, baseEntity, storedValue + value);
 
     return isUpdate;
   }
@@ -90,9 +36,9 @@ library Statmod {
 
     isUpdate = storedValue > value;
     if (isUpdate) {
-      setStatmodValue(targetEntity, baseEntity, storedValue - value);
+      StatmodValue.set(targetEntity, baseEntity, storedValue - value);
     } else {
-      deleteStatmodValue(targetEntity, baseEntity);
+      StatmodValue.deleteRecord(targetEntity, baseEntity);
     }
 
     return isUpdate;

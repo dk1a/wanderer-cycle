@@ -3,8 +3,8 @@ pragma solidity >=0.8.21;
 
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { StatmodTopics, StatmodTopic, toStatmodEntity } from "../statmod/StatmodTopic.sol";
-import { statmodName } from "../statmod/statmodName.sol";
+import { StatmodTopics, StatmodTopic, toStatmodEntity } from "../modules/statmod/StatmodTopic.sol";
+import { statmodName } from "../modules/statmod/statmodName.sol";
 import { Name, StatmodBase, StatmodBaseData, StatmodIdxList, StatmodIdxMap, StatmodValue } from "../codegen/index.sol";
 import { PStat, PStat_length, StatmodOp, EleStat } from "../CustomTypes.sol";
 
