@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.8.21;
 
-import { Identity, PreviousCycle, ActiveWheel, DefaultWheel, Wheel, WheelData, WheelsCompleted } from "../codegen/Tables.sol";
+import { Identity, PreviousCycle, ActiveWheel, DefaultWheel, Wheel, WheelData, WheelsCompleted } from "../codegen/index.sol";
 
 library LibWanderer {
   function gainCycleRewards(bytes32 wandererEntity) internal {
