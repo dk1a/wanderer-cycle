@@ -2,23 +2,28 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { SkillTemplate, Name } from "../src/codegen/index.sol";
+import { SkillTemplate, EffectTemplate, Name } from "../src/codegen/index.sol";
 import { SkillType, TargetType } from "../src/codegen/common.sol";
+import { LibSkill } from "../src/skill/LibSkill.sol";
 
-contract SkillPrototypeComponentTest is MudLibTest {
+contract SkillTemplateTest is MudLibTest {
   // sample skill entities
-  bytes32 cleavePE = keccak256("Cleave");
-  bytes32 chargePE = keccak256("Charge");
-  bytes32 parryPE = keccak256("Parry");
+  bytes32 cleavePE;
+  bytes32 chargePE;
+  bytes32 parryPE;
 
   function setUp() public virtual override {
     super.setUp();
+
+    cleavePE = LibSkill.getSkillEntity("Cleave");
+    chargePE = LibSkill.getSkillEntity("Charge");
+    parryPE = LibSkill.getSkillEntity("Parry");
   }
 
   // TODO this should be in effect tests (make those)
   function test_sample_effectPrototype_statmodLengths() public {
-    assertEq(effectPrototypeComponent.getValue(chargePE).statmodProtoEntities.length, 1);
-    assertEq(effectPrototypeComponent.getValue(chargePE).statmodValues.length, 1);
+    assertEq(EffectTemplate.get(chargePE).entities.length, 1);
+    assertEq(EffectTemplate.get(chargePE).values.length, 1);
   }
 
   function test_sample_skillPrototype_name() public {

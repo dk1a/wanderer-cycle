@@ -24,7 +24,7 @@ library LibLearnedSkills {
   /**
    * @dev Add `skillEntity` to set of learned skills, revert if it's already learned
    */
-  function learnSkill(bytes32 userEntity, bytes32 skillEntity, bytes32 targetEntity) internal {
+  function learnSkill(bytes32 userEntity, bytes32 skillEntity) internal {
     bytes32[] memory userSkills = LearnedSkills.get(userEntity);
     for (uint256 i = 0; i < userSkills.length; i++) {
       if (userSkills[i] == skillEntity) {
@@ -32,7 +32,7 @@ library LibLearnedSkills {
       }
     }
     LearnedSkills.push(userEntity, skillEntity);
-    _autotoggleIfPassive(userEntity, skillEntity, targetEntity);
+    _autotoggleIfPassive(userEntity, skillEntity);
   }
 
   /**
@@ -45,15 +45,15 @@ library LibLearnedSkills {
       LearnedSkills.set(userEntity, skillEntities);
 
       for (uint256 i; i < skillEntities.length; i++) {
-        _autotoggleIfPassive(userEntity, skillEntities[i], targetEntity);
+        _autotoggleIfPassive(userEntity, skillEntities[i]);
       }
     }
   }
 
-  function _autotoggleIfPassive(bytes32 userEntity, bytes32 skillEntity, bytes32 targetEntity) private {
+  function _autotoggleIfPassive(bytes32 userEntity, bytes32 skillEntity) private {
     SkillType skillType = SkillTemplate.getSkillType(skillEntity);
     if (skillType == SkillType.PASSIVE) {
-      LibSkill.useSkill(userEntity, skillEntity, targetEntity);
+      LibSkill.useSkill(userEntity, skillEntity, userEntity);
     }
   }
 }
