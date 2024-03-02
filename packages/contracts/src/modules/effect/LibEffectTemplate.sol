@@ -7,7 +7,7 @@ import { StatmodTopic } from "../statmod/StatmodTopic.sol";
 // TODO this can probably be a hook
 library LibEffectTemplate {
   error LibEffectTemplate_LengthMismatch();
-  error LibEffectTemplate_InvalidStatmod();
+  error LibEffectTemplate_InvalidStatmod(bytes32 statmodEntity);
 
   /**
    * @dev Check data validity before setting effect template
@@ -19,8 +19,9 @@ library LibEffectTemplate {
     }
     // Verify statmods existence
     for (uint256 i; i < effectTemplateData.entities.length; i++) {
-      if (StatmodTopic.unwrap(StatmodBase.getStatmodTopic(effectTemplateData.entities[i])) == bytes32(0)) {
-        revert LibEffectTemplate_InvalidStatmod();
+      bytes32 statmodEntity = effectTemplateData.entities[i];
+      if (StatmodTopic.unwrap(StatmodBase.getStatmodTopic(statmodEntity)) == bytes32(0)) {
+        revert LibEffectTemplate_InvalidStatmod(statmodEntity);
       }
     }
     // Set

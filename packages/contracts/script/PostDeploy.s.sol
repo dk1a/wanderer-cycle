@@ -6,6 +6,7 @@ import { console } from "forge-std/console.sol";
 import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
 
 import { LibInitStatmod } from "../src/init/LibInitStatmod.sol";
+import { LibInitSkill } from "../src/init/LibInitSkill.sol";
 
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 
@@ -21,6 +22,7 @@ contract PostDeploy is Script {
     vm.startBroadcast(deployerPrivateKey);
 
     LibInitStatmod.init();
+    LibInitSkill.init();
 
     vm.stopBroadcast();
   }

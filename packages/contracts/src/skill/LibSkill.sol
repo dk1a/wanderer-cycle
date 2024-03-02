@@ -3,19 +3,56 @@ pragma solidity >=0.8.21;
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibLearnedSkills } from "./LibLearnedSkills.sol";
-import { SkillTemplate, SkillTemplateData, SkillCooldownTableId, LearnedSkills, EffectDuration, EffectTemplate, ManaCurrent, LifeCurrent, GenericDurationData } from "../codegen/index.sol";
+import { SkillTemplate, SkillTemplateData, SkillTemplateCooldown, SkillTemplateCooldownData, SkillTemplateDuration, SkillTemplateDurationData, SkillCooldownTableId, SkillNameToEntity, LearnedSkills, EffectDuration, EffectTemplate, ManaCurrent, LifeCurrent, GenericDurationData } from "../codegen/index.sol";
 import { LibEffect } from "../modules/effect/LibEffect.sol";
 import { SkillType, TargetType } from "../codegen/common.sol";
-import { LibEffectPrototype } from "../effect/LibEffectPrototype.sol";
 import { Duration } from "../modules/duration/Duration.sol";
 
 library LibSkill {
+  error LibSkill_InvalidSkill();
   error LibSkill_SkillMustBeLearned();
   error LibSkill_SkillOnCooldown();
   error LibSkill_NotEnoughMana();
   error LibSkill_InvalidSkillTarget();
   error LibSkill_RequiredCombat();
   error LibSkill_RequiredNonCombat();
+
+  function getSkillEntity(string memory name) internal view returns (bytes32 skillEntity) {
+    skillEntity = SkillNameToEntity.get(keccak256(bytes(name)));
+    if (skillEntity == bytes32(0)) {
+      revert LibSkill_InvalidSkill();
+    }
+  }
+
+  function getSkillTemplateCooldown(bytes32 skillEntity) internal view returns (GenericDurationData memory result) {
+    SkillTemplateCooldownData memory uncastResult = SkillTemplateCooldown.get(skillEntity);
+    assembly {
+      result := uncastResult
+    }
+  }
+
+  function setSkillTemplateCooldown(bytes32 skillEntity, GenericDurationData memory uncastData) internal {
+    SkillTemplateCooldownData memory data;
+    assembly {
+      data := uncastData
+    }
+    SkillTemplateCooldown.set(skillEntity, data);
+  }
+
+  function getSkillTemplateDuration(bytes32 skillEntity) internal view returns (GenericDurationData memory result) {
+    SkillTemplateDurationData memory uncastResult = SkillTemplateDuration.get(skillEntity);
+    assembly {
+      result := uncastResult
+    }
+  }
+
+  function setSkillTemplateDuration(bytes32 skillEntity, GenericDurationData memory uncastData) internal {
+    SkillTemplateDurationData memory data;
+    assembly {
+      data := uncastData
+    }
+    SkillTemplateDuration.set(skillEntity, data);
+  }
 
   function requireCombat(bytes32 skillEntity) internal view {
     if (SkillTemplate.getSkillType(skillEntity) != SkillType.COMBAT) {
@@ -61,7 +98,7 @@ library LibSkill {
       revert LibSkill_SkillMustBeLearned();
     }
     // Must be off cooldown
-    if (Duration.has(SkillCooldownTableId, targetEntity, skillEntity)) {
+    if (Duration.has(SkillCooldownTableId, userEntity, skillEntity)) {
       revert LibSkill_SkillOnCooldown();
     }
     // Verify self-only skill
@@ -71,21 +108,17 @@ library LibSkill {
     // TODO verify other target types?
 
     // Start cooldown
-    if (Duration.getTimeValue(SkillCooldownTableId, targetEntity, skillEntity) > 0) {
-      Duration.increase(
-        SkillCooldownTableId,
-        targetEntity,
-        skillEntity,
-        GenericDurationData({ timeId: skill.cooldownTimeId, timeValue: skill.cooldownTimeValue })
-      );
+    GenericDurationData memory cooldown = getSkillTemplateCooldown(skillEntity);
+    if (cooldown.timeValue > 0) {
+      Duration.increase(SkillCooldownTableId, userEntity, skillEntity, cooldown);
     }
 
     // Check and subtract skill cost
-    uint32 manaCurrent = LibCharstat.getManaCurrent(targetEntity);
+    uint32 manaCurrent = LibCharstat.getManaCurrent(userEntity);
     if (skill.cost > manaCurrent) {
       revert LibSkill_NotEnoughMana();
     } else if (skill.cost > 0) {
-      LibCharstat.setManaCurrent(skillEntity, manaCurrent - skill.cost);
+      LibCharstat.setManaCurrent(userEntity, manaCurrent - skill.cost);
     }
 
     _applySkillEffect(skillEntity, skill, targetEntity);
@@ -106,10 +139,7 @@ library LibSkill {
       }
     } else {
       // apply active skill
-      GenericDurationData memory duration = GenericDurationData({
-        timeId: skill.durationTimeId,
-        timeValue: skill.durationTimeValue
-      });
+      GenericDurationData memory duration = getSkillTemplateDuration(skillEntity);
       LibEffect.applyTimedEffect(targetEntity, skillEntity, duration);
     }
   }

@@ -2,7 +2,7 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { GenericDuration, GenericDurationData, EffectDurationTableId, DurationIdxMap, SkillCooldownTableId, EffectDuration } from "../src/codegen/index.sol";
+import { GenericDuration, GenericDurationData, EffectDuration, EffectDurationTableId, DurationIdxMap, SkillCooldownTableId } from "../src/codegen/index.sol";
 import { EleStat, SkillType, TargetType, StatmodOp } from "../src/codegen/common.sol";
 import { PStat, PStat_length, StatmodOp_length, EleStat_length, StatmodOpFinal } from "../src/CustomTypes.sol";
 
@@ -22,21 +22,24 @@ import { LibEffect } from "../src/modules/effect/LibEffect.sol";
 
 contract LibSkillTest is MudLibTest {
   bytes32 userEntity = keccak256("userEntity");
-  bytes32 targetEntity = keccak256("targetEntity");
 
   // sample skill entities
-  bytes32 cleavePE = keccak256("Cleave");
-  bytes32 chargePE = keccak256("Charge");
-  bytes32 parryPE = keccak256("Parry");
+  bytes32 cleavePE;
+  bytes32 chargePE;
+  bytes32 parryPE;
   bytes32 someInvalidSkillPE = keccak256("someInvalidSkill");
 
-  bytes32 round = keccak256("round");
-  bytes32 round_persistent = keccak256("round_persistent");
+  bytes32 round = "round";
+  bytes32 round_persistent = "round_persistent";
 
   function setUp() public virtual override {
     super.setUp();
     // init helpers and libs
     // revertHelper = new LibSkillRevertHelper();
+
+    cleavePE = LibSkill.getSkillEntity("Cleave");
+    chargePE = LibSkill.getSkillEntity("Charge");
+    parryPE = LibSkill.getSkillEntity("Parry");
 
     // give user some mana
     LibCharstat.setManaCurrent(userEntity, 4);
@@ -44,9 +47,9 @@ contract LibSkillTest is MudLibTest {
     LibExperience.initExp(userEntity);
 
     // learn sample skills
-    LibLearnedSkills.learnSkill(userEntity, cleavePE, targetEntity);
-    LibLearnedSkills.learnSkill(userEntity, chargePE, targetEntity);
-    LibLearnedSkills.learnSkill(userEntity, parryPE, targetEntity);
+    LibLearnedSkills.learnSkill(userEntity, cleavePE);
+    LibLearnedSkills.learnSkill(userEntity, chargePE);
+    LibLearnedSkills.learnSkill(userEntity, parryPE);
   }
 
   function test_setUp() public {
@@ -75,78 +78,69 @@ contract LibSkillTest is MudLibTest {
   }
 
   function test_useSkill_Charge() public {
-    LibSkill.useSkill(userEntity, chargePE, targetEntity);
+    LibSkill.useSkill(userEntity, chargePE, userEntity);
 
     assertEq(LibCharstat.getManaCurrent(userEntity), 4 - 1, "Invalid mana remainder");
-    assertTrue(Duration.has(SkillCooldownTableId, targetEntity, chargePE), "No ongoing cooldown");
+    assertTrue(Duration.has(SkillCooldownTableId, userEntity, chargePE), "No ongoing cooldown");
     assertTrue(LibEffect.hasEffectApplied(userEntity, chargePE), "No ongoing effect");
   }
 
   function test_useSkill_Cleave_effect() public {
-    LibSkill.useSkill(userEntity, cleavePE, targetEntity);
+    LibSkill.useSkill(userEntity, cleavePE, userEntity);
     assertEq(LibCharstat.getAttack(userEntity)[uint256(EleStat.PHYSICAL)], 3);
   }
 
   // str and the 2 skills should all modify physical attack,
   // test that it all stacks correctly
-  // TODO SwitchSkill?
   function test_useSkill_CleaveAndCharge_strengthStacking() public {
-    // add exp to get 2 str (which should increase base physical attack to 2)
-    uint32[PStat_length] memory addExp;
-    addExp[uint256(PStat.STRENGTH)] = LibExperience.getExpForPStats(2);
-    LibExperience.increaseExp(userEntity, addExp);
-
-    // 16%, +2
-    LibSkill.useSkill(userEntity, cleavePE, targetEntity);
-    // 64%
-    LibSkill.switchSkill(userEntity, chargePE, targetEntity);
-    LibSkill.useSkill(userEntity, chargePE, targetEntity);
-    // 2 * 1.8 + 2
-    assertEq(LibCharstat.getAttack(userEntity)[uint256(EleStat.PHYSICAL)], 5);
-  }
-
-  // this tests durations, especially DurationSubSystem's effect removal callback
-  // TODO a lot of this can be removed if effects get their own tests,
-  // atm the many assertions help tell apart bugs in effectSubSystem and durationSubSystem
-  function test_useSkill_CleaveAndCharge_onDurationEnd() public {
     // add exp to get 2 str (which should increase base physical attack to 2)
     uint32[PStat_length] memory addExp;
     addExp[uint256(PStat.STRENGTH)] = LibExperience.getExpForPStat(2);
     LibExperience.increaseExp(userEntity, addExp);
 
-    assertEq(LibCharstat.getAttack(targetEntity)[uint256(EleStat.PHYSICAL)], 2);
-    // TODO SwitchSkill?
-    LibSkill.useSkill(userEntity);
-    libSkill = libSkill.switchSkill(chargePE);
-    LibSkill.useSkill(userEntity);
+    // 16%, +2
+    LibSkill.useSkill(userEntity, cleavePE, userEntity);
+    // 64%
+    LibSkill.useSkill(userEntity, chargePE, userEntity);
+    // 2 * 1.8 + 2
+    assertEq(LibCharstat.getAttack(userEntity)[uint256(EleStat.PHYSICAL)], 5);
+  }
+
+  // this tests durations, especially EffectDurationHook
+  function test_useSkill_CleaveAndCharge_EffectDurationHook() public {
+    // add exp to get 2 str (which should increase base physical attack to 2)
+    uint32[PStat_length] memory addExp;
+    addExp[uint256(PStat.STRENGTH)] = LibExperience.getExpForPStat(2);
+    LibExperience.increaseExp(userEntity, addExp);
+
+    assertEq(LibCharstat.getAttack(userEntity)[uint256(EleStat.PHYSICAL)], 2);
+    LibSkill.useSkill(userEntity, cleavePE, userEntity);
+    LibSkill.useSkill(userEntity, chargePE, userEntity);
 
     assertTrue(Duration.has(EffectDurationTableId, userEntity, cleavePE));
     assertTrue(Duration.has(EffectDurationTableId, userEntity, chargePE));
     assertEq(LibCharstat.getAttack(userEntity)[uint256(EleStat.PHYSICAL)], 5);
 
-    // decrease cleave duration and cooldown
+    // decrease cleave duration
     Duration.decreaseApplications(
-      SkillCooldownTableId,
-      targetEntity,
+      EffectDurationTableId,
+      userEntity,
       GenericDurationData({ timeId: round, timeValue: 1 })
     );
 
-    // cooldown
-    assertFalse(Duration.has(SkillCooldownTableId, userEntity, chargePE));
-    // effect
     assertFalse(Duration.has(EffectDurationTableId, userEntity, cleavePE));
     assertTrue(Duration.has(EffectDurationTableId, userEntity, chargePE));
     assertEq(LibCharstat.getAttack(userEntity)[uint256(EleStat.PHYSICAL)], 3);
 
     // decrease charge duration
     Duration.decreaseApplications(
-      SkillCooldownTableId,
-      targetEntity,
+      EffectDurationTableId,
+      userEntity,
       GenericDurationData({ timeId: round_persistent, timeValue: 1 })
     );
 
     assertFalse(Duration.has(EffectDurationTableId, userEntity, cleavePE));
-    assertTrue(Duration.has(EffectDurationTableId, userEntity, chargePE));
+    assertFalse(Duration.has(EffectDurationTableId, userEntity, chargePE));
     assertEq(LibCharstat.getAttack(userEntity)[uint256(EleStat.PHYSICAL)], 2);
   }
 }
