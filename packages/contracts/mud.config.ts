@@ -121,6 +121,28 @@ export default mudConfig({
         targetType: "TargetType",
       },
     },
+    SkillTemplateCooldown: {
+      ...entityKey,
+      valueSchema: {
+        timeId: "bytes32",
+        timeValue: "uint256",
+      },
+    },
+    SkillTemplateDuration: {
+      ...entityKey,
+      valueSchema: {
+        timeId: "bytes32",
+        timeValue: "uint256",
+      },
+    },
+    SkillDescription: "string",
+    SkillNameToEntity: {
+      keySchema: {
+        name: "bytes32",
+      },
+      valueSchema: EntityId,
+    },
+    SkillCooldown: durationTable,
     ActiveCycle: entityRelation,
     CycleToWanderer: entityRelation,
     CurrentCycle: entityRelation,
@@ -282,7 +304,7 @@ export default mudConfig({
       root: true,
       args: [],
     },
-    ...duration(["EffectDuration"]),
+    ...duration(["EffectDuration", "SkillCooldown"]),
     {
       name: "StatmodModule",
       root: true,

@@ -4,9 +4,9 @@ pragma solidity >=0.8.21;
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
 
 import { LearnedSkills, LearnedSkillsTableId, SkillTemplate, SkillTemplateData } from "../codegen/index.sol";
-import { SkillType } from "../codegen/common.sol";
+import { TargetType, SkillType } from "../codegen/common.sol";
 
-//import { LibSkill } from "./LibSkill.sol";
+import { LibSkill } from "./LibSkill.sol";
 
 library LibLearnedSkills {
   error LibLearnedSkills__LearnSkillDuplicate();
@@ -38,10 +38,10 @@ library LibLearnedSkills {
   /**
    * @dev Copy skills from source to target. Overwrites target's existing skills
    */
-  function copySkills(bytes32 userEntity, bytes32 sourceEntity) internal {
-    bool isKey = hasKey(LearnedSkillsTableId, LearnedSkills.encodeKeyTuple(sourceEntity));
+  function copySkills(bytes32 userEntity, bytes32 targetEntity) internal {
+    bool isKey = hasKey(LearnedSkillsTableId, LearnedSkills.encodeKeyTuple(targetEntity));
     if (isKey) {
-      bytes32[] memory skillEntities = LearnedSkills.get(sourceEntity);
+      bytes32[] memory skillEntities = LearnedSkills.get(targetEntity);
       LearnedSkills.set(userEntity, skillEntities);
 
       for (uint256 i; i < skillEntities.length; i++) {
@@ -51,9 +51,9 @@ library LibLearnedSkills {
   }
 
   function _autotoggleIfPassive(bytes32 userEntity, bytes32 skillEntity) private {
-    SkillTemplateData memory skillTemplate = SkillTemplate.get(skillEntity);
-    //    if (skillTemplate.skillType == SkillType.PASSIVE) {
-    //      LibSkill.useSkill(userEntity);
-    //    }
+    SkillType skillType = SkillTemplate.getSkillType(skillEntity);
+    if (skillType == SkillType.PASSIVE) {
+      LibSkill.useSkill(userEntity, skillEntity, userEntity);
+    }
   }
 }

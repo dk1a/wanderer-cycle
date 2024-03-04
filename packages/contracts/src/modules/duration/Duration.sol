@@ -80,4 +80,8 @@ library Duration {
   ) internal returns (uint256) {
     return GenericDuration.getTimeValue(tableId, targetEntity, applicationEntity);
   }
+
+  function has(ResourceId tableId, bytes32 targetEntity, bytes32 applicationEntity) internal returns (bool) {
+    return DurationIdxMap.getHas(tableId, targetEntity, applicationEntity);
+  }
 }
