@@ -1,36 +1,36 @@
 // SPDX-License-Identifier: MIT
+pragma solidity >=0.8.21;
 
-pragma solidity ^0.8.17;
+import { MudLibTest } from "./MudLibTest.t.sol";
+import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { BaseTest } from "../../BaseTest.sol";
+import { DefaultWheel, Wanderer, GuisePrototype, ActiveCycle } from "../src/codegen/index.sol";
 
-import { IERC721BaseInternal } from "@dk1a/solecslib/contracts/token/ERC721/logic/ERC721BaseInternal.sol";
+import { WandererSpawn } from "../src/wanderer/WandererSpawn.sol";
+import { LibCycle } from "../src/cycle/LibCycle.sol";
 
-import { getGuiseProtoEntity } from "../../guise/GuisePrototypeComponent.sol";
-import { LibCycle } from "../../cycle/LibCycle.sol";
-import { SingletonID } from "../../SingletonID.sol";
-
-contract WandererSpawnSystemTest is BaseTest {
+contract WandererSpawnTest is MudLibTest {
   // taken from InitGuiseSystem, initialized by LibDeploy
-  uint256 warriorGuiseProtoEntity = getGuiseProtoEntity("Warrior");
+  bytes32 warriorGuiseProtoEntity = keccak256("Warrior");
+  bytes32 unigueEntity = getUniqueEntity();
 
-  uint256 wandererEntity;
-  uint256 cycleEntity;
-  uint256 defaultWheelEntity;
+  bytes32 wandererEntity;
+  bytes32 cycleEntity;
+  bytes32 defaultWheelEntity;
 
   function setUp() public virtual override {
     super.setUp();
 
     vm.prank(alice);
-    wandererEntity = wandererSpawnSystem.executeTyped(warriorGuiseProtoEntity);
-    cycleEntity = activeCycleComponent.getValue(wandererEntity);
-    defaultWheelEntity = defaultWheelComponent.getValue(SingletonID);
+    wandererEntity = WandererSpawn.executeTyped(warriorGuiseProtoEntity);
+    cycleEntity = ActiveCycle.get(wandererEntity);
+    defaultWheelEntity = DefaultWheel.get();
   }
 
   function test_setUp_invalidGuise() public {
     vm.prank(alice);
     vm.expectRevert(LibCycle.LibCycle__InvalidGuiseProtoEntity.selector);
-    wandererSpawnSystem.executeTyped(0);
+    WandererSpawn.executeTyped(0);
   }
 
   function test_initCycle_another() public {
