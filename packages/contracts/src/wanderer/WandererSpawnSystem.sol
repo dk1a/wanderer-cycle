@@ -9,19 +9,13 @@ import { LibCycle } from "../cycle/LibCycle.sol";
 
 /// @title Spawn a wandererEntity and start a cycle for it.
 /// @dev This is for new players, whereas StartCycle is for existing ones.
-contract WandererSpawn {
-  error WandererSpawn__InvalidGuise();
-
-  function executeTyped(bytes32 guiseProtoEntity) public returns (bytes32 wandererEntity) {
-    return abi.decode(execute(abi.encode(guiseProtoEntity)), (bytes32));
-  }
+contract WandererSpawnSystem {
+  error WandererSpawn_InvalidGuise();
 
   /// @notice Anyone can freely spawn wanderers, a wanderer is a tokenized game account
-  function execute(bytes memory args) public returns (bytes memory) {
-    bytes32 guiseProtoEntity = abi.decode(args, (bytes32));
-
+  function spawnWanderer(bytes32 guiseEntity) public returns (bytes32 wandererEntity, bytes32 cycleEntity) {
     // mint nft
-    bytes32 wandererEntity = getUniqueEntity();
+    wandererEntity = getUniqueEntity();
     // wnftSystem.executeSafeMint(msg.sender, wandererEntity, "");
 
     // flag the entity as wanderer
@@ -30,8 +24,6 @@ contract WandererSpawn {
     bytes32 defaultWheelEntity = DefaultWheel.get();
 
     // init cycle
-    LibCycle.initCycle(wandererEntity, guiseProtoEntity, defaultWheelEntity);
-
-    return abi.encode(wandererEntity);
+    cycleEntity = LibCycle.initCycle(wandererEntity, guiseEntity, defaultWheelEntity);
   }
 }
