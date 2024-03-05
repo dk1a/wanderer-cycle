@@ -12,15 +12,19 @@ import { LibSkill } from "../src/skill/LibSkill.sol";
 import { LibCharstat } from "../src/charstat/LibCharstat.sol";
 import { LibExperience } from "../src/charstat/LibExperience.sol";
 import { LibEffect } from "../src/modules/effect/LibEffect.sol";
+import { TestSystem } from "./TestSystem.sol";
 
-// can't expectRevert internal calls, so this is an external wrapper
-// contract LibSkillRevertHelper {
-//   function useSkill(bytes32 userEntity, bytes32 skillEntity, bytes32 targetEntity) public {
-//     LibSkill.useSkill(userEntity, skillEntity, targetEntity);
-//   }
-// }
+contract SkillTestSystem is TestSystem {
+  constructor(address worldAddress) TestSystem(worldAddress) {}
+
+  function useSkill(bytes32 userEntity, bytes32 skillEntity, bytes32 targetEntity) public {
+    LibSkill.useSkill(userEntity, skillEntity, targetEntity);
+  }
+}
 
 contract LibSkillTest is MudLibTest {
+  SkillTestSystem skillTestSystem;
+
   bytes32 userEntity = keccak256("userEntity");
 
   // sample skill entities
@@ -35,7 +39,7 @@ contract LibSkillTest is MudLibTest {
   function setUp() public virtual override {
     super.setUp();
     // init helpers and libs
-    // revertHelper = new LibSkillRevertHelper();
+    skillTestSystem = new SkillTestSystem(worldAddress);
 
     cleavePE = LibSkill.getSkillEntity("Cleave");
     chargePE = LibSkill.getSkillEntity("Charge");
@@ -64,12 +68,11 @@ contract LibSkillTest is MudLibTest {
     assertFalse(LibLearnedSkills.hasSkill(userEntity, someInvalidSkillPE));
   }
 
-  // function test_useSkill_invalidTarget() public {
-  //   // user is the only valid target for charge
-  //   LibSkill.Self memory libSkill = _libSkill(chargePE);
-  //   vm.expectRevert(LibSkill.LibSkill__InvalidSkillTarget.selector);
-  //   revertHelper.useSkill(libSkill, otherEntity);
-  // }
+  function test_useSkill_invalidTarget() public {
+    // user is the only valid target for charge
+    vm.expectRevert(LibSkill.LibSkill_InvalidSkillTarget.selector);
+    skillTestSystem.useSkill(userEntity, chargePE, keccak256("invalidEntity"));
+  }
 
   // TODO mana stuff isn't very skill-related?
   function test_setManaCurrent_capped() public {
