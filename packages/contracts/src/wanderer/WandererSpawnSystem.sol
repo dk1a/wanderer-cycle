@@ -2,11 +2,11 @@
 pragma solidity >=0.8.21;
 
 import { System } from "@latticexyz/world/src/System.sol";
+import { SystemSwitch } from "@latticexyz/world-modules/src/utils/SystemSwitch.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
+import { ICycleInitSystem } from "../codegen/world/ICycleInitSystem.sol";
 import { DefaultWheel, Wanderer, GuisePrototype } from "../codegen/index.sol";
-
-import { LibCycle } from "../cycle/LibCycle.sol";
 
 /// @title Spawn a wandererEntity and start a cycle for it.
 /// @dev This is for new players, whereas StartCycle is for existing ones.
@@ -25,6 +25,9 @@ contract WandererSpawnSystem is System {
     bytes32 defaultWheelEntity = DefaultWheel.get();
 
     // init cycle
-    cycleEntity = LibCycle.initCycle(wandererEntity, guiseEntity, defaultWheelEntity);
+    cycleEntity = abi.decode(
+      SystemSwitch.call(abi.encodeCall(ICycleInitSystem.initCycle, (wandererEntity, guiseEntity, defaultWheelEntity))),
+      (bytes32)
+    );
   }
 }
