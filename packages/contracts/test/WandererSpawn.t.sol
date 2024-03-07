@@ -8,11 +8,11 @@ import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey
 import { ActiveGuise, DefaultWheel, Wanderer, GuisePrototype, ActiveCycle, CycleTurns, LifeCurrent, ManaCurrent } from "../src/codegen/index.sol";
 
 import { LibCycle } from "../src/cycle/LibCycle.sol";
+import { LibGuise } from "../src/guise/LibGuise.sol";
 import { LibExperience } from "../src/charstat/LibExperience.sol";
 
 contract WandererSpawnTest is MudLibTest {
-  // TODO replace with an actual guise entity
-  bytes32 guiseEntity = keccak256("Warrior");
+  bytes32 guiseEntity;
 
   bytes32 wandererEntity;
   bytes32 cycleEntity;
@@ -21,13 +21,15 @@ contract WandererSpawnTest is MudLibTest {
   function setUp() public virtual override {
     super.setUp();
 
+    guiseEntity = LibGuise.getGuiseEntity("Warrior");
+
     // wandererEntity has all the permanent player data (not related to a specific cycle)
     (wandererEntity, cycleEntity) = world.spawnWanderer(guiseEntity);
     defaultWheelEntity = DefaultWheel.get();
   }
 
   function test_setUp_invalidGuise() public {
-    vm.expectRevert(LibCycle.LibCycle__InvalidGuiseProtoEntity.selector);
+    vm.expectRevert(LibCycle.LibCycle_InvalidGuiseProtoEntity.selector);
     world.spawnWanderer(keccak256("invalid guise"));
   }
 

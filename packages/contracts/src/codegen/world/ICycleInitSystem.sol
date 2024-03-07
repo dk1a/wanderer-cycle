@@ -8,13 +8,10 @@ pragma solidity >=0.8.21;
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface ICycleInitSystem {
-  error CycleInitSystem__CycleIsAlreadyActive();
-  error CycleInitSystem__InvalidGuiseProtoEntity();
-  error CycleInitSystem__InvalidWheelEntity();
-
   function initCycle(
-    bytes32 targetEntity,
+    bytes32 wandererEntity,
+    bytes32 cycleEntity,
     bytes32 guiseProtoEntity,
     bytes32 wheelEntity
-  ) external returns (bytes32 cycleEntity);
+  ) external;
 }

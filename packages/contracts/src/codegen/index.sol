@@ -9,6 +9,8 @@ import { Wheel, WheelData, WheelTableId } from "./tables/Wheel.sol";
 import { Experience, ExperienceTableId } from "./tables/Experience.sol";
 import { ActiveGuise, ActiveGuiseTableId } from "./tables/ActiveGuise.sol";
 import { GuisePrototype, GuisePrototypeTableId } from "./tables/GuisePrototype.sol";
+import { GuiseSkills, GuiseSkillsTableId } from "./tables/GuiseSkills.sol";
+import { GuiseNameToEntity, GuiseNameToEntityTableId } from "./tables/GuiseNameToEntity.sol";
 import { LearnedSkills, LearnedSkillsTableId } from "./tables/LearnedSkills.sol";
 import { LifeCurrent, LifeCurrentTableId } from "./tables/LifeCurrent.sol";
 import { ManaCurrent, ManaCurrentTableId } from "./tables/ManaCurrent.sol";

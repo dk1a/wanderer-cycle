@@ -7,6 +7,7 @@ import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
 
 import { LibInitStatmod } from "../src/init/LibInitStatmod.sol";
 import { LibInitSkill } from "../src/init/LibInitSkill.sol";
+import { LibInitGuise } from "../src/init/LibInitGuise.sol";
 import { DefaultWheel } from "../src/codegen/index.sol";
 
 import { IWorld } from "../src/codegen/world/IWorld.sol";
@@ -24,6 +25,7 @@ contract PostDeploy is Script {
 
     LibInitStatmod.init();
     LibInitSkill.init();
+    LibInitGuise.init();
     // TODO replace with an actual entity
     DefaultWheel.set(keccak256("Default wheel placeholder"));
 

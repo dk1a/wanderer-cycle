@@ -9,6 +9,8 @@ import { EleStat_length } from "../CustomTypes.sol";
 import { LibSkill } from "../skill/LibSkill.sol";
 
 library LibBaseInitSkill {
+  error LibBaseInitSkill_DuplicateName(string name);
+
   function add(
     string memory name,
     string memory description,
@@ -17,6 +19,11 @@ library LibBaseInitSkill {
     GenericDurationData memory duration,
     EffectTemplateData memory effectTemplate
   ) internal {
+    bytes32 nameHash = keccak256(bytes(name));
+    if (SkillNameToEntity.get(nameHash) != bytes32(0)) {
+      revert LibBaseInitSkill_DuplicateName(name);
+    }
+
     bytes32 entity = getUniqueEntity();
 
     SkillTemplate.set(entity, template);
