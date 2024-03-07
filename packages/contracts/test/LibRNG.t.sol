@@ -2,7 +2,6 @@
 pragma solidity >=0.8.21;
 
 import "forge-std/Test.sol";
-import { IWorld } from "../src/codegen/world/IWorld.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
 import { LibRNG } from "../src/rng/LibRNG.sol";

@@ -51,6 +51,13 @@ const durationTable = {
   },
 } as const;
 
+const nameToEntityTable = {
+  keySchema: {
+    name: "bytes32",
+  },
+  valueSchema: EntityId,
+} as const;
+
 const keysInTable = (tableNames: string[]) =>
   tableNames.map((tableName) => ({
     name: "KeysInTableModule",
@@ -92,6 +99,11 @@ export default mudConfig({
       ...entityKey,
       valueSchema: arrayPStat,
     },
+    GuiseSkills: {
+      ...entityKey,
+      valueSchema: EntityIdArray,
+    },
+    GuiseNameToEntity: nameToEntityTable,
     LearnedSkills: {
       ...entityKey,
       valueSchema: EntityIdSet,
@@ -136,12 +148,7 @@ export default mudConfig({
       },
     },
     SkillDescription: "string",
-    SkillNameToEntity: {
-      keySchema: {
-        name: "bytes32",
-      },
-      valueSchema: EntityId,
-    },
+    SkillNameToEntity: nameToEntityTable,
     SkillCooldown: durationTable,
     ActiveCycle: entityRelation,
     CycleToWanderer: entityRelation,
@@ -156,9 +163,20 @@ export default mudConfig({
       valueSchema: "uint48",
     },
     ActiveWheel: entityRelation,
+    Identity: {
+      ...entityKey,
+      valueSchema: "uint32",
+    },
     Wanderer: {
       ...entityKey,
       valueSchema: "bool",
+    },
+    WheelsCompleted: {
+      keySchema: {
+        wandererEntity: EntityId,
+        wheelEntity: EntityId,
+      },
+      valueSchema: "uint32",
     },
     // initiatorEntity => retaliatorEntity
     // An entity can initiate only 1 combat at a time

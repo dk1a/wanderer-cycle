@@ -9,6 +9,8 @@ import { Wheel, WheelData, WheelTableId } from "./tables/Wheel.sol";
 import { Experience, ExperienceTableId } from "./tables/Experience.sol";
 import { ActiveGuise, ActiveGuiseTableId } from "./tables/ActiveGuise.sol";
 import { GuisePrototype, GuisePrototypeTableId } from "./tables/GuisePrototype.sol";
+import { GuiseSkills, GuiseSkillsTableId } from "./tables/GuiseSkills.sol";
+import { GuiseNameToEntity, GuiseNameToEntityTableId } from "./tables/GuiseNameToEntity.sol";
 import { LearnedSkills, LearnedSkillsTableId } from "./tables/LearnedSkills.sol";
 import { LifeCurrent, LifeCurrentTableId } from "./tables/LifeCurrent.sol";
 import { ManaCurrent, ManaCurrentTableId } from "./tables/ManaCurrent.sol";
@@ -25,7 +27,9 @@ import { PreviousCycle, PreviousCycleTableId } from "./tables/PreviousCycle.sol"
 import { CycleTurns, CycleTurnsTableId } from "./tables/CycleTurns.sol";
 import { CycleTurnsLastClaimed, CycleTurnsLastClaimedTableId } from "./tables/CycleTurnsLastClaimed.sol";
 import { ActiveWheel, ActiveWheelTableId } from "./tables/ActiveWheel.sol";
+import { Identity, IdentityTableId } from "./tables/Identity.sol";
 import { Wanderer, WandererTableId } from "./tables/Wanderer.sol";
+import { WheelsCompleted, WheelsCompletedTableId } from "./tables/WheelsCompleted.sol";
 import { ActiveCombat, ActiveCombatTableId } from "./tables/ActiveCombat.sol";
 import { RNGPrecommit, RNGPrecommitTableId } from "./tables/RNGPrecommit.sol";
 import { RNGRequestOwner, RNGRequestOwnerTableId } from "./tables/RNGRequestOwner.sol";
