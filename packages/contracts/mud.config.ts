@@ -116,6 +116,14 @@ export default mudConfig({
       ...entityKey,
       valueSchema: "uint32",
     },
+    LootAffixes: {
+      ...entityKey,
+      valueSchema: EntityIdArray,
+    },
+    LootILvl: {
+      ...entityKey,
+      valueSchema: "uint32",
+    },
     SkillTemplate: {
       ...entityKey,
       valueSchema: {
