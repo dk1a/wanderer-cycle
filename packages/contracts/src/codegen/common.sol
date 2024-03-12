@@ -28,3 +28,9 @@ enum StatmodOp {
   MUL,
   BADD
 }
+
+enum AffixPartId {
+  IMPLICIT,
+  PREFIX,
+  SUFFIX
+}

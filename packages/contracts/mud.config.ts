@@ -33,12 +33,12 @@ const arrayPStat = `uint32[${enumPStat.length}]` as const;
 const enumEleStat = ["NONE", "PHYSICAL", "FIRE", "COLD", "POISON"];
 //const arrayEleStat = `uint32[${enumEleStat.length}]` as const;
 
-/*const keysWithValue = (tableNames: string[]) =>
+const keysWithValue = (tableNames: string[]) =>
   tableNames.map((tableName) => ({
     name: "KeysWithValueModule",
     root: true,
     args: [resolveTableId(tableName)],
-  }));*/
+  }));
 
 const durationTable = {
   keySchema: {
@@ -93,6 +93,53 @@ export default mudConfig({
     Experience: {
       ...entityKey,
       valueSchema: arrayPStat,
+    },
+    AffixAvailable: {
+      keySchema: {
+        affixPart: "AffixPartId",
+        targetEntity: EntityId,
+        ilvl: "uint32",
+      },
+      valueSchema: "bytes32[]",
+    },
+    AffixNaming: {
+      keySchema: {
+        affixPart: "AffixPartId",
+        targetEntity: EntityId,
+        protoEntity: EntityId,
+      },
+      valueSchema: "string",
+    },
+    AffixPrototype: {
+      ...entityKey,
+      valueSchema: {
+        statmodProtoEntity: EntityId,
+        tier: "uint32",
+        requiredLevel: "uint32",
+        min: "uint32",
+        max: "uint32",
+      },
+    },
+    AffixProtoIndex: {
+      keySchema: {
+        nameHash: "bytes32",
+        tier: "uint32",
+      },
+      valueSchema: EntityId,
+    },
+    AffixProtoGroup: {
+      keySchema: {
+        nameHash: "bytes32",
+      },
+      valueSchema: EntityId,
+    },
+    Affix: {
+      ...entityKey,
+      valueSchema: {
+        partId: "AffixPartId",
+        protoEntity: EntityId,
+        value: "uint32",
+      },
     },
     ActiveGuise: entityRelation,
     GuisePrototype: {
@@ -305,6 +352,7 @@ export default mudConfig({
     SkillType: ["COMBAT", "NONCOMBAT", "PASSIVE"],
     TargetType: ["SELF", "ENEMY", "ALLY", "SELF_OR_ALLY"],
     StatmodOp: ["ADD", "MUL", "BADD"],
+    AffixPartId: ["IMPLICIT", "PREFIX", "SUFFIX"],
   },
 
   userTypes: {
@@ -317,6 +365,7 @@ export default mudConfig({
 
   modules: [
     ...keysInTable(["Experience", "LearnedSkills", "EffectTemplate", "EffectApplied"]),
+    ...keysWithValue(["AffixProtoGroup"]),
     {
       name: "UniqueEntityModule",
       root: true,
