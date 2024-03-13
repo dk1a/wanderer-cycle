@@ -167,7 +167,7 @@ export default mudConfig({
       ...entityKey,
       valueSchema: EntityIdArray,
     },
-    LootILvl: {
+    LootIlvl: {
       ...entityKey,
       valueSchema: "uint32",
     },

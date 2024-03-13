@@ -20,6 +20,8 @@ import { GuiseNameToEntity, GuiseNameToEntityTableId } from "./tables/GuiseNameT
 import { LearnedSkills, LearnedSkillsTableId } from "./tables/LearnedSkills.sol";
 import { LifeCurrent, LifeCurrentTableId } from "./tables/LifeCurrent.sol";
 import { ManaCurrent, ManaCurrentTableId } from "./tables/ManaCurrent.sol";
+import { LootAffixes, LootAffixesTableId } from "./tables/LootAffixes.sol";
+import { LootIlvl, LootIlvlTableId } from "./tables/LootIlvl.sol";
 import { SkillTemplate, SkillTemplateData, SkillTemplateTableId } from "./tables/SkillTemplate.sol";
 import { SkillTemplateCooldown, SkillTemplateCooldownData, SkillTemplateCooldownTableId } from "./tables/SkillTemplateCooldown.sol";
 import { SkillTemplateDuration, SkillTemplateDurationData, SkillTemplateDurationTableId } from "./tables/SkillTemplateDuration.sol";

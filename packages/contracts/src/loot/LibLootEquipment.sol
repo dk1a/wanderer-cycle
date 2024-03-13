@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { EquipmentTypes } from "../equipment/EquipmentType.sol";
-
-// import { AffixPartId } from "../affix/.sol";
+import { AffixPartId } from "../codegen/common.sol";
+import { EquipmentTypes, EquipmentType } from "../equipment/EquipmentType.sol";
 
 library LibLootEquipment {
   error LibLootEquipment__InvalidIlvl();
@@ -30,19 +29,19 @@ library LibLootEquipment {
     }
   }
 
-  /// @dev Randomly pick an equipment prototype.
-  /// (Hardcoded ilvl => EquipmentPrototype)
-  function pickEquipmentPrototype(uint256 ilvl, uint256 randomness) internal pure returns (uint256) {
+  /// @dev Randomly pick an equipment type.
+  /// (Hardcoded ilvl => EquipmentType)
+  function pickEquipmentType(uint256 ilvl, uint256 randomness) internal pure returns (EquipmentType) {
     randomness = uint256(keccak256(abi.encode(keccak256("pickEquipmentTemplate"), randomness)));
 
-    bytes32[] memory b;
-    bytes32[] memory w;
+    EquipmentType[] memory b;
+    uint256[] memory w;
 
     if (ilvl == 0) {
       revert LibLootEquipment__InvalidIlvl();
     } else if (ilvl <= 4) {
-      b = new bytes32[](5);
-      w = new bytes32[](5);
+      b = new EquipmentType[](5);
+      w = new uint256[](5);
       b[0] = EquipmentTypes.WEAPON;
       w[0] = 32;
       b[1] = EquipmentTypes.SHIELD;
@@ -54,8 +53,8 @@ library LibLootEquipment {
       b[4] = EquipmentTypes.BOOTS;
       w[4] = 16;
     } else if (ilvl <= 8) {
-      b = new bytes32[](7);
-      w = new bytes32[](7);
+      b = new EquipmentType[](7);
+      w = new uint256[](7);
       b[0] = EquipmentTypes.WEAPON;
       w[0] = 32;
       b[1] = EquipmentTypes.SHIELD;
@@ -71,8 +70,8 @@ library LibLootEquipment {
       b[6] = EquipmentTypes.RING;
       w[6] = 4;
     } else if (ilvl <= 16) {
-      b = new bytes32[](9);
-      w = new bytes32[](9);
+      b = new EquipmentType[](9);
+      w = new uint256[](9);
       b[0] = EquipmentTypes.WEAPON;
       w[0] = 32;
       b[1] = EquipmentTypes.SHIELD;

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-// import { AffixPartId } from "../codegen/common.sol";
+import { AffixPartId } from "../codegen/common.sol";
 
 library LibLootMap {
   error LibLootMap__InvalidIlvl();

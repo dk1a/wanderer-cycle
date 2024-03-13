@@ -1,26 +1,29 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { Loot, EffectTemplate, EffectTemplateData } from "../codegen/index.sol";
+import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { LibPickAffixes } from "../affix/LibPickAffixes.sol";
+import { EffectTemplateData, LootAffixes, LootIlvl, Affix, AffixData } from "../codegen/index.sol";
+import { AffixPartId } from "../codegen/common.sol";
+
+import { LibPickAffix } from "../affix/LibPickAffix.sol";
 import { LibEffectTemplate } from "../modules/effect/LibEffectTemplate.sol";
 
 library LibLootMint {
   function randomLootMint(
-    IUint256Component components,
     AffixPartId[] memory affixPartIds,
-    uint256 lootEntity,
-    uint256 targetEntity,
+    bytes32 lootEntity,
+    bytes32 targetEntity,
     uint32 ilvl,
     uint256 randomness
   ) internal {
-    uint256[] memory excludeAffixes;
-    randomLootMint(components, affixPartIds, excludeAffixes, lootEntity, targetEntity, ilvl, randomness);
+    bytes32[] memory excludeAffixes;
+    randomLootMint(affixPartIds, excludeAffixes, lootEntity, targetEntity, ilvl, randomness);
   }
 
   function randomLootMint(
     AffixPartId[] memory affixPartIds,
+    bytes32[] memory excludeAffixes,
     bytes32 lootEntity,
     bytes32 targetEntity,
     uint32 ilvl,
@@ -31,7 +34,7 @@ library LibLootMint {
       bytes32[] memory statmodProtoEntities,
       bytes32[] memory affixProtoEntities,
       uint32[] memory affixValues
-    ) = LibPickAffixes.pickAffixes(affixPartIds, targetEntity, ilvl, randomness);
+    ) = LibPickAffix.pickAffixes(affixPartIds, excludeAffixes, targetEntity, ilvl, randomness);
     // mint picked affixes
     lootMint(lootEntity, ilvl, affixPartIds, statmodProtoEntities, affixProtoEntities, affixValues);
   }
@@ -44,15 +47,19 @@ library LibLootMint {
     bytes32[] memory affixProtoEntities,
     uint32[] memory affixValues
   ) internal {
+    bytes32[] memory affixEntities = new bytes32[](affixPartIds.length);
+    for (uint256 i; i < affixPartIds.length; i++) {
+      bytes32 affixEntity = getUniqueEntity();
+      Affix.set(affixEntity, affixPartIds[i], affixProtoEntities[i], affixValues[i]);
+      affixEntities[i] = affixEntity;
+    }
     // save loot-specific data
-    lootComp.set(
-      lootEntity,
-      Loot({ ilvl: ilvl, affixPartIds: affixPartIds, affixProtoEntities: affixProtoEntities, affixValues: affixValues })
-    );
+    LootAffixes.set(lootEntity, affixEntities);
+    LootIlvl.set(lootEntity, ilvl);
     // save loot as an effect prototype (the effect triggers on-equip)
     LibEffectTemplate.verifiedSet(
       lootEntity,
-      EffectTemplate({ statmodProtoEntities: statmodProtoEntities, statmodValues: affixValues })
+      EffectTemplateData({ entities: statmodProtoEntities, values: affixValues })
     );
   }
 }
