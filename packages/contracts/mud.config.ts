@@ -188,6 +188,10 @@ export default mudConfig({
         targetType: "TargetType",
       },
     },
+    SkillSpellDamage: {
+      ...entityKey,
+      valueSchema: "uint32[5]",
+    },
     SkillTemplateCooldown: {
       ...entityKey,
       valueSchema: {
@@ -360,6 +364,7 @@ export default mudConfig({
     SkillType: ["COMBAT", "NONCOMBAT", "PASSIVE"],
     TargetType: ["SELF", "ENEMY", "ALLY", "SELF_OR_ALLY"],
     StatmodOp: ["ADD", "MUL", "BADD"],
+    ActionType: ["ATTACK", "SKILL"],
     AffixPartId: ["IMPLICIT", "PREFIX", "SUFFIX"],
   },
 

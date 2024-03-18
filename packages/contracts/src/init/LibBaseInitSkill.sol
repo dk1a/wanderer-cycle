@@ -3,7 +3,7 @@ pragma solidity >=0.8.21;
 
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { GenericDurationData, SkillTemplate, SkillTemplateData, SkillTemplateCooldown, SkillTemplateDuration, SkillDescription, SkillNameToEntity, EffectTemplateData, Name } from "../codegen/index.sol";
+import { GenericDurationData, SkillTemplate, SkillTemplateData, SkillTemplateCooldown, SkillTemplateDuration, SkillDescription, SkillNameToEntity, SkillSpellDamage, EffectTemplateData, Name } from "../codegen/index.sol";
 import { LibEffectTemplate } from "../modules/effect/LibEffectTemplate.sol";
 import { EleStat_length } from "../CustomTypes.sol";
 import { LibSkill } from "../skill/LibSkill.sol";
@@ -17,7 +17,8 @@ library LibBaseInitSkill {
     SkillTemplateData memory template,
     GenericDurationData memory cooldown,
     GenericDurationData memory duration,
-    EffectTemplateData memory effectTemplate
+    EffectTemplateData memory effectTemplate,
+    uint32[EleStat_length] memory spellDamage
   ) internal {
     bytes32 nameHash = keccak256(bytes(name));
     if (SkillNameToEntity.get(nameHash) != bytes32(0)) {
@@ -29,6 +30,7 @@ library LibBaseInitSkill {
     SkillTemplate.set(entity, template);
     LibSkill.setSkillTemplateCooldown(entity, cooldown);
     LibSkill.setSkillTemplateDuration(entity, duration);
+    SkillSpellDamage.set(entity, spellDamage);
     SkillDescription.set(entity, description);
     SkillNameToEntity.set(keccak256(bytes(name)), entity);
     Name.set(entity, name);

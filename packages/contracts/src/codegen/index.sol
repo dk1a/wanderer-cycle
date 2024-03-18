@@ -23,6 +23,7 @@ import { ManaCurrent, ManaCurrentTableId } from "./tables/ManaCurrent.sol";
 import { LootAffixes, LootAffixesTableId } from "./tables/LootAffixes.sol";
 import { LootIlvl, LootIlvlTableId } from "./tables/LootIlvl.sol";
 import { SkillTemplate, SkillTemplateData, SkillTemplateTableId } from "./tables/SkillTemplate.sol";
+import { SkillSpellDamage, SkillSpellDamageTableId } from "./tables/SkillSpellDamage.sol";
 import { SkillTemplateCooldown, SkillTemplateCooldownData, SkillTemplateCooldownTableId } from "./tables/SkillTemplateCooldown.sol";
 import { SkillTemplateDuration, SkillTemplateDurationData, SkillTemplateDurationTableId } from "./tables/SkillTemplateDuration.sol";
 import { SkillDescription, SkillDescriptionTableId } from "./tables/SkillDescription.sol";

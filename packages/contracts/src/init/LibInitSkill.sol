@@ -35,7 +35,9 @@ library LibInitSkill {
         StatmodOp.ADD,
         EleStat.PHYSICAL,
         2
-      )
+      ),
+      // spell damage
+      b._emptyElemental()
     );
 
     // 2
@@ -55,7 +57,9 @@ library LibInitSkill {
       // duration
       GenericDurationData("round_persistent", 1),
       // effect
-      makeEffectTemplate(StatmodTopics.ATTACK, StatmodOp.MUL, EleStat.PHYSICAL, 64)
+      makeEffectTemplate(StatmodTopics.ATTACK, StatmodOp.MUL, EleStat.PHYSICAL, 64),
+      // spell damage
+      b._emptyElemental()
     );
 
     // 3
@@ -75,7 +79,9 @@ library LibInitSkill {
       // duration
       b._noDuration(),
       // effect
-      makeEffectTemplate(StatmodTopics.RESISTANCE, StatmodOp.ADD, EleStat.PHYSICAL, 8)
+      makeEffectTemplate(StatmodTopics.RESISTANCE, StatmodOp.ADD, EleStat.PHYSICAL, 8),
+      // spell damage
+      b._emptyElemental()
     );
 
     // 4
@@ -104,7 +110,9 @@ library LibInitSkill {
         StatmodOp.ADD,
         EleStat.NONE,
         2
-      )
+      ),
+      // spell damage
+      b._emptyElemental()
     );
 
     // 5
@@ -124,7 +132,9 @@ library LibInitSkill {
       // duration
       b._noDuration(),
       // effect
-      makeEffectTemplate(StatmodTopics.LIFE, StatmodOp.MUL, EleStat.NONE, 8)
+      makeEffectTemplate(StatmodTopics.LIFE, StatmodOp.MUL, EleStat.NONE, 8),
+      // spell damage
+      b._emptyElemental()
     );
 
     // 6
@@ -144,7 +154,9 @@ library LibInitSkill {
       // duration
       b._noDuration(),
       // effect
-      makeEffectTemplate()
+      makeEffectTemplate(),
+      // spell damage
+      [uint32(0), 8, 0, 0, 0]
     );
 
     // 7
@@ -164,7 +176,9 @@ library LibInitSkill {
       // duration
       b._noDuration(),
       // effect
-      makeEffectTemplate(StatmodTopics.ATTACK, StatmodOp.MUL, EleStat.PHYSICAL, 8)
+      makeEffectTemplate(StatmodTopics.ATTACK, StatmodOp.MUL, EleStat.PHYSICAL, 8),
+      // spell damage
+      b._emptyElemental()
     );
 
     // 8
@@ -185,7 +199,9 @@ library LibInitSkill {
       // duration
       b._noDuration(),
       // effect
-      makeEffectTemplate()
+      makeEffectTemplate(),
+      // spell damage
+      b._emptyElemental()
     );
 
     // 9
@@ -214,7 +230,9 @@ library LibInitSkill {
         StatmodOp.ADD,
         EleStat.PHYSICAL,
         400
-      )
+      ),
+      // spell damage
+      b._emptyElemental()
     );
 
     // 10
@@ -241,7 +259,9 @@ library LibInitSkill {
         32
         // TODO should this even be a modifier?
         //'recover #% of base life', 32
-      )
+      ),
+      // spell damage
+      b._emptyElemental()
     );
 
     // 11
@@ -262,7 +282,9 @@ library LibInitSkill {
       // duration
       b._noDuration(),
       // effect
-      makeEffectTemplate(StatmodTopics.ATTACK, StatmodOp.BADD, EleStat.PHYSICAL, 1)
+      makeEffectTemplate(StatmodTopics.ATTACK, StatmodOp.BADD, EleStat.PHYSICAL, 1),
+      // spell damage
+      b._emptyElemental()
     );
   }
 }
