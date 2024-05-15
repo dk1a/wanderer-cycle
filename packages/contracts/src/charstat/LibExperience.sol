@@ -6,8 +6,8 @@ import { Experience, ExperienceTableId } from "../codegen/index.sol";
 import { PStat, PStat_length } from "../CustomTypes.sol";
 
 library LibExperience {
-  error LibExperience__InvalidLevel();
-  error LibExperience__ExpNotInitialized();
+  error LibExperience_InvalidLevel(uint32 level);
+  error LibExperience_ExpNotInitialized();
 
   uint32 internal constant MAX_LEVEL = 16;
 
@@ -48,7 +48,7 @@ library LibExperience {
   function increaseExp(bytes32 targetEntity, uint32[PStat_length] memory addExp) internal {
     // get current exp, or revert if it doesn't exist
     if (!hasExp(targetEntity)) {
-      revert LibExperience__ExpNotInitialized();
+      revert LibExperience_ExpNotInitialized();
     }
     uint32[PStat_length] memory exp = Experience.get(targetEntity);
 
@@ -99,7 +99,7 @@ library LibExperience {
    * @dev Utility function to reverse a level into its required exp
    */
   function _getExpForLevel(uint32 level) private pure returns (uint32) {
-    if (level < 1 || level > MAX_LEVEL) revert LibExperience__InvalidLevel();
+    if (level < 1 || level > MAX_LEVEL) revert LibExperience_InvalidLevel(level);
 
     // this formula starts from 0, so adjust the arg
     if (level == 1) {

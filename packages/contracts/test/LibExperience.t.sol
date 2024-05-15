@@ -62,9 +62,16 @@ contract LibExperienceTest is MudLibTest {
     assertEq(LibExperience.getAggregateLevel(targetEntity, maxExp), 16);
   }
 
-  function testFuzzPStats(uint32[PStat_length] memory pstats) public {
-    for (uint32 i = 0; i < pstats.length; i++) {
-      vm.assume(pstats[i] > 0 && pstats[i] <= LibExperience.MAX_LEVEL);
+  function testFuzzPStats(uint8[PStat_length] memory rawPstats) public {
+    uint32[PStat_length] memory pstats;
+    for (uint32 i = 0; i < rawPstats.length; i++) {
+      if (rawPstats[i] > LibExperience.MAX_LEVEL) {
+        pstats[i] = (rawPstats[i] % LibExperience.MAX_LEVEL) + 1;
+      } else if (rawPstats[i] == 0) {
+        pstats[i] = 1;
+      } else {
+        pstats[i] = rawPstats[i];
+      }
     }
 
     LibExperience.initExp(targetEntity);
