@@ -3,7 +3,7 @@ pragma solidity >=0.8.21;
 
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
 
-import { LearnedSkills, LearnedSkillsTableId, SkillTemplate, SkillTemplateData } from "../codegen/index.sol";
+import { LearnedSkills, SkillTemplate, SkillTemplateData } from "../codegen/index.sol";
 import { TargetType, SkillType } from "../codegen/common.sol";
 
 import { LibSkill } from "./LibSkill.sol";
@@ -39,7 +39,7 @@ library LibLearnedSkills {
    * @dev Copy skills from source to target. Overwrites target's existing skills
    */
   function copySkills(bytes32 userEntity, bytes32 targetEntity) internal {
-    bool isKey = hasKey(LearnedSkillsTableId, LearnedSkills.encodeKeyTuple(targetEntity));
+    bool isKey = hasKey(LearnedSkills._tableId, LearnedSkills.encodeKeyTuple(targetEntity));
     if (isKey) {
       bytes32[] memory skillEntities = LearnedSkills.get(targetEntity);
       LearnedSkills.set(userEntity, skillEntities);

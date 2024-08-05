@@ -11,10 +11,10 @@ import { IBaseWorld } from "@latticexyz/world/src/codegen/interfaces/IBaseWorld.
 import { revertWithBytes } from "@latticexyz/world/src/revertWithBytes.sol";
 
 import { EffectDurationHook } from "./EffectDurationHook.sol";
-import { EffectDuration, EffectDurationTableId, EffectTemplate, EffectTemplateTableId, EffectApplied, EffectAppliedTableId, StatmodValueTableId } from "../../codegen/index.sol";
+import { EffectDuration, EffectTemplate, EffectApplied, StatmodValue } from "../../codegen/index.sol";
 
 contract EffectModule is Module {
-  // The EffectDurationHook is deployed once and always uses the hardcoded EffectDurationTableId
+  // The EffectDurationHook is deployed once and always uses the hardcoded EffectDuration._tableId
   EffectDurationHook private immutable hook = new EffectDurationHook();
 
   function installRoot(bytes memory) public override {
@@ -27,15 +27,15 @@ contract EffectModule is Module {
     bytes memory returnData;
 
     // Register the tables
-    if (!ResourceIds._getExists(EffectDurationTableId)) {
+    if (!ResourceIds._getExists(EffectDuration._tableId)) {
       (success, returnData) = address(world).delegatecall(
         abi.encodeCall(
           world.registerTable,
           (
-            EffectDurationTableId,
-            EffectDuration.getFieldLayout(),
-            EffectDuration.getKeySchema(),
-            EffectDuration.getValueSchema(),
+            EffectDuration._tableId,
+            EffectDuration._fieldLayout,
+            EffectDuration._keySchema,
+            EffectDuration._valueSchema,
             EffectDuration.getKeyNames(),
             EffectDuration.getFieldNames()
           )
@@ -43,15 +43,15 @@ contract EffectModule is Module {
       );
       if (!success) revertWithBytes(returnData);
     }
-    if (!ResourceIds._getExists(EffectTemplateTableId)) {
+    if (!ResourceIds._getExists(EffectTemplate._tableId)) {
       (success, returnData) = address(world).delegatecall(
         abi.encodeCall(
           world.registerTable,
           (
-            EffectTemplateTableId,
-            EffectTemplate.getFieldLayout(),
-            EffectTemplate.getKeySchema(),
-            EffectTemplate.getValueSchema(),
+            EffectTemplate._tableId,
+            EffectTemplate._fieldLayout,
+            EffectTemplate._keySchema,
+            EffectTemplate._valueSchema,
             EffectTemplate.getKeyNames(),
             EffectTemplate.getFieldNames()
           )
@@ -59,15 +59,15 @@ contract EffectModule is Module {
       );
       if (!success) revertWithBytes(returnData);
     }
-    if (!ResourceIds._getExists(EffectAppliedTableId)) {
+    if (!ResourceIds._getExists(EffectApplied._tableId)) {
       (success, returnData) = address(world).delegatecall(
         abi.encodeCall(
           world.registerTable,
           (
-            EffectAppliedTableId,
-            EffectApplied.getFieldLayout(),
-            EffectApplied.getKeySchema(),
-            EffectApplied.getValueSchema(),
+            EffectApplied._tableId,
+            EffectApplied._fieldLayout,
+            EffectApplied._keySchema,
+            EffectApplied._valueSchema,
             EffectApplied.getKeyNames(),
             EffectApplied.getFieldNames()
           )
@@ -78,29 +78,29 @@ contract EffectModule is Module {
 
     // Grant the hook access to the tables
     (success, returnData) = address(world).delegatecall(
-      abi.encodeCall(world.grantAccess, (EffectDurationTableId, address(hook)))
+      abi.encodeCall(world.grantAccess, (EffectDuration._tableId, address(hook)))
     );
     if (!success) revertWithBytes(returnData);
 
     (success, returnData) = address(world).delegatecall(
-      abi.encodeCall(world.grantAccess, (EffectTemplateTableId, address(hook)))
+      abi.encodeCall(world.grantAccess, (EffectTemplate._tableId, address(hook)))
     );
     if (!success) revertWithBytes(returnData);
 
     (success, returnData) = address(world).delegatecall(
-      abi.encodeCall(world.grantAccess, (EffectAppliedTableId, address(hook)))
+      abi.encodeCall(world.grantAccess, (EffectApplied._tableId, address(hook)))
     );
     if (!success) revertWithBytes(returnData);
 
     // Grant the hook access to external tables
     (success, returnData) = address(world).delegatecall(
-      abi.encodeCall(world.grantAccess, (StatmodValueTableId, address(hook)))
+      abi.encodeCall(world.grantAccess, (StatmodValue._tableId, address(hook)))
     );
     if (!success) revertWithBytes(returnData);
 
     // Register a hook that is called when a value is deleted from the source table
     (success, returnData) = address(world).delegatecall(
-      abi.encodeCall(world.registerStoreHook, (EffectDurationTableId, hook, BEFORE_DELETE_RECORD))
+      abi.encodeCall(world.registerStoreHook, (EffectDuration._tableId, hook, BEFORE_DELETE_RECORD))
     );
   }
 

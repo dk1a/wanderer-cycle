@@ -2,7 +2,7 @@
 pragma solidity >=0.8.21;
 
 import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
-import { PackedCounter } from "@latticexyz/store/src/PackedCounter.sol";
+import { EncodedLengths } from "@latticexyz/store/src/EncodedLengths.sol";
 import { FieldLayout } from "@latticexyz/store/src/FieldLayout.sol";
 import { StoreHook } from "@latticexyz/store/src/StoreHook.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
@@ -84,7 +84,7 @@ contract StatmodHook is StoreHook {
     ResourceId,
     bytes32[] memory keyTuple,
     bytes memory,
-    PackedCounter,
+    EncodedLengths,
     bytes memory,
     FieldLayout
   ) public override {

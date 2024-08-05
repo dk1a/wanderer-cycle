@@ -2,7 +2,7 @@
 pragma solidity >=0.8.21;
 
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
-import { Experience, ExperienceTableId } from "../codegen/index.sol";
+import { Experience } from "../codegen/index.sol";
 import { PStat, PStat_length } from "../CustomTypes.sol";
 
 library LibExperience {
@@ -26,7 +26,7 @@ library LibExperience {
   function hasExp(bytes32 targetEntity) internal view returns (bool) {
     bytes32[] memory keyTuple = new bytes32[](1);
     keyTuple[0] = targetEntity;
-    return hasKey(ExperienceTableId, keyTuple);
+    return hasKey(Experience._tableId, keyTuple);
   }
 
   function getExp(bytes32 targetEntity) internal view returns (uint32[PStat_length] memory) {

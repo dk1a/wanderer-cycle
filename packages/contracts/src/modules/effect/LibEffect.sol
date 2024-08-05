@@ -4,7 +4,7 @@ pragma solidity ^0.8.17;
 
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
 
-import { EffectTemplate, EffectTemplateTableId, EffectTemplateData, EffectApplied, EffectAppliedData, EffectAppliedTableId, EffectDurationTableId } from "../../codegen/index.sol";
+import { EffectTemplate, EffectTemplateData, EffectApplied, EffectAppliedData, EffectDuration } from "../../codegen/index.sol";
 import { Statmod } from "../statmod/Statmod.sol";
 import { Duration, GenericDurationData } from "../duration/Duration.sol";
 
@@ -18,7 +18,7 @@ library LibEffect {
   ) internal {
     applyEffect(targetEntity, applicationEntity);
 
-    Duration.increase(EffectDurationTableId, targetEntity, applicationEntity, duration);
+    Duration.increase(EffectDuration._tableId, targetEntity, applicationEntity, duration);
   }
 
   function applyEffect(bytes32 targetEntity, bytes32 applicationEntity) internal {
@@ -62,7 +62,7 @@ library LibEffect {
   function hasEffectTemplate(bytes32 applicationEntity) internal view returns (bool) {
     bytes32[] memory keyTuple = new bytes32[](1);
     keyTuple[0] = applicationEntity;
-    return hasKey(EffectTemplateTableId, keyTuple);
+    return hasKey(EffectTemplate._tableId, keyTuple);
   }
 
   /**
@@ -72,6 +72,6 @@ library LibEffect {
     bytes32[] memory keyTuple = new bytes32[](2);
     keyTuple[0] = targetEntity;
     keyTuple[1] = applicationEntity;
-    return hasKey(EffectAppliedTableId, keyTuple);
+    return hasKey(EffectApplied._tableId, keyTuple);
   }
 }

@@ -2,7 +2,7 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { GenericDurationData, DurationIdxMap, EffectDurationTableId, EffectTemplateData } from "../src/codegen/index.sol";
+import { GenericDurationData, DurationIdxMap, EffectDuration, EffectTemplateData } from "../src/codegen/index.sol";
 import { Duration } from "../src/modules/duration/Duration.sol";
 import { LibEffect } from "../src/modules/effect/LibEffect.sol";
 import { LibEffectTemplate } from "../src/modules/effect/LibEffectTemplate.sol";
@@ -35,58 +35,58 @@ contract LibEffectTest is MudLibTest {
     LibEffect.applyTimedEffect(targetEntity, applicationEntity, GenericDurationData({ timeId: timeId, timeValue: 10 }));
 
     assertTrue(LibEffect.hasEffectApplied(targetEntity, applicationEntity));
-    assertTrue(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, applicationEntity));
-    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, applicationEntity), 10);
+    assertTrue(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, applicationEntity));
+    assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, applicationEntity), 10);
 
     // Decrease duration by 5
     Duration.decreaseApplications(
-      EffectDurationTableId,
+      EffectDuration._tableId,
       targetEntity,
       GenericDurationData({ timeId: timeId, timeValue: 5 })
     );
 
     assertTrue(LibEffect.hasEffectApplied(targetEntity, applicationEntity));
-    assertTrue(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, applicationEntity));
-    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, applicationEntity), 5);
+    assertTrue(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, applicationEntity));
+    assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, applicationEntity), 5);
 
     // anotherTimeId shouldn't affect timeId
     Duration.decreaseApplications(
-      EffectDurationTableId,
+      EffectDuration._tableId,
       targetEntity,
       GenericDurationData({ timeId: anotherTimeId, timeValue: 5 })
     );
 
     assertTrue(LibEffect.hasEffectApplied(targetEntity, applicationEntity));
-    assertTrue(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, applicationEntity));
-    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, applicationEntity), 5);
+    assertTrue(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, applicationEntity));
+    assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, applicationEntity), 5);
 
     // Decrease duration by 5
     Duration.decreaseApplications(
-      EffectDurationTableId,
+      EffectDuration._tableId,
       targetEntity,
       GenericDurationData({ timeId: timeId, timeValue: 5 })
     );
 
     assertFalse(LibEffect.hasEffectApplied(targetEntity, applicationEntity));
-    assertFalse(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, applicationEntity));
-    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, applicationEntity), 0);
+    assertFalse(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, applicationEntity));
+    assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, applicationEntity), 0);
 
     // Apply effect without duration
     LibEffect.applyEffect(targetEntity, applicationEntity);
 
     assertTrue(LibEffect.hasEffectApplied(targetEntity, applicationEntity));
-    assertFalse(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, applicationEntity));
-    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, applicationEntity), 0);
+    assertFalse(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, applicationEntity));
+    assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, applicationEntity), 0);
 
     // Decreasing absent duration shouldn't remove effect
     Duration.decreaseApplications(
-      EffectDurationTableId,
+      EffectDuration._tableId,
       targetEntity,
       GenericDurationData({ timeId: timeId, timeValue: 10 })
     );
 
     assertTrue(LibEffect.hasEffectApplied(targetEntity, applicationEntity));
-    assertFalse(DurationIdxMap.getHas(EffectDurationTableId, targetEntity, applicationEntity));
-    assertEq(Duration.getTimeValue(EffectDurationTableId, targetEntity, applicationEntity), 0);
+    assertFalse(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, applicationEntity));
+    assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, applicationEntity), 0);
   }
 }

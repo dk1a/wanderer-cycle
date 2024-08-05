@@ -3,7 +3,7 @@ pragma solidity >=0.8.21;
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibLearnedSkills } from "./LibLearnedSkills.sol";
-import { SkillTemplate, SkillTemplateData, SkillTemplateCooldown, SkillTemplateCooldownData, SkillTemplateDuration, SkillTemplateDurationData, SkillCooldownTableId, SkillNameToEntity, LearnedSkills, EffectDuration, EffectTemplate, ManaCurrent, LifeCurrent, GenericDurationData } from "../codegen/index.sol";
+import { SkillTemplate, SkillTemplateData, SkillTemplateCooldown, SkillTemplateCooldownData, SkillTemplateDuration, SkillTemplateDurationData, SkillCooldown, SkillNameToEntity, LearnedSkills, EffectDuration, EffectTemplate, ManaCurrent, LifeCurrent, GenericDurationData } from "../codegen/index.sol";
 import { LibEffect } from "../modules/effect/LibEffect.sol";
 import { SkillType, TargetType } from "../codegen/common.sol";
 import { Duration } from "../modules/duration/Duration.sol";
@@ -98,7 +98,7 @@ library LibSkill {
       revert LibSkill_SkillMustBeLearned();
     }
     // Must be off cooldown
-    if (Duration.has(SkillCooldownTableId, userEntity, skillEntity)) {
+    if (Duration.has(SkillCooldown._tableId, userEntity, skillEntity)) {
       revert LibSkill_SkillOnCooldown();
     }
     // Verify self-only skill
@@ -110,7 +110,7 @@ library LibSkill {
     // Start cooldown
     GenericDurationData memory cooldown = getSkillTemplateCooldown(skillEntity);
     if (cooldown.timeValue > 0) {
-      Duration.increase(SkillCooldownTableId, userEntity, skillEntity, cooldown);
+      Duration.increase(SkillCooldown._tableId, userEntity, skillEntity, cooldown);
     }
 
     // Check and subtract skill cost

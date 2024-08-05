@@ -12,25 +12,25 @@
     "test": "pnpm recursive run test"
   },
   "devDependencies": {
-    "@latticexyz/cli": "2.0.0-next.16",
-    "@types/debug": "^4.1.12",
-    "@typescript-eslint/eslint-plugin": "6.19.1",
-    "@typescript-eslint/parser": "6.19.1",
+    "@latticexyz/cli": "2.0.11",
+    "@types/debug": "4.1.7",
+    "@typescript-eslint/eslint-plugin": "7.1.1",
+    "@typescript-eslint/parser": "7.1.1",
+    "eslint": "8.57.0",
+    "mprocs": "^0.6.4",
+    "rimraf": "^3.0.2",
+    "typescript": "5.4.2",
     "debug": "^4.3.4",
-    "eslint": "8.56.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
-    "mprocs": "^0.6.4",
-    "prettier": "^3.2.4",
-    "rimraf": "^5.0.5",
-    "typescript": "5.3.3"
+    "prettier": "^3.2.4"
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --cache --fix",
     "*.{ts,tsx,css,md,sol}": "prettier --write"
   },
   "engines": {
-    "node": "18.x",
-    "pnpm": "9.x"
+    "node": "^18",
+    "pnpm": "^9"
   }
 }

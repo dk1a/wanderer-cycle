@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { PackedCounter } from "@latticexyz/store/src/PackedCounter.sol";
+import { EncodedLengths } from "@latticexyz/store/src/EncodedLengths.sol";
 import { getKeysWithValue } from "@latticexyz/world-modules/src/modules/keyswithvalue/getKeysWithValue.sol";
 
 import { AffixPartId } from "../codegen/common.sol";
-import { AffixAvailable, AffixNaming, AffixPrototype, AffixPrototypeData, AffixProtoIndex, AffixProtoGroup, AffixProtoGroupTableId, Affix, AffixData } from "../codegen/index.sol";
+import { AffixAvailable, AffixNaming, AffixPrototype, AffixPrototypeData, AffixProtoIndex, AffixProtoGroup, Affix, AffixData } from "../codegen/index.sol";
 import { LibArray } from "../utils/LibArray.sol";
 
 /// @title Randomly pick affixes.
@@ -15,10 +15,10 @@ library LibPickAffix {
   error LibPickAffix_InvalidIlvl(uint32 ilvl);
 
   function _getKeysWithValueAffixProtoGroup(bytes32 value) private view returns (bytes32[] memory) {
-    (bytes memory _staticData, PackedCounter _encodedLengths, bytes memory _dynamicData) = AffixProtoGroup.encode(
+    (bytes memory _staticData, EncodedLengths _encodedLengths, bytes memory _dynamicData) = AffixProtoGroup.encode(
       value
     );
-    return getKeysWithValue(AffixProtoGroupTableId, _staticData, _encodedLengths, _dynamicData);
+    return getKeysWithValue(AffixProtoGroup._tableId, _staticData, _encodedLengths, _dynamicData);
   }
 
   function pickAffixes(

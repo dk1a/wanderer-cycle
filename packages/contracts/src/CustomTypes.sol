@@ -3,6 +3,8 @@ pragma solidity >=0.8.21;
 
 import { StatmodOp, EleStat } from "./codegen/common.sol";
 
+import "@latticexyz/world-modules/src/modules/keysintable/KeysInTableModule.sol";
+
 enum PStat {
   STRENGTH,
   ARCANA,

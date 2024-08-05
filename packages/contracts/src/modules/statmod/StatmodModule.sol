@@ -10,7 +10,7 @@ import { IBaseWorld } from "@latticexyz/world/src/codegen/interfaces/IBaseWorld.
 import { revertWithBytes } from "@latticexyz/world/src/revertWithBytes.sol";
 
 import { StatmodHook } from "./StatmodHook.sol";
-import { StatmodValueTableId, StatmodIdxListTableId, StatmodIdxMapTableId } from "../../codegen/index.sol";
+import { StatmodValue, StatmodIdxList, StatmodIdxMap } from "../../codegen/index.sol";
 
 contract StatmodModule is Module {
   // The StatmodHook is deployed once and infers the target table id
@@ -30,12 +30,12 @@ contract StatmodModule is Module {
 
     // Grant the hook access to the tables
     (success, returnData) = address(world).delegatecall(
-      abi.encodeCall(world.grantAccess, (StatmodIdxListTableId, address(hook)))
+      abi.encodeCall(world.grantAccess, (StatmodIdxList._tableId, address(hook)))
     );
     if (!success) revertWithBytes(returnData);
 
     (success, returnData) = address(world).delegatecall(
-      abi.encodeCall(world.grantAccess, (StatmodIdxMapTableId, address(hook)))
+      abi.encodeCall(world.grantAccess, (StatmodIdxMap._tableId, address(hook)))
     );
     if (!success) revertWithBytes(returnData);
 
@@ -43,7 +43,7 @@ contract StatmodModule is Module {
     (success, returnData) = address(world).delegatecall(
       abi.encodeCall(
         world.registerStoreHook,
-        (StatmodValueTableId, hook, BEFORE_SET_RECORD | AFTER_SPLICE_STATIC_DATA | BEFORE_DELETE_RECORD)
+        (StatmodValue._tableId, hook, BEFORE_SET_RECORD | AFTER_SPLICE_STATIC_DATA | BEFORE_DELETE_RECORD)
       )
     );
   }

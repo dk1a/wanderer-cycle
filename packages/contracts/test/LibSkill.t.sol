@@ -2,7 +2,7 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { GenericDuration, GenericDurationData, EffectDuration, EffectDurationTableId, DurationIdxMap, SkillCooldownTableId } from "../src/codegen/index.sol";
+import { GenericDuration, GenericDurationData, EffectDuration, DurationIdxMap, SkillCooldown } from "../src/codegen/index.sol";
 import { EleStat, SkillType, TargetType, StatmodOp } from "../src/codegen/common.sol";
 import { PStat, PStat_length, StatmodOp_length, EleStat_length, StatmodOpFinal } from "../src/CustomTypes.sol";
 
@@ -84,7 +84,7 @@ contract LibSkillTest is MudLibTest {
     LibSkill.useSkill(userEntity, chargePE, userEntity);
 
     assertEq(LibCharstat.getManaCurrent(userEntity), 4 - 1, "Invalid mana remainder");
-    assertTrue(Duration.has(SkillCooldownTableId, userEntity, chargePE), "No ongoing cooldown");
+    assertTrue(Duration.has(SkillCooldown._tableId, userEntity, chargePE), "No ongoing cooldown");
     assertTrue(LibEffect.hasEffectApplied(userEntity, chargePE), "No ongoing effect");
   }
 
@@ -120,30 +120,30 @@ contract LibSkillTest is MudLibTest {
     LibSkill.useSkill(userEntity, cleavePE, userEntity);
     LibSkill.useSkill(userEntity, chargePE, userEntity);
 
-    assertTrue(Duration.has(EffectDurationTableId, userEntity, cleavePE));
-    assertTrue(Duration.has(EffectDurationTableId, userEntity, chargePE));
+    assertTrue(Duration.has(EffectDuration._tableId, userEntity, cleavePE));
+    assertTrue(Duration.has(EffectDuration._tableId, userEntity, chargePE));
     assertEq(LibCharstat.getAttack(userEntity)[uint256(EleStat.PHYSICAL)], 5);
 
     // decrease cleave duration
     Duration.decreaseApplications(
-      EffectDurationTableId,
+      EffectDuration._tableId,
       userEntity,
       GenericDurationData({ timeId: round, timeValue: 1 })
     );
 
-    assertFalse(Duration.has(EffectDurationTableId, userEntity, cleavePE));
-    assertTrue(Duration.has(EffectDurationTableId, userEntity, chargePE));
+    assertFalse(Duration.has(EffectDuration._tableId, userEntity, cleavePE));
+    assertTrue(Duration.has(EffectDuration._tableId, userEntity, chargePE));
     assertEq(LibCharstat.getAttack(userEntity)[uint256(EleStat.PHYSICAL)], 3);
 
     // decrease charge duration
     Duration.decreaseApplications(
-      EffectDurationTableId,
+      EffectDuration._tableId,
       userEntity,
       GenericDurationData({ timeId: round_persistent, timeValue: 1 })
     );
 
-    assertFalse(Duration.has(EffectDurationTableId, userEntity, cleavePE));
-    assertFalse(Duration.has(EffectDurationTableId, userEntity, chargePE));
+    assertFalse(Duration.has(EffectDuration._tableId, userEntity, cleavePE));
+    assertFalse(Duration.has(EffectDuration._tableId, userEntity, chargePE));
     assertEq(LibCharstat.getAttack(userEntity)[uint256(EleStat.PHYSICAL)], 2);
   }
 }

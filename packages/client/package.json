@@ -11,19 +11,19 @@
     "test": "tsc --noEmit"
   },
   "dependencies": {
-    "@latticexyz/common": "2.0.0-next.16",
-    "@latticexyz/dev-tools": "2.0.0-next.16",
-    "@latticexyz/react": "2.0.0-next.16",
-    "@latticexyz/schema-type": "2.0.0-next.16",
-    "@latticexyz/services": "2.0.0-next.16",
-    "@latticexyz/store-sync": "2.0.0-next.16",
-    "@latticexyz/utils": "2.0.0-next.16",
-    "@latticexyz/world": "2.0.0-next.16",
+    "@latticexyz/common": "2.0.11",
+    "@latticexyz/dev-tools": "2.0.11",
+    "@latticexyz/react": "2.0.11",
+    "@latticexyz/schema-type": "2.0.11",
+    "@latticexyz/services": "^2.0.7",
+    "@latticexyz/store-sync": "2.0.11",
+    "@latticexyz/utils": "2.0.11",
+    "@latticexyz/world": "2.0.11",
     "contracts": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rxjs": "7.5.5",
-    "viem": "1.14.0"
+    "viem": "2.9.20"
   },
   "devDependencies": {
     "@types/react": "18.2.22",

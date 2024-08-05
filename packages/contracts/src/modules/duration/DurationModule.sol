@@ -14,7 +14,7 @@ import { ResourceId, WorldResourceIdInstance } from "@latticexyz/world/src/World
 import { revertWithBytes } from "@latticexyz/world/src/revertWithBytes.sol";
 
 import { DurationHook } from "./DurationHook.sol";
-import { GenericDuration, DurationIdxList, DurationIdxListTableId, DurationIdxMap, DurationIdxMapTableId } from "../../codegen/index.sol";
+import { GenericDuration, DurationIdxList, DurationIdxMap } from "../../codegen/index.sol";
 
 contract DurationModule is Module {
   using WorldResourceIdInstance for ResourceId;
@@ -37,10 +37,10 @@ contract DurationModule is Module {
     IBaseWorld world = IBaseWorld(_world());
 
     // This is a custom module for a specific table, and it expects the appropriate schemas
-    if (world.getKeySchema(sourceTableId).unwrap() != GenericDuration.getKeySchema().unwrap()) {
+    if (world.getKeySchema(sourceTableId).unwrap() != GenericDuration._keySchema.unwrap()) {
       revert DurationModule_InvalidKeySchema();
     }
-    if (world.getValueSchema(sourceTableId).unwrap() != GenericDuration.getValueSchema().unwrap()) {
+    if (world.getValueSchema(sourceTableId).unwrap() != GenericDuration._valueSchema.unwrap()) {
       revert DurationModule_InvalidValueSchema();
     }
 
@@ -49,15 +49,15 @@ contract DurationModule is Module {
     bytes memory returnData;
 
     // Register the tables
-    if (!ResourceIds._getExists(DurationIdxListTableId)) {
+    if (!ResourceIds._getExists(DurationIdxList._tableId)) {
       (success, returnData) = address(world).delegatecall(
         abi.encodeCall(
           world.registerTable,
           (
-            DurationIdxListTableId,
-            DurationIdxList.getFieldLayout(),
-            DurationIdxList.getKeySchema(),
-            DurationIdxList.getValueSchema(),
+            DurationIdxList._tableId,
+            DurationIdxList._fieldLayout,
+            DurationIdxList._keySchema,
+            DurationIdxList._valueSchema,
             DurationIdxList.getKeyNames(),
             DurationIdxList.getFieldNames()
           )
@@ -65,15 +65,15 @@ contract DurationModule is Module {
       );
       if (!success) revertWithBytes(returnData);
     }
-    if (!ResourceIds._getExists(DurationIdxMapTableId)) {
+    if (!ResourceIds._getExists(DurationIdxMap._tableId)) {
       (success, returnData) = address(world).delegatecall(
         abi.encodeCall(
           world.registerTable,
           (
-            DurationIdxMapTableId,
-            DurationIdxMap.getFieldLayout(),
-            DurationIdxMap.getKeySchema(),
-            DurationIdxMap.getValueSchema(),
+            DurationIdxMap._tableId,
+            DurationIdxMap._fieldLayout,
+            DurationIdxMap._keySchema,
+            DurationIdxMap._valueSchema,
             DurationIdxMap.getKeyNames(),
             DurationIdxMap.getFieldNames()
           )
@@ -84,12 +84,12 @@ contract DurationModule is Module {
 
     // Grant the hook access to the tables
     (success, returnData) = address(world).delegatecall(
-      abi.encodeCall(world.grantAccess, (DurationIdxListTableId, address(hook)))
+      abi.encodeCall(world.grantAccess, (DurationIdxList._tableId, address(hook)))
     );
     if (!success) revertWithBytes(returnData);
 
     (success, returnData) = address(world).delegatecall(
-      abi.encodeCall(world.grantAccess, (DurationIdxMapTableId, address(hook)))
+      abi.encodeCall(world.grantAccess, (DurationIdxMap._tableId, address(hook)))
     );
     if (!success) revertWithBytes(returnData);
 
