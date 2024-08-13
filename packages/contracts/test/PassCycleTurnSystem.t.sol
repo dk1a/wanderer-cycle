@@ -2,12 +2,13 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { ActiveCycle, CycleToWanderer } from "../src/codegen/index.sol";
+import { CycleTurns } from "../src/codegen/index.sol";
 
 import { LibGuise } from "../src/guise/LibGuise.sol";
 import { LibCycle } from "../src/cycle/LibCycle.sol";
+import { LibCycleTurns } from "../src/cycle/LibCycleTurns.sol";
 
-contract LibCycleTest is MudLibTest {
+contract PassCycleTurnSystemTest is MudLibTest {
   bytes32 internal wandererEntity;
   bytes32 internal guiseProtoEntity;
   bytes32 internal wheelEntity;
@@ -25,18 +26,20 @@ contract LibCycleTest is MudLibTest {
     cycleEntity = LibCycle.initCycle(wandererEntity, guiseProtoEntity, wheelEntity);
   }
 
-  function testInitCycle() public {
-    assertEq(cycleEntity, ActiveCycle.get(wandererEntity));
+  function testPassCycle() public {
+    world.passCycle(wandererEntity);
+
+    uint32 turns = CycleTurns.get(cycleEntity);
+    assertEq(turns, LibCycleTurns.TURNS_PER_PERIOD - 1);
   }
 
-  function testEndCycle() public {
-    LibCycle.endCycle(wandererEntity, cycleEntity);
-    assertEq(ActiveCycle.get(wandererEntity), bytes32(0));
-    assertEq(CycleToWanderer.get(cycleEntity), bytes32(0));
-  }
+  function testPassAllTurns() public {
+    // Pass all available turns
+    for (uint i = 0; i < LibCycleTurns.TURNS_PER_PERIOD; i++) {
+      world.passCycle(wandererEntity);
+    }
 
-  function testGetCycleEntityPermissioned() public {
-    bytes32 retrievedCycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
-    assertEq(retrievedCycleEntity, cycleEntity);
+    uint32 turns = CycleTurns.get(cycleEntity);
+    assertEq(turns, 0, "All turns should be used up");
   }
 }
