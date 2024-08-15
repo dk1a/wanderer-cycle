@@ -65,11 +65,15 @@ library Duration {
     ResourceId tableId,
     bytes32 targetEntity,
     bytes32 applicationEntity
-  ) internal returns (GenericDurationData memory) {
+  ) internal view returns (GenericDurationData memory) {
     return GenericDuration.get(tableId, targetEntity, applicationEntity);
   }
 
-  function getTimeId(ResourceId tableId, bytes32 targetEntity, bytes32 applicationEntity) internal returns (bytes32) {
+  function getTimeId(
+    ResourceId tableId,
+    bytes32 targetEntity,
+    bytes32 applicationEntity
+  ) internal view returns (bytes32) {
     return GenericDuration.getTimeId(tableId, targetEntity, applicationEntity);
   }
 
@@ -77,11 +81,11 @@ library Duration {
     ResourceId tableId,
     bytes32 targetEntity,
     bytes32 applicationEntity
-  ) internal returns (uint256) {
+  ) internal view returns (uint256) {
     return GenericDuration.getTimeValue(tableId, targetEntity, applicationEntity);
   }
 
-  function has(ResourceId tableId, bytes32 targetEntity, bytes32 applicationEntity) internal returns (bool) {
+  function has(ResourceId tableId, bytes32 targetEntity, bytes32 applicationEntity) internal view returns (bool) {
     return DurationIdxMap.getHas(tableId, targetEntity, applicationEntity);
   }
 }

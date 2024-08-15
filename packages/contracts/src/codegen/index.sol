@@ -40,7 +40,7 @@ import { ActiveWheel } from "./tables/ActiveWheel.sol";
 import { Identity } from "./tables/Identity.sol";
 import { Wanderer } from "./tables/Wanderer.sol";
 import { WheelsCompleted } from "./tables/WheelsCompleted.sol";
-import { ActiveCombat } from "./tables/ActiveCombat.sol";
+import { ActiveCombat, ActiveCombatData } from "./tables/ActiveCombat.sol";
 import { RNGPrecommit } from "./tables/RNGPrecommit.sol";
 import { RNGRequestOwner } from "./tables/RNGRequestOwner.sol";
 import { SlotAllowedTypes } from "./tables/SlotAllowedTypes.sol";

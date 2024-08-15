@@ -15,8 +15,12 @@ abstract contract MudLibTest is MudTest {
     world = IWorld(worldAddress);
 
     address testContractAddress = address(this);
+    _grantRootAccess(testContractAddress);
+  }
+
+  function _grantRootAccess(address grantee) internal {
     uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
     vm.broadcast(deployerPrivateKey);
-    world.grantAccess(WorldResourceIdLib.encodeNamespace(""), testContractAddress);
+    world.grantAccess(WorldResourceIdLib.encodeNamespace(""), grantee);
   }
 }

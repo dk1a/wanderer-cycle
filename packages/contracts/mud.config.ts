@@ -8,6 +8,7 @@ import {
   ACTION_TYPE_ARRAY,
   AFFIX_PART_ID_ARRAY,
   PSTAT_ARRAY,
+  COMBAT_ACTION_TYPE_ARRAY,
 } from "./enums";
 
 const EntityId = "bytes32" as const;
@@ -86,6 +87,7 @@ const enums = {
   StatmodOp: STATMOD_OP_ARRAY,
   ActionType: ACTION_TYPE_ARRAY,
   AffixPartId: AFFIX_PART_ID_ARRAY,
+  CombatActionType: COMBAT_ACTION_TYPE_ARRAY,
 };
 
 const userTypes = {
@@ -318,9 +320,16 @@ export default defineWorld({
         value: "uint32",
       },
     },
-    // initiatorEntity => retaliatorEntity
     // An entity can initiate only 1 combat at a time
-    ActiveCombat: entityRelation,
+    ActiveCombat: {
+      key: ["initiatorEntity"],
+      schema: {
+        initiatorEntity: EntityId,
+        retaliatorEntity: EntityId,
+        roundsSpent: "uint32",
+        roundsMax: "uint32",
+      },
+    },
     RNGPrecommit: {
       ...entityKey,
       schema: {
@@ -446,6 +455,12 @@ export default defineWorld({
         entities: EntityIdArray,
         values: "uint32[]",
       },
+    },
+  },
+  systems: {
+    CombatSystem: {
+      openAccess: false,
+      accessList: [],
     },
   },
   modules: [

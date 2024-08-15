@@ -39,3 +39,8 @@ enum AffixPartId {
   PREFIX,
   SUFFIX
 }
+
+enum CombatActionType {
+  ATTACK,
+  SKILL
+}

@@ -16,17 +16,23 @@ import { Schema } from "@latticexyz/store/src/Schema.sol";
 import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/EncodedLengths.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
+struct ActiveCombatData {
+  bytes32 retaliatorEntity;
+  uint32 roundsSpent;
+  uint32 roundsMax;
+}
+
 library ActiveCombat {
   // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "ActiveCombat", typeId: RESOURCE_TABLE });`
   ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000416374697665436f6d62617400000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0020010020000000000000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0028030020040400000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (bytes32)
   Schema constant _keySchema = Schema.wrap(0x002001005f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (bytes32)
-  Schema constant _valueSchema = Schema.wrap(0x002001005f000000000000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (bytes32, uint32, uint32)
+  Schema constant _valueSchema = Schema.wrap(0x002803005f030300000000000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -34,7 +40,7 @@ library ActiveCombat {
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
     keyNames = new string[](1);
-    keyNames[0] = "fromEntity";
+    keyNames[0] = "initiatorEntity";
   }
 
   /**
@@ -42,8 +48,10 @@ library ActiveCombat {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](1);
-    fieldNames[0] = "toEntity";
+    fieldNames = new string[](3);
+    fieldNames[0] = "retaliatorEntity";
+    fieldNames[1] = "roundsSpent";
+    fieldNames[2] = "roundsMax";
   }
 
   /**
@@ -61,95 +69,254 @@ library ActiveCombat {
   }
 
   /**
-   * @notice Get toEntity.
+   * @notice Get retaliatorEntity.
    */
-  function getToEntity(bytes32 fromEntity) internal view returns (bytes32 toEntity) {
+  function getRetaliatorEntity(bytes32 initiatorEntity) internal view returns (bytes32 retaliatorEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = initiatorEntity;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
   }
 
   /**
-   * @notice Get toEntity.
+   * @notice Get retaliatorEntity.
    */
-  function _getToEntity(bytes32 fromEntity) internal view returns (bytes32 toEntity) {
+  function _getRetaliatorEntity(bytes32 initiatorEntity) internal view returns (bytes32 retaliatorEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = initiatorEntity;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
   }
 
   /**
-   * @notice Get toEntity.
+   * @notice Set retaliatorEntity.
    */
-  function get(bytes32 fromEntity) internal view returns (bytes32 toEntity) {
+  function setRetaliatorEntity(bytes32 initiatorEntity, bytes32 retaliatorEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = initiatorEntity;
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (bytes32(_blob));
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((retaliatorEntity)), _fieldLayout);
   }
 
   /**
-   * @notice Get toEntity.
+   * @notice Set retaliatorEntity.
    */
-  function _get(bytes32 fromEntity) internal view returns (bytes32 toEntity) {
+  function _setRetaliatorEntity(bytes32 initiatorEntity, bytes32 retaliatorEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = initiatorEntity;
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (bytes32(_blob));
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((retaliatorEntity)), _fieldLayout);
   }
 
   /**
-   * @notice Set toEntity.
+   * @notice Get roundsSpent.
    */
-  function setToEntity(bytes32 fromEntity, bytes32 toEntity) internal {
+  function getRoundsSpent(bytes32 initiatorEntity) internal view returns (uint32 roundsSpent) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = initiatorEntity;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((toEntity)), _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    return (uint32(bytes4(_blob)));
   }
 
   /**
-   * @notice Set toEntity.
+   * @notice Get roundsSpent.
    */
-  function _setToEntity(bytes32 fromEntity, bytes32 toEntity) internal {
+  function _getRoundsSpent(bytes32 initiatorEntity) internal view returns (uint32 roundsSpent) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = initiatorEntity;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((toEntity)), _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    return (uint32(bytes4(_blob)));
   }
 
   /**
-   * @notice Set toEntity.
+   * @notice Set roundsSpent.
    */
-  function set(bytes32 fromEntity, bytes32 toEntity) internal {
+  function setRoundsSpent(bytes32 initiatorEntity, uint32 roundsSpent) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = initiatorEntity;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((toEntity)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((roundsSpent)), _fieldLayout);
   }
 
   /**
-   * @notice Set toEntity.
+   * @notice Set roundsSpent.
    */
-  function _set(bytes32 fromEntity, bytes32 toEntity) internal {
+  function _setRoundsSpent(bytes32 initiatorEntity, uint32 roundsSpent) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = initiatorEntity;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((toEntity)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((roundsSpent)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get roundsMax.
+   */
+  function getRoundsMax(bytes32 initiatorEntity) internal view returns (uint32 roundsMax) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = initiatorEntity;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
+    return (uint32(bytes4(_blob)));
+  }
+
+  /**
+   * @notice Get roundsMax.
+   */
+  function _getRoundsMax(bytes32 initiatorEntity) internal view returns (uint32 roundsMax) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = initiatorEntity;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
+    return (uint32(bytes4(_blob)));
+  }
+
+  /**
+   * @notice Set roundsMax.
+   */
+  function setRoundsMax(bytes32 initiatorEntity, uint32 roundsMax) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = initiatorEntity;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((roundsMax)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set roundsMax.
+   */
+  function _setRoundsMax(bytes32 initiatorEntity, uint32 roundsMax) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = initiatorEntity;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((roundsMax)), _fieldLayout);
+  }
+
+  /**
+   * @notice Get the full data.
+   */
+  function get(bytes32 initiatorEntity) internal view returns (ActiveCombatData memory _table) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = initiatorEntity;
+
+    (bytes memory _staticData, EncodedLengths _encodedLengths, bytes memory _dynamicData) = StoreSwitch.getRecord(
+      _tableId,
+      _keyTuple,
+      _fieldLayout
+    );
+    return decode(_staticData, _encodedLengths, _dynamicData);
+  }
+
+  /**
+   * @notice Get the full data.
+   */
+  function _get(bytes32 initiatorEntity) internal view returns (ActiveCombatData memory _table) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = initiatorEntity;
+
+    (bytes memory _staticData, EncodedLengths _encodedLengths, bytes memory _dynamicData) = StoreCore.getRecord(
+      _tableId,
+      _keyTuple,
+      _fieldLayout
+    );
+    return decode(_staticData, _encodedLengths, _dynamicData);
+  }
+
+  /**
+   * @notice Set the full data using individual values.
+   */
+  function set(bytes32 initiatorEntity, bytes32 retaliatorEntity, uint32 roundsSpent, uint32 roundsMax) internal {
+    bytes memory _staticData = encodeStatic(retaliatorEntity, roundsSpent, roundsMax);
+
+    EncodedLengths _encodedLengths;
+    bytes memory _dynamicData;
+
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = initiatorEntity;
+
+    StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
+  }
+
+  /**
+   * @notice Set the full data using individual values.
+   */
+  function _set(bytes32 initiatorEntity, bytes32 retaliatorEntity, uint32 roundsSpent, uint32 roundsMax) internal {
+    bytes memory _staticData = encodeStatic(retaliatorEntity, roundsSpent, roundsMax);
+
+    EncodedLengths _encodedLengths;
+    bytes memory _dynamicData;
+
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = initiatorEntity;
+
+    StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
+  }
+
+  /**
+   * @notice Set the full data using the data struct.
+   */
+  function set(bytes32 initiatorEntity, ActiveCombatData memory _table) internal {
+    bytes memory _staticData = encodeStatic(_table.retaliatorEntity, _table.roundsSpent, _table.roundsMax);
+
+    EncodedLengths _encodedLengths;
+    bytes memory _dynamicData;
+
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = initiatorEntity;
+
+    StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
+  }
+
+  /**
+   * @notice Set the full data using the data struct.
+   */
+  function _set(bytes32 initiatorEntity, ActiveCombatData memory _table) internal {
+    bytes memory _staticData = encodeStatic(_table.retaliatorEntity, _table.roundsSpent, _table.roundsMax);
+
+    EncodedLengths _encodedLengths;
+    bytes memory _dynamicData;
+
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = initiatorEntity;
+
+    StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
+  }
+
+  /**
+   * @notice Decode the tightly packed blob of static data using this table's field layout.
+   */
+  function decodeStatic(
+    bytes memory _blob
+  ) internal pure returns (bytes32 retaliatorEntity, uint32 roundsSpent, uint32 roundsMax) {
+    retaliatorEntity = (Bytes.getBytes32(_blob, 0));
+
+    roundsSpent = (uint32(Bytes.getBytes4(_blob, 32)));
+
+    roundsMax = (uint32(Bytes.getBytes4(_blob, 36)));
+  }
+
+  /**
+   * @notice Decode the tightly packed blobs using this table's field layout.
+   * @param _staticData Tightly packed static fields.
+   *
+   *
+   */
+  function decode(
+    bytes memory _staticData,
+    EncodedLengths,
+    bytes memory
+  ) internal pure returns (ActiveCombatData memory _table) {
+    (_table.retaliatorEntity, _table.roundsSpent, _table.roundsMax) = decodeStatic(_staticData);
   }
 
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(bytes32 fromEntity) internal {
+  function deleteRecord(bytes32 initiatorEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = initiatorEntity;
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -157,9 +324,9 @@ library ActiveCombat {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(bytes32 fromEntity) internal {
+  function _deleteRecord(bytes32 initiatorEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = initiatorEntity;
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -168,8 +335,12 @@ library ActiveCombat {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(bytes32 toEntity) internal pure returns (bytes memory) {
-    return abi.encodePacked(toEntity);
+  function encodeStatic(
+    bytes32 retaliatorEntity,
+    uint32 roundsSpent,
+    uint32 roundsMax
+  ) internal pure returns (bytes memory) {
+    return abi.encodePacked(retaliatorEntity, roundsSpent, roundsMax);
   }
 
   /**
@@ -178,8 +349,12 @@ library ActiveCombat {
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(bytes32 toEntity) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(toEntity);
+  function encode(
+    bytes32 retaliatorEntity,
+    uint32 roundsSpent,
+    uint32 roundsMax
+  ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
+    bytes memory _staticData = encodeStatic(retaliatorEntity, roundsSpent, roundsMax);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -190,9 +365,9 @@ library ActiveCombat {
   /**
    * @notice Encode keys as a bytes32 array using this table's field layout.
    */
-  function encodeKeyTuple(bytes32 fromEntity) internal pure returns (bytes32[] memory) {
+  function encodeKeyTuple(bytes32 initiatorEntity) internal pure returns (bytes32[] memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = initiatorEntity;
 
     return _keyTuple;
   }
