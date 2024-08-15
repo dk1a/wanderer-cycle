@@ -47,9 +47,10 @@ enum PSTAT {
   DEXTERITY,
 }
 
-function getEnumNames(enumObj: Record<string, number | string>): string[] {
+// TODO remove placeholder workaround if you find a better solution (eg make string[] work)
+function getEnumNames(enumObj: Record<string, number | string>): ["PH"] {
   // Filter the keys to remove the numeric ones, leaving only the string keys
-  return Object.keys(enumObj).filter((key) => isNaN(Number(key)));
+  return Object.keys(enumObj).filter((key) => isNaN(Number(key))) as ["PH"];
 }
 
 const PSTAT_ARRAY = getEnumNames(PSTAT);
