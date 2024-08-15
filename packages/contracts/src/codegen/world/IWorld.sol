@@ -9,6 +9,7 @@ import { ICombatSystem } from "./ICombatSystem.sol";
 import { ICycleInitSystem } from "./ICycleInitSystem.sol";
 import { IPassCycleTurnSystem } from "./IPassCycleTurnSystem.sol";
 import { IStartCycleSystem } from "./IStartCycleSystem.sol";
+import { IRandomMapSystem } from "./IRandomMapSystem.sol";
 import { IWandererSpawnSystem } from "./IWandererSpawnSystem.sol";
 
 /**
@@ -24,5 +25,6 @@ interface IWorld is
   ICycleInitSystem,
   IPassCycleTurnSystem,
   IStartCycleSystem,
+  IRandomMapSystem,
   IWandererSpawnSystem
 {}

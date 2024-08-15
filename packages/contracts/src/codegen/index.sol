@@ -46,6 +46,7 @@ import { RNGRequestOwner } from "./tables/RNGRequestOwner.sol";
 import { SlotAllowedTypes } from "./tables/SlotAllowedTypes.sol";
 import { SlotEquipment } from "./tables/SlotEquipment.sol";
 import { OwnedBy } from "./tables/OwnedBy.sol";
+import { MapTypeComponent } from "./tables/MapTypeComponent.sol";
 import { GenericDuration, GenericDurationData } from "./tables/GenericDuration.sol";
 import { DurationIdxList } from "./tables/DurationIdxList.sol";
 import { DurationIdxMap } from "./tables/DurationIdxMap.sol";
