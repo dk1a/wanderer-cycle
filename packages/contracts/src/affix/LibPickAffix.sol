@@ -24,7 +24,7 @@ library LibPickAffix {
   function pickAffixes(
     AffixPartId[] memory affixPartIds,
     bytes32[] memory excludeEntities,
-    bytes32 targetEntity,
+    bytes32 affixAvailabilityEntity,
     uint32 ilvl,
     uint256 randomness
   )
@@ -42,7 +42,7 @@ library LibPickAffix {
       bytes32 affixProtoEntity = _pickAffixProtoEntity(
         ilvl,
         affixPartIds[i],
-        targetEntity,
+        affixAvailabilityEntity,
         excludeEntities,
         randomness
       );
@@ -89,15 +89,20 @@ library LibPickAffix {
   function _pickAffixProtoEntity(
     uint32 ilvl,
     AffixPartId affixPartId,
-    bytes32 targetEntity,
+    bytes32 affixAvailabilityEntity,
     bytes32[] memory excludeEntities,
     uint256 randomness
   ) internal view returns (bytes32) {
     randomness = uint256(keccak256(abi.encode(keccak256("pickAffixEntity"), randomness)));
 
     // TODO this can be significantly optimized if you need it
-    bytes32[] memory availableEntities = _getAvailableEntities(ilvl, affixPartId, targetEntity, excludeEntities);
-    if (availableEntities.length == 0) revert LibPickAffix_NoAvailableAffix(affixPartId, targetEntity, ilvl);
+    bytes32[] memory availableEntities = _getAvailableEntities(
+      ilvl,
+      affixPartId,
+      affixAvailabilityEntity,
+      excludeEntities
+    );
+    if (availableEntities.length == 0) revert LibPickAffix_NoAvailableAffix(affixPartId, affixAvailabilityEntity, ilvl);
 
     uint256 index = randomness % availableEntities.length;
     return availableEntities[index];
@@ -107,11 +112,11 @@ library LibPickAffix {
   function _getAvailableEntities(
     uint32 ilvl,
     AffixPartId affixPartId,
-    bytes32 targetEntity,
+    bytes32 affixAvailabilityEntity,
     bytes32[] memory excludeEntities
   ) private view returns (bytes32[] memory availableEntities) {
     // get default availability
-    availableEntities = AffixAvailable.get(affixPartId, targetEntity, ilvl);
+    availableEntities = AffixAvailable.get(affixPartId, affixAvailabilityEntity, ilvl);
 
     for (uint256 i; i < availableEntities.length; i++) {
       // exclude the specified entities

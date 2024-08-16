@@ -133,19 +133,19 @@ export default defineWorld({
       },
     },
     AffixAvailable: {
-      key: ["affixPart", "targetEntity", "ilvl"],
+      key: ["affixPart", "affixAvailabilityEntity", "ilvl"],
       schema: {
         affixPart: "AffixPartId",
-        targetEntity: EntityId,
+        affixAvailabilityEntity: EntityId,
         ilvl: "uint32",
         affixes: "bytes32[]",
       },
     },
     AffixNaming: {
-      key: ["affixPart", "targetEntity", "protoEntity"],
+      key: ["affixPart", "affixAvailabilityEntity", "protoEntity"],
       schema: {
         affixPart: "AffixPartId",
-        targetEntity: EntityId,
+        affixAvailabilityEntity: EntityId,
         protoEntity: EntityId,
         name: "string",
       },

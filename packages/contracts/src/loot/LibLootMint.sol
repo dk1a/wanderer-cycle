@@ -13,19 +13,19 @@ library LibLootMint {
   function randomLootMint(
     AffixPartId[] memory affixPartIds,
     bytes32 lootEntity,
-    bytes32 targetEntity,
+    bytes32 affixAvailabilityEntity,
     uint32 ilvl,
     uint256 randomness
   ) internal {
     bytes32[] memory excludeAffixes;
-    randomLootMint(affixPartIds, excludeAffixes, lootEntity, targetEntity, ilvl, randomness);
+    randomLootMint(affixPartIds, excludeAffixes, lootEntity, affixAvailabilityEntity, ilvl, randomness);
   }
 
   function randomLootMint(
     AffixPartId[] memory affixPartIds,
     bytes32[] memory excludeAffixes,
     bytes32 lootEntity,
-    bytes32 targetEntity,
+    bytes32 affixAvailabilityEntity,
     uint32 ilvl,
     uint256 randomness
   ) internal {
@@ -34,7 +34,7 @@ library LibLootMint {
       bytes32[] memory statmodProtoEntities,
       bytes32[] memory affixProtoEntities,
       uint32[] memory affixValues
-    ) = LibPickAffix.pickAffixes(affixPartIds, excludeAffixes, targetEntity, ilvl, randomness);
+    ) = LibPickAffix.pickAffixes(affixPartIds, excludeAffixes, affixAvailabilityEntity, ilvl, randomness);
     // mint picked affixes
     lootMint(lootEntity, ilvl, affixPartIds, statmodProtoEntities, affixProtoEntities, affixValues);
   }
