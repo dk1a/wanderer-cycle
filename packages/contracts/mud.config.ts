@@ -356,6 +356,13 @@ export default defineWorld({
         value: "MapType",
       },
     },
+    MapTypeAffixAvailability: {
+      key: ["label"],
+      schema: {
+        label: "bytes32",
+        entity: EntityId,
+      },
+    },
 
     /************************************************************************
      *
