@@ -7,6 +7,7 @@ import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueent
 import { DefaultWheel, Wanderer, GuisePrototype } from "../codegen/index.sol";
 
 import { LibCycle } from "../cycle/LibCycle.sol";
+import { ERC721Namespaces } from "../token/ERC721Namespaces.sol";
 
 /// @title Spawn a wandererEntity and start a cycle for it.
 /// @dev This is for new players, whereas StartCycle is for existing ones.
@@ -16,8 +17,7 @@ contract WandererSpawnSystem is System {
   /// @notice Anyone can freely spawn wanderers, a wanderer is a tokenized game account
   function spawnWanderer(bytes32 guiseEntity) public returns (bytes32 wandererEntity, bytes32 cycleEntity) {
     // mint nft
-    wandererEntity = getUniqueEntity();
-    // wnftSystem.executeSafeMint(msg.sender, wandererEntity, "");
+    wandererEntity = ERC721Namespaces.WandererNFT.mint(msg.sender);
 
     // flag the entity as wanderer
     Wanderer.set(wandererEntity, true);

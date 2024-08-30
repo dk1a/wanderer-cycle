@@ -109,6 +109,13 @@ export default defineWorld({
       },
       key: ["id"],
     },
+    ERC721Config: {
+      key: ["namespace"],
+      schema: {
+        namespace: "bytes14",
+        tokenAddress: "address",
+      },
+    },
     Name: "string",
     DefaultWheel: {
       key: [],
@@ -483,13 +490,23 @@ export default defineWorld({
     },
   },
   modules: [
-    ...keysInTable(["Experience", "LearnedSkills", "EffectTemplate", "EffectApplied"]),
-    ...keysWithValue(["AffixProtoGroup"]),
+    {
+      artifactPath: "@latticexyz/world-modules/out/StandardDelegationsModule.sol/StandardDelegationsModule.json",
+      root: true,
+      args: [],
+    },
+    {
+      artifactPath: "@latticexyz/world-modules/out/PuppetModule.sol/PuppetModule.json",
+      root: true,
+      args: [],
+    },
     {
       artifactPath: "@latticexyz/world-modules/out/UniqueEntityModule.sol/UniqueEntityModule.json",
       root: true,
       args: [],
     },
+    ...keysInTable(["Experience", "LearnedSkills", "EffectTemplate", "EffectApplied"]),
+    ...keysWithValue(["AffixProtoGroup"]),
     ...duration(["EffectDuration", "SkillCooldown"]),
     {
       artifactPath: "./out/StatmodModule.sol/StatmodModule.json",

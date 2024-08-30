@@ -5,12 +5,13 @@ import { Script } from "forge-std/Script.sol";
 import { console } from "forge-std/console.sol";
 import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
 
+import { IWorld } from "../src/codegen/world/IWorld.sol";
+
 import { LibInitStatmod } from "../src/init/LibInitStatmod.sol";
 import { LibInitSkill } from "../src/init/LibInitSkill.sol";
 import { LibInitGuise } from "../src/init/LibInitGuise.sol";
 import { LibInitWheel } from "../src/init/LibInitWheel.sol";
-
-import { IWorld } from "../src/codegen/world/IWorld.sol";
+import { LibInitERC721 } from "../src/init/LibInitERC721.sol";
 
 contract PostDeploy is Script {
   function run(address worldAddress) external {
@@ -27,6 +28,7 @@ contract PostDeploy is Script {
     LibInitSkill.init();
     LibInitGuise.init();
     LibInitWheel.init();
+    LibInitERC721.init();
 
     vm.stopBroadcast();
   }

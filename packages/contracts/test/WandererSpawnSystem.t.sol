@@ -10,8 +10,9 @@ import { ActiveGuise, DefaultWheel, Wanderer, GuisePrototype, ActiveCycle, Cycle
 import { LibCycle } from "../src/cycle/LibCycle.sol";
 import { LibGuise } from "../src/guise/LibGuise.sol";
 import { LibExperience } from "../src/charstat/LibExperience.sol";
+import { ERC721Namespaces } from "../src/token/ERC721Namespaces.sol";
 
-contract WandererSpawnTest is MudLibTest {
+contract WandererSpawnSystemTest is MudLibTest {
   bytes32 guiseEntity;
 
   bytes32 wandererEntity;
@@ -24,11 +25,13 @@ contract WandererSpawnTest is MudLibTest {
     guiseEntity = LibGuise.getGuiseEntity("Warrior");
 
     // wandererEntity has all the permanent player data (not related to a specific cycle)
+    vm.prank(alice);
     (wandererEntity, cycleEntity) = world.spawnWanderer(guiseEntity);
     defaultWheelEntity = DefaultWheel.get();
   }
 
   function test_setUp_invalidGuise() public {
+    vm.prank(alice);
     vm.expectRevert(LibCycle.LibCycle_InvalidGuiseProtoEntity.selector);
     world.spawnWanderer(keccak256("invalid guise"));
   }
@@ -48,16 +51,14 @@ contract WandererSpawnTest is MudLibTest {
     assertTrue(Wanderer.get(wandererEntity));
   }
 
-  /*TODO tokens
   function test_tokenOwner() public {
-    assertEq(wNFTSystem.ownerOf(wandererEntity), alice);
+    assertEq(ERC721Namespaces.WandererNFT.ownerOf(wandererEntity), alice);
   }
 
   function test_tokenOwner_notForCycleEntity() public {
-    // cycleEntity shouldn't even be a token, this error refers to address(0)
-    vm.expectRevert(IERC721BaseInternal.ERC721Base__InvalidOwner.selector);
-    wNFTSystem.ownerOf(cycleEntity);
-  }*/
+    // cycleEntity shouldn't even be a token
+    assertEq(ERC721Namespaces.WandererNFT.ownerOf(cycleEntity), address(0));
+  }
 
   function test_activeGuise() public {
     assertEq(ActiveGuise.get(cycleEntity), guiseEntity);

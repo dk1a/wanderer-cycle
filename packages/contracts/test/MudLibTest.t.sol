@@ -9,6 +9,8 @@ import { IWorld } from "../src/codegen/world/IWorld.sol";
 abstract contract MudLibTest is MudTest {
   IWorld world;
 
+  address alice = address(bytes20(keccak256("alice")));
+
   function setUp() public virtual override {
     super.setUp();
 
