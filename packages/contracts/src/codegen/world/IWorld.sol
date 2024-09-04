@@ -6,6 +6,7 @@ pragma solidity >=0.8.24;
 import { IBaseWorld } from "@latticexyz/world/src/codegen/interfaces/IBaseWorld.sol";
 
 import { ICombatSystem } from "./ICombatSystem.sol";
+import { IClaimCycleTurnsSystem } from "./IClaimCycleTurnsSystem.sol";
 import { ICycleInitSystem } from "./ICycleInitSystem.sol";
 import { IPassCycleTurnSystem } from "./IPassCycleTurnSystem.sol";
 import { IStartCycleSystem } from "./IStartCycleSystem.sol";
@@ -22,6 +23,7 @@ import { IWandererSpawnSystem } from "./IWandererSpawnSystem.sol";
 interface IWorld is
   IBaseWorld,
   ICombatSystem,
+  IClaimCycleTurnsSystem,
   ICycleInitSystem,
   IPassCycleTurnSystem,
   IStartCycleSystem,
