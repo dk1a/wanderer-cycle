@@ -13,3 +13,14 @@ yarn-error.log
 .turbo
 
 .env
+
+# mud test data
+test-data/world-logs-bulk-*.json
+test-data/world-logs-query.json
+
+# mud artifacts
+.mud
+
+# sqlite indexer data
+*.db
+*.db-journal
