@@ -9,21 +9,15 @@ import { LibCycle } from "../src/cycle/LibCycle.sol";
 import { LibCycleTurns } from "../src/cycle/LibCycleTurns.sol";
 
 contract PassCycleTurnSystemTest is MudLibTest {
+  bytes32 internal guiseEntity;
   bytes32 internal wandererEntity;
-  bytes32 internal guiseProtoEntity;
-  bytes32 internal wheelEntity;
   bytes32 internal cycleEntity;
 
   function setUp() public virtual override {
     super.setUp();
-    // Initialize with test data
-    wandererEntity = keccak256("wandererEntity");
-    wheelEntity = keccak256("wheelEntity");
 
-    guiseProtoEntity = LibGuise.getGuiseEntity("Warrior");
-
-    // Simulate existing cycle entity
-    cycleEntity = LibCycle.initCycle(wandererEntity, guiseProtoEntity, wheelEntity);
+    guiseEntity = LibGuise.getGuiseEntity("Warrior");
+    (wandererEntity, cycleEntity) = world.spawnWanderer(guiseEntity);
   }
 
   function testPassCycle() public {

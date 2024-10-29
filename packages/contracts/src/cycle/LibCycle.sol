@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
+import { WorldContextConsumerLib } from "@latticexyz/world/src/WorldContext.sol";
+
 import { SystemSwitch } from "@latticexyz/world-modules/src/utils/SystemSwitch.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
@@ -11,9 +13,7 @@ import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
 import { LibLearnedSkills } from "../skill/LibLearnedSkills.sol";
-
-//import { LibToken } from "../token/LibToken.sol";
-//import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
+import { ERC721Namespaces } from "../token/ERC721Namespaces.sol";
 
 library LibCycle {
   error LibCycle_CycleIsAlreadyActive();
@@ -58,7 +58,7 @@ library LibCycle {
     CycleToWanderer.deleteRecord(cycleEntity);
   }
 
-  /// @dev Return `cycleEntity` if msg.sender is allowed to use it.
+  /// @dev Return `cycleEntity` if _msgSender() is allowed to use it.
   /// Revert otherwise.
   ///
   /// Note on why getCycleEntity and a permission check are 1 method:
@@ -67,16 +67,9 @@ library LibCycle {
   /// you probably shouldn't need this method either, and should know cycle entities directly.
   function getCycleEntityPermissioned(bytes32 wandererEntity) internal view returns (bytes32 cycleEntity) {
     // check permission
-    //    LibToken.requireOwner(wandererEntity, msg.sender);
+    ERC721Namespaces.WandererNFT.requireOwner(WorldContextConsumerLib._msgSender(), wandererEntity);
     // get cycle entity
     if (ActiveCycle.get(wandererEntity) == 0) revert LibCycle_CycleNotActive();
     return ActiveCycle.get(wandererEntity);
-  }
-
-  function requirePermission(bytes32 cycleEntity) internal view {
-    // get wanderer entity
-    bytes32 wandererEntity = CycleToWanderer.get(cycleEntity);
-    // check permission
-    // LibToken.requireOwner(wandererEntity, msg.sender);
   }
 }

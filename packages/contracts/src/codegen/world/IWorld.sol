@@ -7,6 +7,7 @@ import { IBaseWorld } from "@latticexyz/world/src/codegen/interfaces/IBaseWorld.
 import { ICombatSystem } from "./ICombatSystem.sol";
 import { IClaimCycleTurnsSystem } from "./IClaimCycleTurnsSystem.sol";
 import { ICycleInitSystem } from "./ICycleInitSystem.sol";
+import { ILearnCycleSkillSystem } from "./ILearnCycleSkillSystem.sol";
 import { IPassCycleTurnSystem } from "./IPassCycleTurnSystem.sol";
 import { IStartCycleSystem } from "./IStartCycleSystem.sol";
 import { IRandomMapSystem } from "./IRandomMapSystem.sol";
@@ -24,6 +25,7 @@ interface IWorld is
   ICombatSystem,
   IClaimCycleTurnsSystem,
   ICycleInitSystem,
+  ILearnCycleSkillSystem,
   IPassCycleTurnSystem,
   IStartCycleSystem,
   IRandomMapSystem,

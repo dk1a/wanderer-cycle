@@ -75,7 +75,9 @@ library LibExperience {
       mulTotal += levelMul[i];
     }
 
-    expTotal /= mulTotal;
+    if (mulTotal != 0) {
+      expTotal /= mulTotal;
+    }
 
     return _getLevel(expTotal);
   }

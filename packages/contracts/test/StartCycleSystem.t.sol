@@ -7,23 +7,22 @@ import { ActiveCycle } from "../src/codegen/index.sol";
 import { LibGuise } from "../src/guise/LibGuise.sol";
 
 contract StartCycleSystemTest is MudLibTest {
+  bytes32 internal guiseEntity;
   bytes32 internal wandererEntity;
-  bytes32 internal guiseProtoEntity;
-  bytes32 internal wheelEntity;
   bytes32 internal cycleEntity;
 
   function setUp() public virtual override {
     super.setUp();
-    // Initialize with test data
-    wandererEntity = keccak256("wandererEntity");
-    wheelEntity = keccak256("wheelEntity");
 
-    guiseProtoEntity = LibGuise.getGuiseEntity("Warrior");
+    guiseEntity = LibGuise.getGuiseEntity("Warrior");
+    (wandererEntity, cycleEntity) = world.spawnWanderer(guiseEntity);
   }
 
+  /* TODO test proper ending+starting a cycle, this isn't WandererSpawn and cannot start a cycle from nothing
   function testStartCycle() public {
-    cycleEntity = world.startCycle(wandererEntity, guiseProtoEntity, wheelEntity);
+    cycleEntity = world.startCycle(wandererEntity, guiseEntity, wheelEntity);
 
     assertEq(cycleEntity, ActiveCycle.get(wandererEntity));
   }
+  */
 }

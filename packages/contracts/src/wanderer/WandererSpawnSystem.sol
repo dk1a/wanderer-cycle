@@ -17,7 +17,7 @@ contract WandererSpawnSystem is System {
   /// @notice Anyone can freely spawn wanderers, a wanderer is a tokenized game account
   function spawnWanderer(bytes32 guiseEntity) public returns (bytes32 wandererEntity, bytes32 cycleEntity) {
     // mint nft
-    wandererEntity = ERC721Namespaces.WandererNFT.mint(msg.sender);
+    wandererEntity = ERC721Namespaces.WandererNFT.mint(_msgSender());
 
     // flag the entity as wanderer
     Wanderer.set(wandererEntity, true);

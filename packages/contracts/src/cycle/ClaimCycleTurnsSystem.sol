@@ -13,7 +13,7 @@ import { ERC721Namespaces } from "../token/ERC721Namespaces.sol";
 contract ClaimCycleTurnsSystem is System {
   function claimCycleTurns(bytes32 wandererEntity) public {
     // check permission
-    ERC721Namespaces.WandererNFT.requireOwner(msg.sender, wandererEntity);
+    ERC721Namespaces.WandererNFT.requireOwner(_msgSender(), wandererEntity);
     // get cycle entity
     bytes32 cycleEntity = ActiveCycle.get(wandererEntity);
     // claim
