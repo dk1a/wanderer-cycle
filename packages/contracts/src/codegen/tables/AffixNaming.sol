@@ -17,7 +17,7 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 // Import user types
-import { AffixPartId } from "../common.sol";
+import { AffixPartId } from "./../common.sol";
 
 library AffixNaming {
   // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "AffixNaming", typeId: RESOURCE_TABLE });`

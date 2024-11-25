@@ -287,10 +287,29 @@ export default defineWorld({
     SkillDescription: "string",
     SkillNameToEntity: nameToEntityTable,
     SkillCooldown: durationTable,
+    FromTemplate: entityRelation,
     ActiveCycle: entityRelation,
     CycleToWanderer: entityRelation,
     CurrentCycle: entityRelation,
     PreviousCycle: entityRelation,
+    BossesDefeated: {
+      ...entityKey,
+      schema: {
+        entity: EntityId,
+        value: "bytes32[]",
+      },
+    },
+    CycleCombatRReq: {
+      key: ["requestId"],
+      schema: {
+        requestId: "bytes32",
+        mapEntity: EntityId,
+        connection: "uint32",
+        fortune: "uint32",
+        winnerPStat: arrayPStat,
+        loserPStat: arrayPStat,
+      },
+    },
     CycleTurns: {
       ...entityKey,
       schema: {

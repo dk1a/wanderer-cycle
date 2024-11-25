@@ -31,10 +31,13 @@ import { SkillTemplateDuration, SkillTemplateDurationData } from "./tables/Skill
 import { SkillDescription } from "./tables/SkillDescription.sol";
 import { SkillNameToEntity } from "./tables/SkillNameToEntity.sol";
 import { SkillCooldown, SkillCooldownData } from "./tables/SkillCooldown.sol";
+import { FromTemplate } from "./tables/FromTemplate.sol";
 import { ActiveCycle } from "./tables/ActiveCycle.sol";
 import { CycleToWanderer } from "./tables/CycleToWanderer.sol";
 import { CurrentCycle } from "./tables/CurrentCycle.sol";
 import { PreviousCycle } from "./tables/PreviousCycle.sol";
+import { BossesDefeated } from "./tables/BossesDefeated.sol";
+import { CycleCombatRReq, CycleCombatRReqData } from "./tables/CycleCombatRReq.sol";
 import { CycleTurns } from "./tables/CycleTurns.sol";
 import { CycleTurnsLastClaimed } from "./tables/CycleTurnsLastClaimed.sol";
 import { ActiveWheel } from "./tables/ActiveWheel.sol";

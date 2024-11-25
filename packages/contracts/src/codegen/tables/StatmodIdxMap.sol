@@ -17,7 +17,7 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 // Import user types
-import { StatmodTopic } from "../../modules/statmod/StatmodTopic.sol";
+import { StatmodTopic } from "./../../modules/statmod/StatmodTopic.sol";
 
 library StatmodIdxMap {
   // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "StatmodIdxMap", typeId: RESOURCE_TABLE });`

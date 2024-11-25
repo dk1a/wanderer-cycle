@@ -17,7 +17,7 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 // Import user types
-import { SkillType, TargetType } from "../common.sol";
+import { SkillType, TargetType } from "./../common.sol";
 
 struct SkillTemplateData {
   uint8 requiredLevel;

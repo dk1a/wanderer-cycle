@@ -43,6 +43,14 @@ library LibRNG {
     return uint256(blockhash(precommit));
   }
 
+  function removeRequest(bytes32 requestOwnerEntity, bytes32 requestId) internal {
+    if (requestOwnerEntity != RNGRequestOwner.get(requestId)) {
+      revert LibRNG__NotRequestOwner();
+    }
+    RNGPrecommit.deleteRecord(requestId);
+    RNGRequestOwner.deleteRecord(requestId);
+  }
+
   function isValid(uint256 precommit) internal view returns (bool) {
     return
       // must be initialized
