@@ -17,8 +17,8 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 // Import user types
-import { StatmodTopic } from "./../../modules/statmod/StatmodTopic.sol";
-import { StatmodOp, EleStat } from "./../common.sol";
+import { StatmodTopic } from "../../modules/statmod/StatmodTopic.sol";
+import { StatmodOp, EleStat } from "../common.sol";
 
 struct StatmodBaseData {
   StatmodTopic statmodTopic;
