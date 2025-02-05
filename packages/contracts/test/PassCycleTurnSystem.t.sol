@@ -20,8 +20,8 @@ contract PassCycleTurnSystemTest is MudLibTest {
     (wandererEntity, cycleEntity) = world.spawnWanderer(guiseEntity);
   }
 
-  function testPassCycle() public {
-    world.passCycle(wandererEntity);
+  function testPassCycleTurn() public {
+    world.passCycleTurn(wandererEntity);
 
     uint32 turns = CycleTurns.get(cycleEntity);
     assertEq(turns, LibCycleTurns.TURNS_PER_PERIOD - 1);
@@ -30,7 +30,7 @@ contract PassCycleTurnSystemTest is MudLibTest {
   function testPassAllTurns() public {
     // Pass all available turns
     for (uint i = 0; i < LibCycleTurns.TURNS_PER_PERIOD; i++) {
-      world.passCycle(wandererEntity);
+      world.passCycleTurn(wandererEntity);
     }
 
     uint32 turns = CycleTurns.get(cycleEntity);

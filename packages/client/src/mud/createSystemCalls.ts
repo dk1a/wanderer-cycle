@@ -2,8 +2,8 @@
  * Create the system calls that the client can use to ask
  * for changes in the World state (using the System contracts).
  */
-import { Hex } from "viem";
 import { Entity } from "@latticexyz/recs";
+import { Hex } from "viem";
 
 import { SetupNetworkResult } from "./setupNetwork";
 
@@ -36,10 +36,28 @@ export function createSystemCalls(
     await waitForTransaction(tx);
   };
 
-  // const learnCycleSkill = async (wandererEntity: Entity, skillEntity: Entity) => {
-  //   const tx = await worldContract.write.LearnCycleSkill([wandererEntity as Hex, skillEntity as Hex]);
-  //   await waitForTransaction(tx);
-  // };
+  const claimCycleTurns = async (wandererEntity: Entity) => {
+    const tx = await worldContract.write.claimCycleTurns([
+      wandererEntity as Hex,
+    ]);
+    await waitForTransaction(tx);
+  };
+
+  const passCycleTurn = async (wandererEntity: Entity) => {
+    const tx = await worldContract.write.passCycleTurn([wandererEntity as Hex]);
+    await waitForTransaction(tx);
+  };
+
+  const learnCycleSkill = async (
+    wandererEntity: Entity,
+    skillEntity: Entity,
+  ) => {
+    const tx = await worldContract.write.learnFromCycle([
+      wandererEntity as Hex,
+      skillEntity as Hex,
+    ]);
+    await waitForTransaction(tx);
+  };
 
   // const permSkill = async (wandererEntity: Entity, skillEntity: Entity) => {
   //   const tx = await worldContract.write.PermSkill([wandererEntity as Hex, skillEntity as Hex]);
@@ -53,7 +71,9 @@ export function createSystemCalls(
 
   return {
     spawnWanderer,
-    // learnCycleSkill,
+    claimCycleTurns,
+    passCycleTurn,
+    learnCycleSkill,
     // permSkill,
     // noncombatSkill
   };

@@ -1,8 +1,8 @@
 import { useComponentValue, useEntityQuery } from "@latticexyz/react";
 import { Entity, Has } from "@latticexyz/recs";
-import { useMemo } from "react";
-import { getSkill } from "../utils/skill";
+import { useCallback, useMemo } from "react";
 import { useMUD } from "../../MUDContext";
+import { getSkill } from "../utils/skill";
 
 export const useSkill = (entity: Entity | undefined) => {
   const { components } = useMUD();
@@ -59,20 +59,17 @@ export const useLearnedSkillEntities = (targetEntity: Entity | undefined) => {
   }, [learnedSkills]);
 };
 
-// export const useLearnCycleSkill = (wandererEntity: Entity | undefined) => {
-//   const { systemCalls } = useMUD();
-//
-//   return useCallback(
-//     async (skillEntity: Entity) => {
-//       if (wandererEntity === undefined) {
-//         throw new Error("No wanderer selected");
-//       }
-//
-//       await systemCalls.LearnCycleSkill(wandererEntity, skillEntity);
-//     },
-//     [systemCalls, wandererEntity]
-//   );
-// };
+export const useLearnCycleSkill = (wandererEntity: Entity | undefined) => {
+  const { systemCalls } = useMUD();
+
+  return useCallback(
+    async (skillEntity: Entity) => {
+      if (wandererEntity === undefined) throw new Error("No wanderer selected");
+      await systemCalls.learnCycleSkill(wandererEntity, skillEntity);
+    },
+    [wandererEntity, systemCalls],
+  );
+};
 
 // export const usePermSkill = (wandererEntity: Entity | undefined) => {
 //   const { systemCalls } = useMUD();
@@ -85,7 +82,7 @@ export const useLearnedSkillEntities = (targetEntity: Entity | undefined) => {
 //     [systemCalls, wandererEntity],
 //   );
 // };
-
+//
 // export const useExecuteNoncombatSkill = () => {
 //   const { systemCalls } = useMUD();
 //

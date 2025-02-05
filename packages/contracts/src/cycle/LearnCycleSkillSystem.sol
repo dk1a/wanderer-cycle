@@ -21,7 +21,8 @@ contract LearnCycleSkillSystem is System {
     // check skill's level requirements
     uint32 currentLevel = LibGuiseLevel.getAggregateLevel(cycleEntity);
     uint8 requiredLevel = SkillTemplate.getRequiredLevel(skillEntity);
-    if (currentLevel < requiredLevel) {
+    // TODO remove false, this is just for skill testing purposes
+    if (false && currentLevel < requiredLevel) {
       revert LearnCycleSkillSystem_LevelIsTooLow();
     }
 

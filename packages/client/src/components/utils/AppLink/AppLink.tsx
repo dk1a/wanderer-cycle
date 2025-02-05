@@ -2,7 +2,7 @@ import { Link, LinkProps } from "react-router-dom";
 import { FC } from "react";
 
 interface AppLinkProps extends LinkProps {
-  className: string;
+  className?: string;
 }
 
 export const AppLink: FC<AppLinkProps> = (props) => {
