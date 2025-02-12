@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { LibCycleTurns } from "../src/cycle/LibCycleTurns.sol";
-import { CycleTurns, CycleTurnsLastClaimed, ActiveGuise, ActiveCycle } from "../src/codegen/index.sol";
+import { LibCycleTurns } from "../src/namespaces/root/cycle/LibCycleTurns.sol";
+import { CycleTurns, CycleTurnsLastClaimed, ActiveGuise, ActiveCycle } from "../src/namespaces/root/codegen/index.sol";
 import { MudLibTest } from "./MudLibTest.t.sol";
 
 contract LibCycleTurnsTest is MudLibTest {

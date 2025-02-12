@@ -2,9 +2,9 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { LibPickAffix } from "../src/affix/LibPickAffix.sol";
+import { LibPickAffix } from "../src/namespaces/root/affix/LibPickAffix.sol";
 import { AffixPartId } from "../src/codegen/common.sol";
-import { AffixPrototype, AffixPrototypeData } from "../src/codegen/index.sol";
+import { AffixPrototype, AffixPrototypeData } from "../src/namespaces/root/codegen/index.sol";
 
 contract LibPickAffixTest is MudLibTest {
   bytes32 internal targetEntity = keccak256("targetEntity");

@@ -2,8 +2,8 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { Statmod } from "../src/modules/statmod/Statmod.sol";
-import { StatmodTopic, StatmodTopics } from "../src/modules/statmod/StatmodTopic.sol";
+import { Statmod } from "../src/namespaces/statmod/Statmod.sol";
+import { StatmodTopic, StatmodTopics } from "../src/namespaces/statmod/StatmodTopic.sol";
 import { StatmodOp, EleStat } from "../src/codegen/common.sol";
 import { StatmodOp_length, EleStat_length } from "../src/CustomTypes.sol";
 

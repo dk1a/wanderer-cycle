@@ -4,8 +4,8 @@ pragma solidity >=0.8.21;
 import "forge-std/Test.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { LibRNG } from "../src/rng/LibRNG.sol";
-import { RNGPrecommit, RNGRequestOwner } from "../src/codegen/index.sol";
+import { LibRNG } from "../src/namespaces/root/rng/LibRNG.sol";
+import { RNGPrecommit, RNGRequestOwner } from "../src/namespaces/root/codegen/index.sol";
 import { MudLibTest } from "./MudLibTest.t.sol";
 import { TestSystem } from "./TestSystem.sol";
 

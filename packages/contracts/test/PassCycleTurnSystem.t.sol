@@ -2,11 +2,11 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { CycleTurns } from "../src/codegen/index.sol";
+import { CycleTurns } from "../src/namespaces/root/codegen/index.sol";
 
-import { LibGuise } from "../src/guise/LibGuise.sol";
-import { LibCycle } from "../src/cycle/LibCycle.sol";
-import { LibCycleTurns } from "../src/cycle/LibCycleTurns.sol";
+import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
+import { LibCycle } from "../src/namespaces/root/cycle/LibCycle.sol";
+import { LibCycleTurns } from "../src/namespaces/root/cycle/LibCycleTurns.sol";
 
 contract PassCycleTurnSystemTest is MudLibTest {
   bytes32 internal guiseEntity;

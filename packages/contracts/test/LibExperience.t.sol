@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { LibExperience } from "../src/charstat/LibExperience.sol";
-import { Experience } from "../src/codegen/index.sol";
+import { LibExperience } from "../src/namespaces/root/charstat/LibExperience.sol";
+import { Experience } from "../src/namespaces/root/codegen/index.sol";
 import { PStat_length } from "../src/CustomTypes.sol";
 import { MudLibTest } from "./MudLibTest.t.sol";
 

@@ -2,9 +2,10 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { SkillTemplate, EffectTemplate, Name } from "../src/codegen/index.sol";
+import { EffectTemplate } from "../src/namespaces/effect/LibEffect.sol";
+import { SkillTemplate, Name } from "../src/namespaces/root/codegen/index.sol";
 import { SkillType, TargetType } from "../src/codegen/common.sol";
-import { LibSkill } from "../src/skill/LibSkill.sol";
+import { LibSkill } from "../src/namespaces/root/skill/LibSkill.sol";
 
 contract SkillTemplateTest is MudLibTest {
   // sample skill entities

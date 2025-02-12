@@ -3,8 +3,8 @@ pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
-import { GenericDuration, GenericDurationData, EffectDuration, DurationIdxMap } from "../src/codegen/index.sol";
-import { Duration } from "../src/modules/duration/Duration.sol";
+import { EffectDuration } from "../src/namespaces/effect/LibEffect.sol";
+import { Duration, GenericDuration, GenericDurationData, DurationIdxMap } from "../src/namespaces/duration/Duration.sol";
 
 contract DurationTest is MudLibTest {
   bytes32 targetEntity = keccak256("targetEntity");

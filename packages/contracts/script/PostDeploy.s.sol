@@ -7,11 +7,11 @@ import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
 
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 
-import { LibInitStatmod } from "../src/init/LibInitStatmod.sol";
-import { LibInitSkill } from "../src/init/LibInitSkill.sol";
-import { LibInitGuise } from "../src/init/LibInitGuise.sol";
-import { LibInitWheel } from "../src/init/LibInitWheel.sol";
-import { LibInitERC721 } from "../src/init/LibInitERC721.sol";
+import { LibInitStatmod } from "../src/namespaces/root/init/LibInitStatmod.sol";
+import { LibInitSkill } from "../src/namespaces/root/init/LibInitSkill.sol";
+import { LibInitGuise } from "../src/namespaces/root/init/LibInitGuise.sol";
+import { LibInitWheel } from "../src/namespaces/root/init/LibInitWheel.sol";
+import { LibInitERC721 } from "../src/namespaces/root/init/LibInitERC721.sol";
 
 contract PostDeploy is Script {
   function run(address worldAddress) external {

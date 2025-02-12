@@ -2,9 +2,9 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { ActiveCycle } from "../src/codegen/index.sol";
+import { ActiveCycle } from "../src/namespaces/root/codegen/index.sol";
 
-import { LibGuise } from "../src/guise/LibGuise.sol";
+import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 
 contract StartCycleSystemTest is MudLibTest {
   bytes32 internal guiseEntity;

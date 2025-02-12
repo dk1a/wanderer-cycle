@@ -5,12 +5,12 @@ import { MudLibTest } from "./MudLibTest.t.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
 
-import { ActiveGuise, DefaultWheel, Wanderer, GuisePrototype, ActiveCycle, CycleTurns, LifeCurrent, ManaCurrent } from "../src/codegen/index.sol";
+import { ActiveGuise, DefaultWheel, Wanderer, GuisePrototype, ActiveCycle, CycleTurns, LifeCurrent, ManaCurrent } from "../src/namespaces/root/codegen/index.sol";
 
-import { LibCycle } from "../src/cycle/LibCycle.sol";
-import { LibGuise } from "../src/guise/LibGuise.sol";
-import { LibExperience } from "../src/charstat/LibExperience.sol";
-import { ERC721Namespaces } from "../src/token/ERC721Namespaces.sol";
+import { LibCycle } from "../src/namespaces/root/cycle/LibCycle.sol";
+import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
+import { LibExperience } from "../src/namespaces/root/charstat/LibExperience.sol";
+import { ERC721Namespaces } from "../src/namespaces/root/token/ERC721Namespaces.sol";
 
 contract WandererSpawnSystemTest is MudLibTest {
   bytes32 guiseEntity;

@@ -2,11 +2,10 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { GenericDurationData, DurationIdxMap, EffectDuration, EffectTemplateData } from "../src/codegen/index.sol";
-import { Duration } from "../src/modules/duration/Duration.sol";
-import { LibEffect } from "../src/modules/effect/LibEffect.sol";
-import { LibEffectTemplate } from "../src/modules/effect/LibEffectTemplate.sol";
-import { StatmodTopics, StatmodOp, EleStat } from "../src/modules/statmod/StatmodTopic.sol";
+import { Duration, GenericDurationData, DurationIdxMap } from "../src/namespaces/duration/Duration.sol";
+import { LibEffect, EffectDuration, EffectTemplateData } from "../src/namespaces/effect/LibEffect.sol";
+import { LibEffectTemplate } from "../src/namespaces/effect/LibEffectTemplate.sol";
+import { StatmodTopics, StatmodOp, EleStat } from "../src/namespaces/statmod/StatmodTopic.sol";
 
 contract LibEffectTest is MudLibTest {
   bytes32 targetEntity = keccak256("targetEntity");

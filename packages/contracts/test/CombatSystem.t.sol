@@ -4,13 +4,13 @@ pragma solidity >=0.8.21;
 import { IWorldErrors } from "@latticexyz/world/src/IWorldErrors.sol";
 import { MudLibTest } from "./MudLibTest.t.sol";
 
-import { ActiveCombat } from "../src/codegen/index.sol";
-import { CombatSystem, CombatAction, CombatActionType } from "../src/combat/CombatSystem.sol";
-import { LibActiveCombat } from "../src/combat/LibActiveCombat.sol";
-import { LibCharstat } from "../src/charstat/LibCharstat.sol";
+import { ActiveCombat } from "../src/namespaces/root/codegen/index.sol";
+import { CombatSystem, CombatAction, CombatActionType } from "../src/namespaces/root/combat/CombatSystem.sol";
+import { LibActiveCombat } from "../src/namespaces/root/combat/LibActiveCombat.sol";
+import { LibCharstat } from "../src/namespaces/root/charstat/LibCharstat.sol";
 import { CombatResult, PStat, PStat_length, EleStat_length } from "../src/CustomTypes.sol";
-import { StatmodTopics } from "../src/modules/statmod/StatmodTopic.sol";
-import { Statmod } from "../src/modules/statmod/Statmod.sol";
+import { StatmodTopics } from "../src/namespaces/statmod/StatmodTopic.sol";
+import { Statmod } from "../src/namespaces/statmod/Statmod.sol";
 import { EleStat, StatmodOp } from "../src/codegen/common.sol";
 
 contract CombatSystemTest is MudLibTest {

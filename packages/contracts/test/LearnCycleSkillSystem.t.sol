@@ -2,11 +2,11 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { CycleToWanderer, GuiseNameToEntity, SkillNameToEntity, LearnedSkills } from "../src/codegen/index.sol";
+import { CycleToWanderer, GuiseNameToEntity, SkillNameToEntity, LearnedSkills } from "../src/namespaces/root/codegen/index.sol";
 
-import { LibGuiseLevel } from "../src/guise/LibGuiseLevel.sol";
-import { LibERC721 } from "../src/token/LibERC721.sol";
-import { LibArray } from "../src/utils/LibArray.sol";
+import { LibGuiseLevel } from "../src/namespaces/root/guise/LibGuiseLevel.sol";
+import { LibERC721 } from "../src/namespaces/root/token/LibERC721.sol";
+import { LibArray } from "../src/namespaces/root/utils/LibArray.sol";
 
 contract LearnCycleSkillSystemTest is MudLibTest {
   bytes32 warriorGuiseProtoEntity;

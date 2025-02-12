@@ -2,16 +2,16 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { GenericDuration, GenericDurationData, EffectDuration, DurationIdxMap, SkillCooldown } from "../src/codegen/index.sol";
+import { SkillCooldown } from "../src/namespaces/root/codegen/index.sol";
 import { EleStat, SkillType, TargetType, StatmodOp } from "../src/codegen/common.sol";
 import { PStat, PStat_length, StatmodOp_length, EleStat_length, StatmodOpFinal } from "../src/CustomTypes.sol";
 
-import { Duration } from "../src/modules/duration/Duration.sol";
-import { LibLearnedSkills } from "../src/skill/LibLearnedSkills.sol";
-import { LibSkill } from "../src/skill/LibSkill.sol";
-import { LibCharstat } from "../src/charstat/LibCharstat.sol";
-import { LibExperience } from "../src/charstat/LibExperience.sol";
-import { LibEffect } from "../src/modules/effect/LibEffect.sol";
+import { Duration, GenericDuration, GenericDurationData, DurationIdxMap } from "../src/namespaces/duration/Duration.sol";
+import { LibLearnedSkills } from "../src/namespaces/root/skill/LibLearnedSkills.sol";
+import { LibSkill } from "../src/namespaces/root/skill/LibSkill.sol";
+import { LibCharstat } from "../src/namespaces/root/charstat/LibCharstat.sol";
+import { LibExperience } from "../src/namespaces/root/charstat/LibExperience.sol";
+import { LibEffect, EffectDuration } from "../src/namespaces/effect/LibEffect.sol";
 import { TestSystem } from "./TestSystem.sol";
 
 contract SkillTestSystem is TestSystem {
