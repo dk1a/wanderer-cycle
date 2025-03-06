@@ -4,7 +4,7 @@ pragma solidity >=0.8.21;
 import { MudLibTest } from "./MudLibTest.t.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { EffectDuration } from "../src/namespaces/effect/LibEffect.sol";
-import { Duration, GenericDuration, GenericDurationData, DurationIdxMap } from "../src/namespaces/duration/Duration.sol";
+import { Duration, GenericDuration, GenericDurationData, Idx_GenericDuration_TargetEntityTimeId } from "../src/namespaces/duration/Duration.sol";
 
 contract DurationTest is MudLibTest {
   bytes32 targetEntity = keccak256("targetEntity");
@@ -58,9 +58,11 @@ contract DurationTest is MudLibTest {
   function testDecreaseApplications() public {
     _increaseApps();
 
-    assertTrue(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, app10));
+    (bool has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, app10);
+    assertTrue(has);
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, app10), 10);
-    assertTrue(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, app5));
+    (has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, app5);
+    assertTrue(has);
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, app5), 5);
 
     // Decrease by 5
@@ -70,9 +72,11 @@ contract DurationTest is MudLibTest {
       GenericDurationData({ timeId: timeId, timeValue: 5 })
     );
 
-    assertTrue(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, app10));
+    (has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, app10);
+    assertTrue(has);
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, app10), 5);
-    assertFalse(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, app5));
+    (has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, app5);
+    assertFalse(has);
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, app5), 0);
 
     // anotherTimeId shouldn't affect timeId
@@ -82,9 +86,11 @@ contract DurationTest is MudLibTest {
       GenericDurationData({ timeId: anotherTimeId, timeValue: 5 })
     );
 
-    assertTrue(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, app10));
+    (has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, app10);
+    assertTrue(has);
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, app10), 5);
-    assertFalse(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, app5));
+    (has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, app5);
+    assertFalse(has);
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, app5), 0);
 
     // Decrease by 5
@@ -94,9 +100,11 @@ contract DurationTest is MudLibTest {
       GenericDurationData({ timeId: timeId, timeValue: 5 })
     );
 
-    assertFalse(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, app10));
+    (has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, app10);
+    assertFalse(has);
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, app10), 0);
-    assertFalse(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, app5));
+    (has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, app5);
+    assertFalse(has);
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, app5), 0);
   }
 
@@ -105,10 +113,12 @@ contract DurationTest is MudLibTest {
 
     Duration.remove(EffectDuration._tableId, targetEntity, app10);
     // Check the removed entity
-    assertFalse(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, app10));
+    (bool has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, app10);
+    assertFalse(has);
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, app10), 0);
     // The other entity should be unaffected
-    assertTrue(DurationIdxMap.getHas(EffectDuration._tableId, targetEntity, app5));
+    (has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, app5);
+    assertTrue(has);
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, app5), 5);
   }
 }

@@ -6,7 +6,7 @@ import { SkillCooldown } from "../src/namespaces/root/codegen/index.sol";
 import { EleStat, SkillType, TargetType, StatmodOp } from "../src/codegen/common.sol";
 import { PStat, PStat_length, StatmodOp_length, EleStat_length, StatmodOpFinal } from "../src/CustomTypes.sol";
 
-import { Duration, GenericDuration, GenericDurationData, DurationIdxMap } from "../src/namespaces/duration/Duration.sol";
+import { Duration, GenericDuration, GenericDurationData } from "../src/namespaces/duration/Duration.sol";
 import { LibLearnedSkills } from "../src/namespaces/root/skill/LibLearnedSkills.sol";
 import { LibSkill } from "../src/namespaces/root/skill/LibSkill.sol";
 import { LibCharstat } from "../src/namespaces/root/charstat/LibCharstat.sol";

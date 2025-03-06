@@ -3,7 +3,8 @@ pragma solidity >=0.8.21;
 
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
-import { GenericDuration, GenericDurationData, DurationIdxList, DurationIdxMap } from "./codegen/index.sol";
+import { GenericDuration, GenericDurationData } from "./codegen/tables/GenericDuration.sol";
+import { Idx_GenericDuration_TargetEntityTimeId } from "./codegen/idxs/Idx_GenericDuration_TargetEntityTimeId.sol";
 
 library Duration {
   error Duration_IncreaseByZero();
@@ -43,9 +44,13 @@ library Duration {
     bytes32 targetEntity,
     GenericDurationData memory duration
   ) internal {
-    bytes32[] memory applicationEntities = DurationIdxList.get(tableId, targetEntity, duration.timeId);
-    for (uint256 i; i < applicationEntities.length; i++) {
-      bytes32 applicationEntity = applicationEntities[i];
+    uint256 applicationEntitiesLength = Idx_GenericDuration_TargetEntityTimeId.length(
+      tableId,
+      targetEntity,
+      duration.timeId
+    );
+    for (uint256 i; i < applicationEntitiesLength; i++) {
+      bytes32 applicationEntity = Idx_GenericDuration_TargetEntityTimeId.get(tableId, targetEntity, duration.timeId, i);
 
       uint256 storedValue = GenericDuration.getTimeValue(tableId, targetEntity, applicationEntity);
 
@@ -86,6 +91,7 @@ library Duration {
   }
 
   function has(ResourceId tableId, bytes32 targetEntity, bytes32 applicationEntity) internal view returns (bool) {
-    return DurationIdxMap.getHas(tableId, targetEntity, applicationEntity);
+    (bool _has, ) = Idx_GenericDuration_TargetEntityTimeId.has(tableId, targetEntity, applicationEntity);
+    return _has;
   }
 }

@@ -1,5 +1,6 @@
 import { defineWorld } from "@latticexyz/world";
 import { resolveTableId } from "@latticexyz/world/internal";
+import { basicIdxModule, uniqueIdxModule } from "@dk1a/mud-table-idxs";
 import {
   ELE_STAT_ARRAY,
   SKILL_TYPE_ARRAY,
@@ -417,31 +418,6 @@ export default defineWorld({
             tableIdArgument: true,
           },
         },
-        DurationIdxList: {
-          key: ["sourceTableId", "targetEntity", "timeId"],
-          schema: {
-            sourceTableId: "ResourceId",
-            targetEntity: EntityId,
-            timeId: "bytes32",
-            applicationEntities: EntityIdArray,
-          },
-          codegen: {
-            dataStruct: false,
-          },
-        },
-        DurationIdxMap: {
-          key: ["sourceTableId", "targetEntity", "applicationEntity"],
-          schema: {
-            sourceTableId: "ResourceId",
-            targetEntity: EntityId,
-            applicationEntity: EntityId,
-            has: "bool",
-            index: "uint40",
-          },
-          codegen: {
-            dataStruct: false,
-          },
-        },
       },
     },
     /************************************************************************
@@ -538,6 +514,8 @@ export default defineWorld({
       root: true,
       args: [],
     },
+    basicIdxModule,
+    uniqueIdxModule,
     ...keysInTable(["Experience", "LearnedSkills", "EffectTemplate", "EffectApplied"]),
     ...keysWithValue(["AffixProtoGroup"]),
     ...duration(["EffectDuration", "SkillCooldown"]),

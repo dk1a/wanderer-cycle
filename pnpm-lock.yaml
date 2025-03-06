@@ -11,6 +11,9 @@ importers:
       '@latticexyz/cli':
         specifier: 2.2.20
         version: 2.2.20(react@18.3.1)(typescript@5.4.2)
+      '@latticexyz/common':
+        specifier: 2.2.20
+        version: 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
       '@types/debug':
         specifier: 4.1.7
         version: 4.1.7
@@ -41,6 +44,9 @@ importers:
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
       typescript:
         specifier: 5.4.2
         version: 5.4.2
@@ -126,27 +132,30 @@ importers:
 
   packages/contracts:
     dependencies:
+      '@dk1a/mud-table-idxs':
+        specifier: ^0.2.0
+        version: 0.2.0(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(react@18.3.1)(typescript@5.4.2)(zod@3.23.8)
       '@latticexyz/cli':
         specifier: 2.2.20
         version: 2.2.20(react@18.3.1)(typescript@5.4.2)
       '@latticexyz/schema-type':
         specifier: 2.2.20
-        version: 2.2.20(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+        version: 2.2.20(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
       '@latticexyz/store':
         specifier: 2.2.20
-        version: 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+        version: 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
       '@latticexyz/world':
         specifier: 2.2.20
-        version: 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+        version: 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
       '@latticexyz/world-modules':
         specifier: 2.2.20
-        version: 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))
+        version: 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))
     devDependencies:
       '@dk1a/solidity-stringutils':
         specifier: ^0.3.3
         version: 0.3.3
       '@types/node':
-        specifier: ^18.15.11
+        specifier: ^18.19.33
         version: 18.19.33
       ds-test:
         specifier: https://github.com/dapphub/ds-test.git#e282159d5170298eb2455a6c05280ab5a73a4ef0
@@ -189,8 +198,17 @@ packages:
   '@ark/schema@0.3.3':
     resolution: {integrity: sha512-SA4QggzaKHxkNB+faWmhSJbCPMHmGBCpb6dNG3VIt5VOMZhZJJSD76/tOUzQvvJNzztHkTakrTZea+iKsEDcRQ==}
 
+  '@ark/schema@0.39.0':
+    resolution: {integrity: sha512-LQbQUb3Sj461LgklXObAyUJNtsUUCBxZlO2HqRLYvRSqpStm0xTMrXn51DwBNNxeSULvKVpXFwoxiSec9kwKww==}
+
   '@ark/util@0.2.2':
     resolution: {integrity: sha512-ryZ4+f3SlReQRH9nTFLK5EeU1Pan5ZfS+ACPSk0ir5uujJouFmvOdnkVfeAJAgeOb3kKmUM9kjelv1cwH2ScZg==}
+
+  '@ark/util@0.35.0':
+    resolution: {integrity: sha512-KxhwMOGMoV605zcqoBVyNFEtKAc3PKy95IWmVz9dwuUzIQ+sh7Bk9KEnlGPXcPAD8DCDs/10deHeO1kfWWONvg==}
+
+  '@ark/util@0.39.0':
+    resolution: {integrity: sha512-90APHVklk8BP4kku7hIh1BgrhuyKYqoZ4O7EybtFRo7cDl9mIyc/QUbGvYDg//73s0J2H0I/gW9pzroA1R4IBQ==}
 
   '@aws-crypto/ie11-detection@3.0.0':
     resolution: {integrity: sha512-341lBBkiY1DfDNKai/wXM3aujNBkXR7tq1URPQDL9wi3AUbI80NR74uF1TXHMm7po1AcnFk8iu2S2IeU/+/A+Q==}
@@ -414,6 +432,9 @@ packages:
   '@babel/types@7.24.6':
     resolution: {integrity: sha512-WaMsgi6Q8zMgMth93GvWPXkhAIEobfsIkLTacoVZoK1J0CevIPGYY2Vo5YvJGqyHqXM6P4ppOYGsIRU8MM9pFQ==}
     engines: {node: '>=6.9.0'}
+
+  '@dk1a/mud-table-idxs@0.2.0':
+    resolution: {integrity: sha512-LEWilaQoTAwCMAMJF03pvPHdGR5/HpEbbXl5PBfn7FaPYENr8YU3+4YEddx3IUrsEk+pzWW7u7fTxQdDeq68GA==}
 
   '@dk1a/solidity-stringutils@0.3.3':
     resolution: {integrity: sha512-IQodjgcYtYudV1vXUl3f5B/cau0gSji1Izae6a9UiVP5VdJOk+D4QcmCrjy8Rzdb5i2vlPVtrBHhbYncW1+Kcg==}
@@ -873,12 +894,20 @@ packages:
     resolution: {integrity: sha512-TlaHRXDehJuRNR9TfZDNQ45mMEd5dwUwmicsafcIX4SsNiqnCHKjE/1alYPd/lDRVhxdhUAlv8uEhMCI5zjIJQ==}
     engines: {node: ^14.21.3 || >=16}
 
+  '@noble/curves@1.8.1':
+    resolution: {integrity: sha512-warwspo+UYUPep0Q+vtdVB4Ugn8GGQj8iyB3gnRWsztmUHTI3S1nhdiWNsPUGL0vud7JlRRk1XEu7Lq1KGTnMQ==}
+    engines: {node: ^14.21.3 || >=16}
+
   '@noble/hashes@1.4.0':
     resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
     engines: {node: '>= 16'}
 
   '@noble/hashes@1.5.0':
     resolution: {integrity: sha512-1j6kQFb7QRru7eKN3ZDvRcP13rugwdxZqCjbiAVZfIJwgj2A65UmT4TgARXGlXgnRkORLTDTrO19ZErt7+QXgA==}
+    engines: {node: ^14.21.3 || >=16}
+
+  '@noble/hashes@1.7.1':
+    resolution: {integrity: sha512-B8XBPsn4vT/KJAGqDzbwztd+6Yte3P4V7iafm24bxgDe/mlRuK6xmWPuCNrKt2vDafZ8MfJLlchDG/vYafQEjQ==}
     engines: {node: ^14.21.3 || >=16}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -904,14 +933,23 @@ packages:
   '@scure/base@1.1.9':
     resolution: {integrity: sha512-8YKhl8GHiNI/pU2VMaofa2Tor7PJRAjwQLBBuilkJ9L5+13yVbC7JO/wS7piioAvPSwR3JKM1IJ/u4xQzbcXKg==}
 
+  '@scure/base@1.2.4':
+    resolution: {integrity: sha512-5Yy9czTO47mqz+/J8GM6GIId4umdCk1wc1q8rKERQulIoc8VP9pzDcghv10Tl2E7R96ZUx/PhND3ESYUQX8NuQ==}
+
   '@scure/bip32@1.4.0':
     resolution: {integrity: sha512-sVUpc0Vq3tXCkDGYVWGIZTRfnvu8LoTDaev7vbwh0omSvVORONr960MQWdKqJDCReIEmTj3PAr73O3aoxz7OPg==}
 
   '@scure/bip32@1.5.0':
     resolution: {integrity: sha512-8EnFYkqEQdnkuGBVpCzKxyIwDCBLDVj3oiX0EKUFre/tOjL/Hqba1D6n/8RcmaQy4f95qQFrO2A8Sr6ybh4NRw==}
 
+  '@scure/bip32@1.6.2':
+    resolution: {integrity: sha512-t96EPDMbtGgtb7onKKqxRLfE5g05k7uHnHRM2xdE6BP/ZmxaLtPek4J4KfVn/90IQNrU1IOAqMgiDtUdtbe3nw==}
+
   '@scure/bip39@1.4.0':
     resolution: {integrity: sha512-BEEm6p8IueV/ZTfQLp/0vhw4NPnT9oWf5+28nvmeUICjP99f4vr2d+qc7AVGDDtwRep6ifR43Yed9ERVmiITzw==}
+
+  '@scure/bip39@1.5.4':
+    resolution: {integrity: sha512-TFM4ni0vKvCfBpohoh+/lY05i9gRbSwXWngAsF4CABQxoaOHijxuaZ2R6cStDQ5CHtHO9aGJTr4ksVJASRRyMA==}
 
   '@sec-ant/readable-stream@0.4.1':
     resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
@@ -1078,6 +1116,9 @@ packages:
   '@solidity-parser/parser@0.17.0':
     resolution: {integrity: sha512-Nko8R0/kUo391jsEHHxrGM07QFdnPGvlmox4rmH0kNiNAashItAilhy4Mv4pK5gQmW5f4sXAF58fwJbmlkGcVw==}
 
+  '@solidity-parser/parser@0.19.0':
+    resolution: {integrity: sha512-RV16k/qIxW/wWc+mLzV3ARyKUaMUTBy9tOLMzFhtNSKYeTAanQ3a5MudJKf/8arIFnA2L27SNjarQKmFg0w/jA==}
+
   '@trpc/client@10.34.0':
     resolution: {integrity: sha512-nqtDTIqSY/9syo2EjSy4WWWXPU9GsamEh9Tsg698gLAh1nhgFc5+/YYeb+Ne1pbvWGZ5/3t9Dcz3h4wMyyJ9gQ==}
     peerDependencies:
@@ -1208,6 +1249,17 @@ packages:
       zod:
         optional: true
 
+  abitype@1.0.8:
+    resolution: {integrity: sha512-ZeiI6h3GnW06uYDLx0etQtX/p8E24UaHHBj57RSjK7YBFe7iuVn07EDpOeP451D06sF27VOz9JJPlIKJmXgkEg==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+      zod: ^3 >=3.22.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      zod:
+        optional: true
+
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -1270,6 +1322,9 @@ packages:
 
   arktype@2.0.0-beta.6:
     resolution: {integrity: sha512-tbH5/h0z371sgrJIAhZhH2BcrErWv8uQIPVcLmknJ8ffov5/ZbMNufrQ3hG9avGKTcVnVmdQoPhl1WuKuagqXA==}
+
+  arktype@2.0.4:
+    resolution: {integrity: sha512-S68rWVDnJauwH7/QCm8zCUM3aTe9Xk6oRihdcc3FSUAtxCo/q1Fwq46JhcwB5Ufv1YStwdQRz+00Y/URlvbhAQ==}
 
   array-buffer-byte-length@1.0.1:
     resolution: {integrity: sha512-ahC5W1xgou+KTXix4sAO8Ki12Q+jf4i0+tmk3sC+zgcynshkHxzpXdImBehiUYKKKDwvfFiJl1tZt6ewscS1Mg==}
@@ -2317,6 +2372,14 @@ packages:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
 
+  ox@0.6.7:
+    resolution: {integrity: sha512-17Gk/eFsFRAZ80p5eKqv89a57uXjd3NgIf1CaXojATPBuujVc/fQSVhBeAU9JCRB+k7J50WQAyWTxK19T9GgbA==}
+    peerDependencies:
+      typescript: '>=5.4.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   p-limit@3.1.0:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
     engines: {node: '>=10'}
@@ -2930,6 +2993,14 @@ packages:
       typescript:
         optional: true
 
+  viem@2.23.2:
+    resolution: {integrity: sha512-NVmW/E0c5crMOtbEAqMF0e3NmvQykFXhLOc/CkLIXOlzHSA6KXVz3CYVmaKqBF8/xtjsjHAGjdJN3Ru1kFJLaA==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   vite@4.5.3:
     resolution: {integrity: sha512-kQL23kMeX92v3ph7IauVkXkikdDRsYMGTVl5KY2E9OY4ONLvkHf04MDTbnfo6NKxZiDLWzVpP5oTa8hQD8U3dg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -3097,7 +3168,15 @@ snapshots:
     dependencies:
       '@ark/util': 0.2.2
 
+  '@ark/schema@0.39.0':
+    dependencies:
+      '@ark/util': 0.39.0
+
   '@ark/util@0.2.2': {}
+
+  '@ark/util@0.35.0': {}
+
+  '@ark/util@0.39.0': {}
 
   '@aws-crypto/ie11-detection@3.0.0':
     dependencies:
@@ -3134,10 +3213,10 @@ snapshots:
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sso-oidc': 3.583.0
-      '@aws-sdk/client-sts': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)
+      '@aws-sdk/client-sso-oidc': 3.583.0(@aws-sdk/client-sts@3.583.0)
+      '@aws-sdk/client-sts': 3.583.0
       '@aws-sdk/core': 3.582.0
-      '@aws-sdk/credential-provider-node': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0(@aws-sdk/client-sso-oidc@3.583.0))
+      '@aws-sdk/credential-provider-node': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0)
       '@aws-sdk/middleware-host-header': 3.577.0
       '@aws-sdk/middleware-logger': 3.577.0
       '@aws-sdk/middleware-recursion-detection': 3.577.0
@@ -3176,13 +3255,13 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sso-oidc@3.583.0':
+  '@aws-sdk/client-sso-oidc@3.583.0(@aws-sdk/client-sts@3.583.0)':
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sts': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)
+      '@aws-sdk/client-sts': 3.583.0
       '@aws-sdk/core': 3.582.0
-      '@aws-sdk/credential-provider-node': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0(@aws-sdk/client-sso-oidc@3.583.0))
+      '@aws-sdk/credential-provider-node': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0)
       '@aws-sdk/middleware-host-header': 3.577.0
       '@aws-sdk/middleware-logger': 3.577.0
       '@aws-sdk/middleware-recursion-detection': 3.577.0
@@ -3219,6 +3298,7 @@ snapshots:
       '@smithy/util-utf8': 3.0.0
       tslib: 2.7.0
     transitivePeerDependencies:
+      - '@aws-sdk/client-sts'
       - aws-crt
 
   '@aws-sdk/client-sso@3.583.0':
@@ -3264,13 +3344,13 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sts@3.583.0(@aws-sdk/client-sso-oidc@3.583.0)':
+  '@aws-sdk/client-sts@3.583.0':
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sso-oidc': 3.583.0
+      '@aws-sdk/client-sso-oidc': 3.583.0(@aws-sdk/client-sts@3.583.0)
       '@aws-sdk/core': 3.582.0
-      '@aws-sdk/credential-provider-node': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0(@aws-sdk/client-sso-oidc@3.583.0))
+      '@aws-sdk/credential-provider-node': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0)
       '@aws-sdk/middleware-host-header': 3.577.0
       '@aws-sdk/middleware-logger': 3.577.0
       '@aws-sdk/middleware-recursion-detection': 3.577.0
@@ -3307,7 +3387,6 @@ snapshots:
       '@smithy/util-utf8': 3.0.0
       tslib: 2.7.0
     transitivePeerDependencies:
-      - '@aws-sdk/client-sso-oidc'
       - aws-crt
 
   '@aws-sdk/core@3.582.0':
@@ -3339,13 +3418,13 @@ snapshots:
       '@smithy/util-stream': 3.0.1
       tslib: 2.7.0
 
-  '@aws-sdk/credential-provider-ini@3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0(@aws-sdk/client-sso-oidc@3.583.0))':
+  '@aws-sdk/credential-provider-ini@3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0)':
     dependencies:
-      '@aws-sdk/client-sts': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)
+      '@aws-sdk/client-sts': 3.583.0
       '@aws-sdk/credential-provider-env': 3.577.0
       '@aws-sdk/credential-provider-process': 3.577.0
       '@aws-sdk/credential-provider-sso': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)
-      '@aws-sdk/credential-provider-web-identity': 3.577.0(@aws-sdk/client-sts@3.583.0(@aws-sdk/client-sso-oidc@3.583.0))
+      '@aws-sdk/credential-provider-web-identity': 3.577.0(@aws-sdk/client-sts@3.583.0)
       '@aws-sdk/types': 3.577.0
       '@smithy/credential-provider-imds': 3.0.0
       '@smithy/property-provider': 3.0.0
@@ -3356,14 +3435,14 @@ snapshots:
       - '@aws-sdk/client-sso-oidc'
       - aws-crt
 
-  '@aws-sdk/credential-provider-node@3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0(@aws-sdk/client-sso-oidc@3.583.0))':
+  '@aws-sdk/credential-provider-node@3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0)':
     dependencies:
       '@aws-sdk/credential-provider-env': 3.577.0
       '@aws-sdk/credential-provider-http': 3.582.0
-      '@aws-sdk/credential-provider-ini': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0(@aws-sdk/client-sso-oidc@3.583.0))
+      '@aws-sdk/credential-provider-ini': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0)
       '@aws-sdk/credential-provider-process': 3.577.0
       '@aws-sdk/credential-provider-sso': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)
-      '@aws-sdk/credential-provider-web-identity': 3.577.0(@aws-sdk/client-sts@3.583.0(@aws-sdk/client-sso-oidc@3.583.0))
+      '@aws-sdk/credential-provider-web-identity': 3.577.0(@aws-sdk/client-sts@3.583.0)
       '@aws-sdk/types': 3.577.0
       '@smithy/credential-provider-imds': 3.0.0
       '@smithy/property-provider': 3.0.0
@@ -3396,9 +3475,9 @@ snapshots:
       - '@aws-sdk/client-sso-oidc'
       - aws-crt
 
-  '@aws-sdk/credential-provider-web-identity@3.577.0(@aws-sdk/client-sts@3.583.0(@aws-sdk/client-sso-oidc@3.583.0))':
+  '@aws-sdk/credential-provider-web-identity@3.577.0(@aws-sdk/client-sts@3.583.0)':
     dependencies:
-      '@aws-sdk/client-sts': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)
+      '@aws-sdk/client-sts': 3.583.0
       '@aws-sdk/types': 3.577.0
       '@smithy/property-provider': 3.0.0
       '@smithy/types': 3.0.0
@@ -3443,7 +3522,7 @@ snapshots:
 
   '@aws-sdk/token-providers@3.577.0(@aws-sdk/client-sso-oidc@3.583.0)':
     dependencies:
-      '@aws-sdk/client-sso-oidc': 3.583.0
+      '@aws-sdk/client-sso-oidc': 3.583.0(@aws-sdk/client-sts@3.583.0)
       '@aws-sdk/types': 3.577.0
       '@smithy/property-provider': 3.0.0
       '@smithy/shared-ini-file-loader': 3.0.0
@@ -3618,6 +3697,51 @@ snapshots:
       '@babel/helper-string-parser': 7.24.6
       '@babel/helper-validator-identifier': 7.24.6
       to-fast-properties: 2.0.0
+
+  '@dk1a/mud-table-idxs@0.2.0(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(react@18.3.1)(typescript@5.4.2)(zod@3.23.8)':
+    dependencies:
+      '@ark/util': 0.35.0
+      '@latticexyz/cli': 2.2.20(react@18.3.1)(typescript@5.4.2)
+      '@latticexyz/config': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/protocol-parser': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/schema-type': 2.2.20(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/store': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/world': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/world-modules': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))
+      '@solidity-parser/parser': 0.19.0
+      arktype: 2.0.4
+      debug: 4.3.4
+      viem: 2.23.2(typescript@5.4.2)(zod@3.23.8)
+    transitivePeerDependencies:
+      - '@aws-sdk/client-kms'
+      - '@aws-sdk/client-rds-data'
+      - '@cloudflare/workers-types'
+      - '@libsql/client'
+      - '@neondatabase/serverless'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@tanstack/react-query'
+      - '@types/better-sqlite3'
+      - '@types/pg'
+      - '@types/react'
+      - '@types/sql.js'
+      - '@vercel/postgres'
+      - asn1.js
+      - aws-crt
+      - better-sqlite3
+      - bufferutil
+      - bun-types
+      - immer
+      - knex
+      - mysql2
+      - pg
+      - react
+      - sqlite3
+      - supports-color
+      - typescript
+      - utf-8-validate
+      - wagmi
+      - zod
 
   '@dk1a/solidity-stringutils@0.3.3': {}
 
@@ -3866,6 +3990,19 @@ snapshots:
       - typescript
       - zod
 
+  '@latticexyz/block-logs-stream@2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)':
+    dependencies:
+      '@latticexyz/common': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      debug: 4.3.4
+      rxjs: 7.5.5
+      viem: 2.23.2(typescript@5.4.2)(zod@3.23.8)
+    transitivePeerDependencies:
+      - '@aws-sdk/client-kms'
+      - asn1.js
+      - supports-color
+      - typescript
+      - zod
+
   '@latticexyz/cli@2.2.20(react@18.3.1)(typescript@5.4.2)':
     dependencies:
       '@ark/util': 0.2.2
@@ -3971,6 +4108,26 @@ snapshots:
       - typescript
       - zod
 
+  '@latticexyz/common@2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)':
+    dependencies:
+      '@latticexyz/schema-type': 2.2.20(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@solidity-parser/parser': 0.16.2
+      abitype: 1.0.6(typescript@5.4.2)(zod@3.23.8)
+      debug: 4.3.4
+      execa: 9.5.2
+      p-queue: 7.4.1
+      p-retry: 5.1.2
+      prettier: 3.2.5
+      prettier-plugin-solidity: 1.3.1(prettier@3.2.5)
+      viem: 2.23.2(typescript@5.4.2)(zod@3.23.8)
+    optionalDependencies:
+      '@aws-sdk/client-kms': 3.583.0
+      asn1.js: 5.4.1
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+      - zod
+
   '@latticexyz/config@2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)':
     dependencies:
       '@ark/util': 0.2.2
@@ -3994,6 +4151,21 @@ snapshots:
       find-up: 6.3.0
       tsx: 4.19.2
       viem: 2.21.6(typescript@5.4.2)(zod@3.23.8)
+    transitivePeerDependencies:
+      - '@aws-sdk/client-kms'
+      - asn1.js
+      - supports-color
+      - typescript
+      - zod
+
+  '@latticexyz/config@2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)':
+    dependencies:
+      '@ark/util': 0.2.2
+      '@latticexyz/common': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/schema-type': 2.2.20(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      find-up: 6.3.0
+      tsx: 4.19.2
+      viem: 2.23.2(typescript@5.4.2)(zod@3.23.8)
     transitivePeerDependencies:
       - '@aws-sdk/client-kms'
       - asn1.js
@@ -4066,6 +4238,20 @@ snapshots:
       - typescript
       - zod
 
+  '@latticexyz/protocol-parser@2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)':
+    dependencies:
+      '@latticexyz/common': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/config': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/schema-type': 2.2.20(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      abitype: 1.0.6(typescript@5.4.2)(zod@3.23.8)
+      viem: 2.23.2(typescript@5.4.2)(zod@3.23.8)
+    transitivePeerDependencies:
+      - '@aws-sdk/client-kms'
+      - asn1.js
+      - supports-color
+      - typescript
+      - zod
+
   '@latticexyz/react@2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.21.6(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)':
     dependencies:
       '@latticexyz/recs': 2.2.20(typescript@5.4.2)(viem@2.21.6(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
@@ -4116,6 +4302,14 @@ snapshots:
     dependencies:
       abitype: 1.0.6(typescript@5.4.2)(zod@3.23.8)
       viem: 2.21.6(typescript@5.4.2)(zod@3.23.8)
+    transitivePeerDependencies:
+      - typescript
+      - zod
+
+  '@latticexyz/schema-type@2.2.20(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)':
+    dependencies:
+      abitype: 1.0.6(typescript@5.4.2)(zod@3.23.8)
+      viem: 2.23.2(typescript@5.4.2)(zod@3.23.8)
     transitivePeerDependencies:
       - typescript
       - zod
@@ -4296,6 +4490,25 @@ snapshots:
       - typescript
       - zod
 
+  '@latticexyz/store@2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)':
+    dependencies:
+      '@ark/util': 0.2.2
+      '@latticexyz/common': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/config': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/protocol-parser': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/schema-type': 2.2.20(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      abitype: 1.0.6(typescript@5.4.2)(zod@3.23.8)
+      arktype: 2.0.0-beta.6
+      debug: 4.3.4
+    optionalDependencies:
+      viem: 2.23.2(typescript@5.4.2)(zod@3.23.8)
+    transitivePeerDependencies:
+      - '@aws-sdk/client-kms'
+      - asn1.js
+      - supports-color
+      - typescript
+      - zod
+
   '@latticexyz/utils@2.2.20':
     dependencies:
       mobx: 6.12.3
@@ -4328,13 +4541,13 @@ snapshots:
       - viem
       - zod
 
-  '@latticexyz/world-modules@2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))':
+  '@latticexyz/world-modules@2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))':
     dependencies:
-      '@latticexyz/common': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
-      '@latticexyz/config': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
-      '@latticexyz/schema-type': 2.2.20(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
-      '@latticexyz/store': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
-      '@latticexyz/world': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.21.19(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/common': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/config': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/schema-type': 2.2.20(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/store': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/world': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
       zod: 3.23.8
     transitivePeerDependencies:
       - '@aws-sdk/client-kms'
@@ -4385,6 +4598,27 @@ snapshots:
       - typescript
       - zod
 
+  '@latticexyz/world@2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)':
+    dependencies:
+      '@ark/util': 0.2.2
+      '@latticexyz/block-logs-stream': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/common': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/config': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/protocol-parser': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/schema-type': 2.2.20(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/store': 2.2.20(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.4.2)(viem@2.23.2(typescript@5.4.2)(zod@3.23.8))(zod@3.23.8)
+      abitype: 1.0.6(typescript@5.4.2)(zod@3.23.8)
+      arktype: 2.0.0-beta.6
+      debug: 4.3.4
+    optionalDependencies:
+      viem: 2.23.2(typescript@5.4.2)(zod@3.23.8)
+    transitivePeerDependencies:
+      - '@aws-sdk/client-kms'
+      - asn1.js
+      - supports-color
+      - typescript
+      - zod
+
   '@noble/curves@1.4.0':
     dependencies:
       '@noble/hashes': 1.4.0
@@ -4393,9 +4627,15 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.5.0
 
+  '@noble/curves@1.8.1':
+    dependencies:
+      '@noble/hashes': 1.7.1
+
   '@noble/hashes@1.4.0': {}
 
   '@noble/hashes@1.5.0': {}
+
+  '@noble/hashes@1.7.1': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -4416,6 +4656,8 @@ snapshots:
 
   '@scure/base@1.1.9': {}
 
+  '@scure/base@1.2.4': {}
+
   '@scure/bip32@1.4.0':
     dependencies:
       '@noble/curves': 1.4.0
@@ -4428,10 +4670,21 @@ snapshots:
       '@noble/hashes': 1.5.0
       '@scure/base': 1.1.9
 
+  '@scure/bip32@1.6.2':
+    dependencies:
+      '@noble/curves': 1.8.1
+      '@noble/hashes': 1.7.1
+      '@scure/base': 1.2.4
+
   '@scure/bip39@1.4.0':
     dependencies:
       '@noble/hashes': 1.5.0
       '@scure/base': 1.1.9
+
+  '@scure/bip39@1.5.4':
+    dependencies:
+      '@noble/hashes': 1.7.1
+      '@scure/base': 1.2.4
 
   '@sec-ant/readable-stream@0.4.1': {}
 
@@ -4693,6 +4946,8 @@ snapshots:
 
   '@solidity-parser/parser@0.17.0': {}
 
+  '@solidity-parser/parser@0.19.0': {}
+
   '@trpc/client@10.34.0(@trpc/server@10.34.0)':
     dependencies:
       '@trpc/server': 10.34.0
@@ -4843,6 +5098,11 @@ snapshots:
       typescript: 5.4.2
       zod: 3.23.8
 
+  abitype@1.0.8(typescript@5.4.2)(zod@3.23.8):
+    optionalDependencies:
+      typescript: 5.4.2
+      zod: 3.23.8
+
   acorn-jsx@5.3.2(acorn@8.11.3):
     dependencies:
       acorn: 8.11.3
@@ -4898,6 +5158,11 @@ snapshots:
     dependencies:
       '@ark/schema': 0.3.3
       '@ark/util': 0.2.2
+
+  arktype@2.0.4:
+    dependencies:
+      '@ark/schema': 0.39.0
+      '@ark/util': 0.39.0
 
   array-buffer-byte-length@1.0.1:
     dependencies:
@@ -6022,6 +6287,20 @@ snapshots:
       type-check: 0.4.0
       word-wrap: 1.2.5
 
+  ox@0.6.7(typescript@5.4.2)(zod@3.23.8):
+    dependencies:
+      '@adraffy/ens-normalize': 1.11.0
+      '@noble/curves': 1.8.1
+      '@noble/hashes': 1.7.1
+      '@scure/bip32': 1.6.2
+      '@scure/bip39': 1.5.4
+      abitype: 1.0.8(typescript@5.4.2)(zod@3.23.8)
+      eventemitter3: 5.0.1
+    optionalDependencies:
+      typescript: 5.4.2
+    transitivePeerDependencies:
+      - zod
+
   p-limit@3.1.0:
     dependencies:
       yocto-queue: 0.1.0
@@ -6671,6 +6950,23 @@ snapshots:
       isows: 1.0.4(ws@8.17.1)
       webauthn-p256: 0.0.5
       ws: 8.17.1
+    optionalDependencies:
+      typescript: 5.4.2
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+      - zod
+
+  viem@2.23.2(typescript@5.4.2)(zod@3.23.8):
+    dependencies:
+      '@noble/curves': 1.8.1
+      '@noble/hashes': 1.7.1
+      '@scure/bip32': 1.6.2
+      '@scure/bip39': 1.5.4
+      abitype: 1.0.8(typescript@5.4.2)(zod@3.23.8)
+      isows: 1.0.6(ws@8.18.0)
+      ox: 0.6.7(typescript@5.4.2)(zod@3.23.8)
+      ws: 8.18.0
     optionalDependencies:
       typescript: 5.4.2
     transitivePeerDependencies:

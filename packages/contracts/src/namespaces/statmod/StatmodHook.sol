@@ -32,7 +32,7 @@ contract StatmodHook is StoreHook {
   }
 
   /**
-   * Removes the item from DurationIdxList and unsets its index in DurationIdxMap
+   * Removes the item from StatmodIdxList and unsets its index in StatmodIdxMap
    */
   function _swapAndPopStatmodIdx(bytes32 targetEntity, bytes32 baseEntity) private {
     // Get the List index from Map

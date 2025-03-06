@@ -3,8 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "build": "mud build",
+    "build": "pnpm run build:mudidx && pnpm run build:mud",
+    "build:mud": "mud build",
+    "build:mudidx": "tsx ./ts/scripts/generate-idxs.ts",
     "clean": "forge clean && rimraf src/codegen",
     "deploy:local": "pnpm run build && mud deploy",
     "deploy:testnet": "pnpm run build && mud deploy --profile=lattice-testnet",
@@ -15,6 +18,7 @@
     "test": "tsc --noEmit && mud test"
   },
   "dependencies": {
+    "@dk1a/mud-table-idxs": "^0.2.0",
     "@latticexyz/cli": "2.2.20",
     "@latticexyz/schema-type": "2.2.20",
     "@latticexyz/store": "2.2.20",
@@ -23,7 +27,7 @@
   },
   "devDependencies": {
     "@dk1a/solidity-stringutils": "^0.3.3",
-    "@types/node": "^18.15.11",
+    "@types/node": "^18.19.33",
     "ds-test": "https://github.com/dapphub/ds-test.git#e282159d5170298eb2455a6c05280ab5a73a4ef0",
     "forge-std": "https://github.com/foundry-rs/forge-std.git#74cfb77e308dd188d2f58864aaf44963ae6b88b1",
     "prettier": "3.2.5",
