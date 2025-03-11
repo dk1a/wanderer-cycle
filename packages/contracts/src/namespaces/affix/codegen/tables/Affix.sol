@@ -20,22 +20,22 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { AffixPartId } from "../../../../codegen/common.sol";
 
 struct AffixData {
+  bytes32 affixPrototypeEntity;
   AffixPartId partId;
-  bytes32 protoEntity;
   uint32 value;
 }
 
 library Affix {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "Affix", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x7462000000000000000000000000000041666669780000000000000000000000);
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "affix", name: "Affix", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x7462616666697800000000000000000041666669780000000000000000000000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0025030001200400000000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0025030020010400000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (bytes32)
   Schema constant _keySchema = Schema.wrap(0x002001005f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint8, bytes32, uint32)
-  Schema constant _valueSchema = Schema.wrap(0x00250300005f0300000000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (bytes32, uint8, uint32)
+  Schema constant _valueSchema = Schema.wrap(0x002503005f000300000000000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -52,8 +52,8 @@ library Affix {
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](3);
-    fieldNames[0] = "partId";
-    fieldNames[1] = "protoEntity";
+    fieldNames[0] = "affixPrototypeEntity";
+    fieldNames[1] = "partId";
     fieldNames[2] = "value";
   }
 
@@ -72,13 +72,55 @@ library Affix {
   }
 
   /**
+   * @notice Get affixPrototypeEntity.
+   */
+  function getAffixPrototypeEntity(bytes32 entity) internal view returns (bytes32 affixPrototypeEntity) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Get affixPrototypeEntity.
+   */
+  function _getAffixPrototypeEntity(bytes32 entity) internal view returns (bytes32 affixPrototypeEntity) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Set affixPrototypeEntity.
+   */
+  function setAffixPrototypeEntity(bytes32 entity, bytes32 affixPrototypeEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((affixPrototypeEntity)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set affixPrototypeEntity.
+   */
+  function _setAffixPrototypeEntity(bytes32 entity, bytes32 affixPrototypeEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = entity;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((affixPrototypeEntity)), _fieldLayout);
+  }
+
+  /**
    * @notice Get partId.
    */
   function getPartId(bytes32 entity) internal view returns (AffixPartId partId) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
     return AffixPartId(uint8(bytes1(_blob)));
   }
 
@@ -89,7 +131,7 @@ library Affix {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
     return AffixPartId(uint8(bytes1(_blob)));
   }
 
@@ -100,7 +142,7 @@ library Affix {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked(uint8(partId)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked(uint8(partId)), _fieldLayout);
   }
 
   /**
@@ -110,49 +152,7 @@ library Affix {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked(uint8(partId)), _fieldLayout);
-  }
-
-  /**
-   * @notice Get protoEntity.
-   */
-  function getProtoEntity(bytes32 entity) internal view returns (bytes32 protoEntity) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
-
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
-    return (bytes32(_blob));
-  }
-
-  /**
-   * @notice Get protoEntity.
-   */
-  function _getProtoEntity(bytes32 entity) internal view returns (bytes32 protoEntity) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
-
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
-    return (bytes32(_blob));
-  }
-
-  /**
-   * @notice Set protoEntity.
-   */
-  function setProtoEntity(bytes32 entity, bytes32 protoEntity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
-
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((protoEntity)), _fieldLayout);
-  }
-
-  /**
-   * @notice Set protoEntity.
-   */
-  function _setProtoEntity(bytes32 entity, bytes32 protoEntity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
-
-    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((protoEntity)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked(uint8(partId)), _fieldLayout);
   }
 
   /**
@@ -230,8 +230,8 @@ library Affix {
   /**
    * @notice Set the full data using individual values.
    */
-  function set(bytes32 entity, AffixPartId partId, bytes32 protoEntity, uint32 value) internal {
-    bytes memory _staticData = encodeStatic(partId, protoEntity, value);
+  function set(bytes32 entity, bytes32 affixPrototypeEntity, AffixPartId partId, uint32 value) internal {
+    bytes memory _staticData = encodeStatic(affixPrototypeEntity, partId, value);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -245,8 +245,8 @@ library Affix {
   /**
    * @notice Set the full data using individual values.
    */
-  function _set(bytes32 entity, AffixPartId partId, bytes32 protoEntity, uint32 value) internal {
-    bytes memory _staticData = encodeStatic(partId, protoEntity, value);
+  function _set(bytes32 entity, bytes32 affixPrototypeEntity, AffixPartId partId, uint32 value) internal {
+    bytes memory _staticData = encodeStatic(affixPrototypeEntity, partId, value);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -261,7 +261,7 @@ library Affix {
    * @notice Set the full data using the data struct.
    */
   function set(bytes32 entity, AffixData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.partId, _table.protoEntity, _table.value);
+    bytes memory _staticData = encodeStatic(_table.affixPrototypeEntity, _table.partId, _table.value);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -276,7 +276,7 @@ library Affix {
    * @notice Set the full data using the data struct.
    */
   function _set(bytes32 entity, AffixData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.partId, _table.protoEntity, _table.value);
+    bytes memory _staticData = encodeStatic(_table.affixPrototypeEntity, _table.partId, _table.value);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -292,10 +292,10 @@ library Affix {
    */
   function decodeStatic(
     bytes memory _blob
-  ) internal pure returns (AffixPartId partId, bytes32 protoEntity, uint32 value) {
-    partId = AffixPartId(uint8(Bytes.getBytes1(_blob, 0)));
+  ) internal pure returns (bytes32 affixPrototypeEntity, AffixPartId partId, uint32 value) {
+    affixPrototypeEntity = (Bytes.getBytes32(_blob, 0));
 
-    protoEntity = (Bytes.getBytes32(_blob, 1));
+    partId = AffixPartId(uint8(Bytes.getBytes1(_blob, 32)));
 
     value = (uint32(Bytes.getBytes4(_blob, 33)));
   }
@@ -311,7 +311,7 @@ library Affix {
     EncodedLengths,
     bytes memory
   ) internal pure returns (AffixData memory _table) {
-    (_table.partId, _table.protoEntity, _table.value) = decodeStatic(_staticData);
+    (_table.affixPrototypeEntity, _table.partId, _table.value) = decodeStatic(_staticData);
   }
 
   /**
@@ -338,8 +338,12 @@ library Affix {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(AffixPartId partId, bytes32 protoEntity, uint32 value) internal pure returns (bytes memory) {
-    return abi.encodePacked(partId, protoEntity, value);
+  function encodeStatic(
+    bytes32 affixPrototypeEntity,
+    AffixPartId partId,
+    uint32 value
+  ) internal pure returns (bytes memory) {
+    return abi.encodePacked(affixPrototypeEntity, partId, value);
   }
 
   /**
@@ -349,11 +353,11 @@ library Affix {
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
   function encode(
+    bytes32 affixPrototypeEntity,
     AffixPartId partId,
-    bytes32 protoEntity,
     uint32 value
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(partId, protoEntity, value);
+    bytes memory _staticData = encodeStatic(affixPrototypeEntity, partId, value);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;

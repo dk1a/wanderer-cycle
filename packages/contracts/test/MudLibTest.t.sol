@@ -19,6 +19,7 @@ abstract contract MudLibTest is MudTest {
 
     address testContractAddress = address(this);
     _grantRootAccess(testContractAddress);
+    _grantAccess("affix", testContractAddress);
     _grantAccess("duration", testContractAddress);
     _grantAccess("effect", testContractAddress);
     _grantAccess("statmod", testContractAddress);

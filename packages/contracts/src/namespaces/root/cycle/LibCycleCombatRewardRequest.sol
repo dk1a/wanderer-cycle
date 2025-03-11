@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-// import { Loot, LootComponent, ID as LootComponentID } from "../loot/LootComponent.sol";
-import { FromTemplate, CycleCombatRReq, CycleCombatRReqData, BossesDefeated, AffixPrototype, LootAffixes } from "../codegen/index.sol";
+import { AffixPartId, Affix, AffixData, AffixPrototype } from "../../affix/LibPickAffix.sol";
+import { FromTemplate, CycleCombatRReq, CycleCombatRReqData, BossesDefeated, LootAffixes } from "../codegen/index.sol";
 
 import { PStat_length } from "../../../CustomTypes.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibRNG } from "../rng/LibRNG.sol";
-import { AffixPartId } from "../affix/LibPickAffix.sol";
 import { MapTypes, MapType } from "../map/MapType.sol";
 
 library LibCycleCombatRewardRequest {
@@ -107,11 +106,12 @@ library LibCycleCombatRewardRequest {
 
     bytes32[] memory affixes = LootAffixes.get(req.mapEntity);
     for (uint256 i; i < affixes.length; i++) {
-      uint256 affixValue = uint256(affixes[i]);
-      if (affixValue == uint256(AffixPartId.IMPLICIT)) {
-        ilvl += uint32(affixValue);
+      AffixData memory affix = Affix.get(affixes[i]);
+
+      if (affix.partId == AffixPartId.IMPLICIT) {
+        ilvl += affix.value;
       } else {
-        uint256 tier = AffixPrototype.get(affixes[i]).tier;
+        uint32 tier = AffixPrototype.getAffixTier(affix.affixPrototypeEntity);
         accumulatedFortune += tier;
       }
     }

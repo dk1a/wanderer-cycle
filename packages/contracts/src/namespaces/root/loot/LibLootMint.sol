@@ -4,29 +4,27 @@ pragma solidity >=0.8.21;
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
 import { LibEffectTemplate, EffectTemplateData } from "../../effect/LibEffectTemplate.sol";
+import { AffixAvailabilityTargetId, AffixPartId, LibPickAffix, Affix, AffixData } from "../../affix/LibPickAffix.sol";
 
-import { LootAffixes, LootIlvl, Affix, AffixData } from "../codegen/index.sol";
-import { AffixPartId } from "../../../codegen/common.sol";
-
-import { LibPickAffix } from "../affix/LibPickAffix.sol";
+import { LootAffixes, LootIlvl } from "../codegen/index.sol";
 
 library LibLootMint {
   function randomLootMint(
     AffixPartId[] memory affixPartIds,
     bytes32 lootEntity,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId affixAvailabilityTargetId,
     uint32 ilvl,
     uint256 randomness
   ) internal {
     bytes32[] memory excludeAffixes;
-    randomLootMint(affixPartIds, excludeAffixes, lootEntity, affixAvailabilityEntity, ilvl, randomness);
+    randomLootMint(affixPartIds, excludeAffixes, lootEntity, affixAvailabilityTargetId, ilvl, randomness);
   }
 
   function randomLootMint(
     AffixPartId[] memory affixPartIds,
     bytes32[] memory excludeAffixes,
     bytes32 lootEntity,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId affixAvailabilityTargetId,
     uint32 ilvl,
     uint256 randomness
   ) internal {
@@ -35,7 +33,7 @@ library LibLootMint {
       bytes32[] memory statmodProtoEntities,
       bytes32[] memory affixProtoEntities,
       uint32[] memory affixValues
-    ) = LibPickAffix.pickAffixes(affixPartIds, excludeAffixes, affixAvailabilityEntity, ilvl, randomness);
+    ) = LibPickAffix.pickAffixes(affixPartIds, excludeAffixes, affixAvailabilityTargetId, ilvl, randomness);
     // mint picked affixes
     lootMint(lootEntity, ilvl, affixPartIds, statmodProtoEntities, affixProtoEntities, affixValues);
   }
@@ -51,7 +49,7 @@ library LibLootMint {
     bytes32[] memory affixEntities = new bytes32[](affixPartIds.length);
     for (uint256 i; i < affixPartIds.length; i++) {
       bytes32 affixEntity = getUniqueEntity();
-      Affix.set(affixEntity, affixPartIds[i], affixProtoEntities[i], affixValues[i]);
+      Affix.set(affixEntity, affixProtoEntities[i], affixPartIds[i], affixValues[i]);
       affixEntities[i] = affixEntity;
     }
     // save loot-specific data

@@ -7,6 +7,9 @@ import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
 
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 
+import { Idx_AffixPrototype_ExclusiveGroup } from "../src/namespaces/affix/codegen/idxs/Idx_AffixPrototype_ExclusiveGroup.sol";
+import { UniqueIdx_AffixPrototype_TierName } from "../src/namespaces/affix/codegen/idxs/UniqueIdx_AffixPrototype_TierName.sol";
+
 import { LibInitStatmod } from "../src/namespaces/root/init/LibInitStatmod.sol";
 import { LibInitSkill } from "../src/namespaces/root/init/LibInitSkill.sol";
 import { LibInitGuise } from "../src/namespaces/root/init/LibInitGuise.sol";
@@ -23,6 +26,9 @@ contract PostDeploy is Script {
 
     // Start broadcasting transactions from the deployer account
     vm.startBroadcast(deployerPrivateKey);
+
+    Idx_AffixPrototype_ExclusiveGroup.register();
+    UniqueIdx_AffixPrototype_TierName.register();
 
     LibInitStatmod.init();
     LibInitSkill.init();

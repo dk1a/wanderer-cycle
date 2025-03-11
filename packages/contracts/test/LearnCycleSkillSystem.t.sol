@@ -6,7 +6,7 @@ import { CycleToWanderer, GuiseNameToEntity, SkillNameToEntity, LearnedSkills } 
 
 import { LibGuiseLevel } from "../src/namespaces/root/guise/LibGuiseLevel.sol";
 import { LibERC721 } from "../src/namespaces/root/token/LibERC721.sol";
-import { LibArray } from "../src/namespaces/root/utils/LibArray.sol";
+import { LibArray } from "../src/utils/LibArray.sol";
 
 contract LearnCycleSkillSystemTest is MudLibTest {
   bytes32 warriorGuiseProtoEntity;

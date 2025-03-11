@@ -29,25 +29,7 @@ const entityRelation = {
   },
 } as const;
 
-/*const systemCallbackSchema = {
-  namespace: "bytes16",
-  file: "bytes16",
-  funcSelectorAndArgs: "bytes",
-} as const;
-
-const scopedDurationSchema = {
-  scope: "bytes32",
-  value: "uint48",
-} as const;*/
-
 const arrayPStat = `uint32[${PSTAT_ARRAY.length}]` as const;
-
-const keysWithValue = (tableNames: string[]) =>
-  tableNames.map((tableName) => ({
-    artifactPath: "@latticexyz/world-modules/out/KeysWithValueModule.sol/KeysWithValueModule.json",
-    root: true,
-    args: [resolveTableId(tableName)],
-  }));
 
 const durationTable = {
   key: ["targetEntity", "applicationEntity"],
@@ -92,6 +74,7 @@ const enums = {
 };
 
 const userTypes = {
+  AffixAvailabilityTargetId: { filePath: "./src/namespaces/affix/types.sol", type: "bytes32" },
   ResourceId: { filePath: "@latticexyz/store/src/ResourceId.sol", type: "bytes32" },
   StatmodTopic: { filePath: "./src/namespaces/statmod/StatmodTopic.sol", type: "bytes32" },
   MapType: { filePath: "./src/namespaces/root/map/MapType.sol", type: "bytes32" },
@@ -141,59 +124,6 @@ export default defineWorld({
           schema: {
             entity: EntityId,
             arrayPStat: arrayPStat,
-          },
-        },
-        AffixAvailable: {
-          key: ["affixPart", "affixAvailabilityEntity", "ilvl"],
-          schema: {
-            affixPart: "AffixPartId",
-            affixAvailabilityEntity: EntityId,
-            ilvl: "uint32",
-            affixes: "bytes32[]",
-          },
-        },
-        AffixNaming: {
-          key: ["affixPart", "affixAvailabilityEntity", "protoEntity"],
-          schema: {
-            affixPart: "AffixPartId",
-            affixAvailabilityEntity: EntityId,
-            protoEntity: EntityId,
-            name: "string",
-          },
-        },
-        AffixPrototype: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            statmodProtoEntity: EntityId,
-            tier: "uint32",
-            requiredLevel: "uint32",
-            min: "uint32",
-            max: "uint32",
-          },
-        },
-        AffixProtoIndex: {
-          key: ["nameHash", "tier"],
-          schema: {
-            nameHash: "bytes32",
-            tier: "uint32",
-            entity: EntityId,
-          },
-        },
-        AffixProtoGroup: {
-          key: ["nameHash"],
-          schema: {
-            nameHash: "bytes32",
-            entity: EntityId,
-          },
-        },
-        Affix: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            partId: "AffixPartId",
-            protoEntity: EntityId,
-            value: "uint32",
           },
         },
         ActiveGuise: entityRelation,
@@ -386,13 +316,6 @@ export default defineWorld({
             value: "MapType",
           },
         },
-        MapTypeAffixAvailability: {
-          key: ["label"],
-          schema: {
-            label: "bytes32",
-            entity: EntityId,
-          },
-        },
       },
       systems: {
         CombatSystem: {
@@ -497,6 +420,55 @@ export default defineWorld({
         },
       },
     },
+    /************************************************************************
+     *
+     *    AFFIX MODULE
+     *
+     ************************************************************************/
+    affix: {
+      tables: {
+        AffixPrototype: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            statmodBaseEntity: EntityId,
+            exclusiveGroup: "bytes32",
+            affixTier: "uint32",
+            requiredLevel: "uint32",
+            min: "uint32",
+            max: "uint32",
+            name: "string",
+          },
+        },
+        Affix: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            affixPrototypeEntity: EntityId,
+            partId: "AffixPartId",
+            value: "uint32",
+          },
+        },
+        AffixPrototypeAvailable: {
+          key: ["affixPart", "targetId", "ilvl"],
+          schema: {
+            affixPart: "AffixPartId",
+            targetId: "AffixAvailabilityTargetId",
+            ilvl: "uint32",
+            affixes: "bytes32[]",
+          },
+        },
+        AffixNaming: {
+          key: ["affixPart", "targetId", "affixPrototypeEntity"],
+          schema: {
+            affixPart: "AffixPartId",
+            targetId: "AffixAvailabilityTargetId",
+            affixPrototypeEntity: EntityId,
+            label: "string",
+          },
+        },
+      },
+    },
   },
   modules: [
     {
@@ -517,7 +489,6 @@ export default defineWorld({
     basicIdxModule,
     uniqueIdxModule,
     ...keysInTable(["Experience", "LearnedSkills", "EffectTemplate", "EffectApplied"]),
-    ...keysWithValue(["AffixProtoGroup"]),
     ...duration(["EffectDuration", "SkillCooldown"]),
     {
       artifactPath: "./out/StatmodModule.sol/StatmodModule.json",

@@ -18,10 +18,11 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 // Import user types
 import { AffixPartId } from "../../../../codegen/common.sol";
+import { AffixAvailabilityTargetId } from "../../types.sol";
 
-library AffixAvailable {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "AffixAvailable", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x746200000000000000000000000000004166666978417661696c61626c650000);
+library AffixPrototypeAvailable {
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "affix", name: "AffixPrototypeAv", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x74626166666978000000000000000000416666697850726f746f747970654176);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0000000100000000000000000000000000000000000000000000000000000000);
@@ -38,7 +39,7 @@ library AffixAvailable {
   function getKeyNames() internal pure returns (string[] memory keyNames) {
     keyNames = new string[](3);
     keyNames[0] = "affixPart";
-    keyNames[1] = "affixAvailabilityEntity";
+    keyNames[1] = "targetId";
     keyNames[2] = "ilvl";
   }
 
@@ -70,12 +71,12 @@ library AffixAvailable {
    */
   function getAffixes(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl
   ) internal view returns (bytes32[] memory affixes) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
@@ -87,12 +88,12 @@ library AffixAvailable {
    */
   function _getAffixes(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl
   ) internal view returns (bytes32[] memory affixes) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
@@ -104,12 +105,12 @@ library AffixAvailable {
    */
   function get(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl
   ) internal view returns (bytes32[] memory affixes) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
@@ -121,12 +122,12 @@ library AffixAvailable {
    */
   function _get(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl
   ) internal view returns (bytes32[] memory affixes) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
@@ -138,13 +139,13 @@ library AffixAvailable {
    */
   function setAffixes(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     bytes32[] memory affixes
   ) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((affixes)));
@@ -155,13 +156,13 @@ library AffixAvailable {
    */
   function _setAffixes(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     bytes32[] memory affixes
   ) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((affixes)));
@@ -170,10 +171,15 @@ library AffixAvailable {
   /**
    * @notice Set affixes.
    */
-  function set(AffixPartId affixPart, bytes32 affixAvailabilityEntity, uint32 ilvl, bytes32[] memory affixes) internal {
+  function set(
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    uint32 ilvl,
+    bytes32[] memory affixes
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((affixes)));
@@ -184,13 +190,13 @@ library AffixAvailable {
    */
   function _set(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     bytes32[] memory affixes
   ) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((affixes)));
@@ -201,12 +207,12 @@ library AffixAvailable {
    */
   function lengthAffixes(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl
   ) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
@@ -220,12 +226,12 @@ library AffixAvailable {
    */
   function _lengthAffixes(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl
   ) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
@@ -237,10 +243,14 @@ library AffixAvailable {
   /**
    * @notice Get the length of affixes.
    */
-  function length(AffixPartId affixPart, bytes32 affixAvailabilityEntity, uint32 ilvl) internal view returns (uint256) {
+  function length(
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    uint32 ilvl
+  ) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
@@ -254,12 +264,12 @@ library AffixAvailable {
    */
   function _length(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl
   ) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
@@ -274,13 +284,13 @@ library AffixAvailable {
    */
   function getItemAffixes(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     uint256 _index
   ) internal view returns (bytes32) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     unchecked {
@@ -295,13 +305,13 @@ library AffixAvailable {
    */
   function _getItemAffixes(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     uint256 _index
   ) internal view returns (bytes32) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     unchecked {
@@ -316,13 +326,13 @@ library AffixAvailable {
    */
   function getItem(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     uint256 _index
   ) internal view returns (bytes32) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     unchecked {
@@ -337,13 +347,13 @@ library AffixAvailable {
    */
   function _getItem(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     uint256 _index
   ) internal view returns (bytes32) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     unchecked {
@@ -355,10 +365,15 @@ library AffixAvailable {
   /**
    * @notice Push an element to affixes.
    */
-  function pushAffixes(AffixPartId affixPart, bytes32 affixAvailabilityEntity, uint32 ilvl, bytes32 _element) internal {
+  function pushAffixes(
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    uint32 ilvl,
+    bytes32 _element
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
@@ -369,13 +384,13 @@ library AffixAvailable {
    */
   function _pushAffixes(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     bytes32 _element
   ) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
@@ -384,10 +399,10 @@ library AffixAvailable {
   /**
    * @notice Push an element to affixes.
    */
-  function push(AffixPartId affixPart, bytes32 affixAvailabilityEntity, uint32 ilvl, bytes32 _element) internal {
+  function push(AffixPartId affixPart, AffixAvailabilityTargetId targetId, uint32 ilvl, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
@@ -396,10 +411,10 @@ library AffixAvailable {
   /**
    * @notice Push an element to affixes.
    */
-  function _push(AffixPartId affixPart, bytes32 affixAvailabilityEntity, uint32 ilvl, bytes32 _element) internal {
+  function _push(AffixPartId affixPart, AffixAvailabilityTargetId targetId, uint32 ilvl, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
@@ -408,10 +423,10 @@ library AffixAvailable {
   /**
    * @notice Pop an element from affixes.
    */
-  function popAffixes(AffixPartId affixPart, bytes32 affixAvailabilityEntity, uint32 ilvl) internal {
+  function popAffixes(AffixPartId affixPart, AffixAvailabilityTargetId targetId, uint32 ilvl) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 32);
@@ -420,10 +435,10 @@ library AffixAvailable {
   /**
    * @notice Pop an element from affixes.
    */
-  function _popAffixes(AffixPartId affixPart, bytes32 affixAvailabilityEntity, uint32 ilvl) internal {
+  function _popAffixes(AffixPartId affixPart, AffixAvailabilityTargetId targetId, uint32 ilvl) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 32);
@@ -432,10 +447,10 @@ library AffixAvailable {
   /**
    * @notice Pop an element from affixes.
    */
-  function pop(AffixPartId affixPart, bytes32 affixAvailabilityEntity, uint32 ilvl) internal {
+  function pop(AffixPartId affixPart, AffixAvailabilityTargetId targetId, uint32 ilvl) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 32);
@@ -444,10 +459,10 @@ library AffixAvailable {
   /**
    * @notice Pop an element from affixes.
    */
-  function _pop(AffixPartId affixPart, bytes32 affixAvailabilityEntity, uint32 ilvl) internal {
+  function _pop(AffixPartId affixPart, AffixAvailabilityTargetId targetId, uint32 ilvl) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 32);
@@ -458,14 +473,14 @@ library AffixAvailable {
    */
   function updateAffixes(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     uint256 _index,
     bytes32 _element
   ) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     unchecked {
@@ -479,14 +494,14 @@ library AffixAvailable {
    */
   function _updateAffixes(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     uint256 _index,
     bytes32 _element
   ) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     unchecked {
@@ -500,14 +515,14 @@ library AffixAvailable {
    */
   function update(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     uint256 _index,
     bytes32 _element
   ) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     unchecked {
@@ -521,14 +536,14 @@ library AffixAvailable {
    */
   function _update(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl,
     uint256 _index,
     bytes32 _element
   ) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     unchecked {
@@ -540,10 +555,10 @@ library AffixAvailable {
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(AffixPartId affixPart, bytes32 affixAvailabilityEntity, uint32 ilvl) internal {
+  function deleteRecord(AffixPartId affixPart, AffixAvailabilityTargetId targetId, uint32 ilvl) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
@@ -552,10 +567,10 @@ library AffixAvailable {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(AffixPartId affixPart, bytes32 affixAvailabilityEntity, uint32 ilvl) internal {
+  function _deleteRecord(AffixPartId affixPart, AffixAvailabilityTargetId targetId, uint32 ilvl) internal {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
@@ -599,12 +614,12 @@ library AffixAvailable {
    */
   function encodeKeyTuple(
     AffixPartId affixPart,
-    bytes32 affixAvailabilityEntity,
+    AffixAvailabilityTargetId targetId,
     uint32 ilvl
   ) internal pure returns (bytes32[] memory) {
     bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = bytes32(uint256(uint8(affixPart)));
-    _keyTuple[1] = affixAvailabilityEntity;
+    _keyTuple[1] = AffixAvailabilityTargetId.unwrap(targetId);
     _keyTuple[2] = bytes32(uint256(ilvl));
 
     return _keyTuple;

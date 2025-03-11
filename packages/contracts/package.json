@@ -18,7 +18,7 @@
     "test": "tsc --noEmit && mud test"
   },
   "dependencies": {
-    "@dk1a/mud-table-idxs": "^0.2.0",
+    "@dk1a/mud-table-idxs": "^0.3.0",
     "@latticexyz/cli": "2.2.20",
     "@latticexyz/schema-type": "2.2.20",
     "@latticexyz/store": "2.2.20",

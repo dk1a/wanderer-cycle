@@ -3,8 +3,8 @@ pragma solidity >=0.8.21;
 
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
+import { LibPickAffix } from "../../affix/LibPickAffix.sol";
 import { LibLootMint } from "../loot/LibLootMint.sol";
-import { LibPickAffix } from "../affix/LibPickAffix.sol";
 import { AffixPartId } from "../../../codegen/common.sol";
 import { MapTypeComponent, Name } from "../codegen/index.sol";
 

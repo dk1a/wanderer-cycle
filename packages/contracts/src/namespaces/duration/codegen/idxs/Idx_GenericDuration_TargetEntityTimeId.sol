@@ -11,6 +11,8 @@ import { EncodeArray } from "@latticexyz/store/src/tightcoder/EncodeArray.sol";
 import { Uint8Map, Uint8MapLib } from "@dk1a/mud-table-idxs/src/Uint8Map.sol";
 import { hashIndexes, hashValues } from "@dk1a/mud-table-idxs/src/utils.sol";
 
+import { IIdxErrors } from "@dk1a/mud-table-idxs/src/IIdxErrors.sol";
+
 import { registerBasicIdx } from "@dk1a/mud-table-idxs/src/namespaces/basicIdx/registerBasicIdx.sol";
 import { BasicIdx } from "@dk1a/mud-table-idxs/src/namespaces/basicIdx/codegen/tables/BasicIdx.sol";
 import { BasicIdxUsedKeys } from "@dk1a/mud-table-idxs/src/namespaces/basicIdx/codegen/tables/BasicIdxUsedKeys.sol";
@@ -77,7 +79,7 @@ library Idx_GenericDuration_TargetEntityTimeId {
   ) internal view returns (bytes32[] memory _keyTuple) {
     bytes32 _valuesHash = valuesHash(targetEntity, timeId);
 
-    return BasicIdx_KeyTuple.getItem(_tableId, _indexesHash, _valuesHash, _index, 2);
+    _keyTuple = BasicIdx_KeyTuple.getItem(_tableId, _indexesHash, _valuesHash, _index, 2);
   }
 
   function get(
