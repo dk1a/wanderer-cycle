@@ -26,7 +26,7 @@ library LibSpawnEquipmentSlots {
 
     Name.set(slotEntity, name);
     OwnedBy.set(slotEntity, ownerEntity);
-    SlotAllowedTypes.push(slotEntity, equipmentType.toBytes32());
+    SlotAllowedTypes.push(slotEntity, EquipmentType.unwrap(equipmentType));
   }
 
   function _newSlotEntity(
@@ -39,7 +39,7 @@ library LibSpawnEquipmentSlots {
 
     Name.set(slotEntity, name);
     OwnedBy.set(slotEntity, ownerEntity);
-    SlotAllowedTypes.push(slotEntity, equipmentType0.toBytes32());
-    SlotAllowedTypes.push(slotEntity, equipmentType1.toBytes32());
+    SlotAllowedTypes.push(slotEntity, EquipmentType.unwrap(equipmentType0));
+    SlotAllowedTypes.push(slotEntity, EquipmentType.unwrap(equipmentType1));
   }
 }

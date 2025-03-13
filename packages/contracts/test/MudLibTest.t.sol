@@ -6,6 +6,8 @@ import { WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
 
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 
+import { runPostDeployInitializers } from "../script/PostDeploy.s.sol";
+
 abstract contract MudLibTest is MudTest {
   IWorld world;
 
@@ -14,6 +16,11 @@ abstract contract MudLibTest is MudTest {
 
   function setUp() public virtual override {
     super.setUp();
+
+    // See the comment for runPostDeployInitializers
+    // It is called here directly for optimization
+    // This relies on `script` in `foundry.toml` skipping PostDeploy when deploying locally
+    runPostDeployInitializers(vm, worldAddress);
 
     world = IWorld(worldAddress);
 

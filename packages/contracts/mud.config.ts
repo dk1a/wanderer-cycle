@@ -77,6 +77,7 @@ const userTypes = {
   AffixAvailabilityTargetId: { filePath: "./src/namespaces/affix/types.sol", type: "bytes32" },
   ResourceId: { filePath: "@latticexyz/store/src/ResourceId.sol", type: "bytes32" },
   StatmodTopic: { filePath: "./src/namespaces/statmod/StatmodTopic.sol", type: "bytes32" },
+  EquipmentType: { filePath: "./src/namespaces/root/equipment/EquipmentType.sol", type: "bytes32" },
   MapType: { filePath: "./src/namespaces/root/map/MapType.sol", type: "bytes32" },
 } as const;
 
@@ -308,6 +309,13 @@ export default defineWorld({
           },
         },
         SlotEquipment: entityRelation,
+        EquipmentTypeComponent: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "EquipmentType",
+          },
+        },
         OwnedBy: entityRelation,
         MapTypeComponent: {
           ...entityKey,

@@ -43,5 +43,6 @@ import { RNGPrecommit } from "./tables/RNGPrecommit.sol";
 import { RNGRequestOwner } from "./tables/RNGRequestOwner.sol";
 import { SlotAllowedTypes } from "./tables/SlotAllowedTypes.sol";
 import { SlotEquipment } from "./tables/SlotEquipment.sol";
+import { EquipmentTypeComponent } from "./tables/EquipmentTypeComponent.sol";
 import { OwnedBy } from "./tables/OwnedBy.sol";
 import { MapTypeComponent } from "./tables/MapTypeComponent.sol";

@@ -14,17 +14,3 @@ library EquipmentTypes {
   EquipmentType constant AMULET = EquipmentType.wrap("Amulet");
   EquipmentType constant RING = EquipmentType.wrap("Ring");
 }
-
-using { toBytes32, eq as ==, ne as != } for EquipmentType global;
-
-function toBytes32(EquipmentType equipmentType) pure returns (bytes32) {
-  return EquipmentType.unwrap(equipmentType);
-}
-
-function eq(EquipmentType a, EquipmentType b) pure returns (bool) {
-  return EquipmentType.unwrap(a) == EquipmentType.unwrap(b);
-}
-
-function ne(EquipmentType a, EquipmentType b) pure returns (bool) {
-  return EquipmentType.unwrap(a) != EquipmentType.unwrap(b);
-}
