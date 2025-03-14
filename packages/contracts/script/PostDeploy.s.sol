@@ -10,6 +10,7 @@ import { IWorld } from "../src/codegen/world/IWorld.sol";
 
 import { Idx_AffixPrototype_ExclusiveGroup } from "../src/namespaces/affix/codegen/idxs/Idx_AffixPrototype_ExclusiveGroup.sol";
 import { UniqueIdx_AffixPrototype_TierName } from "../src/namespaces/affix/codegen/idxs/UniqueIdx_AffixPrototype_TierName.sol";
+import { Idx_SlotEquipment_Equipment } from "../src/namespaces/root/codegen/idxs/Idx_SlotEquipment_Equipment.sol";
 
 import { LibInitStatmod } from "../src/namespaces/root/init/LibInitStatmod.sol";
 import { LibInitSkill } from "../src/namespaces/root/init/LibInitSkill.sol";
@@ -34,6 +35,7 @@ function runPostDeployInitializers(VmSafe vm, address worldAddress) {
 
   Idx_AffixPrototype_ExclusiveGroup.register();
   UniqueIdx_AffixPrototype_TierName.register();
+  Idx_SlotEquipment_Equipment.register();
 
   LibInitStatmod.init();
   LibInitSkill.init();

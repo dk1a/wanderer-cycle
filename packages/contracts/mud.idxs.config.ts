@@ -28,6 +28,16 @@ export default defineStoreIdxs(
           },
         },
       },
+      root: {
+        tables: {
+          SlotEquipment: {
+            Idx_SlotEquipment_Equipment: {
+              fields: ["equipmentEntity"],
+              unique: false,
+            },
+          },
+        },
+      },
     },
   },
   storeConfig,

@@ -301,14 +301,21 @@ export default defineWorld({
         },
         // requestId => ownerEntity
         RNGRequestOwner: entityRelation,
-        SlotAllowedTypes: {
-          ...entityKey,
+        SlotAllowedType: {
+          key: ["slotEntity", "equipmentType"],
           schema: {
-            entity: EntityId,
-            equipmentTypes: "bytes32[]",
+            slotEntity: EntityId,
+            equipmentType: "EquipmentType",
+            isAllowed: "bool",
           },
         },
-        SlotEquipment: entityRelation,
+        SlotEquipment: {
+          key: ["slotEntity"],
+          schema: {
+            slotEntity: EntityId,
+            equipmentEntity: EntityId,
+          },
+        },
         EquipmentTypeComponent: {
           ...entityKey,
           schema: {

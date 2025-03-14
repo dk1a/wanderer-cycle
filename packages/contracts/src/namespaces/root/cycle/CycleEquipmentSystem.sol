@@ -5,33 +5,46 @@ import { System } from "@latticexyz/world/src/System.sol";
 
 import { OwnedBy } from "../codegen/index.sol";
 
-//import { EquipmentSystem, EquipmentAction } from "../equipment/EquipmentSubSystem.sol";
-import { LibCycle } from "./LibCycle.sol";
+import { LibEquipment } from "../equipment/LibEquipment.sol";
 import { LibLootOwner } from "../loot/LibLootOwner.sol";
+import { LibCycle } from "./LibCycle.sol";
 
+/**
+ * @dev To equip, target must own both the slot and the equipment.
+ * To unequip, target must own only the slot (to account for weird equipment transfer situations).
+ */
 contract CycleEquipmentSystem is System {
-  error CycleEquipmentSystem__NotSlotOwner();
-  error CycleEquipmentSystem__NotEquipmentOwner();
+  error CycleEquipmentSystem_NotSlotOwner(bytes32 targetEntity, bytes32 slotEntity);
+  error CycleEquipmentSystem_NotEquipmentOwner(bytes32 targetEntity, bytes32 equipmentEntity);
 
-  function manageEquipmentCycle(bytes memory args) public returns (bytes memory) {
-    //    (EquipmentAction equipmentAction, bytes32 wandererEntity, bytes32 equipmentSlot, bytes32 equipmentEntity) = abi
-    //      .decode(args, (EquipmentAction, bytes32, bytes32, bytes32));
+  function _requireOwnedSlot(bytes32 targetEntity, bytes32 slotEntity) internal view {
+    if (targetEntity != OwnedBy.get(slotEntity)) {
+      revert CycleEquipmentSystem_NotSlotOwner(targetEntity, slotEntity);
+    }
+  }
 
-    //    // reverts if sender doesn't have permission
-    //    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
-    //
-    //    // the caller must own the equipment slot
-    //    if (cycleEntity != OwnedBy.get(equipmentSlot)) {
-    //      revert CycleEquipmentSystem__NotSlotOwner();
-    //    }
-    //    // and the equipment
-    //    // TODO allow the entity which has `equipmentEntity` equipped to unequip it without owning it
-    //    if (cycleEntity != LibLootOwner.ownerOf(components, equipmentEntity)) {
-    //      revert CycleEquipmentSystem__NotEquipmentOwner();
-    //    }
-    //
-    //    EquipmentSubSystem.executeTyped(equipmentAction, equipmentSlot, equipmentEntity);
+  function _requireOwnedEquipment(bytes32 targetEntity, bytes32 equipmentEntity) internal view {
+    if (targetEntity != LibLootOwner.simpleOwnerOf(equipmentEntity)) {
+      revert CycleEquipmentSystem_NotEquipmentOwner(targetEntity, equipmentEntity);
+    }
+  }
 
-    return "";
+  function equip(bytes32 wandererEntity, bytes32 slotEntity, bytes32 equipmentEntity) public {
+    // Reverts if sender doesn't have permission
+    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+
+    _requireOwnedSlot(cycleEntity, slotEntity);
+    _requireOwnedEquipment(cycleEntity, equipmentEntity);
+
+    LibEquipment.equip(cycleEntity, slotEntity, equipmentEntity);
+  }
+
+  function unequip(bytes32 wandererEntity, bytes32 slotEntity) public {
+    // Reverts if sender doesn't have permission
+    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+
+    _requireOwnedSlot(cycleEntity, slotEntity);
+
+    LibEquipment.unequip(cycleEntity, slotEntity);
   }
 }

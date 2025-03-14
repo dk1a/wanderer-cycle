@@ -9,8 +9,10 @@ pragma solidity >=0.8.24;
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface ICycleEquipmentSystem {
-  error CycleEquipmentSystem__NotSlotOwner();
-  error CycleEquipmentSystem__NotEquipmentOwner();
+  error CycleEquipmentSystem_NotSlotOwner(bytes32 targetEntity, bytes32 slotEntity);
+  error CycleEquipmentSystem_NotEquipmentOwner(bytes32 targetEntity, bytes32 equipmentEntity);
 
-  function manageEquipmentCycle(bytes memory args) external returns (bytes memory);
+  function equip(bytes32 wandererEntity, bytes32 slotEntity, bytes32 equipmentEntity) external;
+
+  function unequip(bytes32 wandererEntity, bytes32 slotEntity) external;
 }

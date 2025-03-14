@@ -41,7 +41,7 @@ import { WheelsCompleted } from "./tables/WheelsCompleted.sol";
 import { ActiveCombat, ActiveCombatData } from "./tables/ActiveCombat.sol";
 import { RNGPrecommit } from "./tables/RNGPrecommit.sol";
 import { RNGRequestOwner } from "./tables/RNGRequestOwner.sol";
-import { SlotAllowedTypes } from "./tables/SlotAllowedTypes.sol";
+import { SlotAllowedType } from "./tables/SlotAllowedType.sol";
 import { SlotEquipment } from "./tables/SlotEquipment.sol";
 import { EquipmentTypeComponent } from "./tables/EquipmentTypeComponent.sol";
 import { OwnedBy } from "./tables/OwnedBy.sol";

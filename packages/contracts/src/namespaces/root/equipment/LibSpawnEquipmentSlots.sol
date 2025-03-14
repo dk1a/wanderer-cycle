@@ -3,7 +3,9 @@ pragma solidity >=0.8.21;
 
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { Name, OwnedBy, SlotAllowedTypes } from "../codegen/index.sol";
+import { Name } from "../codegen/tables/Name.sol";
+import { OwnedBy } from "../codegen/tables/OwnedBy.sol";
+import { SlotAllowedType } from "../codegen/tables/SlotAllowedType.sol";
 import { EquipmentType, EquipmentTypes } from "./EquipmentType.sol";
 
 library LibSpawnEquipmentSlots {
@@ -26,7 +28,7 @@ library LibSpawnEquipmentSlots {
 
     Name.set(slotEntity, name);
     OwnedBy.set(slotEntity, ownerEntity);
-    SlotAllowedTypes.push(slotEntity, EquipmentType.unwrap(equipmentType));
+    SlotAllowedType.set(slotEntity, equipmentType, true);
   }
 
   function _newSlotEntity(
@@ -39,7 +41,7 @@ library LibSpawnEquipmentSlots {
 
     Name.set(slotEntity, name);
     OwnedBy.set(slotEntity, ownerEntity);
-    SlotAllowedTypes.push(slotEntity, EquipmentType.unwrap(equipmentType0));
-    SlotAllowedTypes.push(slotEntity, EquipmentType.unwrap(equipmentType1));
+    SlotAllowedType.set(slotEntity, equipmentType0, true);
+    SlotAllowedType.set(slotEntity, equipmentType1, true);
   }
 }

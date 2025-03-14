@@ -25,15 +25,12 @@ library LibERC721 {
     return ERC721Config.get(namespace.unwrap());
   }
 
-  function mint(ERC721Namespace namespace, address to) internal returns (bytes32 tokenEntity) {
-    // Token id is also a globally unique entity
-    tokenEntity = getUniqueEntity();
+  function mint(ERC721Namespace namespace, address to, bytes32 tokenEntity) internal {
+    // Entities are globally unique and can also serve as token ids
     uint256 tokenId = uint256(tokenEntity);
 
     IERC721Mintable erc721 = IERC721Mintable(namespace.tokenAddress());
     erc721.mint(to, tokenId);
-
-    return tokenEntity;
   }
 
   function burn(ERC721Namespace namespace, bytes32 tokenEntity) internal {

@@ -3,8 +3,7 @@ pragma solidity >=0.8.21;
 
 import { OwnedBy } from "../codegen/index.sol";
 
-// import { WNFTSystem, ID as WNFSystemID } from "../token/WNFTSystem.sol";
-// import { LibToken } from "../token/LibToken.sol";
+import { ERC721Namespaces } from "../token/ERC721Namespaces.sol";
 
 library LibLootOwner {
   /// @dev Sets OwnedBy.
@@ -15,17 +14,15 @@ library LibLootOwner {
 
   /// @dev Mints an ERC721 token with `lootEntity` as the id.
   /// (only an address can be the owner, full ERC721 interface by default)
-  // function setTradeableOwnership(bytes32 lootEntity, address ownerAccount) internal {
-  //   wnftSystem.executeSafeMint(ownerAccount, lootEntity, "");
-  // }
+  function setTradeableOwnership(bytes32 lootEntity, address ownerAccount) internal {
+    ERC721Namespaces.LootNFT.mint(ownerAccount, lootEntity);
+  }
 
-  // function ownerOf(bytes32 lootEntity) internal view returns (bytes32) {
-  //   address ownerAccount = LibToken.ownerOf(components, lootEntity);
-  //   if (ownerAccount != address(0)) {
-  //     return addressToEntity(ownerAccount);
-  //   } else {
-  //     OwnedByComponent ownedByComp = OwnedByComponent(getAddressById(components, OwnedByComponentID));
-  //     return ownedByComp.getValue(lootEntity);
-  //   }
-  // }
+  function simpleOwnerOf(bytes32 lootEntity) internal view returns (bytes32 ownerEntity) {
+    return OwnedBy.get(lootEntity);
+  }
+
+  function tradeableOwnerOf(bytes32 lootEntity) internal view returns (address ownerAccount) {
+    return ERC721Namespaces.LootNFT.ownerOf(lootEntity);
+  }
 }
