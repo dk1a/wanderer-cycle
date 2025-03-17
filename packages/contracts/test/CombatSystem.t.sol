@@ -27,8 +27,8 @@ contract CombatSystemTest is MudLibTest {
   uint32 initAttack;
   uint32 defaultMaxRounds = 12;
 
-  // statmod proto entities
-  bytes32 levelPE = StatmodTopics.LEVEL.toStatmodEntity(StatmodOp.BADD, EleStat.NONE);
+  // statmod entities
+  bytes32 levelStatmodEntity = StatmodTopics.LEVEL.toStatmodEntity(StatmodOp.BADD, EleStat.NONE);
 
   function setUp() public virtual override {
     super.setUp();
@@ -38,8 +38,8 @@ contract CombatSystemTest is MudLibTest {
 
     // give direct levels
     // (note: don't change statmods directly outside of tests, use effects)
-    Statmod.increase(playerEntity, levelPE, initLevel);
-    Statmod.increase(encounterEntity, levelPE, initLevel);
+    Statmod.increase(playerEntity, levelStatmodEntity, initLevel);
+    Statmod.increase(encounterEntity, levelStatmodEntity, initLevel);
 
     // initialize and fill up life, mana
     LibCharstat.setFullCurrents(playerEntity);
@@ -53,7 +53,7 @@ contract CombatSystemTest is MudLibTest {
 
   function _activateCombat(uint32 maxRounds) internal {
     // activate combat between player and encounter
-    world.executeActivateCombat(playerEntity, encounterEntity, maxRounds);
+    world.activateCombat(playerEntity, encounterEntity, maxRounds);
   }
 
   function _sumElements(uint32[EleStat_length] memory elemValues) internal pure returns (uint32 result) {
@@ -77,7 +77,7 @@ contract CombatSystemTest is MudLibTest {
   // ================ TESTS ================
 
   // this just shows the values I expect, and may need to change if LibCharstat config changes
-  function test_setUp() public {
+  function testSetUp() public {
     _activateCombat(defaultMaxRounds);
 
     assertEq(initLife, 2 + 2 * initLevel);
@@ -88,32 +88,32 @@ contract CombatSystemTest is MudLibTest {
     assertEq(_sumElements(LibCharstat.getAttack(playerEntity)), _sumElements(LibCharstat.getAttack(encounterEntity)));
   }
 
-  function test_combatPVERound_notWriter() public {
+  function testCombatPVERoundRevertAccessDenied() public {
     _activateCombat(defaultMaxRounds);
 
     vm.prank(notWriter);
     vm.expectRevert(
       abi.encodeWithSelector(IWorldErrors.World_AccessDenied.selector, "sy:<root>:CombatSystem", notWriter)
     );
-    world.executePVERound(playerEntity, encounterEntity, _noActions, _noActions);
+    world.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
   }
 
   // skipping a round is fine
-  function test_combatPVERound_noActions() public {
+  function testCombatPVERoundNoActions() public {
     _activateCombat(defaultMaxRounds);
 
     vm.prank(writer);
-    CombatResult result = world.executePVERound(playerEntity, encounterEntity, _noActions, _noActions);
+    CombatResult result = world.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
     assertEq(uint8(result), uint8(CombatResult.NONE));
   }
 
   // by default entities can only do 1 action per round
-  function test_combatPVERound_invalidActionsLength() public {
+  function testCombatPVERoundRevertInvalidActionsLength() public {
     _activateCombat(defaultMaxRounds);
 
     vm.prank(writer);
     vm.expectRevert(CombatSystem.CombatSystem_InvalidActionsLength.selector);
-    world.executePVERound(playerEntity, encounterEntity, _actions2Attacks(), _actions2Attacks());
+    world.actPVERound(playerEntity, encounterEntity, _actions2Attacks(), _actions2Attacks());
   }
 
   // an unopposed single attack
@@ -122,13 +122,13 @@ contract CombatSystemTest is MudLibTest {
 
     vm.prank(writer);
 
-    CombatResult result = world.executePVERound(playerEntity, encounterEntity, _actions1Attack(), _noActions);
+    CombatResult result = world.actPVERound(playerEntity, encounterEntity, _actions1Attack(), _noActions);
     assertEq(uint8(result), uint8(CombatResult.NONE));
     assertEq(LibCharstat.getLifeCurrent(encounterEntity), initLife - initAttack);
   }
 
   // unopposed player attacks, enough to get victory
-  function test_combatPVERound_playerAttacks_victory() public {
+  function testCombatPVERoundPlayerAttacksVictory() public {
     _activateCombat(defaultMaxRounds);
 
     vm.prank(writer);
@@ -137,7 +137,7 @@ contract CombatSystemTest is MudLibTest {
     // do enough attacks to defeat encounter
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = world.executePVERound(playerEntity, encounterEntity, _actions1Attack(), _noActions);
+      result = world.actPVERound(playerEntity, encounterEntity, _actions1Attack(), _noActions);
       if (i != attacksNumber - 1) {
         assertEq(uint8(result), uint8(CombatResult.NONE));
       }
@@ -147,7 +147,7 @@ contract CombatSystemTest is MudLibTest {
   }
 
   // unopposed encounter attacks, enough to get defeat
-  function test_combatPVERound_encounterAttacks_defeat() public {
+  function testCombatPVERoundEncounterAttacksDefeat() public {
     _activateCombat(defaultMaxRounds);
 
     vm.prank(writer);
@@ -156,7 +156,7 @@ contract CombatSystemTest is MudLibTest {
     // do enough attacks to defeat player
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = world.executePVERound(playerEntity, encounterEntity, _noActions, _actions1Attack());
+      result = world.actPVERound(playerEntity, encounterEntity, _noActions, _actions1Attack());
       if (i != attacksNumber - 1) {
         assertEq(uint8(result), uint8(CombatResult.NONE));
       }
@@ -166,7 +166,7 @@ contract CombatSystemTest is MudLibTest {
   }
 
   // player and encounter have the same stats and attacks, but player goes 1st and wins the last round
-  function test_combatPVERound_opposedAttacks_victoryByInitiative() public {
+  function testCombatPVERoundOpposedAttacksVictoryByInitiative() public {
     _activateCombat(defaultMaxRounds);
 
     vm.prank(writer);
@@ -175,7 +175,7 @@ contract CombatSystemTest is MudLibTest {
     // do enough attacks to defeat encounter
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = world.executePVERound(playerEntity, encounterEntity, _actions1Attack(), _actions1Attack());
+      result = world.actPVERound(playerEntity, encounterEntity, _actions1Attack(), _actions1Attack());
       if (i != attacksNumber - 1) {
         assertEq(uint8(result), uint8(CombatResult.NONE));
       }
@@ -192,7 +192,7 @@ contract CombatSystemTest is MudLibTest {
     uint32 initialRoundsSpent = ActiveCombat.getRoundsSpent(playerEntity);
 
     vm.prank(writer);
-    world.executePVERound(playerEntity, encounterEntity, _noActions, _noActions);
+    world.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
 
     uint32 roundsSpent = ActiveCombat.getRoundsSpent(playerEntity);
     assertEq(roundsSpent, initialRoundsSpent + 1, "Rounds spent should increase by 1");
@@ -202,7 +202,7 @@ contract CombatSystemTest is MudLibTest {
     _activateCombat(1);
 
     vm.prank(writer);
-    world.executePVERound(playerEntity, encounterEntity, _noActions, _noActions);
+    world.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
 
     bool isActive = ActiveCombat.getRetaliatorEntity(playerEntity) != bytes32(0);
     assertFalse(isActive, "Combat should be deactivated after max rounds");
@@ -215,7 +215,7 @@ contract CombatSystemTest is MudLibTest {
 
     vm.prank(writer);
     vm.expectRevert(CombatSystem.CombatSystem_InvalidActionsLength.selector);
-    world.executePVERound(playerEntity, encounterEntity, actions, _noActions);
+    world.actPVERound(playerEntity, encounterEntity, actions, _noActions);
   }
 
   // TODO So far just basic physical attacks. More tests, with statmods and skills.

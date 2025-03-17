@@ -6,7 +6,6 @@ import {
   SKILL_TYPE_ARRAY,
   TARGET_TYPE_ARRAY,
   STATMOD_OP_ARRAY,
-  ACTION_TYPE_ARRAY,
   AFFIX_PART_ID_ARRAY,
   PSTAT_ARRAY,
   COMBAT_ACTION_TYPE_ARRAY,
@@ -68,7 +67,6 @@ const enums = {
   SkillType: SKILL_TYPE_ARRAY,
   TargetType: TARGET_TYPE_ARRAY,
   StatmodOp: STATMOD_OP_ARRAY,
-  ActionType: ACTION_TYPE_ARRAY,
   AffixPartId: AFFIX_PART_ID_ARRAY,
   CombatActionType: COMBAT_ACTION_TYPE_ARRAY,
 };
@@ -222,7 +220,6 @@ export default defineWorld({
         SkillDescription: "string",
         SkillNameToEntity: nameToEntityTable,
         SkillCooldown: durationTable,
-        FromTemplate: entityRelation,
         ActiveCycle: entityRelation,
         CycleToWanderer: entityRelation,
         CurrentCycle: entityRelation,
@@ -290,6 +287,13 @@ export default defineWorld({
             retaliatorEntity: EntityId,
             roundsSpent: "uint32",
             roundsMax: "uint32",
+          },
+        },
+        FromMap: {
+          key: ["encounterEntity"],
+          schema: {
+            encounterEntity: EntityId,
+            mapEntity: EntityId,
           },
         },
         RNGPrecommit: {

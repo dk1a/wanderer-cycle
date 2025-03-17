@@ -30,11 +30,6 @@ enum StatmodOp {
   BADD
 }
 
-enum ActionType {
-  ATTACK,
-  SKILL
-}
-
 enum AffixPartId {
   IMPLICIT,
   PREFIX,

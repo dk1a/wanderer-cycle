@@ -8,8 +8,8 @@ import { EleStat_length, CombatAction, CombatActorOpts } from "../../../CustomTy
 import { LibSkill } from "../skill/LibSkill.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 
-library LibCombatAction {
-  error LibCombat__InvalidActionType();
+library LibCombatSingleAction {
+  error LibCombatSingleAction_InvalidActionType();
 
   function executeAction(
     bytes32 attackerEntity,
@@ -18,12 +18,12 @@ library LibCombatAction {
     CombatActorOpts memory defenderOpts
   ) internal {
     if (action.actionType == CombatActionType.ATTACK) {
-      // deal damage to defender (updates currents)
+      // Deal damage to defender (updates currents)
       _dealAttackDamage(attackerEntity, defenderEntity, defenderOpts);
     } else if (action.actionType == CombatActionType.SKILL) {
       _useSkill(attackerEntity, defenderEntity, action.actionEntity, defenderOpts);
     } else {
-      revert LibCombat__InvalidActionType();
+      revert LibCombatSingleAction_InvalidActionType();
     }
   }
 
@@ -35,13 +35,13 @@ library LibCombatAction {
   ) private {
     LibSkill.requireCombat(skillEntity);
 
-    // combat skills may target either self or enemy, depending on skill prototype
+    // Combat skills may target either self or enemy, depending on skill prototype
     bytes32 targetEntity = LibSkill.chooseCombatTarget(attackerEntity, skillEntity, defenderEntity);
-    // use skill
+    // Use skill
     LibSkill.useSkill(attackerEntity, skillEntity, targetEntity);
     uint32[EleStat_length] memory spellDamage = SkillSpellDamage.get(skillEntity);
 
-    // skill may need a follow-up attack and/or spell
+    // Skill may need a follow-up attack and/or spell
     if (SkillTemplate.getWithAttack(skillEntity)) {
       _dealAttackDamage(attackerEntity, defenderEntity, defenderOpts);
     }
@@ -81,7 +81,7 @@ library LibCombatAction {
 
     uint32[EleStat_length] memory resistance = LibCharstat.getResistance(defenderEntity);
 
-    // calculate total damage (elemental, 0 index isn't used)
+    // Calculate total damage (elemental, 0 index isn't used)
     uint32 totalDamage = 0;
     for (uint256 i = 1; i < EleStat_length; i++) {
       uint32 elemResistance = resistance[i] < maxResistance ? resistance[i] : maxResistance;
@@ -89,19 +89,19 @@ library LibCombatAction {
       totalDamage += adjustedDamage;
     }
 
-    // modify life only if resistances didn't fully negate damage
+    // Modify life only if resistances didn't fully negate damage
     if (totalDamage == 0) return;
 
-    // get life
+    // Get life
     uint32 lifeCurrent = LibCharstat.getLifeCurrent(defenderEntity);
-    // subtract damage
+    // Subtract damage
     if (totalDamage >= lifeCurrent) {
-      // life can't be negative
+      // Life can't be negative
       lifeCurrent = 0;
     } else {
       lifeCurrent -= totalDamage;
     }
-    // update life
+    // Update life
     LibCharstat.setLifeCurrent(defenderEntity, lifeCurrent);
   }
 }

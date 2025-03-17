@@ -25,7 +25,6 @@ import { SkillTemplateDuration, SkillTemplateDurationData } from "./tables/Skill
 import { SkillDescription } from "./tables/SkillDescription.sol";
 import { SkillNameToEntity } from "./tables/SkillNameToEntity.sol";
 import { SkillCooldown, SkillCooldownData } from "./tables/SkillCooldown.sol";
-import { FromTemplate } from "./tables/FromTemplate.sol";
 import { ActiveCycle } from "./tables/ActiveCycle.sol";
 import { CycleToWanderer } from "./tables/CycleToWanderer.sol";
 import { CurrentCycle } from "./tables/CurrentCycle.sol";
@@ -39,6 +38,7 @@ import { Identity } from "./tables/Identity.sol";
 import { Wanderer } from "./tables/Wanderer.sol";
 import { WheelsCompleted } from "./tables/WheelsCompleted.sol";
 import { ActiveCombat, ActiveCombatData } from "./tables/ActiveCombat.sol";
+import { FromMap } from "./tables/FromMap.sol";
 import { RNGPrecommit } from "./tables/RNGPrecommit.sol";
 import { RNGRequestOwner } from "./tables/RNGRequestOwner.sol";
 import { SlotAllowedType } from "./tables/SlotAllowedType.sol";

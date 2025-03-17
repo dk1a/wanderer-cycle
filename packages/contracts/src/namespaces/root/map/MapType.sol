@@ -8,3 +8,13 @@ library MapTypes {
   MapType constant RANDOM = MapType.wrap("Random");
   MapType constant CYCLE_BOSS = MapType.wrap("Cycle Boss");
 }
+
+using { eq as ==, ne as != } for MapType global;
+
+function eq(MapType a, MapType b) pure returns (bool) {
+  return MapType.unwrap(a) == MapType.unwrap(b);
+}
+
+function ne(MapType a, MapType b) pure returns (bool) {
+  return MapType.unwrap(a) != MapType.unwrap(b);
+}

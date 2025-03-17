@@ -4,76 +4,66 @@ pragma solidity >=0.8.21;
 import { System } from "@latticexyz/world/src/System.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { BossesDefeated, FromTemplate } from "../codegen/index.sol";
+import { MapTypeComponent } from "../codegen/tables/MapTypeComponent.sol";
+import { FromMap } from "../codegen/tables/FromMap.sol";
+import { BossesDefeated } from "../codegen/tables/BossesDefeated.sol";
 
-import { ActionType } from "../../../codegen/common.sol";
-//import { Action } from "../combat/LibCombatAction.sol";
-import { CombatSystem } from "../combat/CombatSystem.sol";
+import { IWorld } from "../../../codegen/world/IWorld.sol";
 
-import { LibEffect } from "../../effect/LibEffect.sol";
 import { MapTypes, MapType } from "../map/MapType.sol";
+import { LibEffect } from "../../effect/LibEffect.sol";
 import { LibCycle } from "./LibCycle.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
 import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 
 contract CycleActivateCombatSystem is System {
-  error CycleActivateCombatSystem__InvalidMapPrototype();
-  error CycleActivateCombatSystem__BossMapAlreadyCleared();
-
-  CombatSystem combatSystem;
+  error CycleActivateCombatSystem_InvalidMapType(bytes32 mapEntity, MapType mapType);
+  error CycleActivateCombatSystem_BossMapAlreadyCleared();
 
   uint32 constant TURNS_COST = 1;
   uint32 constant MAX_ROUNDS = 12;
 
-  function execute(bytes memory args) public returns (bytes memory) {
-    (bytes32 wandererEntity, bytes32 mapEntity) = abi.decode(args, (bytes32, bytes32));
-
-    // reverts if sender doesn't have permission
+  function activateCycleCombat(bytes32 wandererEntity, bytes32 mapEntity) public returns (bytes32 encounterEntity) {
+    // Reverts if sender doesn't have permission
     bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
-    // reverts if combat is active
+    // Reverts if combat is active
     LibActiveCombat.requireNotActiveCombat(cycleEntity);
-    // reverts if map isn't GLOBAL_ (they are ownerless and can be used by anyone)
-    bytes32 mapProtoEntity = FromTemplate.get(mapEntity);
-    if (
-      mapProtoEntity != MapType.unwrap(MapTypes.BASIC) &&
-      mapProtoEntity != MapType.unwrap(MapTypes.RANDOM) &&
-      mapProtoEntity != MapType.unwrap(MapTypes.CYCLE_BOSS)
-    ) {
-      revert CycleActivateCombatSystem__InvalidMapPrototype();
+    // Reverts if map has invalid type
+    MapType mapType = MapTypeComponent.get(mapEntity);
+    if (mapType != MapTypes.BASIC && mapType != MapTypes.RANDOM && mapType != MapTypes.CYCLE_BOSS) {
+      revert CycleActivateCombatSystem_InvalidMapType(mapEntity, mapType);
     }
-    // TODO level checks
-    // reverts if boss is already defeated
-    if (mapProtoEntity == MapType.unwrap(MapTypes.CYCLE_BOSS)) {
+    // TODO level checks and less weird hardcode
+    // Reverts if boss is already defeated
+    if (mapType == MapTypes.CYCLE_BOSS) {
       bytes32[] memory bosses = BossesDefeated.get(cycleEntity);
       bool has = false;
-      for (uint i = 0; i < bosses.length; i++) {
+      for (uint256 i = 0; i < bosses.length; i++) {
         if (bosses[i] == mapEntity) {
           has = true;
           break;
         }
       }
       if (has) {
-        revert CycleActivateCombatSystem__BossMapAlreadyCleared();
+        revert CycleActivateCombatSystem_BossMapAlreadyCleared();
       }
     }
+    // TODO handle other map types
 
-    // reverts if not enough turns
+    // Reverts if not enough turns
     LibCycleTurns.decreaseTurns(cycleEntity, TURNS_COST);
 
-    // spawn new entity for map
-    bytes32 retaliatorEntity = getUniqueEntity();
-    // apply map effects (this affects values of charstats, so must happen 1st)
-    LibEffect.applyEffect(retaliatorEntity, mapEntity);
-    // init currents
-    LibCharstat.setFullCurrents(retaliatorEntity);
-    // TODO I think this should have its own component
-    // set map (not mapProto) as retaliator's prototype so it can be referenced later for rewards and stuff
-    FromTemplate.set(retaliatorEntity, mapEntity);
+    // Spawn new entity for the map encounter
+    encounterEntity = getUniqueEntity();
+    // Apply map effects (this affects values of charstats, so must happen 1st)
+    LibEffect.applyEffect(encounterEntity, mapEntity);
+    // Init currents
+    LibCharstat.setFullCurrents(encounterEntity);
+    // Set the map entity as encounter's map so it can be referenced later for rewards and stuff
+    FromMap.set(encounterEntity, mapEntity);
 
-    // activate combat
-    combatSystem.executeActivateCombat(cycleEntity, retaliatorEntity, MAX_ROUNDS);
-
-    return "";
+    // Activate combat
+    IWorld(_world()).activateCombat(cycleEntity, encounterEntity, MAX_ROUNDS);
   }
 }
