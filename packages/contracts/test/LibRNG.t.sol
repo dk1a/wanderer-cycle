@@ -45,7 +45,7 @@ contract LibRNGTest is MudLibTest {
 
     bytes32 requestId = LibRNG.requestRandomness(requestOwner);
 
-    vm.expectRevert(LibRNG.LibRNG__NotRequestOwner.selector);
+    vm.expectRevert(LibRNG.LibRNG_NotRequestOwner.selector);
     rngTestSystem.getRandomness(notOwner, requestId);
   }
 
@@ -54,7 +54,7 @@ contract LibRNGTest is MudLibTest {
 
     bytes32 requestId = LibRNG.requestRandomness(requestOwner);
 
-    vm.expectRevert(LibRNG.LibRNG__InvalidPrecommit.selector);
+    vm.expectRevert(LibRNG.LibRNG_InvalidPrecommit.selector);
     rngTestSystem.getRandomness(requestOwner, requestId);
   }
 
@@ -64,7 +64,7 @@ contract LibRNGTest is MudLibTest {
     bytes32 requestId = LibRNG.requestRandomness(requestOwner);
 
     vm.roll(block.number + LibRNG.WAIT_BLOCKS + 256 + 1);
-    vm.expectRevert(LibRNG.LibRNG__InvalidPrecommit.selector);
+    vm.expectRevert(LibRNG.LibRNG_InvalidPrecommit.selector);
     rngTestSystem.getRandomness(requestOwner, requestId);
   }
 

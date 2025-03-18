@@ -15,15 +15,15 @@ import { RNGPrecommit, RNGRequestOwner } from "../codegen/index.sol";
 ///
 /// TODO consider prevrandao, VRF, eip-2935
 library LibRNG {
-  error LibRNG__InvalidPrecommit();
-  error LibRNG__NotRequestOwner();
+  error LibRNG_InvalidPrecommit();
+  error LibRNG_NotRequestOwner();
 
   // TODO 0 wait allows 2 txs in a row really fast and is great during local dev, but not exactly safe
   // (note that this does not allow same-block retrieval - you can't get current blockhash)
   uint256 constant WAIT_BLOCKS = 0;
 
   function requestRandomness(bytes32 requestOwnerEntity) internal returns (bytes32 requestId) {
-    bytes32 requestId = getUniqueEntity();
+    requestId = getUniqueEntity();
 
     RNGPrecommit.set(requestId, block.number + WAIT_BLOCKS);
 
@@ -34,18 +34,18 @@ library LibRNG {
 
   function getRandomness(bytes32 requestOwnerEntity, bytes32 requestId) internal view returns (uint256 randomness) {
     if (requestOwnerEntity != RNGRequestOwner.get(requestId)) {
-      revert LibRNG__NotRequestOwner();
+      revert LibRNG_NotRequestOwner();
     }
     uint256 precommit = RNGPrecommit.get(requestId);
 
-    if (!isValid(precommit)) revert LibRNG__InvalidPrecommit();
+    if (!isValid(precommit)) revert LibRNG_InvalidPrecommit();
 
     return uint256(blockhash(precommit));
   }
 
   function removeRequest(bytes32 requestOwnerEntity, bytes32 requestId) internal {
     if (requestOwnerEntity != RNGRequestOwner.get(requestId)) {
-      revert LibRNG__NotRequestOwner();
+      revert LibRNG_NotRequestOwner();
     }
     RNGPrecommit.deleteRecord(requestId);
     RNGRequestOwner.deleteRecord(requestId);

@@ -15,6 +15,7 @@ import { ICycleInitSystem } from "./ICycleInitSystem.sol";
 import { ILearnCycleSkillSystem } from "./ILearnCycleSkillSystem.sol";
 import { IPassCycleTurnSystem } from "./IPassCycleTurnSystem.sol";
 import { IStartCycleSystem } from "./IStartCycleSystem.sol";
+import { IRandomEquipmentSystem } from "./IRandomEquipmentSystem.sol";
 import { IRandomMapSystem } from "./IRandomMapSystem.sol";
 import { IWandererSpawnSystem } from "./IWandererSpawnSystem.sol";
 
@@ -38,6 +39,7 @@ interface IWorld is
   ILearnCycleSkillSystem,
   IPassCycleTurnSystem,
   IStartCycleSystem,
+  IRandomEquipmentSystem,
   IRandomMapSystem,
   IWandererSpawnSystem
 {}

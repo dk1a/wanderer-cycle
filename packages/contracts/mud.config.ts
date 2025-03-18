@@ -341,6 +341,10 @@ export default defineWorld({
           openAccess: false,
           accessList: [],
         },
+        RandomEquipmentSystem: {
+          openAccess: false,
+          accessList: [],
+        },
         RandomMapSystem: {
           openAccess: false,
           accessList: [],

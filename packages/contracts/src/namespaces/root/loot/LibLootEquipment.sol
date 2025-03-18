@@ -2,16 +2,19 @@
 pragma solidity >=0.8.21;
 
 import { AffixPartId } from "../../../codegen/common.sol";
-import { EquipmentTypes, EquipmentType } from "../equipment/EquipmentType.sol";
+import { EquipmentTypes as t, EquipmentType } from "../equipment/EquipmentType.sol";
+import { EquipmentAffixAvailabilityTargetIds as a } from "../equipment/EquipmentAffixAvailabilityTargetIds.sol";
+import { AffixAvailabilityTargetId } from "../../affix/types.sol";
+import { MAX_ILVL } from "../../affix/constants.sol";
 
 library LibLootEquipment {
-  error LibLootEquipment__InvalidIlvl();
-  error LibLootEquipment__InvalidWeights();
+  error LibLootEquipment_InvalidIlvl(uint256 ilvl);
+  error LibLootEquipment_InvalidWeights(W[] weights);
 
   /// @dev Hardcoded ilvl => AffixPartsIds mapping
   function getAffixPartIds(uint256 ilvl) internal pure returns (AffixPartId[] memory result) {
     if (ilvl == 0) {
-      revert LibLootEquipment__InvalidIlvl();
+      revert LibLootEquipment_InvalidIlvl(ilvl);
     } else if (ilvl <= 4) {
       result = new AffixPartId[](1);
       result[0] = AffixPartId.IMPLICIT;
@@ -19,98 +22,82 @@ library LibLootEquipment {
       result = new AffixPartId[](2);
       result[0] = AffixPartId.IMPLICIT;
       result[1] = AffixPartId.PREFIX;
-    } else if (ilvl <= 12) {
+    } else if (ilvl <= MAX_ILVL) {
       result = new AffixPartId[](3);
       result[0] = AffixPartId.IMPLICIT;
       result[1] = AffixPartId.PREFIX;
       result[2] = AffixPartId.SUFFIX;
     } else {
-      revert LibLootEquipment__InvalidIlvl();
+      revert LibLootEquipment_InvalidIlvl(ilvl);
     }
+  }
+
+  struct W {
+    AffixAvailabilityTargetId targetId;
+    EquipmentType equipmentType;
+    uint256 weight;
   }
 
   /// @dev Randomly pick an equipment type.
-  /// (Hardcoded ilvl => EquipmentType)
-  function pickEquipmentType(uint256 ilvl, uint256 randomness) internal pure returns (EquipmentType) {
+  /// (Hardcoded ilvl => AffixAvailabilityTargetId,EquipmentType)
+  function pickEquipmentTargetAndType(
+    uint256 ilvl,
+    uint256 randomness
+  ) internal pure returns (AffixAvailabilityTargetId, EquipmentType) {
     randomness = uint256(keccak256(abi.encode(keccak256("pickEquipmentTemplate"), randomness)));
 
-    EquipmentType[] memory b;
-    uint256[] memory w;
+    W[] memory w;
 
     if (ilvl == 0) {
-      revert LibLootEquipment__InvalidIlvl();
+      revert LibLootEquipment_InvalidIlvl(ilvl);
     } else if (ilvl <= 4) {
-      b = new EquipmentType[](5);
-      w = new uint256[](5);
-      b[0] = EquipmentTypes.WEAPON;
-      w[0] = 32;
-      b[1] = EquipmentTypes.SHIELD;
-      w[1] = 16;
-      b[2] = EquipmentTypes.CLOTHING;
-      w[2] = 32;
-      b[3] = EquipmentTypes.PANTS;
-      w[3] = 16;
-      b[4] = EquipmentTypes.BOOTS;
-      w[4] = 16;
+      w = new W[](5);
+      w[0] = W(a.WEAPON, t.WEAPON, 32);
+      w[1] = W(a.SHIELD, t.SHIELD, 16);
+      w[2] = W(a.CLOTHING, t.CLOTHING, 32);
+      w[3] = W(a.PANTS, t.PANTS, 16);
+      w[4] = W(a.BOOTS, t.BOOTS, 16);
     } else if (ilvl <= 8) {
-      b = new EquipmentType[](7);
-      w = new uint256[](7);
-      b[0] = EquipmentTypes.WEAPON;
-      w[0] = 32;
-      b[1] = EquipmentTypes.SHIELD;
-      w[1] = 32;
-      b[2] = EquipmentTypes.CLOTHING;
-      w[2] = 32;
-      b[3] = EquipmentTypes.GLOVES;
-      w[3] = 16;
-      b[4] = EquipmentTypes.PANTS;
-      w[4] = 32;
-      b[5] = EquipmentTypes.BOOTS;
-      w[5] = 32;
-      b[6] = EquipmentTypes.RING;
-      w[6] = 4;
-    } else if (ilvl <= 16) {
-      b = new EquipmentType[](9);
-      w = new uint256[](9);
-      b[0] = EquipmentTypes.WEAPON;
-      w[0] = 32;
-      b[1] = EquipmentTypes.SHIELD;
-      w[1] = 32;
-      b[2] = EquipmentTypes.HAT;
-      w[2] = 16;
-      b[3] = EquipmentTypes.CLOTHING;
-      w[3] = 32;
-      b[4] = EquipmentTypes.GLOVES;
-      w[4] = 32;
-      b[5] = EquipmentTypes.PANTS;
-      w[5] = 32;
-      b[6] = EquipmentTypes.BOOTS;
-      w[6] = 32;
-      b[7] = EquipmentTypes.AMULET;
-      w[7] = 4;
-      b[8] = EquipmentTypes.RING;
-      w[8] = 8;
+      w = new W[](7);
+      w[0] = W(a.WEAPON, t.WEAPON, 32);
+      w[1] = W(a.SHIELD, t.SHIELD, 32);
+      w[2] = W(a.CLOTHING, t.CLOTHING, 32);
+      w[3] = W(a.GLOVES, t.GLOVES, 16);
+      w[4] = W(a.PANTS, t.PANTS, 32);
+      w[5] = W(a.BOOTS, t.BOOTS, 32);
+      w[6] = W(a.RING, t.RING, 4);
+    } else if (ilvl <= MAX_ILVL) {
+      w = new W[](9);
+      w[0] = W(a.WEAPON, t.WEAPON, 32);
+      w[1] = W(a.SHIELD, t.SHIELD, 32);
+      w[2] = W(a.HAT, t.HAT, 16);
+      w[3] = W(a.CLOTHING, t.CLOTHING, 32);
+      w[4] = W(a.GLOVES, t.GLOVES, 32);
+      w[5] = W(a.PANTS, t.PANTS, 32);
+      w[6] = W(a.BOOTS, t.BOOTS, 32);
+      w[7] = W(a.AMULET, t.AMULET, 4);
+      w[8] = W(a.RING, t.RING, 8);
     } else {
-      revert LibLootEquipment__InvalidIlvl();
+      revert LibLootEquipment_InvalidIlvl(ilvl);
     }
 
     uint256 index = _sampleIndex(randomness, w);
-    return b[index];
+    return (w[index].targetId, w[index].equipmentType);
   }
 
   /// @dev Weighted sample.
-  function _sampleIndex(uint256 randomness, uint256[] memory weights) private pure returns (uint256) {
+  function _sampleIndex(uint256 randomness, W[] memory weights) private pure returns (uint256) {
     uint256 totalWeight;
     for (uint256 i; i < weights.length; i++) {
-      totalWeight += weights[i];
+      totalWeight += weights[i].weight;
     }
     uint256 roll = randomness % totalWeight;
     for (uint256 i; i < weights.length; i++) {
-      totalWeight -= weights[i];
+      totalWeight -= weights[i].weight;
       if (roll >= totalWeight) {
         return i;
       }
     }
-    revert LibLootEquipment__InvalidWeights();
+    revert LibLootEquipment_InvalidWeights(weights);
   }
 }
