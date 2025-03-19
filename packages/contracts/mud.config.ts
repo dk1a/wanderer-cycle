@@ -28,6 +28,14 @@ const entityRelation = {
   },
 } as const;
 
+const wandererToCycleEntityRelation = {
+  key: ["wandererEntity"],
+  schema: {
+    wandererEntity: EntityId,
+    cycleEntity: EntityId,
+  },
+} as const;
+
 const arrayPStat = `uint32[${PSTAT_ARRAY.length}]` as const;
 
 const durationTable = {
@@ -223,10 +231,8 @@ export default defineWorld({
         SkillDescription: "string",
         SkillNameToEntity: nameToEntityTable,
         SkillCooldown: durationTable,
-        ActiveCycle: entityRelation,
-        CycleToWanderer: entityRelation,
-        CurrentCycle: entityRelation,
-        PreviousCycle: entityRelation,
+        ActiveCycle: wandererToCycleEntityRelation,
+        PreviousCycle: wandererToCycleEntityRelation,
         BossesDefeated: {
           ...entityKey,
           schema: {

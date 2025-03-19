@@ -6,7 +6,7 @@ import { WorldContextConsumerLib } from "@latticexyz/world/src/WorldContext.sol"
 import { SystemSwitch } from "@latticexyz/world-modules/src/utils/SystemSwitch.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { ActiveGuise, ActiveWheel, PreviousCycle, Wheel, WheelData, GuisePrototype, ActiveCycle, CycleToWanderer } from "../codegen/index.sol";
+import { ActiveGuise, ActiveWheel, PreviousCycle, Wheel, WheelData, GuisePrototype, ActiveCycle } from "../codegen/index.sol";
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
@@ -53,7 +53,6 @@ library LibCycle {
     PreviousCycle.set(wandererEntity, cycleEntity);
     // Clear the current cycle
     ActiveCycle.deleteRecord(wandererEntity);
-    CycleToWanderer.deleteRecord(cycleEntity);
   }
 
   /**
@@ -82,9 +81,8 @@ library LibCycleInternalPart2 {
     bytes32 guiseEntity,
     bytes32 wheelEntity
   ) public {
-    // Set active cycle and its reverse mapping
+    // Set active cycle
     ActiveCycle.set(wandererEntity, cycleEntity);
-    CycleToWanderer.set(cycleEntity, wandererEntity);
     // Set active guise
     ActiveGuise.set(cycleEntity, guiseEntity);
     // Set active wheel

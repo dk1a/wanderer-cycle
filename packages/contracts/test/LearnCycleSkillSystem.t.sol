@@ -2,14 +2,14 @@
 pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
-import { CycleToWanderer, GuiseNameToEntity, SkillNameToEntity, LearnedSkills } from "../src/namespaces/root/codegen/index.sol";
+import { GuiseNameToEntity, SkillNameToEntity, LearnedSkills } from "../src/namespaces/root/codegen/index.sol";
 
 import { LibGuiseLevel } from "../src/namespaces/root/guise/LibGuiseLevel.sol";
 import { LibERC721 } from "../src/namespaces/root/token/LibERC721.sol";
 import { LibArray } from "../src/utils/LibArray.sol";
 
 contract LearnCycleSkillSystemTest is MudLibTest {
-  bytes32 warriorGuiseProtoEntity;
+  bytes32 warriorGuiseEntity;
 
   bytes32 skillEntity1;
   bytes32 skillEntity2;
@@ -22,7 +22,7 @@ contract LearnCycleSkillSystemTest is MudLibTest {
     super.setUp();
 
     // taken from LibInitGuise
-    warriorGuiseProtoEntity = GuiseNameToEntity.get(keccak256("Warrior"));
+    warriorGuiseEntity = GuiseNameToEntity.get(keccak256("Warrior"));
 
     // taken from LibInitSkill
     skillEntity1 = SkillNameToEntity.get(keccak256("Cleave"));
@@ -30,7 +30,7 @@ contract LearnCycleSkillSystemTest is MudLibTest {
     skillEntityInvalid = keccak256("skillEntityInvalid");
 
     vm.prank(alice);
-    (wandererEntity, cycleEntity) = world.spawnWanderer(warriorGuiseProtoEntity);
+    (wandererEntity, cycleEntity) = world.spawnWanderer(warriorGuiseEntity);
   }
 
   function testSetUp() public {

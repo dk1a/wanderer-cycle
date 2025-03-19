@@ -36,6 +36,12 @@ export default defineStoreIdxs(
               unique: false,
             },
           },
+          ActiveCycle: {
+            UniqueIdx_ActiveCycle_CycleEntity: {
+              fields: ["cycleEntity"],
+              unique: false,
+            },
+          },
         },
       },
     },
