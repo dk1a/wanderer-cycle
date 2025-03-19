@@ -8,7 +8,7 @@ import { MapTypeComponent } from "../codegen/tables/MapTypeComponent.sol";
 import { FromMap } from "../codegen/tables/FromMap.sol";
 import { BossesDefeated } from "../codegen/tables/BossesDefeated.sol";
 
-import { IWorld } from "../../../codegen/world/IWorld.sol";
+import { combatSystem } from "../codegen/systems/CombatSystemLib.sol";
 
 import { MapTypes, MapType } from "../map/MapType.sol";
 import { LibEffect } from "../../effect/LibEffect.sol";
@@ -64,6 +64,6 @@ contract CycleActivateCombatSystem is System {
     FromMap.set(encounterEntity, mapEntity);
 
     // Activate combat
-    IWorld(_world()).activateCombat(cycleEntity, encounterEntity, MAX_ROUNDS);
+    combatSystem.callAsRootFrom(address(this)).activateCombat(cycleEntity, encounterEntity, MAX_ROUNDS);
   }
 }

@@ -3,7 +3,7 @@ pragma solidity >=0.8.21;
 
 import { System } from "@latticexyz/world/src/System.sol";
 
-import { IWorld } from "../../../codegen/world/IWorld.sol";
+import { randomEquipmentSystem } from "../codegen/systems/RandomEquipmentSystemLib.sol";
 
 import { PStat, PStat_length } from "../../../CustomTypes.sol";
 import { LibCycle } from "./LibCycle.sol";
@@ -36,7 +36,10 @@ contract CycleCombatRewardSystem is System {
 
     // Give loot
     for (uint256 i; i < lootCount; i++) {
-      bytes32 lootEntity = IWorld(_world()).mintRandomEquipmentEntity(lootIlvl, randomness);
+      bytes32 lootEntity = randomEquipmentSystem.callAsRootFrom(address(this)).mintRandomEquipmentEntity(
+        lootIlvl,
+        randomness
+      );
       LibLootOwner.setSimpleOwnership(lootEntity, cycleEntity);
     }
   }

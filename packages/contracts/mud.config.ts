@@ -82,6 +82,9 @@ const userTypes = {
 export default defineWorld({
   enums,
   userTypes,
+  codegen: {
+    generateSystemLibraries: true,
+  },
   namespaces: {
     root: {
       namespace: "",

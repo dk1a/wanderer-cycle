@@ -6,7 +6,7 @@ import { System } from "@latticexyz/world/src/System.sol";
 import { CombatAction, CombatResult } from "../../../CustomTypes.sol";
 import { CombatActionType } from "../../../codegen/common.sol";
 
-import { IWorld } from "../../../codegen/world/IWorld.sol";
+import { combatSystem } from "../codegen/systems/CombatSystemLib.sol";
 
 import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
 import { LibCycle } from "./LibCycle.sol";
@@ -26,7 +26,12 @@ contract CycleCombatSystem is System {
     CombatAction[] memory retaliatorActions = new CombatAction[](1);
     retaliatorActions[0] = CombatAction({ actionType: CombatActionType.ATTACK, actionEntity: 0 });
 
-    result = IWorld(_world()).actPVERound(cycleEntity, retaliatorEntity, initiatorActions, retaliatorActions);
+    result = combatSystem.callAsRootFrom(address(this)).actPVERound(
+      cycleEntity,
+      retaliatorEntity,
+      initiatorActions,
+      retaliatorActions
+    );
 
     if (result == CombatResult.VICTORY) {
       LibCycleCombatRewardRequest.requestReward(cycleEntity, retaliatorEntity);

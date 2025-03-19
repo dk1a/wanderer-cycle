@@ -9,9 +9,7 @@ pragma solidity >=0.8.24;
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface ICycleCombatRewardSystem {
-  error CycleCombatRewardSystem_UnknownMapType();
-
-  function reward(bytes32 wandererEntity, bytes32 requestId) external returns (bytes memory);
+  function reward(bytes32 wandererEntity, bytes32 requestId) external;
 
   function cancelRequest(bytes32 wandererEntity, bytes32 requestId) external;
 }
