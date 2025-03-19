@@ -10,9 +10,9 @@ import { LibCycleTurns } from "./LibCycleTurns.sol";
 /// @dev Does nothing if claimable turns == 0.
 contract ClaimCycleTurnsSystem is System {
   function claimCycleTurns(bytes32 wandererEntity) public {
-    // reverts if sender doesn't have permission
+    // Reverts if sender doesn't have permission
     bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
-    // claim
+    // Claim
     LibCycleTurns.claimTurns(cycleEntity);
   }
 }

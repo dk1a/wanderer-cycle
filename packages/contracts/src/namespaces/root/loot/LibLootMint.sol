@@ -28,13 +28,13 @@ library LibLootMint {
     uint32 ilvl,
     uint256 randomness
   ) internal {
-    // pick affixes
+    // Pick affixes
     (
       bytes32[] memory statmodProtoEntities,
       bytes32[] memory affixProtoEntities,
       uint32[] memory affixValues
     ) = LibPickAffix.pickAffixes(affixPartIds, excludeAffixes, affixAvailabilityTargetId, ilvl, randomness);
-    // mint picked affixes
+    // Mint picked affixes
     lootMint(lootEntity, ilvl, affixPartIds, statmodProtoEntities, affixProtoEntities, affixValues);
   }
 
@@ -52,10 +52,10 @@ library LibLootMint {
       Affix.set(affixEntity, affixProtoEntities[i], affixPartIds[i], affixValues[i]);
       affixEntities[i] = affixEntity;
     }
-    // save loot-specific data
+    // Save loot-specific data
     LootAffixes.set(lootEntity, affixEntities);
     LootIlvl.set(lootEntity, ilvl);
-    // save loot as an effect prototype (the effect triggers on-equip)
+    // Save loot as an effect prototype (the effect triggers on-equip)
     LibEffectTemplate.verifiedSet(
       lootEntity,
       EffectTemplateData({ entities: statmodProtoEntities, values: affixValues })

@@ -11,7 +11,7 @@ pragma solidity >=0.8.24;
 interface IStartCycleSystem {
   function startCycle(
     bytes32 wandererEntity,
-    bytes32 guiseProtoEntity,
+    bytes32 guiseEntity,
     bytes32 wheelEntity
   ) external returns (bytes32 cycleEntity);
 }

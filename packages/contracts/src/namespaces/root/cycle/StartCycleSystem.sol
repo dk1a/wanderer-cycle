@@ -11,12 +11,12 @@ import { ERC721Namespaces } from "../token/ERC721Namespaces.sol";
 contract StartCycleSystem is System {
   function startCycle(
     bytes32 wandererEntity,
-    bytes32 guiseProtoEntity,
+    bytes32 guiseEntity,
     bytes32 wheelEntity
   ) public returns (bytes32 cycleEntity) {
-    // check permission
+    // Check permission
     ERC721Namespaces.WandererNFT.requireOwner(_msgSender(), wandererEntity);
-    // init cycle (reverts if a cycle is already active)
-    cycleEntity = LibCycle.initCycle(wandererEntity, guiseProtoEntity, wheelEntity);
+    // Init cycle (reverts if a cycle is already active)
+    cycleEntity = LibCycle.initCycle(wandererEntity, guiseEntity, wheelEntity);
   }
 }

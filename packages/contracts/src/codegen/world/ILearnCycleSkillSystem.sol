@@ -9,8 +9,8 @@ pragma solidity >=0.8.24;
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface ILearnCycleSkillSystem {
-  error LearnCycleSkillSystem_SkillNotInGuiseSkills();
-  error LearnCycleSkillSystem_LevelIsTooLow();
+  error LearnCycleSkillSystem_SkillNotInGuiseSkills(bytes32 skillEntity, bytes32 guiseEntity);
+  error LearnCycleSkillSystem_LevelIsTooLow(uint32 currentLevel, uint32 requiredLevel);
 
   function learnFromCycle(bytes32 wandererEntity, bytes32 skillEntity) external;
 }

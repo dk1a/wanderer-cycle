@@ -36,8 +36,8 @@ struct RootCallWrapper {
  */
 library LearnCycleSkillSystemLib {
   error LearnCycleSkillSystemLib_CallingFromRootSystem();
-  error LearnCycleSkillSystem_SkillNotInGuiseSkills();
-  error LearnCycleSkillSystem_LevelIsTooLow();
+  error LearnCycleSkillSystem_SkillNotInGuiseSkills(bytes32 skillEntity, bytes32 guiseEntity);
+  error LearnCycleSkillSystem_LevelIsTooLow(uint32 currentLevel, uint32 requiredLevel);
 
   function learnFromCycle(LearnCycleSkillSystemType self, bytes32 wandererEntity, bytes32 skillEntity) internal {
     return CallWrapper(self.toResourceId(), address(0)).learnFromCycle(wandererEntity, skillEntity);

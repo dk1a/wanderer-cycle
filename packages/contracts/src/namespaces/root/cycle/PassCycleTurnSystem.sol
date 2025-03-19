@@ -13,19 +13,19 @@ import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
 
 contract PassCycleTurnSystem is System {
   function passCycleTurn(bytes32 wandererEntity) public {
-    // reverts if sender doesn't have permission
+    // Reverts if sender doesn't have permission
     bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
-    // not available during combat (since it fully heals)
+    // Not available during combat (since it fully heals)
     LibActiveCombat.requireNotActiveCombat(cycleEntity);
 
-    // subtract 1 turn
+    // Subtract 1 turn
     LibCycleTurns.decreaseTurns(cycleEntity, 1);
     Duration.decreaseApplications(
       ActiveCycle._tableId,
       cycleEntity,
       GenericDurationData({ timeId: keccak256("turn"), timeValue: 1 })
     );
-    // fill up currents
+    // Fill up currents
     LibCharstat.setFullCurrents(cycleEntity);
   }
 }

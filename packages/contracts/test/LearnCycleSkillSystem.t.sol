@@ -33,18 +33,18 @@ contract LearnCycleSkillSystemTest is MudLibTest {
     (wandererEntity, cycleEntity) = world.spawnWanderer(warriorGuiseProtoEntity);
   }
 
-  function test_setUp() public {
+  function testSetUp() public {
     assertEq(LibGuiseLevel.getAggregateLevel(cycleEntity), 1);
   }
 
-  function test_learnSkill() public {
+  function testLearnSkill() public {
     vm.prank(alice);
     world.learnFromCycle(wandererEntity, skillEntity1);
     assertTrue(LibArray.isIn(skillEntity1, LearnedSkills.get(cycleEntity)));
     assertEq(LearnedSkills.get(wandererEntity).length, 0);
   }
 
-  function test_learnSkill_notTokenOwner() public {
+  function testLearnSkillRevertMustBeTokenOwner() public {
     vm.prank(bob);
     vm.expectRevert(LibERC721.LibERC721_MustBeTokenOwner.selector);
     world.learnFromCycle(wandererEntity, skillEntity1);

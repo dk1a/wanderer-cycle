@@ -40,16 +40,16 @@ library StartCycleSystemLib {
   function startCycle(
     StartCycleSystemType self,
     bytes32 wandererEntity,
-    bytes32 guiseProtoEntity,
+    bytes32 guiseEntity,
     bytes32 wheelEntity
   ) internal returns (bytes32 cycleEntity) {
-    return CallWrapper(self.toResourceId(), address(0)).startCycle(wandererEntity, guiseProtoEntity, wheelEntity);
+    return CallWrapper(self.toResourceId(), address(0)).startCycle(wandererEntity, guiseEntity, wheelEntity);
   }
 
   function startCycle(
     CallWrapper memory self,
     bytes32 wandererEntity,
-    bytes32 guiseProtoEntity,
+    bytes32 guiseEntity,
     bytes32 wheelEntity
   ) internal returns (bytes32 cycleEntity) {
     // if the contract calling this function is a root system, it should use `callAsRoot`
@@ -57,7 +57,7 @@ library StartCycleSystemLib {
 
     bytes memory systemCall = abi.encodeCall(
       _startCycle_bytes32_bytes32_bytes32.startCycle,
-      (wandererEntity, guiseProtoEntity, wheelEntity)
+      (wandererEntity, guiseEntity, wheelEntity)
     );
 
     bytes memory result = self.from == address(0)
@@ -69,12 +69,12 @@ library StartCycleSystemLib {
   function startCycle(
     RootCallWrapper memory self,
     bytes32 wandererEntity,
-    bytes32 guiseProtoEntity,
+    bytes32 guiseEntity,
     bytes32 wheelEntity
   ) internal returns (bytes32 cycleEntity) {
     bytes memory systemCall = abi.encodeCall(
       _startCycle_bytes32_bytes32_bytes32.startCycle,
-      (wandererEntity, guiseProtoEntity, wheelEntity)
+      (wandererEntity, guiseEntity, wheelEntity)
     );
 
     bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
@@ -120,7 +120,7 @@ library StartCycleSystemLib {
  */
 
 interface _startCycle_bytes32_bytes32_bytes32 {
-  function startCycle(bytes32 wandererEntity, bytes32 guiseProtoEntity, bytes32 wheelEntity) external;
+  function startCycle(bytes32 wandererEntity, bytes32 guiseEntity, bytes32 wheelEntity) external;
 }
 
 using StartCycleSystemLib for StartCycleSystemType global;

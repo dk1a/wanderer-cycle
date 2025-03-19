@@ -11,7 +11,6 @@ import { ICycleActivateCombatSystem } from "./ICycleActivateCombatSystem.sol";
 import { ICycleCombatRewardSystem } from "./ICycleCombatRewardSystem.sol";
 import { ICycleCombatSystem } from "./ICycleCombatSystem.sol";
 import { ICycleEquipmentSystem } from "./ICycleEquipmentSystem.sol";
-import { ICycleInitSystem } from "./ICycleInitSystem.sol";
 import { ILearnCycleSkillSystem } from "./ILearnCycleSkillSystem.sol";
 import { IPassCycleTurnSystem } from "./IPassCycleTurnSystem.sol";
 import { IStartCycleSystem } from "./IStartCycleSystem.sol";
@@ -35,7 +34,6 @@ interface IWorld is
   ICycleCombatRewardSystem,
   ICycleCombatSystem,
   ICycleEquipmentSystem,
-  ICycleInitSystem,
   ILearnCycleSkillSystem,
   IPassCycleTurnSystem,
   IStartCycleSystem,
