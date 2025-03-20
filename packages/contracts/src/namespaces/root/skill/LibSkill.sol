@@ -5,22 +5,23 @@ import { LibEffect, EffectDuration, EffectTemplate } from "../../effect/LibEffec
 import { Duration, GenericDurationData } from "../../duration/Duration.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibLearnedSkills } from "./LibLearnedSkills.sol";
-import { SkillTemplate, SkillTemplateData, SkillTemplateCooldown, SkillTemplateCooldownData, SkillTemplateDuration, SkillTemplateDurationData, SkillCooldown, SkillNameToEntity, LearnedSkills, ManaCurrent, LifeCurrent } from "../codegen/index.sol";
+import { SkillTemplate, SkillTemplateData, SkillTemplateCooldown, SkillTemplateCooldownData, SkillTemplateDuration, SkillTemplateDurationData, SkillCooldown, LearnedSkills, ManaCurrent, LifeCurrent } from "../codegen/index.sol";
+import { UniqueIdx_SkillName_Name } from "../codegen/idxs/UniqueIdx_SkillName_Name.sol";
 import { SkillType, TargetType } from "../../../codegen/common.sol";
 
 library LibSkill {
-  error LibSkill_InvalidSkill();
-  error LibSkill_SkillMustBeLearned();
-  error LibSkill_SkillOnCooldown();
-  error LibSkill_NotEnoughMana();
-  error LibSkill_InvalidSkillTarget();
-  error LibSkill_RequiredCombat();
-  error LibSkill_RequiredNonCombat();
+  error LibSkill_NameNotFound(string name);
+  error LibSkill_SkillMustBeLearned(bytes32 userEntity, bytes32 skillEntity);
+  error LibSkill_SkillOnCooldown(bytes32 userEntity, bytes32 skillEntity);
+  error LibSkill_NotEnoughMana(uint32 cost, uint32 current);
+  error LibSkill_InvalidSkillTarget(bytes32 skillEntity, TargetType targetType);
+  error LibSkill_RequiredCombatType(bytes32 skillEntity);
+  error LibSkill_RequiredNonCombatType(bytes32 skillEntity);
 
   function getSkillEntity(string memory name) internal view returns (bytes32 skillEntity) {
-    skillEntity = SkillNameToEntity.get(keccak256(bytes(name)));
+    skillEntity = UniqueIdx_SkillName_Name.get(name);
     if (skillEntity == bytes32(0)) {
-      revert LibSkill_InvalidSkill();
+      revert LibSkill_NameNotFound(name);
     }
   }
 
@@ -31,12 +32,12 @@ library LibSkill {
     }
   }
 
-  function setSkillTemplateCooldown(bytes32 skillEntity, GenericDurationData memory uncastData) internal {
-    SkillTemplateCooldownData memory data;
+  function setSkillTemplateCooldown(bytes32 skillEntity, GenericDurationData memory data) internal {
+    SkillTemplateCooldownData memory castData;
     assembly {
-      data := uncastData
+      castData := data
     }
-    SkillTemplateCooldown.set(skillEntity, data);
+    SkillTemplateCooldown.set(skillEntity, castData);
   }
 
   function getSkillTemplateDuration(bytes32 skillEntity) internal view returns (GenericDurationData memory result) {
@@ -46,23 +47,23 @@ library LibSkill {
     }
   }
 
-  function setSkillTemplateDuration(bytes32 skillEntity, GenericDurationData memory uncastData) internal {
-    SkillTemplateDurationData memory data;
+  function setSkillTemplateDuration(bytes32 skillEntity, GenericDurationData memory data) internal {
+    SkillTemplateDurationData memory castData;
     assembly {
-      data := uncastData
+      castData := data
     }
-    SkillTemplateDuration.set(skillEntity, data);
+    SkillTemplateDuration.set(skillEntity, castData);
   }
 
-  function requireCombat(bytes32 skillEntity) internal view {
+  function requireCombatType(bytes32 skillEntity) internal view {
     if (SkillTemplate.getSkillType(skillEntity) != SkillType.COMBAT) {
-      revert LibSkill_RequiredCombat();
+      revert LibSkill_RequiredCombatType(skillEntity);
     }
   }
 
-  function requireNonCombat(bytes32 skillEntity) internal view {
+  function requireNonCombatType(bytes32 skillEntity) internal view {
     if (SkillTemplate.getSkillType(skillEntity) == SkillType.COMBAT) {
-      revert LibSkill_RequiredNonCombat();
+      revert LibSkill_RequiredNonCombatType(skillEntity);
     }
   }
 
@@ -82,7 +83,7 @@ library LibSkill {
       // Enemy
       return enemyEntity;
     } else {
-      revert LibSkill_InvalidSkillTarget();
+      revert LibSkill_InvalidSkillTarget(skillEntity, targetType);
     }
   }
 
@@ -95,15 +96,15 @@ library LibSkill {
 
     // Must be learned
     if (!LibLearnedSkills.hasSkill(userEntity, skillEntity)) {
-      revert LibSkill_SkillMustBeLearned();
+      revert LibSkill_SkillMustBeLearned(userEntity, skillEntity);
     }
     // Must be off cooldown
     if (Duration.has(SkillCooldown._tableId, userEntity, skillEntity)) {
-      revert LibSkill_SkillOnCooldown();
+      revert LibSkill_SkillOnCooldown(userEntity, skillEntity);
     }
     // Verify self-only skill
     if (skill.targetType == TargetType.SELF && userEntity != targetEntity) {
-      revert LibSkill_InvalidSkillTarget();
+      revert LibSkill_InvalidSkillTarget(skillEntity, skill.targetType);
     }
     // TODO verify other target types?
 
@@ -116,7 +117,7 @@ library LibSkill {
     // Check and subtract skill cost
     uint32 manaCurrent = LibCharstat.getManaCurrent(userEntity);
     if (skill.cost > manaCurrent) {
-      revert LibSkill_NotEnoughMana();
+      revert LibSkill_NotEnoughMana(skill.cost, manaCurrent);
     } else if (skill.cost > 0) {
       LibCharstat.setManaCurrent(userEntity, manaCurrent - skill.cost);
     }

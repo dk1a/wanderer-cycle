@@ -48,11 +48,11 @@ const durationTable = {
   },
 } as const;
 
-const nameToEntityTable = {
-  key: ["name"],
+const nameTable = {
+  key: ["entity"],
   schema: {
-    name: "bytes32",
     entity: EntityId,
+    name: "string",
   },
 } as const;
 
@@ -113,7 +113,7 @@ export default defineWorld({
             tokenAddress: "address",
           },
         },
-        Name: "string",
+        Name: nameTable,
         DefaultWheel: {
           key: [],
           schema: {
@@ -144,6 +144,7 @@ export default defineWorld({
             affixPart: arrayPStat,
           },
         },
+        GuiseName: nameTable,
         GuiseSkills: {
           ...entityKey,
           schema: {
@@ -151,7 +152,6 @@ export default defineWorld({
             entityArray: EntityIdArray,
           },
         },
-        GuiseNameToEntity: nameToEntityTable,
         LearnedSkills: {
           ...entityKey,
           schema: {
@@ -228,8 +228,8 @@ export default defineWorld({
             timeValue: "uint256",
           },
         },
+        SkillName: nameTable,
         SkillDescription: "string",
-        SkillNameToEntity: nameToEntityTable,
         SkillCooldown: durationTable,
         ActiveCycle: wandererToCycleEntityRelation,
         PreviousCycle: wandererToCycleEntityRelation,

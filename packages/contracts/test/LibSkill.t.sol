@@ -56,7 +56,7 @@ contract LibSkillTest is MudLibTest {
     LibLearnedSkills.learnSkill(userEntity, parryPE);
   }
 
-  function test_setUp() public {
+  function testSetUp() public {
     assertTrue(LibLearnedSkills.hasSkill(userEntity, cleavePE));
     assertTrue(LibLearnedSkills.hasSkill(userEntity, chargePE));
     assertTrue(LibLearnedSkills.hasSkill(userEntity, parryPE));
@@ -64,23 +64,23 @@ contract LibSkillTest is MudLibTest {
     assertEq(LibCharstat.getMana(userEntity), 4);
   }
 
-  function test_hasSkill_invalidSkill() public {
+  function testHasSkillInvalidSkill() public {
     assertFalse(LibLearnedSkills.hasSkill(userEntity, someInvalidSkillPE));
   }
 
-  function test_useSkill_invalidTarget() public {
+  function testUseSkillInvalidTarget() public {
     // user is the only valid target for charge
-    vm.expectRevert(LibSkill.LibSkill_InvalidSkillTarget.selector);
+    vm.expectPartialRevert(LibSkill.LibSkill_InvalidSkillTarget.selector);
     skillTestSystem.useSkill(userEntity, chargePE, keccak256("invalidEntity"));
   }
 
   // TODO mana stuff isn't very skill-related?
-  function test_setManaCurrent_capped() public {
+  function testSetManaCurrentCapped() public {
     LibCharstat.setManaCurrent(userEntity, 100);
     assertEq(LibCharstat.getMana(userEntity), 4);
   }
 
-  function test_useSkill_Charge() public {
+  function testUseSkillCharge() public {
     LibSkill.useSkill(userEntity, chargePE, userEntity);
 
     assertEq(LibCharstat.getManaCurrent(userEntity), 4 - 1, "Invalid mana remainder");
@@ -88,14 +88,14 @@ contract LibSkillTest is MudLibTest {
     assertTrue(LibEffect.hasEffectApplied(userEntity, chargePE), "No ongoing effect");
   }
 
-  function test_useSkill_Cleave_effect() public {
+  function testUseSkillCleaveEffect() public {
     LibSkill.useSkill(userEntity, cleavePE, userEntity);
     assertEq(LibCharstat.getAttack(userEntity)[uint256(EleStat.PHYSICAL)], 3);
   }
 
   // str and the 2 skills should all modify physical attack,
   // test that it all stacks correctly
-  function test_useSkill_CleaveAndCharge_strengthStacking() public {
+  function testUseSkillCleaveAndChargeStrengthStacking() public {
     // add exp to get 2 str (which should increase base physical attack to 2)
     uint32[PStat_length] memory addExp;
     addExp[uint256(PStat.STRENGTH)] = LibExperience.getExpForPStat(2);
@@ -110,7 +110,7 @@ contract LibSkillTest is MudLibTest {
   }
 
   // this tests durations, especially EffectDurationHook
-  function test_useSkill_CleaveAndCharge_EffectDurationHook() public {
+  function testUseSkillCleaveAndChargeEffectDurationHook() public {
     // add exp to get 2 str (which should increase base physical attack to 2)
     uint32[PStat_length] memory addExp;
     addExp[uint256(PStat.STRENGTH)] = LibExperience.getExpForPStat(2);

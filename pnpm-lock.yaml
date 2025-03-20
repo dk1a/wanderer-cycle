@@ -133,8 +133,8 @@ importers:
   packages/contracts:
     dependencies:
       '@dk1a/mud-table-idxs':
-        specifier: ^0.3.1
-        version: 0.3.1(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(react@18.3.1)(typescript@5.4.2)(zod@3.23.8)
+        specifier: ^0.3.2
+        version: 0.3.2(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(react@18.3.1)(typescript@5.4.2)(zod@3.23.8)
       '@latticexyz/cli':
         specifier: 2.2.20
         version: 2.2.20(react@18.3.1)(typescript@5.4.2)
@@ -161,8 +161,8 @@ importers:
         specifier: https://github.com/dapphub/ds-test.git#e282159d5170298eb2455a6c05280ab5a73a4ef0
         version: https://codeload.github.com/dapphub/ds-test/tar.gz/e282159d5170298eb2455a6c05280ab5a73a4ef0
       forge-std:
-        specifier: https://github.com/foundry-rs/forge-std.git#74cfb77e308dd188d2f58864aaf44963ae6b88b1
-        version: https://codeload.github.com/foundry-rs/forge-std/tar.gz/74cfb77e308dd188d2f58864aaf44963ae6b88b1
+        specifier: https://github.com/foundry-rs/forge-std.git#6853b9ec7df5dc0c213b05ae67785ad4f4baa0ea
+        version: https://codeload.github.com/foundry-rs/forge-std/tar.gz/6853b9ec7df5dc0c213b05ae67785ad4f4baa0ea
       prettier:
         specifier: 3.2.5
         version: 3.2.5
@@ -433,8 +433,8 @@ packages:
     resolution: {integrity: sha512-WaMsgi6Q8zMgMth93GvWPXkhAIEobfsIkLTacoVZoK1J0CevIPGYY2Vo5YvJGqyHqXM6P4ppOYGsIRU8MM9pFQ==}
     engines: {node: '>=6.9.0'}
 
-  '@dk1a/mud-table-idxs@0.3.1':
-    resolution: {integrity: sha512-RwOSQFYGxjIF94jzw34ng9eKGYZVLA/JUrS21iBA8m+/HN09AOGXN4sGICVOs7++9337uBkO3OXwF2Ce13N5tQ==}
+  '@dk1a/mud-table-idxs@0.3.2':
+    resolution: {integrity: sha512-e+BAfdaRe15e4aV/J4cmNnvBLQDOZ4kwCJKfJOJ99VjRuUAQyt5CnkGNG20z2bXKI9ZUbxJdeu94JIMw63v1Rw==}
 
   '@dk1a/solidity-stringutils@0.3.3':
     resolution: {integrity: sha512-IQodjgcYtYudV1vXUl3f5B/cau0gSji1Izae6a9UiVP5VdJOk+D4QcmCrjy8Rzdb5i2vlPVtrBHhbYncW1+Kcg==}
@@ -1829,9 +1829,9 @@ packages:
     resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
     engines: {node: '>=14'}
 
-  forge-std@https://codeload.github.com/foundry-rs/forge-std/tar.gz/74cfb77e308dd188d2f58864aaf44963ae6b88b1:
-    resolution: {tarball: https://codeload.github.com/foundry-rs/forge-std/tar.gz/74cfb77e308dd188d2f58864aaf44963ae6b88b1}
-    version: 1.6.0
+  forge-std@https://codeload.github.com/foundry-rs/forge-std/tar.gz/6853b9ec7df5dc0c213b05ae67785ad4f4baa0ea:
+    resolution: {tarball: https://codeload.github.com/foundry-rs/forge-std/tar.gz/6853b9ec7df5dc0c213b05ae67785ad4f4baa0ea}
+    version: 1.9.6
 
   fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
@@ -3698,7 +3698,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.6
       to-fast-properties: 2.0.0
 
-  '@dk1a/mud-table-idxs@0.3.1(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(react@18.3.1)(typescript@5.4.2)(zod@3.23.8)':
+  '@dk1a/mud-table-idxs@0.3.2(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(react@18.3.1)(typescript@5.4.2)(zod@3.23.8)':
     dependencies:
       '@ark/util': 0.35.0
       '@latticexyz/cli': 2.2.20(react@18.3.1)(typescript@5.4.2)
@@ -5778,7 +5778,7 @@ snapshots:
       cross-spawn: 7.0.3
       signal-exit: 4.1.0
 
-  forge-std@https://codeload.github.com/foundry-rs/forge-std/tar.gz/74cfb77e308dd188d2f58864aaf44963ae6b88b1: {}
+  forge-std@https://codeload.github.com/foundry-rs/forge-std/tar.gz/6853b9ec7df5dc0c213b05ae67785ad4f4baa0ea: {}
 
   fraction.js@4.3.7: {}
 

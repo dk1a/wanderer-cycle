@@ -3,7 +3,7 @@ pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
 import { EffectTemplate } from "../src/namespaces/effect/LibEffect.sol";
-import { SkillTemplate, Name } from "../src/namespaces/root/codegen/index.sol";
+import { SkillTemplate, SkillName } from "../src/namespaces/root/codegen/index.sol";
 import { SkillType, TargetType } from "../src/codegen/common.sol";
 import { LibSkill } from "../src/namespaces/root/skill/LibSkill.sol";
 
@@ -22,22 +22,22 @@ contract SkillTemplateTest is MudLibTest {
   }
 
   // TODO this should be in effect tests (make those)
-  function test_sample_effectPrototype_statmodLengths() public {
+  function testSampleEffectTemplateStatmodLengths() public {
     assertEq(EffectTemplate.get(chargePE).entities.length, 1);
     assertEq(EffectTemplate.get(chargePE).values.length, 1);
   }
 
-  function test_sample_skillPrototype_name() public {
-    assertEq(Name.get(chargePE), "Charge");
+  function testSampleSkillTemplateName() public {
+    assertEq(SkillName.get(chargePE), "Charge");
   }
 
-  function test_sample_skillPrototype_targetTypes() public {
+  function testSampleSkillTemplateTargetTypes() public {
     assertTrue(SkillTemplate.getTargetType(chargePE) == TargetType.SELF);
     assertTrue(SkillTemplate.getTargetType(parryPE) == TargetType.SELF);
     assertTrue(SkillTemplate.getTargetType(cleavePE) == TargetType.SELF);
   }
 
-  function test_sample_skillPrototype_skillTypes() public {
+  function testSampleSkillTemplateSkillTypes() public {
     assertTrue(SkillTemplate.getSkillType(chargePE) == SkillType.NONCOMBAT);
     assertTrue(SkillTemplate.getSkillType(parryPE) == SkillType.PASSIVE);
     assertTrue(SkillTemplate.getSkillType(cleavePE) == SkillType.COMBAT);

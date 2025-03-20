@@ -4,7 +4,7 @@ pragma solidity >=0.8.21;
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
 import { PStat_length } from "../../../CustomTypes.sol";
-import { GuisePrototype, GuiseSkills, GuiseNameToEntity, Name } from "../codegen/index.sol";
+import { GuisePrototype, GuiseName, GuiseSkills, Name } from "../codegen/index.sol";
 
 import { LibSkill as ls } from "../skill/LibSkill.sol";
 
@@ -30,16 +30,10 @@ library LibInitGuise {
   }
 
   function add(string memory name, uint32[PStat_length] memory pstat, bytes32[] memory guiseSkills) internal {
-    bytes32 nameHash = keccak256(bytes(name));
-    if (GuiseNameToEntity.get(nameHash) != bytes32(0)) {
-      revert LibInitGuise_DuplicateName(name);
-    }
-
     bytes32 entity = getUniqueEntity();
 
     GuisePrototype.set(entity, pstat);
-    GuiseNameToEntity.set(nameHash, entity);
-    Name.set(entity, name);
+    GuiseName.set(entity, name);
     GuiseSkills.set(entity, guiseSkills);
   }
 }

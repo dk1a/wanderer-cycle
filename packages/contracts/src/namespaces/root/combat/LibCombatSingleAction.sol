@@ -33,9 +33,9 @@ library LibCombatSingleAction {
     bytes32 skillEntity,
     CombatActorOpts memory defenderOpts
   ) private {
-    LibSkill.requireCombat(skillEntity);
+    LibSkill.requireCombatType(skillEntity);
 
-    // Combat skills may target either self or enemy, depending on skill prototype
+    // Combat skills may target either self or enemy, depending on TargetType
     bytes32 targetEntity = LibSkill.chooseCombatTarget(attackerEntity, skillEntity, defenderEntity);
     // Use skill
     LibSkill.useSkill(attackerEntity, skillEntity, targetEntity);
