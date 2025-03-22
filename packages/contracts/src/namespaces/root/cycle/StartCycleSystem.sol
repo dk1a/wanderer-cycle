@@ -6,8 +6,10 @@ import { System } from "@latticexyz/world/src/System.sol";
 import { LibCycle } from "./LibCycle.sol";
 import { ERC721Namespaces } from "../token/ERC721Namespaces.sol";
 
-/// @title Start a cycle.
-/// @dev Very much like WandererSpawnSystem, but for an existing wandererEntity.
+/**
+ * @title Start a cycle.
+ * @dev Very much like WandererSpawnSystem, but for an existing wandererEntity.
+ */
 contract StartCycleSystem is System {
   function startCycle(
     bytes32 wandererEntity,

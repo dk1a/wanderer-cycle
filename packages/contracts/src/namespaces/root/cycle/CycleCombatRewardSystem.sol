@@ -5,7 +5,7 @@ import { System } from "@latticexyz/world/src/System.sol";
 
 import { randomEquipmentSystem } from "../codegen/systems/RandomEquipmentSystemLib.sol";
 
-import { PStat, PStat_length } from "../../../CustomTypes.sol";
+import { PStat_length } from "../../../CustomTypes.sol";
 import { LibCycle } from "./LibCycle.sol";
 import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
 import { LibCycleCombatRewardRequest } from "./LibCycleCombatRewardRequest.sol";
@@ -15,7 +15,7 @@ import { LibGuiseLevel } from "../guise/LibGuiseLevel.sol";
 import { LibRNG } from "../rng/LibRNG.sol";
 
 contract CycleCombatRewardSystem is System {
-  function reward(bytes32 wandererEntity, bytes32 requestId) public {
+  function claimCycleCombatReward(bytes32 wandererEntity, bytes32 requestId) public {
     // Reverts if sender doesn't have permission
     bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
     // TODO decide if claiming exp during combat is actually bad and why
@@ -44,7 +44,7 @@ contract CycleCombatRewardSystem is System {
     }
   }
 
-  function cancelRequest(bytes32 wandererEntity, bytes32 requestId) public {
+  function cancelCycleCombatReward(bytes32 wandererEntity, bytes32 requestId) public {
     // Reverts if sender doesn't have permission
     bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
     // Remove the reward without claiming it

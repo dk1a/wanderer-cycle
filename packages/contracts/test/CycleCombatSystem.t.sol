@@ -57,7 +57,7 @@ contract CycleCombatSystemTest is MudLibTest {
 
     CombatResult result = CombatResult.NONE;
     while (result == CombatResult.NONE) {
-      result = world.processCombatRound(wandererEntity, attackAction);
+      result = world.processCycleCombatRound(wandererEntity, attackAction);
     }
     assertEq(uint8(result), uint8(CombatResult.VICTORY));
     // TODO test combat results, atm this just makes sure it can start/finish at all

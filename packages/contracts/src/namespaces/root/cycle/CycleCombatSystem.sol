@@ -13,7 +13,7 @@ import { LibCycle } from "./LibCycle.sol";
 import { LibCycleCombatRewardRequest } from "./LibCycleCombatRewardRequest.sol";
 
 contract CycleCombatSystem is System {
-  function processCombatRound(
+  function processCycleCombatRound(
     bytes32 wandererEntity,
     CombatAction[] memory initiatorActions
   ) public returns (CombatResult result) {

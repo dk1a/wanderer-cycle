@@ -38,15 +38,15 @@ struct RootCallWrapper {
 library CycleCombatSystemLib {
   error CycleCombatSystemLib_CallingFromRootSystem();
 
-  function processCombatRound(
+  function processCycleCombatRound(
     CycleCombatSystemType self,
     bytes32 wandererEntity,
     CombatAction[] memory initiatorActions
   ) internal returns (CombatResult result) {
-    return CallWrapper(self.toResourceId(), address(0)).processCombatRound(wandererEntity, initiatorActions);
+    return CallWrapper(self.toResourceId(), address(0)).processCycleCombatRound(wandererEntity, initiatorActions);
   }
 
-  function processCombatRound(
+  function processCycleCombatRound(
     CallWrapper memory self,
     bytes32 wandererEntity,
     CombatAction[] memory initiatorActions
@@ -55,7 +55,7 @@ library CycleCombatSystemLib {
     if (address(_world()) == address(this)) revert CycleCombatSystemLib_CallingFromRootSystem();
 
     bytes memory systemCall = abi.encodeCall(
-      _processCombatRound_bytes32_CombatActionArray.processCombatRound,
+      _processCycleCombatRound_bytes32_CombatActionArray.processCycleCombatRound,
       (wandererEntity, initiatorActions)
     );
 
@@ -65,13 +65,13 @@ library CycleCombatSystemLib {
     return abi.decode(result, (CombatResult));
   }
 
-  function processCombatRound(
+  function processCycleCombatRound(
     RootCallWrapper memory self,
     bytes32 wandererEntity,
     CombatAction[] memory initiatorActions
   ) internal returns (CombatResult result) {
     bytes memory systemCall = abi.encodeCall(
-      _processCombatRound_bytes32_CombatActionArray.processCombatRound,
+      _processCycleCombatRound_bytes32_CombatActionArray.processCycleCombatRound,
       (wandererEntity, initiatorActions)
     );
 
@@ -117,8 +117,8 @@ library CycleCombatSystemLib {
  * Each interface is uniquely named based on the function name and parameters to prevent collisions.
  */
 
-interface _processCombatRound_bytes32_CombatActionArray {
-  function processCombatRound(bytes32 wandererEntity, CombatAction[] memory initiatorActions) external;
+interface _processCycleCombatRound_bytes32_CombatActionArray {
+  function processCycleCombatRound(bytes32 wandererEntity, CombatAction[] memory initiatorActions) external;
 }
 
 using CycleCombatSystemLib for CycleCombatSystemType global;

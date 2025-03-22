@@ -9,7 +9,9 @@ import { LibLearnedSkills } from "../skill/LibLearnedSkills.sol";
 import { LibCycle } from "./LibCycle.sol";
 import { LibGuiseLevel } from "../guise/LibGuiseLevel.sol";
 
-/// @title Learn a Skill from the current cycle Guise's set of available skills.
+/**
+ * @title Learn a Skill from the current cycle Guise's set of available skills.
+ */
 contract LearnCycleSkillSystem is System {
   error LearnCycleSkillSystem_SkillNotInGuiseSkills(bytes32 skillEntity, bytes32 guiseEntity);
   error LearnCycleSkillSystem_LevelIsTooLow(uint32 currentLevel, uint32 requiredLevel);

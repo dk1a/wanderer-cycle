@@ -9,7 +9,7 @@ pragma solidity >=0.8.24;
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface ICycleCombatRewardSystem {
-  function reward(bytes32 wandererEntity, bytes32 requestId) external;
+  function claimCycleCombatReward(bytes32 wandererEntity, bytes32 requestId) external;
 
-  function cancelRequest(bytes32 wandererEntity, bytes32 requestId) external;
+  function cancelCycleCombatReward(bytes32 wandererEntity, bytes32 requestId) external;
 }

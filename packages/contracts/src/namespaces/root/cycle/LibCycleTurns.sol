@@ -12,19 +12,25 @@ library LibCycleTurns {
   uint32 constant MAX_ACC_PERIODS = 2;
   uint32 constant MAX_CURRENT_TURNS_FOR_CLAIM = 50;
 
-  /// @dev Get the number of currently available cycle turns.
+  /**
+   * @dev Get the number of currently available cycle turns.
+   */
   function getTurns(bytes32 cycleEntity) internal view returns (uint32) {
     return CycleTurns.get(cycleEntity);
   }
 
-  /// @dev Decrease entity's available turns by `subTurns`.
+  /**
+   * @dev Decrease entity's available turns by `subTurns`.
+   */
   function decreaseTurns(bytes32 cycleEntity, uint32 subTurns) internal {
     uint32 currentTurns = CycleTurns.get(cycleEntity);
     if (subTurns > currentTurns) revert LibCycleTurns_NotEnoughTurns();
     CycleTurns.set(cycleEntity, currentTurns - subTurns);
   }
 
-  /// @dev Claims all claimable turns.
+  /**
+   * @dev Claims all claimable turns.
+   */
   function claimTurns(bytes32 cycleEntity) internal {
     uint32 claimableTurns = getClaimableTurns(cycleEntity);
     if (claimableTurns == 0) return;
@@ -33,7 +39,9 @@ library LibCycleTurns {
     CycleTurnsLastClaimed.set(cycleEntity, uint48(block.timestamp));
   }
 
-  /// @dev Get accumulated turns that can be claimed (both accumulation and claim have a cap).
+  /**
+   * @dev Get accumulated turns that can be claimed (both accumulation and claim have a cap).
+   */
   function getClaimableTurns(bytes32 cycleEntity) internal view returns (uint32) {
     // Get accumulated turns
     uint32 accumulatedTurns = TURNS_PER_PERIOD * _getAccPeriods(cycleEntity);
@@ -48,8 +56,10 @@ library LibCycleTurns {
     }
   }
 
-  /// @dev Can accumulate ACC_PERIODs up to MAX_ACC_PERIODS, claimTurns resets accumulation.
-  /// The accumulation moment is equal for everyone.
+  /**
+   * @dev Can accumulate ACC_PERIODs up to MAX_ACC_PERIODS, claimTurns resets accumulation.
+   * The accumulation moment is equal for everyone.
+   */
   function _getAccPeriods(bytes32 cycleEntity) private view returns (uint32) {
     uint256 lastClaimedTimestamp = CycleTurnsLastClaimed.get(cycleEntity);
     if (lastClaimedTimestamp == 0) {

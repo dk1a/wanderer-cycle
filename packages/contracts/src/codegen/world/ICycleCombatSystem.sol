@@ -11,7 +11,7 @@ import { CombatAction, CombatResult } from "../../CustomTypes.sol";
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface ICycleCombatSystem {
-  function processCombatRound(
+  function processCycleCombatRound(
     bytes32 wandererEntity,
     CombatAction[] memory initiatorActions
   ) external returns (CombatResult result);

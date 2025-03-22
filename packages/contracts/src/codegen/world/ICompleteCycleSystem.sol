@@ -9,8 +9,8 @@ pragma solidity >=0.8.24;
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface ICompleteCycleSystem {
-  error CompleteCycleSystem__NotAllBossesDefeated();
-  error CompleteCycleSystem__InsufficientLevel();
+  error CompleteCycleSystem_NotAllBossesDefeated();
+  error CompleteCycleSystem_InsufficientLevel();
 
-  function complete(bytes memory args) external returns (bytes memory);
+  function completeCycle(bytes32 wandererEntity) external returns (bytes32 cycleEntity);
 }

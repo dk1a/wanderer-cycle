@@ -12,7 +12,9 @@ import { EquipmentType } from "../equipment/EquipmentType.sol";
 import { LibLootEquipment } from "./LibLootEquipment.sol";
 import { LibLootMint } from "./LibLootMint.sol";
 
-/// @title Mint a random equippable loot entity.
+/**
+ * @title Mint a random equippable loot entity.
+ */
 contract RandomEquipmentSystem is System {
   /**
    * @param ilvl higher ilvl increases the pool of affixes for random generation (higher is better).

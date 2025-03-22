@@ -13,7 +13,9 @@ import { LibLootEquipment } from "../loot/LibLootEquipment.sol";
 import { LibLootMint } from "../loot/LibLootMint.sol";
 import { LibLootMap } from "../loot/LibLootMap.sol";
 
-/// @title Mint a random map entity.
+/**
+ * @title Mint a random map entity.
+ */
 contract RandomMapSystem is System {
   /**
    * @param ilvl higher ilvl increases the pool of affixes for random generation (higher is better).
