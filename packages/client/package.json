@@ -11,32 +11,32 @@
     "test": "tsc --noEmit"
   },
   "dependencies": {
-    "@latticexyz/common": "2.2.20",
-    "@latticexyz/dev-tools": "2.2.20",
-    "@latticexyz/react": "2.2.20",
-    "@latticexyz/recs": "2.2.20",
-    "@latticexyz/schema-type": "2.2.20",
-    "@latticexyz/store-sync": "2.2.20",
-    "@latticexyz/utils": "2.2.20",
-    "@latticexyz/world": "2.2.20",
+    "@latticexyz/common": "2.2.21",
+    "@latticexyz/dev-tools": "2.2.21",
+    "@latticexyz/react": "2.2.21",
+    "@latticexyz/recs": "2.2.21",
+    "@latticexyz/schema-type": "2.2.21",
+    "@latticexyz/store-sync": "2.2.21",
+    "@latticexyz/utils": "2.2.21",
+    "@latticexyz/world": "2.2.21",
     "contracts": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.26.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.4.0",
     "react-tooltip": "^5.28.0",
     "rxjs": "7.5.5",
-    "viem": "2.21.6"
+    "viem": "2.23.15"
   },
   "devDependencies": {
-    "@types/react": "18.2.22",
-    "@types/react-dom": "18.2.7",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^3.1.0",
-    "autoprefixer": "^10.4.20",
-    "eslint-plugin-react": "7.31.11",
-    "eslint-plugin-react-hooks": "4.6.0",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.11",
-    "vite": "^4.2.1",
-    "wait-port": "^1.0.4"
+    "autoprefixer": "^10.4.21",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "vite": "^4.5.10",
+    "wait-port": "^1.1.0"
   }
 }

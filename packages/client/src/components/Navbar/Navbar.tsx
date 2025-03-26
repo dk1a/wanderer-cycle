@@ -1,33 +1,33 @@
-import React from "react";
-import { AppRoutes, routeConfig } from "../../pages/routeConfig/routeConfig";
+import { AppRoute } from "../../routes";
 import { AppLink } from "../utils/AppLink/AppLink";
 
 interface NavbarProps {
+  routes: AppRoute[];
   className?: string;
 }
 
-export const Navbar = ({ className }: NavbarProps) => {
+export const Navbar = ({ routes, className }: NavbarProps) => {
   return (
-    <nav className={`relative ${className}`}>
+    <nav
+      className={`relative bg-dark-400 border-dark-400 text-dark-300 md:p-6 p-4 flex items-center justify-start md:justify-center w-full ${className}`}
+    >
       <div className="hidden md:flex md:items-center gap-2">
-        {Object.keys(routeConfig).map((routeKey) => {
-          const route = routeConfig[routeKey as AppRoutes];
-
+        {routes.map((route) => {
           if (route.external) {
             return (
               <a
-                key={routeKey}
+                key={route.path}
                 href={route.path}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span>{routeKey.replace(/_/g, " ")}</span>
+                <span>{route.label}</span>
               </a>
             );
           } else {
             return (
-              <AppLink key={routeKey} to={route.path}>
-                <span>{routeKey.replace(/_/g, " ")}</span>
+              <AppLink key={route.path} to={route.path}>
+                <span>{route.label}</span>
               </AppLink>
             );
           }
@@ -44,10 +44,9 @@ export const Navbar = ({ className }: NavbarProps) => {
         <label htmlFor="burger-checkbox" className="burger"></label>
 
         <ul className="menu-list">
-          {Object.keys(routeConfig).map((routeKey) => {
-            const route = routeConfig[routeKey as AppRoutes];
+          {routes.map((route) => {
             return (
-              <li key={routeKey}>
+              <li key={route.path}>
                 {route.external ? (
                   <a
                     href={route.path}
@@ -55,11 +54,11 @@ export const Navbar = ({ className }: NavbarProps) => {
                     rel="noopener noreferrer"
                     className="menu-item"
                   >
-                    {routeKey.replace(/_/g, " ")}
+                    {route.label}
                   </a>
                 ) : (
                   <AppLink to={route.path} className="menu-item">
-                    {routeKey.replace(/_/g, " ")}
+                    {route.label}
                   </AppLink>
                 )}
               </li>

@@ -1,8 +1,8 @@
-import { Button } from "../utils/Button/Button";
 import { Entity } from "@latticexyz/recs";
-import { useWandererContext } from "../../contexts/WandererContext";
 import { useNavigate } from "react-router-dom";
-import { AppRoutes, RoutePath } from "../../pages/routeConfig/routeConfig";
+import { useWandererContext } from "../../contexts/WandererContext";
+import { formatEntity } from "../../mud/utils/format";
+import { Button } from "../utils/Button/Button";
 
 interface WandererProps {
   wandererEntity: Entity;
@@ -14,17 +14,8 @@ export default function Wanderer({ wandererEntity }: WandererProps) {
 
   const handleSelectWanderer = (wanderer: Entity) => {
     selectWandererEntity(wanderer);
-    navigate(RoutePath[AppRoutes.MAPS]);
+    navigate("/maps");
   };
-
-  function formatEntity(entity: string): string {
-    if (entity.length <= 10) {
-      return entity;
-    }
-    const start = entity.slice(0, 5);
-    const end = entity.slice(-5);
-    return `${start}...${end}`;
-  }
 
   return (
     <div className="border border-dark-400 min-h-[300px] min-w-[200px] h-auto py-2 px-4 flex flex-col justify-between items-center bg-dark-500 transform delay-500">

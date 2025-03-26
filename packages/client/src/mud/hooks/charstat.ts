@@ -27,9 +27,13 @@ const useGetValuesFinal = (
   return baseValue;
 };
 
+// TODO replace placeholders
 const useGetValuesElementalFinal = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   targetEntity: Entity | undefined,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   topic: ElementalStatmodTopic,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   baseValues: Elemental,
 ) => {
   return 10;

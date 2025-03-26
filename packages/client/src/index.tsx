@@ -16,8 +16,6 @@ setup().then(async (result) => {
     <MUDProvider value={result}>
       <WandererProvider>
         <div className="bg-dark-600 w-full h-screen">
-          {" "}
-          {/* фиксированная высота */}
           <App />
         </div>
       </WandererProvider>

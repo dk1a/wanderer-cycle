@@ -16,27 +16,27 @@
     "test": "pnpm recursive run test"
   },
   "devDependencies": {
-    "@latticexyz/cli": "2.2.20",
-    "@latticexyz/common": "2.2.20",
+    "@latticexyz/cli": "2.2.21",
+    "@latticexyz/common": "2.2.21",
     "@types/debug": "4.1.7",
-    "@typescript-eslint/eslint-plugin": "7.1.1",
-    "@typescript-eslint/parser": "7.1.1",
+    "@typescript-eslint/eslint-plugin": "8.28.0",
+    "@typescript-eslint/parser": "8.28.0",
     "debug": "^4.3.4",
-    "eslint": "8.57.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.2.0",
-    "mprocs": "^0.6.4",
-    "prettier": "^3.2.4",
-    "rimraf": "^3.0.2",
-    "tsx": "^4.19.2",
-    "typescript": "5.4.2"
+    "eslint": "^8.57.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "mprocs": "^0.7.2",
+    "prettier": "^3.5.3",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.3",
+    "typescript": "5.8.2"
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --cache --fix",
     "*.{ts,tsx,css,md,sol}": "prettier --write"
   },
   "engines": {
-    "node": "^18",
-    "pnpm": "^9"
+    "node": "^20",
+    "pnpm": "^10"
   }
 }

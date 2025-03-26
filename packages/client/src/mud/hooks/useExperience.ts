@@ -17,7 +17,6 @@ export const useExperience = (entity: Entity | undefined) => {
     | ExperienceType
     | undefined;
   if (!experience) return;
-  console.log(experience);
 
   return {
     strength: experience.strength,

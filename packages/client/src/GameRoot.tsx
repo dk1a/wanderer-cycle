@@ -8,7 +8,7 @@ import CycleInfo from "./components/info/CycleInfo";
 // import { CombatResult } from "./mud/hooks/combat";
 // import { WandererInfo } from "./components/info/WandererInfo";
 // import CombatPage from "./pages/CombatPage/CombatPage";
-import WandererSelect from "./pages/WandererSelect/WandererSelect";
+import WandererSelect from "./pages/game/WandererSelect";
 // import CombatResultPage from "./pages/CombatResultPage/CombatResultPage";
 
 export function GameRoot() {

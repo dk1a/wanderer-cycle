@@ -15,7 +15,7 @@ const WandererSelect = ({ className }: WandererSelectProps) => {
         <div className="flex justify-around md:flex-row flex-col">
           {wandererEntities.length > 0 && (
             <div className="flex flex-col  ml-5 p-5">
-              <h3 className="mb-5 mt-10 text-2xl font-bold text-dark-comment">
+              <h3 className="mb-5 mt-5 text-2xl font-bold text-dark-comment">
                 {"// select a wanderer"}
               </h3>
               <div className="flex flex-wrap gap-x-4 gap-y-4 mt-2 justify-start">
