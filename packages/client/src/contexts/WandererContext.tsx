@@ -59,7 +59,7 @@ export const WandererProvider = (props: { children: ReactNode }) => {
     }
     return getComponentValueStrict(ActiveCycle, selectedWandererEntity);
   }, [ActiveCycle, selectedWandererEntity]);
-  const cycleEntity = activeCycle?.toEntity as Entity | undefined;
+  const cycleEntity = activeCycle?.cycleEntity as Entity | undefined;
 
   // // previous cycle
   // const cyclePrevious = useMemo(() => {

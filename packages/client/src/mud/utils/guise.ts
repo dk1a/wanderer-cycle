@@ -10,7 +10,7 @@ export const getGuise = (components: ClientComponents, entity: Entity) => {
   );
   const skillEntities = getComponentValueStrict(components.GuiseSkills, entity)
     .entityArray as Entity[];
-  const name = getComponentValueStrict(components.Name, entity);
+  const name = getComponentValueStrict(components.GuiseName, entity);
 
   const affixPart = Array.isArray(guisePrototype.affixPart)
     ? guisePrototype.affixPart
@@ -19,7 +19,7 @@ export const getGuise = (components: ClientComponents, entity: Entity) => {
 
   return {
     entity,
-    name: name?.value ?? "",
+    name: name?.name ?? "",
 
     levelMul: {
       arcana,
