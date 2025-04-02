@@ -7,7 +7,6 @@ import { BossesDefeated } from "../codegen/index.sol";
 
 import { LibCycle } from "./LibCycle.sol";
 import { LibGuiseLevel } from "../guise/LibGuiseLevel.sol";
-import { LibWanderer } from "../wanderer/LibWanderer.sol";
 
 /**
  * @title Complete a cycle and gain rewards.
@@ -18,7 +17,7 @@ contract CompleteCycleSystem is System {
 
   function completeCycle(bytes32 wandererEntity) public returns (bytes32 cycleEntity) {
     // Reverts if sender doesn't have permission
-    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+    cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
 
     // All bosses must be defeated
     // TODO requirement reduced for testing; remove hardcode
@@ -33,8 +32,7 @@ contract CompleteCycleSystem is System {
       revert CompleteCycleSystem_InsufficientLevel();
     }
 
-    // Complete cycle
-    LibCycle.endCycle(wandererEntity, cycleEntity);
-    LibWanderer.gainCycleRewards(wandererEntity);
+    // Complete the cycle
+    LibCycle.completeCycle(wandererEntity, cycleEntity);
   }
 }

@@ -30,6 +30,7 @@ abstract contract MudLibTest is MudTest {
     _grantAccess("duration", testContractAddress);
     _grantAccess("effect", testContractAddress);
     _grantAccess("statmod", testContractAddress);
+    _grantAccess("wheel", testContractAddress);
   }
 
   function _grantRootAccess(address grantee) internal {

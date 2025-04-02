@@ -114,21 +114,6 @@ export default defineWorld({
           },
         },
         Name: nameTable,
-        DefaultWheel: {
-          key: [],
-          schema: {
-            entity: EntityId,
-          },
-        },
-        Wheel: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            totalIdentityRequired: "uint32",
-            charges: "uint32",
-            isIsolated: "bool",
-          },
-        },
         Experience: {
           ...entityKey,
           schema: {
@@ -232,7 +217,6 @@ export default defineWorld({
         SkillDescription: "string",
         SkillCooldown: durationTable,
         ActiveCycle: wandererToCycleEntityRelation,
-        PreviousCycle: wandererToCycleEntityRelation,
         BossesDefeated: {
           ...entityKey,
           schema: {
@@ -262,15 +246,8 @@ export default defineWorld({
           ...entityKey,
           schema: {
             entity: EntityId,
+            // timestamp
             value: "uint48",
-          },
-        },
-        ActiveWheel: entityRelation,
-        Identity: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "uint32",
           },
         },
         Wanderer: {
@@ -278,14 +255,6 @@ export default defineWorld({
           schema: {
             entity: EntityId,
             spawn: "bool",
-          },
-        },
-        WheelsCompleted: {
-          key: ["wandererEntity", "wheelEntity"],
-          schema: {
-            wandererEntity: EntityId,
-            wheelEntity: EntityId,
-            value: "uint32",
           },
         },
         // An entity can initiate only 1 combat at a time
@@ -362,7 +331,7 @@ export default defineWorld({
     },
     /************************************************************************
      *
-     *    DURATION MODULE
+     *    DURATION
      *
      ************************************************************************/
     duration: {
@@ -377,7 +346,7 @@ export default defineWorld({
     },
     /************************************************************************
      *
-     *    STATMOD MODULE
+     *    STATMOD
      *
      ************************************************************************/
     statmod: {
@@ -427,7 +396,7 @@ export default defineWorld({
     },
     /************************************************************************
      *
-     *    EFFECT MODULE
+     *    EFFECT
      *
      ************************************************************************/
     effect: {
@@ -454,7 +423,7 @@ export default defineWorld({
     },
     /************************************************************************
      *
-     *    AFFIX MODULE
+     *    AFFIX
      *
      ************************************************************************/
     affix: {
@@ -497,6 +466,54 @@ export default defineWorld({
             targetId: "AffixAvailabilityTargetId",
             affixPrototypeEntity: EntityId,
             label: "string",
+          },
+        },
+      },
+    },
+    /************************************************************************
+     *
+     *    WHEEL
+     *
+     ************************************************************************/
+    wheel: {
+      tables: {
+        Wheel: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            totalIdentityRequired: "uint32",
+            charges: "uint32",
+            isIsolated: "bool",
+            name: "string",
+          },
+        },
+        ActiveWheel: {
+          key: ["cycleEntity"],
+          schema: {
+            cycleEntity: EntityId,
+            wheelEntity: EntityId,
+          },
+        },
+        WheelsCompleted: {
+          key: ["wandererEntity", "wheelEntity"],
+          schema: {
+            wandererEntity: EntityId,
+            wheelEntity: EntityId,
+            value: "uint32",
+          },
+        },
+        IdentityCurrent: {
+          key: ["wandererEntity"],
+          schema: {
+            wandererEntity: EntityId,
+            value: "uint256",
+          },
+        },
+        IdentityEarnedTotal: {
+          key: ["wandererEntity"],
+          schema: {
+            wandererEntity: EntityId,
+            value: "uint256",
           },
         },
       },

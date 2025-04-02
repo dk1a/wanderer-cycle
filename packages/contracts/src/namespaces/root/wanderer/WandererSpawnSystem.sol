@@ -4,8 +4,9 @@ pragma solidity >=0.8.21;
 import { System } from "@latticexyz/world/src/System.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { DefaultWheel, Wanderer, GuisePrototype } from "../codegen/index.sol";
+import { Wanderer, GuisePrototype } from "../codegen/index.sol";
 
+import { LibWheel } from "../../wheel/LibWheel.sol";
 import { LibCycle } from "../cycle/LibCycle.sol";
 import { ERC721Namespaces } from "../token/ERC721Namespaces.sol";
 
@@ -23,7 +24,8 @@ contract WandererSpawnSystem is System {
     // Flag the entity as wanderer
     Wanderer.set(wandererEntity, true);
 
-    bytes32 defaultWheelEntity = DefaultWheel.get();
+    // Get the wheel to use by default (see LibInitWheel)
+    bytes32 defaultWheelEntity = LibWheel.getWheelEntity("Wheel of Attainment");
 
     // Init cycle
     cycleEntity = LibCycle.initCycle(wandererEntity, guiseEntity, defaultWheelEntity);

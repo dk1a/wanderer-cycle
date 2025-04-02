@@ -17,8 +17,8 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 library WheelsCompleted {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "WheelsCompleted", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000576865656c73436f6d706c6574656400);
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "wheel", name: "WheelsCompleted", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x7462776865656c000000000000000000576865656c73436f6d706c6574656400);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0004010004000000000000000000000000000000000000000000000000000000);

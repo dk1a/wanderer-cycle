@@ -16,24 +16,24 @@ import { IIdxErrors } from "@dk1a/mud-table-idxs/src/IIdxErrors.sol";
 import { registerUniqueIdx } from "@dk1a/mud-table-idxs/src/namespaces/uniqueIdx/registerUniqueIdx.sol";
 import { UniqueIdx } from "@dk1a/mud-table-idxs/src/namespaces/uniqueIdx/codegen/tables/UniqueIdx.sol";
 
-library UniqueIdx_ActiveCycle_CycleEntity {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "ActiveCycle", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x746200000000000000000000000000004163746976654379636c650000000000);
+library UniqueIdx_Wheel_Name {
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "wheel", name: "Wheel", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x7462776865656c000000000000000000576865656c0000000000000000000000);
 
   uint256 constant _keyNumber = 0;
   uint256 constant _fieldNumber = 1;
 
   Uint8Map constant _keyIndexes = Uint8Map.wrap(0x0000000000000000000000000000000000000000000000000000000000000000);
-  Uint8Map constant _fieldIndexes = Uint8Map.wrap(0x0100000000000000000000000000000000000000000000000000000000000000);
+  Uint8Map constant _fieldIndexes = Uint8Map.wrap(0x0103000000000000000000000000000000000000000000000000000000000000);
 
-  bytes32 constant _indexesHash = 0x54e80df23a9f8619444caf8bfb3e72e2407268ff26c6a3163ee09e4940729fc9;
+  bytes32 constant _indexesHash = 0xee0abce256458c50692876afe42deb439b5043ae0d13a3ffc3a18b267477c926;
 
-  function valuesHash(bytes32 cycleEntity) internal pure returns (bytes32) {
+  function valuesHash(string memory name) internal pure returns (bytes32) {
     bytes32[] memory _partialKeyTuple = new bytes32[](_keyNumber);
 
     bytes[] memory _partialValues = new bytes[](_fieldNumber);
 
-    _partialValues[0] = abi.encodePacked((cycleEntity));
+    _partialValues[0] = bytes((name));
 
     return hashValues(_partialKeyTuple, _partialValues);
   }
@@ -43,38 +43,50 @@ library UniqueIdx_ActiveCycle_CycleEntity {
     registerUniqueIdx(_tableId, _keyIndexes, _fieldIndexes);
   }
 
-  function has(bytes32 cycleEntity) internal view returns (bool) {
-    bytes32 _valuesHash = valuesHash(cycleEntity);
+  function has(string memory name) internal view returns (bool) {
+    bytes32 _valuesHash = valuesHash(name);
 
     return UniqueIdx.length(_tableId, _indexesHash, _valuesHash) > 0;
   }
 
-  function getKeyTuple(bytes32 cycleEntity) internal view returns (bytes32[] memory _keyTuple) {
-    bytes32 _valuesHash = valuesHash(cycleEntity);
+  function getKeyTuple(string memory name) internal view returns (bytes32[] memory _keyTuple) {
+    bytes32 _valuesHash = valuesHash(name);
 
     _keyTuple = UniqueIdx.get(_tableId, _indexesHash, _valuesHash);
 
     if (_keyTuple.length == 0) {
       revert IIdxErrors.UniqueIdx_InvalidGet({
         tableId: _tableId,
-        libraryName: "UniqueIdx_ActiveCycle_CycleEntity",
-        valuesBlob: abi.encodePacked(cycleEntity),
+        libraryName: "UniqueIdx_Wheel_Name",
+        valuesBlob: abi.encodePacked(name),
         indexesHash: _indexesHash,
         valuesHash: _valuesHash
       });
     }
   }
 
-  function get(bytes32 cycleEntity) internal view returns (bytes32 wandererEntity) {
-    bytes32[] memory _keyTuple = getKeyTuple(cycleEntity);
+  function get(string memory name) internal view returns (bytes32 entity) {
+    bytes32[] memory _keyTuple = getKeyTuple(name);
 
-    wandererEntity = _keyTuple[0];
+    entity = _keyTuple[0];
   }
 
   /**
    * @notice Decode keys from a bytes32 array using the source table's field layout.
    */
-  function decodeKeyTuple(bytes32[] memory _keyTuple) internal pure returns (bytes32 wandererEntity) {
-    wandererEntity = _keyTuple[0];
+  function decodeKeyTuple(bytes32[] memory _keyTuple) internal pure returns (bytes32 entity) {
+    entity = _keyTuple[0];
+  }
+}
+
+/**
+ * @notice Cast a value to a bool.
+ * @dev Boolean values are encoded as uint8 (1 = true, 0 = false), but Solidity doesn't allow casting between uint8 and bool.
+ * @param value The uint8 value to convert.
+ * @return result The boolean value.
+ */
+function _toBool(uint8 value) pure returns (bool result) {
+  assembly {
+    result := value
   }
 }

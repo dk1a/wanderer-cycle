@@ -5,8 +5,9 @@ import { MudLibTest } from "./MudLibTest.t.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
 
-import { ActiveGuise, DefaultWheel, Wanderer, GuisePrototype, ActiveCycle, CycleTurns, LifeCurrent, ManaCurrent } from "../src/namespaces/root/codegen/index.sol";
+import { ActiveGuise, Wanderer, GuisePrototype, ActiveCycle, CycleTurns, LifeCurrent, ManaCurrent } from "../src/namespaces/root/codegen/index.sol";
 
+import { LibWheel } from "../src/namespaces/wheel/LibWheel.sol";
 import { LibCycle } from "../src/namespaces/root/cycle/LibCycle.sol";
 import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibExperience } from "../src/namespaces/root/charstat/LibExperience.sol";
@@ -27,7 +28,7 @@ contract WandererSpawnSystemTest is MudLibTest {
     // wandererEntity has all the permanent player data (not related to a specific cycle)
     vm.prank(alice);
     (wandererEntity, cycleEntity) = world.spawnWanderer(guiseEntity);
-    defaultWheelEntity = DefaultWheel.get();
+    defaultWheelEntity = LibWheel.getWheelEntity("Wheel of Attainment");
   }
 
   function testSetUpInvalidGuise() public {

@@ -6,11 +6,12 @@ import { WorldContextConsumerLib } from "@latticexyz/world/src/WorldContext.sol"
 import { SystemSwitch } from "@latticexyz/world-modules/src/utils/SystemSwitch.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { ActiveGuise, ActiveWheel, PreviousCycle, Wheel, WheelData, GuisePrototype, ActiveCycle } from "../codegen/index.sol";
+import { ActiveGuise, GuisePrototype, ActiveCycle } from "../codegen/index.sol";
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
 import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
+import { LibWheel } from "../../wheel/LibWheel.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
 import { LibLearnedSkills } from "../skill/LibLearnedSkills.sol";
 import { ERC721Namespaces } from "../token/ERC721Namespaces.sol";
@@ -19,7 +20,6 @@ library LibCycle {
   error LibCycle_CycleIsAlreadyActive();
   error LibCycle_CycleNotActive();
   error LibCycle_InvalidGuiseEntity();
-  error LibCycle_InvalidWheelEntity();
 
   function initCycle(
     bytes32 wandererEntity,
@@ -37,27 +37,36 @@ library LibCycle {
     if (guiseProto[0] == 0 && guiseProto[1] == 0 && guiseProto[2] == 0) {
       revert LibCycle_InvalidGuiseEntity();
     }
-    WheelData memory wheel = Wheel.get(wheelEntity);
-    if (wheel.totalIdentityRequired == 0 && wheel.charges == 0 && !wheel.isIsolated) {
-      // TODO enable when wheel init is added
-      //revert LibCycle_InvalidWheelEntity();
-    }
 
-    LibCycleInternalPart2.initCyclePart2(wandererEntity, cycleEntity, guiseEntity, wheelEntity);
+    LibWheel.activateWheel(wandererEntity, cycleEntity, wheelEntity);
+
+    LibCycleInternalPart2.initCyclePart2(wandererEntity, cycleEntity, guiseEntity);
 
     return cycleEntity;
   }
 
-  function endCycle(bytes32 wandererEntity, bytes32 cycleEntity) internal {
-    // Save the previous cycle entity
-    PreviousCycle.set(wandererEntity, cycleEntity);
+  /**
+   * @dev End the cycle, which will not count as completed, and provides no rewards
+   */
+  function cancelCycle(bytes32 wandererEntity) internal {
     // Clear the current cycle
     ActiveCycle.deleteRecord(wandererEntity);
   }
 
   /**
+   * @dev End the cycle with completion rewards
+   */
+  function completeCycle(bytes32 wandererEntity, bytes32 cycleEntity) internal {
+    // Clear the current cycle
+    ActiveCycle.deleteRecord(wandererEntity);
+    // Complete the wheel of the cycle and get rewards
+    LibWheel.completeWheel(wandererEntity, cycleEntity);
+  }
+
+  /**
    * @dev Return `cycleEntity` if _msgSender() is allowed to use it.
-   * Revert otherwise.
+   * Revert if not allowed.
+   * Revert if there is no active cycle.
    *
    * Note on why getCycleEntity and a permission check are 1 method:
    * Cycle systems take `wandererEntity` as the argument to simplify checking permissions,
@@ -75,18 +84,11 @@ library LibCycle {
 
 // This is separate and public only to split codesize
 library LibCycleInternalPart2 {
-  function initCyclePart2(
-    bytes32 wandererEntity,
-    bytes32 cycleEntity,
-    bytes32 guiseEntity,
-    bytes32 wheelEntity
-  ) public {
+  function initCyclePart2(bytes32 wandererEntity, bytes32 cycleEntity, bytes32 guiseEntity) public {
     // Set active cycle
     ActiveCycle.set(wandererEntity, cycleEntity);
     // Set active guise
     ActiveGuise.set(cycleEntity, guiseEntity);
-    // Set active wheel
-    ActiveWheel.set(cycleEntity, wheelEntity);
     // Init exp
     LibExperience.initExp(cycleEntity);
     // Init currents

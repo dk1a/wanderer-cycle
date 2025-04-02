@@ -12,6 +12,7 @@ import { IWorld } from "../src/codegen/world/IWorld.sol";
 
 import { batchRegisterIdxs as root_batchRegisterIdxs } from "../src/namespaces/root/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as affix_batchRegisterIdxs } from "../src/namespaces/affix/codegen/batchRegisterIdxs.sol";
+import { batchRegisterIdxs as wheel_batchRegisterIdxs } from "../src/namespaces/wheel/codegen/batchRegisterIdxs.sol";
 
 import { LibInitStatmod } from "../src/namespaces/root/init/LibInitStatmod.sol";
 import { LibInitSkill } from "../src/namespaces/root/init/LibInitSkill.sol";
@@ -20,7 +21,7 @@ import { LibInitEquipmentAffix } from "../src/namespaces/root/init/LibInitEquipm
 import { LibInitMapAffix } from "../src/namespaces/root/init/LibInitMapAffix.sol";
 import { LibInitMapsGlobal } from "../src/namespaces/root/init/LibInitMapsGlobal.sol";
 import { LibInitMapsBoss } from "../src/namespaces/root/init/LibInitMapsBoss.sol";
-import { LibInitWheel } from "../src/namespaces/root/init/LibInitWheel.sol";
+import { LibInitWheel } from "../src/namespaces/wheel/LibInitWheel.sol";
 import { LibInitERC721 } from "../src/namespaces/root/init/LibInitERC721.sol";
 
 // Init txs are large, especially affixes
@@ -39,6 +40,7 @@ function runPostDeployInitializers(VmSafe vm, address worldAddress) {
 
   root_batchRegisterIdxs();
   affix_batchRegisterIdxs();
+  wheel_batchRegisterIdxs();
 
   LibInitStatmod.init();
   LibInitSkill.init();

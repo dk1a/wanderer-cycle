@@ -28,6 +28,16 @@ export default defineStoreIdxs(
           },
         },
       },
+      wheel: {
+        tables: {
+          Wheel: {
+            UniqueIdx_Wheel_Name: {
+              fields: ["name"],
+              unique: true,
+            },
+          },
+        },
+      },
       root: {
         tables: {
           GuiseName: {
@@ -51,7 +61,7 @@ export default defineStoreIdxs(
           ActiveCycle: {
             UniqueIdx_ActiveCycle_CycleEntity: {
               fields: ["cycleEntity"],
-              unique: false,
+              unique: true,
             },
           },
         },
