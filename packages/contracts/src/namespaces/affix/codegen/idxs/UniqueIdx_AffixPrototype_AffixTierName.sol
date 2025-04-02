@@ -16,7 +16,7 @@ import { IIdxErrors } from "@dk1a/mud-table-idxs/src/IIdxErrors.sol";
 import { registerUniqueIdx } from "@dk1a/mud-table-idxs/src/namespaces/uniqueIdx/registerUniqueIdx.sol";
 import { UniqueIdx } from "@dk1a/mud-table-idxs/src/namespaces/uniqueIdx/codegen/tables/UniqueIdx.sol";
 
-library UniqueIdx_AffixPrototype_TierName {
+library UniqueIdx_AffixPrototype_AffixTierName {
   // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "affix", name: "AffixPrototype", typeId: RESOURCE_TABLE });`
   ResourceId constant _tableId = ResourceId.wrap(0x74626166666978000000000000000000416666697850726f746f747970650000);
 
@@ -59,7 +59,7 @@ library UniqueIdx_AffixPrototype_TierName {
     if (_keyTuple.length == 0) {
       revert IIdxErrors.UniqueIdx_InvalidGet({
         tableId: _tableId,
-        libraryName: "UniqueIdx_AffixPrototype_TierName",
+        libraryName: "UniqueIdx_AffixPrototype_AffixTierName",
         valuesBlob: abi.encodePacked(affixTier, name),
         indexesHash: _indexesHash,
         valuesHash: _valuesHash

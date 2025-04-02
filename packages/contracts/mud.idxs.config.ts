@@ -6,64 +6,64 @@ export default defineStoreIdxs(
     namespaces: {
       duration: {
         tables: {
-          GenericDuration: {
-            Idx_GenericDuration_TargetEntityTimeId: {
+          GenericDuration: [
+            {
               fields: ["targetEntity", "timeId"],
               unique: false,
             },
-          },
+          ],
         },
       },
       affix: {
         tables: {
-          AffixPrototype: {
-            Idx_AffixPrototype_ExclusiveGroup: {
+          AffixPrototype: [
+            {
               fields: ["exclusiveGroup"],
               unique: false,
             },
-            UniqueIdx_AffixPrototype_TierName: {
+            {
               fields: ["affixTier", "name"],
               unique: true,
             },
-          },
+          ],
         },
       },
       wheel: {
         tables: {
-          Wheel: {
-            UniqueIdx_Wheel_Name: {
+          Wheel: [
+            {
               fields: ["name"],
               unique: true,
             },
-          },
+          ],
         },
       },
       root: {
         tables: {
-          GuiseName: {
-            UniqueIdx_GuiseName_Name: {
+          GuiseName: [
+            {
               fields: ["name"],
               unique: true,
             },
-          },
-          SkillName: {
-            UniqueIdx_SkillName_Name: {
+          ],
+          SkillName: [
+            {
               fields: ["name"],
               unique: true,
             },
-          },
-          SlotEquipment: {
-            Idx_SlotEquipment_Equipment: {
+          ],
+          SlotEquipment: [
+            {
               fields: ["equipmentEntity"],
               unique: false,
             },
-          },
-          ActiveCycle: {
-            UniqueIdx_ActiveCycle_CycleEntity: {
+          ],
+          ActiveCycle: [
+            {
               fields: ["cycleEntity"],
               unique: true,
             },
-          },
+          ],
         },
       },
     },

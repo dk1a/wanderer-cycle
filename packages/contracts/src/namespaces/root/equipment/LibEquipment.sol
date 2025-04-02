@@ -7,7 +7,7 @@ import { EquipmentType } from "./EquipmentType.sol";
 import { EquipmentTypeComponent } from "../codegen/tables/EquipmentTypeComponent.sol";
 import { SlotAllowedType } from "../codegen/tables/SlotAllowedType.sol";
 import { SlotEquipment } from "../codegen/tables/SlotEquipment.sol";
-import { Idx_SlotEquipment_Equipment } from "../codegen/idxs/Idx_SlotEquipment_Equipment.sol";
+import { Idx_SlotEquipment_EquipmentEntity } from "../codegen/idxs/Idx_SlotEquipment_EquipmentEntity.sol";
 
 /**
  * @title Equip/unequip equipment to slots.
@@ -47,7 +47,7 @@ library LibEquipment {
     }
 
     // Equipment must not be already equipped in a slot
-    if (Idx_SlotEquipment_Equipment.length(equipmentEntity) > 0) {
+    if (Idx_SlotEquipment_EquipmentEntity.length(equipmentEntity) > 0) {
       revert LibEquipment_EquipmentEntityAlreadyEquipped(equipmentEntity);
     }
 

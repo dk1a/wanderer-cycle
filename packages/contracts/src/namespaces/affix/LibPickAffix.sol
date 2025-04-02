@@ -11,7 +11,7 @@ import { AffixPrototypeAvailable } from "./codegen/tables/AffixPrototypeAvailabl
 import { AffixNaming } from "./codegen/tables/AffixNaming.sol";
 import { AffixPrototype, AffixPrototypeData } from "./codegen/tables/AffixPrototype.sol";
 import { Idx_AffixPrototype_ExclusiveGroup } from "./codegen/idxs/Idx_AffixPrototype_ExclusiveGroup.sol";
-import { UniqueIdx_AffixPrototype_TierName } from "./codegen/idxs/UniqueIdx_AffixPrototype_TierName.sol";
+import { UniqueIdx_AffixPrototype_AffixTierName } from "./codegen/idxs/UniqueIdx_AffixPrototype_AffixTierName.sol";
 import { LibArray } from "../../utils/LibArray.sol";
 
 /// @title Randomly pick affixes.
@@ -98,7 +98,7 @@ library LibPickAffix {
     affixValues = new uint32[](len);
 
     for (uint32 i; i < len; i++) {
-      affixProtoEntities[i] = UniqueIdx_AffixPrototype_TierName.get(affixTiers[i], names[i]);
+      affixProtoEntities[i] = UniqueIdx_AffixPrototype_AffixTierName.get(affixTiers[i], names[i]);
       if (affixProtoEntities[i] == bytes32(0)) {
         revert LibPickAffix_InvalidTierName(affixTiers[i], names[i]);
       }

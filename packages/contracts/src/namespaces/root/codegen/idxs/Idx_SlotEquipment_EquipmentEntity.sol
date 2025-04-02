@@ -18,7 +18,7 @@ import { BasicIdx } from "@dk1a/mud-table-idxs/src/namespaces/basicIdx/codegen/t
 import { BasicIdxUsedKeys } from "@dk1a/mud-table-idxs/src/namespaces/basicIdx/codegen/tables/BasicIdxUsedKeys.sol";
 import { BasicIdx_KeyTuple } from "@dk1a/mud-table-idxs/src/namespaces/basicIdx/BasicIdx_KeyTuple.sol";
 
-library Idx_SlotEquipment_Equipment {
+library Idx_SlotEquipment_EquipmentEntity {
   // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "SlotEquipment", typeId: RESOURCE_TABLE });`
   ResourceId constant _tableId = ResourceId.wrap(0x74620000000000000000000000000000536c6f7445717569706d656e74000000);
 

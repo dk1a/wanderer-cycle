@@ -5,12 +5,12 @@ pragma solidity >=0.8.24;
 
 import { UniqueIdx_GuiseName_Name } from "./idxs/UniqueIdx_GuiseName_Name.sol";
 import { UniqueIdx_SkillName_Name } from "./idxs/UniqueIdx_SkillName_Name.sol";
-import { Idx_SlotEquipment_Equipment } from "./idxs/Idx_SlotEquipment_Equipment.sol";
+import { Idx_SlotEquipment_EquipmentEntity } from "./idxs/Idx_SlotEquipment_EquipmentEntity.sol";
 import { UniqueIdx_ActiveCycle_CycleEntity } from "./idxs/UniqueIdx_ActiveCycle_CycleEntity.sol";
 
 function batchRegisterIdxs() {
   UniqueIdx_GuiseName_Name.register();
   UniqueIdx_SkillName_Name.register();
-  Idx_SlotEquipment_Equipment.register();
+  Idx_SlotEquipment_EquipmentEntity.register();
   UniqueIdx_ActiveCycle_CycleEntity.register();
 }

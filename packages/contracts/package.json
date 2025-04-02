@@ -19,7 +19,7 @@
     "test": "tsc --noEmit && FOUNDRY_SCRIPT=test-script mud test --profile=test"
   },
   "dependencies": {
-    "@dk1a/mud-table-idxs": "^0.3.2",
+    "@dk1a/mud-table-idxs": "^0.4.0",
     "@latticexyz/cli": "2.2.21",
     "@latticexyz/schema-type": "2.2.21",
     "@latticexyz/store": "2.2.21",

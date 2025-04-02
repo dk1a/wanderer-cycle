@@ -9,7 +9,7 @@ import { LibEffectTemplate } from "../src/namespaces/effect/LibEffectTemplate.so
 import { makeEffectTemplate } from "../src/namespaces/effect/makeEffectTemplate.sol";
 import { StatmodTopics } from "../src/namespaces/statmod/StatmodTopic.sol";
 import { StatmodOp, EleStat } from "../src/codegen/common.sol";
-import { Idx_SlotEquipment_Equipment } from "../src/namespaces/root/codegen/idxs/Idx_SlotEquipment_Equipment.sol";
+import { Idx_SlotEquipment_EquipmentEntity } from "../src/namespaces/root/codegen/idxs/Idx_SlotEquipment_EquipmentEntity.sol";
 
 // Public library to create a non-zero callstack for expectRevert to work well, but preserve context via delegatecall
 library RevertHelper {
@@ -128,17 +128,17 @@ contract LibEquipmentTest is MudLibTest {
   function testEquipUnequip() public {
     LibEquipment.equip(playerEntity, armorSlot, armor);
     assertEq(SlotEquipment.get(armorSlot), armor);
-    (bool _has, uint40 _index) = Idx_SlotEquipment_Equipment.has(armorSlot);
+    (bool _has, uint40 _index) = Idx_SlotEquipment_EquipmentEntity.has(armorSlot);
     assertTrue(_has);
     assertEq(_index, 0);
-    assertEq(Idx_SlotEquipment_Equipment.length(armor), 1);
-    assertEq(Idx_SlotEquipment_Equipment.get(armor, _index), armorSlot);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.length(armor), 1);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.get(armor, _index), armorSlot);
 
     LibEquipment.unequip(playerEntity, armorSlot);
     assertEq(SlotEquipment.get(armorSlot), bytes32(0));
-    (_has, _index) = Idx_SlotEquipment_Equipment.has(armorSlot);
+    (_has, _index) = Idx_SlotEquipment_EquipmentEntity.has(armorSlot);
     assertFalse(_has);
-    assertEq(Idx_SlotEquipment_Equipment.length(armor), 0);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.length(armor), 0);
   }
 
   function testEquipUnequipSeveralSlots() public {
@@ -147,38 +147,38 @@ contract LibEquipmentTest is MudLibTest {
     LibEquipment.equip(playerEntity, offHandSlot, sword2);
 
     assertEq(SlotEquipment.get(armorSlot), armor);
-    assertEq(Idx_SlotEquipment_Equipment.get(armor, 0), armorSlot);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.get(armor, 0), armorSlot);
     assertEq(SlotEquipment.get(mainHandSlot), sword1);
-    assertEq(Idx_SlotEquipment_Equipment.get(sword1, 0), mainHandSlot);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.get(sword1, 0), mainHandSlot);
     assertEq(SlotEquipment.get(offHandSlot), sword2);
-    assertEq(Idx_SlotEquipment_Equipment.get(sword2, 0), offHandSlot);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.get(sword2, 0), offHandSlot);
 
     LibEquipment.unequip(playerEntity, armorSlot);
 
     assertEq(SlotEquipment.get(armorSlot), bytes32(0));
-    assertEq(Idx_SlotEquipment_Equipment.length(armor), 0);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.length(armor), 0);
     assertEq(SlotEquipment.get(mainHandSlot), sword1);
-    assertEq(Idx_SlotEquipment_Equipment.get(sword1, 0), mainHandSlot);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.get(sword1, 0), mainHandSlot);
     assertEq(SlotEquipment.get(offHandSlot), sword2);
-    assertEq(Idx_SlotEquipment_Equipment.get(sword2, 0), offHandSlot);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.get(sword2, 0), offHandSlot);
 
     LibEquipment.unequip(playerEntity, offHandSlot);
 
     assertEq(SlotEquipment.get(armorSlot), bytes32(0));
-    assertEq(Idx_SlotEquipment_Equipment.length(armor), 0);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.length(armor), 0);
     assertEq(SlotEquipment.get(mainHandSlot), sword1);
-    assertEq(Idx_SlotEquipment_Equipment.get(sword1, 0), mainHandSlot);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.get(sword1, 0), mainHandSlot);
     assertEq(SlotEquipment.get(offHandSlot), bytes32(0));
-    assertEq(Idx_SlotEquipment_Equipment.length(sword2), 0);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.length(sword2), 0);
 
     LibEquipment.unequip(playerEntity, mainHandSlot);
 
     assertEq(SlotEquipment.get(armorSlot), bytes32(0));
-    assertEq(Idx_SlotEquipment_Equipment.length(armor), 0);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.length(armor), 0);
     assertEq(SlotEquipment.get(mainHandSlot), bytes32(0));
-    assertEq(Idx_SlotEquipment_Equipment.length(sword1), 0);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.length(sword1), 0);
     assertEq(SlotEquipment.get(offHandSlot), bytes32(0));
-    assertEq(Idx_SlotEquipment_Equipment.length(sword2), 0);
+    assertEq(Idx_SlotEquipment_EquipmentEntity.length(sword2), 0);
   }
 
   function testReequipSameSlotSameEntity() public {
