@@ -167,6 +167,13 @@ export default defineWorld({
             entityArray: EntityIdArray,
           },
         },
+        LootTargetId: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            targetId: "AffixAvailabilityTargetId",
+          },
+        },
         LootIlvl: {
           ...entityKey,
           schema: {

@@ -8,7 +8,6 @@ import { AffixPartId } from "../../codegen/common.sol";
 import { AffixAvailabilityTargetId } from "./types.sol";
 import { Affix, AffixData } from "./codegen/tables/Affix.sol";
 import { AffixPrototypeAvailable } from "./codegen/tables/AffixPrototypeAvailable.sol";
-import { AffixNaming } from "./codegen/tables/AffixNaming.sol";
 import { AffixPrototype, AffixPrototypeData } from "./codegen/tables/AffixPrototype.sol";
 import { Idx_AffixPrototype_ExclusiveGroup } from "./codegen/idxs/Idx_AffixPrototype_ExclusiveGroup.sol";
 import { UniqueIdx_AffixPrototype_AffixTierName } from "./codegen/idxs/UniqueIdx_AffixPrototype_AffixTierName.sol";

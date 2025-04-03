@@ -6,9 +6,11 @@ import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueent
 import { LibPickAffix } from "../../affix/LibPickAffix.sol";
 import { LibLootMint } from "../loot/LibLootMint.sol";
 import { AffixPartId } from "../../../codegen/common.sol";
-import { MapTypeComponent, Name } from "../codegen/index.sol";
+import { MapTypeComponent } from "../codegen/tables/MapTypeComponent.sol";
+import { Name } from "../codegen/tables/Name.sol";
 
 import { MapTypes } from "../map/MapType.sol";
+import { AffixAvailabilityTargetId, MapAffixAvailabilityTargetIds } from "../map/MapAffixAvailabilityTargetIds.sol";
 
 library LibInitMapsBoss {
   struct ManualAffix {
@@ -217,7 +219,8 @@ library LibInitMapsBoss {
 
     // get a new unique id
     bytes32 lootEntity = getUniqueEntity();
-    LibLootMint.lootMint(lootEntity, ilvl, affixParts, statmodProtoEntities, affixProtoEntities, affixValues);
+    AffixAvailabilityTargetId targetId = MapAffixAvailabilityTargetIds.RANDOM_MAP;
+    LibLootMint.lootMint(lootEntity, targetId, ilvl, affixParts, statmodProtoEntities, affixProtoEntities, affixValues);
 
     // mark this loot as a map by setting its MapType
     MapTypeComponent.set(lootEntity, MapTypes.CYCLE_BOSS);

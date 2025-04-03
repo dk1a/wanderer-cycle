@@ -6,7 +6,9 @@ import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueent
 import { LibEffectTemplate, EffectTemplateData } from "../../effect/LibEffectTemplate.sol";
 import { AffixAvailabilityTargetId, AffixPartId, LibPickAffix, Affix, AffixData } from "../../affix/LibPickAffix.sol";
 
-import { LootAffixes, LootIlvl } from "../codegen/index.sol";
+import { LootAffixes } from "../codegen/tables/LootAffixes.sol";
+import { LootIlvl } from "../codegen/tables/LootIlvl.sol";
+import { LootTargetId } from "../codegen/tables/LootTargetId.sol";
 
 library LibLootMint {
   function randomLootMint(
@@ -35,11 +37,20 @@ library LibLootMint {
       uint32[] memory affixValues
     ) = LibPickAffix.pickAffixes(affixPartIds, excludeAffixes, affixAvailabilityTargetId, ilvl, randomness);
     // Mint picked affixes
-    lootMint(lootEntity, ilvl, affixPartIds, statmodProtoEntities, affixProtoEntities, affixValues);
+    lootMint(
+      lootEntity,
+      affixAvailabilityTargetId,
+      ilvl,
+      affixPartIds,
+      statmodProtoEntities,
+      affixProtoEntities,
+      affixValues
+    );
   }
 
   function lootMint(
     bytes32 lootEntity,
+    AffixAvailabilityTargetId affixAvailabilityTargetId,
     uint32 ilvl,
     AffixPartId[] memory affixPartIds,
     bytes32[] memory statmodProtoEntities,
@@ -47,6 +58,7 @@ library LibLootMint {
     uint32[] memory affixValues
   ) internal {
     bytes32[] memory affixEntities = new bytes32[](affixPartIds.length);
+    LootTargetId.set(lootEntity, affixAvailabilityTargetId);
     for (uint256 i; i < affixPartIds.length; i++) {
       bytes32 affixEntity = getUniqueEntity();
       Affix.set(affixEntity, affixProtoEntities[i], affixPartIds[i], affixValues[i]);

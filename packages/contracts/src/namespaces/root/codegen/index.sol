@@ -15,6 +15,7 @@ import { LearnedSkills } from "./tables/LearnedSkills.sol";
 import { LifeCurrent } from "./tables/LifeCurrent.sol";
 import { ManaCurrent } from "./tables/ManaCurrent.sol";
 import { LootAffixes } from "./tables/LootAffixes.sol";
+import { LootTargetId } from "./tables/LootTargetId.sol";
 import { LootIlvl } from "./tables/LootIlvl.sol";
 import { SkillTemplate, SkillTemplateData } from "./tables/SkillTemplate.sol";
 import { SkillSpellDamage } from "./tables/SkillSpellDamage.sol";
