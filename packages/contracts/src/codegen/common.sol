@@ -40,3 +40,9 @@ enum CombatActionType {
   ATTACK,
   SKILL
 }
+
+enum CombatResult {
+  NONE,
+  VICTORY,
+  DEFEAT
+}

@@ -3,8 +3,8 @@ pragma solidity >=0.8.21;
 
 import { System } from "@latticexyz/world/src/System.sol";
 
-import { CombatAction, CombatResult } from "../../../CustomTypes.sol";
-import { CombatActionType } from "../../../codegen/common.sol";
+import { CombatAction } from "../../../CustomTypes.sol";
+import { CombatActionType, CombatResult } from "../../../codegen/common.sol";
 
 import { combatSystem } from "../codegen/systems/CombatSystemLib.sol";
 

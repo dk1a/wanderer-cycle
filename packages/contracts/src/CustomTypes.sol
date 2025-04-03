@@ -19,14 +19,6 @@ uint256 constant EleStat_length = 5;
 
 StatmodOp constant StatmodOpFinal = StatmodOp.ADD;
 
-// Result for initiator; it's based on who loses all life first.
-// This just indicates how the combat concluded.
-enum CombatResult {
-  NONE,
-  VICTORY,
-  DEFEAT
-}
-
 struct CombatAction {
   CombatActionType actionType;
   bytes32 actionEntity;

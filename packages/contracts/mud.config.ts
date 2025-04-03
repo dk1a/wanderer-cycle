@@ -9,6 +9,7 @@ import {
   AFFIX_PART_ID_ARRAY,
   PSTAT_ARRAY,
   COMBAT_ACTION_TYPE_ARRAY,
+  COMBAT_RESULT_ARRAY,
 } from "./enums";
 
 const EntityId = "bytes32" as const;
@@ -77,6 +78,7 @@ const enums = {
   StatmodOp: STATMOD_OP_ARRAY,
   AffixPartId: AFFIX_PART_ID_ARRAY,
   CombatActionType: COMBAT_ACTION_TYPE_ARRAY,
+  CombatResult: COMBAT_RESULT_ARRAY,
 };
 
 const userTypes = {
@@ -265,6 +267,30 @@ export default defineWorld({
             retaliatorEntity: EntityId,
             roundsSpent: "uint32",
             roundsMax: "uint32",
+          },
+        },
+        CombatRoundResultOffchain: {
+          type: "offchainTable",
+          key: ["initiatorEntity", "retaliatorEntity", "roundIndex"],
+          schema: {
+            initiatorEntity: EntityId,
+            retaliatorEntity: EntityId,
+            roundIndex: "uint256",
+            combatResult: "CombatResult",
+          },
+        },
+        CombatActionResultOffchain: {
+          type: "offchainTable",
+          key: ["attackerEntity", "defenderEntity", "roundIndex", "actionIndex"],
+          schema: {
+            attackerEntity: EntityId,
+            defenderEntity: EntityId,
+            roundIndex: "uint256",
+            actionIndex: "uint256",
+            actionType: "CombatActionType",
+            actionEntity: EntityId,
+            defenderLifeBefore: "uint32",
+            defenderLifeAfter: "uint32",
           },
         },
         FromMap: {

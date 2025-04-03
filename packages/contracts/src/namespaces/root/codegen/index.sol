@@ -30,6 +30,8 @@ import { CycleTurns } from "./tables/CycleTurns.sol";
 import { CycleTurnsLastClaimed } from "./tables/CycleTurnsLastClaimed.sol";
 import { Wanderer } from "./tables/Wanderer.sol";
 import { ActiveCombat, ActiveCombatData } from "./tables/ActiveCombat.sol";
+import { CombatRoundResultOffchain } from "./tables/CombatRoundResultOffchain.sol";
+import { CombatActionResultOffchain, CombatActionResultOffchainData } from "./tables/CombatActionResultOffchain.sol";
 import { FromMap } from "./tables/FromMap.sol";
 import { RNGPrecommit } from "./tables/RNGPrecommit.sol";
 import { RNGRequestOwner } from "./tables/RNGRequestOwner.sol";

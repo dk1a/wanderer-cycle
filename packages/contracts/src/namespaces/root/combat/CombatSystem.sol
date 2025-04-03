@@ -3,9 +3,11 @@ pragma solidity >=0.8.21;
 
 import { System } from "@latticexyz/world/src/System.sol";
 
-import { CombatResult, CombatAction, CombatActorOpts, CombatActor } from "../../../CustomTypes.sol";
+import { CombatAction, CombatActorOpts, CombatActor } from "../../../CustomTypes.sol";
 import { GenericDurationData } from "../../duration/Duration.sol";
-import { CombatActionType } from "../../../codegen/common.sol";
+import { CombatRoundResultOffchain } from "../codegen/tables/CombatRoundResultOffchain.sol";
+import { CombatActionResultOffchain } from "../codegen/tables/CombatActionResultOffchain.sol";
+import { CombatActionType, CombatResult } from "../../../codegen/common.sol";
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibTime } from "../LibTime.sol";
@@ -55,9 +57,12 @@ contract CombatSystem is System {
     CombatActor memory initiator,
     CombatActor memory retaliator
   ) public returns (CombatResult result) {
-    bool isFinalRound = LibActiveCombat.spendRound(initiator.entity, retaliator.entity);
+    (uint256 roundIndex, bool isFinalRound) = LibActiveCombat.spendRound(initiator.entity, retaliator.entity);
 
-    result = _bothActorsActions(initiator, retaliator);
+    result = _bothActorsActions(roundIndex, initiator, retaliator);
+
+    // Offchain round results for the client
+    CombatRoundResultOffchain.set(initiator.entity, retaliator.entity, roundIndex, result);
 
     if (result != CombatResult.NONE) {
       // Combat ended - deactivate it
@@ -105,6 +110,7 @@ contract CombatSystem is System {
   //////////////////////////////////////////////////////////////*/
 
   function _bothActorsActions(
+    uint256 roundIndex,
     CombatActor memory initiator,
     CombatActor memory retaliator
   ) internal returns (CombatResult) {
@@ -112,13 +118,13 @@ contract CombatSystem is System {
     if (LibCharstat.getLifeCurrent(initiator.entity) == 0) return CombatResult.DEFEAT;
 
     // Initiator's actions
-    _oneActorActions(initiator, retaliator);
+    _oneActorActions(roundIndex, initiator, retaliator);
 
     // Win if retaliator is dead; this interrupts retaliator's actions
     if (LibCharstat.getLifeCurrent(retaliator.entity) == 0) return CombatResult.VICTORY;
 
     // Retaliator's actions
-    _oneActorActions(retaliator, initiator);
+    _oneActorActions(roundIndex, retaliator, initiator);
 
     // Loss if initiator is dead
     if (LibCharstat.getLifeCurrent(initiator.entity) == 0) return CombatResult.DEFEAT;
@@ -128,11 +134,31 @@ contract CombatSystem is System {
     return CombatResult.NONE;
   }
 
-  function _oneActorActions(CombatActor memory attacker, CombatActor memory defender) internal {
+  function _oneActorActions(uint256 roundIndex, CombatActor memory attacker, CombatActor memory defender) internal {
     _checkActionsLength(attacker);
 
-    for (uint256 i; i < attacker.actions.length; i++) {
-      LibCombatSingleAction.executeAction(attacker.entity, defender.entity, attacker.actions[i], defender.opts);
+    for (uint256 actionIndex; actionIndex < attacker.actions.length; actionIndex++) {
+      uint32 defenderLifeBefore = LibCharstat.getLifeCurrent(defender.entity);
+
+      LibCombatSingleAction.executeAction(
+        attacker.entity,
+        defender.entity,
+        attacker.actions[actionIndex],
+        defender.opts
+      );
+
+      uint32 defenderLifeAfter = LibCharstat.getLifeCurrent(defender.entity);
+      // Offchain action results for the client
+      CombatActionResultOffchain.set(
+        attacker.entity,
+        defender.entity,
+        roundIndex,
+        actionIndex,
+        attacker.actions[actionIndex].actionType,
+        attacker.actions[actionIndex].actionEntity,
+        defenderLifeBefore,
+        defenderLifeAfter
+      );
     }
   }
 

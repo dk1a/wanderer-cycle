@@ -3,12 +3,13 @@ pragma solidity >=0.8.21;
 
 import { MudLibTest } from "./MudLibTest.t.sol";
 
-import { CombatAction, CombatActionType, CombatResult } from "../src/CustomTypes.sol";
+import { CombatAction, CombatActionType } from "../src/CustomTypes.sol";
 import { ActiveCycle, LootAffixes } from "../src/namespaces/root/codegen/index.sol";
 import { Affix } from "../src/namespaces/affix/codegen/index.sol";
 import { AffixPartId } from "../src/namespaces/affix/types.sol";
 import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibInitMapsGlobal } from "../src/namespaces/root/init/LibInitMapsGlobal.sol";
+import { CombatResult } from "../src/codegen/common.sol";
 
 contract CycleCombatSystemTest is MudLibTest {
   // taken from InitGuiseSystem, initialized by LibDeploy

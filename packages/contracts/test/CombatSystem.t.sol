@@ -8,10 +8,10 @@ import { ActiveCombat } from "../src/namespaces/root/codegen/index.sol";
 import { CombatSystem, CombatAction, CombatActionType } from "../src/namespaces/root/combat/CombatSystem.sol";
 import { LibActiveCombat } from "../src/namespaces/root/combat/LibActiveCombat.sol";
 import { LibCharstat } from "../src/namespaces/root/charstat/LibCharstat.sol";
-import { CombatResult, PStat, PStat_length, EleStat_length } from "../src/CustomTypes.sol";
+import { PStat, PStat_length, EleStat_length } from "../src/CustomTypes.sol";
 import { StatmodTopics } from "../src/namespaces/statmod/StatmodTopic.sol";
 import { Statmod } from "../src/namespaces/statmod/Statmod.sol";
-import { EleStat, StatmodOp } from "../src/codegen/common.sol";
+import { EleStat, StatmodOp, CombatResult } from "../src/codegen/common.sol";
 
 contract CombatSystemTest is MudLibTest {
   address writer = address(bytes20(keccak256("writer")));

@@ -62,7 +62,10 @@ library LibActiveCombat {
     ActiveCombat.deleteRecord(initiatorEntity);
   }
 
-  function spendRound(bytes32 initiatorEntity, bytes32 retaliatorEntity) public returns (bool isFinalRound) {
+  function spendRound(
+    bytes32 initiatorEntity,
+    bytes32 retaliatorEntity
+  ) public returns (uint256 roundIndex, bool isFinalRound) {
     requireActiveCombat(initiatorEntity, retaliatorEntity);
 
     uint32 roundsSpent = ActiveCombat.getRoundsSpent(initiatorEntity);
@@ -74,6 +77,9 @@ library LibActiveCombat {
 
     ActiveCombat.setRoundsSpent(initiatorEntity, roundsSpent + 1);
 
-    return roundsSpent + 1 == roundsMax;
+    roundIndex = roundsSpent;
+    isFinalRound = roundsSpent + 1 == roundsMax;
+
+    return (roundIndex, isFinalRound);
   }
 }
