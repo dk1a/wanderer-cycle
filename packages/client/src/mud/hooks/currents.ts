@@ -24,10 +24,10 @@ export const useManaCurrent = (entity: Entity | undefined) => {
 
 export const useIdentityCurrent = (entity: Entity | undefined) => {
   const {
-    components: { Identity },
+    components: { IdentityCurrent },
   } = useMUD();
 
-  const identityCurrent = useComponentValue(Identity, entity);
+  const identityCurrent = useComponentValue(IdentityCurrent, entity);
 
   return identityCurrent?.value;
 };
