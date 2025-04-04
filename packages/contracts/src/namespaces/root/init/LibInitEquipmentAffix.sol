@@ -468,7 +468,7 @@ library LibInitEquipmentAffix {
 
   function add(
     string memory affixPrototypeName,
-    bytes32 statmodBaseEntity,
+    bytes32 statmodEntity,
     Range[DEFAULT_TIERS] memory ranges,
     AffixPart[][DEFAULT_TIERS] memory tieredAffixParts
   ) internal {
@@ -476,7 +476,7 @@ library LibInitEquipmentAffix {
     bytes32 exclusiveGroup = bytes32(bytes(affixPrototypeName));
     LibAddAffixPrototype.addAffixPrototypes(
       affixPrototypeName,
-      statmodBaseEntity,
+      statmodEntity,
       exclusiveGroup,
       ranges,
       tieredAffixParts

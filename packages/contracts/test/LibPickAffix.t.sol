@@ -9,7 +9,7 @@ import { AffixPartId } from "../src/codegen/common.sol";
 contract LibPickAffixTest is MudLibTest {
   AffixAvailabilityTargetId internal targetId = AffixAvailabilityTargetId.wrap(keccak256("affixAvailabilityTargetId"));
 
-  bytes32 fakeStatmodBaseEntity = hex"f5be";
+  bytes32 fakeStatmodEntity = hex"f5be";
   bytes32 affixPrototypeEntity1 = hex"aff1";
   bytes32 affixPrototypeEntity2 = hex"aff2";
   bytes32 affixPrototypeEntity3 = hex"aff3";
@@ -20,7 +20,7 @@ contract LibPickAffixTest is MudLibTest {
     AffixPrototype.set(
       affixPrototypeEntity1,
       AffixPrototypeData({
-        statmodBaseEntity: fakeStatmodBaseEntity,
+        statmodEntity: fakeStatmodEntity,
         exclusiveGroup: "eg1",
         affixTier: 1,
         requiredLevel: 1,
@@ -33,7 +33,7 @@ contract LibPickAffixTest is MudLibTest {
     AffixPrototype.set(
       affixPrototypeEntity2,
       AffixPrototypeData({
-        statmodBaseEntity: fakeStatmodBaseEntity,
+        statmodEntity: fakeStatmodEntity,
         exclusiveGroup: "eg2",
         affixTier: 1,
         requiredLevel: 1,
@@ -46,7 +46,7 @@ contract LibPickAffixTest is MudLibTest {
     AffixPrototype.set(
       affixPrototypeEntity3,
       AffixPrototypeData({
-        statmodBaseEntity: fakeStatmodBaseEntity,
+        statmodEntity: fakeStatmodEntity,
         exclusiveGroup: "eg2",
         affixTier: 1,
         requiredLevel: 1,
@@ -74,15 +74,12 @@ contract LibPickAffixTest is MudLibTest {
     AffixPrototypeAvailable.set(AffixPartId.SUFFIX, targetId, ilvl, availableEntities);
 
     // If exlusion doesn't work properly, 123 seed should lead to 2 entity2 picks
-    (
-      bytes32[] memory statmodProtoEntities,
-      bytes32[] memory affixProtoEntities,
-      uint32[] memory affixValues
-    ) = LibPickAffix.pickAffixes(affixPartIds, excludeAffixes, targetId, 1, 123);
+    (bytes32[] memory statmodEntities, bytes32[] memory affixProtoEntities, uint32[] memory affixValues) = LibPickAffix
+      .pickAffixes(affixPartIds, excludeAffixes, targetId, 1, 123);
 
-    assertEq(statmodProtoEntities.length, 2);
-    assertEq(statmodProtoEntities[0], fakeStatmodBaseEntity);
-    assertEq(statmodProtoEntities[1], fakeStatmodBaseEntity);
+    assertEq(statmodEntities.length, 2);
+    assertEq(statmodEntities[0], fakeStatmodEntity);
+    assertEq(statmodEntities[1], fakeStatmodEntity);
 
     assertEq(affixProtoEntities.length, 2);
     assertEq(affixProtoEntities[0], affixPrototypeEntity2);
@@ -111,15 +108,12 @@ contract LibPickAffixTest is MudLibTest {
     tiers[0] = 1;
     tiers[1] = 1;
 
-    (
-      bytes32[] memory statmodProtoEntities,
-      bytes32[] memory affixProtoEntities,
-      uint32[] memory affixValues
-    ) = LibPickAffix.manuallyPickAffixesMax(names, tiers);
+    (bytes32[] memory statmodEntities, bytes32[] memory affixProtoEntities, uint32[] memory affixValues) = LibPickAffix
+      .manuallyPickAffixesMax(names, tiers);
 
-    assertEq(statmodProtoEntities.length, 2);
-    assertEq(statmodProtoEntities[0], fakeStatmodBaseEntity);
-    assertEq(statmodProtoEntities[1], fakeStatmodBaseEntity);
+    assertEq(statmodEntities.length, 2);
+    assertEq(statmodEntities[0], fakeStatmodEntity);
+    assertEq(statmodEntities[1], fakeStatmodEntity);
 
     assertEq(affixProtoEntities.length, 2);
     assertEq(affixProtoEntities[0], affixPrototypeEntity1);

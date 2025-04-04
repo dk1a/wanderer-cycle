@@ -16,8 +16,8 @@ function makeEffectTemplate(
   EleStat element0,
   uint32 value0
 ) pure returns (EffectTemplateData memory result) {
-  result.entities = new bytes32[](1);
-  result.entities[0] = topic0.toStatmodEntity(op0, element0);
+  result.statmodEntities = new bytes32[](1);
+  result.statmodEntities[0] = topic0.toStatmodEntity(op0, element0);
 
   result.values = new uint32[](1);
   result.values[0] = value0;
@@ -33,9 +33,9 @@ function makeEffectTemplate(
   EleStat element1,
   uint32 value1
 ) pure returns (EffectTemplateData memory result) {
-  result.entities = new bytes32[](2);
-  result.entities[0] = topic0.toStatmodEntity(op0, element0);
-  result.entities[1] = topic1.toStatmodEntity(op1, element1);
+  result.statmodEntities = new bytes32[](2);
+  result.statmodEntities[0] = topic0.toStatmodEntity(op0, element0);
+  result.statmodEntities[1] = topic1.toStatmodEntity(op1, element1);
 
   result.values = new uint32[](2);
   result.values[0] = value0;

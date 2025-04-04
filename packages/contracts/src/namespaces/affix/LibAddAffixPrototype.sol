@@ -32,7 +32,7 @@ library LibAddAffixPrototype {
   /// (for affixes with non-standard tiers use `addAffixPrototype` directly)
   function addAffixPrototypes(
     string memory affixPrototypeName,
-    bytes32 statmodBaseEntity,
+    bytes32 statmodEntity,
     bytes32 exclusiveGroup,
     Range[DEFAULT_TIERS] memory ranges,
     AffixPart[][DEFAULT_TIERS] memory tieredAffixParts
@@ -45,7 +45,7 @@ library LibAddAffixPrototype {
       Range memory range = ranges[i];
 
       AffixPrototypeData memory proto = AffixPrototypeData({
-        statmodBaseEntity: statmodBaseEntity,
+        statmodEntity: statmodEntity,
         exclusiveGroup: exclusiveGroup,
         affixTier: affixTier,
         requiredLevel: _tierToDefaultRequiredIlvl(affixTier),
@@ -67,7 +67,7 @@ library LibAddAffixPrototype {
     if (maxIlvl == 0 || affixProto.requiredLevel > maxIlvl) {
       revert LibAddAffixPrototype_MalformedInput(affixProto.name, maxIlvl);
     }
-    if (affixProto.statmodBaseEntity == 0) {
+    if (affixProto.statmodEntity == 0) {
       revert LibAddAffixPrototype_InvalidStatmodBase();
     }
 

@@ -35,7 +35,7 @@ export function getEffectPrototype(
   if (!effectPrototype) return;
   const statmods = parseEffectStatmods(
     world,
-    effectPrototype.statmodProtoEntities,
+    effectPrototype.statmodEntities,
     effectPrototype.statmodValues,
   );
 

@@ -211,16 +211,13 @@ library LibInitMapsBoss {
       tiers[i] = manualAffixes[i].tier;
     }
 
-    (
-      bytes32[] memory statmodProtoEntities,
-      bytes32[] memory affixProtoEntities,
-      uint32[] memory affixValues
-    ) = LibPickAffix.manuallyPickAffixesMax(names, tiers);
+    (bytes32[] memory statmodEntities, bytes32[] memory affixProtoEntities, uint32[] memory affixValues) = LibPickAffix
+      .manuallyPickAffixesMax(names, tiers);
 
     // get a new unique id
     bytes32 lootEntity = getUniqueEntity();
     AffixAvailabilityTargetId targetId = MapAffixAvailabilityTargetIds.RANDOM_MAP;
-    LibLootMint.lootMint(lootEntity, targetId, ilvl, affixParts, statmodProtoEntities, affixProtoEntities, affixValues);
+    LibLootMint.lootMint(lootEntity, targetId, ilvl, affixParts, statmodEntities, affixProtoEntities, affixValues);
 
     // mark this loot as a map by setting its MapType
     MapTypeComponent.set(lootEntity, MapTypes.CYCLE_BOSS);

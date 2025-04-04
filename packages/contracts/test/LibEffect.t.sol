@@ -20,10 +20,10 @@ contract LibEffectTest is MudLibTest {
     super.setUp();
 
     EffectTemplateData memory effectTemplate = EffectTemplateData({
-      entities: new bytes32[](1),
+      statmodEntities: new bytes32[](1),
       values: new uint32[](1)
     });
-    effectTemplate.entities[0] = lifeEntity;
+    effectTemplate.statmodEntities[0] = lifeEntity;
     effectTemplate.values[0] = 10;
 
     LibEffectTemplate.verifiedSet(applicationEntity, effectTemplate);

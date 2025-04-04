@@ -65,16 +65,16 @@ library UniqueIdx_ActiveCycle_CycleEntity {
     }
   }
 
-  function get(bytes32 cycleEntity) internal view returns (bytes32 wandererEntity) {
+  function get(bytes32 cycleEntity) internal view returns (bytes32 entity) {
     bytes32[] memory _keyTuple = getKeyTuple(cycleEntity);
 
-    wandererEntity = _keyTuple[0];
+    entity = _keyTuple[0];
   }
 
   /**
    * @notice Decode keys from a bytes32 array using the source table's field layout.
    */
-  function decodeKeyTuple(bytes32[] memory _keyTuple) internal pure returns (bytes32 wandererEntity) {
-    wandererEntity = _keyTuple[0];
+  function decodeKeyTuple(bytes32[] memory _keyTuple) internal pure returns (bytes32 entity) {
+    entity = _keyTuple[0];
   }
 }

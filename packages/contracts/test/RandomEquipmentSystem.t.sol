@@ -44,12 +44,12 @@ contract RandomEquipmentSystemTest is MudLibTest {
     assertNotEq(EquipmentType.unwrap(EquipmentTypeComponent.get(lootEntity1)), bytes32(0));
     assertNotEq(EquipmentType.unwrap(EquipmentTypeComponent.get(lootEntity2)), bytes32(0));
     // check effect prototype
-    bytes32[] memory effectStatmodBaseEntities1 = EffectTemplate.getEntities(lootEntity1);
-    bytes32[] memory effectStatmodBaseEntities2 = EffectTemplate.getEntities(lootEntity2);
+    bytes32[] memory effectStatmodEntities1 = EffectTemplate.getStatmodEntities(lootEntity1);
+    bytes32[] memory effectStatmodEntities2 = EffectTemplate.getStatmodEntities(lootEntity2);
     uint32[] memory effectStatmodValues1 = EffectTemplate.getValues(lootEntity1);
     uint32[] memory effectStatmodValues2 = EffectTemplate.getValues(lootEntity2);
-    assertEq(effectStatmodBaseEntities1.length, 1, "1: effectStatmodBaseEntities.length");
-    assertEq(effectStatmodBaseEntities2.length, 2, "2: effectStatmodBaseEntities.length");
+    assertEq(effectStatmodEntities1.length, 1, "1: effectStatmodEntities.length");
+    assertEq(effectStatmodEntities2.length, 2, "2: effectStatmodEntities.length");
     assertEq(effectStatmodValues1[0], Affix.getValue(lootAffixes1[0]), "1[0]: statmod values != affix values");
     assertEq(effectStatmodValues2[0], Affix.getValue(lootAffixes2[0]), "2[0]: statmod values != affix values");
     assertEq(effectStatmodValues2[1], Affix.getValue(lootAffixes2[1]), "2[1]: statmod values != affix values");

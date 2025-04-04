@@ -31,7 +31,7 @@ library LibBaseInitSkill {
     SkillName.set(entity, name);
 
     // Given statmods, a skill will have an on-use effect template
-    if (effectTemplate.entities.length > 0) {
+    if (effectTemplate.statmodEntities.length > 0) {
       LibEffectTemplate.verifiedSet(entity, effectTemplate);
     }
   }

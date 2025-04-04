@@ -17,7 +17,7 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 struct EffectAppliedData {
-  bytes32[] entities;
+  bytes32[] statmodEntities;
   uint32[] values;
 }
 
@@ -49,7 +49,7 @@ library EffectApplied {
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](2);
-    fieldNames[0] = "entities";
+    fieldNames[0] = "statmodEntities";
     fieldNames[1] = "values";
   }
 
@@ -68,12 +68,12 @@ library EffectApplied {
   }
 
   /**
-   * @notice Get entities.
+   * @notice Get statmodEntities.
    */
-  function getEntities(
+  function getStatmodEntities(
     bytes32 targetEntity,
     bytes32 applicationEntity
-  ) internal view returns (bytes32[] memory entities) {
+  ) internal view returns (bytes32[] memory statmodEntities) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
@@ -83,12 +83,12 @@ library EffectApplied {
   }
 
   /**
-   * @notice Get entities.
+   * @notice Get statmodEntities.
    */
-  function _getEntities(
+  function _getStatmodEntities(
     bytes32 targetEntity,
     bytes32 applicationEntity
-  ) internal view returns (bytes32[] memory entities) {
+  ) internal view returns (bytes32[] memory statmodEntities) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
@@ -98,31 +98,39 @@ library EffectApplied {
   }
 
   /**
-   * @notice Set entities.
+   * @notice Set statmodEntities.
    */
-  function setEntities(bytes32 targetEntity, bytes32 applicationEntity, bytes32[] memory entities) internal {
+  function setStatmodEntities(
+    bytes32 targetEntity,
+    bytes32 applicationEntity,
+    bytes32[] memory statmodEntities
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
 
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((entities)));
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((statmodEntities)));
   }
 
   /**
-   * @notice Set entities.
+   * @notice Set statmodEntities.
    */
-  function _setEntities(bytes32 targetEntity, bytes32 applicationEntity, bytes32[] memory entities) internal {
+  function _setStatmodEntities(
+    bytes32 targetEntity,
+    bytes32 applicationEntity,
+    bytes32[] memory statmodEntities
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
 
-    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((entities)));
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((statmodEntities)));
   }
 
   /**
-   * @notice Get the length of entities.
+   * @notice Get the length of statmodEntities.
    */
-  function lengthEntities(bytes32 targetEntity, bytes32 applicationEntity) internal view returns (uint256) {
+  function lengthStatmodEntities(bytes32 targetEntity, bytes32 applicationEntity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
@@ -134,9 +142,9 @@ library EffectApplied {
   }
 
   /**
-   * @notice Get the length of entities.
+   * @notice Get the length of statmodEntities.
    */
-  function _lengthEntities(bytes32 targetEntity, bytes32 applicationEntity) internal view returns (uint256) {
+  function _lengthStatmodEntities(bytes32 targetEntity, bytes32 applicationEntity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
@@ -148,10 +156,10 @@ library EffectApplied {
   }
 
   /**
-   * @notice Get an item of entities.
+   * @notice Get an item of statmodEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItemEntities(
+  function getItemStatmodEntities(
     bytes32 targetEntity,
     bytes32 applicationEntity,
     uint256 _index
@@ -167,10 +175,10 @@ library EffectApplied {
   }
 
   /**
-   * @notice Get an item of entities.
+   * @notice Get an item of statmodEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItemEntities(
+  function _getItemStatmodEntities(
     bytes32 targetEntity,
     bytes32 applicationEntity,
     uint256 _index
@@ -186,9 +194,9 @@ library EffectApplied {
   }
 
   /**
-   * @notice Push an element to entities.
+   * @notice Push an element to statmodEntities.
    */
-  function pushEntities(bytes32 targetEntity, bytes32 applicationEntity, bytes32 _element) internal {
+  function pushStatmodEntities(bytes32 targetEntity, bytes32 applicationEntity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
@@ -197,9 +205,9 @@ library EffectApplied {
   }
 
   /**
-   * @notice Push an element to entities.
+   * @notice Push an element to statmodEntities.
    */
-  function _pushEntities(bytes32 targetEntity, bytes32 applicationEntity, bytes32 _element) internal {
+  function _pushStatmodEntities(bytes32 targetEntity, bytes32 applicationEntity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
@@ -208,9 +216,9 @@ library EffectApplied {
   }
 
   /**
-   * @notice Pop an element from entities.
+   * @notice Pop an element from statmodEntities.
    */
-  function popEntities(bytes32 targetEntity, bytes32 applicationEntity) internal {
+  function popStatmodEntities(bytes32 targetEntity, bytes32 applicationEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
@@ -219,9 +227,9 @@ library EffectApplied {
   }
 
   /**
-   * @notice Pop an element from entities.
+   * @notice Pop an element from statmodEntities.
    */
-  function _popEntities(bytes32 targetEntity, bytes32 applicationEntity) internal {
+  function _popStatmodEntities(bytes32 targetEntity, bytes32 applicationEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
@@ -230,9 +238,14 @@ library EffectApplied {
   }
 
   /**
-   * @notice Update an element of entities at `_index`.
+   * @notice Update an element of statmodEntities at `_index`.
    */
-  function updateEntities(bytes32 targetEntity, bytes32 applicationEntity, uint256 _index, bytes32 _element) internal {
+  function updateStatmodEntities(
+    bytes32 targetEntity,
+    bytes32 applicationEntity,
+    uint256 _index,
+    bytes32 _element
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
@@ -244,9 +257,14 @@ library EffectApplied {
   }
 
   /**
-   * @notice Update an element of entities at `_index`.
+   * @notice Update an element of statmodEntities at `_index`.
    */
-  function _updateEntities(bytes32 targetEntity, bytes32 applicationEntity, uint256 _index, bytes32 _element) internal {
+  function _updateStatmodEntities(
+    bytes32 targetEntity,
+    bytes32 applicationEntity,
+    uint256 _index,
+    bytes32 _element
+  ) internal {
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
     _keyTuple[1] = applicationEntity;
@@ -485,12 +503,12 @@ library EffectApplied {
   function set(
     bytes32 targetEntity,
     bytes32 applicationEntity,
-    bytes32[] memory entities,
+    bytes32[] memory statmodEntities,
     uint32[] memory values
   ) internal {
     bytes memory _staticData;
-    EncodedLengths _encodedLengths = encodeLengths(entities, values);
-    bytes memory _dynamicData = encodeDynamic(entities, values);
+    EncodedLengths _encodedLengths = encodeLengths(statmodEntities, values);
+    bytes memory _dynamicData = encodeDynamic(statmodEntities, values);
 
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
@@ -505,12 +523,12 @@ library EffectApplied {
   function _set(
     bytes32 targetEntity,
     bytes32 applicationEntity,
-    bytes32[] memory entities,
+    bytes32[] memory statmodEntities,
     uint32[] memory values
   ) internal {
     bytes memory _staticData;
-    EncodedLengths _encodedLengths = encodeLengths(entities, values);
-    bytes memory _dynamicData = encodeDynamic(entities, values);
+    EncodedLengths _encodedLengths = encodeLengths(statmodEntities, values);
+    bytes memory _dynamicData = encodeDynamic(statmodEntities, values);
 
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
@@ -524,8 +542,8 @@ library EffectApplied {
    */
   function set(bytes32 targetEntity, bytes32 applicationEntity, EffectAppliedData memory _table) internal {
     bytes memory _staticData;
-    EncodedLengths _encodedLengths = encodeLengths(_table.entities, _table.values);
-    bytes memory _dynamicData = encodeDynamic(_table.entities, _table.values);
+    EncodedLengths _encodedLengths = encodeLengths(_table.statmodEntities, _table.values);
+    bytes memory _dynamicData = encodeDynamic(_table.statmodEntities, _table.values);
 
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
@@ -539,8 +557,8 @@ library EffectApplied {
    */
   function _set(bytes32 targetEntity, bytes32 applicationEntity, EffectAppliedData memory _table) internal {
     bytes memory _staticData;
-    EncodedLengths _encodedLengths = encodeLengths(_table.entities, _table.values);
-    bytes memory _dynamicData = encodeDynamic(_table.entities, _table.values);
+    EncodedLengths _encodedLengths = encodeLengths(_table.statmodEntities, _table.values);
+    bytes memory _dynamicData = encodeDynamic(_table.statmodEntities, _table.values);
 
     bytes32[] memory _keyTuple = new bytes32[](2);
     _keyTuple[0] = targetEntity;
@@ -555,13 +573,13 @@ library EffectApplied {
   function decodeDynamic(
     EncodedLengths _encodedLengths,
     bytes memory _blob
-  ) internal pure returns (bytes32[] memory entities, uint32[] memory values) {
+  ) internal pure returns (bytes32[] memory statmodEntities, uint32[] memory values) {
     uint256 _start;
     uint256 _end;
     unchecked {
       _end = _encodedLengths.atIndex(0);
     }
-    entities = (SliceLib.getSubslice(_blob, _start, _end).decodeArray_bytes32());
+    statmodEntities = (SliceLib.getSubslice(_blob, _start, _end).decodeArray_bytes32());
 
     _start = _end;
     unchecked {
@@ -581,7 +599,7 @@ library EffectApplied {
     EncodedLengths _encodedLengths,
     bytes memory _dynamicData
   ) internal pure returns (EffectAppliedData memory _table) {
-    (_table.entities, _table.values) = decodeDynamic(_encodedLengths, _dynamicData);
+    (_table.statmodEntities, _table.values) = decodeDynamic(_encodedLengths, _dynamicData);
   }
 
   /**
@@ -611,12 +629,12 @@ library EffectApplied {
    * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
    */
   function encodeLengths(
-    bytes32[] memory entities,
+    bytes32[] memory statmodEntities,
     uint32[] memory values
   ) internal pure returns (EncodedLengths _encodedLengths) {
     // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
     unchecked {
-      _encodedLengths = EncodedLengthsLib.pack(entities.length * 32, values.length * 4);
+      _encodedLengths = EncodedLengthsLib.pack(statmodEntities.length * 32, values.length * 4);
     }
   }
 
@@ -624,8 +642,11 @@ library EffectApplied {
    * @notice Tightly pack dynamic (variable length) data using this table's schema.
    * @return The dynamic data, encoded into a sequence of bytes.
    */
-  function encodeDynamic(bytes32[] memory entities, uint32[] memory values) internal pure returns (bytes memory) {
-    return abi.encodePacked(EncodeArray.encode((entities)), EncodeArray.encode((values)));
+  function encodeDynamic(
+    bytes32[] memory statmodEntities,
+    uint32[] memory values
+  ) internal pure returns (bytes memory) {
+    return abi.encodePacked(EncodeArray.encode((statmodEntities)), EncodeArray.encode((values)));
   }
 
   /**
@@ -635,12 +656,12 @@ library EffectApplied {
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
   function encode(
-    bytes32[] memory entities,
+    bytes32[] memory statmodEntities,
     uint32[] memory values
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
     bytes memory _staticData;
-    EncodedLengths _encodedLengths = encodeLengths(entities, values);
-    bytes memory _dynamicData = encodeDynamic(entities, values);
+    EncodedLengths _encodedLengths = encodeLengths(statmodEntities, values);
+    bytes memory _dynamicData = encodeDynamic(statmodEntities, values);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }

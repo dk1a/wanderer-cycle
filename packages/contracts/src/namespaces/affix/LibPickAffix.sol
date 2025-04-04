@@ -34,9 +34,9 @@ library LibPickAffix {
   )
     internal
     view
-    returns (bytes32[] memory statmodBaseEntities, bytes32[] memory affixProtoEntities, uint32[] memory affixValues)
+    returns (bytes32[] memory statmodEntities, bytes32[] memory affixProtoEntities, uint32[] memory affixValues)
   {
-    statmodBaseEntities = new bytes32[](affixPartIds.length);
+    statmodEntities = new bytes32[](affixPartIds.length);
     affixProtoEntities = new bytes32[](affixPartIds.length);
     affixValues = new uint32[](affixPartIds.length);
 
@@ -52,7 +52,7 @@ library LibPickAffix {
       );
 
       // set the corresponding statmod
-      statmodBaseEntities[i] = AffixPrototype.getStatmodBaseEntity(affixProtoEntity);
+      statmodEntities[i] = AffixPrototype.getStatmodEntity(affixProtoEntity);
 
       // pick its value
       affixProtoEntities[i] = affixProtoEntity;
@@ -86,13 +86,13 @@ library LibPickAffix {
   )
     internal
     view
-    returns (bytes32[] memory statmodBaseEntities, bytes32[] memory affixProtoEntities, uint32[] memory affixValues)
+    returns (bytes32[] memory statmodEntities, bytes32[] memory affixProtoEntities, uint32[] memory affixValues)
   {
     if (names.length != affixTiers.length) {
       revert LibPickAffix_MalformedInputManualPick(names.length, affixTiers.length);
     }
     uint256 len = names.length;
-    statmodBaseEntities = new bytes32[](len);
+    statmodEntities = new bytes32[](len);
     affixProtoEntities = new bytes32[](len);
     affixValues = new uint32[](len);
 
@@ -102,7 +102,7 @@ library LibPickAffix {
         revert LibPickAffix_InvalidTierName(affixTiers[i], names[i]);
       }
 
-      statmodBaseEntities[i] = AffixPrototype.getStatmodBaseEntity(affixProtoEntities[i]);
+      statmodEntities[i] = AffixPrototype.getStatmodEntity(affixProtoEntities[i]);
       affixValues[i] = AffixPrototype.getMax(affixProtoEntities[i]);
     }
   }

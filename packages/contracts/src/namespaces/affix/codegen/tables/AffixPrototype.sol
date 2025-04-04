@@ -17,7 +17,7 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 struct AffixPrototypeData {
-  bytes32 statmodBaseEntity;
+  bytes32 statmodEntity;
   bytes32 exclusiveGroup;
   uint32 affixTier;
   uint32 requiredLevel;
@@ -53,7 +53,7 @@ library AffixPrototype {
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](7);
-    fieldNames[0] = "statmodBaseEntity";
+    fieldNames[0] = "statmodEntity";
     fieldNames[1] = "exclusiveGroup";
     fieldNames[2] = "affixTier";
     fieldNames[3] = "requiredLevel";
@@ -77,9 +77,9 @@ library AffixPrototype {
   }
 
   /**
-   * @notice Get statmodBaseEntity.
+   * @notice Get statmodEntity.
    */
-  function getStatmodBaseEntity(bytes32 entity) internal view returns (bytes32 statmodBaseEntity) {
+  function getStatmodEntity(bytes32 entity) internal view returns (bytes32 statmodEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -88,9 +88,9 @@ library AffixPrototype {
   }
 
   /**
-   * @notice Get statmodBaseEntity.
+   * @notice Get statmodEntity.
    */
-  function _getStatmodBaseEntity(bytes32 entity) internal view returns (bytes32 statmodBaseEntity) {
+  function _getStatmodEntity(bytes32 entity) internal view returns (bytes32 statmodEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -99,23 +99,23 @@ library AffixPrototype {
   }
 
   /**
-   * @notice Set statmodBaseEntity.
+   * @notice Set statmodEntity.
    */
-  function setStatmodBaseEntity(bytes32 entity, bytes32 statmodBaseEntity) internal {
+  function setStatmodEntity(bytes32 entity, bytes32 statmodEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((statmodBaseEntity)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((statmodEntity)), _fieldLayout);
   }
 
   /**
-   * @notice Set statmodBaseEntity.
+   * @notice Set statmodEntity.
    */
-  function _setStatmodBaseEntity(bytes32 entity, bytes32 statmodBaseEntity) internal {
+  function _setStatmodEntity(bytes32 entity, bytes32 statmodEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((statmodBaseEntity)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((statmodEntity)), _fieldLayout);
   }
 
   /**
@@ -525,7 +525,7 @@ library AffixPrototype {
    */
   function set(
     bytes32 entity,
-    bytes32 statmodBaseEntity,
+    bytes32 statmodEntity,
     bytes32 exclusiveGroup,
     uint32 affixTier,
     uint32 requiredLevel,
@@ -533,7 +533,7 @@ library AffixPrototype {
     uint32 max,
     string memory name
   ) internal {
-    bytes memory _staticData = encodeStatic(statmodBaseEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
+    bytes memory _staticData = encodeStatic(statmodEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
 
     EncodedLengths _encodedLengths = encodeLengths(name);
     bytes memory _dynamicData = encodeDynamic(name);
@@ -549,7 +549,7 @@ library AffixPrototype {
    */
   function _set(
     bytes32 entity,
-    bytes32 statmodBaseEntity,
+    bytes32 statmodEntity,
     bytes32 exclusiveGroup,
     uint32 affixTier,
     uint32 requiredLevel,
@@ -557,7 +557,7 @@ library AffixPrototype {
     uint32 max,
     string memory name
   ) internal {
-    bytes memory _staticData = encodeStatic(statmodBaseEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
+    bytes memory _staticData = encodeStatic(statmodEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
 
     EncodedLengths _encodedLengths = encodeLengths(name);
     bytes memory _dynamicData = encodeDynamic(name);
@@ -573,7 +573,7 @@ library AffixPrototype {
    */
   function set(bytes32 entity, AffixPrototypeData memory _table) internal {
     bytes memory _staticData = encodeStatic(
-      _table.statmodBaseEntity,
+      _table.statmodEntity,
       _table.exclusiveGroup,
       _table.affixTier,
       _table.requiredLevel,
@@ -595,7 +595,7 @@ library AffixPrototype {
    */
   function _set(bytes32 entity, AffixPrototypeData memory _table) internal {
     bytes memory _staticData = encodeStatic(
-      _table.statmodBaseEntity,
+      _table.statmodEntity,
       _table.exclusiveGroup,
       _table.affixTier,
       _table.requiredLevel,
@@ -621,7 +621,7 @@ library AffixPrototype {
     internal
     pure
     returns (
-      bytes32 statmodBaseEntity,
+      bytes32 statmodEntity,
       bytes32 exclusiveGroup,
       uint32 affixTier,
       uint32 requiredLevel,
@@ -629,7 +629,7 @@ library AffixPrototype {
       uint32 max
     )
   {
-    statmodBaseEntity = (Bytes.getBytes32(_blob, 0));
+    statmodEntity = (Bytes.getBytes32(_blob, 0));
 
     exclusiveGroup = (Bytes.getBytes32(_blob, 32));
 
@@ -669,7 +669,7 @@ library AffixPrototype {
     bytes memory _dynamicData
   ) internal pure returns (AffixPrototypeData memory _table) {
     (
-      _table.statmodBaseEntity,
+      _table.statmodEntity,
       _table.exclusiveGroup,
       _table.affixTier,
       _table.requiredLevel,
@@ -705,14 +705,14 @@ library AffixPrototype {
    * @return The static data, encoded into a sequence of bytes.
    */
   function encodeStatic(
-    bytes32 statmodBaseEntity,
+    bytes32 statmodEntity,
     bytes32 exclusiveGroup,
     uint32 affixTier,
     uint32 requiredLevel,
     uint32 min,
     uint32 max
   ) internal pure returns (bytes memory) {
-    return abi.encodePacked(statmodBaseEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
+    return abi.encodePacked(statmodEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
   }
 
   /**
@@ -741,7 +741,7 @@ library AffixPrototype {
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
   function encode(
-    bytes32 statmodBaseEntity,
+    bytes32 statmodEntity,
     bytes32 exclusiveGroup,
     uint32 affixTier,
     uint32 requiredLevel,
@@ -749,7 +749,7 @@ library AffixPrototype {
     uint32 max,
     string memory name
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(statmodBaseEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
+    bytes memory _staticData = encodeStatic(statmodEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
 
     EncodedLengths _encodedLengths = encodeLengths(name);
     bytes memory _dynamicData = encodeDynamic(name);

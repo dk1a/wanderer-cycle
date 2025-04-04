@@ -31,11 +31,11 @@ library LibEffect {
     if (!hasEffectApplied(targetEntity, applicationEntity)) {
       // Set applied effect data
       // (this is to avoid statmod leaks on effect removal, in case template changes)
-      EffectApplied.set(targetEntity, applicationEntity, effect.entities, effect.values);
+      EffectApplied.set(targetEntity, applicationEntity, effect.statmodEntities, effect.values);
       // Increase statmods
       // TODO figure out what to do if statmods are empty
-      for (uint256 i; i < effect.entities.length; i++) {
-        Statmod.increase(targetEntity, effect.entities[i], effect.values[i]);
+      for (uint256 i; i < effect.statmodEntities.length; i++) {
+        Statmod.increase(targetEntity, effect.statmodEntities[i], effect.values[i]);
       }
     }
     // TODO extend/refresh existing effect by applying it again
@@ -51,8 +51,8 @@ library LibEffect {
     EffectAppliedData memory effect = EffectApplied.get(targetEntity, applicationEntity);
     EffectApplied.deleteRecord(targetEntity, applicationEntity);
     // Subtract statmods
-    for (uint256 i; i < effect.entities.length; i++) {
-      Statmod.decrease(targetEntity, effect.entities[i], effect.values[i]);
+    for (uint256 i; i < effect.statmodEntities.length; i++) {
+      Statmod.decrease(targetEntity, effect.statmodEntities[i], effect.values[i]);
     }
   }
 

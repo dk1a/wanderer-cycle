@@ -29,14 +29,6 @@ const entityRelation = {
   },
 } as const;
 
-const wandererToCycleEntityRelation = {
-  key: ["wandererEntity"],
-  schema: {
-    wandererEntity: EntityId,
-    cycleEntity: EntityId,
-  },
-} as const;
-
 const arrayPStat = `uint32[${PSTAT_ARRAY.length}]` as const;
 
 const durationTable = {
@@ -99,15 +91,6 @@ export default defineWorld({
     root: {
       namespace: "",
       tables: {
-        Tasks: {
-          schema: {
-            id: "bytes32",
-            createdAt: "uint256",
-            completedAt: "uint256",
-            description: "string",
-          },
-          key: ["id"],
-        },
         ERC721Config: {
           key: ["namespace"],
           schema: {
@@ -164,7 +147,7 @@ export default defineWorld({
           ...entityKey,
           schema: {
             entity: EntityId,
-            entityArray: EntityIdArray,
+            affixEntities: EntityIdArray,
           },
         },
         LootTargetId: {
@@ -225,7 +208,13 @@ export default defineWorld({
         SkillName: nameTable,
         SkillDescription: "string",
         SkillCooldown: durationTable,
-        ActiveCycle: wandererToCycleEntityRelation,
+        ActiveCycle: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            cycleEntity: EntityId,
+          },
+        },
         BossesDefeated: {
           ...entityKey,
           schema: {
@@ -439,7 +428,7 @@ export default defineWorld({
           ...entityKey,
           schema: {
             entity: EntityId,
-            entities: EntityIdArray,
+            statmodEntities: EntityIdArray,
             values: "uint32[]",
           },
         },
@@ -448,7 +437,7 @@ export default defineWorld({
           schema: {
             targetEntity: EntityId,
             applicationEntity: EntityId,
-            entities: EntityIdArray,
+            statmodEntities: EntityIdArray,
             values: "uint32[]",
           },
         },
@@ -465,7 +454,7 @@ export default defineWorld({
           ...entityKey,
           schema: {
             entity: EntityId,
-            statmodBaseEntity: EntityId,
+            statmodEntity: EntityId,
             exclusiveGroup: "bytes32",
             affixTier: "uint32",
             requiredLevel: "uint32",

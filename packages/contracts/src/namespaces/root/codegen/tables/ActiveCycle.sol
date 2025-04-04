@@ -34,7 +34,7 @@ library ActiveCycle {
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
     keyNames = new string[](1);
-    keyNames[0] = "wandererEntity";
+    keyNames[0] = "entity";
   }
 
   /**
@@ -63,9 +63,9 @@ library ActiveCycle {
   /**
    * @notice Get cycleEntity.
    */
-  function getCycleEntity(bytes32 wandererEntity) internal view returns (bytes32 cycleEntity) {
+  function getCycleEntity(bytes32 entity) internal view returns (bytes32 cycleEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = wandererEntity;
+    _keyTuple[0] = entity;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
@@ -74,9 +74,9 @@ library ActiveCycle {
   /**
    * @notice Get cycleEntity.
    */
-  function _getCycleEntity(bytes32 wandererEntity) internal view returns (bytes32 cycleEntity) {
+  function _getCycleEntity(bytes32 entity) internal view returns (bytes32 cycleEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = wandererEntity;
+    _keyTuple[0] = entity;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
@@ -85,9 +85,9 @@ library ActiveCycle {
   /**
    * @notice Get cycleEntity.
    */
-  function get(bytes32 wandererEntity) internal view returns (bytes32 cycleEntity) {
+  function get(bytes32 entity) internal view returns (bytes32 cycleEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = wandererEntity;
+    _keyTuple[0] = entity;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
@@ -96,9 +96,9 @@ library ActiveCycle {
   /**
    * @notice Get cycleEntity.
    */
-  function _get(bytes32 wandererEntity) internal view returns (bytes32 cycleEntity) {
+  function _get(bytes32 entity) internal view returns (bytes32 cycleEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = wandererEntity;
+    _keyTuple[0] = entity;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
@@ -107,9 +107,9 @@ library ActiveCycle {
   /**
    * @notice Set cycleEntity.
    */
-  function setCycleEntity(bytes32 wandererEntity, bytes32 cycleEntity) internal {
+  function setCycleEntity(bytes32 entity, bytes32 cycleEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = wandererEntity;
+    _keyTuple[0] = entity;
 
     StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((cycleEntity)), _fieldLayout);
   }
@@ -117,9 +117,9 @@ library ActiveCycle {
   /**
    * @notice Set cycleEntity.
    */
-  function _setCycleEntity(bytes32 wandererEntity, bytes32 cycleEntity) internal {
+  function _setCycleEntity(bytes32 entity, bytes32 cycleEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = wandererEntity;
+    _keyTuple[0] = entity;
 
     StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((cycleEntity)), _fieldLayout);
   }
@@ -127,9 +127,9 @@ library ActiveCycle {
   /**
    * @notice Set cycleEntity.
    */
-  function set(bytes32 wandererEntity, bytes32 cycleEntity) internal {
+  function set(bytes32 entity, bytes32 cycleEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = wandererEntity;
+    _keyTuple[0] = entity;
 
     StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((cycleEntity)), _fieldLayout);
   }
@@ -137,9 +137,9 @@ library ActiveCycle {
   /**
    * @notice Set cycleEntity.
    */
-  function _set(bytes32 wandererEntity, bytes32 cycleEntity) internal {
+  function _set(bytes32 entity, bytes32 cycleEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = wandererEntity;
+    _keyTuple[0] = entity;
 
     StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((cycleEntity)), _fieldLayout);
   }
@@ -147,9 +147,9 @@ library ActiveCycle {
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(bytes32 wandererEntity) internal {
+  function deleteRecord(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = wandererEntity;
+    _keyTuple[0] = entity;
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -157,9 +157,9 @@ library ActiveCycle {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(bytes32 wandererEntity) internal {
+  function _deleteRecord(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = wandererEntity;
+    _keyTuple[0] = entity;
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -190,9 +190,9 @@ library ActiveCycle {
   /**
    * @notice Encode keys as a bytes32 array using this table's field layout.
    */
-  function encodeKeyTuple(bytes32 wandererEntity) internal pure returns (bytes32[] memory) {
+  function encodeKeyTuple(bytes32 entity) internal pure returns (bytes32[] memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = wandererEntity;
+    _keyTuple[0] = entity;
 
     return _keyTuple;
   }

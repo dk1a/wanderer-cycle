@@ -23,7 +23,7 @@ contract SkillTemplateTest is MudLibTest {
 
   // TODO this should be in effect tests (make those)
   function testSampleEffectTemplateStatmodLengths() public {
-    assertEq(EffectTemplate.get(chargePE).entities.length, 1);
+    assertEq(EffectTemplate.get(chargePE).statmodEntities.length, 1);
     assertEq(EffectTemplate.get(chargePE).values.length, 1);
   }
 

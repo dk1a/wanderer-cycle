@@ -200,14 +200,14 @@ library LibInitMapAffix {
 
   function add(
     string memory affixPrototypeName,
-    bytes32 statmodBaseEntity,
+    bytes32 statmodEntity,
     Range[DEFAULT_TIERS] memory ranges,
     AffixPart[][DEFAULT_TIERS] memory tieredAffixParts
   ) internal {
     bytes32 exclusiveGroup = bytes32(bytes(affixPrototypeName));
     LibAddAffixPrototype.addAffixPrototypes(
       affixPrototypeName,
-      statmodBaseEntity,
+      statmodEntity,
       exclusiveGroup,
       ranges,
       tieredAffixParts
@@ -222,7 +222,7 @@ library LibInitMapAffix {
 
     LibAddAffixPrototype.addAffixPrototype(
       AffixPrototypeData({
-        statmodBaseEntity: StatmodTopics.LEVEL.toStatmodEntity(StatmodOp.BADD, EleStat.NONE),
+        statmodEntity: StatmodTopics.LEVEL.toStatmodEntity(StatmodOp.BADD, EleStat.NONE),
         exclusiveGroup: "",
         affixTier: level,
         requiredLevel: level,

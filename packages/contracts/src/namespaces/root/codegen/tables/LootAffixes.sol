@@ -43,7 +43,7 @@ library LootAffixes {
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](1);
-    fieldNames[0] = "entityArray";
+    fieldNames[0] = "affixEntities";
   }
 
   /**
@@ -61,9 +61,9 @@ library LootAffixes {
   }
 
   /**
-   * @notice Get entityArray.
+   * @notice Get affixEntities.
    */
-  function getEntityArray(bytes32 entity) internal view returns (bytes32[] memory entityArray) {
+  function getAffixEntities(bytes32 entity) internal view returns (bytes32[] memory affixEntities) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -72,9 +72,9 @@ library LootAffixes {
   }
 
   /**
-   * @notice Get entityArray.
+   * @notice Get affixEntities.
    */
-  function _getEntityArray(bytes32 entity) internal view returns (bytes32[] memory entityArray) {
+  function _getAffixEntities(bytes32 entity) internal view returns (bytes32[] memory affixEntities) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -83,9 +83,9 @@ library LootAffixes {
   }
 
   /**
-   * @notice Get entityArray.
+   * @notice Get affixEntities.
    */
-  function get(bytes32 entity) internal view returns (bytes32[] memory entityArray) {
+  function get(bytes32 entity) internal view returns (bytes32[] memory affixEntities) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -94,9 +94,9 @@ library LootAffixes {
   }
 
   /**
-   * @notice Get entityArray.
+   * @notice Get affixEntities.
    */
-  function _get(bytes32 entity) internal view returns (bytes32[] memory entityArray) {
+  function _get(bytes32 entity) internal view returns (bytes32[] memory affixEntities) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -105,49 +105,49 @@ library LootAffixes {
   }
 
   /**
-   * @notice Set entityArray.
+   * @notice Set affixEntities.
    */
-  function setEntityArray(bytes32 entity, bytes32[] memory entityArray) internal {
+  function setAffixEntities(bytes32 entity, bytes32[] memory affixEntities) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((entityArray)));
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((affixEntities)));
   }
 
   /**
-   * @notice Set entityArray.
+   * @notice Set affixEntities.
    */
-  function _setEntityArray(bytes32 entity, bytes32[] memory entityArray) internal {
+  function _setAffixEntities(bytes32 entity, bytes32[] memory affixEntities) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((entityArray)));
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((affixEntities)));
   }
 
   /**
-   * @notice Set entityArray.
+   * @notice Set affixEntities.
    */
-  function set(bytes32 entity, bytes32[] memory entityArray) internal {
+  function set(bytes32 entity, bytes32[] memory affixEntities) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((entityArray)));
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((affixEntities)));
   }
 
   /**
-   * @notice Set entityArray.
+   * @notice Set affixEntities.
    */
-  function _set(bytes32 entity, bytes32[] memory entityArray) internal {
+  function _set(bytes32 entity, bytes32[] memory affixEntities) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((entityArray)));
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((affixEntities)));
   }
 
   /**
-   * @notice Get the length of entityArray.
+   * @notice Get the length of affixEntities.
    */
-  function lengthEntityArray(bytes32 entity) internal view returns (uint256) {
+  function lengthAffixEntities(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -158,9 +158,9 @@ library LootAffixes {
   }
 
   /**
-   * @notice Get the length of entityArray.
+   * @notice Get the length of affixEntities.
    */
-  function _lengthEntityArray(bytes32 entity) internal view returns (uint256) {
+  function _lengthAffixEntities(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -171,7 +171,7 @@ library LootAffixes {
   }
 
   /**
-   * @notice Get the length of entityArray.
+   * @notice Get the length of affixEntities.
    */
   function length(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -184,7 +184,7 @@ library LootAffixes {
   }
 
   /**
-   * @notice Get the length of entityArray.
+   * @notice Get the length of affixEntities.
    */
   function _length(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -197,10 +197,10 @@ library LootAffixes {
   }
 
   /**
-   * @notice Get an item of entityArray.
+   * @notice Get an item of affixEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItemEntityArray(bytes32 entity, uint256 _index) internal view returns (bytes32) {
+  function getItemAffixEntities(bytes32 entity, uint256 _index) internal view returns (bytes32) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -211,10 +211,10 @@ library LootAffixes {
   }
 
   /**
-   * @notice Get an item of entityArray.
+   * @notice Get an item of affixEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItemEntityArray(bytes32 entity, uint256 _index) internal view returns (bytes32) {
+  function _getItemAffixEntities(bytes32 entity, uint256 _index) internal view returns (bytes32) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -225,7 +225,7 @@ library LootAffixes {
   }
 
   /**
-   * @notice Get an item of entityArray.
+   * @notice Get an item of affixEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
   function getItem(bytes32 entity, uint256 _index) internal view returns (bytes32) {
@@ -239,7 +239,7 @@ library LootAffixes {
   }
 
   /**
-   * @notice Get an item of entityArray.
+   * @notice Get an item of affixEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
   function _getItem(bytes32 entity, uint256 _index) internal view returns (bytes32) {
@@ -253,9 +253,9 @@ library LootAffixes {
   }
 
   /**
-   * @notice Push an element to entityArray.
+   * @notice Push an element to affixEntities.
    */
-  function pushEntityArray(bytes32 entity, bytes32 _element) internal {
+  function pushAffixEntities(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -263,9 +263,9 @@ library LootAffixes {
   }
 
   /**
-   * @notice Push an element to entityArray.
+   * @notice Push an element to affixEntities.
    */
-  function _pushEntityArray(bytes32 entity, bytes32 _element) internal {
+  function _pushAffixEntities(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -273,7 +273,7 @@ library LootAffixes {
   }
 
   /**
-   * @notice Push an element to entityArray.
+   * @notice Push an element to affixEntities.
    */
   function push(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -283,7 +283,7 @@ library LootAffixes {
   }
 
   /**
-   * @notice Push an element to entityArray.
+   * @notice Push an element to affixEntities.
    */
   function _push(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -293,9 +293,9 @@ library LootAffixes {
   }
 
   /**
-   * @notice Pop an element from entityArray.
+   * @notice Pop an element from affixEntities.
    */
-  function popEntityArray(bytes32 entity) internal {
+  function popAffixEntities(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -303,9 +303,9 @@ library LootAffixes {
   }
 
   /**
-   * @notice Pop an element from entityArray.
+   * @notice Pop an element from affixEntities.
    */
-  function _popEntityArray(bytes32 entity) internal {
+  function _popAffixEntities(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -313,7 +313,7 @@ library LootAffixes {
   }
 
   /**
-   * @notice Pop an element from entityArray.
+   * @notice Pop an element from affixEntities.
    */
   function pop(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -323,7 +323,7 @@ library LootAffixes {
   }
 
   /**
-   * @notice Pop an element from entityArray.
+   * @notice Pop an element from affixEntities.
    */
   function _pop(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -333,9 +333,9 @@ library LootAffixes {
   }
 
   /**
-   * @notice Update an element of entityArray at `_index`.
+   * @notice Update an element of affixEntities at `_index`.
    */
-  function updateEntityArray(bytes32 entity, uint256 _index, bytes32 _element) internal {
+  function updateAffixEntities(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -346,9 +346,9 @@ library LootAffixes {
   }
 
   /**
-   * @notice Update an element of entityArray at `_index`.
+   * @notice Update an element of affixEntities at `_index`.
    */
-  function _updateEntityArray(bytes32 entity, uint256 _index, bytes32 _element) internal {
+  function _updateAffixEntities(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -359,7 +359,7 @@ library LootAffixes {
   }
 
   /**
-   * @notice Update an element of entityArray at `_index`.
+   * @notice Update an element of affixEntities at `_index`.
    */
   function update(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -372,7 +372,7 @@ library LootAffixes {
   }
 
   /**
-   * @notice Update an element of entityArray at `_index`.
+   * @notice Update an element of affixEntities at `_index`.
    */
   function _update(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -408,10 +408,10 @@ library LootAffixes {
    * @notice Tightly pack dynamic data lengths using this table's schema.
    * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
    */
-  function encodeLengths(bytes32[] memory entityArray) internal pure returns (EncodedLengths _encodedLengths) {
+  function encodeLengths(bytes32[] memory affixEntities) internal pure returns (EncodedLengths _encodedLengths) {
     // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
     unchecked {
-      _encodedLengths = EncodedLengthsLib.pack(entityArray.length * 32);
+      _encodedLengths = EncodedLengthsLib.pack(affixEntities.length * 32);
     }
   }
 
@@ -419,8 +419,8 @@ library LootAffixes {
    * @notice Tightly pack dynamic (variable length) data using this table's schema.
    * @return The dynamic data, encoded into a sequence of bytes.
    */
-  function encodeDynamic(bytes32[] memory entityArray) internal pure returns (bytes memory) {
-    return abi.encodePacked(EncodeArray.encode((entityArray)));
+  function encodeDynamic(bytes32[] memory affixEntities) internal pure returns (bytes memory) {
+    return abi.encodePacked(EncodeArray.encode((affixEntities)));
   }
 
   /**
@@ -429,10 +429,10 @@ library LootAffixes {
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(bytes32[] memory entityArray) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
+  function encode(bytes32[] memory affixEntities) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
     bytes memory _staticData;
-    EncodedLengths _encodedLengths = encodeLengths(entityArray);
-    bytes memory _dynamicData = encodeDynamic(entityArray);
+    EncodedLengths _encodedLengths = encodeLengths(affixEntities);
+    bytes memory _dynamicData = encodeDynamic(affixEntities);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }

@@ -15,12 +15,12 @@ library LibEffectTemplate {
    */
   function verifiedSet(bytes32 applicationEntity, EffectTemplateData memory effectTemplateData) internal {
     // Verify lengths
-    if (effectTemplateData.entities.length != effectTemplateData.values.length) {
+    if (effectTemplateData.statmodEntities.length != effectTemplateData.values.length) {
       revert LibEffectTemplate_LengthMismatch();
     }
     // Verify statmods existence
-    for (uint256 i; i < effectTemplateData.entities.length; i++) {
-      bytes32 statmodEntity = effectTemplateData.entities[i];
+    for (uint256 i; i < effectTemplateData.statmodEntities.length; i++) {
+      bytes32 statmodEntity = effectTemplateData.statmodEntities[i];
       if (StatmodTopic.unwrap(StatmodBase.getStatmodTopic(statmodEntity)) == bytes32(0)) {
         revert LibEffectTemplate_InvalidStatmod(statmodEntity);
       }
