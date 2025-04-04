@@ -7,6 +7,10 @@ import { createClientComponents } from "./createClientComponents";
 import { setupNetwork } from "./setupNetwork";
 
 export type SetupResult = Awaited<ReturnType<typeof setup>>;
+export type StoreTables = SetupResult["network"]["tables"];
+export type StoreState = ReturnType<
+  SetupResult["network"]["useStore"]["getState"]
+>;
 
 export async function setup() {
   const network = await setupNetwork();

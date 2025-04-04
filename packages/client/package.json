@@ -13,6 +13,7 @@
   "dependencies": {
     "@latticexyz/common": "2.2.21",
     "@latticexyz/dev-tools": "2.2.21",
+    "@latticexyz/protocol-parser": "2.2.21",
     "@latticexyz/react": "2.2.21",
     "@latticexyz/recs": "2.2.21",
     "@latticexyz/schema-type": "2.2.21",

@@ -2,7 +2,7 @@ import { JSX } from "react";
 
 import CyclePage from "./pages/game/CyclePage";
 import InventoryPage from "./pages/game/InventoryPage";
-import MapsPage from "./pages/game/MapsPage";
+import GlobalMapsPage from "./pages/game/GlobalMapsPage";
 import SkillPage from "./pages/game/SkillPage";
 import WandererSelect from "./pages/game/WandererSelect";
 
@@ -19,7 +19,7 @@ export const gameRoutes: AppRoute[] = [
   {
     label: "maps",
     path: "/maps",
-    element: <MapsPage />,
+    element: <GlobalMapsPage />,
   },
   {
     label: "inventory",

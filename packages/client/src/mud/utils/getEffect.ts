@@ -1,111 +1,95 @@
-import {
-  Entity,
-  getComponentValue,
-  getComponentValueStrict,
-  hasComponent,
-  World,
-} from "@latticexyz/recs";
-import { defineEffectComponent } from "../components/EffectComponent";
-import { SetupResult } from "../setup";
-import { parseEffectStatmods } from "./effectStatmod";
+import { Hex } from "viem";
+import { StoreState, StoreTables } from "../setup";
+import { getValueStrict } from "./getValueStrict";
 
-export enum EffectRemovability {
-  BUFF,
-  DEBUFF,
-  PERSISTENT,
+export interface EffectStatmod {
+  statmodEntity: Hex;
+  value: number;
+}
+
+export interface EffectTemplate {
+  entity: Hex;
+  statmods: EffectStatmod[];
+}
+
+export interface EffectApplied {
+  targetEntity: Hex;
+  applicationEntity: Hex;
+  statmods: EffectStatmod[];
+  effectSource: EffectSource;
 }
 
 export enum EffectSource {
   UNKNOWN,
   SKILL,
-  NFT,
-  OWNABLE,
+  EQUIPMENT,
   MAP,
 }
 
-export type EffectPrototype = ReturnType<typeof getEffectPrototype>;
-export type AppliedEffect = ReturnType<typeof getAppliedEffect>;
-
-export function getEffectPrototype(
-  world: World,
-  component: ReturnType<typeof defineEffectComponent>,
-  entity: Entity,
+export function getEffectTemplate(
+  tables: StoreTables,
+  state: StoreState,
+  entity: Hex,
 ) {
-  const effectPrototype = getComponentValue(component, entity);
-  if (!effectPrototype) return;
-  const statmods = parseEffectStatmods(
-    world,
-    effectPrototype.statmodEntities,
-    effectPrototype.statmodValues,
-  );
+  const effect = getValueStrict(state, tables.EffectTemplate, { entity });
+  const statmods = parseEffectStatmods(effect.statmodEntities, effect.values);
 
   return {
     entity,
-    removability: effectPrototype.removability as EffectRemovability,
     statmods,
   };
 }
 
-type GetAppliedEffectComponents = Pick<
-  SetupResult["components"],
-  | "AppliedEffect"
-  | "SkillPrototype"
-  | "WNFT_Ownership"
-  | "OwnedBy"
-  | "FromPrototype"
-  | "MapPrototype"
->;
-
-export function getAppliedEffect(
-  world: World,
-  components: GetAppliedEffectComponents,
-  appliedEntity: Entity,
-  protoEntity: Entity,
+export function getEffectApplied(
+  tables: StoreTables,
+  state: StoreState,
+  targetEntity: Hex,
+  applicationEntity: Hex,
 ) {
-  const {
-    AppliedEffect,
-    SkillPrototype,
-    WNFT_Ownership,
-    OwnedBy,
-    FromPrototype,
-    MapPrototype,
-  } = components;
+  const effect = getValueStrict(state, tables.EffectApplied, {
+    targetEntity,
+    applicationEntity,
+  });
+  const statmods = parseEffectStatmods(effect.statmodEntities, effect.values);
 
-  const effectPrototypeData = getEffectPrototype(
-    world,
-    AppliedEffect,
-    appliedEntity,
-  );
-
-  const effectSource = (() => {
-    if (hasComponent(SkillPrototype, protoEntity)) {
-      return EffectSource.SKILL;
-    } else if (hasComponent(WNFT_Ownership, protoEntity)) {
-      return EffectSource.NFT;
-    } else if (hasComponent(OwnedBy, protoEntity)) {
-      return EffectSource.OWNABLE;
-    } else if (hasComponent(FromPrototype, protoEntity)) {
-      // the `protoEntity` in this context is what spawned the effect, and it can have its own prototype
-      const protoProtoEntityId = getComponentValueStrict(
-        FromPrototype,
-        protoEntity,
-      ).value;
-      const protoProtoEntity = world.entityToIndex.get(protoProtoEntityId);
-      if (protoProtoEntity === undefined) return EffectSource.UNKNOWN;
-
-      if (hasComponent(MapPrototype, protoProtoEntity)) {
-        return EffectSource.MAP;
-      } else {
-        return EffectSource.UNKNOWN;
-      }
-    } else {
-      return EffectSource.UNKNOWN;
-    }
-  })();
+  const effectSource = getEffectSource(tables, state, applicationEntity);
 
   return {
-    ...effectPrototypeData,
-    protoEntity,
+    targetEntity,
+    applicationEntity,
+    statmods,
     effectSource,
   };
+}
+
+function parseEffectStatmods(
+  statmodEntities: readonly Hex[],
+  values: readonly number[],
+): EffectStatmod[] {
+  if (statmodEntities.length !== values.length) {
+    throw new Error(
+      `Length mismatch for statmodEntities and values: ${statmodEntities.length} ${values.length}`,
+    );
+  }
+
+  const effectStatmods: EffectStatmod[] = [];
+  for (let i = 0; i < statmodEntities.length; i++) {
+    effectStatmods.push({
+      statmodEntity: statmodEntities[i],
+      value: values[i],
+    });
+  }
+  return effectStatmods;
+}
+
+function getEffectSource(tables: StoreTables, state: StoreState, entity: Hex) {
+  if (state.getValue(tables.SkillTemplate, { entity })) {
+    return EffectSource.SKILL;
+  } else if (state.getValue(tables.EquipmentTypeComponent, { entity })) {
+    return EffectSource.EQUIPMENT;
+  } else if (state.getValue(tables.MapTypeComponent, { entity })) {
+    return EffectSource.MAP;
+  } else {
+    return EffectSource.UNKNOWN;
+  }
 }

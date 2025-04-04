@@ -13,7 +13,7 @@ importers:
         version: 2.2.21(react@18.3.1)(typescript@5.8.2)
       '@latticexyz/common':
         specifier: 2.2.21
-        version: 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
+        version: 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.2(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
       '@types/debug':
         specifier: 4.1.7
         version: 4.1.7
@@ -59,6 +59,9 @@ importers:
       '@latticexyz/dev-tools':
         specifier: 2.2.21
         version: 2.2.21(@aws-sdk/client-kms@3.583.0)(@latticexyz/common@2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8))(@latticexyz/recs@2.2.21(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8))(@latticexyz/store-sync@2.2.21(@aws-sdk/client-kms@3.583.0)(@types/react@19.0.12)(asn1.js@5.4.1)(react@18.3.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8)))(@latticexyz/store@2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8))(@latticexyz/utils@2.2.21)(@latticexyz/world@2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8))(@types/react@19.0.12)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/protocol-parser':
+        specifier: 2.2.21
+        version: 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
       '@latticexyz/react':
         specifier: 2.2.21
         version: 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
@@ -140,16 +143,16 @@ importers:
         version: 2.2.21(@types/react@19.0.12)(react@18.3.1)(typescript@5.8.2)
       '@latticexyz/schema-type':
         specifier: 2.2.21
-        version: 2.2.21(typescript@5.8.2)(viem@2.23.2(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
+        version: 2.2.21(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
       '@latticexyz/store':
         specifier: 2.2.21
-        version: 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.2(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
+        version: 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
       '@latticexyz/world':
         specifier: 2.2.21
-        version: 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.2(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
+        version: 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
       '@latticexyz/world-modules':
         specifier: 2.2.21
-        version: 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.2(typescript@5.8.2)(zod@3.23.8))
+        version: 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -5257,13 +5260,13 @@ snapshots:
       - typescript
       - viem
 
-  '@latticexyz/world-modules@2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.2(typescript@5.8.2)(zod@3.23.8))':
+  '@latticexyz/world-modules@2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))':
     dependencies:
-      '@latticexyz/common': 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.2(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
-      '@latticexyz/config': 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.2(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
-      '@latticexyz/schema-type': 2.2.21(typescript@5.8.2)(viem@2.23.2(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
-      '@latticexyz/store': 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.2(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
-      '@latticexyz/world': 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.2(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/common': 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/config': 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/schema-type': 2.2.21(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/store': 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/world': 2.2.21(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(typescript@5.8.2)(zod@3.23.8))(zod@3.23.8)
       zod: 3.23.8
     transitivePeerDependencies:
       - '@aws-sdk/client-kms'
