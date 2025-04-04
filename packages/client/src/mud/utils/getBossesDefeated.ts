@@ -1,11 +1,15 @@
 import { Hex } from "viem";
-import { StoreState, StoreTables } from "../setup";
+import { getRecord } from "@latticexyz/stash/internal";
+import { mudTables, StateLocal } from "../stash";
 
 export function getBossesDefeated(
-  tables: StoreTables,
-  state: StoreState,
+  state: StateLocal,
   entity: Hex,
 ): readonly Hex[] {
-  const mapEntities = state.getValue(tables.BossesDefeated, { entity })?.value;
+  const mapEntities = getRecord({
+    state,
+    table: mudTables.root__BossesDefeated,
+    key: { entity },
+  })?.value;
   return mapEntities ?? [];
 }

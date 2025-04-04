@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Hex } from "viem";
-import { useMUD } from "../../MUDContext";
+import { useStashCustom } from "../../mud/stash";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { getBossesDefeated } from "../../mud/utils/getBossesDefeated";
 import { getMaps, MapTypes } from "../../mud/utils/getMaps";
@@ -9,24 +9,20 @@ import BasicMap from "../../components/Map/BasicMap";
 import Map from "../../components/Map";
 
 const GlobalMapsPage = () => {
-  const {
-    network: { tables, useStore },
-  } = useMUD();
-
   const { cycleEntity } = useWandererContext();
 
-  const basicMaps = useStore((state) =>
-    getMaps(tables, state, MapTypes["Basic"]),
+  const basicMaps = useStashCustom((state) =>
+    getMaps(state, MapTypes["Basic"]),
   );
-  const randomMaps = useStore((state) =>
-    getMaps(tables, state, MapTypes["Random"]),
+  const randomMaps = useStashCustom((state) =>
+    getMaps(state, MapTypes["Random"]),
   );
-  const bossMaps = useStore((state) =>
-    getMaps(tables, state, MapTypes["Cycle Boss"]),
+  const bossMaps = useStashCustom((state) =>
+    getMaps(state, MapTypes["Cycle Boss"]),
   );
 
-  const bossesDefeated = useStore((state) =>
-    getBossesDefeated(tables, state, cycleEntity as Hex),
+  const bossesDefeated = useStashCustom((state) =>
+    getBossesDefeated(state, cycleEntity as Hex),
   );
   const lifeCurrent = useLifeCurrent(cycleEntity);
 

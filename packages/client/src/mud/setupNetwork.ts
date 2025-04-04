@@ -15,7 +15,7 @@ import {
 } from "viem";
 import { world } from "./world";
 import { syncToRecs } from "@latticexyz/store-sync/recs";
-import { syncToZustand } from "@latticexyz/store-sync/zustand";
+import { syncToStash } from "@latticexyz/store-sync/internal";
 import { getNetworkConfig } from "./getNetworkConfig";
 import IWorldAbi from "contracts/out/IWorld.sol/IWorld.abi.json";
 import {
@@ -25,6 +25,7 @@ import {
 } from "@latticexyz/common";
 import { transactionQueue, writeObserver } from "@latticexyz/common/actions";
 import { Subject, share } from "rxjs";
+import { stash } from "./stash";
 
 /*
  * Import our MUD config, which includes strong types for
@@ -88,29 +89,21 @@ export async function setupNetwork() {
     startBlock: BigInt(networkConfig.initialBlockNumber),
   });
 
-  /*
-   * Sync on-chain state into RECS and keeps our client in sync.
-   * Uses the MUD indexer if available, otherwise falls back
-   * to the viem publicClient to make RPC calls to fetch MUD
-   * events from the chain.
-   */
   const {
-    tables,
-    useStore,
     latestBlock$,
+    //latestBlockNumber$,
     storedBlockLogs$,
+    //stopSync,
     waitForTransaction,
-  } = await syncToZustand({
-    config: mudConfig,
+  } = await syncToStash({
+    stash,
     address: networkConfig.worldAddress as Hex,
     publicClient,
     startBlock: BigInt(networkConfig.initialBlockNumber),
   });
 
   return {
-    tables,
     components,
-    useStore,
     publicClient,
     walletClient: burnerWalletClient,
     latestBlock$,

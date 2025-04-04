@@ -1,6 +1,6 @@
 import { Hex } from "viem";
-import { StoreState, StoreTables } from "../setup";
-import { getValueStrict } from "./getValueStrict";
+import { getRecord } from "@latticexyz/stash/internal";
+import { getRecordStrict, mudTables, StateLocal } from "../stash";
 
 export interface EffectStatmod {
   statmodEntity: Hex;
@@ -26,12 +26,12 @@ export enum EffectSource {
   MAP,
 }
 
-export function getEffectTemplate(
-  tables: StoreTables,
-  state: StoreState,
-  entity: Hex,
-) {
-  const effect = getValueStrict(state, tables.EffectTemplate, { entity });
+export function getEffectTemplate(state: StateLocal, entity: Hex) {
+  const effect = getRecordStrict({
+    state,
+    table: mudTables.effect__EffectTemplate,
+    key: { entity },
+  });
   const statmods = parseEffectStatmods(effect.statmodEntities, effect.values);
 
   return {
@@ -41,18 +41,18 @@ export function getEffectTemplate(
 }
 
 export function getEffectApplied(
-  tables: StoreTables,
-  state: StoreState,
+  state: StateLocal,
   targetEntity: Hex,
   applicationEntity: Hex,
 ) {
-  const effect = getValueStrict(state, tables.EffectApplied, {
-    targetEntity,
-    applicationEntity,
+  const effect = getRecordStrict({
+    state,
+    table: mudTables.effect__EffectApplied,
+    key: { targetEntity, applicationEntity },
   });
   const statmods = parseEffectStatmods(effect.statmodEntities, effect.values);
 
-  const effectSource = getEffectSource(tables, state, applicationEntity);
+  const effectSource = getEffectSource(state, applicationEntity);
 
   return {
     targetEntity,
@@ -82,12 +82,26 @@ function parseEffectStatmods(
   return effectStatmods;
 }
 
-function getEffectSource(tables: StoreTables, state: StoreState, entity: Hex) {
-  if (state.getValue(tables.SkillTemplate, { entity })) {
+function getEffectSource(state: StateLocal, entity: Hex) {
+  if (
+    getRecord({ state, table: mudTables.root__SkillTemplate, key: { entity } })
+  ) {
     return EffectSource.SKILL;
-  } else if (state.getValue(tables.EquipmentTypeComponent, { entity })) {
+  } else if (
+    getRecord({
+      state,
+      table: mudTables.root__EquipmentTypeComponent,
+      key: { entity },
+    })
+  ) {
     return EffectSource.EQUIPMENT;
-  } else if (state.getValue(tables.MapTypeComponent, { entity })) {
+  } else if (
+    getRecord({
+      state,
+      table: mudTables.root__MapTypeComponent,
+      key: { entity },
+    })
+  ) {
     return EffectSource.MAP;
   } else {
     return EffectSource.UNKNOWN;

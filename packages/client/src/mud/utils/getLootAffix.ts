@@ -1,7 +1,6 @@
 import { Hex } from "viem";
-import { TableRecord } from "@latticexyz/store-sync/zustand";
-import { StoreState, StoreTables } from "../setup";
-import { getValueStrict } from "./getValueStrict";
+import { getRecord, TableRecord } from "@latticexyz/stash/internal";
+import { getRecordStrict, mudTables, StateLocal } from "../stash";
 
 export enum AffixPartId {
   IMPLICIT,
@@ -11,26 +10,28 @@ export enum AffixPartId {
 
 export interface LootAffix {
   affixPrototypeEntity: Hex;
-  affixPrototype: TableRecord<StoreTables["AffixPrototype"]>["value"];
+  affixPrototype: TableRecord<(typeof mudTables)["affix__AffixPrototype"]>;
   partId: AffixPartId;
   value: number;
   naming: string;
 }
 
 export function getLootAffixes(
-  tables: StoreTables,
-  state: StoreState,
+  state: StateLocal,
   affixAvailabilityTargetId: Hex,
   lootEntity: Hex,
 ) {
   const lootAffixes: LootAffix[] = [];
 
-  const affixEntities = getValueStrict(state, tables.LootAffixes, {
-    entity: lootEntity,
+  const affixEntities = getRecordStrict({
+    state,
+    table: mudTables.root__LootAffixes,
+    key: { entity: lootEntity },
   }).affixEntities;
+
   for (const affixEntity of affixEntities) {
     lootAffixes.push(
-      getLootAffix(tables, state, affixAvailabilityTargetId, affixEntity),
+      getLootAffix(state, affixAvailabilityTargetId, affixEntity),
     );
   }
 
@@ -38,22 +39,31 @@ export function getLootAffixes(
 }
 
 export function getLootAffix(
-  tables: StoreTables,
-  state: StoreState,
+  state: StateLocal,
   affixAvailabilityTargetId: Hex,
   affixEntity: Hex,
 ): LootAffix {
-  const affix = getValueStrict(state, tables.Affix, { entity: affixEntity });
-
-  const affixPrototypeEntity = affix.affixPrototypeEntity;
-  const affixPrototype = getValueStrict(state, tables.AffixPrototype, {
-    entity: affixPrototypeEntity,
+  const affix = getRecordStrict({
+    state,
+    table: mudTables.affix__Affix,
+    key: { entity: affixEntity },
   });
 
-  const naming = state.getValue(tables.AffixNaming, {
-    affixPart: affix.partId,
-    targetId: affixAvailabilityTargetId,
-    affixPrototypeEntity: affixPrototypeEntity,
+  const affixPrototypeEntity = affix.affixPrototypeEntity;
+  const affixPrototype = getRecordStrict({
+    state,
+    table: mudTables.affix__AffixPrototype,
+    key: { entity: affixPrototypeEntity },
+  });
+
+  const naming = getRecord({
+    state,
+    table: mudTables.affix__AffixNaming,
+    key: {
+      affixPart: affix.partId,
+      targetId: affixAvailabilityTargetId,
+      affixPrototypeEntity: affixPrototypeEntity,
+    },
   });
 
   return {

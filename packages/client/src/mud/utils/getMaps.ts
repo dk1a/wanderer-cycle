@@ -1,5 +1,6 @@
 import { Hex, toHex } from "viem";
-import { StoreState, StoreTables } from "../setup";
+import { getRecords } from "@latticexyz/stash/internal";
+import { mudTables, StateLocal } from "../stash";
 import { getLoot, LootData } from "./getLoot";
 
 export interface MapData {
@@ -9,19 +10,20 @@ export interface MapData {
 }
 
 export function getMaps(
-  tables: StoreTables,
-  state: StoreState,
+  state: StateLocal,
   mapType: Hex | undefined,
 ): MapData[] {
-  let maps = Object.values(state.getRecords(tables.MapTypeComponent));
+  let maps = Object.values(
+    getRecords({ state, table: mudTables.root__MapTypeComponent }),
+  );
   if (mapType !== undefined) {
-    maps = maps.filter(({ value }) => value.value === mapType);
+    maps = maps.filter(({ value }) => value === mapType);
   }
   return maps
-    .map(({ key, value }) => ({
-      entity: key.entity,
-      lootData: getLoot(tables, state, key.entity),
-      mapType: value.value,
+    .map(({ entity, value }) => ({
+      entity: entity,
+      lootData: getLoot(state, entity),
+      mapType: value,
     }))
     .sort((a, b) => a.lootData.ilvl - b.lootData.ilvl);
 }

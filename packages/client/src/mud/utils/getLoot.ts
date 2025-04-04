@@ -1,5 +1,6 @@
 import { Hex, toHex } from "viem";
-import { StoreState, StoreTables } from "../setup";
+import { getRecord } from "@latticexyz/stash/internal";
+import { mudTables, StateLocal } from "../stash";
 import { EffectTemplate, getEffectTemplate } from "./getEffect";
 import { AffixPartId, getLootAffixes, LootAffix } from "./getLootAffix";
 
@@ -12,25 +13,23 @@ export interface LootData {
   affixAvailabilityTargetId: Hex;
 }
 
-export function getLoot(
-  tables: StoreTables,
-  state: StoreState,
-  entity: Hex,
-): LootData {
-  const name = state.getValue(tables.Name, { entity })?.name;
-  const ilvl = state.getValue(tables.LootIlvl, { entity })?.value ?? 0;
+export function getLoot(state: StateLocal, entity: Hex): LootData {
+  const name = getRecord({
+    state,
+    table: mudTables.root__Name,
+    key: { entity },
+  })?.name;
+  const ilvl =
+    getRecord({ state, table: mudTables.root__LootIlvl, key: { entity } })
+      ?.value ?? 0;
 
   const affixAvailabilityTargetId =
-    state.getValue(tables.LootTargetId, { entity })?.targetId ?? toHex(0);
+    getRecord({ state, table: mudTables.root__LootTargetId, key: { entity } })
+      ?.targetId ?? toHex(0);
 
-  const affixes = getLootAffixes(
-    tables,
-    state,
-    affixAvailabilityTargetId,
-    entity,
-  );
+  const affixes = getLootAffixes(state, affixAvailabilityTargetId, entity);
 
-  const effectTemplate = getEffectTemplate(tables, state, entity);
+  const effectTemplate = getEffectTemplate(state, entity);
 
   return {
     entity,
