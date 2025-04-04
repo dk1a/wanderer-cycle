@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { formatEntity } from "../../mud/utils/format";
 import { Button } from "../utils/Button/Button";
+import { useEffect } from "react";
 
 interface WandererProps {
   wandererEntity: Entity;
@@ -12,7 +13,15 @@ export default function Wanderer({ wandererEntity }: WandererProps) {
   const { selectedWandererEntity, selectWandererEntity } = useWandererContext();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const saved = sessionStorage.getItem("selectedWandererEntity");
+    if (saved) {
+      selectWandererEntity(saved as Entity);
+    }
+  }, [selectWandererEntity]);
+
   const handleSelectWanderer = (wanderer: Entity) => {
+    sessionStorage.setItem("selectedWandererEntity", wanderer);
     selectWandererEntity(wanderer);
     navigate("/maps");
   };
