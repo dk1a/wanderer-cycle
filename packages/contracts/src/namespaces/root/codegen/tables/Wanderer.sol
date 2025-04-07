@@ -43,7 +43,7 @@ library Wanderer {
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](1);
-    fieldNames[0] = "spawn";
+    fieldNames[0] = "value";
   }
 
   /**
@@ -61,9 +61,9 @@ library Wanderer {
   }
 
   /**
-   * @notice Get spawn.
+   * @notice Get value.
    */
-  function getSpawn(bytes32 entity) internal view returns (bool spawn) {
+  function getValue(bytes32 entity) internal view returns (bool value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -72,9 +72,9 @@ library Wanderer {
   }
 
   /**
-   * @notice Get spawn.
+   * @notice Get value.
    */
-  function _getSpawn(bytes32 entity) internal view returns (bool spawn) {
+  function _getValue(bytes32 entity) internal view returns (bool value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -83,9 +83,9 @@ library Wanderer {
   }
 
   /**
-   * @notice Get spawn.
+   * @notice Get value.
    */
-  function get(bytes32 entity) internal view returns (bool spawn) {
+  function get(bytes32 entity) internal view returns (bool value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -94,9 +94,9 @@ library Wanderer {
   }
 
   /**
-   * @notice Get spawn.
+   * @notice Get value.
    */
-  function _get(bytes32 entity) internal view returns (bool spawn) {
+  function _get(bytes32 entity) internal view returns (bool value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -105,43 +105,43 @@ library Wanderer {
   }
 
   /**
-   * @notice Set spawn.
+   * @notice Set value.
    */
-  function setSpawn(bytes32 entity, bool spawn) internal {
+  function setValue(bytes32 entity, bool value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((spawn)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((value)), _fieldLayout);
   }
 
   /**
-   * @notice Set spawn.
+   * @notice Set value.
    */
-  function _setSpawn(bytes32 entity, bool spawn) internal {
+  function _setValue(bytes32 entity, bool value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((spawn)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((value)), _fieldLayout);
   }
 
   /**
-   * @notice Set spawn.
+   * @notice Set value.
    */
-  function set(bytes32 entity, bool spawn) internal {
+  function set(bytes32 entity, bool value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((spawn)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((value)), _fieldLayout);
   }
 
   /**
-   * @notice Set spawn.
+   * @notice Set value.
    */
-  function _set(bytes32 entity, bool spawn) internal {
+  function _set(bytes32 entity, bool value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((spawn)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((value)), _fieldLayout);
   }
 
   /**
@@ -168,8 +168,8 @@ library Wanderer {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(bool spawn) internal pure returns (bytes memory) {
-    return abi.encodePacked(spawn);
+  function encodeStatic(bool value) internal pure returns (bytes memory) {
+    return abi.encodePacked(value);
   }
 
   /**
@@ -178,8 +178,8 @@ library Wanderer {
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(bool spawn) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(spawn);
+  function encode(bool value) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
+    bytes memory _staticData = encodeStatic(value);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;

@@ -4,7 +4,7 @@ import { useStashCustom } from "../../mud/stash";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { getBossesDefeated } from "../../mud/utils/getBossesDefeated";
 import { getMaps, MapTypes } from "../../mud/utils/getMaps";
-import { useLifeCurrent } from "../../mud/hooks/currents";
+import { getLifeCurrent } from "../../mud/utils/currents";
 import BasicMap from "../../components/Map/BasicMap";
 import Map from "../../components/Map";
 
@@ -24,7 +24,9 @@ const GlobalMapsPage = () => {
   const bossesDefeated = useStashCustom((state) =>
     getBossesDefeated(state, cycleEntity as Hex),
   );
-  const lifeCurrent = useLifeCurrent(cycleEntity);
+  const lifeCurrent = useStashCustom((state) =>
+    getLifeCurrent(state, cycleEntity),
+  );
 
   const bossMapsUndefeated = useMemo(() => {
     // show up to 3 undefeated bosses

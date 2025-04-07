@@ -6,17 +6,14 @@ export interface PStats {
   dexterity: number;
 }
 
-export const parsePStats = (
-  strength: number,
-  arcana: number,
-  dexterity: number,
-): PStats => {
+export function parseArrayPStat(arrayPStat: readonly number[]): PStats {
+  const [strength = 0, arcana = 0, dexterity = 0] = arrayPStat;
   return {
     strength,
     arcana,
     dexterity,
   };
-};
+}
 
 export const pstatsFromExperience = (experience: PStats) => {
   return {

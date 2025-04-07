@@ -1,21 +1,48 @@
+import { useEffect, useMemo, useState } from "react";
 import BaseInfo from "./BaseInfo";
 import PassTurnButton from "./PassTurnButton";
 import ClaimTurnsButton from "./ClaimTurnsButton";
-import { useActiveGuise } from "../../mud/hooks/guise";
-import { useCycleTurns, useGetClaimableTurns } from "../../mud/hooks/turns";
 import { useWandererContext } from "../../contexts/WandererContext";
-// import { useLevel } from "../../mud/hooks/charstat";
-// import { useMemo } from "react";
+import { useStashCustom } from "../../mud/stash";
+import { getActiveGuise } from "../../mud/utils/guise";
+import {
+  getAccPeriods,
+  getClaimableTurns,
+  getCycleTurns,
+} from "../../mud/utils/turns";
+import { useLevel } from "../../mud/hooks/charstat";
 
 export default function CycleInfo() {
   const { cycleEntity } = useWandererContext();
-  const guise = useActiveGuise(cycleEntity);
-  const turns = useCycleTurns(cycleEntity);
+  const guise = useStashCustom((state) => getActiveGuise(state, cycleEntity));
+  const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
 
-  // const guiseMul = useMemo(() => guise?.levelMul, [guise]);
-  // const levelData = useLevel(cycleEntity, guiseMul);
+  const guiseMul = useMemo(() => guise?.levelMul, [guise]);
+  const levelData = useLevel(cycleEntity, guiseMul);
 
-  const claimableTurns = useGetClaimableTurns(cycleEntity);
+  const [timestamp, setTimestamp] = useState(Date.now());
+
+  const { accPeriods, nextClaimableTimestamp } = useStashCustom((state) => {
+    if (cycleEntity === undefined)
+      return {
+        accPeriods: 0,
+        nextClaimableTimestamp: undefined,
+      };
+    return getAccPeriods(state, cycleEntity, timestamp);
+  });
+
+  const claimableTurns = useStashCustom((state) => {
+    if (cycleEntity === undefined) return;
+    return getClaimableTurns(state, cycleEntity, accPeriods);
+  });
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setTimestamp(Date.now());
+    }, nextClaimableTimestamp);
+
+    return () => clearTimeout(timeout);
+  }, [nextClaimableTimestamp]);
 
   const turnsHtml = (
     <div className="flex ml-2">
@@ -40,7 +67,7 @@ export default function CycleInfo() {
         entity={cycleEntity}
         name={guise?.name}
         locationName={null}
-        // levelData={levelData}
+        levelData={levelData}
         turnsHtml={turnsHtml}
       />
     </div>

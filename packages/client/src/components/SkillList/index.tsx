@@ -1,14 +1,18 @@
 import { useWandererContext } from "../../contexts/WandererContext";
-import { useActiveGuise } from "../../mud/hooks/guise";
+import { useStashCustom } from "../../mud/stash";
+import { getActiveGuise } from "../../mud/utils/guise";
+import { getLearnedSkillEntities } from "../../mud/utils/skill";
 import SkillLearnable from "./SkillLearnable";
-import { useLearnedSkillEntities } from "../../mud/hooks/skill";
 import { useMemo } from "react";
 
 export default function SkillList() {
   const { cycleEntity, selectedWandererEntity, wandererMode } =
     useWandererContext();
-  const guise = useActiveGuise(cycleEntity);
-  const learnedSkills = useLearnedSkillEntities(selectedWandererEntity);
+  const guise = useStashCustom((state) => getActiveGuise(state, cycleEntity));
+  const learnedSkills = useStashCustom((state) => {
+    if (selectedWandererEntity === undefined) return [];
+    return getLearnedSkillEntities(state, selectedWandererEntity);
+  });
 
   const displaySkills = useMemo(() => {
     if (wandererMode) {

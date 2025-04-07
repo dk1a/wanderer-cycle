@@ -1,6 +1,7 @@
 import { Hex } from "viem";
-import { getRecord, TableRecord } from "@latticexyz/stash/internal";
+import { getRecord } from "@latticexyz/stash/internal";
 import { getRecordStrict, mudTables, StateLocal } from "../stash";
+import { AffixPrototype, getAffixPrototype } from "./getAffixPrototype";
 
 export enum AffixPartId {
   IMPLICIT,
@@ -10,7 +11,7 @@ export enum AffixPartId {
 
 export interface LootAffix {
   affixPrototypeEntity: Hex;
-  affixPrototype: TableRecord<(typeof mudTables)["affix__AffixPrototype"]>;
+  affixPrototype: AffixPrototype;
   partId: AffixPartId;
   value: number;
   naming: string;
@@ -50,11 +51,7 @@ export function getLootAffix(
   });
 
   const affixPrototypeEntity = affix.affixPrototypeEntity;
-  const affixPrototype = getRecordStrict({
-    state,
-    table: mudTables.affix__AffixPrototype,
-    key: { entity: affixPrototypeEntity },
-  });
+  const affixPrototype = getAffixPrototype(state, affixPrototypeEntity);
 
   const naming = getRecord({
     state,

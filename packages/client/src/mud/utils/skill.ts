@@ -1,5 +1,6 @@
-import { Entity, getComponentValueStrict } from "@latticexyz/recs";
-import { ClientComponents } from "../createClientComponents";
+import { Hex } from "viem";
+import { getRecord } from "@latticexyz/stash/internal";
+import { getRecordStrict, mudTables, StateLocal } from "../stash";
 import { parseElementalArray } from "./elemental";
 
 export type SkillData = ReturnType<typeof getSkill>;
@@ -30,25 +31,37 @@ export const targetTypeNames = {
   [TargetType.SELF_OR_ALLY]: "self or ally",
 };
 
-export const getSkill = (components: ClientComponents, entity: Entity) => {
-  const skill = getComponentValueStrict(components.SkillTemplate, entity);
-  const description = getComponentValueStrict(
-    components.SkillDescription,
-    entity,
-  );
-  const name = getComponentValueStrict(components.SkillName, entity);
-  const skillSpellDamage = getComponentValueStrict(
-    components.SkillSpellDamage,
-    entity,
-  );
-  const skillTemplateCooldown = getComponentValueStrict(
-    components.SkillTemplateCooldown,
-    entity,
-  );
-  const skillTemplateDuration = getComponentValueStrict(
-    components.SkillTemplateDuration,
-    entity,
-  );
+export function getSkill(state: StateLocal, entity: Hex) {
+  const skill = getRecordStrict({
+    state,
+    table: mudTables.root__SkillTemplate,
+    key: { entity },
+  });
+  const description = getRecordStrict({
+    state,
+    table: mudTables.root__SkillDescription,
+    key: { entity },
+  });
+  const name = getRecordStrict({
+    state,
+    table: mudTables.root__SkillName,
+    key: { entity },
+  });
+  const skillSpellDamage = getRecordStrict({
+    state,
+    table: mudTables.root__SkillSpellDamage,
+    key: { entity },
+  });
+  const skillTemplateCooldown = getRecordStrict({
+    state,
+    table: mudTables.root__SkillTemplateCooldown,
+    key: { entity },
+  });
+  const skillTemplateDuration = getRecordStrict({
+    state,
+    table: mudTables.root__SkillTemplateDuration,
+    key: { entity },
+  });
 
   const skillType = skill.skillType as SkillType;
   const targetType = skill.targetType as TargetType;
@@ -70,4 +83,13 @@ export const getSkill = (components: ClientComponents, entity: Entity) => {
 
     description: description?.value ?? "",
   };
-};
+}
+
+export function getLearnedSkillEntities(state: StateLocal, targetEntity: Hex) {
+  const result = getRecord({
+    state,
+    table: mudTables.root__LearnedSkills,
+    key: { entity: targetEntity },
+  });
+  return result?.entityIdSet ?? [];
+}

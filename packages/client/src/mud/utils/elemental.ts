@@ -30,7 +30,9 @@ export const parseElemental = (
   };
 };
 
-export const parseElementalArray = (damageArray: number[]): Elemental => {
+export const parseElementalArray = (
+  damageArray: readonly number[],
+): Elemental => {
   return {
     [StatmodElement.NONE]: damageArray[StatmodElement.NONE],
     [StatmodElement.PHYSICAL]: damageArray[StatmodElement.PHYSICAL],

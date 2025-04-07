@@ -43,7 +43,7 @@ library GuisePrototype {
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](1);
-    fieldNames[0] = "affixPart";
+    fieldNames[0] = "arrayPStat";
   }
 
   /**
@@ -61,9 +61,9 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Get affixPart.
+   * @notice Get arrayPStat.
    */
-  function getAffixPart(bytes32 entity) internal view returns (uint32[3] memory affixPart) {
+  function getArrayPStat(bytes32 entity) internal view returns (uint32[3] memory arrayPStat) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -72,9 +72,9 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Get affixPart.
+   * @notice Get arrayPStat.
    */
-  function _getAffixPart(bytes32 entity) internal view returns (uint32[3] memory affixPart) {
+  function _getArrayPStat(bytes32 entity) internal view returns (uint32[3] memory arrayPStat) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -83,9 +83,9 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Get affixPart.
+   * @notice Get arrayPStat.
    */
-  function get(bytes32 entity) internal view returns (uint32[3] memory affixPart) {
+  function get(bytes32 entity) internal view returns (uint32[3] memory arrayPStat) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -94,9 +94,9 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Get affixPart.
+   * @notice Get arrayPStat.
    */
-  function _get(bytes32 entity) internal view returns (uint32[3] memory affixPart) {
+  function _get(bytes32 entity) internal view returns (uint32[3] memory arrayPStat) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -105,56 +105,56 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Set affixPart.
+   * @notice Set arrayPStat.
    */
-  function setAffixPart(bytes32 entity, uint32[3] memory affixPart) internal {
+  function setArrayPStat(bytes32 entity, uint32[3] memory arrayPStat) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode(fromStaticArray_uint32_3(affixPart)));
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode(fromStaticArray_uint32_3(arrayPStat)));
   }
 
   /**
-   * @notice Set affixPart.
+   * @notice Set arrayPStat.
    */
-  function _setAffixPart(bytes32 entity, uint32[3] memory affixPart) internal {
+  function _setArrayPStat(bytes32 entity, uint32[3] memory arrayPStat) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode(fromStaticArray_uint32_3(affixPart)));
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode(fromStaticArray_uint32_3(arrayPStat)));
   }
 
   /**
-   * @notice Set affixPart.
+   * @notice Set arrayPStat.
    */
-  function set(bytes32 entity, uint32[3] memory affixPart) internal {
+  function set(bytes32 entity, uint32[3] memory arrayPStat) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode(fromStaticArray_uint32_3(affixPart)));
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode(fromStaticArray_uint32_3(arrayPStat)));
   }
 
   /**
-   * @notice Set affixPart.
+   * @notice Set arrayPStat.
    */
-  function _set(bytes32 entity, uint32[3] memory affixPart) internal {
+  function _set(bytes32 entity, uint32[3] memory arrayPStat) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode(fromStaticArray_uint32_3(affixPart)));
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode(fromStaticArray_uint32_3(arrayPStat)));
   }
 
-  // The length of affixPart
-  uint256 constant lengthAffixPart = 3;
+  // The length of arrayPStat
+  uint256 constant lengthArrayPStat = 3;
 
-  // The length of affixPart
+  // The length of arrayPStat
   uint256 constant length = 3;
 
   /**
-   * @notice Get an item of affixPart.
+   * @notice Get an item of arrayPStat.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItemAffixPart(bytes32 entity, uint256 _index) internal view returns (uint32) {
+  function getItemArrayPStat(bytes32 entity, uint256 _index) internal view returns (uint32) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -173,10 +173,10 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Get an item of affixPart.
+   * @notice Get an item of arrayPStat.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItemAffixPart(bytes32 entity, uint256 _index) internal view returns (uint32) {
+  function _getItemArrayPStat(bytes32 entity, uint256 _index) internal view returns (uint32) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -195,7 +195,7 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Get an item of affixPart.
+   * @notice Get an item of arrayPStat.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
   function getItem(bytes32 entity, uint256 _index) internal view returns (uint32) {
@@ -217,7 +217,7 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Get an item of affixPart.
+   * @notice Get an item of arrayPStat.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
   function _getItem(bytes32 entity, uint256 _index) internal view returns (uint32) {
@@ -239,9 +239,9 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Update an element of affixPart at `_index`.
+   * @notice Update an element of arrayPStat at `_index`.
    */
-  function updateAffixPart(bytes32 entity, uint256 _index, uint32 _element) internal {
+  function updateArrayPStat(bytes32 entity, uint256 _index, uint32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -252,9 +252,9 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Update an element of affixPart at `_index`.
+   * @notice Update an element of arrayPStat at `_index`.
    */
-  function _updateAffixPart(bytes32 entity, uint256 _index, uint32 _element) internal {
+  function _updateArrayPStat(bytes32 entity, uint256 _index, uint32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -265,7 +265,7 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Update an element of affixPart at `_index`.
+   * @notice Update an element of arrayPStat at `_index`.
    */
   function update(bytes32 entity, uint256 _index, uint32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -278,7 +278,7 @@ library GuisePrototype {
   }
 
   /**
-   * @notice Update an element of affixPart at `_index`.
+   * @notice Update an element of arrayPStat at `_index`.
    */
   function _update(bytes32 entity, uint256 _index, uint32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -314,10 +314,10 @@ library GuisePrototype {
    * @notice Tightly pack dynamic data lengths using this table's schema.
    * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
    */
-  function encodeLengths(uint32[3] memory affixPart) internal pure returns (EncodedLengths _encodedLengths) {
+  function encodeLengths(uint32[3] memory arrayPStat) internal pure returns (EncodedLengths _encodedLengths) {
     // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
     unchecked {
-      _encodedLengths = EncodedLengthsLib.pack(affixPart.length * 4);
+      _encodedLengths = EncodedLengthsLib.pack(arrayPStat.length * 4);
     }
   }
 
@@ -325,8 +325,8 @@ library GuisePrototype {
    * @notice Tightly pack dynamic (variable length) data using this table's schema.
    * @return The dynamic data, encoded into a sequence of bytes.
    */
-  function encodeDynamic(uint32[3] memory affixPart) internal pure returns (bytes memory) {
-    return abi.encodePacked(EncodeArray.encode(fromStaticArray_uint32_3(affixPart)));
+  function encodeDynamic(uint32[3] memory arrayPStat) internal pure returns (bytes memory) {
+    return abi.encodePacked(EncodeArray.encode(fromStaticArray_uint32_3(arrayPStat)));
   }
 
   /**
@@ -335,10 +335,10 @@ library GuisePrototype {
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(uint32[3] memory affixPart) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
+  function encode(uint32[3] memory arrayPStat) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
     bytes memory _staticData;
-    EncodedLengths _encodedLengths = encodeLengths(affixPart);
-    bytes memory _dynamicData = encodeDynamic(affixPart);
+    EncodedLengths _encodedLengths = encodeLengths(arrayPStat);
+    bytes memory _dynamicData = encodeDynamic(arrayPStat);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }

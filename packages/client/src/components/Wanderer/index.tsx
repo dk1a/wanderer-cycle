@@ -1,12 +1,12 @@
-import { Entity } from "@latticexyz/recs";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Hex } from "viem";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { formatEntity } from "../../mud/utils/format";
 import { Button } from "../utils/Button/Button";
-import { useEffect } from "react";
 
 interface WandererProps {
-  wandererEntity: Entity;
+  wandererEntity: Hex;
 }
 
 export default function Wanderer({ wandererEntity }: WandererProps) {
@@ -16,11 +16,11 @@ export default function Wanderer({ wandererEntity }: WandererProps) {
   useEffect(() => {
     const saved = sessionStorage.getItem("selectedWandererEntity");
     if (saved) {
-      selectWandererEntity(saved as Entity);
+      selectWandererEntity(saved as Hex);
     }
   }, [selectWandererEntity]);
 
-  const handleSelectWanderer = (wanderer: Entity) => {
+  const handleSelectWanderer = (wanderer: Hex) => {
     sessionStorage.setItem("selectedWandererEntity", wanderer);
     selectWandererEntity(wanderer);
     navigate("/maps");

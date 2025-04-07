@@ -1,10 +1,20 @@
-import { useGuises } from "../../mud/hooks/guise";
+import { useCallback } from "react";
+import { Hex } from "viem";
+import { useMUD } from "../../MUDContext";
 import Guise from "../Guise/Guise";
-import { useSpawnWanderer } from "../../mud/hooks/useSpawnWanderer";
+import { getGuises } from "../../mud/utils/guise";
+import { useStashCustom } from "../../mud/stash";
 
 export default function WandererSpawn({ disabled }: { disabled: boolean }) {
-  const guises = useGuises();
-  const spawnWanderer = useSpawnWanderer();
+  const { systemCalls } = useMUD();
+  const guises = useStashCustom((state) => getGuises(state));
+
+  const spawnWanderer = useCallback(
+    async (guiseEntity: Hex) => {
+      await systemCalls.spawnWanderer(guiseEntity);
+    },
+    [systemCalls],
+  );
 
   return (
     <div>

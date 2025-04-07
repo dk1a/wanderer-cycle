@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { useWandererContext } from "../../contexts/WandererContext";
-import { useCycleTurns } from "../../mud/hooks/turns";
+import { useStashCustom } from "../../mud/stash";
+import { getCycleTurns } from "../../mud/utils/turns";
 import { useMUD } from "../../MUDContext";
 import { Button } from "../utils/Button/Button";
 
@@ -9,7 +10,7 @@ export default function PassTurnButton() {
   const { selectedWandererEntity, cycleEntity, enemyEntity } =
     useWandererContext();
 
-  const turns = useCycleTurns(cycleEntity);
+  const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
 
   const [isBusy, setIsBusy] = useState(false);
 

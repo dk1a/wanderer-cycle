@@ -34,7 +34,7 @@ library SkillDescription {
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
     keyNames = new string[](1);
-    keyNames[0] = "id";
+    keyNames[0] = "entity";
   }
 
   /**
@@ -63,9 +63,9 @@ library SkillDescription {
   /**
    * @notice Get value.
    */
-  function getValue(bytes32 id) internal view returns (string memory value) {
+  function getValue(bytes32 entity) internal view returns (string memory value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
     return (string(_blob));
@@ -74,9 +74,9 @@ library SkillDescription {
   /**
    * @notice Get value.
    */
-  function _getValue(bytes32 id) internal view returns (string memory value) {
+  function _getValue(bytes32 entity) internal view returns (string memory value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
     return (string(_blob));
@@ -85,9 +85,9 @@ library SkillDescription {
   /**
    * @notice Get value.
    */
-  function get(bytes32 id) internal view returns (string memory value) {
+  function get(bytes32 entity) internal view returns (string memory value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
     return (string(_blob));
@@ -96,9 +96,9 @@ library SkillDescription {
   /**
    * @notice Get value.
    */
-  function _get(bytes32 id) internal view returns (string memory value) {
+  function _get(bytes32 entity) internal view returns (string memory value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
     return (string(_blob));
@@ -107,9 +107,9 @@ library SkillDescription {
   /**
    * @notice Set value.
    */
-  function setValue(bytes32 id, string memory value) internal {
+  function setValue(bytes32 entity, string memory value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, bytes((value)));
   }
@@ -117,9 +117,9 @@ library SkillDescription {
   /**
    * @notice Set value.
    */
-  function _setValue(bytes32 id, string memory value) internal {
+  function _setValue(bytes32 entity, string memory value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreCore.setDynamicField(_tableId, _keyTuple, 0, bytes((value)));
   }
@@ -127,9 +127,9 @@ library SkillDescription {
   /**
    * @notice Set value.
    */
-  function set(bytes32 id, string memory value) internal {
+  function set(bytes32 entity, string memory value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, bytes((value)));
   }
@@ -137,9 +137,9 @@ library SkillDescription {
   /**
    * @notice Set value.
    */
-  function _set(bytes32 id, string memory value) internal {
+  function _set(bytes32 entity, string memory value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreCore.setDynamicField(_tableId, _keyTuple, 0, bytes((value)));
   }
@@ -147,9 +147,9 @@ library SkillDescription {
   /**
    * @notice Get the length of value.
    */
-  function lengthValue(bytes32 id) internal view returns (uint256) {
+  function lengthValue(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -160,9 +160,9 @@ library SkillDescription {
   /**
    * @notice Get the length of value.
    */
-  function _lengthValue(bytes32 id) internal view returns (uint256) {
+  function _lengthValue(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -173,9 +173,9 @@ library SkillDescription {
   /**
    * @notice Get the length of value.
    */
-  function length(bytes32 id) internal view returns (uint256) {
+  function length(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -186,9 +186,9 @@ library SkillDescription {
   /**
    * @notice Get the length of value.
    */
-  function _length(bytes32 id) internal view returns (uint256) {
+  function _length(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -200,9 +200,9 @@ library SkillDescription {
    * @notice Get an item of value.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItemValue(bytes32 id, uint256 _index) internal view returns (string memory) {
+  function getItemValue(bytes32 entity, uint256 _index) internal view returns (string memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     unchecked {
       bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
@@ -214,9 +214,9 @@ library SkillDescription {
    * @notice Get an item of value.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItemValue(bytes32 id, uint256 _index) internal view returns (string memory) {
+  function _getItemValue(bytes32 entity, uint256 _index) internal view returns (string memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     unchecked {
       bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
@@ -228,9 +228,9 @@ library SkillDescription {
    * @notice Get an item of value.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItem(bytes32 id, uint256 _index) internal view returns (string memory) {
+  function getItem(bytes32 entity, uint256 _index) internal view returns (string memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     unchecked {
       bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
@@ -242,9 +242,9 @@ library SkillDescription {
    * @notice Get an item of value.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItem(bytes32 id, uint256 _index) internal view returns (string memory) {
+  function _getItem(bytes32 entity, uint256 _index) internal view returns (string memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     unchecked {
       bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
@@ -255,9 +255,9 @@ library SkillDescription {
   /**
    * @notice Push a slice to value.
    */
-  function pushValue(bytes32 id, string memory _slice) internal {
+  function pushValue(bytes32 entity, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
@@ -265,9 +265,9 @@ library SkillDescription {
   /**
    * @notice Push a slice to value.
    */
-  function _pushValue(bytes32 id, string memory _slice) internal {
+  function _pushValue(bytes32 entity, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
@@ -275,9 +275,9 @@ library SkillDescription {
   /**
    * @notice Push a slice to value.
    */
-  function push(bytes32 id, string memory _slice) internal {
+  function push(bytes32 entity, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
@@ -285,9 +285,9 @@ library SkillDescription {
   /**
    * @notice Push a slice to value.
    */
-  function _push(bytes32 id, string memory _slice) internal {
+  function _push(bytes32 entity, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
@@ -295,9 +295,9 @@ library SkillDescription {
   /**
    * @notice Pop a slice from value.
    */
-  function popValue(bytes32 id) internal {
+  function popValue(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
@@ -305,9 +305,9 @@ library SkillDescription {
   /**
    * @notice Pop a slice from value.
    */
-  function _popValue(bytes32 id) internal {
+  function _popValue(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
@@ -315,9 +315,9 @@ library SkillDescription {
   /**
    * @notice Pop a slice from value.
    */
-  function pop(bytes32 id) internal {
+  function pop(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
@@ -325,9 +325,9 @@ library SkillDescription {
   /**
    * @notice Pop a slice from value.
    */
-  function _pop(bytes32 id) internal {
+  function _pop(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
@@ -335,9 +335,9 @@ library SkillDescription {
   /**
    * @notice Update a slice of value at `_index`.
    */
-  function updateValue(bytes32 id, uint256 _index, string memory _slice) internal {
+  function updateValue(bytes32 entity, uint256 _index, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     unchecked {
       bytes memory _encoded = bytes((_slice));
@@ -348,9 +348,9 @@ library SkillDescription {
   /**
    * @notice Update a slice of value at `_index`.
    */
-  function _updateValue(bytes32 id, uint256 _index, string memory _slice) internal {
+  function _updateValue(bytes32 entity, uint256 _index, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     unchecked {
       bytes memory _encoded = bytes((_slice));
@@ -361,9 +361,9 @@ library SkillDescription {
   /**
    * @notice Update a slice of value at `_index`.
    */
-  function update(bytes32 id, uint256 _index, string memory _slice) internal {
+  function update(bytes32 entity, uint256 _index, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     unchecked {
       bytes memory _encoded = bytes((_slice));
@@ -374,9 +374,9 @@ library SkillDescription {
   /**
    * @notice Update a slice of value at `_index`.
    */
-  function _update(bytes32 id, uint256 _index, string memory _slice) internal {
+  function _update(bytes32 entity, uint256 _index, string memory _slice) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     unchecked {
       bytes memory _encoded = bytes((_slice));
@@ -387,9 +387,9 @@ library SkillDescription {
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(bytes32 id) internal {
+  function deleteRecord(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -397,9 +397,9 @@ library SkillDescription {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(bytes32 id) internal {
+  function _deleteRecord(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -440,9 +440,9 @@ library SkillDescription {
   /**
    * @notice Encode keys as a bytes32 array using this table's field layout.
    */
-  function encodeKeyTuple(bytes32 id) internal pure returns (bytes32[] memory) {
+  function encodeKeyTuple(bytes32 entity) internal pure returns (bytes32[] memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = id;
+    _keyTuple[0] = entity;
 
     return _keyTuple;
   }

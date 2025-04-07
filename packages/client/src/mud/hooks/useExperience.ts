@@ -1,26 +1,19 @@
-import { useComponentValue } from "@latticexyz/react";
-import { Entity } from "@latticexyz/recs";
-import { useMUD } from "../../MUDContext";
+import { Hex } from "viem";
+import { mudTables, useStashCustom } from "../stash";
+import { getRecord } from "@latticexyz/stash/internal";
+import { parseArrayPStat } from "../utils/experience";
 
-type ExperienceType = {
-  strength: number;
-  arcana: number;
-  dexterity: number;
-};
-
-export const useExperience = (entity: Entity | undefined) => {
-  const {
-    components: { Experience },
-  } = useMUD();
-
-  const experience = useComponentValue(Experience, entity) as
-    | ExperienceType
-    | undefined;
-  if (!experience) return;
-
-  return {
-    strength: experience.strength,
-    arcana: experience.arcana,
-    dexterity: experience.dexterity,
-  };
+export const useExperience = (entity: Hex | undefined) => {
+  return useStashCustom((state) => {
+    if (entity === undefined) return;
+    const result = getRecord({
+      state,
+      table: mudTables.root__Experience,
+      key: {
+        entity,
+      },
+    });
+    if (result === undefined) return;
+    return parseArrayPStat(result.arrayPStat);
+  });
 };

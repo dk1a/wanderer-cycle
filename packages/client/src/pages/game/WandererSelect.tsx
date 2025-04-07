@@ -1,13 +1,16 @@
 import Wanderer from "../../components/Wanderer";
 import WandererSpawn from "../../components/WandererSpawn";
-import { useWandererEntities } from "../../mud/hooks/useWandererEntities";
+import { useStashCustom } from "../../mud/stash";
+import { getWandererEntities } from "../../mud/utils/wanderer";
 
 interface WandererSelectProps {
   className?: string;
 }
 
 const WandererSelect = ({ className }: WandererSelectProps) => {
-  const wandererEntities = useWandererEntities();
+  const wandererEntities = useStashCustom((state) =>
+    getWandererEntities(state),
+  );
 
   return (
     <div className={className + " w-full h-full"}>

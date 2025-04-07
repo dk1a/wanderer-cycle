@@ -3,9 +3,9 @@ import {
   ReactNode,
   useCallback,
   useContext,
-  useMemo,
   useState,
 } from "react";
+import { Hex } from "viem";
 // import {
 //   CycleCombatRewardRequest,
 //   OnCombatResultData,
@@ -13,24 +13,21 @@ import {
 //   useCycleCombatRewardRequests,
 //   useOnCombatResultEffect,
 // } from "../mud/hooks/combat";
-import { Entity, getComponentValueStrict } from "@latticexyz/recs";
-import {
-  useLearnCycleSkill,
-  useLearnedSkillEntities,
-} from "../mud/hooks/skill";
 import { useMUD } from "../MUDContext";
+import { getRecordStrict, mudTables, useStashCustom } from "../mud/stash";
+import { getLearnedSkillEntities } from "../mud/utils/skill";
 
 type WandererContextType = {
-  selectedWandererEntity?: Entity;
-  selectWandererEntity: (wanderer: Entity | undefined) => void;
-  cycleEntity?: Entity;
-  previousCycleEntity?: Entity;
-  enemyEntity?: Entity;
+  selectedWandererEntity?: Hex;
+  selectWandererEntity: (wanderer: Hex | undefined) => void;
+  cycleEntity?: Hex;
+  previousCycleEntity?: Hex;
+  enemyEntity?: Hex;
   // combatRewardRequests: CycleCombatRewardRequest[];
   // lastCombatResult?: OnCombatResultData;
   // clearCombatResult: () => void;
-  learnCycleSkill: ReturnType<typeof useLearnCycleSkill>;
-  learnedSkillEntities: Entity[];
+  learnCycleSkill: (skillEntity: Hex) => Promise<void>;
+  learnedSkillEntities: readonly Hex[];
   wandererMode: boolean;
   toggleWandererMode: () => void;
 };
@@ -43,23 +40,24 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   const currentValue = useContext(WandererContext);
   if (currentValue) throw new Error("WandererProvider can only be used once");
 
-  const [selectedWandererEntity, selectWandererEntity] = useState<Entity>();
+  const [selectedWandererEntity, selectWandererEntity] = useState<Hex>();
 
-  const { components } = useMUD();
-  const {
-    ActiveCycle,
-    // PreviousCycle
-  } = components;
+  const { systemCalls } = useMUD();
 
   // current cycle
-  const activeCycle = useMemo(() => {
+  const activeCycle = useStashCustom((state) => {
     if (!selectedWandererEntity) {
       console.warn("No selected wanderer entity");
       return undefined;
     }
-    return getComponentValueStrict(ActiveCycle, selectedWandererEntity);
-  }, [ActiveCycle, selectedWandererEntity]);
-  const cycleEntity = activeCycle?.cycleEntity as Entity | undefined;
+
+    return getRecordStrict({
+      state,
+      table: mudTables.root__ActiveCycle,
+      key: { entity: selectedWandererEntity },
+    });
+  });
+  const cycleEntity = activeCycle?.cycleEntity;
 
   // // previous cycle
   // const cyclePrevious = useMemo(() => {
@@ -79,9 +77,19 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   // useOnCombatResultEffect(cycleEntity, setLastCombatResult);
   //
   console.log("wanderer", selectedWandererEntity);
-  const learnCycleSkill = useLearnCycleSkill(selectedWandererEntity);
+  const learnCycleSkill = useCallback(
+    async (skillEntity: Hex) => {
+      if (selectedWandererEntity === undefined)
+        throw new Error("No wanderer selected");
+      await systemCalls.learnCycleSkill(selectedWandererEntity, skillEntity);
+    },
+    [systemCalls, selectedWandererEntity],
+  );
   console.log("learnCycleSkill", learnCycleSkill);
-  const learnedSkillEntities = useLearnedSkillEntities(cycleEntity);
+  const learnedSkillEntities = useStashCustom((state) => {
+    if (!cycleEntity) return [];
+    return getLearnedSkillEntities(state, cycleEntity);
+  });
 
   const [wandererMode, setWandererMode] = useState(false);
   const toggleWandererMode = useCallback(

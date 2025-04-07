@@ -1,18 +1,19 @@
-import { Entity } from "@latticexyz/recs";
 import { useCallback, useMemo, useState } from "react";
+import { Hex } from "viem";
 // import { SkillType } from "../../mud/utils/skill";
 
 import { useWandererContext } from "../../contexts/WandererContext";
-import { useSkillStrict } from "../../mud/hooks/skill";
 import { Button } from "../utils/Button/Button";
 // import {useLevel} from "..useLevel/../mud/hooks/charstat";
 import Skill from "../Guise/Skill";
+import { useStashCustom } from "../../mud/stash";
+import { getSkill } from "../../mud/utils/skill";
 
 export default function SkillLearnable({
   entity,
   withButtons,
 }: {
-  entity: Entity;
+  entity: Hex;
   withButtons: boolean;
 }) {
   const {
@@ -20,7 +21,7 @@ export default function SkillLearnable({
     learnedSkillEntities,
     // cycleEntity,
   } = useWandererContext();
-  const skill = useSkillStrict(entity);
+  const skill = useStashCustom((state) => getSkill(state, entity));
   // const duration = useDuration(cycleEntity, skill.entity);
 
   // const guise = useActiveGuise(cycleEntity);

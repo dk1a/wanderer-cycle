@@ -13,8 +13,6 @@ import {
   ClientConfig,
   getContract,
 } from "viem";
-import { world } from "./world";
-import { syncToRecs } from "@latticexyz/store-sync/recs";
 import { syncToStash } from "@latticexyz/store-sync/internal";
 import { getNetworkConfig } from "./getNetworkConfig";
 import IWorldAbi from "contracts/out/IWorld.sol/IWorld.abi.json";
@@ -26,16 +24,6 @@ import {
 import { transactionQueue, writeObserver } from "@latticexyz/common/actions";
 import { Subject, share } from "rxjs";
 import { stash } from "./stash";
-
-/*
- * Import our MUD config, which includes strong types for
- * our tables and other config options. We use this to generate
- * things like RECS components and get back strong types for them.
- *
- * See https://mud.dev/templates/typescript/contracts#mudconfigts
- * for the source of this information.
- */
-import mudConfig from "contracts/mud.config";
 
 export type SetupNetworkResult = Awaited<ReturnType<typeof setupNetwork>>;
 
@@ -81,14 +69,6 @@ export async function setupNetwork() {
     client: { public: publicClient, wallet: burnerWalletClient },
   });
 
-  const { components } = await syncToRecs({
-    world,
-    config: mudConfig,
-    address: networkConfig.worldAddress as Hex,
-    publicClient,
-    startBlock: BigInt(networkConfig.initialBlockNumber),
-  });
-
   const {
     latestBlock$,
     //latestBlockNumber$,
@@ -103,7 +83,6 @@ export async function setupNetwork() {
   });
 
   return {
-    components,
     publicClient,
     walletClient: burnerWalletClient,
     latestBlock$,

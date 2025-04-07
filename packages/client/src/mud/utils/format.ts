@@ -1,7 +1,6 @@
-import { hexToString, isHex, trim } from "viem";
-import { Entity } from "@latticexyz/recs";
+import { Hex, hexToString, isHex, trim } from "viem";
 
-export function formatEntity(entity: Entity): string {
+export function formatEntity(entity: Hex): string {
   if (entity.length <= 10) {
     return entity;
   }

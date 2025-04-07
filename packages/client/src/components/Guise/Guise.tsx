@@ -1,12 +1,12 @@
 import { Fragment } from "react";
-import { Entity } from "@latticexyz/recs";
+import { Hex } from "viem";
 import { GuiseData } from "../../mud/utils/guise";
 import { GuiseSkill } from "./GuiseSkill";
 import { Button } from "../utils/Button/Button";
 
 interface GuiseProps {
   guise: GuiseData;
-  onSelectGuise?: (guiseEntity: Entity) => void;
+  onSelectGuise?: (guiseEntity: Hex) => void;
   disabled?: boolean;
 }
 

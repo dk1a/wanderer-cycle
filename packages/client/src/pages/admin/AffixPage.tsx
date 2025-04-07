@@ -1,17 +1,22 @@
-import { useEntityQuery } from "@latticexyz/react";
-import { getComponentValueStrict, Has } from "@latticexyz/recs";
-import { useState } from "react";
-import { useMUD } from "../../MUDContext";
+import { useMemo, useState } from "react";
 import { Table } from "../../components/utils/Table/Table";
 import {
   formatEntity,
   formatZeroTerminatedString,
 } from "../../mud/utils/format";
+import { mudTables, useStashCustom } from "../../mud/stash";
+import { getRecords } from "@latticexyz/stash/internal";
 
 const AffixPage = () => {
-  const { components } = useMUD();
-  const { AffixPrototype } = components;
-  const affixPrototypeEntities = useEntityQuery([Has(AffixPrototype)]);
+  const affixPrototypes = useStashCustom((state) => {
+    return Object.values(
+      getRecords({
+        state,
+        table: mudTables.affix__AffixPrototype,
+      }),
+    );
+  });
+
   const [sortConfig, setSortConfig] = useState<{
     key: string;
     direction: "asc" | "desc";
@@ -26,17 +31,17 @@ const AffixPage = () => {
     });
   };
 
-  const sortedEntities = [...affixPrototypeEntities].sort((a, b) => {
-    if (!sortConfig) return 0;
-    const affixA = getComponentValueStrict(AffixPrototype, a);
-    const affixB = getComponentValueStrict(AffixPrototype, b);
-    const valueA = affixA[sortConfig.key] ?? "";
-    const valueB = affixB[sortConfig.key] ?? "";
+  const sortedAffixPrototypes = useMemo(() => {
+    return affixPrototypes.sort((a, b) => {
+      if (!sortConfig) return 0;
+      const valueA = a[sortConfig.key] ?? "";
+      const valueB = b[sortConfig.key] ?? "";
 
-    if (valueA < valueB) return sortConfig.direction === "asc" ? -1 : 1;
-    if (valueA > valueB) return sortConfig.direction === "asc" ? 1 : -1;
-    return 0;
-  });
+      if (valueA < valueB) return sortConfig.direction === "asc" ? -1 : 1;
+      if (valueA > valueB) return sortConfig.direction === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [affixPrototypes, sortConfig]);
 
   const columns = [
     { key: "entity", label: "entity", cellClassName: "text-dark-number" },
@@ -45,20 +50,19 @@ const AffixPage = () => {
     { key: "exclusiveGroup", label: "exclusiveGroup" },
   ];
 
-  const data = sortedEntities.map((entity) => {
-    const affixProtoData = getComponentValueStrict(AffixPrototype, entity);
+  const data = sortedAffixPrototypes.map((affixPrototype) => {
     return {
       entity: (
         <span
           className="hover:underline cursor-pointer"
-          onClick={() => navigator.clipboard.writeText(entity)}
+          onClick={() => navigator.clipboard.writeText(affixPrototype.entity)}
         >
-          {formatEntity(entity)}
+          {formatEntity(affixPrototype.entity)}
         </span>
       ),
-      name: affixProtoData.name,
-      affixTier: affixProtoData.affixTier,
-      exclusiveGroup: formatZeroTerminatedString(affixProtoData.exclusiveGroup),
+      name: affixPrototype.name,
+      affixTier: affixPrototype.affixTier,
+      exclusiveGroup: formatZeroTerminatedString(affixPrototype.exclusiveGroup),
     };
   });
 

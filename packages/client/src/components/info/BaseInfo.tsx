@@ -1,5 +1,5 @@
-import { Entity } from "@latticexyz/recs";
 import { Fragment, ReactNode } from "react";
+import { Hex } from "viem";
 import {
   LevelData,
   useLife,
@@ -8,15 +8,16 @@ import {
 } from "../../mud/hooks/charstat";
 // import { useAppliedEffects } from "../../mud/hooks/useAppliedEffects";
 import {
-  useLifeCurrent,
-  useManaCurrent,
-  useIdentityCurrent,
-} from "../../mud/hooks/currents";
+  getIdentityCurrent,
+  getLifeCurrent,
+  getManaCurrent,
+} from "../../mud/utils/currents";
 import { PStatWithProgress } from "./PStatWithProgress";
 import { Tooltip } from "react-tooltip";
+import { useStashCustom } from "../../mud/stash";
 
 export interface BaseInfoProps {
-  entity: Entity | undefined;
+  entity: Hex | undefined;
   name: string | undefined;
   locationName: string | null | undefined;
   levelData: LevelData;
@@ -54,9 +55,11 @@ export default function BaseInfo({
   const pstats = usePstats(entity);
   const life = useLife(entity);
   const mana = useMana(entity);
-  const identityCurrent = useIdentityCurrent(entity);
-  const lifeCurrent = useLifeCurrent(entity);
-  const manaCurrent = useManaCurrent(entity);
+  const identityCurrent = useStashCustom((state) =>
+    getIdentityCurrent(state, entity),
+  );
+  const lifeCurrent = useStashCustom((state) => getLifeCurrent(state, entity));
+  const manaCurrent = useStashCustom((state) => getManaCurrent(state, entity));
   // const effects = useAppliedEffects(entity);
 
   const currents = [

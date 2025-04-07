@@ -111,7 +111,7 @@ export default defineWorld({
           ...entityKey,
           schema: {
             entity: EntityId,
-            affixPart: arrayPStat,
+            arrayPStat: arrayPStat,
           },
         },
         GuiseName: nameTable,
@@ -206,7 +206,13 @@ export default defineWorld({
           },
         },
         SkillName: nameTable,
-        SkillDescription: "string",
+        SkillDescription: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "string",
+          },
+        },
         SkillCooldown: durationTable,
         ActiveCycle: {
           ...entityKey,
@@ -252,7 +258,7 @@ export default defineWorld({
           ...entityKey,
           schema: {
             entity: EntityId,
-            spawn: "bool",
+            value: "bool",
           },
         },
         // An entity can initiate only 1 combat at a time

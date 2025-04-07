@@ -1,4 +1,3 @@
-import { Entity } from "@latticexyz/recs";
 import { useMemo } from "react";
 import {
   Elemental,
@@ -17,10 +16,11 @@ import {
 import { useExperience } from "./useExperience";
 
 import { StatmodTopic, ElementalStatmodTopic } from "../utils/topics";
+import { Hex } from "viem";
 
 // TODO replace placeholders
 const useGetValuesFinal = (
-  targetEntity: Entity | undefined,
+  targetEntity: Hex | undefined,
   topic: StatmodTopic,
   baseValue: number,
 ) => {
@@ -30,7 +30,7 @@ const useGetValuesFinal = (
 // TODO replace placeholders
 const useGetValuesElementalFinal = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  targetEntity: Entity | undefined,
+  targetEntity: Hex | undefined,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   topic: ElementalStatmodTopic,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -42,7 +42,7 @@ const useGetValuesElementalFinal = (
 export type PStatData = ReturnType<typeof usePstat>;
 export type LevelData = ReturnType<typeof useLevel>;
 
-export function usePstats(targetEntity: Entity | undefined) {
+export function usePstats(targetEntity: Hex | undefined) {
   const pstats = [];
   for (const pstatName of pstatNames) {
     // eslint-disable-next-line react-hooks/rules-of-hooks -- pstatNames can never change, so it's safe to loop
@@ -51,7 +51,7 @@ export function usePstats(targetEntity: Entity | undefined) {
   return pstats;
 }
 
-export function usePstat(targetEntity: Entity | undefined, key: keyof PStats) {
+export function usePstat(targetEntity: Hex | undefined, key: keyof PStats) {
   const { experience, directLevel } = useExperienceAndDirectLevel(targetEntity);
 
   const pstatBase = useMemo(() => {
@@ -73,7 +73,7 @@ export function usePstat(targetEntity: Entity | undefined, key: keyof PStats) {
 }
 
 export function useLevel(
-  targetEntity: Entity | undefined,
+  targetEntity: Hex | undefined,
   levelMul: PStats | undefined,
 ) {
   const { experience, directLevel } = useExperienceAndDirectLevel(targetEntity);
@@ -94,7 +94,7 @@ export function useLevel(
   }
 }
 
-function useExperienceAndDirectLevel(targetEntity: Entity | undefined) {
+function useExperienceAndDirectLevel(targetEntity: Hex | undefined) {
   // some entities (players) have experience
   const experience = useExperience(targetEntity);
   // others may have a directly-set level
@@ -103,21 +103,21 @@ function useExperienceAndDirectLevel(targetEntity: Entity | undefined) {
 }
 
 // TODO this duplicates LibCharstat.sol
-export const useLife = (targetEntity: Entity | undefined) => {
+export const useLife = (targetEntity: Hex | undefined) => {
   const strength = usePstat(targetEntity, "strength");
 
   const baseValue = useMemo(() => 2 + 2 * strength.buffedLevel, [strength]);
   return useGetValuesFinal(targetEntity, "life", baseValue);
 };
 
-export const useMana = (targetEntity: Entity | undefined) => {
+export const useMana = (targetEntity: Hex | undefined) => {
   const arcana = usePstat(targetEntity, "arcana");
 
   const baseValue = useMemo(() => 4 * arcana.buffedLevel, [arcana]);
   return useGetValuesFinal(targetEntity, "mana", baseValue);
 };
 
-export const useAttack = (targetEntity: Entity | undefined) => {
+export const useAttack = (targetEntity: Hex | undefined) => {
   const strength = usePstat(targetEntity, "strength");
   // strength increases physical base attack damage
   const baseValues = useMemo(
@@ -128,7 +128,7 @@ export const useAttack = (targetEntity: Entity | undefined) => {
   return useGetValuesElementalFinal(targetEntity, "attack", baseValues);
 };
 
-export const useResistance = (targetEntity: Entity | undefined) => {
+export const useResistance = (targetEntity: Hex | undefined) => {
   const dexterity = usePstat(targetEntity, "dexterity");
   const baseValues = useMemo(
     () => parseElemental(Math.floor(dexterity.buffedLevel / 4) * 4, 0, 0, 0, 0),
@@ -139,7 +139,7 @@ export const useResistance = (targetEntity: Entity | undefined) => {
 };
 
 export const useSpell = (
-  targetEntity: Entity | undefined,
+  targetEntity: Hex | undefined,
   baseValues: Elemental,
 ) => {
   const arcana = usePstat(targetEntity, "arcana");

@@ -1,9 +1,10 @@
 import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
-import { useActiveGuise } from "../../mud/hooks/guise";
+import { useStashCustom } from "../../mud/stash";
+import { getActiveGuise } from "../../mud/utils/guise";
+import { getCycleTurns } from "../../mud/utils/turns";
 import { useLevel } from "../../mud/hooks/charstat";
 import { Button } from "../utils/Button/Button";
-import { useCycleTurns } from "../../mud/hooks/turns";
 import { MapData } from "../../mud/utils/getMaps";
 
 export default function BasicMap({ data }: { data: MapData }) {
@@ -11,9 +12,9 @@ export default function BasicMap({ data }: { data: MapData }) {
 
   const { entity, name, ilvl } = data.lootData;
 
-  const guise = useActiveGuise(cycleEntity);
+  const guise = useStashCustom((state) => getActiveGuise(state, cycleEntity));
   const levelData = useLevel(cycleEntity, guise?.levelMul);
-  const turns = useCycleTurns(cycleEntity);
+  const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
 
   const onMapEnter = useCallback(() => {
     if (!selectedWandererEntity) {

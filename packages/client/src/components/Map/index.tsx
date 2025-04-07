@@ -1,9 +1,10 @@
+import { useCallback } from "react";
 //import Effect from "../Effect";
 import { Button } from "../utils/Button/Button";
 import { useWandererContext } from "../../contexts/WandererContext";
-import { useCallback } from "react";
+import { useStashCustom } from "../../mud/stash";
 import { EffectSource } from "../../mud/utils/getEffect";
-import { useCycleTurns } from "../../mud/hooks/turns";
+import { getCycleTurns } from "../../mud/utils/turns";
 import { MapData } from "../../mud/utils/getMaps";
 
 export default function Map({ data }: { data: MapData }) {
@@ -11,7 +12,7 @@ export default function Map({ data }: { data: MapData }) {
 
   const { entity, name, ilvl, effectTemplate } = data.lootData;
 
-  const turns = useCycleTurns(cycleEntity);
+  const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
 
   const onMapEnter = useCallback(() => {
     if (!selectedWandererEntity) {
