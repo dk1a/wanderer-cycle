@@ -19,17 +19,23 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 // Import user types
 import { CombatResult } from "../../../../codegen/common.sol";
 
-library CombatRoundResultOffchain {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "CombatRoundResul", typeId: RESOURCE_OFFCHAIN_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x6f740000000000000000000000000000436f6d626174526f756e64526573756c);
+struct CombatLogRoundOffchainData {
+  CombatResult combatResult;
+  uint256 initiatorActionLength;
+  uint256 retaliatorActionLength;
+}
+
+library CombatLogRoundOffchain {
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "CombatLogRoundOf", typeId: RESOURCE_OFFCHAIN_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x6f740000000000000000000000000000436f6d6261744c6f67526f756e644f66);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0001010001000000000000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0041030001202000000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (bytes32, bytes32, uint256)
   Schema constant _keySchema = Schema.wrap(0x006003005f5f1f00000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint8)
-  Schema constant _valueSchema = Schema.wrap(0x0001010000000000000000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint8, uint256, uint256)
+  Schema constant _valueSchema = Schema.wrap(0x00410300001f1f00000000000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -47,8 +53,10 @@ library CombatRoundResultOffchain {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](1);
+    fieldNames = new string[](3);
     fieldNames[0] = "combatResult";
+    fieldNames[1] = "initiatorActionLength";
+    fieldNames[2] = "retaliatorActionLength";
   }
 
   /**
@@ -100,15 +108,85 @@ library CombatRoundResultOffchain {
   }
 
   /**
+   * @notice Set initiatorActionLength.
+   */
+  function setInitiatorActionLength(
+    bytes32 initiatorEntity,
+    bytes32 retaliatorEntity,
+    uint256 roundIndex,
+    uint256 initiatorActionLength
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = initiatorEntity;
+    _keyTuple[1] = retaliatorEntity;
+    _keyTuple[2] = bytes32(uint256(roundIndex));
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((initiatorActionLength)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set initiatorActionLength.
+   */
+  function _setInitiatorActionLength(
+    bytes32 initiatorEntity,
+    bytes32 retaliatorEntity,
+    uint256 roundIndex,
+    uint256 initiatorActionLength
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = initiatorEntity;
+    _keyTuple[1] = retaliatorEntity;
+    _keyTuple[2] = bytes32(uint256(roundIndex));
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((initiatorActionLength)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set retaliatorActionLength.
+   */
+  function setRetaliatorActionLength(
+    bytes32 initiatorEntity,
+    bytes32 retaliatorEntity,
+    uint256 roundIndex,
+    uint256 retaliatorActionLength
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = initiatorEntity;
+    _keyTuple[1] = retaliatorEntity;
+    _keyTuple[2] = bytes32(uint256(roundIndex));
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((retaliatorActionLength)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set retaliatorActionLength.
+   */
+  function _setRetaliatorActionLength(
+    bytes32 initiatorEntity,
+    bytes32 retaliatorEntity,
+    uint256 roundIndex,
+    uint256 retaliatorActionLength
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = initiatorEntity;
+    _keyTuple[1] = retaliatorEntity;
+    _keyTuple[2] = bytes32(uint256(roundIndex));
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((retaliatorActionLength)), _fieldLayout);
+  }
+
+  /**
    * @notice Set the full data using individual values.
    */
   function set(
     bytes32 initiatorEntity,
     bytes32 retaliatorEntity,
     uint256 roundIndex,
-    CombatResult combatResult
+    CombatResult combatResult,
+    uint256 initiatorActionLength,
+    uint256 retaliatorActionLength
   ) internal {
-    bytes memory _staticData = encodeStatic(combatResult);
+    bytes memory _staticData = encodeStatic(combatResult, initiatorActionLength, retaliatorActionLength);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -128,9 +206,63 @@ library CombatRoundResultOffchain {
     bytes32 initiatorEntity,
     bytes32 retaliatorEntity,
     uint256 roundIndex,
-    CombatResult combatResult
+    CombatResult combatResult,
+    uint256 initiatorActionLength,
+    uint256 retaliatorActionLength
   ) internal {
-    bytes memory _staticData = encodeStatic(combatResult);
+    bytes memory _staticData = encodeStatic(combatResult, initiatorActionLength, retaliatorActionLength);
+
+    EncodedLengths _encodedLengths;
+    bytes memory _dynamicData;
+
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = initiatorEntity;
+    _keyTuple[1] = retaliatorEntity;
+    _keyTuple[2] = bytes32(uint256(roundIndex));
+
+    StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
+  }
+
+  /**
+   * @notice Set the full data using the data struct.
+   */
+  function set(
+    bytes32 initiatorEntity,
+    bytes32 retaliatorEntity,
+    uint256 roundIndex,
+    CombatLogRoundOffchainData memory _table
+  ) internal {
+    bytes memory _staticData = encodeStatic(
+      _table.combatResult,
+      _table.initiatorActionLength,
+      _table.retaliatorActionLength
+    );
+
+    EncodedLengths _encodedLengths;
+    bytes memory _dynamicData;
+
+    bytes32[] memory _keyTuple = new bytes32[](3);
+    _keyTuple[0] = initiatorEntity;
+    _keyTuple[1] = retaliatorEntity;
+    _keyTuple[2] = bytes32(uint256(roundIndex));
+
+    StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
+  }
+
+  /**
+   * @notice Set the full data using the data struct.
+   */
+  function _set(
+    bytes32 initiatorEntity,
+    bytes32 retaliatorEntity,
+    uint256 roundIndex,
+    CombatLogRoundOffchainData memory _table
+  ) internal {
+    bytes memory _staticData = encodeStatic(
+      _table.combatResult,
+      _table.initiatorActionLength,
+      _table.retaliatorActionLength
+    );
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -146,8 +278,14 @@ library CombatRoundResultOffchain {
   /**
    * @notice Decode the tightly packed blob of static data using this table's field layout.
    */
-  function decodeStatic(bytes memory _blob) internal pure returns (CombatResult combatResult) {
+  function decodeStatic(
+    bytes memory _blob
+  ) internal pure returns (CombatResult combatResult, uint256 initiatorActionLength, uint256 retaliatorActionLength) {
     combatResult = CombatResult(uint8(Bytes.getBytes1(_blob, 0)));
+
+    initiatorActionLength = (uint256(Bytes.getBytes32(_blob, 1)));
+
+    retaliatorActionLength = (uint256(Bytes.getBytes32(_blob, 33)));
   }
 
   /**
@@ -160,8 +298,8 @@ library CombatRoundResultOffchain {
     bytes memory _staticData,
     EncodedLengths,
     bytes memory
-  ) internal pure returns (CombatResult combatResult) {
-    (combatResult) = decodeStatic(_staticData);
+  ) internal pure returns (CombatLogRoundOffchainData memory _table) {
+    (_table.combatResult, _table.initiatorActionLength, _table.retaliatorActionLength) = decodeStatic(_staticData);
   }
 
   /**
@@ -192,8 +330,12 @@ library CombatRoundResultOffchain {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(CombatResult combatResult) internal pure returns (bytes memory) {
-    return abi.encodePacked(combatResult);
+  function encodeStatic(
+    CombatResult combatResult,
+    uint256 initiatorActionLength,
+    uint256 retaliatorActionLength
+  ) internal pure returns (bytes memory) {
+    return abi.encodePacked(combatResult, initiatorActionLength, retaliatorActionLength);
   }
 
   /**
@@ -202,8 +344,12 @@ library CombatRoundResultOffchain {
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(CombatResult combatResult) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(combatResult);
+  function encode(
+    CombatResult combatResult,
+    uint256 initiatorActionLength,
+    uint256 retaliatorActionLength
+  ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
+    bytes memory _staticData = encodeStatic(combatResult, initiatorActionLength, retaliatorActionLength);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;

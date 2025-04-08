@@ -65,7 +65,7 @@ library LibActiveCombat {
   function spendRound(
     bytes32 initiatorEntity,
     bytes32 retaliatorEntity
-  ) public returns (uint256 roundIndex, bool isFinalRound) {
+  ) internal returns (uint256 roundIndex, bool isFinalRound) {
     requireActiveCombat(initiatorEntity, retaliatorEntity);
 
     uint32 roundsSpent = ActiveCombat.getRoundsSpent(initiatorEntity);

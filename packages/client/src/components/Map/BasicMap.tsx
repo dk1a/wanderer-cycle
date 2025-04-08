@@ -6,8 +6,10 @@ import { getCycleTurns } from "../../mud/utils/turns";
 import { useLevel } from "../../mud/hooks/charstat";
 import { Button } from "../utils/Button/Button";
 import { MapData } from "../../mud/utils/getMaps";
+import { useMUD } from "../../MUDContext";
 
 export default function BasicMap({ data }: { data: MapData }) {
+  const { systemCalls } = useMUD();
   const { selectedWandererEntity, cycleEntity } = useWandererContext();
 
   const { entity, name, ilvl } = data.lootData;
@@ -20,12 +22,8 @@ export default function BasicMap({ data }: { data: MapData }) {
     if (!selectedWandererEntity) {
       throw new Error("No selected wanderer entity");
     }
-    console.log(
-      "TODO add cycle combat activation",
-      selectedWandererEntity,
-      entity,
-    );
-  }, [entity, selectedWandererEntity]);
+    systemCalls.activateCycleCombat(selectedWandererEntity, entity);
+  }, [systemCalls, entity, selectedWandererEntity]);
 
   const isHighLevel = levelData !== undefined && ilvl - levelData?.level > 2;
 

@@ -6,8 +6,10 @@ import { useStashCustom } from "../../mud/stash";
 import { EffectSource } from "../../mud/utils/getEffect";
 import { getCycleTurns } from "../../mud/utils/turns";
 import { MapData } from "../../mud/utils/getMaps";
+import { useMUD } from "../../MUDContext";
 
 export default function Map({ data }: { data: MapData }) {
+  const { systemCalls } = useMUD();
   const { selectedWandererEntity, cycleEntity } = useWandererContext();
 
   const { entity, name, ilvl, effectTemplate } = data.lootData;
@@ -18,12 +20,8 @@ export default function Map({ data }: { data: MapData }) {
     if (!selectedWandererEntity) {
       throw new Error("No selected wanderer entity");
     }
-    console.log(
-      "TODO add cycle combat activation",
-      selectedWandererEntity,
-      entity,
-    );
-  }, [entity, selectedWandererEntity]);
+    systemCalls.activateCycleCombat(selectedWandererEntity, entity);
+  }, [systemCalls, entity, selectedWandererEntity]);
 
   return (
     <div className="border border-dark-400 w-56 h-62 p-4 flex flex-col bg-dark-500">

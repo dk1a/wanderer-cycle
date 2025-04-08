@@ -16,6 +16,7 @@ import { Hex } from "viem";
 import { useMUD } from "../MUDContext";
 import { getRecordStrict, mudTables, useStashCustom } from "../mud/stash";
 import { getLearnedSkillEntities } from "../mud/utils/skill";
+import { getActiveCombat } from "../mud/utils/combat";
 
 type WandererContextType = {
   selectedWandererEntity?: Hex;
@@ -69,14 +70,17 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   // }, [ActiveCycle, selectedWandererEntity]);
   // const previousCycleEntity = cyclePrevious?.toEntity as Entity | undefined;
 
-  // const enemyEntity = useActiveCombat(cycleEntity);
+  const enemyEntity = useStashCustom((state) => {
+    if (!cycleEntity) return;
+    return getActiveCombat(state, cycleEntity)?.retaliatorEntity;
+  });
+
   //
   // const combatRewardRequests = useCycleCombatRewardRequests(cycleEntity);
   // const [lastCombatResult, setLastCombatResult] = useState<OnCombatResultData>();
   // const clearCombatResult = useCallback(() => setLastCombatResult(undefined), []);
   // useOnCombatResultEffect(cycleEntity, setLastCombatResult);
   //
-  console.log("wanderer", selectedWandererEntity);
   const learnCycleSkill = useCallback(
     async (skillEntity: Hex) => {
       if (selectedWandererEntity === undefined)
@@ -85,7 +89,6 @@ export const WandererProvider = (props: { children: ReactNode }) => {
     },
     [systemCalls, selectedWandererEntity],
   );
-  console.log("learnCycleSkill", learnCycleSkill);
   const learnedSkillEntities = useStashCustom((state) => {
     if (!cycleEntity) return [];
     return getLearnedSkillEntities(state, cycleEntity);
@@ -106,7 +109,7 @@ export const WandererProvider = (props: { children: ReactNode }) => {
     wandererMode,
     toggleWandererMode,
     // previousCycleEntity,
-    enemyEntity: undefined,
+    enemyEntity,
     // combatRewardRequests,
     // lastCombatResult,
     // clearCombatResult,

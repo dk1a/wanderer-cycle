@@ -34,7 +34,7 @@ library RNGPrecommit {
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
     keyNames = new string[](1);
-    keyNames[0] = "entity";
+    keyNames[0] = "requestId";
   }
 
   /**
@@ -63,9 +63,9 @@ library RNGPrecommit {
   /**
    * @notice Get value.
    */
-  function getValue(bytes32 entity) internal view returns (uint256 value) {
+  function getValue(bytes32 requestId) internal view returns (uint256 value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    _keyTuple[0] = requestId;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (uint256(bytes32(_blob)));
@@ -74,9 +74,9 @@ library RNGPrecommit {
   /**
    * @notice Get value.
    */
-  function _getValue(bytes32 entity) internal view returns (uint256 value) {
+  function _getValue(bytes32 requestId) internal view returns (uint256 value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    _keyTuple[0] = requestId;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (uint256(bytes32(_blob)));
@@ -85,9 +85,9 @@ library RNGPrecommit {
   /**
    * @notice Get value.
    */
-  function get(bytes32 entity) internal view returns (uint256 value) {
+  function get(bytes32 requestId) internal view returns (uint256 value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    _keyTuple[0] = requestId;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (uint256(bytes32(_blob)));
@@ -96,9 +96,9 @@ library RNGPrecommit {
   /**
    * @notice Get value.
    */
-  function _get(bytes32 entity) internal view returns (uint256 value) {
+  function _get(bytes32 requestId) internal view returns (uint256 value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    _keyTuple[0] = requestId;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (uint256(bytes32(_blob)));
@@ -107,9 +107,9 @@ library RNGPrecommit {
   /**
    * @notice Set value.
    */
-  function setValue(bytes32 entity, uint256 value) internal {
+  function setValue(bytes32 requestId, uint256 value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    _keyTuple[0] = requestId;
 
     StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((value)), _fieldLayout);
   }
@@ -117,9 +117,9 @@ library RNGPrecommit {
   /**
    * @notice Set value.
    */
-  function _setValue(bytes32 entity, uint256 value) internal {
+  function _setValue(bytes32 requestId, uint256 value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    _keyTuple[0] = requestId;
 
     StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((value)), _fieldLayout);
   }
@@ -127,9 +127,9 @@ library RNGPrecommit {
   /**
    * @notice Set value.
    */
-  function set(bytes32 entity, uint256 value) internal {
+  function set(bytes32 requestId, uint256 value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    _keyTuple[0] = requestId;
 
     StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((value)), _fieldLayout);
   }
@@ -137,9 +137,9 @@ library RNGPrecommit {
   /**
    * @notice Set value.
    */
-  function _set(bytes32 entity, uint256 value) internal {
+  function _set(bytes32 requestId, uint256 value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    _keyTuple[0] = requestId;
 
     StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((value)), _fieldLayout);
   }
@@ -147,9 +147,9 @@ library RNGPrecommit {
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(bytes32 entity) internal {
+  function deleteRecord(bytes32 requestId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    _keyTuple[0] = requestId;
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -157,9 +157,9 @@ library RNGPrecommit {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(bytes32 entity) internal {
+  function _deleteRecord(bytes32 requestId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    _keyTuple[0] = requestId;
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -190,9 +190,9 @@ library RNGPrecommit {
   /**
    * @notice Encode keys as a bytes32 array using this table's field layout.
    */
-  function encodeKeyTuple(bytes32 entity) internal pure returns (bytes32[] memory) {
+  function encodeKeyTuple(bytes32 requestId) internal pure returns (bytes32[] memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
+    _keyTuple[0] = requestId;
 
     return _keyTuple;
   }

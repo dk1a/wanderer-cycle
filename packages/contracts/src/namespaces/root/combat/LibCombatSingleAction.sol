@@ -16,7 +16,7 @@ library LibCombatSingleAction {
     bytes32 defenderEntity,
     CombatAction memory action,
     CombatActorOpts memory defenderOpts
-  ) internal {
+  ) public {
     if (action.actionType == CombatActionType.ATTACK) {
       // Deal damage to defender (updates currents)
       _dealAttackDamage(attackerEntity, defenderEntity, defenderOpts);

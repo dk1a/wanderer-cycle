@@ -19,16 +19,16 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 // Import user types
 import { CombatActionType } from "../../../../codegen/common.sol";
 
-struct CombatActionResultOffchainData {
+struct CombatLogActionOffchainData {
   CombatActionType actionType;
   bytes32 actionEntity;
   uint32 defenderLifeBefore;
   uint32 defenderLifeAfter;
 }
 
-library CombatActionResultOffchain {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "CombatActionResu", typeId: RESOURCE_OFFCHAIN_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x6f740000000000000000000000000000436f6d626174416374696f6e52657375);
+library CombatLogActionOffchain {
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "CombatLogActionO", typeId: RESOURCE_OFFCHAIN_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x6f740000000000000000000000000000436f6d6261744c6f67416374696f6e4f);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0029040001200404000000000000000000000000000000000000000000000000);
@@ -290,7 +290,7 @@ library CombatActionResultOffchain {
     bytes32 defenderEntity,
     uint256 roundIndex,
     uint256 actionIndex,
-    CombatActionResultOffchainData memory _table
+    CombatLogActionOffchainData memory _table
   ) internal {
     bytes memory _staticData = encodeStatic(
       _table.actionType,
@@ -319,7 +319,7 @@ library CombatActionResultOffchain {
     bytes32 defenderEntity,
     uint256 roundIndex,
     uint256 actionIndex,
-    CombatActionResultOffchainData memory _table
+    CombatLogActionOffchainData memory _table
   ) internal {
     bytes memory _staticData = encodeStatic(
       _table.actionType,
@@ -369,7 +369,7 @@ library CombatActionResultOffchain {
     bytes memory _staticData,
     EncodedLengths,
     bytes memory
-  ) internal pure returns (CombatActionResultOffchainData memory _table) {
+  ) internal pure returns (CombatLogActionOffchainData memory _table) {
     (_table.actionType, _table.actionEntity, _table.defenderLifeBefore, _table.defenderLifeAfter) = decodeStatic(
       _staticData
     );

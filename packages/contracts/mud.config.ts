@@ -271,7 +271,18 @@ export default defineWorld({
             roundsMax: "uint32",
           },
         },
-        CombatRoundResultOffchain: {
+        CombatLogOffchain: {
+          type: "offchainTable",
+          key: ["initiatorEntity", "retaliatorEntity"],
+          schema: {
+            initiatorEntity: EntityId,
+            retaliatorEntity: EntityId,
+            roundsSpent: "uint256",
+            roundsMax: "uint256",
+            combatResult: "CombatResult",
+          },
+        },
+        CombatLogRoundOffchain: {
           type: "offchainTable",
           key: ["initiatorEntity", "retaliatorEntity", "roundIndex"],
           schema: {
@@ -279,9 +290,11 @@ export default defineWorld({
             retaliatorEntity: EntityId,
             roundIndex: "uint256",
             combatResult: "CombatResult",
+            initiatorActionLength: "uint256",
+            retaliatorActionLength: "uint256",
           },
         },
-        CombatActionResultOffchain: {
+        CombatLogActionOffchain: {
           type: "offchainTable",
           key: ["attackerEntity", "defenderEntity", "roundIndex", "actionIndex"],
           schema: {
@@ -303,14 +316,19 @@ export default defineWorld({
           },
         },
         RNGPrecommit: {
-          ...entityKey,
+          key: ["requestId"],
           schema: {
-            entity: EntityId,
+            requestId: "bytes32",
             value: "uint256",
           },
         },
-        // requestId => ownerEntity
-        RNGRequestOwner: entityRelation,
+        RNGRequestOwner: {
+          key: ["requestId"],
+          schema: {
+            requestId: "bytes32",
+            ownerEntity: EntityId,
+          },
+        },
         SlotAllowedType: {
           key: ["slotEntity", "equipmentType"],
           schema: {

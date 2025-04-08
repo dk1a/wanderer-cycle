@@ -34,7 +34,7 @@ library RNGRequestOwner {
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
     keyNames = new string[](1);
-    keyNames[0] = "fromEntity";
+    keyNames[0] = "requestId";
   }
 
   /**
@@ -43,7 +43,7 @@ library RNGRequestOwner {
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](1);
-    fieldNames[0] = "toEntity";
+    fieldNames[0] = "ownerEntity";
   }
 
   /**
@@ -61,95 +61,95 @@ library RNGRequestOwner {
   }
 
   /**
-   * @notice Get toEntity.
+   * @notice Get ownerEntity.
    */
-  function getToEntity(bytes32 fromEntity) internal view returns (bytes32 toEntity) {
+  function getOwnerEntity(bytes32 requestId) internal view returns (bytes32 ownerEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = requestId;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
   }
 
   /**
-   * @notice Get toEntity.
+   * @notice Get ownerEntity.
    */
-  function _getToEntity(bytes32 fromEntity) internal view returns (bytes32 toEntity) {
+  function _getOwnerEntity(bytes32 requestId) internal view returns (bytes32 ownerEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = requestId;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
   }
 
   /**
-   * @notice Get toEntity.
+   * @notice Get ownerEntity.
    */
-  function get(bytes32 fromEntity) internal view returns (bytes32 toEntity) {
+  function get(bytes32 requestId) internal view returns (bytes32 ownerEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = requestId;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
   }
 
   /**
-   * @notice Get toEntity.
+   * @notice Get ownerEntity.
    */
-  function _get(bytes32 fromEntity) internal view returns (bytes32 toEntity) {
+  function _get(bytes32 requestId) internal view returns (bytes32 ownerEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = requestId;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
     return (bytes32(_blob));
   }
 
   /**
-   * @notice Set toEntity.
+   * @notice Set ownerEntity.
    */
-  function setToEntity(bytes32 fromEntity, bytes32 toEntity) internal {
+  function setOwnerEntity(bytes32 requestId, bytes32 ownerEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = requestId;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((toEntity)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((ownerEntity)), _fieldLayout);
   }
 
   /**
-   * @notice Set toEntity.
+   * @notice Set ownerEntity.
    */
-  function _setToEntity(bytes32 fromEntity, bytes32 toEntity) internal {
+  function _setOwnerEntity(bytes32 requestId, bytes32 ownerEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = requestId;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((toEntity)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((ownerEntity)), _fieldLayout);
   }
 
   /**
-   * @notice Set toEntity.
+   * @notice Set ownerEntity.
    */
-  function set(bytes32 fromEntity, bytes32 toEntity) internal {
+  function set(bytes32 requestId, bytes32 ownerEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = requestId;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((toEntity)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((ownerEntity)), _fieldLayout);
   }
 
   /**
-   * @notice Set toEntity.
+   * @notice Set ownerEntity.
    */
-  function _set(bytes32 fromEntity, bytes32 toEntity) internal {
+  function _set(bytes32 requestId, bytes32 ownerEntity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = requestId;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((toEntity)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((ownerEntity)), _fieldLayout);
   }
 
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(bytes32 fromEntity) internal {
+  function deleteRecord(bytes32 requestId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = requestId;
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -157,9 +157,9 @@ library RNGRequestOwner {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(bytes32 fromEntity) internal {
+  function _deleteRecord(bytes32 requestId) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = requestId;
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -168,8 +168,8 @@ library RNGRequestOwner {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(bytes32 toEntity) internal pure returns (bytes memory) {
-    return abi.encodePacked(toEntity);
+  function encodeStatic(bytes32 ownerEntity) internal pure returns (bytes memory) {
+    return abi.encodePacked(ownerEntity);
   }
 
   /**
@@ -178,8 +178,8 @@ library RNGRequestOwner {
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(bytes32 toEntity) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(toEntity);
+  function encode(bytes32 ownerEntity) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
+    bytes memory _staticData = encodeStatic(ownerEntity);
 
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
@@ -190,9 +190,9 @@ library RNGRequestOwner {
   /**
    * @notice Encode keys as a bytes32 array using this table's field layout.
    */
-  function encodeKeyTuple(bytes32 fromEntity) internal pure returns (bytes32[] memory) {
+  function encodeKeyTuple(bytes32 requestId) internal pure returns (bytes32[] memory) {
     bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = fromEntity;
+    _keyTuple[0] = requestId;
 
     return _keyTuple;
   }

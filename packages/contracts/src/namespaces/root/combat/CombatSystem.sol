@@ -5,8 +5,9 @@ import { System } from "@latticexyz/world/src/System.sol";
 
 import { CombatAction, CombatActorOpts, CombatActor } from "../../../CustomTypes.sol";
 import { GenericDurationData } from "../../duration/Duration.sol";
-import { CombatRoundResultOffchain } from "../codegen/tables/CombatRoundResultOffchain.sol";
-import { CombatActionResultOffchain } from "../codegen/tables/CombatActionResultOffchain.sol";
+import { CombatLogOffchain } from "../codegen/tables/CombatLogOffchain.sol";
+import { CombatLogRoundOffchain } from "../codegen/tables/CombatLogRoundOffchain.sol";
+import { CombatLogActionOffchain } from "../codegen/tables/CombatLogActionOffchain.sol";
 import { CombatActionType, CombatResult } from "../../../codegen/common.sol";
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
@@ -61,10 +62,21 @@ contract CombatSystem is System {
 
     result = _bothActorsActions(roundIndex, initiator, retaliator);
 
-    // Offchain round results for the client
-    CombatRoundResultOffchain.set(initiator.entity, retaliator.entity, roundIndex, result);
+    // Offchain log the round
+    CombatLogOffchain.setRoundsSpent(initiator.entity, retaliator.entity, roundIndex + 1);
+    CombatLogRoundOffchain.set(
+      initiator.entity,
+      retaliator.entity,
+      roundIndex,
+      result,
+      initiator.actions.length,
+      retaliator.actions.length
+    );
 
     if (result != CombatResult.NONE) {
+      // Offchain log the total result
+      CombatLogOffchain.setCombatResult(initiator.entity, retaliator.entity, result);
+
       // Combat ended - deactivate it
       deactivateCombat(initiator.entity);
     } else {
@@ -90,6 +102,14 @@ contract CombatSystem is System {
    */
   function activateCombat(bytes32 initiatorEntity, bytes32 retaliatorEntity, uint32 maxRounds) public {
     LibActiveCombat.activateCombat(initiatorEntity, retaliatorEntity, maxRounds);
+    // Offchain log the initial combat state
+    CombatLogOffchain.set({
+      initiatorEntity: initiatorEntity,
+      retaliatorEntity: retaliatorEntity,
+      roundsSpent: 0,
+      roundsMax: maxRounds,
+      combatResult: CombatResult.NONE
+    });
   }
 
   /**
@@ -148,8 +168,8 @@ contract CombatSystem is System {
       );
 
       uint32 defenderLifeAfter = LibCharstat.getLifeCurrent(defender.entity);
-      // Offchain action results for the client
-      CombatActionResultOffchain.set(
+      // Offchain log the action
+      CombatLogActionOffchain.set(
         attacker.entity,
         defender.entity,
         roundIndex,
