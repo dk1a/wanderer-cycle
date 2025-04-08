@@ -83,11 +83,10 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   //
   const learnCycleSkill = useCallback(
     async (skillEntity: Hex) => {
-      if (selectedWandererEntity === undefined)
-        throw new Error("No wanderer selected");
-      await systemCalls.learnCycleSkill(selectedWandererEntity, skillEntity);
+      if (cycleEntity === undefined) throw new Error("No cycle entity");
+      await systemCalls.learnCycleSkill(cycleEntity, skillEntity);
     },
-    [systemCalls, selectedWandererEntity],
+    [systemCalls, cycleEntity],
   );
   const learnedSkillEntities = useStashCustom((state) => {
     if (!cycleEntity) return [];

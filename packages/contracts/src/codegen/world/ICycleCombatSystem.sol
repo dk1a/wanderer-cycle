@@ -13,7 +13,7 @@ import { CombatResult } from "../common.sol";
  */
 interface ICycleCombatSystem {
   function processCycleCombatRound(
-    bytes32 wandererEntity,
+    bytes32 cycleEntity,
     CombatAction[] memory initiatorActions
   ) external returns (CombatResult result);
 }

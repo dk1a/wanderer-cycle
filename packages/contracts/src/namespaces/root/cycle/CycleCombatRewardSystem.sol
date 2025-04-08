@@ -15,9 +15,9 @@ import { LibGuiseLevel } from "../guise/LibGuiseLevel.sol";
 import { LibRNG } from "../rng/LibRNG.sol";
 
 contract CycleCombatRewardSystem is System {
-  function claimCycleCombatReward(bytes32 wandererEntity, bytes32 requestId) public {
-    // Reverts if sender doesn't have permission
-    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+  function claimCycleCombatReward(bytes32 cycleEntity, bytes32 requestId) public {
+    LibCycle.requireAccess(cycleEntity);
+
     // TODO decide if claiming exp during combat is actually bad and why
     LibActiveCombat.requireNotActiveCombat(cycleEntity);
 
@@ -44,9 +44,9 @@ contract CycleCombatRewardSystem is System {
     }
   }
 
-  function cancelCycleCombatReward(bytes32 wandererEntity, bytes32 requestId) public {
-    // Reverts if sender doesn't have permission
-    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+  function cancelCycleCombatReward(bytes32 cycleEntity, bytes32 requestId) public {
+    LibCycle.requireAccess(cycleEntity);
+
     // Remove the reward without claiming it
     LibRNG.removeRequest(cycleEntity, requestId);
   }

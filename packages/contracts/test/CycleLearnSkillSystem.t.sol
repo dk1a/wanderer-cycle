@@ -10,7 +10,7 @@ import { LibSkill } from "../src/namespaces/root/skill/LibSkill.sol";
 import { LibERC721 } from "../src/namespaces/root/token/LibERC721.sol";
 import { LibArray } from "../src/utils/LibArray.sol";
 
-contract LearnCycleSkillSystemTest is MudLibTest {
+contract CycleLearnSkillSystemTest is MudLibTest {
   bytes32 warriorGuiseEntity;
 
   bytes32 skillEntity1;
@@ -41,7 +41,7 @@ contract LearnCycleSkillSystemTest is MudLibTest {
 
   function testLearnSkill() public {
     vm.prank(alice);
-    world.learnFromCycle(wandererEntity, skillEntity1);
+    world.learnSkill(cycleEntity, skillEntity1);
     assertTrue(LibArray.isIn(skillEntity1, LearnedSkills.get(cycleEntity)));
     assertEq(LearnedSkills.get(wandererEntity).length, 0);
   }
@@ -49,6 +49,6 @@ contract LearnCycleSkillSystemTest is MudLibTest {
   function testLearnSkillRevertMustBeTokenOwner() public {
     vm.prank(bob);
     vm.expectRevert(LibERC721.LibERC721_MustBeTokenOwner.selector);
-    world.learnFromCycle(wandererEntity, skillEntity1);
+    world.learnSkill(cycleEntity, skillEntity1);
   }
 }

@@ -7,20 +7,18 @@ import { Button } from "../utils/Button/Button";
 
 export default function PassTurnButton() {
   const { systemCalls } = useMUD();
-  const { selectedWandererEntity, cycleEntity, enemyEntity } =
-    useWandererContext();
+  const { cycleEntity, enemyEntity } = useWandererContext();
 
   const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
 
   const [isBusy, setIsBusy] = useState(false);
 
   const passTurn = useCallback(async () => {
-    if (selectedWandererEntity === undefined)
-      throw new Error("No wanderer selected");
+    if (cycleEntity === undefined) throw new Error("No cycle entity");
     setIsBusy(true);
-    await systemCalls.passCycleTurn(selectedWandererEntity);
+    await systemCalls.passCycleTurn(cycleEntity);
     setIsBusy(false);
-  }, [systemCalls, selectedWandererEntity]);
+  }, [systemCalls, cycleEntity]);
 
   const isDisabled = useMemo(() => {
     // not available during combat (since it fully heals)

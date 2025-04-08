@@ -8,20 +8,19 @@ import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibCycle } from "../src/namespaces/root/cycle/LibCycle.sol";
 import { LibCycleTurns } from "../src/namespaces/root/cycle/LibCycleTurns.sol";
 
-contract PassCycleTurnSystemTest is MudLibTest {
+contract CyclePassTurnSystemTest is MudLibTest {
   bytes32 internal guiseEntity;
-  bytes32 internal wandererEntity;
   bytes32 internal cycleEntity;
 
   function setUp() public virtual override {
     super.setUp();
 
     guiseEntity = LibGuise.getGuiseEntity("Warrior");
-    (wandererEntity, cycleEntity) = world.spawnWanderer(guiseEntity);
+    (, cycleEntity) = world.spawnWanderer(guiseEntity);
   }
 
-  function testPassCycleTurn() public {
-    world.passCycleTurn(wandererEntity);
+  function testPassTurn() public {
+    world.passTurn(cycleEntity);
 
     uint32 turns = CycleTurns.get(cycleEntity);
     assertEq(turns, LibCycleTurns.TURNS_PER_PERIOD - 1);
@@ -30,7 +29,7 @@ contract PassCycleTurnSystemTest is MudLibTest {
   function testPassAllTurns() public {
     // Pass all available turns
     for (uint i = 0; i < LibCycleTurns.TURNS_PER_PERIOD; i++) {
-      world.passCycleTurn(wandererEntity);
+      world.passTurn(cycleEntity);
     }
 
     uint32 turns = CycleTurns.get(cycleEntity);

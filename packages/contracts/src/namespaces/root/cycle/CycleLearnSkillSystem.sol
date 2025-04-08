@@ -12,20 +12,19 @@ import { LibGuiseLevel } from "../guise/LibGuiseLevel.sol";
 /**
  * @title Learn a Skill from the current cycle Guise's set of available skills.
  */
-contract LearnCycleSkillSystem is System {
-  error LearnCycleSkillSystem_SkillNotInGuiseSkills(bytes32 skillEntity, bytes32 guiseEntity);
-  error LearnCycleSkillSystem_LevelIsTooLow(uint32 currentLevel, uint32 requiredLevel);
+contract CycleLearnSkillSystem is System {
+  error CycleLearnSkillSystem_SkillNotInGuiseSkills(bytes32 skillEntity, bytes32 guiseEntity);
+  error CycleLearnSkillSystem_LevelIsTooLow(uint32 currentLevel, uint32 requiredLevel);
 
-  function learnFromCycle(bytes32 wandererEntity, bytes32 skillEntity) public {
-    // Get cycle entity if sender is allowed to use it
-    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+  function learnSkill(bytes32 cycleEntity, bytes32 skillEntity) public {
+    LibCycle.requireAccess(cycleEntity);
 
     // Check skill's level requirements
     uint32 currentLevel = LibGuiseLevel.getAggregateLevel(cycleEntity);
     uint8 requiredLevel = SkillTemplate.getRequiredLevel(skillEntity);
     // TODO remove false, this is just for skill testing purposes
     if (false && currentLevel < requiredLevel) {
-      revert LearnCycleSkillSystem_LevelIsTooLow(currentLevel, requiredLevel);
+      revert CycleLearnSkillSystem_LevelIsTooLow(currentLevel, requiredLevel);
     }
 
     // Guise skills must include `skillEntity`
@@ -41,7 +40,7 @@ contract LearnCycleSkillSystem is System {
     }
 
     if (!res) {
-      revert LearnCycleSkillSystem_SkillNotInGuiseSkills(skillEntity, guiseEntity);
+      revert CycleLearnSkillSystem_SkillNotInGuiseSkills(skillEntity, guiseEntity);
     }
     // Learn the skill
     LibLearnedSkills.learnSkill(cycleEntity, skillEntity);

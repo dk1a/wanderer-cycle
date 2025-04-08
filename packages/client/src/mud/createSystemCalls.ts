@@ -18,57 +18,57 @@ export function createSystemCalls({
     await waitForTransaction(tx);
   };
 
-  const claimCycleTurns = async (wandererEntity: Hex) => {
-    const tx = await worldContract.write.claimCycleTurns([wandererEntity]);
+  const claimCycleTurns = async (cycleEntity: Hex) => {
+    const tx = await worldContract.write.claimCycleTurns([cycleEntity]);
     await waitForTransaction(tx);
   };
 
-  const passCycleTurn = async (wandererEntity: Hex) => {
-    const tx = await worldContract.write.passCycleTurn([wandererEntity]);
+  const passCycleTurn = async (cycleEntity: Hex) => {
+    const tx = await worldContract.write.passTurn([cycleEntity]);
     await waitForTransaction(tx);
   };
 
-  const learnCycleSkill = async (wandererEntity: Hex, skillEntity: Hex) => {
-    const tx = await worldContract.write.learnFromCycle([
-      wandererEntity,
-      skillEntity,
-    ]);
+  const learnCycleSkill = async (cycleEntity: Hex, skillEntity: Hex) => {
+    const tx = await worldContract.write.learnSkill([cycleEntity, skillEntity]);
     await waitForTransaction(tx);
   };
 
-  const activateCycleCombat = async (wandererEntity: Hex, mapEntity: Hex) => {
+  const activateCycleCombat = async (cycleEntity: Hex, mapEntity: Hex) => {
     const tx = await worldContract.write.activateCycleCombat([
-      wandererEntity,
+      cycleEntity,
       mapEntity,
     ]);
     await waitForTransaction(tx);
   };
 
-  const cycleCombat = async (wandererEntity: Hex, action: CombatAction[]) => {
+  const processCycleCombatRound = async (
+    cycleEntity: Hex,
+    action: CombatAction[],
+  ) => {
     const tx = await worldContract.write.processCycleCombatRound([
-      wandererEntity,
+      cycleEntity,
       action,
     ]);
     await waitForTransaction(tx);
   };
 
   const claimCycleCombatReward = async (
-    wandererEntity: Hex,
+    cycleEntity: Hex,
     requestEntity: Hex,
   ) => {
     const tx = await worldContract.write.claimCycleCombatReward([
-      wandererEntity,
+      cycleEntity,
       requestEntity,
     ]);
     await waitForTransaction(tx);
   };
 
   const cancelCycleCombatReward = async (
-    wandererEntity: Hex,
+    cycleEntity: Hex,
     requestEntity: Hex,
   ) => {
     const tx = await worldContract.write.cancelCycleCombatReward([
-      wandererEntity,
+      cycleEntity,
       requestEntity,
     ]);
     await waitForTransaction(tx);
@@ -90,7 +90,7 @@ export function createSystemCalls({
     passCycleTurn,
     learnCycleSkill,
     activateCycleCombat,
-    cycleCombat,
+    processCycleCombatRound,
     claimCycleCombatReward,
     cancelCycleCombatReward,
     // permSkill,

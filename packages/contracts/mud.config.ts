@@ -221,6 +221,13 @@ export default defineWorld({
             cycleEntity: EntityId,
           },
         },
+        CycleOwner: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            ownerEntity: EntityId,
+          },
+        },
         BossesDefeated: {
           ...entityKey,
           schema: {
@@ -540,12 +547,12 @@ export default defineWorld({
             wheelEntity: EntityId,
           },
         },
-        WheelsCompleted: {
+        CompletedWheels: {
           key: ["wandererEntity", "wheelEntity"],
           schema: {
             wandererEntity: EntityId,
             wheelEntity: EntityId,
-            value: "uint32",
+            cycleEntities: EntityIdArray,
           },
         },
         IdentityCurrent: {

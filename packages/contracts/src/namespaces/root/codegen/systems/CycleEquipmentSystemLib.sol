@@ -41,40 +41,35 @@ library CycleEquipmentSystemLib {
 
   function equip(
     CycleEquipmentSystemType self,
-    bytes32 wandererEntity,
+    bytes32 cycleEntity,
     bytes32 slotEntity,
     bytes32 equipmentEntity
   ) internal {
-    return CallWrapper(self.toResourceId(), address(0)).equip(wandererEntity, slotEntity, equipmentEntity);
+    return CallWrapper(self.toResourceId(), address(0)).equip(cycleEntity, slotEntity, equipmentEntity);
   }
 
-  function unequip(CycleEquipmentSystemType self, bytes32 wandererEntity, bytes32 slotEntity) internal {
-    return CallWrapper(self.toResourceId(), address(0)).unequip(wandererEntity, slotEntity);
+  function unequip(CycleEquipmentSystemType self, bytes32 cycleEntity, bytes32 slotEntity) internal {
+    return CallWrapper(self.toResourceId(), address(0)).unequip(cycleEntity, slotEntity);
   }
 
-  function equip(
-    CallWrapper memory self,
-    bytes32 wandererEntity,
-    bytes32 slotEntity,
-    bytes32 equipmentEntity
-  ) internal {
+  function equip(CallWrapper memory self, bytes32 cycleEntity, bytes32 slotEntity, bytes32 equipmentEntity) internal {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert CycleEquipmentSystemLib_CallingFromRootSystem();
 
     bytes memory systemCall = abi.encodeCall(
       _equip_bytes32_bytes32_bytes32.equip,
-      (wandererEntity, slotEntity, equipmentEntity)
+      (cycleEntity, slotEntity, equipmentEntity)
     );
     self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
   }
 
-  function unequip(CallWrapper memory self, bytes32 wandererEntity, bytes32 slotEntity) internal {
+  function unequip(CallWrapper memory self, bytes32 cycleEntity, bytes32 slotEntity) internal {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert CycleEquipmentSystemLib_CallingFromRootSystem();
 
-    bytes memory systemCall = abi.encodeCall(_unequip_bytes32_bytes32.unequip, (wandererEntity, slotEntity));
+    bytes memory systemCall = abi.encodeCall(_unequip_bytes32_bytes32.unequip, (cycleEntity, slotEntity));
     self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
@@ -82,19 +77,19 @@ library CycleEquipmentSystemLib {
 
   function equip(
     RootCallWrapper memory self,
-    bytes32 wandererEntity,
+    bytes32 cycleEntity,
     bytes32 slotEntity,
     bytes32 equipmentEntity
   ) internal {
     bytes memory systemCall = abi.encodeCall(
       _equip_bytes32_bytes32_bytes32.equip,
-      (wandererEntity, slotEntity, equipmentEntity)
+      (cycleEntity, slotEntity, equipmentEntity)
     );
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
-  function unequip(RootCallWrapper memory self, bytes32 wandererEntity, bytes32 slotEntity) internal {
-    bytes memory systemCall = abi.encodeCall(_unequip_bytes32_bytes32.unequip, (wandererEntity, slotEntity));
+  function unequip(RootCallWrapper memory self, bytes32 cycleEntity, bytes32 slotEntity) internal {
+    bytes memory systemCall = abi.encodeCall(_unequip_bytes32_bytes32.unequip, (cycleEntity, slotEntity));
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
@@ -137,11 +132,11 @@ library CycleEquipmentSystemLib {
  */
 
 interface _equip_bytes32_bytes32_bytes32 {
-  function equip(bytes32 wandererEntity, bytes32 slotEntity, bytes32 equipmentEntity) external;
+  function equip(bytes32 cycleEntity, bytes32 slotEntity, bytes32 equipmentEntity) external;
 }
 
 interface _unequip_bytes32_bytes32 {
-  function unequip(bytes32 wandererEntity, bytes32 slotEntity) external;
+  function unequip(bytes32 cycleEntity, bytes32 slotEntity) external;
 }
 
 using CycleEquipmentSystemLib for CycleEquipmentSystemType global;

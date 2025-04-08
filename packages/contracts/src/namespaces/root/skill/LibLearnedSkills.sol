@@ -38,14 +38,14 @@ library LibLearnedSkills {
   /**
    * @dev Copy skills from source to target. Overwrites target's existing skills
    */
-  function copySkills(bytes32 userEntity, bytes32 targetEntity) internal {
+  function copySkills(bytes32 sourceEntity, bytes32 targetEntity) internal {
     bool isKey = hasKey(LearnedSkills._tableId, LearnedSkills.encodeKeyTuple(targetEntity));
     if (isKey) {
       bytes32[] memory skillEntities = LearnedSkills.get(targetEntity);
-      LearnedSkills.set(userEntity, skillEntities);
+      LearnedSkills.set(sourceEntity, skillEntities);
 
       for (uint256 i; i < skillEntities.length; i++) {
-        _autotoggleIfPassive(userEntity, skillEntities[i]);
+        _autotoggleIfPassive(sourceEntity, skillEntities[i]);
       }
     }
   }

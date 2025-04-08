@@ -51,14 +51,14 @@ contract CycleCombatSystemTest is MudLibTest {
   function testCycleCombat() public {
     vm.startPrank(alice);
 
-    world.activateCycleCombat(wandererEntity, mapEntity);
+    world.activateCycleCombat(cycleEntity, mapEntity);
 
     CombatAction[] memory attackAction = new CombatAction[](1);
     attackAction[0] = CombatAction({ actionType: CombatActionType.ATTACK, actionEntity: 0 });
 
     CombatResult result = CombatResult.NONE;
     while (result == CombatResult.NONE) {
-      result = world.processCycleCombatRound(wandererEntity, attackAction);
+      result = world.processCycleCombatRound(cycleEntity, attackAction);
     }
     assertEq(uint8(result), uint8(CombatResult.VICTORY));
     // TODO test combat results, atm this just makes sure it can start/finish at all

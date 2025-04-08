@@ -14,5 +14,5 @@ interface ICycleActivateCombatSystem {
   error CycleActivateCombatSystem_InvalidMapType(bytes32 mapEntity, MapType mapType);
   error CycleActivateCombatSystem_BossMapAlreadyCleared();
 
-  function activateCycleCombat(bytes32 wandererEntity, bytes32 mapEntity) external returns (bytes32 encounterEntity);
+  function activateCycleCombat(bytes32 cycleEntity, bytes32 mapEntity) external returns (bytes32 encounterEntity);
 }

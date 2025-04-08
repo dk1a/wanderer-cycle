@@ -12,5 +12,5 @@ interface ICompleteCycleSystem {
   error CompleteCycleSystem_NotAllBossesDefeated();
   error CompleteCycleSystem_InsufficientLevel();
 
-  function completeCycle(bytes32 wandererEntity) external returns (bytes32 cycleEntity);
+  function completeCycle(bytes32 cycleEntity) external;
 }

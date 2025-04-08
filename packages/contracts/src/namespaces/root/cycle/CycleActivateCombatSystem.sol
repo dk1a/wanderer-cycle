@@ -24,9 +24,9 @@ contract CycleActivateCombatSystem is System {
   uint32 constant TURNS_COST = 1;
   uint32 constant MAX_ROUNDS = 12;
 
-  function activateCycleCombat(bytes32 wandererEntity, bytes32 mapEntity) public returns (bytes32 encounterEntity) {
-    // Reverts if sender doesn't have permission
-    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+  function activateCycleCombat(bytes32 cycleEntity, bytes32 mapEntity) public returns (bytes32 encounterEntity) {
+    LibCycle.requireAccess(cycleEntity);
+
     // Reverts if combat is active
     LibActiveCombat.requireNotActiveCombat(cycleEntity);
     // Reverts if map has invalid type

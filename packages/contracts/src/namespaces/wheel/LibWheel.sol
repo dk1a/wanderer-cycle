@@ -3,7 +3,7 @@ pragma solidity >=0.8.21;
 
 import { ActiveWheel } from "./codegen/tables/ActiveWheel.sol";
 import { Wheel, WheelData } from "./codegen/tables/Wheel.sol";
-import { WheelsCompleted } from "./codegen/tables/WheelsCompleted.sol";
+import { CompletedWheels } from "./codegen/tables/CompletedWheels.sol";
 import { IdentityCurrent } from "./codegen/tables/IdentityCurrent.sol";
 import { IdentityEarnedTotal } from "./codegen/tables/IdentityEarnedTotal.sol";
 import { UniqueIdx_Wheel_Name } from "./codegen/idxs/UniqueIdx_Wheel_Name.sol";
@@ -55,17 +55,16 @@ library LibWheel {
       revert LibWheel_WheelNotActive(cycleEntity);
     }
 
-    WheelData memory wheel = Wheel.get(wheelEntity);
-
     // Get number of completed wheels
-    uint32 wheelsCompleted = WheelsCompleted.get(wandererEntity, wheelEntity);
+    uint256 completedWheels = CompletedWheels.length(wandererEntity, wheelEntity);
 
     // Reward identity if charges remain
-    if (wheelsCompleted < wheel.charges) {
+    WheelData memory wheel = Wheel.get(wheelEntity);
+    if (completedWheels < wheel.charges) {
       rewardIdentity(wandererEntity);
     }
-    // Increment completed count
-    WheelsCompleted.set(wandererEntity, wheelEntity, wheelsCompleted + 1);
+    // Append the cycle to the list of wheel completions
+    CompletedWheels.push(wandererEntity, wheelEntity, cycleEntity);
   }
 
   function rewardIdentity(bytes32 wandererEntity) internal {

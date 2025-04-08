@@ -39,27 +39,23 @@ library CompleteCycleSystemLib {
   error CompleteCycleSystem_NotAllBossesDefeated();
   error CompleteCycleSystem_InsufficientLevel();
 
-  function completeCycle(CompleteCycleSystemType self, bytes32 wandererEntity) internal returns (bytes32 cycleEntity) {
-    return CallWrapper(self.toResourceId(), address(0)).completeCycle(wandererEntity);
+  function completeCycle(CompleteCycleSystemType self, bytes32 cycleEntity) internal {
+    return CallWrapper(self.toResourceId(), address(0)).completeCycle(cycleEntity);
   }
 
-  function completeCycle(CallWrapper memory self, bytes32 wandererEntity) internal returns (bytes32 cycleEntity) {
+  function completeCycle(CallWrapper memory self, bytes32 cycleEntity) internal {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert CompleteCycleSystemLib_CallingFromRootSystem();
 
-    bytes memory systemCall = abi.encodeCall(_completeCycle_bytes32.completeCycle, (wandererEntity));
-
-    bytes memory result = self.from == address(0)
+    bytes memory systemCall = abi.encodeCall(_completeCycle_bytes32.completeCycle, (cycleEntity));
+    self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
-    return abi.decode(result, (bytes32));
   }
 
-  function completeCycle(RootCallWrapper memory self, bytes32 wandererEntity) internal returns (bytes32 cycleEntity) {
-    bytes memory systemCall = abi.encodeCall(_completeCycle_bytes32.completeCycle, (wandererEntity));
-
-    bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
-    return abi.decode(result, (bytes32));
+  function completeCycle(RootCallWrapper memory self, bytes32 cycleEntity) internal {
+    bytes memory systemCall = abi.encodeCall(_completeCycle_bytes32.completeCycle, (cycleEntity));
+    SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
   function callFrom(CompleteCycleSystemType self, address from) internal pure returns (CallWrapper memory) {
@@ -101,7 +97,7 @@ library CompleteCycleSystemLib {
  */
 
 interface _completeCycle_bytes32 {
-  function completeCycle(bytes32 wandererEntity) external;
+  function completeCycle(bytes32 cycleEntity) external;
 }
 
 using CompleteCycleSystemLib for CompleteCycleSystemType global;

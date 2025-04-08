@@ -14,11 +14,11 @@ import { LibCycleCombatRewardRequest } from "./LibCycleCombatRewardRequest.sol";
 
 contract CycleCombatSystem is System {
   function processCycleCombatRound(
-    bytes32 wandererEntity,
+    bytes32 cycleEntity,
     CombatAction[] memory initiatorActions
   ) public returns (CombatResult result) {
-    // Reverts if sender doesn't have permission
-    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+    LibCycle.requireAccess(cycleEntity);
+
     // Reverts if combat isn't active
     bytes32 retaliatorEntity = LibActiveCombat.getRetaliatorEntity(cycleEntity);
 

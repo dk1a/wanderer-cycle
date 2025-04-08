@@ -37,60 +37,52 @@ struct RootCallWrapper {
 library CycleCombatRewardSystemLib {
   error CycleCombatRewardSystemLib_CallingFromRootSystem();
 
-  function claimCycleCombatReward(
-    CycleCombatRewardSystemType self,
-    bytes32 wandererEntity,
-    bytes32 requestId
-  ) internal {
-    return CallWrapper(self.toResourceId(), address(0)).claimCycleCombatReward(wandererEntity, requestId);
+  function claimCycleCombatReward(CycleCombatRewardSystemType self, bytes32 cycleEntity, bytes32 requestId) internal {
+    return CallWrapper(self.toResourceId(), address(0)).claimCycleCombatReward(cycleEntity, requestId);
   }
 
-  function cancelCycleCombatReward(
-    CycleCombatRewardSystemType self,
-    bytes32 wandererEntity,
-    bytes32 requestId
-  ) internal {
-    return CallWrapper(self.toResourceId(), address(0)).cancelCycleCombatReward(wandererEntity, requestId);
+  function cancelCycleCombatReward(CycleCombatRewardSystemType self, bytes32 cycleEntity, bytes32 requestId) internal {
+    return CallWrapper(self.toResourceId(), address(0)).cancelCycleCombatReward(cycleEntity, requestId);
   }
 
-  function claimCycleCombatReward(CallWrapper memory self, bytes32 wandererEntity, bytes32 requestId) internal {
+  function claimCycleCombatReward(CallWrapper memory self, bytes32 cycleEntity, bytes32 requestId) internal {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert CycleCombatRewardSystemLib_CallingFromRootSystem();
 
     bytes memory systemCall = abi.encodeCall(
       _claimCycleCombatReward_bytes32_bytes32.claimCycleCombatReward,
-      (wandererEntity, requestId)
+      (cycleEntity, requestId)
     );
     self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
   }
 
-  function cancelCycleCombatReward(CallWrapper memory self, bytes32 wandererEntity, bytes32 requestId) internal {
+  function cancelCycleCombatReward(CallWrapper memory self, bytes32 cycleEntity, bytes32 requestId) internal {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert CycleCombatRewardSystemLib_CallingFromRootSystem();
 
     bytes memory systemCall = abi.encodeCall(
       _cancelCycleCombatReward_bytes32_bytes32.cancelCycleCombatReward,
-      (wandererEntity, requestId)
+      (cycleEntity, requestId)
     );
     self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
   }
 
-  function claimCycleCombatReward(RootCallWrapper memory self, bytes32 wandererEntity, bytes32 requestId) internal {
+  function claimCycleCombatReward(RootCallWrapper memory self, bytes32 cycleEntity, bytes32 requestId) internal {
     bytes memory systemCall = abi.encodeCall(
       _claimCycleCombatReward_bytes32_bytes32.claimCycleCombatReward,
-      (wandererEntity, requestId)
+      (cycleEntity, requestId)
     );
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
-  function cancelCycleCombatReward(RootCallWrapper memory self, bytes32 wandererEntity, bytes32 requestId) internal {
+  function cancelCycleCombatReward(RootCallWrapper memory self, bytes32 cycleEntity, bytes32 requestId) internal {
     bytes memory systemCall = abi.encodeCall(
       _cancelCycleCombatReward_bytes32_bytes32.cancelCycleCombatReward,
-      (wandererEntity, requestId)
+      (cycleEntity, requestId)
     );
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
@@ -137,11 +129,11 @@ library CycleCombatRewardSystemLib {
  */
 
 interface _claimCycleCombatReward_bytes32_bytes32 {
-  function claimCycleCombatReward(bytes32 wandererEntity, bytes32 requestId) external;
+  function claimCycleCombatReward(bytes32 cycleEntity, bytes32 requestId) external;
 }
 
 interface _cancelCycleCombatReward_bytes32_bytes32 {
-  function cancelCycleCombatReward(bytes32 wandererEntity, bytes32 requestId) external;
+  function cancelCycleCombatReward(bytes32 cycleEntity, bytes32 requestId) external;
 }
 
 using CycleCombatRewardSystemLib for CycleCombatRewardSystemType global;

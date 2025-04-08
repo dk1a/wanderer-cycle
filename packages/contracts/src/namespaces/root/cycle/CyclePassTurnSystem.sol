@@ -11,10 +11,10 @@ import { LibCycleTurns } from "./LibCycleTurns.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
 
-contract PassCycleTurnSystem is System {
-  function passCycleTurn(bytes32 wandererEntity) public {
-    // Reverts if sender doesn't have permission
-    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+contract CyclePassTurnSystem is System {
+  function passTurn(bytes32 cycleEntity) public {
+    LibCycle.requireAccess(cycleEntity);
+
     // Not available during combat (since it fully heals)
     LibActiveCombat.requireNotActiveCombat(cycleEntity);
 

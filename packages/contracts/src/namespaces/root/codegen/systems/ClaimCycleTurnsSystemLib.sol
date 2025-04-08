@@ -37,22 +37,22 @@ struct RootCallWrapper {
 library ClaimCycleTurnsSystemLib {
   error ClaimCycleTurnsSystemLib_CallingFromRootSystem();
 
-  function claimCycleTurns(ClaimCycleTurnsSystemType self, bytes32 wandererEntity) internal {
-    return CallWrapper(self.toResourceId(), address(0)).claimCycleTurns(wandererEntity);
+  function claimCycleTurns(ClaimCycleTurnsSystemType self, bytes32 cycleEntity) internal {
+    return CallWrapper(self.toResourceId(), address(0)).claimCycleTurns(cycleEntity);
   }
 
-  function claimCycleTurns(CallWrapper memory self, bytes32 wandererEntity) internal {
+  function claimCycleTurns(CallWrapper memory self, bytes32 cycleEntity) internal {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert ClaimCycleTurnsSystemLib_CallingFromRootSystem();
 
-    bytes memory systemCall = abi.encodeCall(_claimCycleTurns_bytes32.claimCycleTurns, (wandererEntity));
+    bytes memory systemCall = abi.encodeCall(_claimCycleTurns_bytes32.claimCycleTurns, (cycleEntity));
     self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
   }
 
-  function claimCycleTurns(RootCallWrapper memory self, bytes32 wandererEntity) internal {
-    bytes memory systemCall = abi.encodeCall(_claimCycleTurns_bytes32.claimCycleTurns, (wandererEntity));
+  function claimCycleTurns(RootCallWrapper memory self, bytes32 cycleEntity) internal {
+    bytes memory systemCall = abi.encodeCall(_claimCycleTurns_bytes32.claimCycleTurns, (cycleEntity));
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
@@ -95,7 +95,7 @@ library ClaimCycleTurnsSystemLib {
  */
 
 interface _claimCycleTurns_bytes32 {
-  function claimCycleTurns(bytes32 wandererEntity) external;
+  function claimCycleTurns(bytes32 cycleEntity) external;
 }
 
 using ClaimCycleTurnsSystemLib for ClaimCycleTurnsSystemType global;

@@ -9,17 +9,17 @@ export default function ClaimTurnsButton({
   claimableTurns: number;
 }) {
   const { systemCalls } = useMUD();
-  const { selectedWandererEntity } = useWandererContext();
+  const { cycleEntity } = useWandererContext();
 
   const [isBusy, setIsBusy] = useState(false);
   const claimTurns = useCallback(async () => {
-    if (!selectedWandererEntity) {
-      throw new Error("No wanderer entity selected");
+    if (!cycleEntity) {
+      throw new Error("No cycle entity selected");
     }
     setIsBusy(true);
-    await systemCalls.claimCycleTurns(selectedWandererEntity);
+    await systemCalls.claimCycleTurns(cycleEntity);
     setIsBusy(false);
-  }, [systemCalls, selectedWandererEntity]);
+  }, [systemCalls, cycleEntity]);
 
   return (
     <div className="ml-1">

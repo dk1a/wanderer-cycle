@@ -41,15 +41,15 @@ library CycleCombatSystemLib {
 
   function processCycleCombatRound(
     CycleCombatSystemType self,
-    bytes32 wandererEntity,
+    bytes32 cycleEntity,
     CombatAction[] memory initiatorActions
   ) internal returns (CombatResult result) {
-    return CallWrapper(self.toResourceId(), address(0)).processCycleCombatRound(wandererEntity, initiatorActions);
+    return CallWrapper(self.toResourceId(), address(0)).processCycleCombatRound(cycleEntity, initiatorActions);
   }
 
   function processCycleCombatRound(
     CallWrapper memory self,
-    bytes32 wandererEntity,
+    bytes32 cycleEntity,
     CombatAction[] memory initiatorActions
   ) internal returns (CombatResult result) {
     // if the contract calling this function is a root system, it should use `callAsRoot`
@@ -57,7 +57,7 @@ library CycleCombatSystemLib {
 
     bytes memory systemCall = abi.encodeCall(
       _processCycleCombatRound_bytes32_CombatActionArray.processCycleCombatRound,
-      (wandererEntity, initiatorActions)
+      (cycleEntity, initiatorActions)
     );
 
     bytes memory result = self.from == address(0)
@@ -68,12 +68,12 @@ library CycleCombatSystemLib {
 
   function processCycleCombatRound(
     RootCallWrapper memory self,
-    bytes32 wandererEntity,
+    bytes32 cycleEntity,
     CombatAction[] memory initiatorActions
   ) internal returns (CombatResult result) {
     bytes memory systemCall = abi.encodeCall(
       _processCycleCombatRound_bytes32_CombatActionArray.processCycleCombatRound,
-      (wandererEntity, initiatorActions)
+      (cycleEntity, initiatorActions)
     );
 
     bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
@@ -119,7 +119,7 @@ library CycleCombatSystemLib {
  */
 
 interface _processCycleCombatRound_bytes32_CombatActionArray {
-  function processCycleCombatRound(bytes32 wandererEntity, CombatAction[] memory initiatorActions) external;
+  function processCycleCombatRound(bytes32 cycleEntity, CombatAction[] memory initiatorActions) external;
 }
 
 using CycleCombatSystemLib for CycleCombatSystemType global;

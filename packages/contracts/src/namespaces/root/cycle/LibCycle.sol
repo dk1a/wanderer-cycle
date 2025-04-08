@@ -3,10 +3,12 @@ pragma solidity >=0.8.21;
 
 import { WorldContextConsumerLib } from "@latticexyz/world/src/WorldContext.sol";
 
-import { SystemSwitch } from "@latticexyz/world-modules/src/utils/SystemSwitch.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { ActiveGuise, GuisePrototype, ActiveCycle } from "../codegen/index.sol";
+import { ActiveGuise } from "../codegen/tables/ActiveGuise.sol";
+import { GuisePrototype } from "../codegen/tables/GuisePrototype.sol";
+import { ActiveCycle } from "../codegen/tables/ActiveCycle.sol";
+import { CycleOwner } from "../codegen/tables/CycleOwner.sol";
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
@@ -17,8 +19,8 @@ import { LibLearnedSkills } from "../skill/LibLearnedSkills.sol";
 import { ERC721Namespaces } from "../token/ERC721Namespaces.sol";
 
 library LibCycle {
-  error LibCycle_CycleIsAlreadyActive();
-  error LibCycle_CycleNotActive();
+  error LibCycle_DuplicateActiveCycle();
+  error LibCycle_CycleNotActive(bytes32 cycleEntity);
   error LibCycle_InvalidGuiseEntity();
 
   function initCycle(
@@ -30,7 +32,7 @@ library LibCycle {
     cycleEntity = getUniqueEntity();
     // Cycle must be inactive
     if (ActiveCycle.get(wandererEntity) != bytes32(0)) {
-      revert LibCycle_CycleIsAlreadyActive();
+      revert LibCycle_DuplicateActiveCycle();
     }
     // Prototypes must exist
     uint32[3] memory guiseProto = GuisePrototype.get(guiseEntity);
@@ -48,7 +50,8 @@ library LibCycle {
   /**
    * @dev End the cycle, which will not count as completed, and provides no rewards
    */
-  function cancelCycle(bytes32 wandererEntity) internal {
+  function cancelCycle(bytes32 cycleEntity) internal {
+    bytes32 wandererEntity = requireActiveCycle(cycleEntity);
     // Clear the current cycle
     ActiveCycle.deleteRecord(wandererEntity);
   }
@@ -56,7 +59,8 @@ library LibCycle {
   /**
    * @dev End the cycle with completion rewards
    */
-  function completeCycle(bytes32 wandererEntity, bytes32 cycleEntity) internal {
+  function completeCycle(bytes32 cycleEntity) internal {
+    bytes32 wandererEntity = requireActiveCycle(cycleEntity);
     // Clear the current cycle
     ActiveCycle.deleteRecord(wandererEntity);
     // Complete the wheel of the cycle and get rewards
@@ -64,29 +68,34 @@ library LibCycle {
   }
 
   /**
-   * @dev Return `cycleEntity` if _msgSender() is allowed to use it.
-   * Revert if not allowed.
-   * Revert if there is no active cycle.
-   *
-   * Note on why getCycleEntity and a permission check are 1 method:
-   * Cycle systems take `wandererEntity` as the argument to simplify checking permissions,
-   * and then convert it to `cycleEntity`. If you don't need permission checks,
-   * you probably shouldn't need this method either, and should know cycle entities directly.
+   * @notice Check that the cycle has an owner, and is the owner's active cycle
+   * @return wandererEntity cycle owner
    */
-  function getCycleEntityPermissioned(bytes32 wandererEntity) internal view returns (bytes32 cycleEntity) {
-    // Check permission
-    ERC721Namespaces.WandererNFT.requireOwner(WorldContextConsumerLib._msgSender(), wandererEntity);
-    // Get cycle entity
-    if (ActiveCycle.get(wandererEntity) == 0) revert LibCycle_CycleNotActive();
-    return ActiveCycle.get(wandererEntity);
+  function requireActiveCycle(bytes32 cycleEntity) internal view returns (bytes32 wandererEntity) {
+    wandererEntity = CycleOwner.get(cycleEntity);
+    bytes32 activeCycleEntity = ActiveCycle.get(wandererEntity);
+    if (cycleEntity != activeCycleEntity) {
+      revert LibCycle_CycleNotActive(cycleEntity);
+    }
+  }
+
+  /**
+   * @notice Check that _msgSender has access to cycleEntity's owner
+   */
+  function requireAccess(bytes32 cycleEntity) internal view {
+    bytes32 ownerEntity = CycleOwner.get(cycleEntity);
+    // _msgSender must own the NFT that owns the cycle
+    ERC721Namespaces.WandererNFT.requireOwner(WorldContextConsumerLib._msgSender(), ownerEntity);
+    // TODO should this also include requireActiveCycle?
   }
 }
 
 // This is separate and public only to split codesize
 library LibCycleInternalPart2 {
   function initCyclePart2(bytes32 wandererEntity, bytes32 cycleEntity, bytes32 guiseEntity) public {
-    // Set active cycle
+    // Set active cycle and its owner
     ActiveCycle.set(wandererEntity, cycleEntity);
+    CycleOwner.set(cycleEntity, wandererEntity);
     // Set active guise
     ActiveGuise.set(cycleEntity, guiseEntity);
     // Init exp
@@ -98,6 +107,6 @@ library LibCycleInternalPart2 {
     // Spawn equipment slots
     LibSpawnEquipmentSlots.spawnEquipmentSlots(cycleEntity);
     // Copy permanent skills
-    LibLearnedSkills.copySkills(wandererEntity, guiseEntity);
+    LibLearnedSkills.copySkills(wandererEntity, cycleEntity);
   }
 }

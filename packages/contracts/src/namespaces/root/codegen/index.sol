@@ -24,6 +24,7 @@ import { SkillName } from "./tables/SkillName.sol";
 import { SkillDescription } from "./tables/SkillDescription.sol";
 import { SkillCooldown, SkillCooldownData } from "./tables/SkillCooldown.sol";
 import { ActiveCycle } from "./tables/ActiveCycle.sol";
+import { CycleOwner } from "./tables/CycleOwner.sol";
 import { BossesDefeated } from "./tables/BossesDefeated.sol";
 import { CycleCombatRReq, CycleCombatRReqData } from "./tables/CycleCombatRReq.sol";
 import { CycleTurns } from "./tables/CycleTurns.sol";

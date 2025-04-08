@@ -29,9 +29,8 @@ contract CycleEquipmentSystem is System {
     }
   }
 
-  function equip(bytes32 wandererEntity, bytes32 slotEntity, bytes32 equipmentEntity) public {
-    // Reverts if sender doesn't have permission
-    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+  function equip(bytes32 cycleEntity, bytes32 slotEntity, bytes32 equipmentEntity) public {
+    LibCycle.requireAccess(cycleEntity);
 
     _requireOwnedSlot(cycleEntity, slotEntity);
     _requireOwnedEquipment(cycleEntity, equipmentEntity);
@@ -39,9 +38,8 @@ contract CycleEquipmentSystem is System {
     LibEquipment.equip(cycleEntity, slotEntity, equipmentEntity);
   }
 
-  function unequip(bytes32 wandererEntity, bytes32 slotEntity) public {
-    // Reverts if sender doesn't have permission
-    bytes32 cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+  function unequip(bytes32 cycleEntity, bytes32 slotEntity) public {
+    LibCycle.requireAccess(cycleEntity);
 
     _requireOwnedSlot(cycleEntity, slotEntity);
 

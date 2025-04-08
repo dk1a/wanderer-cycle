@@ -42,15 +42,15 @@ library CycleActivateCombatSystemLib {
 
   function activateCycleCombat(
     CycleActivateCombatSystemType self,
-    bytes32 wandererEntity,
+    bytes32 cycleEntity,
     bytes32 mapEntity
   ) internal returns (bytes32 encounterEntity) {
-    return CallWrapper(self.toResourceId(), address(0)).activateCycleCombat(wandererEntity, mapEntity);
+    return CallWrapper(self.toResourceId(), address(0)).activateCycleCombat(cycleEntity, mapEntity);
   }
 
   function activateCycleCombat(
     CallWrapper memory self,
-    bytes32 wandererEntity,
+    bytes32 cycleEntity,
     bytes32 mapEntity
   ) internal returns (bytes32 encounterEntity) {
     // if the contract calling this function is a root system, it should use `callAsRoot`
@@ -58,7 +58,7 @@ library CycleActivateCombatSystemLib {
 
     bytes memory systemCall = abi.encodeCall(
       _activateCycleCombat_bytes32_bytes32.activateCycleCombat,
-      (wandererEntity, mapEntity)
+      (cycleEntity, mapEntity)
     );
 
     bytes memory result = self.from == address(0)
@@ -69,12 +69,12 @@ library CycleActivateCombatSystemLib {
 
   function activateCycleCombat(
     RootCallWrapper memory self,
-    bytes32 wandererEntity,
+    bytes32 cycleEntity,
     bytes32 mapEntity
   ) internal returns (bytes32 encounterEntity) {
     bytes memory systemCall = abi.encodeCall(
       _activateCycleCombat_bytes32_bytes32.activateCycleCombat,
-      (wandererEntity, mapEntity)
+      (cycleEntity, mapEntity)
     );
 
     bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
@@ -123,7 +123,7 @@ library CycleActivateCombatSystemLib {
  */
 
 interface _activateCycleCombat_bytes32_bytes32 {
-  function activateCycleCombat(bytes32 wandererEntity, bytes32 mapEntity) external;
+  function activateCycleCombat(bytes32 cycleEntity, bytes32 mapEntity) external;
 }
 
 using CycleActivateCombatSystemLib for CycleActivateCombatSystemType global;

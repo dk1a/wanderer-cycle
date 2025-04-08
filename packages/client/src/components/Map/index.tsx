@@ -10,18 +10,18 @@ import { useMUD } from "../../MUDContext";
 
 export default function Map({ data }: { data: MapData }) {
   const { systemCalls } = useMUD();
-  const { selectedWandererEntity, cycleEntity } = useWandererContext();
+  const { cycleEntity } = useWandererContext();
 
   const { entity, name, ilvl, effectTemplate } = data.lootData;
 
   const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
 
   const onMapEnter = useCallback(() => {
-    if (!selectedWandererEntity) {
-      throw new Error("No selected wanderer entity");
+    if (!cycleEntity) {
+      throw new Error("No cycle entity");
     }
-    systemCalls.activateCycleCombat(selectedWandererEntity, entity);
-  }, [systemCalls, entity, selectedWandererEntity]);
+    systemCalls.activateCycleCombat(cycleEntity, entity);
+  }, [systemCalls, entity, cycleEntity]);
 
   return (
     <div className="border border-dark-400 w-56 h-62 p-4 flex flex-col bg-dark-500">

@@ -10,7 +10,7 @@ import { useMUD } from "../../MUDContext";
 
 export default function BasicMap({ data }: { data: MapData }) {
   const { systemCalls } = useMUD();
-  const { selectedWandererEntity, cycleEntity } = useWandererContext();
+  const { cycleEntity } = useWandererContext();
 
   const { entity, name, ilvl } = data.lootData;
 
@@ -19,11 +19,11 @@ export default function BasicMap({ data }: { data: MapData }) {
   const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
 
   const onMapEnter = useCallback(() => {
-    if (!selectedWandererEntity) {
-      throw new Error("No selected wanderer entity");
+    if (!cycleEntity) {
+      throw new Error("No cycle entity");
     }
-    systemCalls.activateCycleCombat(selectedWandererEntity, entity);
-  }, [systemCalls, entity, selectedWandererEntity]);
+    systemCalls.activateCycleCombat(cycleEntity, entity);
+  }, [systemCalls, entity, cycleEntity]);
 
   const isHighLevel = levelData !== undefined && ilvl - levelData?.level > 2;
 

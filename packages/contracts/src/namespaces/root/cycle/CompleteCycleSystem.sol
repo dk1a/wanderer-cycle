@@ -15,9 +15,8 @@ contract CompleteCycleSystem is System {
   error CompleteCycleSystem_NotAllBossesDefeated();
   error CompleteCycleSystem_InsufficientLevel();
 
-  function completeCycle(bytes32 wandererEntity) public returns (bytes32 cycleEntity) {
-    // Reverts if sender doesn't have permission
-    cycleEntity = LibCycle.getCycleEntityPermissioned(wandererEntity);
+  function completeCycle(bytes32 cycleEntity) public {
+    LibCycle.requireAccess(cycleEntity);
 
     // All bosses must be defeated
     // TODO requirement reduced for testing; remove hardcode
@@ -33,6 +32,6 @@ contract CompleteCycleSystem is System {
     }
 
     // Complete the cycle
-    LibCycle.completeCycle(wandererEntity, cycleEntity);
+    LibCycle.completeCycle(cycleEntity);
   }
 }
