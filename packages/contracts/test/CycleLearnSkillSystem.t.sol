@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 import { LearnedSkills } from "../src/namespaces/root/codegen/index.sol";
 
 import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
@@ -10,7 +10,7 @@ import { LibSkill } from "../src/namespaces/root/skill/LibSkill.sol";
 import { LibERC721 } from "../src/namespaces/root/token/LibERC721.sol";
 import { LibArray } from "../src/utils/LibArray.sol";
 
-contract CycleLearnSkillSystemTest is MudLibTest {
+contract CycleLearnSkillSystemTest is BaseTest {
   bytes32 warriorGuiseEntity;
 
   bytes32 skillEntity1;

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
 
@@ -13,7 +13,7 @@ import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibExperience } from "../src/namespaces/root/charstat/LibExperience.sol";
 import { ERC721Namespaces } from "../src/namespaces/root/token/ERC721Namespaces.sol";
 
-contract WandererSpawnSystemTest is MudLibTest {
+contract WandererSpawnSystemTest is BaseTest {
   bytes32 guiseEntity;
 
   bytes32 wandererEntity;

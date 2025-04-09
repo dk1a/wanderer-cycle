@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 import { CycleTurns } from "../src/namespaces/root/codegen/index.sol";
 
 import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibCycle } from "../src/namespaces/root/cycle/LibCycle.sol";
 import { LibCycleTurns } from "../src/namespaces/root/cycle/LibCycleTurns.sol";
 
-contract CyclePassTurnSystemTest is MudLibTest {
+contract CyclePassTurnSystemTest is BaseTest {
   bytes32 internal guiseEntity;
   bytes32 internal cycleEntity;
 

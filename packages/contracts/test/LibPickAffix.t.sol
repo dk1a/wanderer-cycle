@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 import { AffixAvailabilityTargetId, LibPickAffix, AffixPrototype, AffixPrototypeData } from "../src/namespaces/affix/LibPickAffix.sol";
 import { AffixPrototypeAvailable } from "../src/namespaces/affix/codegen/tables/AffixPrototypeAvailable.sol";
 import { AffixPartId } from "../src/codegen/common.sol";
 
-contract LibPickAffixTest is MudLibTest {
+contract LibPickAffixTest is BaseTest {
   AffixAvailabilityTargetId internal targetId = AffixAvailabilityTargetId.wrap(keccak256("affixAvailabilityTargetId"));
 
   bytes32 fakeStatmodEntity = hex"f5be";

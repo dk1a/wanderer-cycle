@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 import { SkillCooldown } from "../src/namespaces/root/codegen/index.sol";
 import { EleStat, SkillType, TargetType, StatmodOp } from "../src/codegen/common.sol";
 import { PStat, PStat_length, StatmodOp_length, EleStat_length, StatmodOpFinal } from "../src/CustomTypes.sol";
@@ -22,7 +22,7 @@ contract SkillTestSystem is TestSystem {
   }
 }
 
-contract LibSkillTest is MudLibTest {
+contract LibSkillTest is BaseTest {
   SkillTestSystem skillTestSystem;
 
   bytes32 userEntity = keccak256("userEntity");

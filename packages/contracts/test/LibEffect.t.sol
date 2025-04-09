@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 import { Duration, GenericDurationData, Idx_GenericDuration_TargetEntityTimeId } from "../src/namespaces/duration/Duration.sol";
 import { LibEffect, EffectDuration, EffectTemplateData } from "../src/namespaces/effect/LibEffect.sol";
 import { LibEffectTemplate } from "../src/namespaces/effect/LibEffectTemplate.sol";
 import { StatmodTopics, StatmodOp, EleStat } from "../src/namespaces/statmod/StatmodTopic.sol";
 
-contract LibEffectTest is MudLibTest {
+contract LibEffectTest is BaseTest {
   bytes32 targetEntity = keccak256("targetEntity");
   bytes32 applicationEntity = keccak256("applicationEntity");
 

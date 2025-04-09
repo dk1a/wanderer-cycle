@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 
 import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibCycle } from "../src/namespaces/root/cycle/LibCycle.sol";
@@ -10,7 +10,7 @@ import { LibWheel } from "../src/namespaces/wheel/LibWheel.sol";
 import { ActiveCycle, CycleOwner } from "../src/namespaces/root/codegen/index.sol";
 import { ActiveWheel, CompletedWheels, IdentityCurrent, IdentityEarnedTotal } from "../src/namespaces/wheel/codegen/index.sol";
 
-contract CycleTest is MudLibTest {
+contract CycleTest is BaseTest {
   bytes32 internal guiseEntity;
   bytes32 internal wandererEntity;
   bytes32 internal cycleEntity;

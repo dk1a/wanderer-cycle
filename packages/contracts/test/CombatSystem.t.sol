@@ -2,7 +2,7 @@
 pragma solidity >=0.8.21;
 
 import { IWorldErrors } from "@latticexyz/world/src/IWorldErrors.sol";
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 
 import { ActiveCombat } from "../src/namespaces/root/codegen/index.sol";
 import { CombatSystem, CombatAction, CombatActionType } from "../src/namespaces/root/combat/CombatSystem.sol";
@@ -13,7 +13,7 @@ import { StatmodTopics } from "../src/namespaces/statmod/StatmodTopic.sol";
 import { Statmod } from "../src/namespaces/statmod/Statmod.sol";
 import { EleStat, StatmodOp, CombatResult } from "../src/codegen/common.sol";
 
-contract CombatSystemTest is MudLibTest {
+contract CombatSystemTest is BaseTest {
   address writer = address(bytes20(keccak256("writer")));
   address notWriter = address(bytes20(keccak256("notWriter")));
   bytes32 playerEntity = keccak256("playerEntity");

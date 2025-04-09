@@ -6,7 +6,7 @@ import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueent
 
 import { LibRNG } from "../src/namespaces/root/rng/LibRNG.sol";
 import { RNGPrecommit, RNGRequestOwner } from "../src/namespaces/root/codegen/index.sol";
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 import { TestSystem } from "./TestSystem.sol";
 
 contract RNGTestSystem is TestSystem {
@@ -17,7 +17,7 @@ contract RNGTestSystem is TestSystem {
   }
 }
 
-contract LibRNGTest is MudLibTest {
+contract LibRNGTest is BaseTest {
   RNGTestSystem rngTestSystem;
 
   function setUp() public virtual override {

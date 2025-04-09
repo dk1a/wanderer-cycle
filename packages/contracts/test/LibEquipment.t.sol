@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 import { EquipmentTypes, EquipmentType } from "../src/namespaces/root/equipment/EquipmentType.sol";
 import { LibEquipment } from "../src/namespaces/root/equipment/LibEquipment.sol";
 import { OwnedBy, EquipmentTypeComponent, SlotEquipment, SlotAllowedType } from "../src/namespaces/root/codegen/index.sol";
@@ -18,7 +18,7 @@ library RevertHelper {
   }
 }
 
-contract LibEquipmentTest is MudLibTest {
+contract LibEquipmentTest is BaseTest {
   bytes32 playerEntity = keccak256("playerEntity");
 
   // equipment entities

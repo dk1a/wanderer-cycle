@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 
 import { CombatAction, CombatActionType } from "../src/CustomTypes.sol";
 import { ActiveCycle, LootAffixes } from "../src/namespaces/root/codegen/index.sol";
@@ -11,7 +11,7 @@ import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibInitMapsGlobal } from "../src/namespaces/root/init/LibInitMapsGlobal.sol";
 import { CombatResult } from "../src/codegen/common.sol";
 
-contract CycleCombatSystemTest is MudLibTest {
+contract CycleCombatSystemTest is BaseTest {
   // taken from InitGuiseSystem, initialized by LibDeploy
   bytes32 guiseEntity;
 

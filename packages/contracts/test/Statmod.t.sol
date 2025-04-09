@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 import { Statmod } from "../src/namespaces/statmod/Statmod.sol";
 import { StatmodTopic, StatmodTopics } from "../src/namespaces/statmod/StatmodTopic.sol";
 import { StatmodOp, EleStat } from "../src/codegen/common.sol";
 import { StatmodOp_length, EleStat_length } from "../src/CustomTypes.sol";
 
-contract StatmodTest is MudLibTest {
+contract StatmodTest is BaseTest {
   bytes32 internal targetEntity = keccak256("targetEntity");
 
   // some statmod prototype entities and their topics

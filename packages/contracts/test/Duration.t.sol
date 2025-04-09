@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { EffectDuration } from "../src/namespaces/effect/LibEffect.sol";
 import { Duration, GenericDuration, GenericDurationData, Idx_GenericDuration_TargetEntityTimeId } from "../src/namespaces/duration/Duration.sol";
 
-contract DurationTest is MudLibTest {
+contract DurationTest is BaseTest {
   bytes32 targetEntity = keccak256("targetEntity");
   bytes32 app10 = keccak256("app10");
   bytes32 app5 = keccak256("app5");

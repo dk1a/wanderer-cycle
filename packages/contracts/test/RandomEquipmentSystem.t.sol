@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.17;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 
 import { AffixPartId } from "../src/codegen/common.sol";
 import { LootAffixes, LootIlvl, EquipmentTypeComponent } from "../src/namespaces/root/codegen/index.sol";
@@ -11,7 +11,7 @@ import { Affix, AffixData } from "../src/namespaces/affix/codegen/index.sol";
 import { EffectTemplate } from "../src/namespaces/effect/codegen/index.sol";
 import { MAX_ILVL } from "../src/namespaces/affix/constants.sol";
 
-contract RandomEquipmentSystemTest is MudLibTest {
+contract RandomEquipmentSystemTest is BaseTest {
   // tests basic assumptions, and that 2 mints don't break each other
   function testRandomEquipment2(uint256 seed1, uint256 seed2) public {
     vm.assume(seed1 != seed2);

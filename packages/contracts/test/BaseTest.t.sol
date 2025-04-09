@@ -8,7 +8,7 @@ import { IWorld } from "../src/codegen/world/IWorld.sol";
 
 import { runPostDeployInitializers } from "../script/PostDeploy.s.sol";
 
-abstract contract MudLibTest is MudTest {
+abstract contract BaseTest is MudTest {
   IWorld world;
 
   address alice = address(bytes20(keccak256("alice")));

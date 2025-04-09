@@ -5,9 +5,9 @@ import { LibGuiseLevel } from "../src/namespaces/root/guise/LibGuiseLevel.sol";
 import { LibExperience } from "../src/namespaces/root/charstat/LibExperience.sol";
 import { ActiveGuise, GuisePrototype } from "../src/namespaces/root/codegen/index.sol";
 import { PStat_length } from "../src/CustomTypes.sol";
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 
-contract LibGuiseLevelTest is MudLibTest {
+contract LibGuiseLevelTest is BaseTest {
   bytes32 internal targetEntity = keccak256("targetEntity");
   uint32[PStat_length] internal levelMul = [8, 8, 8];
 

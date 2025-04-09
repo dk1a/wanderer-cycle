@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { MudLibTest } from "./MudLibTest.t.sol";
+import { BaseTest } from "./BaseTest.t.sol";
 import { EffectTemplate } from "../src/namespaces/effect/LibEffect.sol";
 import { SkillTemplate, SkillName } from "../src/namespaces/root/codegen/index.sol";
 import { SkillType, TargetType } from "../src/codegen/common.sol";
 import { LibSkill } from "../src/namespaces/root/skill/LibSkill.sol";
 
-contract SkillTemplateTest is MudLibTest {
+contract SkillTemplateTest is BaseTest {
   // sample skill entities
   bytes32 cleavePE;
   bytes32 chargePE;
