@@ -18,6 +18,24 @@ export function createSystemCalls({
     await waitForTransaction(tx);
   };
 
+  const startCycle = async (
+    wandererEntity: Hex,
+    guiseEntity: Hex,
+    wheelEntity: Hex,
+  ) => {
+    const tx = await worldContract.write.startCycle([
+      wandererEntity,
+      guiseEntity,
+      wheelEntity,
+    ]);
+    await waitForTransaction(tx);
+  };
+
+  const cancelCycle = async (guiseEntity: Hex) => {
+    const tx = await worldContract.write.cancelCycle([guiseEntity]);
+    await waitForTransaction(tx);
+  };
+
   const claimCycleTurns = async (cycleEntity: Hex) => {
     const tx = await worldContract.write.claimCycleTurns([cycleEntity]);
     await waitForTransaction(tx);
@@ -86,6 +104,8 @@ export function createSystemCalls({
 
   return {
     spawnWanderer,
+    startCycle,
+    cancelCycle,
     claimCycleTurns,
     passCycleTurn,
     learnCycleSkill,

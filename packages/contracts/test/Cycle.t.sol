@@ -25,10 +25,13 @@ contract CycleTest is BaseTest {
     wheelEntity = ActiveWheel.getWheelEntity(cycleEntity);
   }
 
-  function testCompleteCycle() public {
+  function testSetUp() public view {
     assertNotEq(wheelEntity, bytes32(0));
     assertEq(ActiveCycle.get(wandererEntity), cycleEntity);
     assertEq(CycleOwner.get(cycleEntity), wandererEntity);
+  }
+
+  function testCompleteCycle() public {
     world.completeCycle(cycleEntity);
 
     assertEq(ActiveCycle.get(wandererEntity), bytes32(0));
@@ -37,6 +40,16 @@ contract CycleTest is BaseTest {
     assertEq(CompletedWheels.getItem(wandererEntity, wheelEntity, 0), cycleEntity);
     assertEq(IdentityCurrent.get(wandererEntity), LibWheel.IDENTITY_INCREMENT);
     assertEq(IdentityEarnedTotal.get(wandererEntity), LibWheel.IDENTITY_INCREMENT);
+  }
+
+  function testCancelCycle() public {
+    world.cancelCycle(cycleEntity);
+
+    assertEq(ActiveCycle.get(wandererEntity), bytes32(0));
+    assertEq(CycleOwner.get(cycleEntity), wandererEntity);
+    assertEq(CompletedWheels.length(wandererEntity, wheelEntity), 0);
+    assertEq(IdentityCurrent.get(wandererEntity), 0);
+    assertEq(IdentityEarnedTotal.get(wandererEntity), 0);
   }
 
   /* TODO test proper ending+starting a cycle, this isn't WandererSpawn and cannot start a cycle from nothing
