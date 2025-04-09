@@ -228,6 +228,16 @@ export default defineWorld({
             ownerEntity: EntityId,
           },
         },
+        CycleMetadata: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            // timestamp
+            startTime: "uint256",
+            // timestamp
+            endTime: "uint256",
+          },
+        },
         BossesDefeated: {
           ...entityKey,
           schema: {

@@ -9,6 +9,7 @@ import { ActiveGuise } from "../codegen/tables/ActiveGuise.sol";
 import { GuisePrototype } from "../codegen/tables/GuisePrototype.sol";
 import { ActiveCycle } from "../codegen/tables/ActiveCycle.sol";
 import { CycleOwner } from "../codegen/tables/CycleOwner.sol";
+import { CycleMetadata } from "../codegen/tables/CycleMetadata.sol";
 
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibExperience } from "../charstat/LibExperience.sol";
@@ -54,6 +55,8 @@ library LibCycle {
     bytes32 wandererEntity = requireActiveCycle(cycleEntity);
     // Clear the current cycle
     ActiveCycle.deleteRecord(wandererEntity);
+    // Update cycle metadata
+    CycleMetadata.setEndTime(cycleEntity, block.timestamp);
   }
 
   /**
@@ -63,6 +66,8 @@ library LibCycle {
     bytes32 wandererEntity = requireActiveCycle(cycleEntity);
     // Clear the current cycle
     ActiveCycle.deleteRecord(wandererEntity);
+    // Update cycle metadata
+    CycleMetadata.setEndTime(cycleEntity, block.timestamp);
     // Complete the wheel of the cycle and get rewards
     LibWheel.completeWheel(wandererEntity, cycleEntity);
   }
@@ -96,6 +101,8 @@ library LibCycleInternalPart2 {
     // Set active cycle and its owner
     ActiveCycle.set(wandererEntity, cycleEntity);
     CycleOwner.set(cycleEntity, wandererEntity);
+    // Set cycle metadata
+    CycleMetadata.setStartTime(cycleEntity, block.timestamp);
     // Set active guise
     ActiveGuise.set(cycleEntity, guiseEntity);
     // Init exp
