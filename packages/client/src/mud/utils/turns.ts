@@ -44,7 +44,7 @@ export function getAccPeriods(
     key: { entity },
   });
 
-  let lastClaimedTimestamp = lastClaimed?.value ?? 0;
+  let lastClaimedTimestamp = Number(lastClaimed?.value ?? 0);
   // Convert seconds to ms
   lastClaimedTimestamp *= 1000;
   // Calculate the default value if nothing is saved

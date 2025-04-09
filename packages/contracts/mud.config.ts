@@ -258,7 +258,7 @@ export default defineWorld({
           schema: {
             entity: EntityId,
             // timestamp
-            value: "uint48",
+            value: "uint256",
           },
         },
         Wanderer: {

@@ -21,12 +21,12 @@ library CycleTurnsLastClaimed {
   ResourceId constant _tableId = ResourceId.wrap(0x746200000000000000000000000000004379636c655475726e734c617374436c);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0006010006000000000000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0020010020000000000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (bytes32)
   Schema constant _keySchema = Schema.wrap(0x002001005f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint48)
-  Schema constant _valueSchema = Schema.wrap(0x0006010005000000000000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint256)
+  Schema constant _valueSchema = Schema.wrap(0x002001001f000000000000000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -63,51 +63,51 @@ library CycleTurnsLastClaimed {
   /**
    * @notice Get value.
    */
-  function getValue(bytes32 entity) internal view returns (uint48 value) {
+  function getValue(bytes32 entity) internal view returns (uint256 value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (uint48(bytes6(_blob)));
+    return (uint256(bytes32(_blob)));
   }
 
   /**
    * @notice Get value.
    */
-  function _getValue(bytes32 entity) internal view returns (uint48 value) {
+  function _getValue(bytes32 entity) internal view returns (uint256 value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (uint48(bytes6(_blob)));
+    return (uint256(bytes32(_blob)));
   }
 
   /**
    * @notice Get value.
    */
-  function get(bytes32 entity) internal view returns (uint48 value) {
+  function get(bytes32 entity) internal view returns (uint256 value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
     bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (uint48(bytes6(_blob)));
+    return (uint256(bytes32(_blob)));
   }
 
   /**
    * @notice Get value.
    */
-  function _get(bytes32 entity) internal view returns (uint48 value) {
+  function _get(bytes32 entity) internal view returns (uint256 value) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
     bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
-    return (uint48(bytes6(_blob)));
+    return (uint256(bytes32(_blob)));
   }
 
   /**
    * @notice Set value.
    */
-  function setValue(bytes32 entity, uint48 value) internal {
+  function setValue(bytes32 entity, uint256 value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -117,7 +117,7 @@ library CycleTurnsLastClaimed {
   /**
    * @notice Set value.
    */
-  function _setValue(bytes32 entity, uint48 value) internal {
+  function _setValue(bytes32 entity, uint256 value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -127,7 +127,7 @@ library CycleTurnsLastClaimed {
   /**
    * @notice Set value.
    */
-  function set(bytes32 entity, uint48 value) internal {
+  function set(bytes32 entity, uint256 value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -137,7 +137,7 @@ library CycleTurnsLastClaimed {
   /**
    * @notice Set value.
    */
-  function _set(bytes32 entity, uint48 value) internal {
+  function _set(bytes32 entity, uint256 value) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -168,7 +168,7 @@ library CycleTurnsLastClaimed {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(uint48 value) internal pure returns (bytes memory) {
+  function encodeStatic(uint256 value) internal pure returns (bytes memory) {
     return abi.encodePacked(value);
   }
 
@@ -178,7 +178,7 @@ library CycleTurnsLastClaimed {
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(uint48 value) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
+  function encode(uint256 value) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
     bytes memory _staticData = encodeStatic(value);
 
     EncodedLengths _encodedLengths;

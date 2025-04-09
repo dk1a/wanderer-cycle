@@ -36,7 +36,7 @@ library LibCycleTurns {
     if (claimableTurns == 0) return;
 
     CycleTurns.set(cycleEntity, CycleTurns.get(cycleEntity) + claimableTurns);
-    CycleTurnsLastClaimed.set(cycleEntity, uint48(block.timestamp));
+    CycleTurnsLastClaimed.set(cycleEntity, block.timestamp);
   }
 
   /**

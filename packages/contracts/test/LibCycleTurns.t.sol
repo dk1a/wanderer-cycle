@@ -2,7 +2,7 @@
 pragma solidity >=0.8.21;
 
 import { LibCycleTurns } from "../src/namespaces/root/cycle/LibCycleTurns.sol";
-import { CycleTurns, CycleTurnsLastClaimed, ActiveGuise, ActiveCycle } from "../src/namespaces/root/codegen/index.sol";
+import { CycleTurns, ActiveGuise, ActiveCycle } from "../src/namespaces/root/codegen/index.sol";
 import { MudLibTest } from "./MudLibTest.t.sol";
 
 contract LibCycleTurnsTest is MudLibTest {
