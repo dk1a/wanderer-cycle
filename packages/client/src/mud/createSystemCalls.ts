@@ -97,10 +97,13 @@ export function createSystemCalls({
   //   await waitForTransaction(tx);
   // };
 
-  // const noncombatSkill = async (cycleEntity: Entity, skillEntity: Entity) => {
-  //   const tx = await worldContract.write.NoncombatSkill([cycleEntity as Hex, skillEntity as Hex]);
-  //   await waitForTransaction(tx);
-  // };
+  const castNoncombatSkill = async (cycleEntity: Hex, skillEntity: Hex) => {
+    const tx = await worldContract.write.castNoncombatSkill([
+      cycleEntity,
+      skillEntity,
+    ]);
+    await waitForTransaction(tx);
+  };
 
   return {
     spawnWanderer,
@@ -113,7 +116,7 @@ export function createSystemCalls({
     processCycleCombatRound,
     claimCycleCombatReward,
     cancelCycleCombatReward,
+    castNoncombatSkill,
     // permSkill,
-    // noncombatSkill
   };
 }
