@@ -1,20 +1,19 @@
 import { Fragment, ReactNode } from "react";
+import { Tooltip } from "react-tooltip";
 import { Hex } from "viem";
-import {
-  LevelData,
-  useLife,
-  useMana,
-  usePstats,
-} from "../../mud/hooks/charstat";
-// import { useAppliedEffects } from "../../mud/hooks/useAppliedEffects";
+import { useStashCustom } from "../../mud/stash";
 import {
   getIdentityCurrent,
   getLifeCurrent,
   getManaCurrent,
 } from "../../mud/utils/currents";
+import {
+  getLife,
+  getMana,
+  getPStats,
+  LevelData,
+} from "../../mud/utils/charstat";
 import { PStatWithProgress } from "./PStatWithProgress";
-import { Tooltip } from "react-tooltip";
-import { useStashCustom } from "../../mud/stash";
 
 export interface BaseInfoProps {
   entity: Hex | undefined;
@@ -24,7 +23,6 @@ export interface BaseInfoProps {
   turnsHtml?: ReactNode;
 }
 
-/** Блок для мобильной версии: показ лейбла + контента во всплывашке */
 interface MobileInfoBlockProps {
   label: string;
   children: ReactNode;
@@ -52,9 +50,11 @@ export default function BaseInfo({
   levelData,
   turnsHtml,
 }: BaseInfoProps) {
-  const pstats = usePstats(entity);
-  const life = useLife(entity);
-  const mana = useMana(entity);
+  const pstats = useStashCustom((state) =>
+    entity ? getPStats(state, entity) : [],
+  );
+  const life = useStashCustom((state) => getLife(state, entity));
+  const mana = useStashCustom((state) => getMana(state, entity));
   const identityCurrent = useStashCustom((state) =>
     getIdentityCurrent(state, entity),
   );

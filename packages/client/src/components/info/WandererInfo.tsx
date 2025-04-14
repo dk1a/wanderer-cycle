@@ -10,7 +10,7 @@ export function WandererInfo() {
         entity={selectedWandererEntity}
         name={"Wanderer"}
         locationName={null}
-        levelData={undefined}
+        levelData={{ level: undefined, experience: undefined }}
       />
     </div>
   );

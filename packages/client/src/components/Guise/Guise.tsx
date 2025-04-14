@@ -1,6 +1,8 @@
 import { Fragment } from "react";
 import { Hex } from "viem";
+import { PSTAT } from "contracts/enums";
 import { GuiseData } from "../../mud/utils/guise";
+import { pstatNames } from "../../mud/utils/experience";
 import { GuiseSkill } from "./GuiseSkill";
 import { Button } from "../utils/Button/Button";
 
@@ -11,9 +13,7 @@ interface GuiseProps {
 }
 
 export default function Guise({ guise, onSelectGuise, disabled }: GuiseProps) {
-  const statNames = Object.keys(
-    guise.levelMul,
-  ) as (keyof typeof guise.levelMul)[];
+  const pstats = Object.values(PSTAT) as PSTAT[];
 
   return (
     <div className="border border-dark-400 w-72 h-auto p-4 flex flex-col bg-dark-500 transform delay-500">
@@ -25,12 +25,12 @@ export default function Guise({ guise, onSelectGuise, disabled }: GuiseProps) {
       </div>
 
       <div className="flex flex-col justify-start items-baseline">
-        {statNames.map((statName) => (
-          <Fragment key={statName}>
+        {pstats.map((pstat) => (
+          <Fragment key={pstat}>
             <div className="text-dark-key flex p-1 m-1">
-              {statName}:
+              {pstatNames[pstat]}:
               <span className="text-dark-number flex mx-2">
-                {guise.levelMul[statName]}
+                {guise.levelMul[pstat]}
               </span>
             </div>
           </Fragment>

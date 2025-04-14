@@ -4,10 +4,10 @@ import { Hex } from "viem";
 
 import { useWandererContext } from "../../contexts/WandererContext";
 import { Button } from "../utils/Button/Button";
-// import {useLevel} from "..useLevel/../mud/hooks/charstat";
 import Skill from "../Guise/Skill";
 import { useStashCustom } from "../../mud/stash";
 import { getSkill } from "../../mud/utils/skill";
+// import { getLevel } from "../../mud/utils/charstat";
 
 export default function SkillLearnable({
   entity,
@@ -25,7 +25,7 @@ export default function SkillLearnable({
   // const duration = useDuration(cycleEntity, skill.entity);
 
   // const guise = useActiveGuise(cycleEntity);
-  // const level = useLevel(cycleEntity, guise?.levelMul)?.level;
+  // const levelData = useStashCustom((state) => getLevel(state, cycleEntity, guise?.levelMul));
 
   // const executeNoncombatSkill = useExecuteNoncombatSkill();
   // const onSkill = useCallback(async () => {

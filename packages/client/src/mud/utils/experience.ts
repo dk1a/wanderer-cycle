@@ -1,27 +1,33 @@
-export const pstatNames = ["strength", "arcana", "dexterity"] as const;
+import { PSTAT } from "contracts/enums";
+
+export const pstatNames = {
+  [PSTAT.STRENGTH]: "strength",
+  [PSTAT.ARCANA]: "arcana",
+  [PSTAT.DEXTERITY]: "dexterity",
+} as const;
 
 export interface PStats {
-  strength: number;
-  arcana: number;
-  dexterity: number;
+  [PSTAT.STRENGTH]: number;
+  [PSTAT.ARCANA]: number;
+  [PSTAT.DEXTERITY]: number;
 }
 
 export function parseArrayPStat(arrayPStat: readonly number[]): PStats {
   const [strength = 0, arcana = 0, dexterity = 0] = arrayPStat;
   return {
-    strength,
-    arcana,
-    dexterity,
+    [PSTAT.STRENGTH]: strength,
+    [PSTAT.ARCANA]: arcana,
+    [PSTAT.DEXTERITY]: dexterity,
   };
 }
 
-export const pstatsFromExperience = (experience: PStats) => {
+export function pstatsFromExperience(experience: PStats): PStats {
   return {
-    strength: expToLevel(experience.strength),
-    arcana: expToLevel(experience.arcana),
-    dexterity: expToLevel(experience.dexterity),
+    [PSTAT.STRENGTH]: expToLevel(experience[PSTAT.STRENGTH]),
+    [PSTAT.ARCANA]: expToLevel(experience[PSTAT.ARCANA]),
+    [PSTAT.DEXTERITY]: expToLevel(experience[PSTAT.DEXTERITY]),
   };
-};
+}
 
 // TODO this is a copy of solidity code, best find a good way to use sol code directly
 
@@ -30,7 +36,7 @@ const MAX_LEVEL = 16 as const;
 /**
  * @dev Utility function to reverse a level into its required exp
  */
-export const levelToExp = (level: number) => {
+export function levelToExp(level: number) {
   if (level < 1 || level > MAX_LEVEL) throw new Error("Invalid level");
 
   // this formula starts from 0, so adjust the arg
@@ -41,12 +47,12 @@ export const levelToExp = (level: number) => {
   }
 
   return 8 * (1 << level) - Math.floor(level ** 6 / 1024) + level * 200 - 120;
-};
+}
 
 /**
  * @dev Calculate level based on single exp value
  */
-export const expToLevel = (expVal: number) => {
+export function expToLevel(expVal: number) {
   // expVal per level rises exponentially with polynomial easing
   // 1-0, 2-96, 3-312, 4-544, 5-804, 6-1121...
   for (let level = 1; level < MAX_LEVEL; level++) {
@@ -56,21 +62,18 @@ export const expToLevel = (expVal: number) => {
     }
   }
   return MAX_LEVEL;
-};
+}
 
 /**
  * @dev Calculate aggregate exp based on weighted sum of pstat exp
  */
-export const getAggregateExperience = (
-  experience: PStats,
-  levelMul: PStats,
-) => {
+export function getAggregateExperience(experience: PStats, levelMul: PStats) {
   let expTotal = 0;
   let mulTotal = 0;
-  for (const pstatName of pstatNames) {
-    expTotal += experience[pstatName] * levelMul[pstatName];
-    mulTotal += levelMul[pstatName];
+  for (const pstat of Object.values(PSTAT) as PSTAT[]) {
+    expTotal += experience[pstat] * levelMul[pstat];
+    mulTotal += levelMul[pstat];
   }
 
   return Math.floor(expTotal / mulTotal);
-};
+}

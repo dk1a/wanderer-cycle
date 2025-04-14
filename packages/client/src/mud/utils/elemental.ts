@@ -1,17 +1,11 @@
-export enum StatmodElement {
-  NONE,
-  PHYSICAL,
-  FIRE,
-  COLD,
-  POISON,
-}
+import { ELE_STAT } from "contracts/enums";
 
 export interface Elemental {
-  [StatmodElement.NONE]: number;
-  [StatmodElement.PHYSICAL]: number;
-  [StatmodElement.FIRE]: number;
-  [StatmodElement.COLD]: number;
-  [StatmodElement.POISON]: number;
+  [ELE_STAT.NONE]: number;
+  [ELE_STAT.PHYSICAL]: number;
+  [ELE_STAT.FIRE]: number;
+  [ELE_STAT.COLD]: number;
+  [ELE_STAT.POISON]: number;
 }
 
 export const parseElemental = (
@@ -22,38 +16,28 @@ export const parseElemental = (
   poison: number,
 ): Elemental => {
   return {
-    [StatmodElement.NONE]: none,
-    [StatmodElement.PHYSICAL]: physical,
-    [StatmodElement.FIRE]: fire,
-    [StatmodElement.COLD]: cold,
-    [StatmodElement.POISON]: poison,
+    [ELE_STAT.NONE]: none,
+    [ELE_STAT.PHYSICAL]: physical,
+    [ELE_STAT.FIRE]: fire,
+    [ELE_STAT.COLD]: cold,
+    [ELE_STAT.POISON]: poison,
   };
 };
 
-export const parseElementalArray = (
-  damageArray: readonly number[],
-): Elemental => {
+export const parseElementalArray = (array: readonly number[]): Elemental => {
   return {
-    [StatmodElement.NONE]: damageArray[StatmodElement.NONE],
-    [StatmodElement.PHYSICAL]: damageArray[StatmodElement.PHYSICAL],
-    [StatmodElement.FIRE]: damageArray[StatmodElement.FIRE],
-    [StatmodElement.COLD]: damageArray[StatmodElement.COLD],
-    [StatmodElement.POISON]: damageArray[StatmodElement.POISON],
+    [ELE_STAT.NONE]: array[ELE_STAT.NONE],
+    [ELE_STAT.PHYSICAL]: array[ELE_STAT.PHYSICAL],
+    [ELE_STAT.FIRE]: array[ELE_STAT.FIRE],
+    [ELE_STAT.COLD]: array[ELE_STAT.COLD],
+    [ELE_STAT.POISON]: array[ELE_STAT.POISON],
   };
 };
 
-export const statmodElements = [
-  StatmodElement.NONE,
-  StatmodElement.PHYSICAL,
-  StatmodElement.FIRE,
-  StatmodElement.COLD,
-  StatmodElement.POISON,
-] as const;
-
-export const elementNames = {
-  [StatmodElement.NONE]: "none",
-  [StatmodElement.PHYSICAL]: "physical",
-  [StatmodElement.FIRE]: "fire",
-  [StatmodElement.COLD]: "cold",
-  [StatmodElement.POISON]: "poison",
+export const eleStatNames = {
+  [ELE_STAT.NONE]: "none",
+  [ELE_STAT.PHYSICAL]: "physical",
+  [ELE_STAT.FIRE]: "fire",
+  [ELE_STAT.COLD]: "cold",
+  [ELE_STAT.POISON]: "poison",
 } as const;

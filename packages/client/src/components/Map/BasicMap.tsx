@@ -3,10 +3,10 @@ import { useCallback } from "react";
 import { useStashCustom } from "../../mud/stash";
 import { getActiveGuise } from "../../mud/utils/guise";
 import { getCycleTurns } from "../../mud/utils/turns";
-import { useLevel } from "../../mud/hooks/charstat";
-import { Button } from "../utils/Button/Button";
 import { MapData } from "../../mud/utils/getMaps";
+import { getLevel } from "../../mud/utils/charstat";
 import { useMUD } from "../../MUDContext";
+import { Button } from "../utils/Button/Button";
 
 export default function BasicMap({ data }: { data: MapData }) {
   const { systemCalls } = useMUD();
@@ -15,7 +15,9 @@ export default function BasicMap({ data }: { data: MapData }) {
   const { entity, name, ilvl } = data.lootData;
 
   const guise = useStashCustom((state) => getActiveGuise(state, cycleEntity));
-  const levelData = useLevel(cycleEntity, guise?.levelMul);
+  const levelData = useStashCustom((state) =>
+    getLevel(state, cycleEntity, guise?.levelMul),
+  );
   const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
 
   const onMapEnter = useCallback(() => {
@@ -25,7 +27,8 @@ export default function BasicMap({ data }: { data: MapData }) {
     systemCalls.activateCycleCombat(cycleEntity, entity);
   }, [systemCalls, entity, cycleEntity]);
 
-  const isHighLevel = levelData !== undefined && ilvl - levelData?.level > 2;
+  const isHighLevel =
+    levelData?.level !== undefined && ilvl - levelData.level > 2;
 
   return (
     <>

@@ -10,7 +10,7 @@ import {
   getClaimableTurns,
   getCycleTurns,
 } from "../../mud/utils/turns";
-import { useLevel } from "../../mud/hooks/charstat";
+import { getLevel } from "../../mud/utils/charstat";
 
 export default function CycleInfo() {
   const { cycleEntity } = useWandererContext();
@@ -18,7 +18,9 @@ export default function CycleInfo() {
   const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
 
   const guiseMul = useMemo(() => guise?.levelMul, [guise]);
-  const levelData = useLevel(cycleEntity, guiseMul);
+  const levelData = useStashCustom((state) =>
+    getLevel(state, cycleEntity, guiseMul),
+  );
 
   const [timestamp, setTimestamp] = useState(Date.now());
 
