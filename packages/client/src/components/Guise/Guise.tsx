@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Hex } from "viem";
-import { PSTAT } from "contracts/enums";
+import { getEnumValues, PSTAT } from "contracts/enums";
 import { GuiseData } from "../../mud/utils/guise";
 import { pstatNames } from "../../mud/utils/experience";
 import { GuiseSkill } from "./GuiseSkill";
@@ -13,7 +13,7 @@ interface GuiseProps {
 }
 
 export default function Guise({ guise, onSelectGuise, disabled }: GuiseProps) {
-  const pstats = Object.values(PSTAT) as PSTAT[];
+  const pstats = getEnumValues(PSTAT);
 
   return (
     <div className="border border-dark-400 w-72 h-auto p-4 flex flex-col bg-dark-500 transform delay-500">

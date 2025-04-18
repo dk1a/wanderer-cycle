@@ -25,7 +25,7 @@ export function getLoot(state: StateLocal, entity: Hex): LootData {
 
   const affixAvailabilityTargetId =
     getRecord({ state, table: mudTables.root__LootTargetId, key: { entity } })
-      ?.targetId ?? toHex(0);
+      ?.targetId ?? toHex(0, { size: 32 });
 
   const affixes = getLootAffixes(state, affixAvailabilityTargetId, entity);
 

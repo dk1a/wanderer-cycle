@@ -64,14 +64,7 @@ contract CombatSystem is System {
 
     // Offchain log the round
     CombatLogOffchain.setRoundsSpent(initiator.entity, retaliator.entity, roundIndex + 1);
-    CombatLogRoundOffchain.set(
-      initiator.entity,
-      retaliator.entity,
-      roundIndex,
-      result,
-      initiator.actions.length,
-      retaliator.actions.length
-    );
+    CombatLogRoundOffchain.setCombatResult(initiator.entity, retaliator.entity, roundIndex, result);
 
     if (result != CombatResult.NONE) {
       // Offchain log the total result
@@ -139,12 +132,24 @@ contract CombatSystem is System {
 
     // Initiator's actions
     _oneActorActions(roundIndex, initiator, retaliator);
+    CombatLogRoundOffchain.setInitiatorActionLength(
+      initiator.entity,
+      retaliator.entity,
+      roundIndex,
+      initiator.actions.length
+    );
 
     // Win if retaliator is dead; this interrupts retaliator's actions
     if (LibCharstat.getLifeCurrent(retaliator.entity) == 0) return CombatResult.VICTORY;
 
     // Retaliator's actions
     _oneActorActions(roundIndex, retaliator, initiator);
+    CombatLogRoundOffchain.setRetaliatorActionLength(
+      initiator.entity,
+      retaliator.entity,
+      roundIndex,
+      retaliator.actions.length
+    );
 
     // Loss if initiator is dead
     if (LibCharstat.getLifeCurrent(initiator.entity) == 0) return CombatResult.DEFEAT;

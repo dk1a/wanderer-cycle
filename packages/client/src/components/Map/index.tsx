@@ -5,7 +5,7 @@ import { useWandererContext } from "../../contexts/WandererContext";
 import { useStashCustom } from "../../mud/stash";
 import { EffectSource } from "../../mud/utils/getEffect";
 import { getCycleTurns } from "../../mud/utils/turns";
-import { MapData } from "../../mud/utils/getMaps";
+import { MapData } from "../../mud/utils/getMap";
 import { useMUD } from "../../MUDContext";
 
 export default function Map({ data }: { data: MapData }) {

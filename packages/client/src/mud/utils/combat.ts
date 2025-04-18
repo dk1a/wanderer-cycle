@@ -55,7 +55,7 @@ export interface CombatActionLog {
 
 export const attackAction: CombatAction = {
   actionType: CombatActionType.ATTACK,
-  actionEntity: toHex(0),
+  actionEntity: toHex(0, { size: 32 }),
 };
 
 export function getActiveCombat(state: StateLocal, initiatorEntity: Hex) {
@@ -79,7 +79,7 @@ export function getCycleCombatRewardRequests(
     ({ ownerEntity }) => ownerEntity === requesterEntity,
   );
 
-  let result = [];
+  const result = [];
   for (const request of filteredRequests) {
     const precommit = getRecord({
       state,

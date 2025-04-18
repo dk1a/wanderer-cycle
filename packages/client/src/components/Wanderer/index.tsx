@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Hex } from "viem";
 import { useWandererContext } from "../../contexts/WandererContext";
@@ -13,15 +13,15 @@ export default function Wanderer({ wandererEntity }: WandererProps) {
   const { selectedWandererEntity, selectWandererEntity } = useWandererContext();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const saved = sessionStorage.getItem("selectedWandererEntity");
-    if (saved) {
-      selectWandererEntity(saved as Hex);
-    }
-  }, [selectWandererEntity]);
+  // useEffect(() => {
+  //   const saved = sessionStorage.getItem("selectedWandererEntity");
+  //   if (saved) {
+  //     selectWandererEntity(saved as Hex);
+  //   }
+  // }, [selectWandererEntity]);
 
   const handleSelectWanderer = (wanderer: Hex) => {
-    sessionStorage.setItem("selectedWandererEntity", wanderer);
+    // sessionStorage.setItem("selectedWandererEntity", wanderer);
     selectWandererEntity(wanderer);
     navigate("/maps");
   };

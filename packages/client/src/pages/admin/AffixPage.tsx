@@ -34,8 +34,8 @@ const AffixPage = () => {
   const sortedAffixPrototypes = useMemo(() => {
     return affixPrototypes.sort((a, b) => {
       if (!sortConfig) return 0;
-      const valueA = a[sortConfig.key] ?? "";
-      const valueB = b[sortConfig.key] ?? "";
+      const valueA = a?.[sortConfig.key as keyof typeof a] ?? "";
+      const valueB = b?.[sortConfig.key as keyof typeof b] ?? "";
 
       if (valueA < valueB) return sortConfig.direction === "asc" ? -1 : 1;
       if (valueA > valueB) return sortConfig.direction === "asc" ? 1 : -1;

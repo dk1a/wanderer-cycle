@@ -1,4 +1,4 @@
-import { PSTAT } from "contracts/enums";
+import { getEnumValues, PSTAT } from "contracts/enums";
 
 export const pstatNames = {
   [PSTAT.STRENGTH]: "strength",
@@ -37,7 +37,10 @@ const MAX_LEVEL = 16 as const;
  * @dev Utility function to reverse a level into its required exp
  */
 export function levelToExp(level: number) {
-  if (level < 1 || level > MAX_LEVEL) throw new Error("Invalid level");
+  if (level < 1 || level > MAX_LEVEL) {
+    console.warn(`Invalid level passed to levelToExp: ${level}`);
+    return 0;
+  }
 
   // this formula starts from 0, so adjust the arg
   if (level == 1) {
@@ -70,7 +73,7 @@ export function expToLevel(expVal: number) {
 export function getAggregateExperience(experience: PStats, levelMul: PStats) {
   let expTotal = 0;
   let mulTotal = 0;
-  for (const pstat of Object.values(PSTAT) as PSTAT[]) {
+  for (const pstat of getEnumValues(PSTAT)) {
     expTotal += experience[pstat] * levelMul[pstat];
     mulTotal += levelMul[pstat];
   }

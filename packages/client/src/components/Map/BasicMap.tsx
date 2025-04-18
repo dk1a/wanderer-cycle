@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useStashCustom } from "../../mud/stash";
 import { getActiveGuise } from "../../mud/utils/guise";
 import { getCycleTurns } from "../../mud/utils/turns";
-import { MapData } from "../../mud/utils/getMaps";
+import { MapData } from "../../mud/utils/getMap";
 import { getLevel } from "../../mud/utils/charstat";
 import { useMUD } from "../../MUDContext";
 import { Button } from "../utils/Button/Button";

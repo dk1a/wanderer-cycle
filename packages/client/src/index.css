@@ -73,3 +73,103 @@
 .burger-checkbox:checked ~ .menu-list {
   transform: translateX(0);
 }
+
+.custom-select__input-container {
+  color: #cccccc !important;
+}
+
+.custom-select__single-value {
+  color: #cccccc !important;
+}
+
+.custom-select__control {
+  background-color: #252526 !important;
+  border-radius: 0 !important;
+  border: 1px solid #3c3c3c !important;
+  box-shadow: none !important;
+  width: 100%;
+  height: 2.5rem !important;
+  padding: 3px;
+}
+
+.custom-select__control--menu-is-open {
+  border-color: #3c3c3c !important;
+}
+
+.custom-select__value-container {
+  padding: 0 !important;
+  cursor: text !important;
+}
+
+.custom-select__input-container {
+  text-align: center !important;
+}
+
+.custom-select__indicator-separator {
+  display: none !important;
+}
+
+.custom-select__indicators {
+  cursor: pointer !important;
+}
+
+.custom-select__indicator {
+  color: #cccccc !important;
+}
+
+.custom-select__indicator:hover {
+  color: #cccccc !important;
+}
+
+.custom-select__multi-value {
+  background-color: rgba(153, 154, 165, 0.6) !important;
+  border-radius: 0.5rem !important;
+}
+
+.custom-select__multi-value__label {
+  font-size: 80% !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.custom-select__multi-value__remove {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.custom-select__multi-value__remove:hover {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.custom-select__menu {
+  background-color: #292a2e !important;
+  animation: scaleIn 0.35s ease-in-out;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #3c3c3c;
+  color: #fff;
+}
+
+.custom-select__menu-list {
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.custom-select__option {
+  cursor: pointer !important;
+  color: #3c3c3c;
+}
+
+.custom-select__option--is-focused {
+  background-color: #35363b !important;
+}
+
+.custom-select-container > div {
+  outline: none !important;
+  box-shadow: none !important;
+  width: 100%;
+}
+
+.custom-select-container:hover,
+.custom-select-container--menu-is-open {
+  border-color: #ced4da !important;
+}

@@ -3,7 +3,7 @@ import { Hex } from "viem";
 import { useStashCustom } from "../../mud/stash";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { getBossesDefeated } from "../../mud/utils/getBossesDefeated";
-import { getMaps, MapTypes } from "../../mud/utils/getMaps";
+import { getMaps, MapTypes } from "../../mud/utils/getMap";
 import { getLifeCurrent } from "../../mud/utils/currents";
 import BasicMap from "../../components/Map/BasicMap";
 import Map from "../../components/Map";
@@ -42,8 +42,8 @@ const GlobalMapsPage = () => {
           {"// you are out of life, passTurn fully restores life and mana"}
         </div>
       )}
-      <div className="flex justify-around flex-wrap">
-        <div className="flex flex-col mx-4">
+      <div className="flex flex-wrap gap-4 mx-4">
+        <div className="flex flex-col">
           <h4 className="text-dark-comment">{"// Global Basic maps"}</h4>
           {basicMaps.map((data) => (
             <BasicMap key={data.entity} data={data} />

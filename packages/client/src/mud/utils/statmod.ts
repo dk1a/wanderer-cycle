@@ -1,6 +1,6 @@
 import { Hex, toHex } from "viem";
 import { getRecord } from "@latticexyz/stash/internal";
-import { ELE_STAT, STATMOD_OP } from "contracts/enums";
+import { ELE_STAT, getEnumValues, STATMOD_OP } from "contracts/enums";
 import { mudTables, StateLocal } from "../stash";
 import { ElementalStatmodTopic, StatmodTopic } from "./topics";
 import { formatZeroTerminatedString } from "./format";
@@ -89,7 +89,7 @@ export function getValuesElementalFinal(
 ) {
   const statmods = getTopicStatmods(state, targetEntity, topic);
   const result: Elemental = { ...baseValues };
-  for (const eleStat of Object.values(ELE_STAT) as ELE_STAT[]) {
+  for (const eleStat of getEnumValues(ELE_STAT)) {
     const resultBadd =
       baseValues[eleStat] +
       sumForElementalOp(statmods, STATMOD_OP.BADD, eleStat);

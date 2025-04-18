@@ -1,13 +1,14 @@
 import { useCallback, useMemo, useState } from "react";
 import { Hex } from "viem";
-// import { SkillType } from "../../mud/utils/skill";
-
+import { useStashCustom } from "../../mud/stash";
+import { getSkill, SkillType } from "../../mud/utils/skill";
+import { getLevel } from "../../mud/utils/charstat";
+import { getActiveGuise } from "../../mud/utils/guise";
+import { useMUD } from "../../MUDContext";
 import { useWandererContext } from "../../contexts/WandererContext";
 import { Button } from "../utils/Button/Button";
 import Skill from "../Guise/Skill";
-import { useStashCustom } from "../../mud/stash";
-import { getSkill } from "../../mud/utils/skill";
-// import { getLevel } from "../../mud/utils/charstat";
+import { UseSkillButton } from "../UseSkillButton";
 
 export default function SkillLearnable({
   entity,
@@ -16,22 +17,20 @@ export default function SkillLearnable({
   entity: Hex;
   withButtons: boolean;
 }) {
-  const {
-    learnCycleSkill,
-    learnedSkillEntities,
-    // cycleEntity,
-  } = useWandererContext();
+  const { systemCalls } = useMUD();
+  const { learnCycleSkill, learnedSkillEntities, cycleEntity } =
+    useWandererContext();
   const skill = useStashCustom((state) => getSkill(state, entity));
-  // const duration = useDuration(cycleEntity, skill.entity);
 
-  // const guise = useActiveGuise(cycleEntity);
-  // const levelData = useStashCustom((state) => getLevel(state, cycleEntity, guise?.levelMul));
+  const guise = useStashCustom((state) => getActiveGuise(state, cycleEntity));
+  const level = useStashCustom(
+    (state) => getLevel(state, cycleEntity, guise?.levelMul)?.level,
+  );
 
-  // const executeNoncombatSkill = useExecuteNoncombatSkill();
-  // const onSkill = useCallback(async () => {
-  //   if (!cycleEntity) throw new Error("Cycle must be active");
-  //   await executeNoncombatSkill(cycleEntity, skill.entity);
-  // }, [cycleEntity, executeNoncombatSkill, skill]);
+  const onSkill = useCallback(async () => {
+    if (!cycleEntity) throw new Error("Cycle must be active");
+    await systemCalls.castNoncombatSkill(cycleEntity, skill.entity);
+  }, [cycleEntity, skill]);
 
   const isLearned = useMemo(
     () => learnedSkillEntities.includes(entity),
@@ -60,12 +59,14 @@ export default function SkillLearnable({
           {!isLearned && (
             <Button
               onClick={() => learnCycleSkill(entity)}
-              // disabled={level !== undefined && level < skill.requiredLevel}
+              disabled={level !== undefined && level < skill.requiredLevel}
             >
               learn
             </Button>
           )}
-          {/*{isLearned && skill.skillType === SkillType.COMBAT && <UseSkillButton entity={entity} onSkill={onSkill} />}*/}
+          {isLearned && skill.skillType === SkillType.NONCOMBAT && (
+            <UseSkillButton entity={entity} onSkill={onSkill} />
+          )}
         </div>
       )}
     </div>

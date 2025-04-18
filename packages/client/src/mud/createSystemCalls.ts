@@ -70,24 +70,18 @@ export function createSystemCalls({
     await waitForTransaction(tx);
   };
 
-  const claimCycleCombatReward = async (
-    cycleEntity: Hex,
-    requestEntity: Hex,
-  ) => {
+  const claimCycleCombatReward = async (cycleEntity: Hex, requestId: Hex) => {
     const tx = await worldContract.write.claimCycleCombatReward([
       cycleEntity,
-      requestEntity,
+      requestId,
     ]);
     await waitForTransaction(tx);
   };
 
-  const cancelCycleCombatReward = async (
-    cycleEntity: Hex,
-    requestEntity: Hex,
-  ) => {
+  const cancelCycleCombatReward = async (cycleEntity: Hex, requestId: Hex) => {
     const tx = await worldContract.write.cancelCycleCombatReward([
       cycleEntity,
-      requestEntity,
+      requestId,
     ]);
     await waitForTransaction(tx);
   };
