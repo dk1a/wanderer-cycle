@@ -3,11 +3,18 @@ pragma solidity >=0.8.21;
 
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
+import { effectTemplateSystem, EffectTemplateData } from "../../effect/codegen/systems/EffectTemplateSystemLib.sol";
+
 import { EleStat_length } from "../../../CustomTypes.sol";
 import { GenericDurationData } from "../../duration/Duration.sol";
-import { LibEffectTemplate, EffectTemplateData } from "../../effect/LibEffectTemplate.sol";
-import { SkillTemplate, SkillTemplateData, SkillTemplateCooldown, SkillTemplateDuration, SkillDescription, SkillSpellDamage, SkillName } from "../codegen/index.sol";
-import { LibSkill } from "../skill/LibSkill.sol";
+import { LibSkill } from "../../skill/LibSkill.sol";
+
+import { SkillTemplate, SkillTemplateData } from "../../skill/codegen/tables/SkillTemplate.sol";
+import { SkillTemplateCooldown } from "../../skill/codegen/tables/SkillTemplateCooldown.sol";
+import { SkillTemplateDuration } from "../../skill/codegen/tables/SkillTemplateDuration.sol";
+import { SkillDescription } from "../../skill/codegen/tables/SkillDescription.sol";
+import { SkillSpellDamage } from "../../skill/codegen/tables/SkillSpellDamage.sol";
+import { SkillName } from "../../skill/codegen/tables/SkillName.sol";
 
 library LibBaseInitSkill {
   error LibBaseInitSkill_DuplicateName(string name);
@@ -32,7 +39,7 @@ library LibBaseInitSkill {
 
     // Given statmods, a skill will have an on-use effect template
     if (effectTemplate.statmodEntities.length > 0) {
-      LibEffectTemplate.verifiedSet(entity, effectTemplate);
+      effectTemplateSystem.setEffectTemplate(entity, effectTemplate);
     }
   }
 

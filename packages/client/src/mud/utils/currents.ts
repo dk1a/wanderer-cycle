@@ -6,7 +6,7 @@ export const getLifeCurrent = (state: StateLocal, entity: Hex | undefined) => {
   if (entity === undefined) return;
   return getRecord({
     state,
-    table: mudTables.root__LifeCurrent,
+    table: mudTables.charstat__LifeCurrent,
     key: { entity },
   })?.value;
 };
@@ -15,7 +15,7 @@ export const getManaCurrent = (state: StateLocal, entity: Hex | undefined) => {
   if (entity === undefined) return;
   return getRecord({
     state,
-    table: mudTables.root__ManaCurrent,
+    table: mudTables.charstat__ManaCurrent,
     key: { entity },
   })?.value;
 };

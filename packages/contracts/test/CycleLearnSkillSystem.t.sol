@@ -2,12 +2,13 @@
 pragma solidity >=0.8.21;
 
 import { BaseTest } from "./BaseTest.t.sol";
-import { LearnedSkills } from "../src/namespaces/root/codegen/index.sol";
+import { LearnedSkills } from "../src/namespaces/skill/codegen/index.sol";
 
+import { cycleLearnSkillSystem } from "../src/namespaces/cycle/codegen/systems/CycleLearnSkillSystemLib.sol";
 import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibGuiseLevel } from "../src/namespaces/root/guise/LibGuiseLevel.sol";
-import { LibSkill } from "../src/namespaces/root/skill/LibSkill.sol";
-import { LibERC721 } from "../src/namespaces/root/token/LibERC721.sol";
+import { LibSkill } from "../src/namespaces/skill/LibSkill.sol";
+import { LibERC721 } from "../src/namespaces/erc721-puppet/LibERC721.sol";
 import { LibArray } from "../src/utils/LibArray.sol";
 
 contract CycleLearnSkillSystemTest is BaseTest {
@@ -41,7 +42,7 @@ contract CycleLearnSkillSystemTest is BaseTest {
 
   function testLearnSkill() public {
     vm.prank(alice);
-    world.learnSkill(cycleEntity, skillEntity1);
+    cycleLearnSkillSystem.learnSkill(cycleEntity, skillEntity1);
     assertTrue(LibArray.isIn(skillEntity1, LearnedSkills.get(cycleEntity)));
     assertEq(LearnedSkills.get(wandererEntity).length, 0);
   }
@@ -49,6 +50,6 @@ contract CycleLearnSkillSystemTest is BaseTest {
   function testLearnSkillRevertMustBeTokenOwner() public {
     vm.prank(bob);
     vm.expectRevert(LibERC721.LibERC721_MustBeTokenOwner.selector);
-    world.learnSkill(cycleEntity, skillEntity1);
+    cycleLearnSkillSystem.learnSkill(cycleEntity, skillEntity1);
   }
 }

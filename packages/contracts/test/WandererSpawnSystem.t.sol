@@ -5,13 +5,17 @@ import { BaseTest } from "./BaseTest.t.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
 
-import { ActiveGuise, Wanderer, GuisePrototype, ActiveCycle, CycleTurns, LifeCurrent, ManaCurrent } from "../src/namespaces/root/codegen/index.sol";
+import { Wanderer, GuisePrototype } from "../src/namespaces/root/codegen/index.sol";
+import { LifeCurrent, ManaCurrent } from "../src/namespaces/charstat/codegen/index.sol";
+import { ActiveCycle, ActiveGuise, CycleTurns } from "../src/namespaces/cycle/codegen/index.sol";
 
-import { LibWheel } from "../src/namespaces/wheel/LibWheel.sol";
-import { LibCycle } from "../src/namespaces/root/cycle/LibCycle.sol";
+import { InitCycleSystem, initCycleSystem } from "../src/namespaces/cycle/codegen/systems/InitCycleSystemLib.sol";
+
 import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
-import { LibExperience } from "../src/namespaces/root/charstat/LibExperience.sol";
-import { ERC721Namespaces } from "../src/namespaces/root/token/ERC721Namespaces.sol";
+import { LibWheel } from "../src/namespaces/wheel/LibWheel.sol";
+import { LibCycle } from "../src/namespaces/cycle/LibCycle.sol";
+import { LibExperience } from "../src/namespaces/charstat/LibExperience.sol";
+import { ERC721Namespaces } from "../src/namespaces/erc721-puppet/ERC721Namespaces.sol";
 
 contract WandererSpawnSystemTest is BaseTest {
   bytes32 guiseEntity;
@@ -33,13 +37,13 @@ contract WandererSpawnSystemTest is BaseTest {
 
   function testSetUpInvalidGuise() public {
     vm.prank(alice);
-    vm.expectRevert(LibCycle.LibCycle_InvalidGuiseEntity.selector);
+    vm.expectRevert(InitCycleSystem.InitCycleSystem_InvalidGuiseEntity.selector);
     world.spawnWanderer(keccak256("invalid guise"));
   }
 
   function testInitCycleAnother() public {
     // initializing a cycle for some unrelated entity should work fine and produce an unrelated cycleEntity
-    bytes32 anotherCycleEntity = LibCycle.initCycle(getUniqueEntity(), guiseEntity, defaultWheelEntity);
+    bytes32 anotherCycleEntity = initCycleSystem.initCycle(getUniqueEntity(), guiseEntity, defaultWheelEntity);
     assertNotEq(anotherCycleEntity, cycleEntity);
   }
 

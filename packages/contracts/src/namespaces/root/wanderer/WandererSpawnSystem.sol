@@ -4,11 +4,13 @@ pragma solidity >=0.8.21;
 import { System } from "@latticexyz/world/src/System.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { Wanderer, GuisePrototype } from "../codegen/index.sol";
+import { Wanderer } from "../codegen/tables/Wanderer.sol";
+import { GuisePrototype } from "../codegen/tables/GuisePrototype.sol";
+
+import { initCycleSystem } from "../../cycle/codegen/systems/InitCycleSystemLib.sol";
 
 import { LibWheel } from "../../wheel/LibWheel.sol";
-import { LibCycle } from "../cycle/LibCycle.sol";
-import { ERC721Namespaces } from "../token/ERC721Namespaces.sol";
+import { ERC721Namespaces } from "../../erc721-puppet/ERC721Namespaces.sol";
 
 /// @title Spawn a wandererEntity and start a cycle for it.
 /// @dev This is for new players, whereas StartCycle is for existing ones.
@@ -28,6 +30,10 @@ contract WandererSpawnSystem is System {
     bytes32 defaultWheelEntity = LibWheel.getWheelEntity("Wheel of Attainment");
 
     // Init cycle
-    cycleEntity = LibCycle.initCycle(wandererEntity, guiseEntity, defaultWheelEntity);
+    cycleEntity = initCycleSystem.callAsRootFrom(address(this)).initCycle(
+      wandererEntity,
+      guiseEntity,
+      defaultWheelEntity
+    );
   }
 }

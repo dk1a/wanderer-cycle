@@ -3,14 +3,15 @@ pragma solidity >=0.8.21;
 
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { LibPickAffix } from "../../affix/LibPickAffix.sol";
-import { LibLootMint } from "../loot/LibLootMint.sol";
-import { AffixPartId } from "../../../codegen/common.sol";
-import { MapTypeComponent } from "../codegen/tables/MapTypeComponent.sol";
-import { Name } from "../codegen/tables/Name.sol";
+import { commonSystem } from "../../common/codegen/systems/CommonSystemLib.sol";
 
-import { MapTypes } from "../map/MapType.sol";
-import { AffixAvailabilityTargetId, MapAffixAvailabilityTargetIds } from "../map/MapAffixAvailabilityTargetIds.sol";
+import { LibPickAffix } from "../../affix/LibPickAffix.sol";
+import { LibLootMint } from "../../loot/LibLootMint.sol";
+import { AffixPartId } from "../../../codegen/common.sol";
+import { MapTypeComponent } from "../../map/codegen/tables/MapTypeComponent.sol";
+
+import { MapTypes } from "../../map/MapType.sol";
+import { AffixAvailabilityTargetId, MapAffixAvailabilityTargetIds } from "../../map/MapAffixAvailabilityTargetIds.sol";
 
 library LibInitMapsBoss {
   struct ManualAffix {
@@ -222,6 +223,6 @@ library LibInitMapsBoss {
     // mark this loot as a map by setting its MapType
     MapTypeComponent.set(lootEntity, MapTypes.CYCLE_BOSS);
     // set name
-    Name.set(lootEntity, name);
+    commonSystem.setName(lootEntity, name);
   }
 }

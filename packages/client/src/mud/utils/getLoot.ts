@@ -16,15 +16,15 @@ export interface LootData {
 export function getLoot(state: StateLocal, entity: Hex): LootData {
   const name = getRecord({
     state,
-    table: mudTables.root__Name,
+    table: mudTables.common__Name,
     key: { entity },
   })?.name;
   const ilvl =
-    getRecord({ state, table: mudTables.root__LootIlvl, key: { entity } })
+    getRecord({ state, table: mudTables.loot__LootIlvl, key: { entity } })
       ?.value ?? 0;
 
   const affixAvailabilityTargetId =
-    getRecord({ state, table: mudTables.root__LootTargetId, key: { entity } })
+    getRecord({ state, table: mudTables.loot__LootTargetId, key: { entity } })
       ?.targetId ?? toHex(0, { size: 32 });
 
   const affixes = getLootAffixes(state, affixAvailabilityTargetId, entity);

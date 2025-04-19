@@ -14,6 +14,16 @@ export default defineStoreIdxs(
           ],
         },
       },
+      skill: {
+        tables: {
+          SkillName: [
+            {
+              fields: ["name"],
+              unique: true,
+            },
+          ],
+        },
+      },
       affix: {
         tables: {
           AffixPrototype: [
@@ -24,6 +34,16 @@ export default defineStoreIdxs(
             {
               fields: ["affixTier", "name"],
               unique: true,
+            },
+          ],
+        },
+      },
+      equipment: {
+        tables: {
+          SlotEquipment: [
+            {
+              fields: ["equipmentEntity"],
+              unique: false,
             },
           ],
         },
@@ -44,18 +64,6 @@ export default defineStoreIdxs(
             {
               fields: ["name"],
               unique: true,
-            },
-          ],
-          SkillName: [
-            {
-              fields: ["name"],
-              unique: true,
-            },
-          ],
-          SlotEquipment: [
-            {
-              fields: ["equipmentEntity"],
-              unique: false,
             },
           ],
         },

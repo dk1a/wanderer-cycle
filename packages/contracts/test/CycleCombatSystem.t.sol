@@ -3,8 +3,11 @@ pragma solidity >=0.8.21;
 
 import { BaseTest } from "./BaseTest.t.sol";
 
+import { cycleActivateCombatSystem } from "../src/namespaces/cycle/codegen/systems/CycleActivateCombatSystemLib.sol";
+import { cycleCombatSystem } from "../src/namespaces/cycle/codegen/systems/CycleCombatSystemLib.sol";
 import { CombatAction, CombatActionType } from "../src/CustomTypes.sol";
-import { ActiveCycle, LootAffixes } from "../src/namespaces/root/codegen/index.sol";
+import { LootAffixes } from "../src/namespaces/loot/codegen/index.sol";
+import { ActiveCycle } from "../src/namespaces/cycle/codegen/index.sol";
 import { Affix } from "../src/namespaces/affix/codegen/index.sol";
 import { AffixPartId } from "../src/namespaces/affix/types.sol";
 import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
@@ -51,14 +54,14 @@ contract CycleCombatSystemTest is BaseTest {
   function testCycleCombat() public {
     vm.startPrank(alice);
 
-    world.activateCycleCombat(cycleEntity, mapEntity);
+    cycleActivateCombatSystem.activateCombat(cycleEntity, mapEntity);
 
     CombatAction[] memory attackAction = new CombatAction[](1);
     attackAction[0] = CombatAction({ actionType: CombatActionType.ATTACK, actionEntity: 0 });
 
     CombatResult result = CombatResult.NONE;
     while (result == CombatResult.NONE) {
-      result = world.processCycleCombatRound(cycleEntity, attackAction);
+      result = cycleCombatSystem.processCycleCombatRound(cycleEntity, attackAction);
     }
     assertEq(uint8(result), uint8(CombatResult.VICTORY));
     // TODO test combat results, atm this just makes sure it can start/finish at all

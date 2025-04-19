@@ -4,7 +4,7 @@ pragma solidity >=0.8.21;
 import { GenericDurationData } from "../../duration/Duration.sol";
 import { StatmodTopics } from "../../statmod/StatmodTopic.sol";
 import { makeEffectTemplate } from "../../effect/makeEffectTemplate.sol";
-import { SkillTemplateData } from "../codegen/index.sol";
+import { SkillTemplateData } from "../../skill/codegen/tables/SkillTemplate.sol";
 import { SkillType, TargetType, StatmodOp, EleStat } from "../../../codegen/common.sol";
 import { LibBaseInitSkill as b } from "./LibBaseInitSkill.sol";
 

@@ -34,32 +34,32 @@ export const targetTypeNames = {
 export function getSkill(state: StateLocal, entity: Hex) {
   const skill = getRecordStrict({
     state,
-    table: mudTables.root__SkillTemplate,
+    table: mudTables.skill__SkillTemplate,
     key: { entity },
   });
   const description = getRecordStrict({
     state,
-    table: mudTables.root__SkillDescription,
+    table: mudTables.skill__SkillDescription,
     key: { entity },
   });
   const name = getRecordStrict({
     state,
-    table: mudTables.root__SkillName,
+    table: mudTables.skill__SkillName,
     key: { entity },
   });
   const skillSpellDamage = getRecordStrict({
     state,
-    table: mudTables.root__SkillSpellDamage,
+    table: mudTables.skill__SkillSpellDamage,
     key: { entity },
   });
   const skillTemplateCooldown = getRecordStrict({
     state,
-    table: mudTables.root__SkillTemplateCooldown,
+    table: mudTables.skill__SkillTemplateCooldown,
     key: { entity },
   });
   const skillTemplateDuration = getRecordStrict({
     state,
-    table: mudTables.root__SkillTemplateDuration,
+    table: mudTables.skill__SkillTemplateDuration,
     key: { entity },
   });
 
@@ -88,7 +88,7 @@ export function getSkill(state: StateLocal, entity: Hex) {
 export function getLearnedSkillEntities(state: StateLocal, targetEntity: Hex) {
   const result = getRecord({
     state,
-    table: mudTables.root__LearnedSkills,
+    table: mudTables.skill__LearnedSkills,
     key: { entity: targetEntity },
   });
   return result?.entityIdSet ?? [];

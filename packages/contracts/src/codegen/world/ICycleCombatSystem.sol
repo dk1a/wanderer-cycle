@@ -12,7 +12,7 @@ import { CombatResult } from "../common.sol";
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface ICycleCombatSystem {
-  function processCycleCombatRound(
+  function cycle__processCycleCombatRound(
     bytes32 cycleEntity,
     CombatAction[] memory initiatorActions
   ) external returns (CombatResult result);

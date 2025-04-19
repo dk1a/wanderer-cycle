@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { ActiveGuise, GuisePrototype } from "../codegen/index.sol";
+import { ActiveGuise } from "../../cycle/codegen/tables/ActiveGuise.sol";
+import { GuisePrototype } from "../codegen/tables/GuisePrototype.sol";
 
 import { PStat_length } from "../../../CustomTypes.sol";
-import { LibExperience } from "../charstat/LibExperience.sol";
+import { LibExperience } from "../../charstat/LibExperience.sol";
 
 library LibGuiseLevel {
   /**

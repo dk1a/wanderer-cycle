@@ -15,19 +15,19 @@ interface ICombatSystem {
   error CombatSystem_InvalidActionsLength();
   error CombatSystem_ResidualDuration();
 
-  function actPVERound(
+  function combat__actPVERound(
     bytes32 initiatorEntity,
     bytes32 retaliatorEntity,
     CombatAction[] memory initiatorActions,
     CombatAction[] memory retaliatorActions
   ) external returns (CombatResult result);
 
-  function actCombatRound(
+  function combat__actCombatRound(
     CombatActor memory initiator,
     CombatActor memory retaliator
   ) external returns (CombatResult result);
 
-  function activateCombat(bytes32 initiatorEntity, bytes32 retaliatorEntity, uint32 maxRounds) external;
+  function combat__activateCombat(bytes32 initiatorEntity, bytes32 retaliatorEntity, uint32 maxRounds) external;
 
-  function deactivateCombat(bytes32 initiatorEntity) external;
+  function combat__deactivateCombat(bytes32 initiatorEntity) external;
 }

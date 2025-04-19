@@ -84,13 +84,13 @@ function parseEffectStatmods(
 
 function getEffectSource(state: StateLocal, entity: Hex) {
   if (
-    getRecord({ state, table: mudTables.root__SkillTemplate, key: { entity } })
+    getRecord({ state, table: mudTables.skill__SkillTemplate, key: { entity } })
   ) {
     return EffectSource.SKILL;
   } else if (
     getRecord({
       state,
-      table: mudTables.root__EquipmentTypeComponent,
+      table: mudTables.equipment__EquipmentTypeComponent,
       key: { entity },
     })
   ) {
@@ -98,7 +98,7 @@ function getEffectSource(state: StateLocal, entity: Hex) {
   } else if (
     getRecord({
       state,
-      table: mudTables.root__MapTypeComponent,
+      table: mudTables.map__MapTypeComponent,
       key: { entity },
     })
   ) {

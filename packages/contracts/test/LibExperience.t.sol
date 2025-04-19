@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { LibExperience } from "../src/namespaces/root/charstat/LibExperience.sol";
-import { Experience } from "../src/namespaces/root/codegen/index.sol";
+import { Experience } from "../src/namespaces/charstat/codegen/index.sol";
+import { charstatSystem } from "../src/namespaces/charstat/codegen/systems/CharstatSystemLib.sol";
+import { LibExperience } from "../src/namespaces/charstat/LibExperience.sol";
 import { PStat_length } from "../src/CustomTypes.sol";
 import { BaseTest } from "./BaseTest.t.sol";
 
@@ -12,7 +13,7 @@ contract LibExperienceTest is BaseTest {
   function testHasExp() public {
     assertFalse(LibExperience.hasExp(targetEntity));
 
-    LibExperience.initExp(targetEntity);
+    charstatSystem.initExp(targetEntity);
     assertTrue(LibExperience.hasExp(targetEntity));
   }
 
@@ -20,7 +21,7 @@ contract LibExperienceTest is BaseTest {
     uint32[PStat_length] memory initialExp,
     uint32[PStat_length] memory addExp
   ) internal returns (uint32[PStat_length] memory resultExp) {
-    LibExperience.increaseExp(targetEntity, addExp);
+    charstatSystem.increaseExp(targetEntity, addExp);
 
     resultExp = LibExperience.getExp(targetEntity);
     for (uint256 i; i < resultExp.length; i++) {
@@ -29,7 +30,7 @@ contract LibExperienceTest is BaseTest {
   }
 
   function testIncreaseExp() public {
-    LibExperience.initExp(targetEntity);
+    charstatSystem.initExp(targetEntity);
     uint32[PStat_length] memory initialExp = LibExperience.getExp(targetEntity);
     initialExp = _testIncreaseExp(initialExp, [uint32(1), 1, 1]);
     initialExp = _testIncreaseExp(initialExp, [uint32(8), 8, 8]);
@@ -37,7 +38,7 @@ contract LibExperienceTest is BaseTest {
   }
 
   function testFuzzIncreaseExp(uint32[PStat_length] memory addExp) public {
-    LibExperience.initExp(targetEntity);
+    charstatSystem.initExp(targetEntity);
     uint32[PStat_length] memory initialExp = LibExperience.getExp(targetEntity);
     initialExp = _testIncreaseExp(initialExp, addExp);
   }
@@ -53,7 +54,7 @@ contract LibExperienceTest is BaseTest {
   }
 
   function testMaxLevel() public {
-    LibExperience.initExp(targetEntity);
+    charstatSystem.initExp(targetEntity);
 
     // Set the experience to the maximum level
     uint32[PStat_length] memory maxExp = [type(uint32).max, type(uint32).max, type(uint32).max];
@@ -74,10 +75,10 @@ contract LibExperienceTest is BaseTest {
       }
     }
 
-    LibExperience.initExp(targetEntity);
+    charstatSystem.initExp(targetEntity);
     // Get expected exp for the random pstat values
     uint32[PStat_length] memory expectedExp = LibExperience.getExpForPStats(pstats);
-    LibExperience.increaseExp(targetEntity, expectedExp);
+    charstatSystem.increaseExp(targetEntity, expectedExp);
 
     // Get the actual exp
     uint32[PStat_length] memory actualExp = LibExperience.getExp(targetEntity);

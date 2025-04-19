@@ -9,5 +9,5 @@ pragma solidity >=0.8.24;
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface ICycleNoncombatSkillSystem {
-  function castNoncombatSkill(bytes32 cycleEntity, bytes32 skillEntity) external;
+  function cycle__castNoncombatSkill(bytes32 cycleEntity, bytes32 skillEntity) external;
 }

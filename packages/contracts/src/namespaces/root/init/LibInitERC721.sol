@@ -9,8 +9,7 @@ import { IERC721Mintable } from "@latticexyz/world-modules/src/modules/erc721-pu
 import { ERC721MetadataData } from "@latticexyz/world-modules/src/modules/erc721-puppet/tables/ERC721Metadata.sol";
 import { registerERC721 } from "@latticexyz/world-modules/src/modules/erc721-puppet/registerERC721.sol";
 
-import { ERC721Config } from "../codegen/index.sol";
-import { ERC721Namespaces } from "../token/ERC721Namespaces.sol";
+import { ERC721Namespaces } from "../../erc721-puppet/ERC721Namespaces.sol";
 
 library LibInitERC721 {
   function init() internal {
@@ -26,7 +25,5 @@ library LibInitERC721 {
     // Transfer ownership of the token namespace to the world contract
     // (allows the world to use admin functions like minting)
     world.transferOwnership(WorldResourceIdLib.encodeNamespace(namespace), address(world));
-
-    ERC721Config.set(namespace, address(tokenAddress));
   }
 }

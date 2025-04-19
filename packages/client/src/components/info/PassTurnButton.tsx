@@ -16,7 +16,7 @@ export default function PassTurnButton() {
   const passTurn = useCallback(async () => {
     if (cycleEntity === undefined) throw new Error("No cycle entity");
     setIsBusy(true);
-    await systemCalls.passCycleTurn(cycleEntity);
+    await systemCalls.cycle.passTurn(cycleEntity);
     setIsBusy(false);
   }, [systemCalls, cycleEntity]);
 

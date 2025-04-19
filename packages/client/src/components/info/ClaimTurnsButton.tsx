@@ -17,7 +17,7 @@ export default function ClaimTurnsButton({
       throw new Error("No cycle entity selected");
     }
     setIsBusy(true);
-    await systemCalls.claimCycleTurns(cycleEntity);
+    await systemCalls.cycle.claimTurns(cycleEntity);
     setIsBusy(false);
   }, [systemCalls, cycleEntity]);
 

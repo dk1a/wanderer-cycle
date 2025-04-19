@@ -44,7 +44,7 @@ export const WandererProvider = (props: { children: ReactNode }) => {
 
     return getRecordStrict({
       state,
-      table: mudTables.root__ActiveCycle,
+      table: mudTables.cycle__ActiveCycle,
       key: { entity: selectedWandererEntity },
     });
   });
@@ -68,7 +68,7 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   const learnCycleSkill = useCallback(
     async (skillEntity: Hex) => {
       if (cycleEntity === undefined) throw new Error("No cycle entity");
-      await systemCalls.learnCycleSkill(cycleEntity, skillEntity);
+      await systemCalls.cycle.learnSkill(cycleEntity, skillEntity);
     },
     [systemCalls, cycleEntity],
   );

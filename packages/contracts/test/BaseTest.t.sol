@@ -25,18 +25,24 @@ abstract contract BaseTest is MudTest {
     world = IWorld(worldAddress);
 
     address testContractAddress = address(this);
-    _grantRootAccess(testContractAddress);
+    // root
+    _grantAccess("", testContractAddress);
+    // all the other namespaces (allows setting tables directly within tests)
     _grantAccess("affix", testContractAddress);
+    _grantAccess("charstat", testContractAddress);
+    _grantAccess("combat", testContractAddress);
+    _grantAccess("common", testContractAddress);
+    _grantAccess("cycle", testContractAddress);
     _grantAccess("duration", testContractAddress);
     _grantAccess("effect", testContractAddress);
+    _grantAccess("equipment", testContractAddress);
+    _grantAccess("loot", testContractAddress);
+    _grantAccess("map", testContractAddress);
+    _grantAccess("rng", testContractAddress);
+    _grantAccess("skill", testContractAddress);
     _grantAccess("statmod", testContractAddress);
+    _grantAccess("time", testContractAddress);
     _grantAccess("wheel", testContractAddress);
-  }
-
-  function _grantRootAccess(address grantee) internal {
-    uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-    vm.broadcast(deployerPrivateKey);
-    world.grantAccess(WorldResourceIdLib.encodeNamespace(""), grantee);
   }
 
   function _grantAccess(bytes14 namespace, address grantee) internal {

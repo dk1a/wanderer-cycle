@@ -10,8 +10,16 @@ import { ROOT_NAMESPACE_ID } from "@latticexyz/world/src/constants.sol";
 
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 
+import { timeSystem } from "../src/namespaces/time/codegen/systems/TimeSystemLib.sol";
+import { initCycleSystem } from "../src/namespaces/cycle/codegen/systems/InitCycleSystemLib.sol";
+import { randomEquipmentSystem } from "../src/namespaces/loot/codegen/systems/RandomEquipmentSystemLib.sol";
+import { randomMapSystem } from "../src/namespaces/loot/codegen/systems/RandomMapSystemLib.sol";
+import { effectSystem } from "../src/namespaces/effect/codegen/systems/EffectSystemLib.sol";
+
 import { batchRegisterIdxs as root_batchRegisterIdxs } from "../src/namespaces/root/codegen/batchRegisterIdxs.sol";
+import { batchRegisterIdxs as skill_batchRegisterIdxs } from "../src/namespaces/skill/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as affix_batchRegisterIdxs } from "../src/namespaces/affix/codegen/batchRegisterIdxs.sol";
+import { batchRegisterIdxs as equipment_batchRegisterIdxs } from "../src/namespaces/equipment/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as wheel_batchRegisterIdxs } from "../src/namespaces/wheel/codegen/batchRegisterIdxs.sol";
 
 import { LibInitStatmod } from "../src/namespaces/root/init/LibInitStatmod.sol";
@@ -23,6 +31,12 @@ import { LibInitMapsGlobal } from "../src/namespaces/root/init/LibInitMapsGlobal
 import { LibInitMapsBoss } from "../src/namespaces/root/init/LibInitMapsBoss.sol";
 import { LibInitWheel } from "../src/namespaces/wheel/LibInitWheel.sol";
 import { LibInitERC721 } from "../src/namespaces/root/init/LibInitERC721.sol";
+
+import { EffectDuration } from "../src/namespaces/effect/codegen/tables/EffectDuration.sol";
+import { SkillCooldown } from "../src/namespaces/skill/codegen/tables/SkillCooldown.sol";
+import { StatmodValue } from "../src/namespaces/statmod/codegen/tables/StatmodValue.sol";
+import { Affix } from "../src/namespaces/affix/codegen/tables/Affix.sol";
+import { EquipmentTypeComponent } from "../src/namespaces/equipment/codegen/tables/EquipmentTypeComponent.sol";
 
 // Init txs are large, especially affixes
 // Separating the script body allows it to be run directly within tests much faster, skipping lengthy broadcasts
@@ -39,7 +53,9 @@ function runPostDeployInitializers(VmSafe vm, address worldAddress) {
   vm.startBroadcast(deployerPrivateKey);
 
   root_batchRegisterIdxs();
+  skill_batchRegisterIdxs();
   affix_batchRegisterIdxs();
+  equipment_batchRegisterIdxs();
   wheel_batchRegisterIdxs();
 
   LibInitStatmod.init();
@@ -52,8 +68,21 @@ function runPostDeployInitializers(VmSafe vm, address worldAddress) {
   LibInitWheel.init();
   LibInitERC721.init();
 
+  address timeSystemAddress = timeSystem.getAddress();
+  IWorld(worldAddress).grantAccess(EffectDuration._tableId, timeSystemAddress);
+  IWorld(worldAddress).grantAccess(SkillCooldown._tableId, timeSystemAddress);
+
+  // TODO I don't like these tables being used directly by another namespace - system wrap them, or change tables
+  IWorld(worldAddress).grantAccess(Affix._tableId, randomEquipmentSystem.getAddress());
+  IWorld(worldAddress).grantAccess(EquipmentTypeComponent._tableId, randomEquipmentSystem.getAddress());
+  IWorld(worldAddress).grantAccess(Affix._tableId, randomMapSystem.getAddress());
+
+  // TODO this feels less wrong, not sure; should statmod have a system?
+  IWorld(worldAddress).grantAccess(StatmodValue._tableId, effectSystem.getAddress());
+
   // TODO reconsider this, along with `.callAsRootFrom(address(this))` instances
   IWorld(worldAddress).grantAccess(ROOT_NAMESPACE_ID, worldAddress);
+  IWorld(worldAddress).grantAccess(initCycleSystem.toResourceId(), worldAddress);
 
   vm.stopBroadcast();
 }

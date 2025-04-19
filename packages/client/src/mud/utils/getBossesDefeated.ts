@@ -8,7 +8,7 @@ export function getBossesDefeated(
 ): readonly Hex[] {
   const mapEntities = getRecord({
     state,
-    table: mudTables.root__BossesDefeated,
+    table: mudTables.cycle__BossesDefeated,
     key: { entity },
   })?.value;
   return mapEntities ?? [];

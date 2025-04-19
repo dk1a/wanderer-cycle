@@ -16,7 +16,7 @@ import { getValuesElementalFinal, getValuesFinal } from "./statmod";
 export function getExperience(state: StateLocal, entity: Hex) {
   const result = getRecord({
     state,
-    table: mudTables.root__Experience,
+    table: mudTables.charstat__Experience,
     key: {
       entity,
     },

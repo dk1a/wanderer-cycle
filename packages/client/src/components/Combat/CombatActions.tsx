@@ -46,7 +46,7 @@ export default function CombatActions() {
 
       setIsBusy(true);
       try {
-        await systemCalls.processCycleCombatRound(cycleEntity, actions);
+        await systemCalls.cycle.processCycleCombatRound(cycleEntity, actions);
       } catch (err) {
         console.error("Combat round failed", err);
       } finally {

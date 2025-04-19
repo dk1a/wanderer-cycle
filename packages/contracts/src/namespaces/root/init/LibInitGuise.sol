@@ -4,9 +4,9 @@ pragma solidity >=0.8.21;
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
 import { PStat_length } from "../../../CustomTypes.sol";
-import { GuisePrototype, GuiseName, GuiseSkills, Name } from "../codegen/index.sol";
+import { GuisePrototype, GuiseName, GuiseSkills } from "../codegen/index.sol";
 
-import { LibSkill as ls } from "../skill/LibSkill.sol";
+import { LibSkill as ls } from "../../skill/LibSkill.sol";
 
 library LibInitGuise {
   error LibInitGuise_DuplicateName(string name);

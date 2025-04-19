@@ -4,10 +4,12 @@ pragma solidity >=0.8.21;
 import { IWorldErrors } from "@latticexyz/world/src/IWorldErrors.sol";
 import { BaseTest } from "./BaseTest.t.sol";
 
-import { ActiveCombat } from "../src/namespaces/root/codegen/index.sol";
-import { CombatSystem, CombatAction, CombatActionType } from "../src/namespaces/root/combat/CombatSystem.sol";
-import { LibActiveCombat } from "../src/namespaces/root/combat/LibActiveCombat.sol";
-import { LibCharstat } from "../src/namespaces/root/charstat/LibCharstat.sol";
+import { ActiveCombat } from "../src/namespaces/combat/codegen/index.sol";
+import { charstatSystem } from "../src/namespaces/charstat/codegen/systems/CharstatSystemLib.sol";
+import { combatSystem } from "../src/namespaces/combat/codegen/systems/CombatSystemLib.sol";
+import { CombatSystem, CombatAction, CombatActionType } from "../src/namespaces/combat/CombatSystem.sol";
+import { LibActiveCombat } from "../src/namespaces/combat/LibActiveCombat.sol";
+import { LibCharstat } from "../src/namespaces/charstat/LibCharstat.sol";
 import { PStat, PStat_length, EleStat_length } from "../src/CustomTypes.sol";
 import { StatmodTopics } from "../src/namespaces/statmod/StatmodTopic.sol";
 import { Statmod } from "../src/namespaces/statmod/Statmod.sol";
@@ -34,7 +36,7 @@ contract CombatSystemTest is BaseTest {
     super.setUp();
 
     // authorize writer
-    _grantRootAccess(writer);
+    _grantAccess("combat", writer);
 
     // give direct levels
     // (note: don't change statmods directly outside of tests, use effects)
@@ -42,8 +44,8 @@ contract CombatSystemTest is BaseTest {
     Statmod.increase(encounterEntity, levelStatmodEntity, initLevel);
 
     // initialize and fill up life, mana
-    LibCharstat.setFullCurrents(playerEntity);
-    LibCharstat.setFullCurrents(encounterEntity);
+    charstatSystem.setFullCurrents(playerEntity);
+    charstatSystem.setFullCurrents(encounterEntity);
 
     initLife = LibCharstat.getLifeCurrent(playerEntity);
     initAttack = LibCharstat.getAttack(playerEntity)[uint256(EleStat.PHYSICAL)];
@@ -53,7 +55,7 @@ contract CombatSystemTest is BaseTest {
 
   function _activateCombat(uint32 maxRounds) internal {
     // activate combat between player and encounter
-    world.activateCombat(playerEntity, encounterEntity, maxRounds);
+    combatSystem.activateCombat(playerEntity, encounterEntity, maxRounds);
   }
 
   function _sumElements(uint32[EleStat_length] memory elemValues) internal pure returns (uint32 result) {
@@ -93,9 +95,9 @@ contract CombatSystemTest is BaseTest {
 
     vm.prank(notWriter);
     vm.expectRevert(
-      abi.encodeWithSelector(IWorldErrors.World_AccessDenied.selector, "sy:<root>:CombatSystem", notWriter)
+      abi.encodeWithSelector(IWorldErrors.World_AccessDenied.selector, "sy:combat:CombatSystem", notWriter)
     );
-    world.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
+    combatSystem.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
   }
 
   // skipping a round is fine
@@ -103,7 +105,7 @@ contract CombatSystemTest is BaseTest {
     _activateCombat(defaultMaxRounds);
 
     vm.prank(writer);
-    CombatResult result = world.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
+    CombatResult result = combatSystem.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
     assertEq(uint8(result), uint8(CombatResult.NONE));
   }
 
@@ -113,16 +115,16 @@ contract CombatSystemTest is BaseTest {
 
     vm.prank(writer);
     vm.expectRevert(CombatSystem.CombatSystem_InvalidActionsLength.selector);
-    world.actPVERound(playerEntity, encounterEntity, _actions2Attacks(), _actions2Attacks());
+    combatSystem.actPVERound(playerEntity, encounterEntity, _actions2Attacks(), _actions2Attacks());
   }
 
   // an unopposed single attack
-  function test_combatPVERound_playerAttacks_1() public {
+  function testCombatPVERoundPlayerAttacks1() public {
     _activateCombat(defaultMaxRounds);
 
     vm.prank(writer);
 
-    CombatResult result = world.actPVERound(playerEntity, encounterEntity, _actions1Attack(), _noActions);
+    CombatResult result = combatSystem.actPVERound(playerEntity, encounterEntity, _actions1Attack(), _noActions);
     assertEq(uint8(result), uint8(CombatResult.NONE));
     assertEq(LibCharstat.getLifeCurrent(encounterEntity), initLife - initAttack);
   }
@@ -137,7 +139,7 @@ contract CombatSystemTest is BaseTest {
     // do enough attacks to defeat encounter
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = world.actPVERound(playerEntity, encounterEntity, _actions1Attack(), _noActions);
+      result = combatSystem.actPVERound(playerEntity, encounterEntity, _actions1Attack(), _noActions);
       if (i != attacksNumber - 1) {
         assertEq(uint8(result), uint8(CombatResult.NONE));
       }
@@ -156,7 +158,7 @@ contract CombatSystemTest is BaseTest {
     // do enough attacks to defeat player
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = world.actPVERound(playerEntity, encounterEntity, _noActions, _actions1Attack());
+      result = combatSystem.actPVERound(playerEntity, encounterEntity, _noActions, _actions1Attack());
       if (i != attacksNumber - 1) {
         assertEq(uint8(result), uint8(CombatResult.NONE));
       }
@@ -175,7 +177,7 @@ contract CombatSystemTest is BaseTest {
     // do enough attacks to defeat encounter
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = world.actPVERound(playerEntity, encounterEntity, _actions1Attack(), _actions1Attack());
+      result = combatSystem.actPVERound(playerEntity, encounterEntity, _actions1Attack(), _actions1Attack());
       if (i != attacksNumber - 1) {
         assertEq(uint8(result), uint8(CombatResult.NONE));
       }
@@ -192,7 +194,7 @@ contract CombatSystemTest is BaseTest {
     uint32 initialRoundsSpent = ActiveCombat.getRoundsSpent(playerEntity);
 
     vm.prank(writer);
-    world.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
+    combatSystem.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
 
     uint32 roundsSpent = ActiveCombat.getRoundsSpent(playerEntity);
     assertEq(roundsSpent, initialRoundsSpent + 1, "Rounds spent should increase by 1");
@@ -202,7 +204,7 @@ contract CombatSystemTest is BaseTest {
     _activateCombat(1);
 
     vm.prank(writer);
-    world.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
+    combatSystem.actPVERound(playerEntity, encounterEntity, _noActions, _noActions);
 
     bool isActive = ActiveCombat.getRetaliatorEntity(playerEntity) != bytes32(0);
     assertFalse(isActive, "Combat should be deactivated after max rounds");
@@ -215,7 +217,7 @@ contract CombatSystemTest is BaseTest {
 
     vm.prank(writer);
     vm.expectRevert(CombatSystem.CombatSystem_InvalidActionsLength.selector);
-    world.actPVERound(playerEntity, encounterEntity, actions, _noActions);
+    combatSystem.actPVERound(playerEntity, encounterEntity, actions, _noActions);
   }
 
   // TODO So far just basic physical attacks. More tests, with statmods and skills.

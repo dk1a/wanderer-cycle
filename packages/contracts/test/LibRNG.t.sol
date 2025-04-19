@@ -4,8 +4,9 @@ pragma solidity >=0.8.21;
 import "forge-std/Test.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
-import { LibRNG } from "../src/namespaces/root/rng/LibRNG.sol";
-import { RNGPrecommit, RNGRequestOwner } from "../src/namespaces/root/codegen/index.sol";
+import { rNGSystem } from "../src/namespaces/rng/codegen/systems/RNGSystemLib.sol";
+import { LibRNG } from "../src/namespaces/rng/LibRNG.sol";
+import { RNGPrecommit, RNGRequestOwner } from "../src/namespaces/rng/codegen/index.sol";
 import { BaseTest } from "./BaseTest.t.sol";
 import { TestSystem } from "./TestSystem.sol";
 
@@ -33,7 +34,7 @@ contract LibRNGTest is BaseTest {
 
   function test_getRandomness() public {
     (bytes32 requestOwner, ) = _initEntity();
-    bytes32 requestId = LibRNG.requestRandomness(requestOwner);
+    bytes32 requestId = rNGSystem.requestRandomness(requestOwner);
     vm.roll(block.number + LibRNG.WAIT_BLOCKS + 1);
     uint256 randomness = LibRNG.getRandomness(requestOwner, requestId);
     assertGt(randomness, 0);
@@ -43,7 +44,7 @@ contract LibRNGTest is BaseTest {
   function test_getRandomness_revert_NotRequestOwner() public {
     (bytes32 requestOwner, bytes32 notOwner) = _initEntity();
 
-    bytes32 requestId = LibRNG.requestRandomness(requestOwner);
+    bytes32 requestId = rNGSystem.requestRandomness(requestOwner);
 
     vm.expectRevert(LibRNG.LibRNG_NotRequestOwner.selector);
     rngTestSystem.getRandomness(notOwner, requestId);
@@ -52,7 +53,7 @@ contract LibRNGTest is BaseTest {
   function test_getRandomness_revert_sameBlock() public {
     (bytes32 requestOwner, ) = _initEntity();
 
-    bytes32 requestId = LibRNG.requestRandomness(requestOwner);
+    bytes32 requestId = rNGSystem.requestRandomness(requestOwner);
 
     vm.expectRevert(LibRNG.LibRNG_InvalidPrecommit.selector);
     rngTestSystem.getRandomness(requestOwner, requestId);
@@ -61,7 +62,7 @@ contract LibRNGTest is BaseTest {
   function test_getRandomness_revert_tooLate() public {
     (bytes32 requestOwner, ) = _initEntity();
 
-    bytes32 requestId = LibRNG.requestRandomness(requestOwner);
+    bytes32 requestId = rNGSystem.requestRandomness(requestOwner);
 
     vm.roll(block.number + LibRNG.WAIT_BLOCKS + 256 + 1);
     vm.expectRevert(LibRNG.LibRNG_InvalidPrecommit.selector);
@@ -74,7 +75,7 @@ contract LibRNGTest is BaseTest {
 
     vm.assume(blocknumber != 0);
     vm.roll(blocknumber);
-    bytes32 requestId = LibRNG.requestRandomness(requestOwner);
+    bytes32 requestId = rNGSystem.requestRandomness(requestOwner);
 
     uint256 precommit = RNGPrecommit.get(requestId);
     assertEq(precommit, blocknumber + LibRNG.WAIT_BLOCKS);
@@ -95,7 +96,7 @@ contract LibRNGTest is BaseTest {
     uint256 initBlock = 1;
     vm.roll(initBlock);
 
-    bytes32 requestId = LibRNG.requestRandomness(requestOwner);
+    bytes32 requestId = rNGSystem.requestRandomness(requestOwner);
     uint256 precommit = RNGPrecommit.get(requestId);
 
     for (uint256 i = initBlock; i < initBlock + 270; i++) {
@@ -118,7 +119,7 @@ contract LibRNGTest is BaseTest {
 
 /* TODO not relevant while WAIT_BLOCKS = 0
  function test_getRandomness_revert_tooEarly() public {
-   uint256 requestId = LibRNG.requestRandomness(world, '');
+   uint256 requestId = rNGSystem.requestRandomness(world, '');
 
    vm.roll(block.number + 1);
    vm.expectRevert(LibRNG.LibRNG__InvalidPrecommit.selector);

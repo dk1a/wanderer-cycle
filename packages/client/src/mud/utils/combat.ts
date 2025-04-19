@@ -61,7 +61,7 @@ export const attackAction: CombatAction = {
 export function getActiveCombat(state: StateLocal, initiatorEntity: Hex) {
   const result = getRecord({
     state,
-    table: mudTables.root__ActiveCombat,
+    table: mudTables.combat__ActiveCombat,
     key: { initiatorEntity },
   });
   return result;
@@ -73,7 +73,7 @@ export function getCycleCombatRewardRequests(
 ): CycleCombatRewardRequest[] {
   const requests = getRecords({
     state,
-    table: mudTables.root__RNGRequestOwner,
+    table: mudTables.rng__RNGRequestOwner,
   });
   const filteredRequests = Object.values(requests).filter(
     ({ ownerEntity }) => ownerEntity === requesterEntity,
@@ -83,12 +83,12 @@ export function getCycleCombatRewardRequests(
   for (const request of filteredRequests) {
     const precommit = getRecord({
       state,
-      table: mudTables.root__RNGPrecommit,
+      table: mudTables.rng__RNGPrecommit,
       key: request,
     });
     const combatRReq = getRecord({
       state,
-      table: mudTables.root__CycleCombatRReq,
+      table: mudTables.cycle__CycleCombatRReq,
       key: request,
     });
     if (precommit === undefined || combatRReq === undefined) {
@@ -118,7 +118,7 @@ export function getCombatLog(
 ): CombatLog {
   const combatLog = getRecord({
     state,
-    table: mudTables.root__CombatLogOffchain,
+    table: mudTables.combat__CombatLogOffchain,
     key: { initiatorEntity, retaliatorEntity },
   });
   if (combatLog === undefined) {
@@ -168,7 +168,7 @@ function getCombatRoundLog(
 ): CombatRoundLog | undefined {
   const combatRoundLog = getRecord({
     state,
-    table: mudTables.root__CombatLogRoundOffchain,
+    table: mudTables.combat__CombatLogRoundOffchain,
     key: { initiatorEntity, retaliatorEntity, roundIndex: BigInt(roundIndex) },
   });
   if (!combatRoundLog) return;
@@ -232,7 +232,7 @@ function getCombatActionLog(
 ): CombatActionLog | undefined {
   const combatActionLog = getRecord({
     state,
-    table: mudTables.root__CombatLogActionOffchain,
+    table: mudTables.combat__CombatLogActionOffchain,
     key: {
       attackerEntity,
       defenderEntity,

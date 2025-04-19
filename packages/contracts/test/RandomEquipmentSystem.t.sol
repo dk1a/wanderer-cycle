@@ -5,8 +5,10 @@ pragma solidity ^0.8.17;
 import { BaseTest } from "./BaseTest.t.sol";
 
 import { AffixPartId } from "../src/codegen/common.sol";
-import { LootAffixes, LootIlvl, EquipmentTypeComponent } from "../src/namespaces/root/codegen/index.sol";
-import { EquipmentType } from "../src/namespaces/root/equipment/EquipmentType.sol";
+import { randomEquipmentSystem } from "../src/namespaces/loot/codegen/systems/RandomEquipmentSystemLib.sol";
+import { EquipmentTypeComponent } from "../src/namespaces/equipment/codegen/index.sol";
+import { LootAffixes, LootIlvl } from "../src/namespaces/loot/codegen/index.sol";
+import { EquipmentType } from "../src/namespaces/equipment/EquipmentType.sol";
 import { Affix, AffixData } from "../src/namespaces/affix/codegen/index.sol";
 import { EffectTemplate } from "../src/namespaces/effect/codegen/index.sol";
 import { MAX_ILVL } from "../src/namespaces/affix/constants.sol";
@@ -19,8 +21,8 @@ contract RandomEquipmentSystemTest is BaseTest {
     uint32 ilvl1 = 1;
     uint32 ilvl2 = 5;
 
-    bytes32 lootEntity1 = world.mintRandomEquipmentEntity(ilvl1, seed1);
-    bytes32 lootEntity2 = world.mintRandomEquipmentEntity(ilvl2, seed2);
+    bytes32 lootEntity1 = randomEquipmentSystem.mintRandomEquipmentEntity(ilvl1, seed1);
+    bytes32 lootEntity2 = randomEquipmentSystem.mintRandomEquipmentEntity(ilvl2, seed2);
 
     // check entities
     assertNotEq(lootEntity1, lootEntity2);
@@ -57,8 +59,8 @@ contract RandomEquipmentSystemTest is BaseTest {
 
   // affixes and equipment proto should be identical, but otherwise these should be 2 different entities
   function testRandomEquipmentSameSeed(uint256 seed) public {
-    bytes32 lootEntity1 = world.mintRandomEquipmentEntity(1, seed);
-    bytes32 lootEntity2 = world.mintRandomEquipmentEntity(1, seed);
+    bytes32 lootEntity1 = randomEquipmentSystem.mintRandomEquipmentEntity(1, seed);
+    bytes32 lootEntity2 = randomEquipmentSystem.mintRandomEquipmentEntity(1, seed);
     assertNotEq(lootEntity1, lootEntity2);
     assertEq(
       EquipmentType.unwrap(EquipmentTypeComponent.get(lootEntity1)),
@@ -88,8 +90,8 @@ contract RandomEquipmentSystemTest is BaseTest {
       uint256 seed1 = 1000000 + i;
       uint256 seed2 = 2000000 + i;
 
-      bytes32 lootEntity1 = world.mintRandomEquipmentEntity(1, seed1);
-      bytes32 lootEntity2 = world.mintRandomEquipmentEntity(1, seed2);
+      bytes32 lootEntity1 = randomEquipmentSystem.mintRandomEquipmentEntity(1, seed1);
+      bytes32 lootEntity2 = randomEquipmentSystem.mintRandomEquipmentEntity(1, seed2);
       assertNotEq(lootEntity1, lootEntity2);
       bytes32[] memory lootAffixes1 = LootAffixes.get(lootEntity1);
       bytes32[] memory lootAffixes2 = LootAffixes.get(lootEntity2);
@@ -108,7 +110,7 @@ contract RandomEquipmentSystemTest is BaseTest {
   // make sure there're enough affixes to mint the highest ilvl loot
   function test_randomEquipment_maxIlvl(uint256 seed) public {
     // TODO more affixes
-    bytes32 lootEntity = world.mintRandomEquipmentEntity(MAX_ILVL, seed);
+    bytes32 lootEntity = randomEquipmentSystem.mintRandomEquipmentEntity(MAX_ILVL, seed);
     assertEq(LootIlvl.get(lootEntity), MAX_ILVL);
   }
 }

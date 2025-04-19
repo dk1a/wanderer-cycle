@@ -22,13 +22,13 @@ export function CombatReward({
 
   const cancelCycleCombatReward = useCallback(async () => {
     setIsBusy(true);
-    await systemCalls.cancelCycleCombatReward(requesterEntity, requestId);
+    await systemCalls.cycle.cancelCycleCombatReward(requesterEntity, requestId);
     setIsBusy(false);
   }, [systemCalls, requesterEntity]);
 
   const claimCycleCombatReward = useCallback(async () => {
     setIsBusy(true);
-    await systemCalls.claimCycleCombatReward(requesterEntity, requestId);
+    await systemCalls.cycle.claimCycleCombatReward(requesterEntity, requestId);
     setIsBusy(false);
   }, [systemCalls, requesterEntity]);
 

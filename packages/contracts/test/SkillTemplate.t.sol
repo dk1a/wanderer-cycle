@@ -3,9 +3,9 @@ pragma solidity >=0.8.21;
 
 import { BaseTest } from "./BaseTest.t.sol";
 import { EffectTemplate } from "../src/namespaces/effect/LibEffect.sol";
-import { SkillTemplate, SkillName } from "../src/namespaces/root/codegen/index.sol";
+import { SkillTemplate, SkillName } from "../src/namespaces/skill/codegen/index.sol";
 import { SkillType, TargetType } from "../src/codegen/common.sol";
-import { LibSkill } from "../src/namespaces/root/skill/LibSkill.sol";
+import { LibSkill } from "../src/namespaces/skill/LibSkill.sol";
 
 contract SkillTemplateTest is BaseTest {
   // sample skill entities

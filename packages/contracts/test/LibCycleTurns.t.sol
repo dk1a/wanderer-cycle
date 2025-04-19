@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
-import { LibCycleTurns } from "../src/namespaces/root/cycle/LibCycleTurns.sol";
-import { CycleTurns, ActiveGuise, ActiveCycle } from "../src/namespaces/root/codegen/index.sol";
 import { BaseTest } from "./BaseTest.t.sol";
+
+import { LibCycleTurns } from "../src/namespaces/cycle/LibCycleTurns.sol";
+import { CycleTurns } from "../src/namespaces/cycle/codegen/index.sol";
 
 contract LibCycleTurnsTest is BaseTest {
   bytes32 internal targetEntity = keccak256("targetEntity");

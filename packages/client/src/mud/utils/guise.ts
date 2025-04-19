@@ -53,15 +53,15 @@ export function getActiveGuise(
 
   const activeGuise = getRecord({
     state,
-    table: mudTables.root__ActiveGuise,
+    table: mudTables.cycle__ActiveGuise,
     key: {
-      fromEntity: targetEntity,
+      entity: targetEntity,
     },
   });
 
   if (!activeGuise) {
     return undefined;
   } else {
-    return getGuise(state, activeGuise.toEntity);
+    return getGuise(state, activeGuise.guiseEntity);
   }
 }

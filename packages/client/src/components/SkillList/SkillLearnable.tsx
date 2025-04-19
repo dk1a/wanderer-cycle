@@ -29,7 +29,7 @@ export default function SkillLearnable({
 
   const onSkill = useCallback(async () => {
     if (!cycleEntity) throw new Error("Cycle must be active");
-    await systemCalls.castNoncombatSkill(cycleEntity, skill.entity);
+    await systemCalls.cycle.castNoncombatSkill(cycleEntity, skill.entity);
   }, [cycleEntity, skill]);
 
   const isLearned = useMemo(

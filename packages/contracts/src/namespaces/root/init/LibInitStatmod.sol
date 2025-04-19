@@ -3,11 +3,12 @@ pragma solidity >=0.8.21;
 
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
+import { commonSystem } from "../../common/codegen/systems/CommonSystemLib.sol";
+
 import { PStat, PStat_length, StatmodOp, EleStat } from "../../../CustomTypes.sol";
 import { StatmodTopics, StatmodTopic, toStatmodEntity } from "../../statmod/StatmodTopic.sol";
 import { statmodName } from "../../statmod/statmodName.sol";
 import { StatmodBase, StatmodBaseData, StatmodIdxList, StatmodIdxMap, StatmodValue } from "../../statmod/codegen/index.sol";
-import { Name } from "../codegen/index.sol";
 
 library LibInitStatmod {
   function init() internal {
@@ -94,6 +95,6 @@ library LibInitStatmod {
     StatmodBase.set(statmodEntity, statmodBase);
 
     string memory name = statmodName(statmodBase);
-    Name.set(statmodEntity, name);
+    commonSystem.setName(statmodEntity, name);
   }
 }

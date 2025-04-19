@@ -24,7 +24,7 @@ export default function BasicMap({ data }: { data: MapData }) {
     if (!cycleEntity) {
       throw new Error("No cycle entity");
     }
-    systemCalls.activateCycleCombat(cycleEntity, entity);
+    systemCalls.cycle.activateCombat(cycleEntity, entity);
   }, [systemCalls, entity, cycleEntity]);
 
   const isHighLevel =

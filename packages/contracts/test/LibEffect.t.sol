@@ -2,9 +2,10 @@
 pragma solidity >=0.8.21;
 
 import { BaseTest } from "./BaseTest.t.sol";
+import { effectSystem } from "../src/namespaces/effect/codegen/systems/EffectSystemLib.sol";
+import { effectTemplateSystem, EffectTemplateData } from "../src/namespaces/effect/codegen/systems/EffectTemplateSystemLib.sol";
 import { Duration, GenericDurationData, Idx_GenericDuration_TargetEntityTimeId } from "../src/namespaces/duration/Duration.sol";
-import { LibEffect, EffectDuration, EffectTemplateData } from "../src/namespaces/effect/LibEffect.sol";
-import { LibEffectTemplate } from "../src/namespaces/effect/LibEffectTemplate.sol";
+import { LibEffect, EffectDuration } from "../src/namespaces/effect/LibEffect.sol";
 import { StatmodTopics, StatmodOp, EleStat } from "../src/namespaces/statmod/StatmodTopic.sol";
 
 contract LibEffectTest is BaseTest {
@@ -26,12 +27,16 @@ contract LibEffectTest is BaseTest {
     effectTemplate.statmodEntities[0] = lifeEntity;
     effectTemplate.values[0] = 10;
 
-    LibEffectTemplate.verifiedSet(applicationEntity, effectTemplate);
+    effectTemplateSystem.setEffectTemplate(applicationEntity, effectTemplate);
   }
 
   function testDecreaseApplications() public {
     // Apply effect and duration
-    LibEffect.applyTimedEffect(targetEntity, applicationEntity, GenericDurationData({ timeId: timeId, timeValue: 10 }));
+    effectSystem.applyTimedEffect(
+      targetEntity,
+      applicationEntity,
+      GenericDurationData({ timeId: timeId, timeValue: 10 })
+    );
 
     assertTrue(LibEffect.hasEffectApplied(targetEntity, applicationEntity));
     (bool has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, applicationEntity);
@@ -74,7 +79,7 @@ contract LibEffectTest is BaseTest {
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, applicationEntity), 0);
 
     // Apply effect without duration
-    LibEffect.applyEffect(targetEntity, applicationEntity);
+    effectSystem.applyEffect(targetEntity, applicationEntity);
 
     assertTrue(LibEffect.hasEffectApplied(targetEntity, applicationEntity));
     (has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, applicationEntity);

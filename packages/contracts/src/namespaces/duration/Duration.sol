@@ -8,7 +8,6 @@ import { Idx_GenericDuration_TargetEntityTimeId } from "./codegen/idxs/Idx_Gener
 
 library Duration {
   error Duration_IncreaseByZero();
-  error Duration_EntityAbsent();
 
   /**
    * Increase duration for a specific key set

@@ -10,14 +10,14 @@ import { LibAddAffixPrototype } from "../../affix/LibAddAffixPrototype.sol";
 import { AffixPart, Range, TargetLabel } from "../../affix/types.sol";
 import { DEFAULT_TIERS } from "../../affix/constants.sol";
 
-import { LibLootMint } from "../loot/LibLootMint.sol";
+import { LibLootMint } from "../../loot/LibLootMint.sol";
 
-import { EquipmentAffixAvailabilityTargetIds as EAATIds } from "../equipment/EquipmentAffixAvailabilityTargetIds.sol";
-import { EquipmentType, EquipmentTypes } from "../equipment/EquipmentType.sol";
+import { EquipmentAffixAvailabilityTargetIds as EAATIds } from "../../equipment/EquipmentAffixAvailabilityTargetIds.sol";
+import { EquipmentType, EquipmentTypes } from "../../equipment/EquipmentType.sol";
 
 import { StatmodOp, EleStat } from "../../../codegen/common.sol";
 
-import { EquipmentTypeComponent } from "../codegen/index.sol";
+import { EquipmentTypeComponent } from "../../equipment/codegen/index.sol";
 
 library LibInitEquipmentAffix {
   function init() internal {

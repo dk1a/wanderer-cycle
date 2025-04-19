@@ -11,7 +11,7 @@ import { DEFAULT_TIERS } from "../../affix/constants.sol";
 
 import { StatmodTopics } from "../../statmod/StatmodTopic.sol";
 import { StatmodOp, EleStat } from "../../../CustomTypes.sol";
-import { MapAffixAvailabilityTargetIds } from "../map/MapAffixAvailabilityTargetIds.sol";
+import { MapAffixAvailabilityTargetIds } from "../../map/MapAffixAvailabilityTargetIds.sol";
 
 library LibInitMapAffix {
   function init() internal {

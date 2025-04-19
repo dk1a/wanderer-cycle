@@ -9,5 +9,5 @@ pragma solidity >=0.8.24;
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface IRandomEquipmentSystem {
-  function mintRandomEquipmentEntity(uint32 ilvl, uint256 randomness) external returns (bytes32 lootEntity);
+  function loot__mintRandomEquipmentEntity(uint32 ilvl, uint256 randomness) external returns (bytes32 lootEntity);
 }

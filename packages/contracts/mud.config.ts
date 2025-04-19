@@ -74,11 +74,11 @@ const enums = {
 };
 
 const userTypes = {
-  AffixAvailabilityTargetId: { filePath: "./src/namespaces/affix/types.sol", type: "bytes32" },
   ResourceId: { filePath: "@latticexyz/store/src/ResourceId.sol", type: "bytes32" },
+  AffixAvailabilityTargetId: { filePath: "./src/namespaces/affix/types.sol", type: "bytes32" },
   StatmodTopic: { filePath: "./src/namespaces/statmod/StatmodTopic.sol", type: "bytes32" },
-  EquipmentType: { filePath: "./src/namespaces/root/equipment/EquipmentType.sol", type: "bytes32" },
-  MapType: { filePath: "./src/namespaces/root/map/MapType.sol", type: "bytes32" },
+  EquipmentType: { filePath: "./src/namespaces/equipment/EquipmentType.sol", type: "bytes32" },
+  MapType: { filePath: "./src/namespaces/map/MapType.sol", type: "bytes32" },
 } as const;
 
 export default defineWorld({
@@ -91,22 +91,6 @@ export default defineWorld({
     root: {
       namespace: "",
       tables: {
-        ERC721Config: {
-          key: ["namespace"],
-          schema: {
-            namespace: "bytes14",
-            tokenAddress: "address",
-          },
-        },
-        Name: nameTable,
-        Experience: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            arrayPStat: arrayPStat,
-          },
-        },
-        ActiveGuise: entityRelation,
         GuisePrototype: {
           ...entityKey,
           schema: {
@@ -122,155 +106,6 @@ export default defineWorld({
             entityArray: EntityIdArray,
           },
         },
-        LearnedSkills: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            entityIdSet: EntityIdSet,
-          },
-        },
-        LifeCurrent: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "uint32",
-          },
-        },
-        ManaCurrent: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "uint32",
-          },
-        },
-        LootAffixes: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            affixEntities: EntityIdArray,
-          },
-        },
-        LootTargetId: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            targetId: "AffixAvailabilityTargetId",
-          },
-        },
-        LootIlvl: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "uint32",
-          },
-        },
-        SkillTemplate: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            // level required to learn it
-            requiredLevel: "uint8",
-            // when/how it can be used
-            skillType: "SkillType",
-            // flag to also trigger an attack afterwards (base attack damage is not based on the skill)
-            withAttack: "bool",
-            // flag to also trigger a spell afterwards (`SpellDamage` is used for base damage)
-            withSpell: "bool",
-            // mana cost to be subtracted on use
-            cost: "uint32",
-            // who it can be used on
-            targetType: "TargetType",
-          },
-        },
-        SkillSpellDamage: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "uint32[5]",
-          },
-        },
-        SkillTemplateCooldown: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            timeId: "bytes32",
-            timeValue: "uint256",
-          },
-        },
-        SkillTemplateDuration: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            timeId: "bytes32",
-            timeValue: "uint256",
-          },
-        },
-        SkillName: nameTable,
-        SkillDescription: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "string",
-          },
-        },
-        SkillCooldown: durationTable,
-        ActiveCycle: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            cycleEntity: EntityId,
-          },
-        },
-        CycleOwner: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            ownerEntity: EntityId,
-          },
-        },
-        CycleMetadata: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            // timestamp
-            startTime: "uint256",
-            // timestamp
-            endTime: "uint256",
-          },
-        },
-        BossesDefeated: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "bytes32[]",
-          },
-        },
-        CycleCombatRReq: {
-          key: ["requestId"],
-          schema: {
-            requestId: "bytes32",
-            mapEntity: EntityId,
-            connection: "uint32",
-            fortune: "uint32",
-            winnerPStat: arrayPStat,
-            loserPStat: arrayPStat,
-          },
-        },
-        CycleTurns: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "uint32",
-          },
-        },
-        CycleTurnsLastClaimed: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            // timestamp
-            value: "uint256",
-          },
-        },
         Wanderer: {
           ...entityKey,
           schema: {
@@ -278,118 +113,17 @@ export default defineWorld({
             value: "bool",
           },
         },
-        // An entity can initiate only 1 combat at a time
-        ActiveCombat: {
-          key: ["initiatorEntity"],
-          schema: {
-            initiatorEntity: EntityId,
-            retaliatorEntity: EntityId,
-            roundsSpent: "uint32",
-            roundsMax: "uint32",
-          },
-        },
-        CombatLogOffchain: {
-          type: "offchainTable",
-          key: ["initiatorEntity", "retaliatorEntity"],
-          schema: {
-            initiatorEntity: EntityId,
-            retaliatorEntity: EntityId,
-            roundsSpent: "uint256",
-            roundsMax: "uint256",
-            combatResult: "CombatResult",
-          },
-        },
-        CombatLogRoundOffchain: {
-          type: "offchainTable",
-          key: ["initiatorEntity", "retaliatorEntity", "roundIndex"],
-          schema: {
-            initiatorEntity: EntityId,
-            retaliatorEntity: EntityId,
-            roundIndex: "uint256",
-            combatResult: "CombatResult",
-            initiatorActionLength: "uint256",
-            retaliatorActionLength: "uint256",
-          },
-        },
-        CombatLogActionOffchain: {
-          type: "offchainTable",
-          key: ["attackerEntity", "defenderEntity", "roundIndex", "actionIndex"],
-          schema: {
-            attackerEntity: EntityId,
-            defenderEntity: EntityId,
-            roundIndex: "uint256",
-            actionIndex: "uint256",
-            actionType: "CombatActionType",
-            actionEntity: EntityId,
-            defenderLifeBefore: "uint32",
-            defenderLifeAfter: "uint32",
-          },
-        },
-        FromMap: {
-          key: ["encounterEntity"],
-          schema: {
-            encounterEntity: EntityId,
-            mapEntity: EntityId,
-          },
-        },
-        RNGPrecommit: {
-          key: ["requestId"],
-          schema: {
-            requestId: "bytes32",
-            value: "uint256",
-          },
-        },
-        RNGRequestOwner: {
-          key: ["requestId"],
-          schema: {
-            requestId: "bytes32",
-            ownerEntity: EntityId,
-          },
-        },
-        SlotAllowedType: {
-          key: ["slotEntity", "equipmentType"],
-          schema: {
-            slotEntity: EntityId,
-            equipmentType: "EquipmentType",
-            isAllowed: "bool",
-          },
-        },
-        SlotEquipment: {
-          key: ["slotEntity"],
-          schema: {
-            slotEntity: EntityId,
-            equipmentEntity: EntityId,
-          },
-        },
-        EquipmentTypeComponent: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "EquipmentType",
-          },
-        },
-        OwnedBy: entityRelation,
-        MapTypeComponent: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "MapType",
-          },
-        },
       },
-      systems: {
-        CombatSystem: {
-          openAccess: false,
-          accessList: [],
-        },
-        RandomEquipmentSystem: {
-          openAccess: false,
-          accessList: [],
-        },
-        RandomMapSystem: {
-          openAccess: false,
-          accessList: [],
-        },
+    },
+    /************************************************************************
+     *
+     *    COMMON
+     *
+     ************************************************************************/
+    common: {
+      tables: {
+        Name: nameTable,
+        OwnedBy: entityRelation,
       },
     },
     /************************************************************************
@@ -459,6 +193,49 @@ export default defineWorld({
     },
     /************************************************************************
      *
+     *    CHARSTAT
+     *
+     ************************************************************************/
+    charstat: {
+      tables: {
+        LifeCurrent: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "uint32",
+          },
+        },
+        ManaCurrent: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "uint32",
+          },
+        },
+        Experience: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            arrayPStat: arrayPStat,
+          },
+        },
+      },
+      systems: {
+        CharstatSystem: {
+          openAccess: false,
+          accessList: [
+            "SkillSystem",
+            "CombatSystem",
+            "InitCycleSystem",
+            "CycleActivateCombatSystem",
+            "CycleCombatRewardSystem",
+            "CyclePassTurnSystem",
+          ],
+        },
+      },
+    },
+    /************************************************************************
+     *
      *    EFFECT
      *
      ************************************************************************/
@@ -481,6 +258,167 @@ export default defineWorld({
             statmodEntities: EntityIdArray,
             values: "uint32[]",
           },
+        },
+      },
+      systems: {
+        EffectSystem: {
+          openAccess: false,
+          accessList: ["EquipmentSystem", "SkillSystem", "CycleActivateCombatSystem"],
+        },
+        EffectTemplateSystem: {
+          openAccess: false,
+          accessList: ["RandomEquipmentSystem", "RandomMapSystem"],
+        },
+      },
+    },
+    /************************************************************************
+     *
+     *    SKILL
+     *
+     ************************************************************************/
+    skill: {
+      tables: {
+        SkillTemplate: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            // level required to learn it
+            requiredLevel: "uint8",
+            // when/how it can be used
+            skillType: "SkillType",
+            // flag to also trigger an attack afterwards (base attack damage is not based on the skill)
+            withAttack: "bool",
+            // flag to also trigger a spell afterwards (`SpellDamage` is used for base damage)
+            withSpell: "bool",
+            // mana cost to be subtracted on use
+            cost: "uint32",
+            // who it can be used on
+            targetType: "TargetType",
+          },
+        },
+        SkillSpellDamage: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "uint32[5]",
+          },
+        },
+        SkillTemplateCooldown: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            timeId: "bytes32",
+            timeValue: "uint256",
+          },
+        },
+        SkillTemplateDuration: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            timeId: "bytes32",
+            timeValue: "uint256",
+          },
+        },
+        SkillName: nameTable,
+        SkillDescription: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "string",
+          },
+        },
+        SkillCooldown: durationTable,
+        LearnedSkills: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            entityIdSet: EntityIdSet,
+          },
+        },
+      },
+      systems: {
+        SkillSystem: {
+          openAccess: false,
+          accessList: ["LearnSkillSystem", "CycleNoncombatSkillSystem", "CombatSystem"],
+        },
+        LearnSkillSystem: {
+          openAccess: false,
+          accessList: ["InitCycleSystem", "CycleLearnSkillSystem", "WandererSpawnSystem"],
+        },
+      },
+    },
+    /************************************************************************
+     *
+     *    TIME
+     *
+     ************************************************************************/
+    time: {
+      systems: {
+        TimeSystem: {
+          openAccess: false,
+          accessList: ["CombatSystem"],
+        },
+      },
+    },
+    /************************************************************************
+     *
+     *    COMBAT
+     *
+     ************************************************************************/
+    combat: {
+      tables: {
+        // An entity can initiate only 1 combat at a time
+        ActiveCombat: {
+          key: ["initiatorEntity"],
+          schema: {
+            initiatorEntity: EntityId,
+            retaliatorEntity: EntityId,
+            roundsSpent: "uint32",
+            roundsMax: "uint32",
+          },
+        },
+        CombatLogOffchain: {
+          type: "offchainTable",
+          key: ["initiatorEntity", "retaliatorEntity"],
+          schema: {
+            initiatorEntity: EntityId,
+            retaliatorEntity: EntityId,
+            roundsSpent: "uint256",
+            roundsMax: "uint256",
+            combatResult: "CombatResult",
+          },
+        },
+        CombatLogRoundOffchain: {
+          type: "offchainTable",
+          key: ["initiatorEntity", "retaliatorEntity", "roundIndex"],
+          schema: {
+            initiatorEntity: EntityId,
+            retaliatorEntity: EntityId,
+            roundIndex: "uint256",
+            combatResult: "CombatResult",
+            initiatorActionLength: "uint256",
+            retaliatorActionLength: "uint256",
+          },
+        },
+        CombatLogActionOffchain: {
+          type: "offchainTable",
+          key: ["attackerEntity", "defenderEntity", "roundIndex", "actionIndex"],
+          schema: {
+            attackerEntity: EntityId,
+            defenderEntity: EntityId,
+            roundIndex: "uint256",
+            actionIndex: "uint256",
+            actionType: "CombatActionType",
+            actionEntity: EntityId,
+            defenderLifeBefore: "uint32",
+            defenderLifeAfter: "uint32",
+          },
+        },
+      },
+      systems: {
+        CombatSystem: {
+          openAccess: false,
+          accessList: ["CycleActivateCombatSystem", "CycleCombatSystem"],
         },
       },
     },
@@ -535,6 +473,128 @@ export default defineWorld({
     },
     /************************************************************************
      *
+     *    EQUIPMENT
+     *
+     ************************************************************************/
+    equipment: {
+      tables: {
+        SlotAllowedType: {
+          key: ["slotEntity", "equipmentType"],
+          schema: {
+            slotEntity: EntityId,
+            equipmentType: "EquipmentType",
+            isAllowed: "bool",
+          },
+        },
+        SlotEquipment: {
+          key: ["slotEntity"],
+          schema: {
+            slotEntity: EntityId,
+            equipmentEntity: EntityId,
+          },
+        },
+        EquipmentTypeComponent: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "EquipmentType",
+          },
+        },
+      },
+      systems: {
+        EquipmentSystem: {
+          openAccess: false,
+          accessList: ["InitCycleSystem", "CycleEquipmentSystem"],
+        },
+      },
+    },
+    /************************************************************************
+     *
+     *    MAP
+     *
+     ************************************************************************/
+    map: {
+      tables: {
+        MapTypeComponent: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "MapType",
+          },
+        },
+      },
+    },
+    /************************************************************************
+     *
+     *    RNG
+     *
+     ************************************************************************/
+    rng: {
+      tables: {
+        RNGPrecommit: {
+          key: ["requestId"],
+          schema: {
+            requestId: "bytes32",
+            value: "uint256",
+          },
+        },
+        RNGRequestOwner: {
+          key: ["requestId"],
+          schema: {
+            requestId: "bytes32",
+            ownerEntity: EntityId,
+          },
+        },
+      },
+      systems: {
+        RNGSystem: {
+          openAccess: false,
+          accessList: ["CycleCombatSystem", "CycleCombatRewardSystem"],
+        },
+      },
+    },
+    /************************************************************************
+     *
+     *    LOOT
+     *
+     ************************************************************************/
+    loot: {
+      tables: {
+        LootAffixes: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            affixEntities: EntityIdArray,
+          },
+        },
+        LootTargetId: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            targetId: "AffixAvailabilityTargetId",
+          },
+        },
+        LootIlvl: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "uint32",
+          },
+        },
+      },
+      systems: {
+        RandomEquipmentSystem: {
+          openAccess: false,
+          accessList: ["CycleCombatRewardSystem"],
+        },
+        RandomMapSystem: {
+          openAccess: false,
+          accessList: [],
+        },
+      },
+    },
+    /************************************************************************
+     *
      *    WHEEL
      *
      ************************************************************************/
@@ -578,6 +638,99 @@ export default defineWorld({
             wandererEntity: EntityId,
             value: "uint256",
           },
+        },
+      },
+      systems: {
+        WheelSystem: {
+          openAccess: false,
+          accessList: ["InitCycleSystem", "CycleControlSystem"],
+        },
+      },
+    },
+    /************************************************************************
+     *
+     *    CYCLE
+     *
+     ************************************************************************/
+    cycle: {
+      tables: {
+        ActiveCycle: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            cycleEntity: EntityId,
+          },
+        },
+        ActiveGuise: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            guiseEntity: EntityId,
+          },
+        },
+        CycleOwner: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            ownerEntity: EntityId,
+          },
+        },
+        CycleMetadata: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            // timestamp
+            startTime: "uint256",
+            // timestamp
+            endTime: "uint256",
+          },
+        },
+        BossesDefeated: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "bytes32[]",
+          },
+        },
+        CycleCombatRReq: {
+          key: ["requestId"],
+          schema: {
+            requestId: "bytes32",
+            mapEntity: EntityId,
+            connection: "uint32",
+            fortune: "uint32",
+            winnerPStat: arrayPStat,
+            loserPStat: arrayPStat,
+          },
+        },
+        CycleTurns: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "uint32",
+          },
+        },
+        CycleTurnsLastClaimed: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            // timestamp
+            value: "uint256",
+          },
+        },
+        // TODO not sure where to put this table, maybe rethink the logic using it entirely
+        FromMap: {
+          key: ["encounterEntity"],
+          schema: {
+            encounterEntity: EntityId,
+            mapEntity: EntityId,
+          },
+        },
+      },
+      systems: {
+        InitCycleSystem: {
+          openAccess: false,
+          accessList: [],
         },
       },
     },

@@ -6,7 +6,7 @@ export function getCycleTurns(state: StateLocal, entity: Hex | undefined) {
   if (entity === undefined) return;
   return getRecord({
     state,
-    table: mudTables.root__CycleTurns,
+    table: mudTables.cycle__CycleTurns,
     key: {
       entity,
     },
@@ -40,7 +40,7 @@ export function getAccPeriods(
 ) {
   const lastClaimed = getRecord({
     state,
-    table: mudTables.root__CycleTurnsLastClaimed,
+    table: mudTables.cycle__CycleTurnsLastClaimed,
     key: { entity },
   });
 

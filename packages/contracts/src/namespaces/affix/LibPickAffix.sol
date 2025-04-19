@@ -22,7 +22,6 @@ library LibPickAffix {
   );
   error LibPickAffix_InvalidTierName(uint32 affixTier, string name);
   error LibPickAffix_InvalidMinMax(uint32 min, uint32 max);
-  error LibPickAffix_InvalidIlvl(uint32 ilvl);
   error LibPickAffix_MalformedInputManualPick(uint256 namesLength, uint256 affixTiersLength);
 
   function pickAffixes(

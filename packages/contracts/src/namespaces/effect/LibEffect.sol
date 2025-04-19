@@ -1,15 +1,19 @@
 // SPDX-License-Identifier: MIT
+pragma solidity >=0.8.21;
 
-pragma solidity ^0.8.17;
+import { System } from "@latticexyz/world/src/System.sol";
 
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
 
-import { EffectTemplate, EffectTemplateData, EffectApplied, EffectAppliedData, EffectDuration } from "./codegen/index.sol";
+import { EffectTemplate, EffectTemplateData } from "./codegen/tables/EffectTemplate.sol";
+import { EffectApplied, EffectAppliedData } from "./codegen/tables/EffectApplied.sol";
+import { EffectDuration } from "./codegen/tables/EffectDuration.sol";
+
 import { Statmod } from "../statmod/Statmod.sol";
 import { Duration, GenericDurationData } from "../duration/Duration.sol";
 
 library LibEffect {
-  error LibEffect_InvalidApplicationEntity();
+  error EffectSystem_InvalidApplicationEntity();
 
   function applyTimedEffect(
     bytes32 targetEntity,
@@ -23,7 +27,7 @@ library LibEffect {
 
   function applyEffect(bytes32 targetEntity, bytes32 applicationEntity) internal {
     if (!hasEffectTemplate(applicationEntity)) {
-      revert LibEffect_InvalidApplicationEntity();
+      revert EffectSystem_InvalidApplicationEntity();
     }
     // Get and apply template effect data
     EffectTemplateData memory effect = EffectTemplate.get(applicationEntity);

@@ -12,7 +12,7 @@ interface ICycleEquipmentSystem {
   error CycleEquipmentSystem_NotSlotOwner(bytes32 targetEntity, bytes32 slotEntity);
   error CycleEquipmentSystem_NotEquipmentOwner(bytes32 targetEntity, bytes32 equipmentEntity);
 
-  function equip(bytes32 cycleEntity, bytes32 slotEntity, bytes32 equipmentEntity) external;
+  function cycle__equip(bytes32 cycleEntity, bytes32 slotEntity, bytes32 equipmentEntity) external;
 
-  function unequip(bytes32 cycleEntity, bytes32 slotEntity) external;
+  function cycle__unequip(bytes32 cycleEntity, bytes32 slotEntity) external;
 }

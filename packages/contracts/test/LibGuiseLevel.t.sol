@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
+import { charstatSystem } from "../src/namespaces/charstat/codegen/systems/CharstatSystemLib.sol";
 import { LibGuiseLevel } from "../src/namespaces/root/guise/LibGuiseLevel.sol";
-import { LibExperience } from "../src/namespaces/root/charstat/LibExperience.sol";
-import { ActiveGuise, GuisePrototype } from "../src/namespaces/root/codegen/index.sol";
+import { LibExperience } from "../src/namespaces/charstat/LibExperience.sol";
+import { ActiveGuise } from "../src/namespaces/cycle/codegen/index.sol";
+import { GuisePrototype } from "../src/namespaces/root/codegen/index.sol";
 import { PStat_length } from "../src/CustomTypes.sol";
 import { BaseTest } from "./BaseTest.t.sol";
 
@@ -11,10 +13,11 @@ contract LibGuiseLevelTest is BaseTest {
   bytes32 internal targetEntity = keccak256("targetEntity");
   uint32[PStat_length] internal levelMul = [8, 8, 8];
 
+  // TODO come back to this, seems possibly broken after refactoring
   // Initialize exp and levelMul
   function _init(uint32[PStat_length] memory addExp) internal {
-    LibExperience.initExp(targetEntity);
-    LibExperience.increaseExp(targetEntity, addExp);
+    charstatSystem.initExp(targetEntity);
+    charstatSystem.increaseExp(targetEntity, addExp);
 
     bytes32 guiseEntity = ActiveGuise.get(targetEntity);
     GuisePrototype.set(guiseEntity, levelMul);

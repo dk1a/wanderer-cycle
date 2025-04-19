@@ -12,5 +12,5 @@ interface ICycleLearnSkillSystem {
   error CycleLearnSkillSystem_SkillNotInGuiseSkills(bytes32 skillEntity, bytes32 guiseEntity);
   error CycleLearnSkillSystem_LevelIsTooLow(uint32 currentLevel, uint32 requiredLevel);
 
-  function learnSkill(bytes32 cycleEntity, bytes32 skillEntity) external;
+  function cycle__learnSkill(bytes32 cycleEntity, bytes32 skillEntity) external;
 }

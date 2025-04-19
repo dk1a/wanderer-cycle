@@ -4,12 +4,12 @@ pragma solidity >=0.8.21;
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
 import { AffixAvailabilityTargetId, LibAffixParts as b } from "../../affix/LibAffixParts.sol";
-import { LibLootMint } from "../loot/LibLootMint.sol";
+import { LibLootMint } from "../../loot/LibLootMint.sol";
 import { AffixPartId } from "../../../codegen/common.sol";
-import { MapTypeComponent } from "../codegen/index.sol";
+import { MapTypeComponent } from "../../map/codegen/tables/MapTypeComponent.sol";
 
-import { MapTypes } from "../map/MapType.sol";
-import { MapAffixAvailabilityTargetIds } from "../map/MapAffixAvailabilityTargetIds.sol";
+import { MapTypes } from "../../map/MapType.sol";
+import { MapAffixAvailabilityTargetIds } from "../../map/MapAffixAvailabilityTargetIds.sol";
 
 library LibInitMapsGlobal {
   function init() internal {

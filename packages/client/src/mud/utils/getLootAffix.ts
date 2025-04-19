@@ -26,7 +26,7 @@ export function getLootAffixes(
 
   const affixEntities = getRecordStrict({
     state,
-    table: mudTables.root__LootAffixes,
+    table: mudTables.loot__LootAffixes,
     key: { entity: lootEntity },
   }).affixEntities;
 
