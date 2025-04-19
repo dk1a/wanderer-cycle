@@ -5,7 +5,8 @@ import { System } from "@latticexyz/world/src/System.sol";
 
 import { ActiveWheel } from "./codegen/tables/ActiveWheel.sol";
 import { Wheel, WheelData } from "./codegen/tables/Wheel.sol";
-import { CompletedWheels } from "./codegen/tables/CompletedWheels.sol";
+import { CompletedWheelHistory } from "./codegen/tables/CompletedWheelHistory.sol";
+import { CompletedWheelCount } from "./codegen/tables/CompletedWheelCount.sol";
 import { IdentityCurrent } from "./codegen/tables/IdentityCurrent.sol";
 import { IdentityEarnedTotal } from "./codegen/tables/IdentityEarnedTotal.sol";
 
@@ -49,15 +50,17 @@ contract WheelSystem is System {
     }
 
     // Get number of completed wheels
-    uint256 completedWheels = CompletedWheels.length(wandererEntity, wheelEntity);
+    uint256 completedWheelCount = CompletedWheelCount.get(wandererEntity, wheelEntity);
 
     // Reward identity if charges remain
     WheelData memory wheel = Wheel.get(wheelEntity);
-    if (completedWheels < wheel.charges) {
+    if (completedWheelCount < wheel.charges) {
       rewardIdentity(wandererEntity);
     }
-    // Append the cycle to the list of wheel completions
-    CompletedWheels.push(wandererEntity, wheelEntity, cycleEntity);
+    // Increment wheel completion count
+    CompletedWheelCount.set(wandererEntity, wheelEntity, completedWheelCount + 1);
+    // Update cycle owner's completion history
+    CompletedWheelHistory.push(wandererEntity, cycleEntity);
   }
 
   function rewardIdentity(bytes32 wandererEntity) public {

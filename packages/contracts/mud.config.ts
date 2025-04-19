@@ -617,12 +617,19 @@ export default defineWorld({
             wheelEntity: EntityId,
           },
         },
-        CompletedWheels: {
+        CompletedWheelHistory: {
+          key: ["wandererEntity"],
+          schema: {
+            wandererEntity: EntityId,
+            cycleEntities: EntityIdArray,
+          },
+        },
+        CompletedWheelCount: {
           key: ["wandererEntity", "wheelEntity"],
           schema: {
             wandererEntity: EntityId,
             wheelEntity: EntityId,
-            cycleEntities: EntityIdArray,
+            value: "uint256",
           },
         },
         IdentityCurrent: {

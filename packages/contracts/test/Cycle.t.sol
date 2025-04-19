@@ -8,7 +8,7 @@ import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibCycle } from "../src/namespaces/cycle/LibCycle.sol";
 import { LibCycleTurns } from "../src/namespaces/cycle/LibCycleTurns.sol";
 import { ActiveCycle, CycleOwner } from "../src/namespaces/cycle/codegen/index.sol";
-import { ActiveWheel, CompletedWheels, IdentityCurrent, IdentityEarnedTotal } from "../src/namespaces/wheel/codegen/index.sol";
+import { ActiveWheel, CompletedWheelHistory, CompletedWheelCount, IdentityCurrent, IdentityEarnedTotal } from "../src/namespaces/wheel/codegen/index.sol";
 import { IDENTITY_INCREMENT } from "../src/namespaces/wheel/constants.sol";
 
 contract CycleTest is BaseTest {
@@ -37,8 +37,9 @@ contract CycleTest is BaseTest {
 
     assertEq(ActiveCycle.get(wandererEntity), bytes32(0));
     assertEq(CycleOwner.get(cycleEntity), wandererEntity);
-    assertEq(CompletedWheels.length(wandererEntity, wheelEntity), 1);
-    assertEq(CompletedWheels.getItem(wandererEntity, wheelEntity, 0), cycleEntity);
+    assertEq(CompletedWheelCount.get(wandererEntity, wheelEntity), 1);
+    assertEq(CompletedWheelHistory.length(wandererEntity), 1);
+    assertEq(CompletedWheelHistory.getItem(wandererEntity, 0), cycleEntity);
     assertEq(IdentityCurrent.get(wandererEntity), IDENTITY_INCREMENT);
     assertEq(IdentityEarnedTotal.get(wandererEntity), IDENTITY_INCREMENT);
   }
@@ -48,7 +49,8 @@ contract CycleTest is BaseTest {
 
     assertEq(ActiveCycle.get(wandererEntity), bytes32(0));
     assertEq(CycleOwner.get(cycleEntity), wandererEntity);
-    assertEq(CompletedWheels.length(wandererEntity, wheelEntity), 0);
+    assertEq(CompletedWheelCount.get(wandererEntity, wheelEntity), 0);
+    assertEq(CompletedWheelHistory.length(wandererEntity), 0);
     assertEq(IdentityCurrent.get(wandererEntity), 0);
     assertEq(IdentityEarnedTotal.get(wandererEntity), 0);
   }

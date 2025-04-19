@@ -16,15 +16,15 @@ import { Schema } from "@latticexyz/store/src/Schema.sol";
 import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/EncodedLengths.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
-library CompletedWheels {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "wheel", name: "CompletedWheels", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x7462776865656c000000000000000000436f6d706c65746564576865656c7300);
+library CompletedWheelHistory {
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "wheel", name: "CompletedWheelHi", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x7462776865656c000000000000000000436f6d706c65746564576865656c4869);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0000000100000000000000000000000000000000000000000000000000000000);
 
-  // Hex-encoded key schema of (bytes32, bytes32)
-  Schema constant _keySchema = Schema.wrap(0x004002005f5f0000000000000000000000000000000000000000000000000000);
+  // Hex-encoded key schema of (bytes32)
+  Schema constant _keySchema = Schema.wrap(0x002001005f000000000000000000000000000000000000000000000000000000);
   // Hex-encoded value schema of (bytes32[])
   Schema constant _valueSchema = Schema.wrap(0x00000001c1000000000000000000000000000000000000000000000000000000);
 
@@ -33,9 +33,8 @@ library CompletedWheels {
    * @return keyNames An array of strings with the names of key fields.
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
-    keyNames = new string[](2);
+    keyNames = new string[](1);
     keyNames[0] = "wandererEntity";
-    keyNames[1] = "wheelEntity";
   }
 
   /**
@@ -64,13 +63,9 @@ library CompletedWheels {
   /**
    * @notice Get cycleEntities.
    */
-  function getCycleEntities(
-    bytes32 wandererEntity,
-    bytes32 wheelEntity
-  ) internal view returns (bytes32[] memory cycleEntities) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function getCycleEntities(bytes32 wandererEntity) internal view returns (bytes32[] memory cycleEntities) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
     return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
@@ -79,13 +74,9 @@ library CompletedWheels {
   /**
    * @notice Get cycleEntities.
    */
-  function _getCycleEntities(
-    bytes32 wandererEntity,
-    bytes32 wheelEntity
-  ) internal view returns (bytes32[] memory cycleEntities) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _getCycleEntities(bytes32 wandererEntity) internal view returns (bytes32[] memory cycleEntities) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
     return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
@@ -94,10 +85,9 @@ library CompletedWheels {
   /**
    * @notice Get cycleEntities.
    */
-  function get(bytes32 wandererEntity, bytes32 wheelEntity) internal view returns (bytes32[] memory cycleEntities) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function get(bytes32 wandererEntity) internal view returns (bytes32[] memory cycleEntities) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
     return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
@@ -106,10 +96,9 @@ library CompletedWheels {
   /**
    * @notice Get cycleEntities.
    */
-  function _get(bytes32 wandererEntity, bytes32 wheelEntity) internal view returns (bytes32[] memory cycleEntities) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _get(bytes32 wandererEntity) internal view returns (bytes32[] memory cycleEntities) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
     return (SliceLib.getSubslice(_blob, 0, _blob.length).decodeArray_bytes32());
@@ -118,10 +107,9 @@ library CompletedWheels {
   /**
    * @notice Set cycleEntities.
    */
-  function setCycleEntities(bytes32 wandererEntity, bytes32 wheelEntity, bytes32[] memory cycleEntities) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function setCycleEntities(bytes32 wandererEntity, bytes32[] memory cycleEntities) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((cycleEntities)));
   }
@@ -129,10 +117,9 @@ library CompletedWheels {
   /**
    * @notice Set cycleEntities.
    */
-  function _setCycleEntities(bytes32 wandererEntity, bytes32 wheelEntity, bytes32[] memory cycleEntities) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _setCycleEntities(bytes32 wandererEntity, bytes32[] memory cycleEntities) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((cycleEntities)));
   }
@@ -140,10 +127,9 @@ library CompletedWheels {
   /**
    * @notice Set cycleEntities.
    */
-  function set(bytes32 wandererEntity, bytes32 wheelEntity, bytes32[] memory cycleEntities) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function set(bytes32 wandererEntity, bytes32[] memory cycleEntities) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((cycleEntities)));
   }
@@ -151,10 +137,9 @@ library CompletedWheels {
   /**
    * @notice Set cycleEntities.
    */
-  function _set(bytes32 wandererEntity, bytes32 wheelEntity, bytes32[] memory cycleEntities) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _set(bytes32 wandererEntity, bytes32[] memory cycleEntities) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((cycleEntities)));
   }
@@ -162,10 +147,9 @@ library CompletedWheels {
   /**
    * @notice Get the length of cycleEntities.
    */
-  function lengthCycleEntities(bytes32 wandererEntity, bytes32 wheelEntity) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function lengthCycleEntities(bytes32 wandererEntity) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -176,10 +160,9 @@ library CompletedWheels {
   /**
    * @notice Get the length of cycleEntities.
    */
-  function _lengthCycleEntities(bytes32 wandererEntity, bytes32 wheelEntity) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _lengthCycleEntities(bytes32 wandererEntity) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -190,10 +173,9 @@ library CompletedWheels {
   /**
    * @notice Get the length of cycleEntities.
    */
-  function length(bytes32 wandererEntity, bytes32 wheelEntity) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function length(bytes32 wandererEntity) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -204,10 +186,9 @@ library CompletedWheels {
   /**
    * @notice Get the length of cycleEntities.
    */
-  function _length(bytes32 wandererEntity, bytes32 wheelEntity) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _length(bytes32 wandererEntity) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -219,14 +200,9 @@ library CompletedWheels {
    * @notice Get an item of cycleEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItemCycleEntities(
-    bytes32 wandererEntity,
-    bytes32 wheelEntity,
-    uint256 _index
-  ) internal view returns (bytes32) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function getItemCycleEntities(bytes32 wandererEntity, uint256 _index) internal view returns (bytes32) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     unchecked {
       bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
@@ -238,14 +214,9 @@ library CompletedWheels {
    * @notice Get an item of cycleEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItemCycleEntities(
-    bytes32 wandererEntity,
-    bytes32 wheelEntity,
-    uint256 _index
-  ) internal view returns (bytes32) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _getItemCycleEntities(bytes32 wandererEntity, uint256 _index) internal view returns (bytes32) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     unchecked {
       bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
@@ -257,10 +228,9 @@ library CompletedWheels {
    * @notice Get an item of cycleEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItem(bytes32 wandererEntity, bytes32 wheelEntity, uint256 _index) internal view returns (bytes32) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function getItem(bytes32 wandererEntity, uint256 _index) internal view returns (bytes32) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     unchecked {
       bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
@@ -272,10 +242,9 @@ library CompletedWheels {
    * @notice Get an item of cycleEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItem(bytes32 wandererEntity, bytes32 wheelEntity, uint256 _index) internal view returns (bytes32) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _getItem(bytes32 wandererEntity, uint256 _index) internal view returns (bytes32) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     unchecked {
       bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 32, (_index + 1) * 32);
@@ -286,10 +255,9 @@ library CompletedWheels {
   /**
    * @notice Push an element to cycleEntities.
    */
-  function pushCycleEntities(bytes32 wandererEntity, bytes32 wheelEntity, bytes32 _element) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function pushCycleEntities(bytes32 wandererEntity, bytes32 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
   }
@@ -297,10 +265,9 @@ library CompletedWheels {
   /**
    * @notice Push an element to cycleEntities.
    */
-  function _pushCycleEntities(bytes32 wandererEntity, bytes32 wheelEntity, bytes32 _element) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _pushCycleEntities(bytes32 wandererEntity, bytes32 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
   }
@@ -308,10 +275,9 @@ library CompletedWheels {
   /**
    * @notice Push an element to cycleEntities.
    */
-  function push(bytes32 wandererEntity, bytes32 wheelEntity, bytes32 _element) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function push(bytes32 wandererEntity, bytes32 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
   }
@@ -319,10 +285,9 @@ library CompletedWheels {
   /**
    * @notice Push an element to cycleEntities.
    */
-  function _push(bytes32 wandererEntity, bytes32 wheelEntity, bytes32 _element) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _push(bytes32 wandererEntity, bytes32 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, abi.encodePacked((_element)));
   }
@@ -330,10 +295,9 @@ library CompletedWheels {
   /**
    * @notice Pop an element from cycleEntities.
    */
-  function popCycleEntities(bytes32 wandererEntity, bytes32 wheelEntity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function popCycleEntities(bytes32 wandererEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 32);
   }
@@ -341,10 +305,9 @@ library CompletedWheels {
   /**
    * @notice Pop an element from cycleEntities.
    */
-  function _popCycleEntities(bytes32 wandererEntity, bytes32 wheelEntity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _popCycleEntities(bytes32 wandererEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 32);
   }
@@ -352,10 +315,9 @@ library CompletedWheels {
   /**
    * @notice Pop an element from cycleEntities.
    */
-  function pop(bytes32 wandererEntity, bytes32 wheelEntity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function pop(bytes32 wandererEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 32);
   }
@@ -363,10 +325,9 @@ library CompletedWheels {
   /**
    * @notice Pop an element from cycleEntities.
    */
-  function _pop(bytes32 wandererEntity, bytes32 wheelEntity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _pop(bytes32 wandererEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 32);
   }
@@ -374,10 +335,9 @@ library CompletedWheels {
   /**
    * @notice Update an element of cycleEntities at `_index`.
    */
-  function updateCycleEntities(bytes32 wandererEntity, bytes32 wheelEntity, uint256 _index, bytes32 _element) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function updateCycleEntities(bytes32 wandererEntity, uint256 _index, bytes32 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     unchecked {
       bytes memory _encoded = abi.encodePacked((_element));
@@ -388,15 +348,9 @@ library CompletedWheels {
   /**
    * @notice Update an element of cycleEntities at `_index`.
    */
-  function _updateCycleEntities(
-    bytes32 wandererEntity,
-    bytes32 wheelEntity,
-    uint256 _index,
-    bytes32 _element
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _updateCycleEntities(bytes32 wandererEntity, uint256 _index, bytes32 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     unchecked {
       bytes memory _encoded = abi.encodePacked((_element));
@@ -407,10 +361,9 @@ library CompletedWheels {
   /**
    * @notice Update an element of cycleEntities at `_index`.
    */
-  function update(bytes32 wandererEntity, bytes32 wheelEntity, uint256 _index, bytes32 _element) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function update(bytes32 wandererEntity, uint256 _index, bytes32 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     unchecked {
       bytes memory _encoded = abi.encodePacked((_element));
@@ -421,10 +374,9 @@ library CompletedWheels {
   /**
    * @notice Update an element of cycleEntities at `_index`.
    */
-  function _update(bytes32 wandererEntity, bytes32 wheelEntity, uint256 _index, bytes32 _element) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _update(bytes32 wandererEntity, uint256 _index, bytes32 _element) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     unchecked {
       bytes memory _encoded = abi.encodePacked((_element));
@@ -435,10 +387,9 @@ library CompletedWheels {
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(bytes32 wandererEntity, bytes32 wheelEntity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function deleteRecord(bytes32 wandererEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -446,10 +397,9 @@ library CompletedWheels {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(bytes32 wandererEntity, bytes32 wheelEntity) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _deleteRecord(bytes32 wandererEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -490,10 +440,9 @@ library CompletedWheels {
   /**
    * @notice Encode keys as a bytes32 array using this table's field layout.
    */
-  function encodeKeyTuple(bytes32 wandererEntity, bytes32 wheelEntity) internal pure returns (bytes32[] memory) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function encodeKeyTuple(bytes32 wandererEntity) internal pure returns (bytes32[] memory) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = wandererEntity;
-    _keyTuple[1] = wheelEntity;
 
     return _keyTuple;
   }
