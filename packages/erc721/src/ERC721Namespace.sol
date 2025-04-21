@@ -40,6 +40,10 @@ library ERC721NamespaceInstance {
     return ERC721System(token);
   }
 
+  function checkAuthorized(ERC721Namespace namespace, address spender, uint256 tokenId) internal view {
+    namespace._checkAuthorized(namespace._ownerOf(tokenId), spender, tokenId);
+  }
+
   function _balanceOf(ERC721Namespace namespace, address owner) internal view returns (uint256) {
     return Balances.get(_balancesTableId(namespace.unwrap()), owner);
   }

@@ -68,8 +68,9 @@ library LibCycle {
    */
   function requireAccess(bytes32 cycleEntity) internal view {
     bytes32 ownerEntity = CycleOwner.get(cycleEntity);
-    // _msgSender must own the NFT that owns the cycle
-    ERC721Namespaces.WandererNFT.requireOwner(WorldContextConsumerLib._msgSender(), ownerEntity);
+    // _msgSender must be authorized to use the Wanderer NFT that owns the cycle
+    uint256 tokenId = uint256(ownerEntity);
+    ERC721Namespaces.Wanderer.checkAuthorized(WorldContextConsumerLib._msgSender(), tokenId);
     // TODO should this also include requireActiveCycle?
   }
 }

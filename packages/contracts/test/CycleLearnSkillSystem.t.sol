@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
+import { IERC721Errors } from "@latticexyz/world-modules/src/modules/erc721-puppet/IERC721Errors.sol";
+
 import { BaseTest } from "./BaseTest.t.sol";
 import { LearnedSkills } from "../src/namespaces/skill/codegen/index.sol";
 
@@ -8,7 +10,6 @@ import { cycleLearnSkillSystem } from "../src/namespaces/cycle/codegen/systems/C
 import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibGuiseLevel } from "../src/namespaces/root/guise/LibGuiseLevel.sol";
 import { LibSkill } from "../src/namespaces/skill/LibSkill.sol";
-import { LibERC721 } from "../src/namespaces/erc721-puppet/LibERC721.sol";
 import { LibArray } from "../src/utils/LibArray.sol";
 
 contract CycleLearnSkillSystemTest is BaseTest {
@@ -49,7 +50,7 @@ contract CycleLearnSkillSystemTest is BaseTest {
 
   function testLearnSkillRevertMustBeTokenOwner() public {
     vm.prank(bob);
-    vm.expectRevert(LibERC721.LibERC721_MustBeTokenOwner.selector);
+    vm.expectPartialRevert(IERC721Errors.ERC721InsufficientApproval.selector);
     cycleLearnSkillSystem.learnSkill(cycleEntity, skillEntity1);
   }
 }

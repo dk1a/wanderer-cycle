@@ -165,6 +165,9 @@ importers:
       '@latticexyz/world-modules':
         specifier: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
         version: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.23.8))
+      erc721-local:
+        specifier: workspace:*
+        version: link:../erc721
       react:
         specifier: ^18.3.1
         version: 18.3.1

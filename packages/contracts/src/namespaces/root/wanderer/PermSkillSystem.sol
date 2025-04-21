@@ -20,7 +20,8 @@ contract PermSkillSystem is System {
 
   function permSkill(bytes32 wandererEntity, bytes32 skillEntity) public {
     // Check permission
-    ERC721Namespaces.WandererNFT.requireOwner(_msgSender(), wandererEntity);
+    uint256 tokenId = uint256(wandererEntity);
+    ERC721Namespaces.Wanderer.checkAuthorized(_msgSender(), tokenId);
 
     // Must be called outside of a cycle
     LibCycle.requireNotActiveCycle(wandererEntity);

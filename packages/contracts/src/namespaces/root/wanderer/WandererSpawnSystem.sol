@@ -21,7 +21,8 @@ contract WandererSpawnSystem is System {
   function spawnWanderer(bytes32 guiseEntity) public returns (bytes32 wandererEntity, bytes32 cycleEntity) {
     // Mint nft
     wandererEntity = getUniqueEntity();
-    ERC721Namespaces.WandererNFT.mint(_msgSender(), wandererEntity);
+    uint256 tokenId = uint256(wandererEntity);
+    ERC721Namespaces.Wanderer.tokenContract().mint(_msgSender(), tokenId);
 
     // Flag the entity as wanderer
     Wanderer.set(wandererEntity, true);

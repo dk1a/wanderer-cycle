@@ -754,6 +754,11 @@ export default defineWorld({
       args: [],
     },
     {
+      artifactPath: "erc721-local/out/ERC721Module.sol/ERC721Module.json",
+      root: false,
+      args: [],
+    },
+    {
       artifactPath: "@latticexyz/world-modules/out/UniqueEntityModule.sol/UniqueEntityModule.json",
       root: true,
       args: [],

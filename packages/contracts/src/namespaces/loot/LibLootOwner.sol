@@ -15,7 +15,8 @@ library LibLootOwner {
   /// @dev Mints an ERC721 token with `lootEntity` as the id.
   /// (only an address can be the owner, full ERC721 interface by default)
   function setTradeableOwnership(bytes32 lootEntity, address ownerAccount) internal {
-    ERC721Namespaces.LootNFT.mint(ownerAccount, lootEntity);
+    uint256 tokenId = uint256(lootEntity);
+    ERC721Namespaces.Loot.tokenContract().mint(ownerAccount, tokenId);
   }
 
   function simpleOwnerOf(bytes32 lootEntity) internal view returns (bytes32 ownerEntity) {
@@ -23,6 +24,7 @@ library LibLootOwner {
   }
 
   function tradeableOwnerOf(bytes32 lootEntity) internal view returns (address ownerAccount) {
-    return ERC721Namespaces.LootNFT.ownerOf(lootEntity);
+    uint256 tokenId = uint256(lootEntity);
+    return ERC721Namespaces.Loot._ownerOf(tokenId);
   }
 }

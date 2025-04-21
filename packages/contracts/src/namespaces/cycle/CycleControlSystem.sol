@@ -21,7 +21,8 @@ contract CycleControlSystem is System {
     bytes32 wheelEntity
   ) public returns (bytes32 cycleEntity) {
     // Check permission
-    ERC721Namespaces.WandererNFT.requireOwner(_msgSender(), wandererEntity);
+    uint256 tokenId = uint256(wandererEntity);
+    ERC721Namespaces.Wanderer.checkAuthorized(_msgSender(), tokenId);
     // Init cycle (reverts if a cycle is already active)
     cycleEntity = initCycleSystem.initCycle(wandererEntity, guiseEntity, wheelEntity);
   }

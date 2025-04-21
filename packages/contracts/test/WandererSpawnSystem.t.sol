@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
+import { IERC721Errors } from "@latticexyz/world-modules/src/modules/erc721-puppet/IERC721Errors.sol";
+
 import { BaseTest } from "./BaseTest.t.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
@@ -16,6 +18,12 @@ import { LibWheel } from "../src/namespaces/wheel/LibWheel.sol";
 import { LibCycle } from "../src/namespaces/cycle/LibCycle.sol";
 import { LibExperience } from "../src/namespaces/charstat/LibExperience.sol";
 import { ERC721Namespaces } from "../src/namespaces/erc721-puppet/ERC721Namespaces.sol";
+
+library PublicOwnerOfHelper {
+  function ownerOf(uint256 tokenId) public view returns (address) {
+    return ERC721Namespaces.Wanderer.tokenContract().ownerOf(tokenId);
+  }
+}
 
 contract WandererSpawnSystemTest is BaseTest {
   bytes32 guiseEntity;
@@ -57,12 +65,15 @@ contract WandererSpawnSystemTest is BaseTest {
   }
 
   function testTokenOwner() public {
-    assertEq(ERC721Namespaces.WandererNFT.ownerOf(wandererEntity), alice);
+    assertEq(ERC721Namespaces.Wanderer.tokenContract().ownerOf(uint256(wandererEntity)), alice);
+    assertEq(ERC721Namespaces.Wanderer._ownerOf(uint256(wandererEntity)), alice);
   }
 
   function testTokenOwnerNotForCycleEntity() public {
     // cycleEntity shouldn't even be a token
-    assertEq(ERC721Namespaces.WandererNFT.ownerOf(cycleEntity), address(0));
+    assertEq(ERC721Namespaces.Wanderer._ownerOf(uint256(cycleEntity)), address(0));
+    vm.expectPartialRevert(IERC721Errors.ERC721NonexistentToken.selector);
+    PublicOwnerOfHelper.ownerOf(uint256(cycleEntity));
   }
 
   function testActiveGuise() public {
