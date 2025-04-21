@@ -194,6 +194,37 @@ importers:
         specifier: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
         version: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
 
+  packages/erc721:
+    dependencies:
+      '@latticexyz/store':
+        specifier: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
+        version: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/world':
+        specifier: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
+        version: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.23.8))(zod@3.23.8)
+      '@latticexyz/world-modules':
+        specifier: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
+        version: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.23.8))
+    devDependencies:
+      ds-test:
+        specifier: https://github.com/dapphub/ds-test.git#e282159d5170298eb2455a6c05280ab5a73a4ef0
+        version: https://codeload.github.com/dapphub/ds-test/tar.gz/e282159d5170298eb2455a6c05280ab5a73a4ef0
+      forge-std:
+        specifier: https://github.com/foundry-rs/forge-std.git#6853b9ec7df5dc0c213b05ae67785ad4f4baa0ea
+        version: https://codeload.github.com/foundry-rs/forge-std/tar.gz/6853b9ec7df5dc0c213b05ae67785ad4f4baa0ea
+      prettier-plugin-solidity:
+        specifier: 1.3.1
+        version: 1.3.1(prettier@3.5.3)
+      solhint:
+        specifier: ^3.3.7
+        version: 3.6.2(typescript@5.8.2)
+      solhint-config-mud:
+        specifier: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
+        version: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
+      solhint-plugin-mud:
+        specifier: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
+        version: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
+
 packages:
 
   '@adraffy/ens-normalize@1.11.0':
@@ -5448,8 +5479,8 @@ snapshots:
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sso-oidc': 3.583.0(@aws-sdk/client-sts@3.583.0)
-      '@aws-sdk/client-sts': 3.583.0
+      '@aws-sdk/client-sso-oidc': 3.583.0
+      '@aws-sdk/client-sts': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)
       '@aws-sdk/core': 3.582.0
       '@aws-sdk/credential-provider-node': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0)
       '@aws-sdk/middleware-host-header': 3.577.0
@@ -5490,11 +5521,11 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sso-oidc@3.583.0(@aws-sdk/client-sts@3.583.0)':
+  '@aws-sdk/client-sso-oidc@3.583.0':
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sts': 3.583.0
+      '@aws-sdk/client-sts': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)
       '@aws-sdk/core': 3.582.0
       '@aws-sdk/credential-provider-node': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0)
       '@aws-sdk/middleware-host-header': 3.577.0
@@ -5533,7 +5564,6 @@ snapshots:
       '@smithy/util-utf8': 3.0.0
       tslib: 2.8.1
     transitivePeerDependencies:
-      - '@aws-sdk/client-sts'
       - aws-crt
 
   '@aws-sdk/client-sso@3.583.0':
@@ -5579,11 +5609,11 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sts@3.583.0':
+  '@aws-sdk/client-sts@3.583.0(@aws-sdk/client-sso-oidc@3.583.0)':
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sso-oidc': 3.583.0(@aws-sdk/client-sts@3.583.0)
+      '@aws-sdk/client-sso-oidc': 3.583.0
       '@aws-sdk/core': 3.582.0
       '@aws-sdk/credential-provider-node': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0)
       '@aws-sdk/middleware-host-header': 3.577.0
@@ -5622,6 +5652,7 @@ snapshots:
       '@smithy/util-utf8': 3.0.0
       tslib: 2.8.1
     transitivePeerDependencies:
+      - '@aws-sdk/client-sso-oidc'
       - aws-crt
 
   '@aws-sdk/core@3.582.0':
@@ -5655,7 +5686,7 @@ snapshots:
 
   '@aws-sdk/credential-provider-ini@3.583.0(@aws-sdk/client-sso-oidc@3.583.0)(@aws-sdk/client-sts@3.583.0)':
     dependencies:
-      '@aws-sdk/client-sts': 3.583.0
+      '@aws-sdk/client-sts': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)
       '@aws-sdk/credential-provider-env': 3.577.0
       '@aws-sdk/credential-provider-process': 3.577.0
       '@aws-sdk/credential-provider-sso': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)
@@ -5712,7 +5743,7 @@ snapshots:
 
   '@aws-sdk/credential-provider-web-identity@3.577.0(@aws-sdk/client-sts@3.583.0)':
     dependencies:
-      '@aws-sdk/client-sts': 3.583.0
+      '@aws-sdk/client-sts': 3.583.0(@aws-sdk/client-sso-oidc@3.583.0)
       '@aws-sdk/types': 3.577.0
       '@smithy/property-provider': 3.0.0
       '@smithy/types': 3.0.0
@@ -5757,7 +5788,7 @@ snapshots:
 
   '@aws-sdk/token-providers@3.577.0(@aws-sdk/client-sso-oidc@3.583.0)':
     dependencies:
-      '@aws-sdk/client-sso-oidc': 3.583.0(@aws-sdk/client-sts@3.583.0)
+      '@aws-sdk/client-sso-oidc': 3.583.0
       '@aws-sdk/types': 3.577.0
       '@smithy/property-provider': 3.0.0
       '@smithy/shared-ini-file-loader': 3.0.0
@@ -11898,6 +11929,13 @@ snapshots:
     dependencies:
       '@solidity-parser/parser': 0.17.0
       prettier: 3.2.5
+      semver: 7.6.2
+      solidity-comments-extractor: 0.0.8
+
+  prettier-plugin-solidity@1.3.1(prettier@3.5.3):
+    dependencies:
+      '@solidity-parser/parser': 0.17.0
+      prettier: 3.5.3
       semver: 7.6.2
       solidity-comments-extractor: 0.0.8
 
