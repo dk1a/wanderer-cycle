@@ -4,10 +4,15 @@ pragma solidity >=0.8.21;
 import { BaseTest } from "./BaseTest.t.sol";
 
 import { cycleControlSystem } from "../src/namespaces/cycle/codegen/systems/CycleControlSystemLib.sol";
+import { learnSkillSystem } from "../src/namespaces/skill/codegen/systems/LearnSkillSystemLib.sol";
+import { permSkillSystem } from "../src/namespaces/root/codegen/systems/PermSkillSystemLib.sol";
+
 import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
+import { LibSkill } from "../src/namespaces/skill/LibSkill.sol";
 import { LibCycle } from "../src/namespaces/cycle/LibCycle.sol";
 import { LibCycleTurns } from "../src/namespaces/cycle/LibCycleTurns.sol";
 import { ActiveCycle, CycleOwner } from "../src/namespaces/cycle/codegen/index.sol";
+import { LearnedSkills } from "../src/namespaces/skill/codegen/index.sol";
 import { ActiveWheel, CompletedWheelHistory, CompletedWheelCount, IdentityCurrent, IdentityEarnedTotal } from "../src/namespaces/wheel/codegen/index.sol";
 import { IDENTITY_INCREMENT } from "../src/namespaces/wheel/constants.sol";
 
@@ -16,11 +21,13 @@ contract CycleTest is BaseTest {
   bytes32 internal wandererEntity;
   bytes32 internal cycleEntity;
   bytes32 internal wheelEntity;
+  bytes32 internal skillEntity;
 
   function setUp() public virtual override {
     super.setUp();
 
     guiseEntity = LibGuise.getGuiseEntity("Warrior");
+    skillEntity = LibSkill.getSkillEntity("Cleave");
     (wandererEntity, cycleEntity) = world.spawnWanderer(guiseEntity);
 
     wheelEntity = ActiveWheel.getWheelEntity(cycleEntity);
@@ -55,11 +62,21 @@ contract CycleTest is BaseTest {
     assertEq(IdentityEarnedTotal.get(wandererEntity), 0);
   }
 
-  /* TODO test proper ending+starting a cycle, this isn't WandererSpawn and cannot start a cycle from nothing
-  function testStartCycle() public {
-    cycleEntity = world.startCycle(wandererEntity, guiseEntity, wheelEntity);
+  function testPermSkill() public {
+    learnSkillSystem.learnSkill(cycleEntity, skillEntity);
+    cycleControlSystem.completeCycle(cycleEntity);
 
-    assertEq(cycleEntity, ActiveCycle.get(wandererEntity));
+    permSkillSystem.permSkill(wandererEntity, skillEntity);
+    assertEq(LearnedSkills.length(wandererEntity), 1);
+    assertEq(LearnedSkills.getItem(wandererEntity, 0), skillEntity);
+
+    bytes32 newCycleEntity = cycleControlSystem.startCycle(wandererEntity, guiseEntity, wheelEntity);
+    assertNotEq(newCycleEntity, bytes32(0));
+    assertNotEq(newCycleEntity, cycleEntity);
+    assertEq(newCycleEntity, ActiveCycle.get(wandererEntity));
+    assertEq(CycleOwner.get(newCycleEntity), wandererEntity);
+
+    assertEq(LearnedSkills.length(newCycleEntity), 1);
+    assertEq(LearnedSkills.getItem(newCycleEntity, 0), skillEntity);
   }
-  */
 }

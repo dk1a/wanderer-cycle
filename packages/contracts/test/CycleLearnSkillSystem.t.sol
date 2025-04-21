@@ -36,7 +36,7 @@ contract CycleLearnSkillSystemTest is BaseTest {
     (wandererEntity, cycleEntity) = world.spawnWanderer(warriorGuiseEntity);
   }
 
-  function testSetUp() public {
+  function testSetUp() public view {
     assertEq(LibGuiseLevel.getAggregateLevel(cycleEntity), 1);
   }
 

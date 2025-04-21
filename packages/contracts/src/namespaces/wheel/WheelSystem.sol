@@ -13,10 +13,11 @@ import { IdentityEarnedTotal } from "./codegen/tables/IdentityEarnedTotal.sol";
 import { IDENTITY_INCREMENT } from "./constants.sol";
 
 contract WheelSystem is System {
-  error LibWheel_InvalidWheelEntity();
-  error LibWheel_WheelAlreadyActive(bytes32 cycleEntity);
-  error LibWheel_WheelNotActive(bytes32 cycleEntity);
-  error LibWheel_InsufficientIdentity(bytes32 wandererEntity, uint256 identityTotal, uint256 identityRequired);
+  error WheelSystem_InvalidWheelEntity();
+  error WheelSystem_WheelAlreadyActive(bytes32 cycleEntity);
+  error WheelSystem_WheelNotActive(bytes32 cycleEntity);
+  error WheelSystem_NotEnoughTotalIdentity(bytes32 wandererEntity, uint256 totalIdentity, uint256 requiredIdentity);
+  error WheelSystem_NotEnoughCurrentIdentity(bytes32 wandererEntity, uint256 currentIdentity, uint256 requiredIdentity);
 
   function activateWheel(
     bytes32 wandererEntity,
@@ -25,15 +26,15 @@ contract WheelSystem is System {
   ) public returns (bool isIsolated) {
     WheelData memory wheel = Wheel.get(wheelEntity);
     if (bytes(wheel.name).length == 0) {
-      revert LibWheel_InvalidWheelEntity();
+      revert WheelSystem_InvalidWheelEntity();
     }
     if (ActiveWheel.get(cycleEntity) != bytes32(0)) {
-      revert LibWheel_WheelAlreadyActive(cycleEntity);
+      revert WheelSystem_WheelAlreadyActive(cycleEntity);
     }
     if (wheel.totalIdentityRequired > 0) {
       uint256 identityTotal = IdentityEarnedTotal.get(wandererEntity);
       if (identityTotal < wheel.totalIdentityRequired) {
-        revert LibWheel_InsufficientIdentity(wandererEntity, identityTotal, wheel.totalIdentityRequired);
+        revert WheelSystem_NotEnoughTotalIdentity(wandererEntity, identityTotal, wheel.totalIdentityRequired);
       }
     }
 
@@ -46,7 +47,7 @@ contract WheelSystem is System {
   function completeWheel(bytes32 wandererEntity, bytes32 cycleEntity) public {
     bytes32 wheelEntity = ActiveWheel.get(cycleEntity);
     if (wheelEntity == bytes32(0)) {
-      revert LibWheel_WheelNotActive(cycleEntity);
+      revert WheelSystem_WheelNotActive(cycleEntity);
     }
 
     // Get number of completed wheels
@@ -68,5 +69,13 @@ contract WheelSystem is System {
 
     IdentityCurrent.set(wandererEntity, IdentityCurrent.get(wandererEntity) + addition);
     IdentityEarnedTotal.set(wandererEntity, IdentityEarnedTotal.get(wandererEntity) + addition);
+  }
+
+  function subtractIdentity(bytes32 wandererEntity, uint256 subtract) public {
+    uint256 current = IdentityCurrent.get(wandererEntity);
+    if (current < subtract) {
+      revert WheelSystem_NotEnoughCurrentIdentity(wandererEntity, current, subtract);
+    }
+    IdentityCurrent.set(wandererEntity, current - subtract);
   }
 }

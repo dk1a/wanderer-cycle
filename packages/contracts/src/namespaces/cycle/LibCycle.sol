@@ -13,6 +13,7 @@ import { ERC721Namespaces } from "../erc721-puppet/ERC721Namespaces.sol";
 
 library LibCycle {
   error LibCycle_CycleNotActive(bytes32 cycleEntity);
+  error LibCycle_CycleActive(bytes32 wandererEntity);
 
   /**
    * @dev End the cycle, which will not count as completed, and provides no rewards
@@ -40,13 +41,25 @@ library LibCycle {
 
   /**
    * @notice Check that the cycle has an owner, and is the owner's active cycle
+   * @param cycleEntity cycle
    * @return wandererEntity cycle owner
    */
   function requireActiveCycle(bytes32 cycleEntity) internal view returns (bytes32 wandererEntity) {
     wandererEntity = CycleOwner.get(cycleEntity);
     bytes32 activeCycleEntity = ActiveCycle.get(wandererEntity);
-    if (cycleEntity != activeCycleEntity) {
+    if (cycleEntity != activeCycleEntity || cycleEntity == bytes32(0)) {
       revert LibCycle_CycleNotActive(cycleEntity);
+    }
+  }
+
+  /**
+   * @notice Check that the owner has no active cycle
+   * @param wandererEntity cycle owner
+   */
+  function requireNotActiveCycle(bytes32 wandererEntity) internal view {
+    bytes32 activeCycleEntity = ActiveCycle.get(wandererEntity);
+    if (activeCycleEntity != bytes32(0) || wandererEntity == bytes32(0)) {
+      revert LibCycle_CycleActive(wandererEntity);
     }
   }
 

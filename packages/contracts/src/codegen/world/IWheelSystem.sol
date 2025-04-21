@@ -9,10 +9,11 @@ pragma solidity >=0.8.24;
  * @dev This interface is automatically generated from the corresponding system contract. Do not edit manually.
  */
 interface IWheelSystem {
-  error LibWheel_InvalidWheelEntity();
-  error LibWheel_WheelAlreadyActive(bytes32 cycleEntity);
-  error LibWheel_WheelNotActive(bytes32 cycleEntity);
-  error LibWheel_InsufficientIdentity(bytes32 wandererEntity, uint256 identityTotal, uint256 identityRequired);
+  error WheelSystem_InvalidWheelEntity();
+  error WheelSystem_WheelAlreadyActive(bytes32 cycleEntity);
+  error WheelSystem_WheelNotActive(bytes32 cycleEntity);
+  error WheelSystem_NotEnoughTotalIdentity(bytes32 wandererEntity, uint256 totalIdentity, uint256 requiredIdentity);
+  error WheelSystem_NotEnoughCurrentIdentity(bytes32 wandererEntity, uint256 currentIdentity, uint256 requiredIdentity);
 
   function wheel__activateWheel(
     bytes32 wandererEntity,
@@ -23,4 +24,6 @@ interface IWheelSystem {
   function wheel__completeWheel(bytes32 wandererEntity, bytes32 cycleEntity) external;
 
   function wheel__rewardIdentity(bytes32 wandererEntity) external;
+
+  function wheel__subtractIdentity(bytes32 wandererEntity, uint256 subtract) external;
 }

@@ -32,13 +32,13 @@ contract LearnSkillSystem is System {
    * @dev Copy skills from source to target. Overwrites target's existing skills
    */
   function copySkills(bytes32 sourceEntity, bytes32 targetEntity) public {
-    bool isKey = hasKey(LearnedSkills._tableId, LearnedSkills.encodeKeyTuple(targetEntity));
+    bool isKey = hasKey(LearnedSkills._tableId, LearnedSkills.encodeKeyTuple(sourceEntity));
     if (isKey) {
-      bytes32[] memory skillEntities = LearnedSkills.get(targetEntity);
-      LearnedSkills.set(sourceEntity, skillEntities);
+      bytes32[] memory skillEntities = LearnedSkills.get(sourceEntity);
+      LearnedSkills.set(targetEntity, skillEntities);
 
       for (uint256 i; i < skillEntities.length; i++) {
-        _autotoggleIfPassive(sourceEntity, skillEntities[i]);
+        _autotoggleIfPassive(targetEntity, skillEntities[i]);
       }
     }
   }

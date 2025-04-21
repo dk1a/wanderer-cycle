@@ -23,6 +23,7 @@ import { IEquipmentSystem } from "./IEquipmentSystem.sol";
 import { IRandomEquipmentSystem } from "./IRandomEquipmentSystem.sol";
 import { IRandomMapSystem } from "./IRandomMapSystem.sol";
 import { IRNGSystem } from "./IRNGSystem.sol";
+import { IPermSkillSystem } from "./IPermSkillSystem.sol";
 import { IWandererSpawnSystem } from "./IWandererSpawnSystem.sol";
 import { ILearnSkillSystem } from "./ILearnSkillSystem.sol";
 import { ISkillSystem } from "./ISkillSystem.sol";
@@ -57,6 +58,7 @@ interface IWorld is
   IRandomEquipmentSystem,
   IRandomMapSystem,
   IRNGSystem,
+  IPermSkillSystem,
   IWandererSpawnSystem,
   ILearnSkillSystem,
   ISkillSystem,

@@ -12,6 +12,8 @@ import { IWorld } from "../src/codegen/world/IWorld.sol";
 
 import { timeSystem } from "../src/namespaces/time/codegen/systems/TimeSystemLib.sol";
 import { initCycleSystem } from "../src/namespaces/cycle/codegen/systems/InitCycleSystemLib.sol";
+import { wheelSystem } from "../src/namespaces/wheel/codegen/systems/WheelSystemLib.sol";
+import { learnSkillSystem } from "../src/namespaces/skill/codegen/systems/LearnSkillSystemLib.sol";
 import { randomEquipmentSystem } from "../src/namespaces/loot/codegen/systems/RandomEquipmentSystemLib.sol";
 import { randomMapSystem } from "../src/namespaces/loot/codegen/systems/RandomMapSystemLib.sol";
 import { effectSystem } from "../src/namespaces/effect/codegen/systems/EffectSystemLib.sol";
@@ -83,6 +85,8 @@ function runPostDeployInitializers(VmSafe vm, address worldAddress) {
   // TODO reconsider this, along with `.callAsRootFrom(address(this))` instances
   IWorld(worldAddress).grantAccess(ROOT_NAMESPACE_ID, worldAddress);
   IWorld(worldAddress).grantAccess(initCycleSystem.toResourceId(), worldAddress);
+  IWorld(worldAddress).grantAccess(learnSkillSystem.toResourceId(), worldAddress);
+  IWorld(worldAddress).grantAccess(wheelSystem.toResourceId(), worldAddress);
 
   vm.stopBroadcast();
 }

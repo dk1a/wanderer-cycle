@@ -18,6 +18,14 @@ export function createSystemCalls({
     await waitForTransaction(tx);
   };
 
+  const permSkill = async (wandererEntity: Hex, skillEntity: Hex) => {
+    const tx = await worldContract.write.permSkill([
+      wandererEntity,
+      skillEntity,
+    ]);
+    await waitForTransaction(tx);
+  };
+
   const cycle = {
     startCycle: async (
       wandererEntity: Hex,
@@ -90,14 +98,9 @@ export function createSystemCalls({
     },
   };
 
-  // const permSkill = async (wandererEntity: Entity, skillEntity: Entity) => {
-  //   const tx = await worldContract.write.PermSkill([wandererEntity as Hex, skillEntity as Hex]);
-  //   await waitForTransaction(tx);
-  // };
-
   return {
     spawnWanderer,
     cycle,
-    // permSkill,
+    permSkill,
   };
 }

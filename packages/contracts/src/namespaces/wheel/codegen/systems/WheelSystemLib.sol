@@ -36,10 +36,11 @@ struct RootCallWrapper {
  */
 library WheelSystemLib {
   error WheelSystemLib_CallingFromRootSystem();
-  error LibWheel_InvalidWheelEntity();
-  error LibWheel_WheelAlreadyActive(bytes32 cycleEntity);
-  error LibWheel_WheelNotActive(bytes32 cycleEntity);
-  error LibWheel_InsufficientIdentity(bytes32 wandererEntity, uint256 identityTotal, uint256 identityRequired);
+  error WheelSystem_InvalidWheelEntity();
+  error WheelSystem_WheelAlreadyActive(bytes32 cycleEntity);
+  error WheelSystem_WheelNotActive(bytes32 cycleEntity);
+  error WheelSystem_NotEnoughTotalIdentity(bytes32 wandererEntity, uint256 totalIdentity, uint256 requiredIdentity);
+  error WheelSystem_NotEnoughCurrentIdentity(bytes32 wandererEntity, uint256 currentIdentity, uint256 requiredIdentity);
 
   function activateWheel(
     WheelSystemType self,
@@ -56,6 +57,10 @@ library WheelSystemLib {
 
   function rewardIdentity(WheelSystemType self, bytes32 wandererEntity) internal {
     return CallWrapper(self.toResourceId(), address(0)).rewardIdentity(wandererEntity);
+  }
+
+  function subtractIdentity(WheelSystemType self, bytes32 wandererEntity, uint256 subtract) internal {
+    return CallWrapper(self.toResourceId(), address(0)).subtractIdentity(wandererEntity, subtract);
   }
 
   function activateWheel(
@@ -101,6 +106,19 @@ library WheelSystemLib {
       : _world().callFrom(self.from, self.systemId, systemCall);
   }
 
+  function subtractIdentity(CallWrapper memory self, bytes32 wandererEntity, uint256 subtract) internal {
+    // if the contract calling this function is a root system, it should use `callAsRoot`
+    if (address(_world()) == address(this)) revert WheelSystemLib_CallingFromRootSystem();
+
+    bytes memory systemCall = abi.encodeCall(
+      _subtractIdentity_bytes32_uint256.subtractIdentity,
+      (wandererEntity, subtract)
+    );
+    self.from == address(0)
+      ? _world().call(self.systemId, systemCall)
+      : _world().callFrom(self.from, self.systemId, systemCall);
+  }
+
   function activateWheel(
     RootCallWrapper memory self,
     bytes32 wandererEntity,
@@ -126,6 +144,14 @@ library WheelSystemLib {
 
   function rewardIdentity(RootCallWrapper memory self, bytes32 wandererEntity) internal {
     bytes memory systemCall = abi.encodeCall(_rewardIdentity_bytes32.rewardIdentity, (wandererEntity));
+    SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
+  }
+
+  function subtractIdentity(RootCallWrapper memory self, bytes32 wandererEntity, uint256 subtract) internal {
+    bytes memory systemCall = abi.encodeCall(
+      _subtractIdentity_bytes32_uint256.subtractIdentity,
+      (wandererEntity, subtract)
+    );
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
@@ -177,6 +203,10 @@ interface _completeWheel_bytes32_bytes32 {
 
 interface _rewardIdentity_bytes32 {
   function rewardIdentity(bytes32 wandererEntity) external;
+}
+
+interface _subtractIdentity_bytes32_uint256 {
+  function subtractIdentity(bytes32 wandererEntity, uint256 subtract) external;
 }
 
 using WheelSystemLib for WheelSystemType global;
