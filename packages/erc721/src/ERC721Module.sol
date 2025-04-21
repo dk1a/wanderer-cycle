@@ -7,6 +7,9 @@ import { IBaseWorld } from "@latticexyz/world/src/codegen/interfaces/IBaseWorld.
 import { MODULE_NAMESPACE_ID, ERC721_REGISTRY_TABLE_ID } from "@latticexyz/world-modules/src/modules/erc721-puppet/constants.sol";
 import { ERC721Registry } from "@latticexyz/world-modules/src/modules/erc721-puppet/tables/ERC721Registry.sol";
 
+import { REGISTER_ERC721_SYSTEM_ID } from "./constants.sol";
+import { RegisterERC721System } from "./RegisterERC721System.sol";
+
 contract ERC721Module is Module {
   error ERC721Module_InvalidNamespace(bytes14 namespace);
 
@@ -18,5 +21,8 @@ contract ERC721Module is Module {
     IBaseWorld world = IBaseWorld(_world());
     world.registerNamespace(MODULE_NAMESPACE_ID);
     ERC721Registry.register(ERC721_REGISTRY_TABLE_ID);
+
+    // Register the ERC721RegistrationSystem
+    world.registerSystem(REGISTER_ERC721_SYSTEM_ID, new RegisterERC721System(), true);
   }
 }

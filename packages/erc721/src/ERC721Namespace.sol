@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
 
 import { IERC721Errors } from "@latticexyz/world-modules/src/modules/erc721-puppet/IERC721Errors.sol";
-import { IERC721Mintable } from "@latticexyz/world-modules/src/modules/erc721-puppet/IERC721Mintable.sol";
+import { ERC721System } from "@latticexyz/world-modules/src/modules/erc721-puppet/ERC721System.sol";
 import { _balancesTableId, _operatorApprovalTableId, _ownersTableId, _tokenApprovalTableId } from "@latticexyz/world-modules/src/modules/erc721-puppet/utils.sol";
 import { ERC721_REGISTRY_TABLE_ID } from "@latticexyz/world-modules/src/modules/erc721-puppet/constants.sol";
 
@@ -17,10 +17,10 @@ import { TokenApproval } from "@latticexyz/world-modules/src/modules/erc721-pupp
 
 type ERC721Namespace is bytes14;
 
-using ERC721NamespaceLib for ERC721Namespace global;
+using ERC721NamespaceInstance for ERC721Namespace global;
 
 library ERC721NamespaceInstance {
-  error ERC721NamespaceInstance_MustBeTokenOwner();
+  error ERC721NamespaceInstance_NamespaceNotRegistered(ERC721Namespace namespace);
 
   function unwrap(ERC721Namespace namespace) internal pure returns (bytes14) {
     return ERC721Namespace.unwrap(namespace);
@@ -32,19 +32,23 @@ library ERC721NamespaceInstance {
   }
 
   // Returns the puppet ERC721 contract
-  function tokenContract(ERC721Namespace namespace) internal view returns (IERC721Mintable) {
-    return IERC721Mintable(namespace.tokenAddress());
+  function tokenContract(ERC721Namespace namespace) internal view returns (ERC721System) {
+    address token = tokenAddress(namespace);
+    if (token == address(0)) {
+      revert ERC721NamespaceInstance_NamespaceNotRegistered(namespace);
+    }
+    return ERC721System(token);
   }
 
   function _balanceOf(ERC721Namespace namespace, address owner) internal view returns (uint256) {
-    return Balances.get(_balancesTableId(namespace.unwrap()), account);
+    return Balances.get(_balancesTableId(namespace.unwrap()), owner);
   }
 
   function _ownerOf(ERC721Namespace namespace, uint256 tokenId) internal view returns (address) {
     return Owners.get(_ownersTableId(namespace.unwrap()), tokenId);
   }
 
-  function _getApproved(ERC721Namespace namespace, uint256 tokenId) internal view {
+  function _getApproved(ERC721Namespace namespace, uint256 tokenId) internal view returns (address) {
     return TokenApproval.get(_tokenApprovalTableId(namespace.unwrap()), tokenId);
   }
 
@@ -63,13 +67,8 @@ library ERC721NamespaceInstance {
       (owner == spender || namespace._isApprovedForAll(owner, spender) || namespace._getApproved(tokenId) == spender);
   }
 
-  function _checkAuthorized(
-    ERC721Namespace namespace,
-    address owner,
-    address spender,
-    uint256 tokenId
-  ) internal view virtual {
-    if (!_isAuthorized(owner, spender, tokenId)) {
+  function _checkAuthorized(ERC721Namespace namespace, address owner, address spender, uint256 tokenId) internal view {
+    if (!namespace._isAuthorized(owner, spender, tokenId)) {
       if (owner == address(0)) {
         revert IERC721Errors.ERC721NonexistentToken(tokenId);
       } else {

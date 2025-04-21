@@ -196,6 +196,9 @@ importers:
 
   packages/erc721:
     dependencies:
+      '@latticexyz/schema-type':
+        specifier: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
+        version: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545(typescript@5.8.2)(viem@2.23.15(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.23.8))(zod@3.23.8)
       '@latticexyz/store':
         specifier: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545
         version: 2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545(@aws-sdk/client-kms@3.583.0)(asn1.js@5.4.1)(typescript@5.8.2)(viem@2.23.15(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.23.8))(zod@3.23.8)

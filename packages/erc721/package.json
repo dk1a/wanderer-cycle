@@ -5,13 +5,14 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "forge build",
+    "build": "mud build",
     "lint": "pnpm run prettier && pnpm run solhint",
     "prettier": "prettier --write 'src/**/*.sol'",
     "solhint": "solhint --config ./.solhint.json 'src/**/*.sol' --fix",
-    "test": "forge test"
+    "test": "mud test"
   },
   "dependencies": {
+    "@latticexyz/schema-type": "2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545",
     "@latticexyz/store": "2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545",
     "@latticexyz/world": "2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545",
     "@latticexyz/world-modules": "2.2.22-f0c0b982573f9953e1c726c0bef91671efaaa545"
