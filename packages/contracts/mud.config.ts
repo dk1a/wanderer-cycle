@@ -692,6 +692,12 @@ export default defineWorld({
             cycleEntities: EntityIdArray,
           },
         },
+        RequiredBossMaps: {
+          key: [],
+          schema: {
+            mapEntities: EntityIdArray,
+          },
+        },
         BossesDefeated: {
           ...entityKey,
           schema: {

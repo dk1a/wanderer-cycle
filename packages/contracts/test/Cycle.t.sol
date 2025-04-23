@@ -3,6 +3,7 @@ pragma solidity >=0.8.21;
 
 import { BaseTest } from "./BaseTest.t.sol";
 
+import { charstatSystem } from "../src/namespaces/charstat/codegen/systems/CharstatSystemLib.sol";
 import { cycleControlSystem } from "../src/namespaces/cycle/codegen/systems/CycleControlSystemLib.sol";
 import { learnSkillSystem } from "../src/namespaces/skill/codegen/systems/LearnSkillSystemLib.sol";
 import { permSkillSystem } from "../src/namespaces/root/codegen/systems/PermSkillSystemLib.sol";
@@ -11,7 +12,7 @@ import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibSkill } from "../src/namespaces/skill/LibSkill.sol";
 import { LibCycle } from "../src/namespaces/cycle/LibCycle.sol";
 import { LibCycleTurns } from "../src/namespaces/cycle/LibCycleTurns.sol";
-import { ActiveCycle, CycleOwner, CompletedCycleHistory } from "../src/namespaces/cycle/codegen/index.sol";
+import { ActiveCycle, CycleOwner, CompletedCycleHistory, BossesDefeated, RequiredBossMaps } from "../src/namespaces/cycle/codegen/index.sol";
 import { LearnedSkills } from "../src/namespaces/skill/codegen/index.sol";
 import { ActiveWheel, CompletedWheelCount, IdentityCurrent, IdentityEarnedTotal } from "../src/namespaces/wheel/codegen/index.sol";
 import { IDENTITY_INCREMENT } from "../src/namespaces/wheel/constants.sol";
@@ -33,13 +34,20 @@ contract CycleTest is BaseTest {
     wheelEntity = ActiveWheel.getWheelEntity(cycleEntity);
   }
 
+  function _setRequirements(bytes32 _cycleEntity) internal {
+    BossesDefeated.set(_cycleEntity, RequiredBossMaps.get());
+    charstatSystem.increaseExp(_cycleEntity, [uint32(100000), 100000, 100000]);
+  }
+
   function testSetUp() public view {
     assertNotEq(wheelEntity, bytes32(0));
     assertEq(ActiveCycle.get(wandererEntity), cycleEntity);
     assertEq(CycleOwner.get(cycleEntity), wandererEntity);
+    assertEq(RequiredBossMaps.length(), 12);
   }
 
   function testCompleteCycle() public {
+    _setRequirements(cycleEntity);
     cycleControlSystem.completeCycle(cycleEntity);
 
     assertEq(ActiveCycle.get(wandererEntity), bytes32(0));
@@ -64,6 +72,8 @@ contract CycleTest is BaseTest {
 
   function testPermSkill() public {
     learnSkillSystem.learnSkill(cycleEntity, skillEntity);
+
+    _setRequirements(cycleEntity);
     cycleControlSystem.completeCycle(cycleEntity);
 
     permSkillSystem.permSkill(wandererEntity, skillEntity);

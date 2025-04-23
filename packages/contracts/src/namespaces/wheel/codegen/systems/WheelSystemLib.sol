@@ -55,10 +55,6 @@ library WheelSystemLib {
     return CallWrapper(self.toResourceId(), address(0)).completeWheel(wandererEntity, cycleEntity);
   }
 
-  function rewardIdentity(WheelSystemType self, bytes32 wandererEntity) internal {
-    return CallWrapper(self.toResourceId(), address(0)).rewardIdentity(wandererEntity);
-  }
-
   function subtractIdentity(WheelSystemType self, bytes32 wandererEntity, uint256 subtract) internal {
     return CallWrapper(self.toResourceId(), address(0)).subtractIdentity(wandererEntity, subtract);
   }
@@ -91,16 +87,6 @@ library WheelSystemLib {
       _completeWheel_bytes32_bytes32.completeWheel,
       (wandererEntity, cycleEntity)
     );
-    self.from == address(0)
-      ? _world().call(self.systemId, systemCall)
-      : _world().callFrom(self.from, self.systemId, systemCall);
-  }
-
-  function rewardIdentity(CallWrapper memory self, bytes32 wandererEntity) internal {
-    // if the contract calling this function is a root system, it should use `callAsRoot`
-    if (address(_world()) == address(this)) revert WheelSystemLib_CallingFromRootSystem();
-
-    bytes memory systemCall = abi.encodeCall(_rewardIdentity_bytes32.rewardIdentity, (wandererEntity));
     self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
@@ -139,11 +125,6 @@ library WheelSystemLib {
       _completeWheel_bytes32_bytes32.completeWheel,
       (wandererEntity, cycleEntity)
     );
-    SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
-  }
-
-  function rewardIdentity(RootCallWrapper memory self, bytes32 wandererEntity) internal {
-    bytes memory systemCall = abi.encodeCall(_rewardIdentity_bytes32.rewardIdentity, (wandererEntity));
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
@@ -199,10 +180,6 @@ interface _activateWheel_bytes32_bytes32_bytes32 {
 
 interface _completeWheel_bytes32_bytes32 {
   function completeWheel(bytes32 wandererEntity, bytes32 cycleEntity) external;
-}
-
-interface _rewardIdentity_bytes32 {
-  function rewardIdentity(bytes32 wandererEntity) external;
 }
 
 interface _subtractIdentity_bytes32_uint256 {

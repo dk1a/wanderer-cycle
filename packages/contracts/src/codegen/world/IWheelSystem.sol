@@ -23,7 +23,5 @@ interface IWheelSystem {
 
   function wheel__completeWheel(bytes32 wandererEntity, bytes32 cycleEntity) external;
 
-  function wheel__rewardIdentity(bytes32 wandererEntity) external;
-
   function wheel__subtractIdentity(bytes32 wandererEntity, uint256 subtract) external;
 }

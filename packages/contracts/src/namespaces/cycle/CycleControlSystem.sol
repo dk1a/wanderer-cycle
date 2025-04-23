@@ -4,6 +4,7 @@ pragma solidity >=0.8.21;
 import { System } from "@latticexyz/world/src/System.sol";
 
 import { BossesDefeated } from "./codegen/tables/BossesDefeated.sol";
+import { RequiredBossMaps } from "./codegen/tables/RequiredBossMaps.sol";
 
 import { initCycleSystem } from "./codegen/systems/InitCycleSystemLib.sol";
 
@@ -16,7 +17,6 @@ contract CycleControlSystem is System {
   error CompleteCycleSystem_InsufficientLevel();
 
   // TODO centralize config constants
-  uint256 constant REQUIRED_BOSSES_DEFEATED = 12;
   uint256 constant REQUIRED_LEVEL = 12;
 
   function startCycle(
@@ -41,7 +41,7 @@ contract CycleControlSystem is System {
     LibCycle.requireAccess(cycleEntity);
 
     // All bosses must be defeated
-    if (BossesDefeated.length(cycleEntity) < REQUIRED_BOSSES_DEFEATED) {
+    if (BossesDefeated.length(cycleEntity) < RequiredBossMaps.length()) {
       revert CompleteCycleSystem_NotAllBossesDefeated();
     }
 

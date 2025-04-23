@@ -8,6 +8,7 @@ import { ActiveGuise } from "./tables/ActiveGuise.sol";
 import { CycleOwner } from "./tables/CycleOwner.sol";
 import { CycleMetadata, CycleMetadataData } from "./tables/CycleMetadata.sol";
 import { CompletedCycleHistory } from "./tables/CompletedCycleHistory.sol";
+import { RequiredBossMaps } from "./tables/RequiredBossMaps.sol";
 import { BossesDefeated } from "./tables/BossesDefeated.sol";
 import { CycleCombatRReq, CycleCombatRReqData } from "./tables/CycleCombatRReq.sol";
 import { CycleTurns } from "./tables/CycleTurns.sol";

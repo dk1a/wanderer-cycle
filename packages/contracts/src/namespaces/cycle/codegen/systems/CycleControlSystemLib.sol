@@ -56,8 +56,8 @@ library CycleControlSystemLib {
     return CallWrapper(self.toResourceId(), address(0)).completeCycle(cycleEntity);
   }
 
-  function addCompletionStats(CycleControlSystemType self, bytes32 cycleEntity) internal {
-    return CallWrapper(self.toResourceId(), address(0)).addCompletionStats(cycleEntity);
+  function adminCompleteCycle(CycleControlSystemType self, bytes32 cycleEntity) internal {
+    return CallWrapper(self.toResourceId(), address(0)).adminCompleteCycle(cycleEntity);
   }
 
   function startCycle(
@@ -100,11 +100,11 @@ library CycleControlSystemLib {
       : _world().callFrom(self.from, self.systemId, systemCall);
   }
 
-  function addCompletionStats(CallWrapper memory self, bytes32 cycleEntity) internal {
+  function adminCompleteCycle(CallWrapper memory self, bytes32 cycleEntity) internal {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert CycleControlSystemLib_CallingFromRootSystem();
 
-    bytes memory systemCall = abi.encodeCall(_addCompletionStats_bytes32.addCompletionStats, (cycleEntity));
+    bytes memory systemCall = abi.encodeCall(_adminCompleteCycle_bytes32.adminCompleteCycle, (cycleEntity));
     self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
@@ -135,8 +135,8 @@ library CycleControlSystemLib {
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
-  function addCompletionStats(RootCallWrapper memory self, bytes32 cycleEntity) internal {
-    bytes memory systemCall = abi.encodeCall(_addCompletionStats_bytes32.addCompletionStats, (cycleEntity));
+  function adminCompleteCycle(RootCallWrapper memory self, bytes32 cycleEntity) internal {
+    bytes memory systemCall = abi.encodeCall(_adminCompleteCycle_bytes32.adminCompleteCycle, (cycleEntity));
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
@@ -190,8 +190,8 @@ interface _completeCycle_bytes32 {
   function completeCycle(bytes32 cycleEntity) external;
 }
 
-interface _addCompletionStats_bytes32 {
-  function addCompletionStats(bytes32 cycleEntity) external;
+interface _adminCompleteCycle_bytes32 {
+  function adminCompleteCycle(bytes32 cycleEntity) external;
 }
 
 using CycleControlSystemLib for CycleControlSystemType global;

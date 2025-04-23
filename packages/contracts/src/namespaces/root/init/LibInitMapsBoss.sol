@@ -9,6 +9,7 @@ import { LibPickAffix } from "../../affix/LibPickAffix.sol";
 import { LibLootMint } from "../../loot/LibLootMint.sol";
 import { AffixPartId } from "../../../codegen/common.sol";
 import { MapTypeComponent } from "../../map/codegen/tables/MapTypeComponent.sol";
+import { RequiredBossMaps } from "../../cycle/codegen/tables/RequiredBossMaps.sol";
 
 import { MapTypes } from "../../map/MapType.sol";
 import { AffixAvailabilityTargetId, MapAffixAvailabilityTargetIds } from "../../map/MapAffixAvailabilityTargetIds.sol";
@@ -224,5 +225,7 @@ library LibInitMapsBoss {
     MapTypeComponent.set(lootEntity, MapTypes.CYCLE_BOSS);
     // set name
     commonSystem.setName(lootEntity, name);
+    // append it to the list of required boss maps
+    RequiredBossMaps.push(lootEntity);
   }
 }
