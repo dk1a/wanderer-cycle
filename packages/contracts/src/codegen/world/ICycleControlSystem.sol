@@ -21,4 +21,6 @@ interface ICycleControlSystem {
   function cycle__cancelCycle(bytes32 cycleEntity) external;
 
   function cycle__completeCycle(bytes32 cycleEntity) external;
+
+  function cycle__addCompletionStats(bytes32 cycleEntity) external;
 }

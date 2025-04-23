@@ -15,6 +15,10 @@ contract CycleControlSystem is System {
   error CompleteCycleSystem_NotAllBossesDefeated();
   error CompleteCycleSystem_InsufficientLevel();
 
+  // TODO centralize config constants
+  uint256 constant REQUIRED_BOSSES_DEFEATED = 12;
+  uint256 constant REQUIRED_LEVEL = 12;
+
   function startCycle(
     bytes32 wandererEntity,
     bytes32 guiseEntity,
@@ -37,19 +41,23 @@ contract CycleControlSystem is System {
     LibCycle.requireAccess(cycleEntity);
 
     // All bosses must be defeated
-    // TODO requirement reduced for testing; remove hardcode
-    if (BossesDefeated.length(cycleEntity) < 0) {
+    if (BossesDefeated.length(cycleEntity) < REQUIRED_BOSSES_DEFEATED) {
       revert CompleteCycleSystem_NotAllBossesDefeated();
     }
 
-    // Must be max level
-    // TODO requirement reduced for testing; also remove hardcode
+    // Must be high enough level
     uint32 level = LibGuiseLevel.getAggregateLevel(cycleEntity);
-    if (level < 1) {
+    if (level < REQUIRED_LEVEL) {
       revert CompleteCycleSystem_InsufficientLevel();
     }
 
     // Complete the cycle
+    LibCycle.completeCycle(cycleEntity);
+  }
+
+  // TODO for testing only
+  function adminCompleteCycle(bytes32 cycleEntity) public {
+    LibCycle.requireAccess(cycleEntity);
     LibCycle.completeCycle(cycleEntity);
   }
 }

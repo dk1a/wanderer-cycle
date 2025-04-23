@@ -28,6 +28,7 @@ import { IWandererSpawnSystem } from "./IWandererSpawnSystem.sol";
 import { ILearnSkillSystem } from "./ILearnSkillSystem.sol";
 import { ISkillSystem } from "./ISkillSystem.sol";
 import { ITimeSystem } from "./ITimeSystem.sol";
+import { IUriSystem } from "./IUriSystem.sol";
 import { IWheelSystem } from "./IWheelSystem.sol";
 
 /**
@@ -63,5 +64,6 @@ interface IWorld is
   ILearnSkillSystem,
   ISkillSystem,
   ITimeSystem,
+  IUriSystem,
   IWheelSystem
 {}

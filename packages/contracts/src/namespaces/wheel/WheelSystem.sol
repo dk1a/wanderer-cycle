@@ -5,7 +5,6 @@ import { System } from "@latticexyz/world/src/System.sol";
 
 import { ActiveWheel } from "./codegen/tables/ActiveWheel.sol";
 import { Wheel, WheelData } from "./codegen/tables/Wheel.sol";
-import { CompletedWheelHistory } from "./codegen/tables/CompletedWheelHistory.sol";
 import { CompletedWheelCount } from "./codegen/tables/CompletedWheelCount.sol";
 import { IdentityCurrent } from "./codegen/tables/IdentityCurrent.sol";
 import { IdentityEarnedTotal } from "./codegen/tables/IdentityEarnedTotal.sol";
@@ -56,15 +55,13 @@ contract WheelSystem is System {
     // Reward identity if charges remain
     WheelData memory wheel = Wheel.get(wheelEntity);
     if (completedWheelCount < wheel.charges) {
-      rewardIdentity(wandererEntity);
+      _rewardIdentity(wandererEntity);
     }
     // Increment wheel completion count
     CompletedWheelCount.set(wandererEntity, wheelEntity, completedWheelCount + 1);
-    // Update cycle owner's completion history
-    CompletedWheelHistory.push(wandererEntity, cycleEntity);
   }
 
-  function rewardIdentity(bytes32 wandererEntity) public {
+  function _rewardIdentity(bytes32 wandererEntity) internal {
     uint256 addition = IDENTITY_INCREMENT;
 
     IdentityCurrent.set(wandererEntity, IdentityCurrent.get(wandererEntity) + addition);

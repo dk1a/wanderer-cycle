@@ -6,6 +6,7 @@ import { WorldContextConsumerLib } from "@latticexyz/world/src/WorldContext.sol"
 import { ActiveCycle } from "./codegen/tables/ActiveCycle.sol";
 import { CycleOwner } from "./codegen/tables/CycleOwner.sol";
 import { CycleMetadata } from "./codegen/tables/CycleMetadata.sol";
+import { CompletedCycleHistory } from "./codegen/tables/CompletedCycleHistory.sol";
 
 import { wheelSystem } from "../wheel/codegen/systems/WheelSystemLib.sol";
 
@@ -37,6 +38,8 @@ library LibCycle {
     CycleMetadata.setEndTime(cycleEntity, block.timestamp);
     // Complete the wheel of the cycle and get rewards
     wheelSystem.completeWheel(wandererEntity, cycleEntity);
+    // Update cycle owner's completion history
+    CompletedCycleHistory.push(wandererEntity, cycleEntity);
   }
 
   /**

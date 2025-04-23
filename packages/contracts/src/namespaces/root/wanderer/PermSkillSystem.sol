@@ -3,7 +3,7 @@ pragma solidity >=0.8.21;
 
 import { System } from "@latticexyz/world/src/System.sol";
 
-import { CompletedWheelHistory } from "../../wheel/codegen/tables/CompletedWheelHistory.sol";
+import { CompletedCycleHistory } from "../../cycle/codegen/tables/CompletedCycleHistory.sol";
 
 import { learnSkillSystem } from "../../skill/codegen/systems/LearnSkillSystemLib.sol";
 import { wheelSystem } from "../../wheel/codegen/systems/WheelSystemLib.sol";
@@ -27,11 +27,11 @@ contract PermSkillSystem is System {
     LibCycle.requireNotActiveCycle(wandererEntity);
 
     // Must have cycle completion history to draw the last completed cycle from
-    uint256 completionHistoryLength = CompletedWheelHistory.length(wandererEntity);
+    uint256 completionHistoryLength = CompletedCycleHistory.length(wandererEntity);
     if (completionHistoryLength == 0) {
       revert PermSkillSystem_NoPreviousCycle();
     }
-    bytes32 prevCycleEntity = CompletedWheelHistory.getItem(wandererEntity, completionHistoryLength - 1);
+    bytes32 prevCycleEntity = CompletedCycleHistory.getItem(wandererEntity, completionHistoryLength - 1);
     // Must have learned the skill during the last completed cycle
     if (!LibSkill.hasSkill(prevCycleEntity, skillEntity)) {
       revert PermSkillSystem_SkillNotLearnedInLastCompletedCycle(prevCycleEntity);

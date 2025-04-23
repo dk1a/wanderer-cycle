@@ -16,9 +16,9 @@ import { Schema } from "@latticexyz/store/src/Schema.sol";
 import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/EncodedLengths.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
-library CompletedWheelHistory {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "wheel", name: "CompletedWheelHi", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x7462776865656c000000000000000000436f6d706c65746564576865656c4869);
+library CompletedCycleHistory {
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "cycle", name: "CompletedCycleHi", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x74626379636c65000000000000000000436f6d706c657465644379636c654869);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0000000100000000000000000000000000000000000000000000000000000000);

@@ -617,13 +617,6 @@ export default defineWorld({
             wheelEntity: EntityId,
           },
         },
-        CompletedWheelHistory: {
-          key: ["wandererEntity"],
-          schema: {
-            wandererEntity: EntityId,
-            cycleEntities: EntityIdArray,
-          },
-        },
         CompletedWheelCount: {
           key: ["wandererEntity", "wheelEntity"],
           schema: {
@@ -690,6 +683,13 @@ export default defineWorld({
             startTime: "uint256",
             // timestamp
             endTime: "uint256",
+          },
+        },
+        CompletedCycleHistory: {
+          key: ["wandererEntity"],
+          schema: {
+            wandererEntity: EntityId,
+            cycleEntities: EntityIdArray,
           },
         },
         BossesDefeated: {

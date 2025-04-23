@@ -56,6 +56,10 @@ library CycleControlSystemLib {
     return CallWrapper(self.toResourceId(), address(0)).completeCycle(cycleEntity);
   }
 
+  function addCompletionStats(CycleControlSystemType self, bytes32 cycleEntity) internal {
+    return CallWrapper(self.toResourceId(), address(0)).addCompletionStats(cycleEntity);
+  }
+
   function startCycle(
     CallWrapper memory self,
     bytes32 wandererEntity,
@@ -96,6 +100,16 @@ library CycleControlSystemLib {
       : _world().callFrom(self.from, self.systemId, systemCall);
   }
 
+  function addCompletionStats(CallWrapper memory self, bytes32 cycleEntity) internal {
+    // if the contract calling this function is a root system, it should use `callAsRoot`
+    if (address(_world()) == address(this)) revert CycleControlSystemLib_CallingFromRootSystem();
+
+    bytes memory systemCall = abi.encodeCall(_addCompletionStats_bytes32.addCompletionStats, (cycleEntity));
+    self.from == address(0)
+      ? _world().call(self.systemId, systemCall)
+      : _world().callFrom(self.from, self.systemId, systemCall);
+  }
+
   function startCycle(
     RootCallWrapper memory self,
     bytes32 wandererEntity,
@@ -118,6 +132,11 @@ library CycleControlSystemLib {
 
   function completeCycle(RootCallWrapper memory self, bytes32 cycleEntity) internal {
     bytes memory systemCall = abi.encodeCall(_completeCycle_bytes32.completeCycle, (cycleEntity));
+    SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
+  }
+
+  function addCompletionStats(RootCallWrapper memory self, bytes32 cycleEntity) internal {
+    bytes memory systemCall = abi.encodeCall(_addCompletionStats_bytes32.addCompletionStats, (cycleEntity));
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
@@ -169,6 +188,10 @@ interface _cancelCycle_bytes32 {
 
 interface _completeCycle_bytes32 {
   function completeCycle(bytes32 cycleEntity) external;
+}
+
+interface _addCompletionStats_bytes32 {
+  function addCompletionStats(bytes32 cycleEntity) external;
 }
 
 using CycleControlSystemLib for CycleControlSystemType global;

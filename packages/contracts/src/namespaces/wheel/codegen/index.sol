@@ -5,7 +5,6 @@ pragma solidity >=0.8.24;
 
 import { Wheel, WheelData } from "./tables/Wheel.sol";
 import { ActiveWheel } from "./tables/ActiveWheel.sol";
-import { CompletedWheelHistory } from "./tables/CompletedWheelHistory.sol";
 import { CompletedWheelCount } from "./tables/CompletedWheelCount.sol";
 import { IdentityCurrent } from "./tables/IdentityCurrent.sol";
 import { IdentityEarnedTotal } from "./tables/IdentityEarnedTotal.sol";
