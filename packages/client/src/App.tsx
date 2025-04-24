@@ -7,7 +7,7 @@ import { Synced } from "./mud/Synced";
 
 export const App = () => {
   return (
-    <div className="bg-dark-600 w-full h-screen">
+    <div>
       <Router>
         <div className="flex flex-col h-full">
           <Routes>

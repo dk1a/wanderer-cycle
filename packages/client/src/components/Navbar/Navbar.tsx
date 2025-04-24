@@ -9,7 +9,7 @@ interface NavbarProps {
 export const Navbar = ({ routes, className }: NavbarProps) => {
   return (
     <nav
-      className={`relative bg-dark-400 border-dark-400 text-dark-300 md:p-6 p-4 flex items-center justify-start md:justify-center w-full ${className}`}
+      className={`relative bg-dark-400 border-dark-400 text-dark-300 p-2 flex items-center justify-start md:justify-center w-full ${className}`}
     >
       <div className="hidden md:flex md:items-center gap-2">
         {routes.map((route) => {

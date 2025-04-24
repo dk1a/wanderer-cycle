@@ -1,11 +1,10 @@
 import { Hex } from "viem";
 import { useWandererContext } from "../../mud/WandererContext";
-import { formatEntity } from "../../mud/utils/format";
 import { Button } from "../utils/Button/Button";
 import WandererImage from "./WandererImage";
 
 interface WandererProps {
-  wandererEntity: Hex;
+  readonly wandererEntity: Hex;
 }
 
 export default function Wanderer({ wandererEntity }: WandererProps) {
@@ -13,7 +12,6 @@ export default function Wanderer({ wandererEntity }: WandererProps) {
 
   return (
     <div className="border border-dark-400 min-h-[300px] min-w-[200px] h-auto py-2 px-4 flex flex-col justify-between items-center bg-dark-500 transform delay-500">
-      <h3 className={"text-dark-type"}>{formatEntity(wandererEntity)}</h3>
       <WandererImage entity={wandererEntity} />
       <div className="mt-4 flex justify-around w-full">
         {wandererEntity === selectedWandererEntity && (

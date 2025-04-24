@@ -64,7 +64,7 @@ library LibUriWanderer {
     }
     _strs.totalIdentityGained = Strings.toString(IdentityEarnedTotal.get(wandererEntity));
 
-    _strs.wandererNum = Strings.toHexString(uint256(wandererEntity));
+    _strs.wandererNum = Strings.toHexString(uint64(bytes8(keccak256("Wanderer"))));
 
     bytes32 cycleEntity = ActiveCycle.get(wandererEntity);
     if (cycleEntity != bytes32(0)) {
