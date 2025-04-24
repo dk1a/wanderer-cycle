@@ -77,7 +77,7 @@ library LibUriLoot {
 
       // prettier-ignore
       affixesSvg = string.concat(affixesSvg,
-        '<text x="10" y="', Strings.toString(40 + i * 40),'"', u.ATTRS_STRING, '>',
+        '<text x="10" y="', Strings.toString(60 + i * 15),'"', u.ATTRS_STRING, '>',
           statmodNameSplitLeft.toString(),
           '<tspan', u.ATTRS_NUM, '>',
             Strings.toString(affix.value),
@@ -90,13 +90,13 @@ library LibUriLoot {
     // prettier-ignore
     string memory output = string.concat(
       u.START,
-      '<text', u.ATTRS_HEADER_TYPE, 'y="40">',
+      '<text', u.ATTRS_HEADER_TYPE, 'y="5">',
         lootNameLines[0],
       '</text>',
-      '<text', u.ATTRS_HEADER_TYPE, 'y="40">',
+      '<text', u.ATTRS_HEADER_TYPE, 'y="25">',
         lootNameLines[1],
       '</text>',
-      '<text', u.ATTRS_HEADER_TYPE, 'y="40">',
+      '<text', u.ATTRS_HEADER_TYPE, 'y="45">',
         lootNameLines[2],
       '</text>',
       affixesSvg,
@@ -115,6 +115,7 @@ library LibUriLoot {
           '"value": "Loot"'
         '}'
       '],'
+      '"background_color": "#1e1e1e",',
       '"image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'
     ));
   }

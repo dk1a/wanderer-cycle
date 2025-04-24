@@ -6,7 +6,7 @@ import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 
 import { StrSlice, toSlice } from "@dk1a/solidity-stringutils/src/StrSlice.sol";
 
-import { Name } from "../common/codegen/tables/Name.sol";
+import { GuiseName } from "../root/codegen/tables/GuiseName.sol";
 import { ActiveCycle } from "../cycle/codegen/tables/ActiveCycle.sol";
 import { ActiveGuise } from "../cycle/codegen/tables/ActiveGuise.sol";
 import { IdentityEarnedTotal } from "../wheel/codegen/tables/IdentityEarnedTotal.sol";
@@ -30,10 +30,13 @@ library LibUriWanderer {
     string svgGuiseLevel;
   }
 
-  string constant Y_WANDERER = "40";
-  uint256 constant Y_WHEELS = 80;
-  string constant Y_IDENTITY = "120";
-  string constant Y_GUISE_LEVEL = "160";
+  uint256 constant X_PAD_NUM = 20;
+  string constant X_PAD_STR = "20";
+
+  string constant Y_WANDERER = "20";
+  uint256 constant Y_WHEELS = 60;
+  string constant Y_IDENTITY = "80";
+  string constant Y_GUISE = "340";
 
   function json(bytes32 wandererEntity) internal view returns (string memory) {
     Strs memory _strs;
@@ -44,7 +47,7 @@ library LibUriWanderer {
       (string memory completedWheelCountString, string memory completedWheelCountSvg) = wheelTexts(
         wandererEntity,
         wheels[i],
-        10 + i * 10,
+        X_PAD_NUM + i * 10,
         Y_WHEELS
       );
 
@@ -61,13 +64,13 @@ library LibUriWanderer {
     }
     _strs.totalIdentityGained = Strings.toString(IdentityEarnedTotal.get(wandererEntity));
 
-    _strs.wandererNum = Strings.toHexString(uint64(bytes8(keccak256(abi.encode("Wanderer", wandererEntity)))));
+    _strs.wandererNum = Strings.toHexString(uint256(wandererEntity));
 
     bytes32 cycleEntity = ActiveCycle.get(wandererEntity);
     if (cycleEntity != bytes32(0)) {
       bytes32 guiseEntity = ActiveGuise.get(cycleEntity);
 
-      _strs.guise = Name.get(guiseEntity);
+      _strs.guise = GuiseName.get(guiseEntity);
       _strs.level = Strings.toString(LibGuiseLevel.getAggregateLevel(cycleEntity));
       // prettier-ignore
       _strs.svgGuiseLevel = string.concat(
@@ -85,7 +88,7 @@ library LibUriWanderer {
     // prettier-ignore
     string memory output = string.concat(
       u.START,
-      '<text x="10" y="', Y_WANDERER,'"', u.ATTRS_TYPE, '>',
+      '<text y="', Y_WANDERER,'"', u.ATTRS_HEADER_TYPE, '>',
         'Wanderer ',
         '<tspan', u.ATTRS_BASE, '>',
           _strs.wandererNum,
@@ -96,7 +99,7 @@ library LibUriWanderer {
     output = string.concat(
       output,
       _strs.completedWheelSvg,
-      '<text x="10" y="', Y_IDENTITY, '"', u.ATTRS_KEY, '>',
+      '<text x="' , X_PAD_STR, '" y="', Y_IDENTITY, '"', u.ATTRS_KEY, '>',
         'identity ',
         '<tspan', u.ATTRS_NUM, '>',
           _strs.totalIdentityGained,
@@ -106,7 +109,7 @@ library LibUriWanderer {
     // prettier-ignore
     output = string.concat(
       output,
-      '<text x="10" y="', Y_GUISE_LEVEL, '"', u.ATTRS_STRING, '>',
+      '<text x="', X_PAD_STR,'" y="', Y_GUISE, '"', u.ATTRS_STRING, '>',
         _strs.svgGuiseLevel,
       '</text>',
       u.END
@@ -134,7 +137,7 @@ library LibUriWanderer {
           '"value": ', _strs.totalIdentityGained,
         '}'
       '],'
-      //'"background_color": "000000",',
+      '"background_color": "#1e1e1e",',
       '"image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'
     ));
   }
@@ -176,10 +179,10 @@ library LibUriWanderer {
 
     // prettier-ignore
     completedWheelCountSvg = string.concat(
-      '<text x="', Strings.toString(x), '" y="', Strings.toString(y), '" textLength="5" lengthAdjust="spacingAndGlyphs" ', u.ATTRS_KEY, '>',
+      '<text x="', Strings.toString(x), '" y="', Strings.toString(y), '" textLength="10" lengthAdjust="spacingAndGlyphs" ', u.ATTRS_KEY, '>',
         svgInnerWheelName,
       '</text>',
-      '<text x="', Strings.toString(x + 5), '" y="', Strings.toString(y), '">',
+      '<text x="', Strings.toString(x + X_PAD_NUM / 2), '" y="', Strings.toString(y), '">',
         svgInnerText,
       '</text>'
     );
