@@ -1,15 +1,15 @@
-import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
 import { useStashCustom } from "../../mud/stash";
+import { useWandererContext } from "../../mud/WandererContext";
 import { getActiveGuise } from "../../mud/utils/guise";
 import { getCycleTurns } from "../../mud/utils/turns";
 import { MapData } from "../../mud/utils/getMap";
 import { getLevel } from "../../mud/utils/charstat";
-import { useMUD } from "../../MUDContext";
+import { useSystemCalls } from "../../mud/useSystemCalls";
 import { Button } from "../utils/Button/Button";
 
 export default function BasicMap({ data }: { data: MapData }) {
-  const { systemCalls } = useMUD();
+  const systemCalls = useSystemCalls();
   const { cycleEntity } = useWandererContext();
 
   const { entity, name, ilvl } = data.lootData;

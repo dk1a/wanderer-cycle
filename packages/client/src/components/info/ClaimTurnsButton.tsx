@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { useWandererContext } from "../../contexts/WandererContext";
-import { useMUD } from "../../MUDContext";
+import { useWandererContext } from "../../mud/WandererContext";
+import { useSystemCalls } from "../../mud/useSystemCalls";
 import { Button } from "../utils/Button/Button";
 
 export default function ClaimTurnsButton({
@@ -8,7 +8,7 @@ export default function ClaimTurnsButton({
 }: {
   claimableTurns: number;
 }) {
-  const { systemCalls } = useMUD();
+  const systemCalls = useSystemCalls();
   const { cycleEntity } = useWandererContext();
 
   const [isBusy, setIsBusy] = useState(false);

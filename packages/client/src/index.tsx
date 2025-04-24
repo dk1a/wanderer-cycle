@@ -1,38 +1,15 @@
-import mudConfig from "contracts/mud.config";
-import ReactDOM from "react-dom/client";
-import "../index.css";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { Providers } from "./Providers";
 import { App } from "./App";
-import { WandererProvider } from "./contexts/WandererContext";
-import { setup } from "./mud/setup";
-import { MUDProvider } from "./MUDContext";
+
+import "../index.css";
 import "./index.css";
 
-const rootElement = document.getElementById("react-root");
-if (!rootElement) throw new Error("React root not found");
-const root = ReactDOM.createRoot(rootElement);
-
-setup().then(async (result) => {
-  root.render(
-    <MUDProvider value={result}>
-      <WandererProvider>
-        <div className="bg-dark-600 w-full h-screen">
-          <App />
-        </div>
-      </WandererProvider>
-    </MUDProvider>,
-  );
-
-  if (import.meta.env.DEV) {
-    const { mount: mountDevTools } = await import("@latticexyz/dev-tools");
-    mountDevTools({
-      config: mudConfig,
-      publicClient: result.network.publicClient,
-      walletClient: result.network.walletClient,
-      latestBlock$: result.network.latestBlock$,
-      storedBlockLogs$: result.network.storedBlockLogs$,
-      worldAddress: result.network.worldContract.address,
-      worldAbi: result.network.worldContract.abi,
-      write$: result.network.write$,
-    });
-  }
-});
+createRoot(document.getElementById("react-root")!).render(
+  <StrictMode>
+    <Providers>
+      <App />
+    </Providers>
+  </StrictMode>,
+);

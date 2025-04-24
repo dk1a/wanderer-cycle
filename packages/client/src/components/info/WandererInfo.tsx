@@ -1,4 +1,4 @@
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useWandererContext } from "../../mud/WandererContext";
 import BaseInfo from "./BaseInfo";
 
 export function WandererInfo() {

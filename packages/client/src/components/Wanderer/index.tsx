@@ -1,5 +1,5 @@
 import { Hex } from "viem";
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useWandererContext } from "../../mud/WandererContext";
 import { formatEntity } from "../../mud/utils/format";
 import { Button } from "../utils/Button/Button";
 import WandererImage from "./WandererImage";

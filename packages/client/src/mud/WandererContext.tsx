@@ -6,10 +6,10 @@ import {
   useState,
 } from "react";
 import { Hex } from "viem";
-import { useMUD } from "../MUDContext";
 import { getRecordStrict, mudTables, useStashCustom } from "../mud/stash";
 import { getLearnedSkillEntities } from "../mud/utils/skill";
 import { getActiveCombat } from "../mud/utils/combat";
+import { useSystemCalls } from "../mud/useSystemCalls";
 
 type WandererContextType = {
   selectedWandererEntity?: Hex;
@@ -33,7 +33,7 @@ export const WandererProvider = (props: { children: ReactNode }) => {
 
   const [selectedWandererEntity, selectWandererEntity] = useState<Hex>();
 
-  const { systemCalls } = useMUD();
+  const systemCalls = useSystemCalls();
 
   // current cycle
   const activeCycle = useStashCustom((state) => {

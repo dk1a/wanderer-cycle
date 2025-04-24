@@ -1,4 +1,4 @@
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useWandererContext } from "../../mud/WandererContext";
 import { useStashCustom } from "../../mud/stash";
 import { getLevel } from "../../mud/utils/charstat";
 import BaseInfo from "./BaseInfo";

@@ -8,13 +8,13 @@ import {
   attackAction,
 } from "../../mud/utils/combat";
 import { getSkill, SkillType } from "../../mud/utils/skill";
-import { useMUD } from "../../MUDContext";
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useSystemCalls } from "../../mud/useSystemCalls";
+import { useWandererContext } from "../../mud/WandererContext";
 import { UseSkillButton } from "../UseSkillButton";
 import { Button } from "../utils/Button/Button";
 
 export default function CombatActions() {
-  const { systemCalls } = useMUD();
+  const systemCalls = useSystemCalls();
   const { cycleEntity, learnedSkillEntities } = useWandererContext();
   const [isBusy, setIsBusy] = useState(false);
   const [selectedSkill, selectSkill] = useState<{

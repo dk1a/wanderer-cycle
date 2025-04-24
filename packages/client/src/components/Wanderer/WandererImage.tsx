@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Hex, hexToBigInt } from "viem";
+import { usePublicClient } from "wagmi";
 
 import { getRecord } from "@latticexyz/stash/internal";
 import { resourceToHex } from "@latticexyz/common";
 
 import ERC721SystemAbi from "contracts/out/ERC721System.sol/ERC721System.abi.json";
 
-import { useMUD } from "../../MUDContext";
 import { mudTables, useStashCustom } from "../../mud/stash";
 
 // TODO contracts don't export ERC721Namespaces, which are solidity-only
@@ -17,9 +17,7 @@ const wandererNamespaceId = resourceToHex({
 });
 
 export default function WandererImage({ entity }: { entity: Hex }) {
-  const {
-    network: { publicClient },
-  } = useMUD();
+  const publicClient = usePublicClient();
   const [img, setImg] = useState("");
 
   const registry = useStashCustom((state) =>
@@ -32,7 +30,7 @@ export default function WandererImage({ entity }: { entity: Hex }) {
 
   useEffect(() => {
     (async () => {
-      if (registry === undefined) return;
+      if (registry === undefined || publicClient === undefined) return;
 
       const tokenId = hexToBigInt(entity);
       const uri = await publicClient.readContract({

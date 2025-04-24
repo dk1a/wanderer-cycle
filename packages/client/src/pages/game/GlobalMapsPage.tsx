@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Hex } from "viem";
 import { useStashCustom } from "../../mud/stash";
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useWandererContext } from "../../mud/WandererContext";
 import { getBossesDefeated } from "../../mud/utils/getBossesDefeated";
 import { getMaps, MapTypes } from "../../mud/utils/getMap";
 import { getLifeCurrent } from "../../mud/utils/currents";

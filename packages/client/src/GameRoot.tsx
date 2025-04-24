@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { useWandererContext } from "./contexts/WandererContext";
+import { useWandererContext } from "./mud/WandererContext";
 import CycleInfo from "./components/info/CycleInfo";
 import CombatInfo from "./components/info/CombatInfo";
 // import { CombatResultPage } from "./pages/CombatResultPage";

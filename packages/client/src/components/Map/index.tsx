@@ -1,18 +1,18 @@
 import { useCallback } from "react";
-//import Effect from "../Effect";
-import { Button } from "../utils/Button/Button";
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useWandererContext } from "../../mud/WandererContext";
 import { useStashCustom } from "../../mud/stash";
-import { EffectSource } from "../../mud/utils/getEffect";
+//import { EffectSource } from "../../mud/utils/getEffect";
 import { getCycleTurns } from "../../mud/utils/turns";
 import { MapData } from "../../mud/utils/getMap";
-import { useMUD } from "../../MUDContext";
+import { useSystemCalls } from "../../mud/useSystemCalls";
+//import Effect from "../Effect";
+import { Button } from "../utils/Button/Button";
 
 export default function Map({ data }: { data: MapData }) {
-  const { systemCalls } = useMUD();
+  const systemCalls = useSystemCalls();
   const { cycleEntity } = useWandererContext();
 
-  const { entity, name, ilvl, effectTemplate } = data.lootData;
+  const { entity, name, ilvl } = data.lootData;
 
   const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
 

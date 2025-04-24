@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { Hex } from "viem";
 import { CycleCombatRewardRequest } from "../../mud/utils/combat";
-import { useMUD } from "../../MUDContext";
+import { useSystemCalls } from "../../mud/useSystemCalls";
 import { Button } from "../utils/Button/Button";
 
 const blockNumberLimit = 256;
@@ -15,7 +15,7 @@ export function CombatReward({
   currentBlockNumber: bigint;
   rewardRequest: CycleCombatRewardRequest;
 }) {
-  const { systemCalls } = useMUD();
+  const systemCalls = useSystemCalls();
   const [isBusy, setIsBusy] = useState(false);
 
   const { requestId, blocknumber: requestBlockNumber } = rewardRequest;

@@ -4,8 +4,8 @@ import { useStashCustom } from "../../mud/stash";
 import { getSkill, SkillType } from "../../mud/utils/skill";
 import { getLevel } from "../../mud/utils/charstat";
 import { getActiveGuise } from "../../mud/utils/guise";
-import { useMUD } from "../../MUDContext";
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useSystemCalls } from "../../mud/useSystemCalls";
+import { useWandererContext } from "../../mud/WandererContext";
 import { Button } from "../utils/Button/Button";
 import Skill from "../Guise/Skill";
 import { UseSkillButton } from "../UseSkillButton";
@@ -17,7 +17,7 @@ export default function SkillLearnable({
   entity: Hex;
   withButtons: boolean;
 }) {
-  const { systemCalls } = useMUD();
+  const systemCalls = useSystemCalls();
   const { learnCycleSkill, learnedSkillEntities, cycleEntity } =
     useWandererContext();
   const skill = useStashCustom((state) => getSkill(state, entity));

@@ -1,12 +1,12 @@
 import { useCallback, useMemo, useState } from "react";
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useWandererContext } from "../../mud/WandererContext";
 import { useStashCustom } from "../../mud/stash";
 import { getCycleTurns } from "../../mud/utils/turns";
-import { useMUD } from "../../MUDContext";
+import { useSystemCalls } from "../../mud/useSystemCalls";
 import { Button } from "../utils/Button/Button";
 
 export default function PassTurnButton() {
-  const { systemCalls } = useMUD();
+  const systemCalls = useSystemCalls();
   const { cycleEntity, enemyEntity } = useWandererContext();
 
   const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
