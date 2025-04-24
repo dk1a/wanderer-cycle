@@ -17,7 +17,7 @@ export const App = () => {
           <Route path="/*" element={<Navbar routes={gameRoutes} />}></Route>
         </Routes>
 
-        <div className="flex-1 overflow-y-auto ">
+        <div className="flex-1 overflow-y-auto flex justify-center">
           <Routes>
             <Route path="/admin">{displayAppRoutes(adminRoutes)}</Route>
 

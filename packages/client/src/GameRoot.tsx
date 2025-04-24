@@ -20,15 +20,23 @@ export function GameRoot() {
     return <WandererSelect />;
   }
 
-  if (enemyEntity !== undefined) {
-    return (
-      <div className="flex">
+  return (
+    <div className="relative w-full h-full">
+      <div className="fixed top-[71px] left-0 w-64 h-[calc(100%-4rem)] z-10">
         <CycleInfo />
-        <CombatPage />
-        <div className="w-64">{<CombatInfo />}</div>
       </div>
-    );
-  }
+      {enemyEntity !== undefined && (
+        <div className="fixed top-[71px] right-0 w-64 h-[calc(100%-4rem)] z-10">
+          <CombatInfo />
+        </div>
+      )}
+      <div className="mx-auto max-w-[1424px] h-full px-4">
+        <div className="ml-64 mr-64 pt-16 min-h-[calc(100vh-4rem)]">
+          {enemyEntity !== undefined ? <CombatPage /> : <Outlet />}
+        </div>
+      </div>
+    </div>
+  );
 
   // if (
   //   combatRewardRequests.length > 0 ||
@@ -51,10 +59,10 @@ export function GameRoot() {
   //   );
   // }
 
-  return (
-    <div className="flex">
-      <CycleInfo />
-      <Outlet />
-    </div>
-  );
+  // return (
+  //   <div className="flex">
+  //     <CycleInfo />
+  //     <Outlet />
+  //   </div>
+  // );
 }

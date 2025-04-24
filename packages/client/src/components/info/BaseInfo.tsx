@@ -187,7 +187,6 @@ export default function BaseInfo({
       ),
     },
     // {
-    //   // Эффекты
     //   condition: effects && effects.length > 0,
     //   label: "Effects",
     //   content: (
