@@ -18,7 +18,7 @@ export interface AppRoute {
 export const gameRoutes: AppRoute[] = [
   {
     label: "maps",
-    path: "/maps",
+    path: "/",
     element: <GlobalMapsPage />,
   },
   {
@@ -38,7 +38,7 @@ export const gameRoutes: AppRoute[] = [
   },
   {
     label: "wanderer-select",
-    path: "/",
+    path: "/wanderer-select",
     element: <WandererSelect />,
   },
   {

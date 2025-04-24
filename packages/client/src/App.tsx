@@ -3,9 +3,22 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { Navbar } from "./components/Navbar/Navbar";
 import { GameRoot } from "./GameRoot";
 import { adminRoutes, AppRoute, gameRoutes } from "./routes";
-import { Synced } from "./mud/Synced";
+import { useSyncStatus } from "./mud/useSyncStatus";
 
 export const App = () => {
+  const status = useSyncStatus();
+  if (!status.isLive) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span>
+          <span className="text-dark-key">syncStatus</span>:{" "}
+          <span className="text-dark-string">{status.message}</span> (
+          {status.percentage.toFixed(1)}%)
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Router>
@@ -20,30 +33,21 @@ export const App = () => {
           </Routes>
 
           <div className="flex-1 overflow-y-auto ">
-            <Synced
-              fallback={({ message, percentage }) => (
-                <div>
-                  {/* TODO style  className="tabular-nums" */}
-                  {message} ({percentage.toFixed(1)}%)…
-                </div>
-              )}
-            >
-              <Routes>
-                <Route path="/admin">{displayAppRoutes(adminRoutes)}</Route>
+            <Routes>
+              <Route path="/admin">{displayAppRoutes(adminRoutes)}</Route>
 
-                <Route element={<GameRoot />}>
-                  {displayAppRoutes(gameRoutes)}
-                </Route>
+              <Route element={<GameRoot />}>
+                {displayAppRoutes(gameRoutes)}
+              </Route>
 
-                <Route
-                  path="/*"
-                  element={
-                    // TODO make a proper 404 page or redirect
-                    <span className="text-dark-300">404 page not found</span>
-                  }
-                />
-              </Routes>
-            </Synced>
+              <Route
+                path="/*"
+                element={
+                  // TODO make a proper 404 page or redirect
+                  <span className="text-dark-300">404 page not found</span>
+                }
+              />
+            </Routes>
           </div>
         </div>
       </Router>

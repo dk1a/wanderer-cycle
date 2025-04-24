@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { Combat } from "../../components/Combat/Combat";
 
 class CombatPage extends Component {
