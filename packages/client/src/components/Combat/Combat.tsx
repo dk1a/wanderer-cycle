@@ -41,7 +41,9 @@ export function Combat() {
       </div>
       {enemyEntity ? (
         lastRound ? (
-          <CombatRoundOutcome roundLog={lastRound} />
+          <div className={"flex mt-2"}>
+            <CombatRoundOutcome roundLog={lastRound} />
+          </div>
         ) : (
           <div></div>
         )

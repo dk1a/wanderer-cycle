@@ -11,13 +11,15 @@ import { getSkill } from "../../mud/utils/skill";
 export function CombatActionOutcome({
   actorLabel,
   actionLog,
+  className,
 }: {
   actorLabel: string;
   actionLog: CombatActionLog;
+  className?: string;
 }) {
   return (
     <div className="space-x-2 text-dark-200">
-      <span className="text-dark-type">{actorLabel}</span>
+      <span className={"text-dark-type " + className}>{actorLabel}</span>
       <CombatActionText
         action={actionLog.action}
         defenderLifeDiff={actionLog.defenderLifeDiff}

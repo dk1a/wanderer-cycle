@@ -31,7 +31,7 @@ export function GameRoot() {
         </div>
       )}
       <div className="mx-auto max-w-[1424px] h-full px-4">
-        <div className="ml-64 mr-64 pt-16 min-h-[calc(100vh-4rem)]">
+        <div className="ml-64 mr-64 min-h-[calc(100vh-4rem)]">
           {enemyEntity !== undefined ? <CombatPage /> : <Outlet />}
         </div>
       </div>

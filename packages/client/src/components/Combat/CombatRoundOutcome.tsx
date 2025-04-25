@@ -4,7 +4,7 @@ import { CombatRoundLog } from "../../mud/utils/combat";
 export function CombatRoundOutcome({ roundLog }: { roundLog: CombatRoundLog }) {
   // TODO less generic actor labels
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center justify-center">
       <div className="w-full">
         {roundLog.initiatorActions.map((actionLog) => (
           <CombatActionOutcome
@@ -19,6 +19,7 @@ export function CombatRoundOutcome({ roundLog }: { roundLog: CombatRoundLog }) {
             key={actionLog.actionIndex}
             actorLabel={"Enemy"}
             actionLog={actionLog}
+            className={"text-red-800"}
           />
         ))}
       </div>

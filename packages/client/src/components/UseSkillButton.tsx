@@ -1,4 +1,3 @@
-import { CSSProperties } from "react";
 import { Hex } from "viem";
 import { useStashCustom } from "../mud/stash";
 import { getSkill } from "../mud/utils/skill";
@@ -9,17 +8,21 @@ import { Button } from "./utils/Button/Button";
 type UseSkillButtonData = {
   entity: Hex;
   onSkill: () => Promise<void>;
-  style?: CSSProperties;
+  className?: string;
 };
 
-export function UseSkillButton({ entity, onSkill, style }: UseSkillButtonData) {
+export function UseSkillButton({
+  entity,
+  onSkill,
+  className,
+}: UseSkillButtonData) {
   const skill = useStashCustom((state) => getSkill(state, entity));
   const manaCurrent = useStashCustom((state) => getManaCurrent(state, entity));
 
   return (
     <div className="flex items-center justify-center">
       <Button
-        style={style}
+        className={className}
         onClick={onSkill}
         disabled={
           skill === undefined ||
