@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 import { Hex } from "viem";
+import { useLocalStorage } from "usehooks-ts";
 import { getRecordStrict, mudTables, useStashCustom } from "./stash";
 import { useSystemCalls } from "./SystemCallsProvider";
 import { getLearnedSkillEntities } from "./utils/skill";
@@ -31,7 +32,9 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   const currentValue = useContext(WandererContext);
   if (currentValue) throw new Error("WandererProvider can only be used once");
 
-  const [selectedWandererEntity, selectWandererEntity] = useState<Hex>();
+  const [selectedWandererEntity, selectWandererEntity] = useLocalStorage<
+    Hex | undefined
+  >("wanderer-cycle:wanderer:selectWandererEntity", undefined);
 
   const systemCalls = useSystemCalls();
 

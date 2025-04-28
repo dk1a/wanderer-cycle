@@ -7,7 +7,7 @@ interface WandererSelectProps {
   className?: string;
 }
 
-const WandererSelect = ({ className }: WandererSelectProps) => {
+function WandererSelect({ className }: WandererSelectProps) {
   const wandererEntities = useStashCustom((state) =>
     getWandererEntities(state),
   );
@@ -43,6 +43,6 @@ const WandererSelect = ({ className }: WandererSelectProps) => {
       </section>
     </div>
   );
-};
+}
 
 export default WandererSelect;
