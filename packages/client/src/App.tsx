@@ -12,59 +12,45 @@ import {
   adminRoutes,
   combatRoutes,
   cycleRoutes,
-  externalRoutes,
   rootRoutes,
   wandererRoutes,
 } from "./routes";
-import { Navbar } from "./components/ui/Navbar";
 import { SyncPage } from "./mud/SyncPage";
 import { WandererLayout } from "./layouts/WandererLayout";
 import { CycleLayout } from "./layouts/CycleLayout";
 import { CombatLayout } from "./layouts/CombatLayout";
+import { RootLayout } from "./layouts/RootLayout";
 
 const router = createBrowserRouter([
-  ...rootRoutes,
   {
-    Component: WandererLayout,
+    Component: RootLayout,
     children: [
-      ...wandererRoutes,
+      ...rootRoutes,
       {
-        Component: CycleLayout,
+        Component: WandererLayout,
         children: [
-          ...cycleRoutes,
+          ...wandererRoutes,
           {
-            Component: CombatLayout,
-            children: combatRoutes,
+            Component: CycleLayout,
+            children: [
+              ...cycleRoutes,
+              {
+                Component: CombatLayout,
+                children: combatRoutes,
+              },
+            ],
           },
         ],
       },
+      {
+        path: "/admin",
+        children: adminRoutes,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" />,
+      },
     ],
-  },
-  {
-    path: "/admin",
-    children: adminRoutes,
-  },
-  {
-    path: "*",
-    element: <Navigate to="/" />,
-  },
-]);
-
-const navbarRouter = createBrowserRouter([
-  { path: "/admin", element: <Navbar routes={adminRoutes} /> },
-  {
-    path: "*",
-    element: (
-      <Navbar
-        routes={[
-          ...combatRoutes,
-          ...cycleRoutes,
-          ...wandererRoutes,
-          ...rootRoutes,
-          ...externalRoutes,
-        ]}
-      />
-    ),
   },
 ]);
 
@@ -80,13 +66,7 @@ export function App() {
 
   return (
     <SystemCallsProvider syncResult={sync.data} worldContract={worldContract}>
-      <div className="flex flex-col h-full">
-        <RouterProvider router={navbarRouter} />
-
-        <div className="flex-1 overflow-y-auto">
-          <RouterProvider router={router} />
-        </div>
-      </div>
+      <RouterProvider router={router} />
     </SystemCallsProvider>
   );
 }
