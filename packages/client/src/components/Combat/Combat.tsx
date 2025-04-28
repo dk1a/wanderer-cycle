@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useStashCustom } from "../../mud/stash";
 import { getCombatLog } from "../../mud/utils/combat";
-import { useWandererContext } from "../../mud/WandererContext";
+import { useWandererContext } from "../../mud/WandererProvider";
 import { CombatRoundOutcome } from "./CombatRoundOutcome";
 import CombatActions from "./CombatActions";
 import { getFromMap } from "../../mud/utils/getMap";

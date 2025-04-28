@@ -1,4 +1,4 @@
-import { useWandererContext } from "../../mud/WandererContext";
+import { useWandererContext } from "../../mud/WandererProvider";
 import { useStashCustom } from "../../mud/stash";
 import { getActiveGuise } from "../../mud/utils/guise";
 import SkillLearnable from "./SkillLearnable";

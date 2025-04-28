@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
-import { useWandererContext } from "./mud/WandererContext";
+import { ReactNode } from "react";
+import { useWandererContext } from "./mud/WandererProvider";
 import CycleInfo from "./components/info/CycleInfo";
 import CombatInfo from "./components/info/CombatInfo";
 // import { CombatResultPage } from "./pages/CombatResultPage";
@@ -8,7 +8,7 @@ import CombatInfo from "./components/info/CombatInfo";
 import WandererSelect from "./pages/game/WandererSelect";
 import CombatPage from "./pages/game/CombatPage";
 
-export function GameRoot() {
+export function GameRoot({ children }: { children: ReactNode }) {
   const {
     selectedWandererEntity,
     enemyEntity,
@@ -54,7 +54,7 @@ export function GameRoot() {
   return (
     <div className="flex">
       <CycleInfo />
-      <Outlet />
+      {children}
     </div>
   );
 }

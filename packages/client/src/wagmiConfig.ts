@@ -23,8 +23,25 @@ export const chains = [
         url: "http://localhost:13690/anvil/worlds",
       },
     },
+    fees: {
+      async estimateFeesPerGas({ type }) {
+        if (type === "legacy") return { gasPrice: 0n };
+        return {
+          maxFeePerGas: 0n,
+          maxPriorityFeePerGas: 0n,
+        };
+      },
+    },
   },
 ] as const satisfies Chain[];
+
+export function getChain(): Chain {
+  const chain = chains.find((c) => c.id === chainId);
+  if (!chain) {
+    throw new Error(`No chain configured for chain ID ${chainId}.`);
+  }
+  return chain;
+}
 
 export const transports = {
   [anvil.id]: webSocket(),

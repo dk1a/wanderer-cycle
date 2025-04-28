@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { Hex } from "viem";
 import { useStashCustom } from "../../mud/stash";
-import { useSystemCalls } from "../../mud/useSystemCalls";
+import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { getGuises } from "../../mud/utils/guise";
 import Guise from "../Guise/Guise";
 

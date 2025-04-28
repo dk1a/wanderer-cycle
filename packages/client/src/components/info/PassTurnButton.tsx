@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
-import { useWandererContext } from "../../mud/WandererContext";
+import { useWandererContext } from "../../mud/WandererProvider";
 import { useStashCustom } from "../../mud/stash";
 import { getCycleTurns } from "../../mud/utils/turns";
-import { useSystemCalls } from "../../mud/useSystemCalls";
+import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { Button } from "../utils/Button/Button";
 
 export default function PassTurnButton() {

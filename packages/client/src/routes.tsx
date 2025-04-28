@@ -1,5 +1,7 @@
 import { JSX } from "react";
 
+import { SyncPage } from "./mud/SyncPage";
+
 import CyclePage from "./pages/game/CyclePage";
 import InventoryPage from "./pages/game/InventoryPage";
 import GlobalMapsPage from "./pages/game/GlobalMapsPage";
@@ -7,6 +9,7 @@ import SkillPage from "./pages/game/SkillPage";
 import WandererSelect from "./pages/game/WandererSelect";
 
 import AffixPage from "./pages/admin/AffixPage";
+import { GameRoot } from "./GameRoot";
 
 export interface AppRoute {
   label: string;
@@ -19,27 +22,48 @@ export const gameRoutes: AppRoute[] = [
   {
     label: "maps",
     path: "/",
-    element: <GlobalMapsPage />,
+    element: (
+      <GameRoot>
+        <GlobalMapsPage />
+      </GameRoot>
+    ),
   },
   {
     label: "inventory",
     path: "/inventory",
-    element: <InventoryPage />,
+    element: (
+      <GameRoot>
+        <InventoryPage />
+      </GameRoot>
+    ),
   },
   {
     label: "skills",
     path: "/skills",
-    element: <SkillPage />,
+    element: (
+      <GameRoot>
+        <SkillPage />
+      </GameRoot>
+    ),
   },
   {
     label: "cycle",
     path: "/cycle",
-    element: <CyclePage />,
+    element: (
+      <GameRoot>
+        <CyclePage />
+      </GameRoot>
+    ),
   },
   {
     label: "wanderer-select",
     path: "/wanderer-select",
     element: <WandererSelect />,
+  },
+  {
+    label: "sync",
+    path: "/sync",
+    element: <SyncPage />,
   },
   {
     label: "github",

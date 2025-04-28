@@ -6,10 +6,10 @@ import {
   useState,
 } from "react";
 import { Hex } from "viem";
-import { getRecordStrict, mudTables, useStashCustom } from "../mud/stash";
-import { getLearnedSkillEntities } from "../mud/utils/skill";
-import { getActiveCombat } from "../mud/utils/combat";
-import { useSystemCalls } from "../mud/useSystemCalls";
+import { getRecordStrict, mudTables, useStashCustom } from "./stash";
+import { useSystemCalls } from "./SystemCallsProvider";
+import { getLearnedSkillEntities } from "./utils/skill";
+import { getActiveCombat } from "./utils/combat";
 
 type WandererContextType = {
   selectedWandererEntity?: Hex;
@@ -36,19 +36,15 @@ export const WandererProvider = (props: { children: ReactNode }) => {
   const systemCalls = useSystemCalls();
 
   // current cycle
-  const activeCycle = useStashCustom((state) => {
-    if (!selectedWandererEntity) {
-      console.warn("No selected wanderer entity");
-      return undefined;
-    }
+  const cycleEntity = useStashCustom((state) => {
+    if (!selectedWandererEntity) return;
 
     return getRecordStrict({
       state,
       table: mudTables.cycle__ActiveCycle,
       key: { entity: selectedWandererEntity },
-    });
+    })?.cycleEntity;
   });
-  const cycleEntity = activeCycle?.cycleEntity;
 
   // // previous cycle
   // const cyclePrevious = useMemo(() => {

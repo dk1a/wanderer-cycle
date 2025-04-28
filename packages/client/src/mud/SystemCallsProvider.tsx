@@ -1,40 +1,58 @@
-/*
- * Create the system calls that the client can use to ask
- * for changes in the World state (using the System contracts).
- */
 import { Hex } from "viem";
-import { useMemo } from "react";
-import { useSync } from "@latticexyz/store-sync/react";
+import { createContext, ReactNode, useContext, useMemo } from "react";
 import { CombatAction } from "./utils/combat";
-import { useWorldContract } from "./useWorldContract";
+import { WorldContract } from "./useWorldContract";
+import { SyncResult } from "@latticexyz/store-sync";
 
-export type SystemCalls = ReturnType<typeof useSystemCalls>;
+type SystemCallsContextType = {
+  spawnWanderer: (guiseEntity: Hex) => Promise<void>;
+  permSkill: (wandererEntity: Hex, skillEntity: Hex) => Promise<void>;
+  cycle: {
+    startCycle: (
+      wandererEntity: Hex,
+      guiseEntity: Hex,
+      wheelEntity: Hex,
+    ) => Promise<void>;
+    cancelCycle: (guiseEntity: Hex) => Promise<void>;
+    claimTurns: (cycleEntity: Hex) => Promise<void>;
+    passTurn: (cycleEntity: Hex) => Promise<void>;
+    learnSkill: (cycleEntity: Hex, skillEntity: Hex) => Promise<void>;
+    activateCombat: (cycleEntity: Hex, mapEntity: Hex) => Promise<void>;
+    processCycleCombatRound: (
+      cycleEntity: Hex,
+      action: CombatAction[],
+    ) => Promise<void>;
+    claimCycleCombatReward: (
+      cycleEntity: Hex,
+      requestEntity: Hex,
+    ) => Promise<void>;
+    cancelCycleCombatReward: (
+      cycleEntity: Hex,
+      requestEntity: Hex,
+    ) => Promise<void>;
+    castNoncombatSkill: (cycleEntity: Hex, skillEntity: Hex) => Promise<void>;
+  };
+};
 
-export function useSystemCalls() {
-  const sync = useSync();
-  const worldContract = useWorldContract();
-  return useMemo(() => {
-    if (!sync.data || !worldContract) {
-      // TODO reconcile the expectation of systemCalls being always available
-      console.warn("systemCalls not available");
-      return {
-        spawnWanderer: async () => {},
-        permSkill: async () => {},
-        cycle: {
-          startCycle: async () => {},
-          cancelCycle: async () => {},
-          claimTurns: async () => {},
-          passTurn: async () => {},
-          learnSkill: async () => {},
-          activateCombat: async () => {},
-          processCycleCombatRound: async () => {},
-          claimCycleCombatReward: async () => {},
-          cancelCycleCombatReward: async () => {},
-          castNoncombatSkill: async () => {},
-        },
-      };
-    }
-    const waitForTransaction = sync.data.waitForTransaction;
+const SystemCallsContext = createContext<SystemCallsContextType | undefined>(
+  undefined,
+);
+
+export const SystemCallsProvider = ({
+  syncResult,
+  worldContract,
+  children,
+}: {
+  syncResult: SyncResult;
+  worldContract: WorldContract;
+  children: ReactNode;
+}) => {
+  const currentValue = useContext(SystemCallsContext);
+  if (currentValue)
+    throw new Error("SystemCallsProvider can only be used once");
+
+  const value = useMemo(() => {
+    const waitForTransaction = syncResult.waitForTransaction;
 
     return {
       spawnWanderer: async (guiseEntity: Hex) => {
@@ -130,5 +148,17 @@ export function useSystemCalls() {
         },
       },
     };
-  }, [sync.data, worldContract]);
-}
+  }, [syncResult, worldContract]);
+
+  return (
+    <SystemCallsContext.Provider value={value}>
+      {children}
+    </SystemCallsContext.Provider>
+  );
+};
+
+export const useSystemCalls = () => {
+  const value = useContext(SystemCallsContext);
+  if (!value) throw new Error("Must be used within a SystemCallsProvider");
+  return value;
+};

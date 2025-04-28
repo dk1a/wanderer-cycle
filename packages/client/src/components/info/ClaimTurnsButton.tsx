@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { useWandererContext } from "../../mud/WandererContext";
-import { useSystemCalls } from "../../mud/useSystemCalls";
+import { useWandererContext } from "../../mud/WandererProvider";
+import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { Button } from "../utils/Button/Button";
 
 export default function ClaimTurnsButton({

@@ -1,10 +1,10 @@
 import { useCallback } from "react";
-import { useWandererContext } from "../../mud/WandererContext";
+import { useWandererContext } from "../../mud/WandererProvider";
 import { useStashCustom } from "../../mud/stash";
 //import { EffectSource } from "../../mud/utils/getEffect";
 import { getCycleTurns } from "../../mud/utils/turns";
 import { MapData } from "../../mud/utils/getMap";
-import { useSystemCalls } from "../../mud/useSystemCalls";
+import { useSystemCalls } from "../../mud/SystemCallsProvider";
 //import Effect from "../Effect";
 import { Button } from "../utils/Button/Button";
 

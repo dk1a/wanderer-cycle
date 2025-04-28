@@ -1,11 +1,11 @@
 import { useCallback } from "react";
 import { useStashCustom } from "../../mud/stash";
-import { useWandererContext } from "../../mud/WandererContext";
+import { useWandererContext } from "../../mud/WandererProvider";
 import { getActiveGuise } from "../../mud/utils/guise";
 import { getCycleTurns } from "../../mud/utils/turns";
 import { MapData } from "../../mud/utils/getMap";
 import { getLevel } from "../../mud/utils/charstat";
-import { useSystemCalls } from "../../mud/useSystemCalls";
+import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { Button } from "../utils/Button/Button";
 
 export default function BasicMap({ data }: { data: MapData }) {

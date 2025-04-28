@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import BaseInfo from "./BaseInfo";
 import PassTurnButton from "./PassTurnButton";
 import ClaimTurnsButton from "./ClaimTurnsButton";
-import { useWandererContext } from "../../mud/WandererContext";
+import { useWandererContext } from "../../mud/WandererProvider";
 import { useStashCustom } from "../../mud/stash";
 import { getActiveGuise } from "../../mud/utils/guise";
 import {

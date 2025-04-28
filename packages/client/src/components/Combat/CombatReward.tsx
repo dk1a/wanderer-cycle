@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { Hex } from "viem";
 import { CycleCombatRewardRequest } from "../../mud/utils/combat";
-import { useSystemCalls } from "../../mud/useSystemCalls";
+import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { Button } from "../utils/Button/Button";
 
 const blockNumberLimit = 256;

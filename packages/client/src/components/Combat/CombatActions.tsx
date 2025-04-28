@@ -8,8 +8,8 @@ import {
   attackAction,
 } from "../../mud/utils/combat";
 import { getSkill, SkillType } from "../../mud/utils/skill";
-import { useSystemCalls } from "../../mud/useSystemCalls";
-import { useWandererContext } from "../../mud/WandererContext";
+import { useWandererContext } from "../../mud/WandererProvider";
+import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { UseSkillButton } from "../UseSkillButton";
 import { Button } from "../utils/Button/Button";
 
