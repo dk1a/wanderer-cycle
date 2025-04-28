@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import { useSync } from "@latticexyz/store-sync/react";
 import { useStashCustom } from "./mud/stash";
 import { getSyncStatus } from "./mud/getSyncStatus";
@@ -40,12 +44,16 @@ const router = createBrowserRouter([
     path: "/admin",
     children: adminRoutes,
   },
+  {
+    path: "*",
+    element: <Navigate to="/" />,
+  },
 ]);
 
 const navbarRouter = createBrowserRouter([
   { path: "/admin", element: <Navbar routes={adminRoutes} /> },
   {
-    path: "/",
+    path: "*",
     element: (
       <Navbar
         routes={[

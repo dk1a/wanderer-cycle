@@ -7,29 +7,32 @@ interface NavbarProps {
 
 export function Navbar({ routes }: NavbarProps) {
   return (
-    <nav className="relative bg-dark-400 border-dark-400 text-dark-300 p-2 flex items-center justify-center w-full">
-      <div className="flex items-center gap-2">
-        {routes.map((route) => {
-          if (route.element === undefined) {
-            return (
-              <a
-                key={route.path}
-                href={route.path}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span>{route.label}</span>
-              </a>
-            );
-          } else {
-            return (
-              <Link key={route.path} to={route.path}>
-                <span>{route.label}</span>
-              </Link>
-            );
-          }
-        })}
-      </div>
+    <nav className="relative bg-dark-400 text-dark-300 flex items-center justify-center border-y border-dark-300 w-full">
+      {routes.map((route) => {
+        if (route.element === undefined) {
+          return (
+            <a
+              className="min-w-6 px-2 py-1 -ml-px border-x border-dark-300 text-center"
+              key={route.path}
+              href={route.path}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>{route.label}</span>
+            </a>
+          );
+        } else {
+          return (
+            <Link
+              className="min-w-16 px-2 py-1 -ml-px border-x border-dark-300 text-center"
+              key={route.path}
+              to={route.path}
+            >
+              <span>{route.label}</span>
+            </Link>
+          );
+        }
+      })}
 
       {/* TODO mobile nav
       <div className="menu md:hidden">
@@ -49,7 +52,7 @@ export function Navbar({ routes }: NavbarProps) {
                   <a
                     href={route.path}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener"
                     className="menu-item"
                   >
                     {route.label}

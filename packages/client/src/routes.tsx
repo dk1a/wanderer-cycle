@@ -10,17 +10,17 @@ import { WandererSelect } from "./pages/game/WandererSelect";
 
 import { AffixPage } from "./pages/admin/AffixPage";
 
-export type ExternalRoute = {
+export interface ExternalRoute {
   label: string;
   path: string;
   element?: undefined;
-};
+}
 
-export type InternalRoute = {
+export interface InternalRoute {
   label: string;
   path: string;
   element: ReactNode;
-};
+}
 
 export const combatRoutes: InternalRoute[] = [
   {
@@ -66,11 +66,11 @@ export const rootRoutes: InternalRoute[] = [
 
 export const externalRoutes: ExternalRoute[] = [
   {
-    label: "github",
+    label: "gh",
     path: "https://github.com/dk1a/wanderer-cycle",
   },
   {
-    label: "discord",
+    label: "dc",
     path: "https://discord.gg/9pX3h53VnX",
   },
 ];
