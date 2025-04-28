@@ -1,9 +1,3 @@
-interface CombatResultPageProps {
-  className?: string;
+export function CombatResultPage() {
+  return <div></div>;
 }
-
-const CombatResultPage = ({ className }: CombatResultPageProps) => {
-  return <div className={className}></div>;
-};
-
-export default CombatResultPage;

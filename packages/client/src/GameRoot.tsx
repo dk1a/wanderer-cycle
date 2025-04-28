@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import { useWandererContext } from "./mud/WandererProvider";
-import CycleInfo from "./components/info/CycleInfo";
-import CombatInfo from "./components/info/CombatInfo";
+import { CycleInfo } from "./components/info/CycleInfo";
+import { CombatInfo } from "./components/info/CombatInfo";
 // import { CombatResultPage } from "./pages/CombatResultPage";
 // import { CombatResult } from "./mud/hooks/combat";
 // import { WandererInfo } from "./components/info/WandererInfo";
-import WandererSelect from "./pages/game/WandererSelect";
-import CombatPage from "./pages/game/CombatPage";
+import { WandererSelect } from "./pages/game/WandererSelect"; // Adjusted to named export
+import { CombatPage } from "./pages/game/CombatPage";
 
 export function GameRoot({ children }: { children: ReactNode }) {
   const {

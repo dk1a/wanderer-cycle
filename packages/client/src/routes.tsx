@@ -2,13 +2,13 @@ import { JSX } from "react";
 
 import { SyncPage } from "./mud/SyncPage";
 
-import CyclePage from "./pages/game/CyclePage";
-import InventoryPage from "./pages/game/InventoryPage";
-import GlobalMapsPage from "./pages/game/GlobalMapsPage";
-import SkillPage from "./pages/game/SkillPage";
-import WandererSelect from "./pages/game/WandererSelect";
+import { CyclePage } from "./pages/game/CyclePage";
+import { InventoryPage } from "./pages/game/InventoryPage";
+import { GlobalMapsPage } from "./pages/game/GlobalMapsPage";
+import { SkillPage } from "./pages/game/SkillPage";
+import { WandererSelect } from "./pages/game/WandererSelect";
 
-import AffixPage from "./pages/admin/AffixPage";
+import { AffixPage } from "./pages/admin/AffixPage";
 import { GameRoot } from "./GameRoot";
 
 export interface AppRoute {

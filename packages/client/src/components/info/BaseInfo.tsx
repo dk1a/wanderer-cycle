@@ -43,7 +43,7 @@ function MobileInfoBlock({ label, children, className }: MobileInfoBlockProps) {
   );
 }
 
-export default function BaseInfo({
+export function BaseInfo({
   entity,
   name,
   locationName,

@@ -13,7 +13,7 @@ type SkillProps = {
   onHeaderClick?: () => void;
 };
 
-export default function Skill({
+export function Skill({
   skill,
   className,
   isCollapsed = false,

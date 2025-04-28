@@ -8,7 +8,7 @@ import { getLevel } from "../../mud/utils/charstat";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { Button } from "../utils/Button/Button";
 
-export default function BasicMap({ data }: { data: MapData }) {
+export function BasicMap({ data }: { data: MapData }) {
   const systemCalls = useSystemCalls();
   const { cycleEntity } = useWandererContext();
 

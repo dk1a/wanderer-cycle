@@ -6,7 +6,7 @@ interface NavbarProps {
   className?: string;
 }
 
-export const Navbar = ({ routes, className }: NavbarProps) => {
+export function Navbar({ routes, className }: NavbarProps) {
   return (
     <nav
       className={`relative bg-dark-400 border-dark-400 text-dark-300 p-2 flex items-center justify-start md:justify-center w-full ${className}`}
@@ -68,4 +68,4 @@ export const Navbar = ({ routes, className }: NavbarProps) => {
       </div>
     </nav>
   );
-};
+}

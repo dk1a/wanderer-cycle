@@ -13,7 +13,7 @@ import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { UseSkillButton } from "../UseSkillButton";
 import { Button } from "../utils/Button/Button";
 
-export default function CombatActions() {
+export function CombatActions() {
   const systemCalls = useSystemCalls();
   const { cycleEntity, learnedSkillEntities } = useWandererContext();
   const [isBusy, setIsBusy] = useState(false);

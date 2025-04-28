@@ -7,7 +7,7 @@ import {
 import { mudTables, useStashCustom } from "../../mud/stash";
 import { getRecords } from "@latticexyz/stash/internal";
 
-const AffixPage = () => {
+export const AffixPage = () => {
   const affixPrototypes = useStashCustom((state) => {
     return Object.values(
       getRecords({
@@ -75,5 +75,3 @@ const AffixPage = () => {
     </section>
   );
 };
-
-export default AffixPage;

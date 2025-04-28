@@ -3,7 +3,7 @@ import { useWandererContext } from "../../mud/WandererProvider";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { Button } from "../utils/Button/Button";
 
-export default function ClaimTurnsButton({
+export function ClaimTurnsButton({
   claimableTurns,
 }: {
   claimableTurns: number;

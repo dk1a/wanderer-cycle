@@ -8,7 +8,7 @@ import { useSystemCalls } from "../../mud/SystemCallsProvider";
 //import Effect from "../Effect";
 import { Button } from "../utils/Button/Button";
 
-export default function Map({ data }: { data: MapData }) {
+export function Map({ data }: { data: MapData }) {
   const systemCalls = useSystemCalls();
   const { cycleEntity } = useWandererContext();
 

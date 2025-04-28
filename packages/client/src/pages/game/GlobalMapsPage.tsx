@@ -5,10 +5,10 @@ import { useWandererContext } from "../../mud/WandererProvider";
 import { getBossesDefeated } from "../../mud/utils/getBossesDefeated";
 import { getMaps, MapTypes } from "../../mud/utils/getMap";
 import { getLifeCurrent } from "../../mud/utils/currents";
-import BasicMap from "../../components/Map/BasicMap";
-import Map from "../../components/Map";
+import { BasicMap } from "../../components/Map/BasicMap";
+import { Map } from "../../components/Map";
 
-const GlobalMapsPage = () => {
+export const GlobalMapsPage = () => {
   const { cycleEntity } = useWandererContext();
 
   const basicMaps = useStashCustom((state) =>
@@ -69,5 +69,3 @@ const GlobalMapsPage = () => {
     </div>
   );
 };
-
-export default GlobalMapsPage;

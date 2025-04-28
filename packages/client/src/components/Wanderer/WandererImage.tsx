@@ -16,7 +16,7 @@ const wandererNamespaceId = resourceToHex({
   name: "",
 });
 
-export default function WandererImage({ entity }: { readonly entity: Hex }) {
+export function WandererImage({ entity }: { readonly entity: Hex }) {
   const publicClient = usePublicClient();
   const [img, setImg] = useState("");
 

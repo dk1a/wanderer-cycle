@@ -1,5 +1,5 @@
-import Wanderer from "../../components/Wanderer";
-import WandererSpawn from "../../components/WandererSpawn";
+import { Wanderer } from "../../components/Wanderer";
+import { WandererSpawn } from "../../components/WandererSpawn";
 import { useStashCustom } from "../../mud/stash";
 import { getWandererEntities } from "../../mud/utils/wanderer";
 
@@ -7,7 +7,7 @@ interface WandererSelectProps {
   className?: string;
 }
 
-function WandererSelect({ className }: WandererSelectProps) {
+export const WandererSelect = ({ className }: WandererSelectProps) => {
   const wandererEntities = useStashCustom((state) =>
     getWandererEntities(state),
   );
@@ -43,6 +43,4 @@ function WandererSelect({ className }: WandererSelectProps) {
       </section>
     </div>
   );
-}
-
-export default WandererSelect;
+};

@@ -5,7 +5,7 @@ import { getCycleTurns } from "../../mud/utils/turns";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { Button } from "../utils/Button/Button";
 
-export default function PassTurnButton() {
+export function PassTurnButton() {
   const systemCalls = useSystemCalls();
   const { cycleEntity, enemyEntity } = useWandererContext();
 

@@ -1,10 +1,10 @@
 import { useWandererContext } from "../../mud/WandererProvider";
 import { useStashCustom } from "../../mud/stash";
 import { getActiveGuise } from "../../mud/utils/guise";
-import SkillLearnable from "./SkillLearnable";
+import { SkillLearnable } from "./SkillLearnable";
 import { useMemo } from "react";
 
-export default function SkillList() {
+export function SkillList() {
   const { cycleEntity } = useWandererContext();
   const guise = useStashCustom((state) => getActiveGuise(state, cycleEntity));
 

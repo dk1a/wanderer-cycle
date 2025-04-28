@@ -7,10 +7,10 @@ import { getActiveGuise } from "../../mud/utils/guise";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { useWandererContext } from "../../mud/WandererProvider";
 import { Button } from "../utils/Button/Button";
-import Skill from "../Guise/Skill";
+import { Skill } from "../Guise/Skill";
 import { UseSkillButton } from "../UseSkillButton";
 
-export default function SkillLearnable({
+export function SkillLearnable({
   entity,
   withButtons,
 }: {

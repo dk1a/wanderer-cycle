@@ -1,13 +1,13 @@
 import { Hex } from "viem";
 import { useWandererContext } from "../../mud/WandererProvider";
 import { Button } from "../utils/Button/Button";
-import WandererImage from "./WandererImage";
+import { WandererImage } from "./WandererImage";
 
 interface WandererProps {
   readonly wandererEntity: Hex;
 }
 
-export default function Wanderer({ wandererEntity }: WandererProps) {
+export function Wanderer({ wandererEntity }: WandererProps) {
   const { selectedWandererEntity, selectWandererEntity } = useWandererContext();
 
   return (

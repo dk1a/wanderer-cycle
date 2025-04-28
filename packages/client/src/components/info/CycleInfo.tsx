@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import BaseInfo from "./BaseInfo";
-import PassTurnButton from "./PassTurnButton";
-import ClaimTurnsButton from "./ClaimTurnsButton";
+import { BaseInfo } from "./BaseInfo";
+import { PassTurnButton } from "./PassTurnButton";
+import { ClaimTurnsButton } from "./ClaimTurnsButton";
 import { useWandererContext } from "../../mud/WandererProvider";
 import { useStashCustom } from "../../mud/stash";
 import { getActiveGuise } from "../../mud/utils/guise";
@@ -12,7 +12,7 @@ import {
 } from "../../mud/utils/turns";
 import { getLevel } from "../../mud/utils/charstat";
 
-export default function CycleInfo() {
+export function CycleInfo() {
   const { cycleEntity } = useWandererContext();
   const guise = useStashCustom((state) => getActiveGuise(state, cycleEntity));
   const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
