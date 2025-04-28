@@ -1,7 +1,3 @@
-interface CyclePageProps {
-  className?: string;
+export function CyclePage() {
+  return <div></div>;
 }
-
-export const CyclePage = ({ className }: CyclePageProps) => {
-  return <div className={className}></div>;
-};

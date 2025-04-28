@@ -8,13 +8,13 @@ export interface Elemental {
   [ELE_STAT.POISON]: number;
 }
 
-export const parseElemental = (
+export function parseElemental(
   none: number,
   physical: number,
   fire: number,
   cold: number,
   poison: number,
-): Elemental => {
+): Elemental {
   return {
     [ELE_STAT.NONE]: none,
     [ELE_STAT.PHYSICAL]: physical,
@@ -22,9 +22,9 @@ export const parseElemental = (
     [ELE_STAT.COLD]: cold,
     [ELE_STAT.POISON]: poison,
   };
-};
+}
 
-export const parseElementalArray = (array: readonly number[]): Elemental => {
+export function parseElementalArray(array: readonly number[]): Elemental {
   return {
     [ELE_STAT.NONE]: array[ELE_STAT.NONE],
     [ELE_STAT.PHYSICAL]: array[ELE_STAT.PHYSICAL],
@@ -32,7 +32,7 @@ export const parseElementalArray = (array: readonly number[]): Elemental => {
     [ELE_STAT.COLD]: array[ELE_STAT.COLD],
     [ELE_STAT.POISON]: array[ELE_STAT.POISON],
   };
-};
+}
 
 export const eleStatNames = {
   [ELE_STAT.NONE]: "none",

@@ -1,5 +1,5 @@
 import { SkillList } from "../../components/SkillList";
 
-export const SkillPage = () => {
+export function SkillPage() {
   return <SkillList />;
-};
+}

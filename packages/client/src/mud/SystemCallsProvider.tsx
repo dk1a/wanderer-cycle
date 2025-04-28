@@ -38,7 +38,7 @@ const SystemCallsContext = createContext<SystemCallsContextType | undefined>(
   undefined,
 );
 
-export const SystemCallsProvider = ({
+export function SystemCallsProvider({
   syncResult,
   worldContract,
   children,
@@ -46,7 +46,7 @@ export const SystemCallsProvider = ({
   syncResult: SyncResult;
   worldContract: WorldContract;
   children: ReactNode;
-}) => {
+}) {
   const currentValue = useContext(SystemCallsContext);
   if (currentValue)
     throw new Error("SystemCallsProvider can only be used once");
@@ -155,10 +155,10 @@ export const SystemCallsProvider = ({
       {children}
     </SystemCallsContext.Provider>
   );
-};
+}
 
-export const useSystemCalls = () => {
+export function useSystemCalls() {
   const value = useContext(SystemCallsContext);
   if (!value) throw new Error("Must be used within a SystemCallsProvider");
   return value;
-};
+}

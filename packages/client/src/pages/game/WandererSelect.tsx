@@ -3,17 +3,13 @@ import { WandererSpawn } from "../../components/WandererSpawn";
 import { useStashCustom } from "../../mud/stash";
 import { getWandererEntities } from "../../mud/utils/wanderer";
 
-interface WandererSelectProps {
-  className?: string;
-}
-
-export const WandererSelect = ({ className }: WandererSelectProps) => {
+export function WandererSelect() {
   const wandererEntities = useStashCustom((state) =>
     getWandererEntities(state),
   );
 
   return (
-    <div className={className + " w-full h-full"}>
+    <div className="w-full h-full">
       <section className={"flex items-center justify-center"}>
         <div className="flex justify-around md:flex-row flex-col">
           {wandererEntities.length > 0 && (
@@ -43,4 +39,4 @@ export const WandererSelect = ({ className }: WandererSelectProps) => {
       </section>
     </div>
   );
-};
+}

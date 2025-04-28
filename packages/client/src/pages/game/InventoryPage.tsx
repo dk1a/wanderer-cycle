@@ -1,7 +1,3 @@
-interface InventoryPageProps {
-  className?: string;
+export function InventoryPage() {
+  return <div></div>;
 }
-
-export const InventoryPage = ({ className }: InventoryPageProps) => {
-  return <div className={className}></div>;
-};

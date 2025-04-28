@@ -28,7 +28,7 @@ const WandererContext = createContext<WandererContextType | undefined>(
   undefined,
 );
 
-export const WandererProvider = (props: { children: ReactNode }) => {
+export function WandererProvider(props: { children: ReactNode }) {
   const currentValue = useContext(WandererContext);
   if (currentValue) throw new Error("WandererProvider can only be used once");
 
@@ -98,10 +98,10 @@ export const WandererProvider = (props: { children: ReactNode }) => {
       {props.children}
     </WandererContext.Provider>
   );
-};
+}
 
-export const useWandererContext = () => {
+export function useWandererContext() {
   const value = useContext(WandererContext);
   if (!value) throw new Error("Must be used within a WandererProvider");
   return value;
-};
+}

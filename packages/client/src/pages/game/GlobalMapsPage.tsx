@@ -8,7 +8,7 @@ import { getLifeCurrent } from "../../mud/utils/currents";
 import { BasicMap } from "../../components/Map/BasicMap";
 import { Map } from "../../components/Map";
 
-export const GlobalMapsPage = () => {
+export function GlobalMapsPage() {
   const { cycleEntity } = useWandererContext();
 
   const basicMaps = useStashCustom((state) =>
@@ -68,4 +68,4 @@ export const GlobalMapsPage = () => {
       </div>
     </div>
   );
-};
+}
