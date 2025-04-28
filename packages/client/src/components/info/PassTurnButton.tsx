@@ -3,7 +3,7 @@ import { useWandererContext } from "../../mud/WandererProvider";
 import { useStashCustom } from "../../mud/stash";
 import { getCycleTurns } from "../../mud/utils/turns";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
-import { Button } from "../utils/Button/Button";
+import { Button } from "../ui/Button";
 
 export function PassTurnButton() {
   const systemCalls = useSystemCalls();

@@ -1,10 +1,10 @@
 import { CSSProperties } from "react";
 import { Hex } from "viem";
-import { useStashCustom } from "../mud/stash";
-import { getSkill } from "../mud/utils/skill";
-import { getManaCurrent } from "../mud/utils/currents";
-import { formatZeroTerminatedString } from "../mud/utils/format";
-import { Button } from "./utils/Button/Button";
+import { useStashCustom } from "../../mud/stash";
+import { getSkill } from "../../mud/utils/skill";
+import { getManaCurrent } from "../../mud/utils/currents";
+import { formatZeroTerminatedString } from "../../mud/utils/format";
+import { Button } from "../ui/Button";
 
 type UseSkillButtonData = {
   entity: Hex;

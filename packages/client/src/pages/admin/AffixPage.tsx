@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Table } from "../../components/utils/Table/Table";
+import { Table } from "../../components/ui/Table/Table";
 import {
   formatEntity,
   formatZeroTerminatedString,

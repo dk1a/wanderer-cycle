@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useWandererContext } from "../../mud/WandererProvider";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
-import { Button } from "../utils/Button/Button";
+import { Button } from "../ui/Button";
 
 export function ClaimTurnsButton({
   claimableTurns,

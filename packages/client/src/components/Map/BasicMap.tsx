@@ -6,7 +6,7 @@ import { getCycleTurns } from "../../mud/utils/turns";
 import { MapData } from "../../mud/utils/getMap";
 import { getLevel } from "../../mud/utils/charstat";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
-import { Button } from "../utils/Button/Button";
+import { Button } from "../ui/Button";
 
 export function BasicMap({ data }: { data: MapData }) {
   const systemCalls = useSystemCalls();

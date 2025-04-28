@@ -1,6 +1,6 @@
 import { Hex } from "viem";
 import { useWandererContext } from "../../mud/WandererProvider";
-import { Button } from "../utils/Button/Button";
+import { Button } from "../ui/Button";
 import { WandererImage } from "./WandererImage";
 
 interface WandererProps {

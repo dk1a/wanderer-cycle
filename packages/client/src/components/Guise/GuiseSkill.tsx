@@ -1,6 +1,6 @@
 import { Tooltip } from "react-tooltip";
 import { Hex } from "viem";
-import { Skill } from "./Skill";
+import { Skill } from "../skill/Skill";
 import { useStashCustom } from "../../mud/stash";
 import { getSkill } from "../../mud/utils/skill";
 
@@ -11,7 +11,7 @@ interface GuiseSkillProps {
 
 export function GuiseSkill({ className, entity }: GuiseSkillProps) {
   const skill = useStashCustom((state) => getSkill(state, entity));
-  const uniqueId = `skill-${entity}`;
+  const uniqueId = `guise-skill-${entity}`;
 
   return (
     <div

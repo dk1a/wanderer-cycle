@@ -10,8 +10,8 @@ import {
 import { getSkill, SkillType } from "../../mud/utils/skill";
 import { useWandererContext } from "../../mud/WandererProvider";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
-import { UseSkillButton } from "../UseSkillButton";
-import { Button } from "../utils/Button/Button";
+import { UseSkillButton } from "../skill/UseSkillButton";
+import { Button } from "../ui/Button";
 
 export function CombatActions() {
   const systemCalls = useSystemCalls();

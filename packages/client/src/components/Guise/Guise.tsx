@@ -4,7 +4,7 @@ import { getEnumValues, PSTAT } from "contracts/enums";
 import { GuiseData } from "../../mud/utils/guise";
 import { pstatNames } from "../../mud/utils/experience";
 import { GuiseSkill } from "./GuiseSkill";
-import { Button } from "../utils/Button/Button";
+import { Button } from "../ui/Button";
 
 interface GuiseProps {
   guise: GuiseData;

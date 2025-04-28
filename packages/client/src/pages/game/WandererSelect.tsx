@@ -1,5 +1,5 @@
-import { Wanderer } from "../../components/Wanderer";
-import { WandererSpawn } from "../../components/WandererSpawn";
+import { Wanderer } from "../../components/wanderer/Wanderer";
+import { WandererSpawn } from "../../components/wanderer/WandererSpawn";
 import { useStashCustom } from "../../mud/stash";
 import { getWandererEntities } from "../../mud/utils/wanderer";
 

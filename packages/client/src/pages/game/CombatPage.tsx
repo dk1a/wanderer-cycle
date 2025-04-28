@@ -1,4 +1,4 @@
-import { Combat } from "../../components/Combat/Combat";
+import { Combat } from "../../components/combat/Combat";
 
 export function CombatPage() {
   return <Combat />;

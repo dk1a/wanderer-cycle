@@ -3,7 +3,7 @@ import { Hex } from "viem";
 import { useStashCustom } from "../../mud/stash";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { getGuises } from "../../mud/utils/guise";
-import { Guise } from "../Guise/Guise";
+import { Guise } from "../guise/Guise";
 
 export function WandererSpawn({ disabled }: { disabled: boolean }) {
   const systemCalls = useSystemCalls();

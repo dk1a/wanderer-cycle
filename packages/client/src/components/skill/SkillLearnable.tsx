@@ -6,9 +6,9 @@ import { getLevel } from "../../mud/utils/charstat";
 import { getActiveGuise } from "../../mud/utils/guise";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { useWandererContext } from "../../mud/WandererProvider";
-import { Button } from "../utils/Button/Button";
-import { Skill } from "../Guise/Skill";
-import { UseSkillButton } from "../UseSkillButton";
+import { Button } from "../ui/Button";
+import { Skill } from "./Skill";
+import { UseSkillButton } from "./UseSkillButton";
 
 export function SkillLearnable({
   entity,

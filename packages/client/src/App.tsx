@@ -12,7 +12,7 @@ import { WandererProvider } from "./mud/WandererProvider";
 import { useWorldContract } from "./mud/useWorldContract";
 import { SystemCallsProvider } from "./mud/SystemCallsProvider";
 import { adminRoutes, AppRoute, gameRoutes } from "./routes";
-import { Navbar } from "./components/Navbar/Navbar";
+import { Navbar } from "./components/ui/Navbar";
 import { SyncPage } from "./mud/SyncPage";
 
 export function App() {

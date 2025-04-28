@@ -1,5 +1,5 @@
+import { Link } from "react-router-dom";
 import { AppRoute } from "../../routes";
-import { AppLink } from "../utils/AppLink/AppLink";
 
 interface NavbarProps {
   routes: AppRoute[];
@@ -26,9 +26,9 @@ export function Navbar({ routes, className }: NavbarProps) {
             );
           } else {
             return (
-              <AppLink key={route.path} to={route.path}>
+              <Link key={route.path} to={route.path}>
                 <span>{route.label}</span>
-              </AppLink>
+              </Link>
             );
           }
         })}
@@ -57,9 +57,9 @@ export function Navbar({ routes, className }: NavbarProps) {
                     {route.label}
                   </a>
                 ) : (
-                  <AppLink to={route.path} className="menu-item">
+                  <Link to={route.path} className="menu-item">
                     {route.label}
-                  </AppLink>
+                  </Link>
                 )}
               </li>
             );
