@@ -1,19 +1,16 @@
 import { Link } from "react-router-dom";
-import { AppRoute } from "../../routes";
+import { ExternalRoute, InternalRoute } from "../../routes";
 
 interface NavbarProps {
-  routes: AppRoute[];
-  className?: string;
+  routes: (ExternalRoute | InternalRoute)[];
 }
 
-export function Navbar({ routes, className }: NavbarProps) {
+export function Navbar({ routes }: NavbarProps) {
   return (
-    <nav
-      className={`relative bg-dark-400 border-dark-400 text-dark-300 p-2 flex items-center justify-start md:justify-center w-full ${className}`}
-    >
-      <div className="hidden md:flex md:items-center gap-2">
+    <nav className="relative bg-dark-400 border-dark-400 text-dark-300 p-2 flex items-center justify-center w-full">
+      <div className="flex items-center gap-2">
         {routes.map((route) => {
-          if (route.external) {
+          if (route.element === undefined) {
             return (
               <a
                 key={route.path}
@@ -34,6 +31,7 @@ export function Navbar({ routes, className }: NavbarProps) {
         })}
       </div>
 
+      {/* TODO mobile nav
       <div className="menu md:hidden">
         <input
           type="checkbox"
@@ -65,7 +63,7 @@ export function Navbar({ routes, className }: NavbarProps) {
             );
           })}
         </ul>
-      </div>
+      </div>*/}
     </nav>
   );
 }

@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { SyncPage } from "./mud/SyncPage";
 
@@ -9,77 +9,73 @@ import { SkillPage } from "./pages/game/SkillPage";
 import { WandererSelect } from "./pages/game/WandererSelect";
 
 import { AffixPage } from "./pages/admin/AffixPage";
-import { GameRoot } from "./GameRoot";
 
-export interface AppRoute {
+export type ExternalRoute = {
   label: string;
   path: string;
-  element: JSX.Element | null;
-  external?: boolean;
-}
+  element?: undefined;
+};
 
-export const gameRoutes: AppRoute[] = [
+export type InternalRoute = {
+  label: string;
+  path: string;
+  element: ReactNode;
+};
+
+export const combatRoutes: InternalRoute[] = [
   {
     label: "maps",
     path: "/",
-    element: (
-      <GameRoot>
-        <GlobalMapsPage />
-      </GameRoot>
-    ),
+    element: <GlobalMapsPage />,
   },
+];
+
+export const cycleRoutes: InternalRoute[] = [
   {
     label: "inventory",
     path: "/inventory",
-    element: (
-      <GameRoot>
-        <InventoryPage />
-      </GameRoot>
-    ),
+    element: <InventoryPage />,
   },
   {
     label: "skills",
     path: "/skills",
-    element: (
-      <GameRoot>
-        <SkillPage />
-      </GameRoot>
-    ),
+    element: <SkillPage />,
   },
   {
     label: "cycle",
     path: "/cycle",
-    element: (
-      <GameRoot>
-        <CyclePage />
-      </GameRoot>
-    ),
+    element: <CyclePage />,
   },
+];
+
+export const wandererRoutes: InternalRoute[] = [
   {
-    label: "wanderer-select",
+    label: "w-select",
     path: "/wanderer-select",
     element: <WandererSelect />,
   },
+];
+
+export const rootRoutes: InternalRoute[] = [
   {
     label: "sync",
     path: "/sync",
     element: <SyncPage />,
   },
+];
+
+export const externalRoutes: ExternalRoute[] = [
   {
     label: "github",
     path: "https://github.com/dk1a/wanderer-cycle",
-    element: null,
-    external: true,
   },
   {
     label: "discord",
     path: "https://discord.gg/9pX3h53VnX",
-    element: null,
-    external: true,
   },
 ];
 
-export const adminRoutes: AppRoute[] = [
+export const adminRoutes: InternalRoute[] = [
   {
     label: "affixes",
     path: "/admin/affixes",

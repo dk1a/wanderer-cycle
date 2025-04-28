@@ -1,18 +1,16 @@
-import { useWandererContext } from "../../mud/WandererProvider";
+import { Hex } from "viem";
 import { useStashCustom } from "../../mud/stash";
 import { getLevel } from "../../mud/utils/charstat";
 import { BaseInfo } from "./BaseInfo";
 
-export function CombatInfo() {
-  const { enemyEntity } = useWandererContext();
-
+export function EnemyInfo({ entity }: { entity: Hex }) {
   const levelData = useStashCustom((state) =>
-    getLevel(state, enemyEntity, undefined),
+    getLevel(state, entity, undefined),
   );
 
   return (
     <BaseInfo
-      entity={enemyEntity}
+      entity={entity}
       name={"Enemy"}
       levelData={levelData}
       locationName={null}
