@@ -87,6 +87,18 @@ export function SystemCallsProvider({
           ]);
           await waitForTransaction(tx);
         },
+        completeCycle: async (cycleEntity: Hex) => {
+          const tx = await worldContract.write.cycle__completeCycle([
+            cycleEntity,
+          ]);
+          await waitForTransaction(tx);
+        },
+        adminCompleteCycle: async (cycleEntity: Hex) => {
+          const tx = await worldContract.write.cycle__adminCompleteCycle([
+            cycleEntity,
+          ]);
+          await waitForTransaction(tx);
+        },
         claimTurns: async (cycleEntity: Hex) => {
           const tx = await worldContract.write.cycle__claimTurns([cycleEntity]);
           await waitForTransaction(tx);
