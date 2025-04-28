@@ -8,6 +8,7 @@ import { resourceToHex } from "@latticexyz/common";
 import ERC721SystemAbi from "contracts/out/ERC721System.sol/ERC721System.abi.json";
 
 import { mudTables, useStashCustom } from "../../mud/stash";
+import { chainId } from "../../common";
 
 // TODO contracts don't export ERC721Namespaces, which are solidity-only
 const wandererNamespaceId = resourceToHex({
@@ -17,7 +18,7 @@ const wandererNamespaceId = resourceToHex({
 });
 
 export function WandererImage({ entity }: { readonly entity: Hex }) {
-  const publicClient = usePublicClient();
+  const publicClient = usePublicClient({ chainId });
   const [img, setImg] = useState("");
 
   const registry = useStashCustom((state) =>
