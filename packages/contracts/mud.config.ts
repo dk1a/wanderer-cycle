@@ -41,6 +41,15 @@ const durationTable = {
   },
 } as const;
 
+const durationTemplateTable = {
+  key: ["entity"],
+  schema: {
+    entity: EntityId,
+    timeId: "bytes32",
+    timeValue: "uint256",
+  },
+} as const;
+
 const nameTable = {
   key: ["entity"],
   schema: {
@@ -303,22 +312,8 @@ export default defineWorld({
             value: "uint32[5]",
           },
         },
-        SkillTemplateCooldown: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            timeId: "bytes32",
-            timeValue: "uint256",
-          },
-        },
-        SkillTemplateDuration: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            timeId: "bytes32",
-            timeValue: "uint256",
-          },
-        },
+        SkillTemplateCooldown: durationTemplateTable,
+        SkillTemplateDuration: durationTemplateTable,
         SkillName: nameTable,
         SkillDescription: {
           ...entityKey,

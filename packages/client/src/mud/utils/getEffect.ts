@@ -1,22 +1,24 @@
 import { Hex } from "viem";
-import { getRecord } from "@latticexyz/stash/internal";
+import { getRecord, getRecords } from "@latticexyz/stash/internal";
 import { getRecordStrict, mudTables, StateLocal } from "../stash";
+import { getDurationRecord, ParsedDuration } from "./duration";
 
-export interface EffectStatmod {
+export interface EffectStatmodData {
   statmodEntity: Hex;
   value: number;
 }
 
-export interface EffectTemplate {
+export interface EffectTemplateData {
   entity: Hex;
-  statmods: EffectStatmod[];
+  statmods: EffectStatmodData[];
 }
 
-export interface EffectApplied {
+export interface EffectAppliedData {
   targetEntity: Hex;
   applicationEntity: Hex;
-  statmods: EffectStatmod[];
+  statmods: EffectStatmodData[];
   effectSource: EffectSource;
+  duration: ParsedDuration | undefined;
 }
 
 export enum EffectSource {
@@ -26,12 +28,16 @@ export enum EffectSource {
   MAP,
 }
 
-export function getEffectTemplate(state: StateLocal, entity: Hex) {
-  const effect = getRecordStrict({
+export function getEffectTemplate(
+  state: StateLocal,
+  entity: Hex,
+): EffectTemplateData | undefined {
+  const effect = getRecord({
     state,
     table: mudTables.effect__EffectTemplate,
     key: { entity },
   });
+  if (effect === undefined) return;
   const statmods = parseEffectStatmods(effect.statmodEntities, effect.values);
 
   return {
@@ -40,11 +46,26 @@ export function getEffectTemplate(state: StateLocal, entity: Hex) {
   };
 }
 
+export function getEffectsApplied(
+  state: StateLocal,
+  targetEntity: Hex,
+): EffectAppliedData[] {
+  const effects = getRecords({
+    state,
+    table: mudTables.effect__EffectApplied,
+  });
+  return Object.values(effects)
+    .filter((effect) => effect.targetEntity === targetEntity)
+    .map((effect) =>
+      getEffectApplied(state, targetEntity, effect.applicationEntity),
+    );
+}
+
 export function getEffectApplied(
   state: StateLocal,
   targetEntity: Hex,
   applicationEntity: Hex,
-) {
+): EffectAppliedData {
   const effect = getRecordStrict({
     state,
     table: mudTables.effect__EffectApplied,
@@ -54,25 +75,32 @@ export function getEffectApplied(
 
   const effectSource = getEffectSource(state, applicationEntity);
 
+  const duration = getDurationRecord({
+    state,
+    table: mudTables.effect__EffectDuration,
+    key: { targetEntity, applicationEntity },
+  });
+
   return {
     targetEntity,
     applicationEntity,
     statmods,
     effectSource,
+    duration,
   };
 }
 
 function parseEffectStatmods(
   statmodEntities: readonly Hex[],
   values: readonly number[],
-): EffectStatmod[] {
+): EffectStatmodData[] {
   if (statmodEntities.length !== values.length) {
     throw new Error(
       `Length mismatch for statmodEntities and values: ${statmodEntities.length} ${values.length}`,
     );
   }
 
-  const effectStatmods: EffectStatmod[] = [];
+  const effectStatmods: EffectStatmodData[] = [];
   for (let i = 0; i < statmodEntities.length; i++) {
     effectStatmods.push({
       statmodEntity: statmodEntities[i],

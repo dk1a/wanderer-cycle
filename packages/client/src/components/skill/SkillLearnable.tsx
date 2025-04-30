@@ -18,7 +18,7 @@ export function SkillLearnable({
   withButtons: boolean;
 }) {
   const systemCalls = useSystemCalls();
-  const { learnCycleSkill, learnedSkillEntities, cycleEntity } =
+  const { learnCycleSkill, learnedSkillEntities, cycleEntity, enemyEntity } =
     useWandererContext();
   const skill = useStashCustom((state) => getSkill(state, entity));
 
@@ -30,7 +30,7 @@ export function SkillLearnable({
   const onSkill = useCallback(async () => {
     if (!cycleEntity) throw new Error("Cycle must be active");
     await systemCalls.cycle.castNoncombatSkill(cycleEntity, skill.entity);
-  }, [cycleEntity, skill]);
+  }, [cycleEntity, skill, systemCalls]);
 
   const isLearned = useMemo(
     () => learnedSkillEntities.includes(entity),
@@ -39,20 +39,13 @@ export function SkillLearnable({
 
   const [visible, setVisible] = useState(!isLearned);
 
-  const onHeaderClick = useCallback(() => {
-    // only expand collapsed data
-    if (!visible) {
-      setVisible(true);
-    }
-  }, [visible]);
-
   return (
-    <div className="p-0 flex mb-8 items-center">
+    <div className="flex mb-8 items-center">
       <Skill
         skill={skill}
         className={`bg-dark-500 border border-dark-400 p-2 w-[400px]`}
         isCollapsed={!visible}
-        onHeaderClick={onHeaderClick}
+        onHeaderClick={() => setVisible((value) => !value)}
       />
       {withButtons && (
         <div className="h-1/2 ml-10">
@@ -64,9 +57,16 @@ export function SkillLearnable({
               learn
             </Button>
           )}
-          {isLearned && skill.skillType === SkillType.NONCOMBAT && (
-            <UseSkillButton entity={entity} onSkill={onSkill} />
-          )}
+          {isLearned &&
+            cycleEntity &&
+            skill.skillType === SkillType.NONCOMBAT && (
+              <UseSkillButton
+                userEntity={cycleEntity}
+                skillEntity={entity}
+                onSkill={onSkill}
+                disabled={enemyEntity !== undefined}
+              />
+            )}
         </div>
       )}
     </div>

@@ -98,8 +98,10 @@ export function CombatActions() {
             {selectedSkill && (
               <div className="w-full mt-4">
                 <UseSkillButton
-                  entity={selectedSkill.value}
+                  userEntity={cycleEntity}
+                  skillEntity={selectedSkill.value}
                   onSkill={onSkill}
+                  disabled={isBusy}
                 />
               </div>
             )}

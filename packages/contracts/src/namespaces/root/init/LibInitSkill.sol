@@ -218,9 +218,9 @@ library LibInitSkill {
         targetType: TargetType.SELF
       }),
       // cooldown
-      GenericDurationData("turn", 1),
-      // duration
       GenericDurationData("turn", 16),
+      // duration
+      GenericDurationData("turn", 1),
       // effect
       makeEffectTemplate(
         StatmodTopics.RESISTANCE,
@@ -249,9 +249,9 @@ library LibInitSkill {
         targetType: TargetType.SELF
       }),
       // cooldown
-      GenericDurationData("round", 4),
-      // duration
       GenericDurationData("turn", 8),
+      // duration
+      GenericDurationData("round", 4),
       // effect
       makeEffectTemplate(
         StatmodTopics.LIFE,

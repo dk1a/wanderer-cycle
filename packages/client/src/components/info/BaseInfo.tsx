@@ -12,7 +12,9 @@ import {
   getPStats,
   LevelData,
 } from "../../mud/utils/charstat";
+import { getEffectsApplied } from "../../mud/utils/getEffect";
 import { PStatWithProgress } from "./PStatWithProgress";
+import { EffectList } from "../effect/EffectList";
 
 export interface BaseInfoProps {
   entity: Hex | undefined;
@@ -39,7 +41,10 @@ export function BaseInfo({
   );
   const lifeCurrent = useStashCustom((state) => getLifeCurrent(state, entity));
   const manaCurrent = useStashCustom((state) => getManaCurrent(state, entity));
-  // const effects = useAppliedEffects(entity);
+
+  const effects = useStashCustom((state) =>
+    entity ? getEffectsApplied(state, entity) : [],
+  );
 
   const currents = [
     {
@@ -96,14 +101,7 @@ export function BaseInfo({
       })}
       {turnsHtml}
       {separator}
-      {/* {effects.length > 0 && (
-        <div className="p-2">
-          <h5 className="text-dark-type mb-2">Effects:</h5>
-          {effects.map((e, idx) => (
-            <div key={idx}>{JSON.stringify(e)}</div>
-          ))}
-        </div>
-      )} */}
+      <EffectList effects={effects} />
     </section>
   );
 }

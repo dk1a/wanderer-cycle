@@ -2,6 +2,7 @@ import { Hex } from "viem";
 import { getRecord } from "@latticexyz/stash/internal";
 import { getRecordStrict, mudTables, StateLocal } from "../stash";
 import { parseElementalArray } from "./elemental";
+import { getDurationRecord, getDurationRecordStrict } from "./duration";
 
 export type SkillData = ReturnType<typeof getSkill>;
 
@@ -42,22 +43,17 @@ export function getSkill(state: StateLocal, entity: Hex) {
     table: mudTables.skill__SkillDescription,
     key: { entity },
   });
-  const name = getRecordStrict({
-    state,
-    table: mudTables.skill__SkillName,
-    key: { entity },
-  });
   const skillSpellDamage = getRecordStrict({
     state,
     table: mudTables.skill__SkillSpellDamage,
     key: { entity },
   });
-  const skillTemplateCooldown = getRecordStrict({
+  const skillTemplateCooldown = getDurationRecordStrict({
     state,
     table: mudTables.skill__SkillTemplateCooldown,
     key: { entity },
   });
-  const skillTemplateDuration = getRecordStrict({
+  const skillTemplateDuration = getDurationRecordStrict({
     state,
     table: mudTables.skill__SkillTemplateDuration,
     key: { entity },
@@ -68,21 +64,30 @@ export function getSkill(state: StateLocal, entity: Hex) {
 
   return {
     entity,
-    name: name?.name ?? "",
+    name: getSkillName(state, entity),
     requiredLevel: skill.requiredLevel,
     skillType,
     skillTypeName: skillTypeNames[skillType],
     withAttack: skill.withAttack,
     withSpell: skill.withSpell,
     cost: skill.cost,
-    duration: skillTemplateDuration,
-    cooldown: skillTemplateCooldown,
+    templateDuration: skillTemplateDuration,
+    templateCooldown: skillTemplateCooldown,
     targetType,
     targetTypeName: targetTypeNames[targetType],
     spellDamage: parseElementalArray(skillSpellDamage.value),
 
     description: description?.value ?? "",
   };
+}
+
+export function getSkillName(state: StateLocal, entity: Hex) {
+  const name = getRecordStrict({
+    state,
+    table: mudTables.skill__SkillName,
+    key: { entity },
+  });
+  return name.name;
 }
 
 export function getLearnedSkillEntities(state: StateLocal, targetEntity: Hex) {
@@ -92,4 +97,17 @@ export function getLearnedSkillEntities(state: StateLocal, targetEntity: Hex) {
     key: { entity: targetEntity },
   });
   return result?.entityIdSet ?? [];
+}
+
+// targetEntity is the skill user, and the one affected by the cooldown
+export function getSkillCooldown(
+  state: StateLocal,
+  targetEntity: Hex,
+  skillEntity: Hex,
+) {
+  return getDurationRecord({
+    state,
+    table: mudTables.skill__SkillCooldown,
+    key: { targetEntity, applicationEntity: skillEntity },
+  });
 }

@@ -1,20 +1,35 @@
 import { CSSProperties } from "react";
 import { Hex } from "viem";
 import { useStashCustom } from "../../mud/stash";
-import { getSkill } from "../../mud/utils/skill";
+import { getSkill, getSkillCooldown } from "../../mud/utils/skill";
 import { getManaCurrent } from "../../mud/utils/currents";
-import { formatZeroTerminatedString } from "../../mud/utils/format";
 import { Button } from "../ui/Button";
 
 type UseSkillButtonData = {
-  entity: Hex;
+  userEntity: Hex | undefined;
+  skillEntity: Hex;
   onSkill: () => Promise<void>;
+  disabled?: boolean;
   style?: CSSProperties;
 };
 
-export function UseSkillButton({ entity, onSkill, style }: UseSkillButtonData) {
-  const skill = useStashCustom((state) => getSkill(state, entity));
-  const manaCurrent = useStashCustom((state) => getManaCurrent(state, entity));
+export function UseSkillButton({
+  userEntity,
+  skillEntity,
+  onSkill,
+  disabled,
+  style,
+}: UseSkillButtonData) {
+  disabled ??= false;
+
+  const skill = useStashCustom((state) => getSkill(state, skillEntity));
+  const cooldown = useStashCustom((state) => {
+    if (!userEntity) return;
+    return getSkillCooldown(state, userEntity, skillEntity);
+  });
+  const manaCurrent = useStashCustom((state) =>
+    getManaCurrent(state, userEntity),
+  );
 
   return (
     <div className="flex items-center justify-center">
@@ -22,26 +37,20 @@ export function UseSkillButton({ entity, onSkill, style }: UseSkillButtonData) {
         style={style}
         onClick={onSkill}
         disabled={
+          disabled ||
+          userEntity === undefined ||
           skill === undefined ||
           manaCurrent === undefined ||
           manaCurrent <= skill.cost ||
-          (skill.duration !== undefined && skill.duration.timeValue > 0)
+          (cooldown !== undefined && cooldown.timeValue > 0)
         }
       >
         use skill
       </Button>
-      {skill.duration !== undefined && skill.duration.timeValue > 0 && (
+      {cooldown !== undefined && cooldown.timeValue > 0 && (
         <div className="ml-2">
-          <div className="text-dark-300">
-            {"( "}
-            <span className="text-dark-number">{skill.duration.timeValue}</span>
-            {
-              <span className="text-dark-string">
-                {formatZeroTerminatedString(skill.duration.timeId)}
-              </span>
-            }
-            {" )"}
-          </div>
+          (<span className="text-dark-number">{cooldown.timeValue} </span>
+          <span className="text-dark-string">{cooldown.timeId}</span>)
         </div>
       )}
     </div>

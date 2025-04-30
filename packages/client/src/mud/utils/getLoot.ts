@@ -1,7 +1,7 @@
 import { Hex, toHex } from "viem";
 import { getRecord } from "@latticexyz/stash/internal";
 import { mudTables, StateLocal } from "../stash";
-import { EffectTemplate, getEffectTemplate } from "./getEffect";
+import { EffectTemplateData, getEffectTemplate } from "./getEffect";
 import { AffixPartId, getLootAffixes, LootAffix } from "./getLootAffix";
 
 export interface LootData {
@@ -9,7 +9,7 @@ export interface LootData {
   name: string;
   ilvl: number;
   affixes: LootAffix[];
-  effectTemplate: EffectTemplate;
+  effectTemplate: EffectTemplateData;
   affixAvailabilityTargetId: Hex;
 }
 
@@ -30,6 +30,9 @@ export function getLoot(state: StateLocal, entity: Hex): LootData {
   const affixes = getLootAffixes(state, affixAvailabilityTargetId, entity);
 
   const effectTemplate = getEffectTemplate(state, entity);
+  if (effectTemplate === undefined) {
+    throw new Error(`Loot ${entity} has no effect template`);
+  }
 
   return {
     entity,

@@ -9,7 +9,7 @@ body {
   width: 100%;
   height: 100%;
   @apply bg-dark-600;
-  @apply text-dark-200;
+  @apply text-dark-300;
 }
 
 * {

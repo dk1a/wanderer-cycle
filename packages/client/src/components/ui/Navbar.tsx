@@ -7,7 +7,7 @@ interface NavbarProps {
 
 export function Navbar({ routes }: NavbarProps) {
   return (
-    <nav className="relative bg-dark-400 text-dark-300 flex items-center justify-center border-y border-dark-300 w-full">
+    <nav className="relative bg-dark-400 flex items-center justify-center border-y border-dark-300 w-full">
       {routes.map((route) => {
         if (route.element === undefined) {
           return (

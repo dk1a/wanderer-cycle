@@ -1,10 +1,7 @@
-// import { Fragment, useMemo } from "react";
-// import { useEffectPrototype } from "../mud/hooks/useEffectPrototype";
-// import { useStatmodPrototype } from "../mud/hooks/useStatmodPrototype";
-// import { EffectStatmodData } from "../mud/utils/effectStatmod";
-
-import { Hex, hexToString } from "viem";
+import { useStashCustom } from "../../mud/stash";
+import { getEffectTemplate } from "../../mud/utils/getEffect";
 import { SkillType, SkillData } from "../../mud/utils/skill";
+import { EffectStatmods } from "../effect/EffectStatmods";
 
 type SkillProps = {
   skill: SkillData;
@@ -19,18 +16,18 @@ export function Skill({
   isCollapsed = false,
   onHeaderClick,
 }: SkillProps) {
-  // const effect = useEffectPrototype(skill.entity);
+  const effect = useStashCustom((state) =>
+    getEffectTemplate(state, skill.entity),
+  );
 
   return (
     <div className={className}>
       <div
         onClick={onHeaderClick}
-        className={
-          "text-dark-method text-xl flex justify-between cursor-pointer"
-        }
+        className="flex justify-between cursor-pointer"
       >
-        {skill.name}
-        <div className="text-dark-key ml-2 text-[16px]">
+        <span className="text-dark-method text-xl">{skill.name}</span>
+        <div className="text-dark-key ml-2">
           requiredLevel:{" "}
           <span className="text-dark-number">{skill.requiredLevel}</span>
         </div>
@@ -51,42 +48,41 @@ export function Skill({
                   <span className="text-dark-string">mana</span>
                 </div>
               )}
-              {skill.duration.timeValue > 0 && (
+              {skill.templateDuration.timeValue > 0 && (
                 <div className="flex">
                   <span className="text-dark-key mr-1">duration:</span>
                   <span className="text-dark-number mr-1">
-                    {skill.duration.timeValue.toString()}
+                    {skill.templateDuration.timeValue}
                   </span>
                   <span className="text-dark-string">
-                    {" "}
-                    {hexToString(skill.duration.timeId as Hex)}
+                    {skill.templateDuration.timeId}
                   </span>
                 </div>
               )}
-              {skill.cooldown.timeValue > 0 && (
+              {skill.templateCooldown.timeValue > 0 && (
                 <div className="flex">
                   <span className="text-dark-key mr-1">cooldown: </span>
                   <span className="text-dark-number mr-1">
-                    {skill.cooldown.timeValue.toString()}
+                    {skill.templateCooldown.timeValue}
                   </span>
                   <span className="text-dark-string">
-                    {" "}
-                    {hexToString(skill.cooldown.timeId as Hex)}
+                    {skill.templateCooldown.timeId}
                   </span>
                 </div>
               )}
-              {/*{effect !== undefined && effect.statmods !== undefined && (*/}
-              {/*  <div className="p-0.5 w-full mt-4">*/}
-              {/*    <div className="">*/}
-              {/*      <span className="text-dark-key">*/}
-              {/*        targetType: <span className="text-dark-string">{skill.targetTypeName}</span>*/}
-              {/*      </span>*/}
-              {/*    </div>*/}
-              {/*    {effect.statmods.map((statmod) => (*/}
-              {/*      <SkillEffectStatmod key={statmod.protoEntity} statmod={statmod} />*/}
-              {/*    ))}*/}
-              {/*  </div>*/}
-              {/*)}*/}
+              {effect !== undefined && effect.statmods !== undefined && (
+                <div className="p-0.5 w-full mt-4">
+                  <div className="text-dark-key">
+                    targetType:{" "}
+                    <span className="text-dark-string">
+                      {skill.targetTypeName}
+                    </span>
+                  </div>
+                  {effect.statmods && (
+                    <EffectStatmods statmods={effect.statmods} />
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -94,26 +90,3 @@ export function Skill({
     </div>
   );
 }
-
-// function SkillEffectStatmod({ statmod }: { statmod: EffectStatmodData }) {
-//   const statmodPrototype = useStatmodPrototype(statmod.protoEntity);
-//
-//   const nameParts = useMemo(() => {
-//     if (statmodPrototype === undefined) {
-//       return ["...", "..."];
-//     } else {
-//       return statmodPrototype.name.split("#");
-//     }
-//   }, [statmodPrototype]);
-//
-//   return (
-//     <div className="text-dark-200">
-//       {nameParts.map((namePart, index) => (
-//         <Fragment key={namePart}>
-//           {index !== 0 && <span className="text-dark-number">{statmod.value}</span>}
-//           <span className="text-dark-string">{namePart}</span>
-//         </Fragment>
-//       ))}
-//     </div>
-//   );
-// }
