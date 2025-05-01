@@ -1,3 +1,11 @@
+import { Inventory } from "../../components/inventory/Inventory";
+import { useWandererContext } from "../../mud/WandererProvider";
+
 export function InventoryPage() {
-  return <div></div>;
+  const { cycleEntity } = useWandererContext();
+  if (!cycleEntity) {
+    throw new Error("Cycle entity is not defined");
+  }
+
+  return <Inventory ownerEntity={cycleEntity} />;
 }

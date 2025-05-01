@@ -12,7 +12,7 @@ export function BasicMap({ data }: { data: MapData }) {
   const systemCalls = useSystemCalls();
   const { cycleEntity } = useWandererContext();
 
-  const { entity, name, ilvl } = data.lootData;
+  const { entity, name, ilvl } = data;
 
   const guise = useStashCustom((state) => getActiveGuise(state, cycleEntity));
   const levelData = useStashCustom((state) =>

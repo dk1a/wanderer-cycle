@@ -4,7 +4,7 @@ import { CombatAction } from "./utils/combat";
 import { WorldContract } from "./useWorldContract";
 import { SyncResult } from "@latticexyz/store-sync";
 
-type SystemCallsContextType = {
+interface SystemCallsContextType {
   spawnWanderer: (guiseEntity: Hex) => Promise<void>;
   permSkill: (wandererEntity: Hex, skillEntity: Hex) => Promise<void>;
   cycle: {
@@ -14,6 +14,8 @@ type SystemCallsContextType = {
       wheelEntity: Hex,
     ) => Promise<void>;
     cancelCycle: (guiseEntity: Hex) => Promise<void>;
+    completeCycle: (cycleEntity: Hex) => Promise<void>;
+    adminCompleteCycle: (cycleEntity: Hex) => Promise<void>;
     claimTurns: (cycleEntity: Hex) => Promise<void>;
     passTurn: (cycleEntity: Hex) => Promise<void>;
     learnSkill: (cycleEntity: Hex, skillEntity: Hex) => Promise<void>;
@@ -31,8 +33,14 @@ type SystemCallsContextType = {
       requestEntity: Hex,
     ) => Promise<void>;
     castNoncombatSkill: (cycleEntity: Hex, skillEntity: Hex) => Promise<void>;
+    equip: (
+      cycleEntity: Hex,
+      slotEntity: Hex,
+      equipmentEntity: Hex,
+    ) => Promise<void>;
+    unequip: (cycleEntity: Hex, slotEntity: Hex) => Promise<void>;
   };
-};
+}
 
 const SystemCallsContext = createContext<SystemCallsContextType | undefined>(
   undefined,
@@ -51,7 +59,7 @@ export function SystemCallsProvider({
   if (currentValue)
     throw new Error("SystemCallsProvider can only be used once");
 
-  const value = useMemo(() => {
+  const value = useMemo((): SystemCallsContextType => {
     const waitForTransaction = syncResult.waitForTransaction;
 
     return {
@@ -155,6 +163,25 @@ export function SystemCallsProvider({
           const tx = await worldContract.write.cycle__castNoncombatSkill([
             cycleEntity,
             skillEntity,
+          ]);
+          await waitForTransaction(tx);
+        },
+        equip: async (
+          cycleEntity: Hex,
+          slotEntity: Hex,
+          equipmentEntity: Hex,
+        ) => {
+          const tx = await worldContract.write.cycle__equip([
+            cycleEntity,
+            slotEntity,
+            equipmentEntity,
+          ]);
+          await waitForTransaction(tx);
+        },
+        unequip: async (cycleEntity: Hex, slotEntity: Hex) => {
+          const tx = await worldContract.write.cycle__unequip([
+            cycleEntity,
+            slotEntity,
           ]);
           await waitForTransaction(tx);
         },

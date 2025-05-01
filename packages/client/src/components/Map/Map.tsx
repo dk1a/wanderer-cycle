@@ -23,14 +23,14 @@ export function Map({ data }: { data: MapData }) {
   return (
     <div className="border border-dark-400 w-56 h-62 p-4 flex flex-col bg-dark-500">
       <Button onClick={onMapEnter} disabled={!turns}>
-        {data.lootData.name}
+        {data.name}
       </Button>
       <div className="text-dark-comment mt-1">
         <span className="text-dark-key">level: </span>
-        <span className="text-dark-number">{data.lootData.ilvl}</span>
+        <span className="text-dark-number">{data.ilvl}</span>
       </div>
       <div className="text-dark-comment">
-        <EffectStatmods statmods={data.lootData.effectTemplate.statmods} />
+        <EffectStatmods statmods={data.effectTemplate.statmods} />
       </div>
     </div>
   );

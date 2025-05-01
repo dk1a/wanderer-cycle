@@ -35,7 +35,7 @@ export function Combat() {
 
       <div className="flex justify-center w-full">
         <div className="text-2xl text-dark-type mr-2">
-          {map ? map.lootData.name : "Map"}
+          {map ? map.name : "Map"}
         </div>
         <span className="text-xl text-dark-comment"></span>
       </div>

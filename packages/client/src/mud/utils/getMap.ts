@@ -3,9 +3,7 @@ import { getRecord, getRecords } from "@latticexyz/stash/internal";
 import { mudTables, StateLocal } from "../stash";
 import { getLoot, LootData } from "./getLoot";
 
-export interface MapData {
-  entity: Hex;
-  lootData: LootData;
+export interface MapData extends LootData {
   mapType: Hex;
 }
 
@@ -22,8 +20,7 @@ export function getMap(
   if (map === undefined) return;
 
   return {
-    entity: entity,
-    lootData: getLoot(state, entity),
+    ...getLoot(state, entity),
     mapType: map.value,
   };
 }
@@ -40,11 +37,10 @@ export function getMaps(
   }
   return maps
     .map(({ entity, value }) => ({
-      entity: entity,
-      lootData: getLoot(state, entity),
+      ...getLoot(state, entity),
       mapType: value,
     }))
-    .sort((a, b) => a.lootData.ilvl - b.lootData.ilvl);
+    .sort((a, b) => a.ilvl - b.ilvl);
 }
 
 export function getFromMap(
