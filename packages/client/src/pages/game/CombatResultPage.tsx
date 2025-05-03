@@ -18,8 +18,6 @@ export function CombatResultPage({
   const { selectedWandererEntity, cycleEntity, enemyEntity } =
     useWandererContext();
 
-  console.log(combatRewardRequests);
-
   if (!selectedWandererEntity)
     throw new Error("Invalid selected wanderer entity");
 
