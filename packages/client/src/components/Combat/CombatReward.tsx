@@ -12,7 +12,7 @@ export function CombatReward({
   rewardRequest,
 }: {
   requesterEntity: Hex;
-  currentBlockNumber: bigint;
+  currentBlockNumber: number;
   rewardRequest: CycleCombatRewardRequest;
 }) {
   const { systemCalls } = useMUD();
