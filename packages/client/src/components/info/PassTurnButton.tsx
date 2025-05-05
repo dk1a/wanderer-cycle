@@ -1,11 +1,24 @@
-import { useCallback, useMemo, useState } from "react";
+import {
+  ButtonHTMLAttributes,
+  FC,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { useWandererContext } from "../../mud/WandererProvider";
 import { useStashCustom } from "../../mud/stash";
 import { getCycleTurns } from "../../mud/utils/turns";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { Button } from "../ui/Button";
 
-export function PassTurnButton() {
+type PassTurnButtonProps = Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  "onClick"
+>;
+
+export const PassTurnButton: FC<PassTurnButtonProps> = (props) => {
+  const { disabled, children, ...otherProps } = props;
+
   const systemCalls = useSystemCalls();
   const { cycleEntity, enemyEntity } = useWandererContext();
 
@@ -20,21 +33,19 @@ export function PassTurnButton() {
     setIsBusy(false);
   }, [systemCalls, cycleEntity]);
 
-  const isDisabled = useMemo(() => {
+  const isComputedDisabled = useMemo(() => {
     // not available during combat (since it fully heals)
     const isEncounterActive = enemyEntity !== undefined;
     return !turns || isBusy || isEncounterActive;
   }, [turns, isBusy, enemyEntity]);
 
   return (
-    <div className="ml-1">
-      <Button
-        onClick={passTurn}
-        disabled={isDisabled}
-        style={{ fontSize: "13px", border: "none", width: "" }}
-      >
-        {"passTurn"}
-      </Button>
-    </div>
+    <Button
+      onClick={passTurn}
+      disabled={isComputedDisabled || disabled}
+      {...otherProps}
+    >
+      {children ?? "passTurn"}
+    </Button>
   );
-}
+};

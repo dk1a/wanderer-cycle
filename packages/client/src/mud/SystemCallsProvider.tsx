@@ -5,6 +5,8 @@ import { WorldContract } from "./useWorldContract";
 import { SyncResult } from "@latticexyz/store-sync";
 
 interface SystemCallsContextType {
+  syncResult: SyncResult;
+
   spawnWanderer: (guiseEntity: Hex) => Promise<void>;
   permSkill: (wandererEntity: Hex, skillEntity: Hex) => Promise<void>;
   cycle: {
@@ -63,6 +65,8 @@ export function SystemCallsProvider({
     const waitForTransaction = syncResult.waitForTransaction;
 
     return {
+      syncResult,
+
       spawnWanderer: async (guiseEntity: Hex) => {
         const tx = await worldContract.write.spawnWanderer([guiseEntity]);
         await waitForTransaction(tx);

@@ -13,7 +13,11 @@ import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { UseSkillButton } from "../skill/UseSkillButton";
 import { Button } from "../ui/Button";
 
-export function CombatActions() {
+interface CombatActionsProps {
+  onAfterActions?: (actions: CombatAction[]) => void;
+}
+
+export function CombatActions({ onAfterActions }: CombatActionsProps) {
   const systemCalls = useSystemCalls();
   const { cycleEntity, learnedSkillEntities } = useWandererContext();
   const [isBusy, setIsBusy] = useState(false);
@@ -50,10 +54,11 @@ export function CombatActions() {
       } catch (err) {
         console.error("Combat round failed", err);
       } finally {
+        onAfterActions?.(actions);
         setIsBusy(false);
       }
     },
-    [cycleEntity, systemCalls],
+    [cycleEntity, systemCalls, onAfterActions],
   );
 
   const onAttack = useCallback(async () => {
@@ -83,35 +88,41 @@ export function CombatActions() {
   }, [handleRound, selectedSkill, combatSkills]);
 
   return (
-    <div className="flex flex-col items-center mt-4 w-full">
-      <div className="flex flex-col items-center justify-around w-full">
-        <div className="flex items-center justify-center gap-x-8 w-full">
-          <div className="d-flex flex-col w-full">
-            <Select
-              classNamePrefix={"custom-select"}
-              className={"w-full"}
-              placeholder={"Select a skill"}
-              options={skillOptions}
-              onChange={selectSkill}
-              value={selectedSkill}
-            />
-            {selectedSkill && (
-              <div className="w-full mt-4">
-                <UseSkillButton
-                  userEntity={cycleEntity}
-                  skillEntity={selectedSkill.value}
-                  onSkill={onSkill}
-                  disabled={isBusy}
-                />
-              </div>
-            )}
-          </div>
+    <div className="flex flex-col items-center w-full">
+      <Button
+        className={"mt-4 mb-4 h-10 w-24"}
+        onClick={onAttack}
+        disabled={isBusy}
+      >
+        Attack
+      </Button>
+      <div className="flex items-center justify-center gap-4 w-full mb-4">
+        <div className="min-w-[20rem]">
+          <Select
+            classNamePrefix="custom-select"
+            placeholder="Select a skill"
+            options={skillOptions}
+            onChange={selectSkill}
+            value={selectedSkill}
+            styles={{
+              control: (base) => ({
+                ...base,
+                minHeight: "2.5rem",
+                height: "2.5rem",
+              }),
+              menu: (base) => ({
+                ...base,
+                zIndex: 20,
+              }),
+            }}
+          />
         </div>
-      </div>
-      <div className="mt-4">
-        <Button style={{ width: "9rem" }} onClick={onAttack} disabled={isBusy}>
-          Attack
-        </Button>
+        <UseSkillButton
+          userEntity={cycleEntity}
+          skillEntity={selectedSkill?.value}
+          onSkill={onSkill}
+          disabled={isBusy}
+        />
       </div>
     </div>
   );

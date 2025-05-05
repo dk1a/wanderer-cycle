@@ -38,13 +38,11 @@ export function PStatWithProgress({
         )}
       </span>
 
-      <div className="col-span-2 flex items-center box-border w-full ml-1">
+      <div className="flex items-center w-full ml-1">
         {experience !== undefined && (
           <div className="flex flex-col flex-grow pr-2 pl-2">
-            <div className="justify-center text-xs">
-              <span className="text-dark-200">{nextProgress}</span>
-              <span className="text-dark-200 mx-0.5">/</span>
-              <span className="text-dark-200">{nextReq}</span>
+            <div className="text-xs text-dark-200">
+              {nextProgress} / {nextReq}
             </div>
             <div className="flex h-1 bg-dark-400">
               <div

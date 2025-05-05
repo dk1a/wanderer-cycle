@@ -142,11 +142,12 @@
 
 .custom-select__menu {
   background-color: #292a2e !important;
-  animation: scaleIn 0.35s ease-in-out;
+  animation: scaleIn 0.35s ease-in-out !important;
   margin: 0;
   padding: 0;
   border: 1px solid #3c3c3c;
   color: #fff;
+  border-radius: 0;
 }
 
 .custom-select__menu-list {
@@ -157,10 +158,11 @@
 .custom-select__option {
   cursor: pointer !important;
   color: #3c3c3c;
+  border-radius: 0 !important;
 }
 
 .custom-select__option--is-focused {
-  background-color: #35363b !important;
+  background-color: #3c3c3c !important;
 }
 
 .custom-select-container > div {

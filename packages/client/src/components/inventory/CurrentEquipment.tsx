@@ -51,7 +51,7 @@ function EquippedEquipment({
 
     return () =>
       systemCalls.cycle.unequip(ownerEntity, equippedToSlot.slotEntity);
-  }, [ownerEntity, equipment]);
+  }, [systemCalls, ownerEntity, equipment]);
 
   const uniqueId = `current-equipment-equipped-${equippedEntity}`;
 

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Hex } from "viem";
 import { CycleCombatRewardRequest } from "../../mud/utils/combat";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
@@ -8,11 +8,11 @@ const blockNumberLimit = 256;
 
 export function CombatReward({
   requesterEntity,
-  currentBlockNumber,
+  latestBlockNumber,
   rewardRequest,
 }: {
   requesterEntity: Hex;
-  currentBlockNumber: bigint;
+  latestBlockNumber: bigint;
   rewardRequest: CycleCombatRewardRequest;
 }) {
   const systemCalls = useSystemCalls();
@@ -24,22 +24,31 @@ export function CombatReward({
     setIsBusy(true);
     await systemCalls.cycle.cancelCycleCombatReward(requesterEntity, requestId);
     setIsBusy(false);
-  }, [systemCalls, requesterEntity]);
+  }, [systemCalls, requesterEntity, requestId]);
 
   const claimCycleCombatReward = useCallback(async () => {
     setIsBusy(true);
     await systemCalls.cycle.claimCycleCombatReward(requesterEntity, requestId);
     setIsBusy(false);
-  }, [systemCalls, requesterEntity]);
+  }, [systemCalls, requesterEntity, requestId]);
 
-  const isExpired = currentBlockNumber - requestBlockNumber >= blockNumberLimit;
+  const { isExpired, relProgress } = useMemo(() => {
+    const blockNumberDiff = latestBlockNumber - requestBlockNumber;
+
+    return {
+      isExpired: blockNumberDiff >= blockNumberLimit,
+      relProgress: Number(
+        (100n * blockNumberDiff) / BigInt(blockNumberLimit),
+      ).toFixed(0),
+    };
+  }, [latestBlockNumber, requestBlockNumber]);
 
   if (isExpired) {
     return (
       <div className="flex flex-col items-center justify-around text-dark-200 text-lg">
         expired
         <Button
-          style={{ width: "9rem" }}
+          className="w-40"
           onClick={cancelCycleCombatReward}
           disabled={isBusy}
         >
@@ -50,21 +59,28 @@ export function CombatReward({
   } else {
     return (
       <div className="flex flex-col items-center justify-around">
-        {/* TODO make this a bar with small text above it, like experience */}
-        <div className="text-dark-200 text-lg">
+        <div className="text-lg">
           expiring...
           <span className="text-dark-number ml-1">
-            {currentBlockNumber - requestBlockNumber}
+            {(latestBlockNumber - requestBlockNumber).toString()}
           </span>
-          <span className="text-dark-200 mx-1">/</span>
+          <span> / </span>
           <span className="text-dark-number">{blockNumberLimit}</span>
         </div>
+
+        <div className="w-full flex h-1 bg-dark-400 mb-2">
+          <div
+            className="bg-dark-300"
+            style={{ width: `${relProgress}%` }}
+          ></div>
+        </div>
+
         <Button
+          className="w-40"
           onClick={claimCycleCombatReward}
-          style={{ width: "9rem" }}
           disabled={isBusy}
         >
-          claim reward
+          claimReward
         </Button>
       </div>
     );

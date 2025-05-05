@@ -52,7 +52,7 @@ export function CycleInfo() {
         <span className="text-dark-key">turns:</span>
         <span className="text-dark-number ml-1">{turns}</span>
         <div className="flex">
-          <PassTurnButton />
+          <PassTurnButton className="text-sm border-0 w-auto ml-1" />
           {claimableTurns !== undefined && claimableTurns > 0 && (
             <div className="w-1/2 mr-0.5">
               <ClaimTurnsButton claimableTurns={claimableTurns} />
@@ -64,7 +64,7 @@ export function CycleInfo() {
   );
 
   return (
-    <div className="top-16 h-full">
+    <div className="h-full">
       <BaseInfo
         entity={cycleEntity}
         name={guise?.name}

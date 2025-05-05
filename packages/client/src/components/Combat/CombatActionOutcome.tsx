@@ -16,8 +16,8 @@ export function CombatActionOutcome({
   actionLog: CombatActionLog;
 }) {
   return (
-    <div className="space-x-2 text-dark-200">
-      <span className="text-dark-type">{actorLabel}</span>
+    <div className="text-dark-200">
+      <span className="text-dark-type">{actorLabel} </span>
       <CombatActionText
         action={actionLog.action}
         defenderLifeDiff={actionLog.defenderLifeDiff}
