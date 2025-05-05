@@ -13,7 +13,11 @@ import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { UseSkillButton } from "../skill/UseSkillButton";
 import { Button } from "../ui/Button";
 
-export function CombatActions() {
+interface CombatActionsProps {
+  onAfterActions?: (actions: CombatAction[]) => void;
+}
+
+export function CombatActions({ onAfterActions }: CombatActionsProps) {
   const systemCalls = useSystemCalls();
   const { cycleEntity, learnedSkillEntities } = useWandererContext();
   const [isBusy, setIsBusy] = useState(false);
@@ -50,10 +54,11 @@ export function CombatActions() {
       } catch (err) {
         console.error("Combat round failed", err);
       } finally {
+        onAfterActions?.(actions);
         setIsBusy(false);
       }
     },
-    [cycleEntity, systemCalls],
+    [cycleEntity, systemCalls, onAfterActions],
   );
 
   const onAttack = useCallback(async () => {
@@ -91,7 +96,7 @@ export function CombatActions() {
       >
         Attack
       </Button>
-      <div className="flex items-center justify-center gap-6 w-full mb-4">
+      <div className="flex items-center justify-center gap-4 w-full mb-4">
         <div className="min-w-[20rem]">
           <Select
             classNamePrefix="custom-select"
@@ -112,16 +117,12 @@ export function CombatActions() {
             }}
           />
         </div>
-        {selectedSkill && (
-          <div className="w-full mt-4">
-            <UseSkillButton
-              userEntity={cycleEntity}
-              skillEntity={selectedSkill.value}
-              onSkill={onSkill}
-              disabled={isBusy}
-            />
-          </div>
-        )}
+        <UseSkillButton
+          userEntity={cycleEntity}
+          skillEntity={selectedSkill?.value}
+          onSkill={onSkill}
+          disabled={isBusy}
+        />
       </div>
     </div>
   );
