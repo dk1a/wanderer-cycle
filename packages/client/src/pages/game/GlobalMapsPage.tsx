@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { Hex } from "viem";
 import { useStashCustom } from "../../mud/stash";
 import { useWandererContext } from "../../mud/WandererProvider";
 import { getBossesDefeated } from "../../mud/utils/getBossesDefeated";
@@ -22,7 +21,7 @@ export function GlobalMapsPage() {
   );
 
   const bossesDefeated = useStashCustom((state) =>
-    getBossesDefeated(state, cycleEntity as Hex),
+    getBossesDefeated(state, cycleEntity),
   );
   const lifeCurrent = useStashCustom((state) =>
     getLifeCurrent(state, cycleEntity),
