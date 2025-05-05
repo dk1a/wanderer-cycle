@@ -74,15 +74,8 @@ contract CombatSystem is System {
       deactivateCombat(initiator.entity);
     } else {
       // Combat keeps going - decrement round durations
-      // TODO does retaliator need time too?
-      timeSystem.decreaseApplications(
-        initiator.entity,
-        GenericDurationData({ timeId: keccak256("round"), timeValue: 1 })
-      );
-      timeSystem.decreaseApplications(
-        initiator.entity,
-        GenericDurationData({ timeId: keccak256("round_persistent"), timeValue: 1 })
-      );
+      timeSystem.passRounds(initiator.entity, 1);
+      timeSystem.passRounds(retaliator.entity, 1);
       // If combat duration ran out, initiator loses by default
       if (isFinalRound) {
         deactivateCombat(initiator.entity);
@@ -114,11 +107,7 @@ contract CombatSystem is System {
   function deactivateCombat(bytes32 initiatorEntity) public {
     LibActiveCombat.deactivateCombat(initiatorEntity);
 
-    timeSystem.decreaseApplications(
-      initiatorEntity,
-      GenericDurationData({ timeId: keccak256("round"), timeValue: type(uint256).max })
-    );
-    timeSystem.decreaseApplications(initiatorEntity, GenericDurationData({ timeId: keccak256("turn"), timeValue: 1 }));
+    timeSystem.passTurns(initiatorEntity, 1);
   }
 
   /*//////////////////////////////////////////////////////////////

@@ -6,6 +6,7 @@ import { System } from "@latticexyz/world/src/System.sol";
 import { ActiveCycle } from "./codegen/tables/ActiveCycle.sol";
 
 import { charstatSystem } from "../charstat/codegen/systems/CharstatSystemLib.sol";
+import { timeSystem } from "../time/codegen/systems/TimeSystemLib.sol";
 
 import { Duration, GenericDurationData } from "../duration/Duration.sol";
 import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
@@ -21,11 +22,7 @@ contract CyclePassTurnSystem is System {
 
     // Subtract 1 turn
     LibCycleTurns.decreaseTurns(cycleEntity, 1);
-    Duration.decreaseApplications(
-      ActiveCycle._tableId,
-      cycleEntity,
-      GenericDurationData({ timeId: keccak256("turn"), timeValue: 1 })
-    );
+    timeSystem.passTurns(cycleEntity, 1);
     // Fill up currents
     charstatSystem.setFullCurrents(cycleEntity);
   }

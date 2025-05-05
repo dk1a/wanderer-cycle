@@ -351,7 +351,7 @@ export default defineWorld({
       systems: {
         TimeSystem: {
           openAccess: false,
-          accessList: ["CombatSystem"],
+          accessList: ["CombatSystem", "CyclePassTurnSystem"],
         },
       },
     },
