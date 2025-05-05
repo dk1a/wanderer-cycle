@@ -4,8 +4,9 @@ import { mudTables, StateLocal } from "../stash";
 
 export function getBossesDefeated(
   state: StateLocal,
-  entity: Hex,
+  entity: Hex | undefined,
 ): readonly Hex[] {
+  if (entity === undefined) return [];
   const mapEntities = getRecord({
     state,
     table: mudTables.cycle__BossesDefeated,

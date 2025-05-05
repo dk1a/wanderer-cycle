@@ -3,11 +3,13 @@ import {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { Hex } from "viem";
 import { useLocalStorage } from "usehooks-ts";
-import { getRecordStrict, mudTables, useStashCustom } from "./stash";
+import { getRecord } from "@latticexyz/stash/internal";
+import { mudTables, useStashCustom } from "./stash";
 import { useSystemCalls } from "./SystemCallsProvider";
 import { getLearnedSkillEntities } from "./utils/skill";
 import { getActiveCombat } from "./utils/combat";
@@ -32,17 +34,34 @@ export function WandererProvider(props: { children: ReactNode }) {
   const currentValue = useContext(WandererContext);
   if (currentValue) throw new Error("WandererProvider can only be used once");
 
+  // Save the selected wanderer entity in local storage
   const [selectedWandererEntity, selectWandererEntity] = useLocalStorage<
     Hex | undefined
   >("wanderer-cycle:wanderer:selectWandererEntity", undefined);
+  // Clear local storage if chain state changed (mostly useful for local dev)
+  const isWandererRecordAbsent = useStashCustom((state) => {
+    if (!selectedWandererEntity) return false;
+    const wandererRecord = getRecord({
+      state,
+      table: mudTables.root__Wanderer,
+      key: { entity: selectedWandererEntity },
+    });
+    return wandererRecord === undefined ? true : false;
+  });
+  useEffect(() => {
+    if (isWandererRecordAbsent) {
+      selectWandererEntity(undefined);
+    }
+  }, [isWandererRecordAbsent, selectWandererEntity]);
 
+  // System calls
   const systemCalls = useSystemCalls();
 
   // current cycle
   const cycleEntity = useStashCustom((state) => {
     if (!selectedWandererEntity) return;
 
-    return getRecordStrict({
+    return getRecord({
       state,
       table: mudTables.cycle__ActiveCycle,
       key: { entity: selectedWandererEntity },
