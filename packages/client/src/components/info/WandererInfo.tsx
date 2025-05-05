@@ -5,13 +5,11 @@ export function WandererInfo() {
   const { selectedWandererEntity } = useWandererContext();
 
   return (
-    <div className="top-16 h-full z-10">
-      <BaseInfo
-        entity={selectedWandererEntity}
-        name={"Wanderer"}
-        locationName={null}
-        levelData={{ level: undefined, experience: undefined }}
-      />
-    </div>
+    <BaseInfo
+      entity={selectedWandererEntity}
+      name={"Wanderer"}
+      locationName={null}
+      levelData={{ level: undefined, experience: undefined }}
+    />
   );
 }

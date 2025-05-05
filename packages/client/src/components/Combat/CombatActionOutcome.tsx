@@ -77,8 +77,7 @@ function CombatSkillText({
 
   const skillWithDamage = useMemo(() => {
     if (skill === undefined) return defenderLifeDiff !== 0;
-
-    return Object.values(skill.spellDamage).some((value) => value !== 0);
+    return skill.withAttack || skill.withSpell;
   }, [skill, defenderLifeDiff]);
 
   return (
@@ -97,7 +96,8 @@ function CombatSkillText({
 function CombatDamageText({ defenderLifeDiff }: { defenderLifeDiff: number }) {
   return (
     <span>
-      for <span className="text-dark-number">{defenderLifeDiff}</span> damage
+      {" for "}
+      <span className="text-dark-number">{-defenderLifeDiff}</span> damage
     </span>
   );
 }

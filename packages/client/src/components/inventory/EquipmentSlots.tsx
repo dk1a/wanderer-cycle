@@ -7,16 +7,16 @@ import { EquipmentSummary } from "./EquipmentSummary";
 import { BaseEquipment } from "./BaseEquipment";
 import { Button } from "../ui/Button";
 
-export function CurrentEquipment({ ownerEntity }: { ownerEntity: Hex }) {
+export function EquipmentSlots({ ownerEntity }: { ownerEntity: Hex }) {
   const { equipmentSlots } = useInventoryContext();
   return (
     <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-full">
       <h4 className="col-span-3 text-center text-lg text-dark-type font-medium">
-        Current Equipment
+        Equipment Slots
       </h4>
-      {equipmentSlots.map(({ equippedEntity, name }) => (
-        <EquippedEquipment
-          key={equippedEntity}
+      {equipmentSlots.map(({ slotEntity, equippedEntity, name }) => (
+        <EquipmentSlot
+          key={slotEntity}
           ownerEntity={ownerEntity}
           slotName={name}
           equippedEntity={equippedEntity}
@@ -26,17 +26,17 @@ export function CurrentEquipment({ ownerEntity }: { ownerEntity: Hex }) {
   );
 }
 
-interface EquippedEquipmentProps {
+interface EquipmentSlotProps {
   ownerEntity: Hex;
   slotName: string | undefined;
   equippedEntity: Hex | undefined;
 }
 
-function EquippedEquipment({
+function EquipmentSlot({
   ownerEntity,
   slotName,
   equippedEntity,
-}: EquippedEquipmentProps) {
+}: EquipmentSlotProps) {
   const systemCalls = useSystemCalls();
   const { equipmentList } = useInventoryContext();
   const equipment = useMemo(() => {

@@ -5,7 +5,7 @@ export function InventoryFilter() {
   const { filter, setFilter, sort, setSort } = useInventoryContext();
 
   return (
-    <div className="flex items-center w-full">
+    <div className="flex items-center gap-2 justify-end w-full">
       <Select
         classNamePrefix={"custom-select"}
         placeholder={"select"}

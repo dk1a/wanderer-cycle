@@ -64,14 +64,12 @@ export function CycleInfo() {
   );
 
   return (
-    <div className="h-full">
-      <BaseInfo
-        entity={cycleEntity}
-        name={guise?.name}
-        locationName={null}
-        levelData={levelData}
-        turnsHtml={turnsHtml}
-      />
-    </div>
+    <BaseInfo
+      entity={cycleEntity}
+      name={guise?.name}
+      locationName={null}
+      levelData={levelData}
+      turnsHtml={turnsHtml}
+    />
   );
 }

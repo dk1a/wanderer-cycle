@@ -9,7 +9,7 @@ export function InventoryList({ ownerEntity }: { ownerEntity: Hex }) {
 
   const separator = <hr className="h-px my-2 bg-dark-400 border-0 " />;
   return (
-    <div className="w-full flex flex-col ml-24">
+    <section className="flex flex-col grow ml-24">
       <InventoryFilter />
       <div className="flex flex-col justify-center items-center">
         {presentEquipmentTypes.map((equipmentType) => (
@@ -33,6 +33,6 @@ export function InventoryList({ ownerEntity }: { ownerEntity: Hex }) {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
