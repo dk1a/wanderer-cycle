@@ -1,14 +1,14 @@
 import { useMemo } from "react";
 import { Hex } from "viem";
 import { useStashCustom } from "../../mud/stash";
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useWandererContext } from "../../mud/WandererProvider";
 import { getBossesDefeated } from "../../mud/utils/getBossesDefeated";
 import { getMaps, MapTypes } from "../../mud/utils/getMap";
 import { getLifeCurrent } from "../../mud/utils/currents";
-import BasicMap from "../../components/Map/BasicMap";
-import Map from "../../components/Map";
+import { BasicMap } from "../../components/map/BasicMap";
+import { Map } from "../../components/map/Map";
 
-const GlobalMapsPage = () => {
+export function GlobalMapsPage() {
   const { cycleEntity } = useWandererContext();
 
   const basicMaps = useStashCustom((state) =>
@@ -68,6 +68,4 @@ const GlobalMapsPage = () => {
       </div>
     </div>
   );
-};
-
-export default GlobalMapsPage;
+}

@@ -1,7 +1,7 @@
 import { Hex, toHex } from "viem";
 import { getRecord } from "@latticexyz/stash/internal";
 import { ELE_STAT, getEnumValues, STATMOD_OP } from "contracts/enums";
-import { mudTables, StateLocal } from "../stash";
+import { getRecordStrict, mudTables, StateLocal } from "../stash";
 import { ElementalStatmodTopic, StatmodTopic } from "./topics";
 import { formatZeroTerminatedString } from "./format";
 import { Elemental } from "./elemental";
@@ -18,6 +18,28 @@ export interface StatmodData {
   statmodOp: STATMOD_OP;
   eleStat: ELE_STAT;
   value: number;
+}
+
+export function getBaseStatmod(state: StateLocal, entity: Hex) {
+  const baseStatmod = getRecordStrict({
+    state,
+    table: mudTables.statmod__StatmodBase,
+    key: { entity },
+  });
+
+  const name = getRecord({
+    state,
+    table: mudTables.common__Name,
+    key: { entity },
+  })?.name;
+
+  return {
+    entity: baseStatmod.entity,
+    statmodTopic: formatStatmodTopic(baseStatmod.statmodTopic),
+    statmodOp: baseStatmod.statmodOp,
+    eleStat: baseStatmod.eleStat,
+    name: name ?? "unknown #",
+  };
 }
 
 export function getTopicStatmods(
@@ -54,9 +76,7 @@ export function getTopicStatmods(
 
     result.push({
       entity: baseStatmod.entity,
-      statmodTopic: formatZeroTerminatedString(baseStatmod.statmodTopic) as
-        | StatmodTopic
-        | ElementalStatmodTopic,
+      statmodTopic: formatStatmodTopic(baseStatmod.statmodTopic),
       statmodOp: baseStatmod.statmodOp,
       eleStat: baseStatmod.eleStat,
       value,
@@ -64,6 +84,12 @@ export function getTopicStatmods(
   }
 
   return result;
+}
+
+function formatStatmodTopic(statmodTopic: string) {
+  return formatZeroTerminatedString(statmodTopic) as
+    | StatmodTopic
+    | ElementalStatmodTopic;
 }
 
 export function getValuesFinal(

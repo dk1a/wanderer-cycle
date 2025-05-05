@@ -1,18 +1,18 @@
-import { useWandererContext } from "../../contexts/WandererContext";
 import { useCallback } from "react";
 import { useStashCustom } from "../../mud/stash";
+import { useWandererContext } from "../../mud/WandererProvider";
 import { getActiveGuise } from "../../mud/utils/guise";
 import { getCycleTurns } from "../../mud/utils/turns";
 import { MapData } from "../../mud/utils/getMap";
 import { getLevel } from "../../mud/utils/charstat";
-import { useMUD } from "../../MUDContext";
-import { Button } from "../utils/Button/Button";
+import { useSystemCalls } from "../../mud/SystemCallsProvider";
+import { Button } from "../ui/Button";
 
-export default function BasicMap({ data }: { data: MapData }) {
-  const { systemCalls } = useMUD();
+export function BasicMap({ data }: { data: MapData }) {
+  const systemCalls = useSystemCalls();
   const { cycleEntity } = useWandererContext();
 
-  const { entity, name, ilvl } = data.lootData;
+  const { entity, name, ilvl } = data;
 
   const guise = useStashCustom((state) => getActiveGuise(state, cycleEntity));
   const levelData = useStashCustom((state) =>

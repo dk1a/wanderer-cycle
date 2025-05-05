@@ -1,7 +1,5 @@
-import SkillList from "../../components/SkillList";
+import { SkillList } from "../../components/skill/SkillList";
 
-const SkillPage = () => {
+export function SkillPage() {
   return <SkillList />;
-};
-
-export default SkillPage;
+}

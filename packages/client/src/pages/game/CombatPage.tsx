@@ -1,7 +1,5 @@
-import { Combat } from "../../components/Combat/Combat";
+import { Combat } from "../../components/combat/Combat";
 
-const CombatPage = () => {
+export function CombatPage() {
   return <Combat />;
-};
-
-export default CombatPage;
+}

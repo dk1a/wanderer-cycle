@@ -1,26 +1,36 @@
-import { JSX } from "react";
+import { ReactNode } from "react";
 
-import CyclePage from "./pages/game/CyclePage";
-import InventoryPage from "./pages/game/InventoryPage";
-import GlobalMapsPage from "./pages/game/GlobalMapsPage";
-import SkillPage from "./pages/game/SkillPage";
-import WandererSelect from "./pages/game/WandererSelect";
+import { SyncPage } from "./mud/SyncPage";
 
-import AffixPage from "./pages/admin/AffixPage";
+import { CyclePage } from "./pages/game/CyclePage";
+import { InventoryPage } from "./pages/game/InventoryPage";
+import { GlobalMapsPage } from "./pages/game/GlobalMapsPage";
+import { SkillPage } from "./pages/game/SkillPage";
+import { WandererSelect } from "./pages/game/WandererSelect";
 
-export interface AppRoute {
+import { AffixPage } from "./pages/admin/AffixPage";
+
+export interface ExternalRoute {
   label: string;
   path: string;
-  element: JSX.Element | null;
-  external?: boolean;
+  element?: undefined;
 }
 
-export const gameRoutes: AppRoute[] = [
+export interface InternalRoute {
+  label: string;
+  path: string;
+  element: ReactNode;
+}
+
+export const combatRoutes: InternalRoute[] = [
   {
     label: "maps",
-    path: "/maps",
+    path: "/",
     element: <GlobalMapsPage />,
   },
+];
+
+export const cycleRoutes: InternalRoute[] = [
   {
     label: "inventory",
     path: "/inventory",
@@ -36,26 +46,36 @@ export const gameRoutes: AppRoute[] = [
     path: "/cycle",
     element: <CyclePage />,
   },
+];
+
+export const wandererRoutes: InternalRoute[] = [
   {
-    label: "wanderer-select",
-    path: "/",
+    label: "w-select",
+    path: "/wanderer-select",
     element: <WandererSelect />,
-  },
-  {
-    label: "github",
-    path: "https://github.com/dk1a/wanderer-cycle",
-    element: null,
-    external: true,
-  },
-  {
-    label: "discord",
-    path: "https://discord.gg/9pX3h53VnX",
-    element: null,
-    external: true,
   },
 ];
 
-export const adminRoutes: AppRoute[] = [
+export const rootRoutes: InternalRoute[] = [
+  {
+    label: "sync",
+    path: "/sync",
+    element: <SyncPage />,
+  },
+];
+
+export const externalRoutes: ExternalRoute[] = [
+  {
+    label: "gh",
+    path: "https://github.com/dk1a/wanderer-cycle",
+  },
+  {
+    label: "dc",
+    path: "https://discord.gg/9pX3h53VnX",
+  },
+];
+
+export const adminRoutes: InternalRoute[] = [
   {
     label: "affixes",
     path: "/admin/affixes",

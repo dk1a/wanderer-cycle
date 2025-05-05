@@ -1,50 +1,72 @@
-import { Suspense } from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { Navbar } from "./components/Navbar/Navbar";
-import { GameRoot } from "./GameRoot";
-import { adminRoutes, AppRoute, gameRoutes } from "./routes";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
+import { useSync } from "@latticexyz/store-sync/react";
+import { useStashCustom } from "./mud/stash";
+import { getSyncStatus } from "./mud/getSyncStatus";
+import { useWorldContract } from "./mud/useWorldContract";
+import { SystemCallsProvider } from "./mud/SystemCallsProvider";
+import {
+  adminRoutes,
+  combatRoutes,
+  cycleRoutes,
+  rootRoutes,
+  wandererRoutes,
+} from "./routes";
+import { SyncPage } from "./mud/SyncPage";
+import { WandererLayout } from "./layouts/WandererLayout";
+import { CycleLayout } from "./layouts/CycleLayout";
+import { CombatLayout } from "./layouts/CombatLayout";
+import { RootLayout } from "./layouts/RootLayout";
 
-export const App = () => {
+const router = createBrowserRouter([
+  {
+    Component: RootLayout,
+    children: [
+      ...rootRoutes,
+      {
+        Component: WandererLayout,
+        children: [
+          ...wandererRoutes,
+          {
+            Component: CycleLayout,
+            children: [
+              ...cycleRoutes,
+              {
+                Component: CombatLayout,
+                children: combatRoutes,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "/admin",
+        children: adminRoutes,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" />,
+      },
+    ],
+  },
+]);
+
+export function App() {
+  const status = useStashCustom((state) => getSyncStatus(state));
+  const sync = useSync();
+  const worldContract = useWorldContract();
+  //const { address: userAddress } = useAccount();
+
+  if (!status.isLive || !sync.data /*|| !userAddress*/ || !worldContract) {
+    return <SyncPage />;
+  }
+
   return (
-    <Router>
-      <div className="flex flex-col h-full">
-        <Routes>
-          <Route
-            path="/admin/*"
-            element={<Navbar routes={adminRoutes} />}
-          ></Route>
-
-          <Route path="/*" element={<Navbar routes={gameRoutes} />}></Route>
-        </Routes>
-
-        <div className="flex-1 overflow-y-auto flex justify-center">
-          <Routes>
-            <Route path="/admin">{displayAppRoutes(adminRoutes)}</Route>
-
-            <Route element={<GameRoot />}>{displayAppRoutes(gameRoutes)}</Route>
-
-            <Route
-              path="/*"
-              element={
-                // TODO make a proper 404 page or redirect
-                <span className="text-dark-300">404 page not found</span>
-              }
-            />
-          </Routes>
-        </div>
-      </div>
-    </Router>
+    <SystemCallsProvider syncResult={sync.data} worldContract={worldContract}>
+      <RouterProvider router={router} />
+    </SystemCallsProvider>
   );
-};
-
-const displayAppRoutes = (routes: AppRoute[]) => {
-  return routes.map(({ element, path }) => {
-    return (
-      <Route
-        key={path}
-        path={path}
-        element={<Suspense fallback="Loading...">{element}</Suspense>}
-      />
-    );
-  });
-};
+}

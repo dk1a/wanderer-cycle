@@ -1,5 +1,4 @@
 import { Fragment, ReactNode } from "react";
-import { Tooltip } from "react-tooltip";
 import { Hex } from "viem";
 import { useStashCustom } from "../../mud/stash";
 import {
@@ -13,7 +12,9 @@ import {
   getPStats,
   LevelData,
 } from "../../mud/utils/charstat";
+import { getEffectsApplied } from "../../mud/utils/getEffect";
 import { PStatWithProgress } from "./PStatWithProgress";
+import { EffectList } from "../effect/EffectList";
 
 export interface BaseInfoProps {
   entity: Hex | undefined;
@@ -23,27 +24,7 @@ export interface BaseInfoProps {
   turnsHtml?: ReactNode;
 }
 
-interface MobileInfoBlockProps {
-  label: string;
-  children: ReactNode;
-  className?: string;
-}
-function MobileInfoBlock({ label, children, className }: MobileInfoBlockProps) {
-  const uniqueId = `mobile-info-${label.toLowerCase().replace(/\s+/g, "-")}`;
-  return (
-    <div
-      id={uniqueId}
-      className="border border-dark-400 bg-dark-500 p-2 cursor-pointer text-center text-dark-type"
-    >
-      <div className={className + " font-bold"}>{label}</div>
-      <Tooltip anchorSelect={`#${uniqueId}`} place="top" clickable>
-        {children}
-      </Tooltip>
-    </div>
-  );
-}
-
-export default function BaseInfo({
+export function BaseInfo({
   entity,
   name,
   locationName,
@@ -60,7 +41,10 @@ export default function BaseInfo({
   );
   const lifeCurrent = useStashCustom((state) => getLifeCurrent(state, entity));
   const manaCurrent = useStashCustom((state) => getManaCurrent(state, entity));
-  // const effects = useAppliedEffects(entity);
+
+  const effects = useStashCustom((state) =>
+    entity ? getEffectsApplied(state, entity) : [],
+  );
 
   const currents = [
     {
@@ -75,7 +59,7 @@ export default function BaseInfo({
     },
   ];
   const separator = <hr className="h-px my-2 bg-dark-400 border-0" />;
-  const desktopContent = (
+  return (
     <section className="hidden md:flex md:flex-col bg-dark-500 border border-dark-400 w-64 md:h-full">
       <h4 className="relative text-center text-lg text-dark-type font-medium">
         {name}
@@ -117,110 +101,7 @@ export default function BaseInfo({
       })}
       {turnsHtml}
       {separator}
-      {/* {effects.length > 0 && (
-        <div className="p-2">
-          <h5 className="text-dark-type mb-2">Effects:</h5>
-          {effects.map((e, idx) => (
-            <div key={idx}>{JSON.stringify(e)}</div>
-          ))}
-        </div>
-      )} */}
+      <EffectList effects={effects} />
     </section>
-  );
-  const mobileBlockConfigs = [
-    {
-      condition: !!name,
-      label: name ?? "Name",
-      className: "text-dark-control",
-      content: (
-        <div>
-          {locationName && <div>Location: {locationName}</div>}
-          {identityCurrent !== undefined && (
-            <div>Identity: {identityCurrent}</div>
-          )}
-        </div>
-      ),
-    },
-    {
-      condition: levelData && levelData.level !== undefined,
-      label: "Level",
-      content: (
-        <PStatWithProgress
-          name="level"
-          baseLevel={levelData?.level}
-          experience={levelData?.experience}
-        />
-      ),
-    },
-    {
-      condition: pstats.length > 0,
-      label: "Stats",
-      content: (
-        <div>
-          {pstats.map((pstat) => (
-            <PStatWithProgress key={pstat.name} {...pstat} />
-          ))}
-        </div>
-      ),
-    },
-    {
-      condition: !!turnsHtml,
-      label: "Turns",
-      content: <div>{turnsHtml}</div>,
-    },
-    {
-      condition: currents.some(
-        (c) => c.value !== undefined && c.maxValue !== undefined,
-      ),
-      label: "Life/Mana",
-      content: (
-        <div>
-          {currents.map(({ name, value, maxValue }) => {
-            if (value === undefined || maxValue === undefined) return null;
-            return (
-              <div key={name}>
-                {name}: {value} / {maxValue}
-              </div>
-            );
-          })}
-        </div>
-      ),
-    },
-    // {
-    //   condition: effects && effects.length > 0,
-    //   label: "Effects",
-    //   content: (
-    //     <div>
-    //       {effects.map((e, idx) => (
-    //         <div key={idx}>{JSON.stringify(e)}</div>
-    //       ))}
-    //     </div>
-    //   ),
-    // },
-  ];
-
-  const mobileBlocks = mobileBlockConfigs.filter((b) => b.condition);
-
-  const mobileContent = (
-    <section className="flex md:hidden fixed bottom-0 left-0 w-full bg-dark-500 border-t border-dark-400 p-2">
-      <div className="grid grid-cols-3 grid-rows-2 gap-2 w-full">
-        {mobileBlocks.slice(0, 6).map((block) => (
-          <MobileInfoBlock
-            key={block.label}
-            label={block.label}
-            className={block.className}
-          >
-            {block.content}
-          </MobileInfoBlock>
-        ))}
-      </div>
-    </section>
-  );
-
-  return (
-    <>
-      {desktopContent}
-      {mobileContent}
-    </>
   );
 }

@@ -1,5 +1,5 @@
-import { useWandererContext } from "../../contexts/WandererContext";
-import BaseInfo from "./BaseInfo";
+import { useWandererContext } from "../../mud/WandererProvider";
+import { BaseInfo } from "./BaseInfo";
 
 export function WandererInfo() {
   const { selectedWandererEntity } = useWandererContext();

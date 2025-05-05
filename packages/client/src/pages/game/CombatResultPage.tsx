@@ -1,11 +1,12 @@
 import { useCallback, useMemo } from "react";
-import { useWandererContext } from "../../contexts/WandererContext";
-import { useMUD } from "../../MUDContext";
+import { useWandererContext } from "../../mud/WandererProvider";
+import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { CycleCombatRewardRequest } from "../../mud/utils/combat";
-import { CombatReward } from "../../components/Combat/CombatReward";
+import { CombatReward } from "../../components/combat/CombatReward";
 // import {CombatRoundOutcome} from "../../components/Combat/CombatRoundOutcome";
-import { Button } from "../../components/utils/Button/Button";
-import { useBlockNumber } from "../../mud/utils/useBlockNumber";
+import { Button } from "../../components/ui/Button";
+import { useStashCustom } from "../../mud/stash";
+import { getSyncStatus } from "../../mud/getSyncStatus";
 
 interface CombatResultPageProps {
   combatRewardRequests: CycleCombatRewardRequest[];
@@ -14,14 +15,16 @@ interface CombatResultPageProps {
 export function CombatResultPage({
   combatRewardRequests,
 }: CombatResultPageProps) {
-  const { systemCalls } = useMUD();
+  const systemCalls = useSystemCalls();
   const { selectedWandererEntity, cycleEntity, enemyEntity } =
     useWandererContext();
 
   if (!selectedWandererEntity)
     throw new Error("Invalid selected wanderer entity");
 
-  const currentBlockNumber = useBlockNumber();
+  const latestBlockNumber = useStashCustom(
+    (state) => getSyncStatus(state).latestBlockNumber,
+  );
 
   const repeatMapEntity = useMemo(() => {
     if (combatRewardRequests.length === 1) {
@@ -31,10 +34,10 @@ export function CombatResultPage({
   }, [combatRewardRequests]);
 
   const onMapRepeat = useCallback(() => {
-    if (!selectedWandererEntity) throw new Error("No selected wanderer entity");
+    if (!cycleEntity) throw new Error("No cycle entity");
     if (repeatMapEntity === undefined) throw new Error("Invalid map entity");
     systemCalls.cycle.activateCombat(cycleEntity, repeatMapEntity);
-  }, [cycleEntity, repeatMapEntity, selectedWandererEntity, systemCalls]);
+  }, [cycleEntity, repeatMapEntity, systemCalls]);
 
   return (
     <section className="flex flex-col items-center w-full mr-64">
@@ -51,12 +54,12 @@ export function CombatResultPage({
 
         <div>
           {selectedWandererEntity !== undefined &&
-          currentBlockNumber !== undefined ? (
+          latestBlockNumber !== undefined ? (
             combatRewardRequests.map((rewardRequest) => (
               <CombatReward
                 key={rewardRequest.requestId}
                 requesterEntity={selectedWandererEntity}
-                currentBlockNumber={currentBlockNumber}
+                latestBlockNumber={latestBlockNumber}
                 rewardRequest={rewardRequest}
               />
             ))

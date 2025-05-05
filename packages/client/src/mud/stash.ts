@@ -6,17 +6,40 @@ import {
   GetRecordArgs,
   GetRecordResult,
   Key,
+  registerTable,
   State,
   TableRecord,
 } from "@latticexyz/stash/internal";
 import { useStash } from "@latticexyz/stash/react";
+import { defineTable, extendedScope } from "@latticexyz/store/internal";
 import mudConfig from "contracts/mud.config";
+import mudConfigWorldModules from "@latticexyz/world-modules/internal/mud.config";
 
 export const stash = createStash(mudConfig);
 
 export type StateLocal = State<typeof mudConfig>;
 
-export const mudTables = mudConfig.tables;
+// TODO world-modules exports this table with the wrong data (namespaceLabel and consequently others like tableId)
+const tableERC721Registry = defineTable(
+  {
+    namespaceLabel: "erc721-puppet",
+    label: "ERC721Registry",
+    schema: {
+      namespaceId: "ResourceId",
+      tokenAddress: "address",
+    },
+    key: ["namespaceId"],
+  },
+  extendedScope(mudConfigWorldModules),
+);
+
+registerTable({ stash, table: tableERC721Registry });
+
+export const mudTables = {
+  ...mudConfig.tables,
+  [`${tableERC721Registry.namespaceLabel}__${tableERC721Registry.label}` as const]:
+    tableERC721Registry,
+};
 
 /**
  * Throws an error if no value exists, so it can't return `undefined`

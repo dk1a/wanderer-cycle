@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { useStashCustom } from "../../mud/stash";
 import { getCombatLog } from "../../mud/utils/combat";
-import { useWandererContext } from "../../contexts/WandererContext";
+import { useWandererContext } from "../../mud/WandererProvider";
 import { CombatRoundOutcome } from "./CombatRoundOutcome";
-import CombatActions from "./CombatActions";
+import { CombatActions } from "./CombatActions";
 import { getFromMap } from "../../mud/utils/getMap";
 
 export function Combat() {
@@ -35,7 +35,7 @@ export function Combat() {
 
       <div className="flex justify-center w-full">
         <div className="text-2xl text-dark-type mr-2">
-          {map ? map.lootData.name : "Map"}
+          {map ? map.name : "Map"}
         </div>
         <span className="text-xl text-dark-comment"></span>
       </div>

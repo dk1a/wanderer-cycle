@@ -8,13 +8,13 @@ import {
   attackAction,
 } from "../../mud/utils/combat";
 import { getSkill, SkillType } from "../../mud/utils/skill";
-import { useMUD } from "../../MUDContext";
-import { useWandererContext } from "../../contexts/WandererContext";
-import { UseSkillButton } from "../UseSkillButton";
-import { Button } from "../utils/Button/Button";
+import { useWandererContext } from "../../mud/WandererProvider";
+import { useSystemCalls } from "../../mud/SystemCallsProvider";
+import { UseSkillButton } from "../skill/UseSkillButton";
+import { Button } from "../ui/Button";
 
-export default function CombatActions() {
-  const { systemCalls } = useMUD();
+export function CombatActions() {
+  const systemCalls = useSystemCalls();
   const { cycleEntity, learnedSkillEntities } = useWandererContext();
   const [isBusy, setIsBusy] = useState(false);
   const [selectedSkill, selectSkill] = useState<{
@@ -113,11 +113,14 @@ export default function CombatActions() {
           />
         </div>
         {selectedSkill && (
-          <UseSkillButton
-            entity={selectedSkill.value}
-            onSkill={onSkill}
-            className={"h-10"}
-          />
+          <div className="w-full mt-4">
+            <UseSkillButton
+              userEntity={cycleEntity}
+              skillEntity={selectedSkill.value}
+              onSkill={onSkill}
+              disabled={isBusy}
+            />
+          </div>
         )}
       </div>
     </div>

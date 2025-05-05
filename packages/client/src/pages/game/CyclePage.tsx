@@ -1,9 +1,3 @@
-interface CyclePageProps {
-  className?: string;
+export function CyclePage() {
+  return <div></div>;
 }
-
-const CyclePage = ({ className }: CyclePageProps) => {
-  return <div className={className}></div>;
-};
-
-export default CyclePage;

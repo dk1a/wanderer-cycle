@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Table } from "../../components/utils/Table/Table";
+import { Table } from "../../components/ui/Table/Table";
 import {
   formatEntity,
   formatZeroTerminatedString,
@@ -7,7 +7,7 @@ import {
 import { mudTables, useStashCustom } from "../../mud/stash";
 import { getRecords } from "@latticexyz/stash/internal";
 
-const AffixPage = () => {
+export function AffixPage() {
   const affixPrototypes = useStashCustom((state) => {
     return Object.values(
       getRecords({
@@ -74,6 +74,4 @@ const AffixPage = () => {
       </div>
     </section>
   );
-};
-
-export default AffixPage;
+}

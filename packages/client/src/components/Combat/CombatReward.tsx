@@ -1,21 +1,21 @@
 import { useCallback, useState } from "react";
 import { Hex } from "viem";
 import { CycleCombatRewardRequest } from "../../mud/utils/combat";
-import { useMUD } from "../../MUDContext";
-import { Button } from "../utils/Button/Button";
+import { useSystemCalls } from "../../mud/SystemCallsProvider";
+import { Button } from "../ui/Button";
 
 const blockNumberLimit = 256;
 
 export function CombatReward({
   requesterEntity,
-  currentBlockNumber,
+  latestBlockNumber,
   rewardRequest,
 }: {
   requesterEntity: Hex;
-  currentBlockNumber: number;
+  latestBlockNumber: bigint;
   rewardRequest: CycleCombatRewardRequest;
 }) {
-  const { systemCalls } = useMUD();
+  const systemCalls = useSystemCalls();
   const [isBusy, setIsBusy] = useState(false);
 
   const { requestId, blocknumber: requestBlockNumber } = rewardRequest;
@@ -24,15 +24,15 @@ export function CombatReward({
     setIsBusy(true);
     await systemCalls.cycle.cancelCycleCombatReward(requesterEntity, requestId);
     setIsBusy(false);
-  }, [systemCalls, requesterEntity]);
+  }, [systemCalls, requesterEntity, requestId]);
 
   const claimCycleCombatReward = useCallback(async () => {
     setIsBusy(true);
     await systemCalls.cycle.claimCycleCombatReward(requesterEntity, requestId);
     setIsBusy(false);
-  }, [systemCalls, requesterEntity]);
+  }, [systemCalls, requesterEntity, requestId]);
 
-  const isExpired = currentBlockNumber - requestBlockNumber >= blockNumberLimit;
+  const isExpired = latestBlockNumber - requestBlockNumber >= blockNumberLimit;
 
   if (isExpired) {
     return (
@@ -54,7 +54,7 @@ export function CombatReward({
         <div className="text-dark-200 text-lg">
           expiring...
           <span className="text-dark-number ml-1">
-            {currentBlockNumber - requestBlockNumber}
+            {latestBlockNumber - requestBlockNumber}
           </span>
           <span className="text-dark-200 mx-1">/</span>
           <span className="text-dark-number">{blockNumberLimit}</span>
