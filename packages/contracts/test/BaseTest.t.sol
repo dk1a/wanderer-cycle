@@ -6,7 +6,9 @@ import { WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
 
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 
-import { runPostDeployInitializers } from "../script/PostDeploy.s.sol";
+import { GenericDurationData } from "../src/namespaces/duration/codegen/tables/GenericDuration.sol";
+
+import { runPostDeploy } from "../script/PostDeploy.s.sol";
 
 abstract contract BaseTest is MudTest {
   IWorld world;
@@ -17,10 +19,10 @@ abstract contract BaseTest is MudTest {
   function setUp() public virtual override {
     super.setUp();
 
-    // See the comment for runPostDeployInitializers
+    // See the comment for runPostDeploy
     // It is called here directly for optimization
     // This relies on `script` in `foundry.toml` skipping PostDeploy when deploying locally
-    runPostDeployInitializers(vm, worldAddress);
+    runPostDeploy(vm, worldAddress, true);
 
     world = IWorld(worldAddress);
 
@@ -49,5 +51,16 @@ abstract contract BaseTest is MudTest {
     uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
     vm.broadcast(deployerPrivateKey);
     world.grantAccess(WorldResourceIdLib.encodeNamespace(namespace), grantee);
+  }
+
+  function assertEq(GenericDurationData memory a, GenericDurationData memory b, string memory err) internal pure {
+    string memory timeIdReadableInequality = string.concat(
+      string(bytes.concat(a.timeId)),
+      " != ",
+      string(bytes.concat(b.timeId)),
+      " "
+    );
+    assertEq(a.timeId, b.timeId, string.concat("timeId ", timeIdReadableInequality, err));
+    assertEq(a.timeValue, b.timeValue, string.concat("timeValue ", err));
   }
 }

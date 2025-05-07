@@ -98,7 +98,7 @@ library LibInitSkill {
         targetType: TargetType.SELF
       }),
       // cooldown
-      GenericDurationData("turn", 2),
+      GenericDurationData("turn", 16),
       // duration
       GenericDurationData("round_persistent", 8),
       // effect

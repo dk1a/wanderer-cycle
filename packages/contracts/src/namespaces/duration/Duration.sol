@@ -48,9 +48,14 @@ library Duration {
       targetEntity,
       duration.timeId
     );
+    // Get all the entities (separate from updates to avoid `deleteRecord` messing up indexes for `get`)
+    bytes32[] memory applicationEntities = new bytes32[](applicationEntitiesLength);
     for (uint256 i; i < applicationEntitiesLength; i++) {
-      bytes32 applicationEntity = Idx_GenericDuration_TargetEntityTimeId.get(tableId, targetEntity, duration.timeId, i);
-
+      applicationEntities[i] = Idx_GenericDuration_TargetEntityTimeId.get(tableId, targetEntity, duration.timeId, i);
+    }
+    // Update or delete entities based on the subtracted timeValue
+    for (uint256 i; i < applicationEntitiesLength; i++) {
+      bytes32 applicationEntity = applicationEntities[i];
       uint256 storedValue = GenericDuration.getTimeValue(tableId, targetEntity, applicationEntity);
 
       if (storedValue > duration.timeValue) {

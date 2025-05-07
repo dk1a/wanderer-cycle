@@ -44,7 +44,7 @@ import { EquipmentTypeComponent } from "../src/namespaces/equipment/codegen/tabl
 // Separating the script body allows it to be run directly within tests much faster, skipping lengthy broadcasts
 // In testnet/prod this would be a one-off long expensive deployment
 // TODO consider optimization where possible, some of it can be done offchain via ffi for example
-function runPostDeployInitializers(VmSafe vm, address worldAddress) {
+function runPostDeploy(VmSafe vm, address worldAddress, bool withInitializers) {
   // Specify a store so that you can use tables directly in PostDeploy
   StoreSwitch.setStoreAddress(worldAddress);
 
@@ -54,21 +54,24 @@ function runPostDeployInitializers(VmSafe vm, address worldAddress) {
   // Start broadcasting transactions from the deployer account
   vm.startBroadcast(deployerPrivateKey);
 
-  root_batchRegisterIdxs();
-  skill_batchRegisterIdxs();
-  affix_batchRegisterIdxs();
-  equipment_batchRegisterIdxs();
-  wheel_batchRegisterIdxs();
+  // Running these again on an existing world is generally bad
+  if (withInitializers) {
+    root_batchRegisterIdxs();
+    skill_batchRegisterIdxs();
+    affix_batchRegisterIdxs();
+    equipment_batchRegisterIdxs();
+    wheel_batchRegisterIdxs();
 
-  LibInitStatmod.init();
-  LibInitSkill.init();
-  LibInitGuise.init();
-  LibInitEquipmentAffix.init();
-  LibInitMapAffix.init();
-  LibInitMapsGlobal.init();
-  LibInitMapsBoss.init();
-  LibInitWheel.init();
-  LibInitERC721.init();
+    LibInitStatmod.init();
+    LibInitSkill.init();
+    LibInitGuise.init();
+    LibInitEquipmentAffix.init();
+    LibInitMapAffix.init();
+    LibInitMapsGlobal.init();
+    LibInitMapsBoss.init();
+    LibInitWheel.init();
+    LibInitERC721.init();
+  }
 
   address timeSystemAddress = timeSystem.getAddress();
   IWorld(worldAddress).grantAccess(EffectDuration._tableId, timeSystemAddress);
@@ -93,6 +96,10 @@ function runPostDeployInitializers(VmSafe vm, address worldAddress) {
 
 contract PostDeploy is Script {
   function run(address worldAddress) external {
-    runPostDeployInitializers(vm, worldAddress);
+    runPostDeploy(vm, worldAddress, true);
+  }
+
+  function runNoInit(address worldAddress) external {
+    runPostDeploy(vm, worldAddress, false);
   }
 }
