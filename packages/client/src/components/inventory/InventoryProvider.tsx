@@ -9,13 +9,12 @@ import {
   getEquipmentSlots,
   getOwnedEquipment,
 } from "../../mud/utils/equipment";
+import { getBaseStatmod } from "../../mud/utils/statmod";
 
-export const inventorySortOptions = [
-  { value: "ilvl", label: "ilvl" },
-  { value: "name", label: "name" },
-] as const;
-
-export type InventorySortOption = (typeof inventorySortOptions)[number] | null;
+export type InventorySortOption = {
+  value: string;
+  label: string;
+};
 
 export type EquipmentDataWithSlots = EquipmentData & {
   equippedToSlot: EquipmentSlot | undefined;
@@ -23,8 +22,9 @@ export type EquipmentDataWithSlots = EquipmentData & {
 };
 
 type InventoryContextType = {
-  sort: InventorySortOption;
-  setSort: (sort: InventorySortOption) => void;
+  inventorySortOptions: InventorySortOption[];
+  sort: InventorySortOption | null;
+  setSort: (sort: InventorySortOption | null) => void;
   filter: string;
   setFilter: (filter: string) => void;
   presentEquipmentTypes: EquipmentType[];
@@ -46,7 +46,7 @@ export const InventoryProvider = ({
   const currentValue = useContext(InventoryContext);
   if (currentValue) throw new Error("InventoryProvider can only be used once");
 
-  const [sort, setSort] = useState<InventorySortOption>(null);
+  const [sort, setSort] = useState<InventorySortOption | null>(null);
   const [filter, setFilter] = useState<string>("");
 
   const equipmentSlots = useStashCustom((state) =>
@@ -65,24 +65,64 @@ export const InventoryProvider = ({
     });
   }, [filter, ownedEquipmentList]);
 
-  // 3. Sort it
+  // 3. Get the sort options based on filtered equipment
+  const presentStatmods = useStashCustom((state) => {
+    // extract unique statmods within the affixes of the owned equipment
+    const presentStatmodEntities = [
+      ...new Set(
+        filteredEquipmentList
+          .map(({ affixes }) =>
+            affixes.map(({ affixPrototype }) => affixPrototype.statmodEntity),
+          )
+          .flat(),
+      ),
+    ];
+    return presentStatmodEntities
+      .map((entity) => getBaseStatmod(state, entity))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  });
+  const inventorySortOptions = useMemo(() => {
+    return [
+      { value: "ilvl", label: "ilvl" },
+      { value: "name", label: "name" },
+      ...presentStatmods.map((statmod) => ({
+        value: statmod.entity,
+        label: statmod.name,
+      })),
+    ];
+  }, [presentStatmods]);
+
+  // 4. Sort it
   const sortedEquipmentList = useMemo(() => {
-    if (sort === null) {
+    const sortValue = sort === null ? null : sort.value;
+    if (sortValue === null) {
       return filteredEquipmentList;
-    } else if (sort.value === "name") {
+    } else if (sortValue === "name") {
       return [...filteredEquipmentList].sort((a, b) =>
-        a[sort.value].localeCompare(b[sort.value]),
+        a[sortValue].localeCompare(b[sortValue]),
       );
-    } else if (sort.value === "ilvl") {
+    } else if (sortValue === "ilvl") {
       return [...filteredEquipmentList].sort(
-        (a, b) => b[sort.value] - a[sort.value],
+        (a, b) => b[sortValue] - a[sortValue],
       );
     } else {
-      return filteredEquipmentList;
+      return [...filteredEquipmentList].sort((a, b) => {
+        const aAffix = a.affixes.find(
+          (affix) => affix.affixPrototype.statmodEntity === sortValue,
+        );
+        const bAffix = b.affixes.find(
+          (affix) => affix.affixPrototype.statmodEntity === sortValue,
+        );
+
+        // revert to ilvl sorting if the statmod doesn't exist on either item
+        if (!aAffix && !bAffix) return a.ilvl - b.ilvl;
+        // sort by affix value of the selected statmod
+        return (bAffix?.value ?? 0) - (aAffix?.value ?? 0);
+      });
     }
   }, [sort, filteredEquipmentList]);
 
-  // 4. Add equipment slot info
+  // 5. Add equipment slot info
   const equipmentListWithSlots = useMemo(() => {
     return sortedEquipmentList.map((data): EquipmentDataWithSlots => {
       const equippedToSlot = equipmentSlots.find(
@@ -104,14 +144,14 @@ export const InventoryProvider = ({
     });
   }, [sortedEquipmentList, equipmentSlots]);
 
-  // 5. Omit the currently equipped equipment
+  // 6. Omit the currently equipped equipment
   const equipmentList = useMemo(() => {
     return equipmentListWithSlots.filter(
       ({ equippedToSlot }) => equippedToSlot === undefined,
     );
   }, [equipmentListWithSlots]);
 
-  // 6. Extract equipment types still present after filtering
+  // 7. Extract equipment types still present after filtering
   const presentEquipmentTypes = useMemo(() => {
     // extract unique types of the owned equipment
     const presentEquipmentTypes = new Set(
@@ -124,6 +164,7 @@ export const InventoryProvider = ({
   }, [equipmentList]);
 
   const value = {
+    inventorySortOptions,
     sort,
     setSort,
     filter,
