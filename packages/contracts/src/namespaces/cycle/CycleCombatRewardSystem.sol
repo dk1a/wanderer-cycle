@@ -55,7 +55,7 @@ contract CycleCombatRewardSystem is System {
     for (uint256 i; i < quantity; i++) {
       bytes32 lootEntity = randomEquipmentSystem.mintRandomEquipmentEntity(
         ilvl,
-        uint256(keccak256(abi.encodePacked(blockhash(block.number), i)))
+        uint256(keccak256(abi.encodePacked("admintMintLoot", block.number, gasleft(), i)))
       );
       LibLootOwner.setSimpleOwnership(lootEntity, cycleEntity);
     }
