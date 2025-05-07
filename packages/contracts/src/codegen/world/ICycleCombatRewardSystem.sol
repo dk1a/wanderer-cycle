@@ -12,4 +12,6 @@ interface ICycleCombatRewardSystem {
   function cycle__claimCycleCombatReward(bytes32 cycleEntity, bytes32 requestId) external;
 
   function cycle__cancelCycleCombatReward(bytes32 cycleEntity, bytes32 requestId) external;
+
+  function cycle__adminMintLoot(bytes32 cycleEntity, uint32 quantity, uint32 ilvl) external;
 }

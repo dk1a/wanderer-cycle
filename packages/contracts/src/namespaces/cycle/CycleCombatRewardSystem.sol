@@ -47,4 +47,17 @@ contract CycleCombatRewardSystem is System {
     // Remove the reward without claiming it
     rNGSystem.removeRequest(cycleEntity, requestId);
   }
+
+  // TODO remove later; sample loot for testing
+  function adminMintLoot(bytes32 cycleEntity, uint32 quantity, uint32 ilvl) public {
+    LibCycle.requireAccess(cycleEntity);
+
+    for (uint256 i; i < quantity; i++) {
+      bytes32 lootEntity = randomEquipmentSystem.mintRandomEquipmentEntity(
+        ilvl,
+        uint256(keccak256(abi.encodePacked(blockhash(block.number), i)))
+      );
+      LibLootOwner.setSimpleOwnership(lootEntity, cycleEntity);
+    }
+  }
 }
