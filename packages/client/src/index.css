@@ -175,3 +175,17 @@
 .custom-select-container--menu-is-open {
   border-color: #ced4da !important;
 }
+
+input.custom-input {
+  background-color: #252526;
+  border-radius: 0 !important;
+  border: 1px solid #3c3c3c;
+  box-shadow: none;
+  height: 2.5rem;
+  padding-left: 2px;
+  @apply text-dark-string;
+
+  &:focus-visible {
+    outline-color: #ced4da;
+  }
+}

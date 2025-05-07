@@ -41,3 +41,11 @@ export const eleStatNames = {
   [ELE_STAT.COLD]: "cold",
   [ELE_STAT.POISON]: "poison",
 } as const;
+
+export const eleStatColorClasses = {
+  [ELE_STAT.NONE]: "",
+  [ELE_STAT.PHYSICAL]: "text-dark-200",
+  [ELE_STAT.FIRE]: "text-red-200",
+  [ELE_STAT.COLD]: "text-blue-200",
+  [ELE_STAT.POISON]: "text-green-200",
+} as const;

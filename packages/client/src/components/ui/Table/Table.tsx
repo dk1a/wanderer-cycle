@@ -25,7 +25,7 @@ export const Table: React.FC<TableProps> = ({ columns, data, onSort }) => {
           {columns.map((column) => (
             <th
               key={column.key}
-              className="p-2 border border-dark-400 font-normal text-dark-keyword cursor-pointer"
+              className="p-2 border border-dark-400 font-normal text-dark-key cursor-pointer"
               onClick={() => onSort(column.key)}
             >
               {column.label}

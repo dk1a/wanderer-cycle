@@ -10,7 +10,7 @@ import {
 import { Navbar } from "../components/ui/Navbar";
 
 export function RootLayout() {
-  const isAdmin = useMatch("/admin");
+  const isAdmin = useMatch("/admin/*");
 
   return (
     <div className="flex flex-col h-full">

@@ -14,6 +14,7 @@ export function InventoryFilter() {
         options={inventorySortOptions}
       />
       <input
+        className="custom-input"
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
         placeholder={"Search..."}

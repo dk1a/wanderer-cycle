@@ -2,6 +2,7 @@ import { useStashCustom } from "../../mud/stash";
 import { getEffectTemplate } from "../../mud/utils/getEffect";
 import { SkillType, SkillData } from "../../mud/utils/skill";
 import { EffectStatmods } from "../effect/EffectStatmods";
+import { ElementalNumbers } from "../ui/ElementalNumbers";
 
 type SkillProps = {
   skill: SkillData;
@@ -46,6 +47,12 @@ export function Skill({
                   <span className="text-dark-key">cost: </span>
                   <span className="text-dark-number mr-1">{skill.cost}</span>
                   <span className="text-dark-string">mana</span>
+                </div>
+              )}
+              {skill.withSpell && (
+                <div>
+                  <span className="text-dark-key">spellDamage: </span>
+                  <ElementalNumbers data={skill.spellDamage} />
                 </div>
               )}
               {skill.templateDuration.timeValue > 0 && (

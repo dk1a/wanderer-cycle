@@ -97,26 +97,14 @@ export function CombatActions({ onAfterActions }: CombatActionsProps) {
         Attack
       </Button>
       <div className="flex items-center justify-center gap-4 w-full mb-4">
-        <div className="min-w-[20rem]">
-          <Select
-            classNamePrefix="custom-select"
-            placeholder="Select a skill"
-            options={skillOptions}
-            onChange={selectSkill}
-            value={selectedSkill}
-            styles={{
-              control: (base) => ({
-                ...base,
-                minHeight: "2.5rem",
-                height: "2.5rem",
-              }),
-              menu: (base) => ({
-                ...base,
-                zIndex: 20,
-              }),
-            }}
-          />
-        </div>
+        <Select
+          className="min-w-64"
+          classNamePrefix="custom-select"
+          placeholder="Select a skill"
+          options={skillOptions}
+          onChange={selectSkill}
+          value={selectedSkill}
+        />
         <UseSkillButton
           userEntity={cycleEntity}
           skillEntity={selectedSkill?.value}

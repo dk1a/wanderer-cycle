@@ -34,13 +34,14 @@ export function UseSkillButton({
   return (
     <div className="flex items-center justify-center">
       <Button
+        className="h-10 w-24"
         onClick={onSkill}
         disabled={
           disabled ||
           userEntity === undefined ||
           skill === undefined ||
           manaCurrent === undefined ||
-          manaCurrent <= skill.cost ||
+          manaCurrent < skill.cost ||
           (cooldown !== undefined && cooldown.timeValue > 0)
         }
       >

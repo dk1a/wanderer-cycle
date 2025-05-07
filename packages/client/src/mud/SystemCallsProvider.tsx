@@ -42,6 +42,14 @@ interface SystemCallsContextType {
     ) => Promise<void>;
     unequip: (cycleEntity: Hex, slotEntity: Hex) => Promise<void>;
   };
+  admin: {
+    adminCompleteCycle: (cycleEntity: Hex) => Promise<void>;
+    adminMintLoot: (
+      cycleEntity: Hex,
+      quantity: number,
+      ilvl: number,
+    ) => Promise<void>;
+  };
 }
 
 const SystemCallsContext = createContext<SystemCallsContextType | undefined>(
@@ -186,6 +194,26 @@ export function SystemCallsProvider({
           const tx = await worldContract.write.cycle__unequip([
             cycleEntity,
             slotEntity,
+          ]);
+          await waitForTransaction(tx);
+        },
+      },
+      admin: {
+        adminCompleteCycle: async (cycleEntity: Hex) => {
+          const tx = await worldContract.write.cycle__adminCompleteCycle([
+            cycleEntity,
+          ]);
+          await waitForTransaction(tx);
+        },
+        adminMintLoot: async (
+          cycleEntity: Hex,
+          quantity: number,
+          ilvl: number,
+        ) => {
+          const tx = await worldContract.write.cycle__adminMintLoot([
+            cycleEntity,
+            quantity,
+            ilvl,
           ]);
           await waitForTransaction(tx);
         },

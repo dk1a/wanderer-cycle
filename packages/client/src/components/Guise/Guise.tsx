@@ -47,12 +47,12 @@ export function Guise({ guise, onSelectGuise, disabled }: GuiseProps) {
       </div>
 
       {onSelectGuise !== undefined && (
-        <div className="flex justify-center my-2">
+        <div className="flex justify-center mt-4">
           <Button
             onClick={() => onSelectGuise(guise.entity)}
             disabled={disabled}
           >
-            Spawn
+            spawn
           </Button>
         </div>
       )}

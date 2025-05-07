@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
 
 import { SyncPage } from "./mud/SyncPage";
 
@@ -8,6 +9,7 @@ import { GlobalMapsPage } from "./pages/game/GlobalMapsPage";
 import { SkillPage } from "./pages/game/SkillPage";
 import { WandererSelect } from "./pages/game/WandererSelect";
 
+import { AdminCallsPage } from "./pages/admin/AdminCallsPage";
 import { AffixPage } from "./pages/admin/AffixPage";
 
 export interface ExternalRoute {
@@ -77,8 +79,18 @@ export const externalRoutes: ExternalRoute[] = [
 
 export const adminRoutes: InternalRoute[] = [
   {
+    label: "calls",
+    path: "/admin",
+    element: <AdminCallsPage />,
+  },
+  {
     label: "affixes",
     path: "/admin/affixes",
     element: <AffixPage />,
+  },
+  {
+    label: "/",
+    path: "/admin/to-root",
+    element: <Navigate to="/" />,
   },
 ];

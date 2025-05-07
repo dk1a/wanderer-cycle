@@ -44,7 +44,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin",
-        children: adminRoutes,
+        children: [
+          ...adminRoutes,
+          {
+            path: "*",
+            element: <Navigate to="/admin" />,
+          },
+        ],
       },
       {
         path: "*",
