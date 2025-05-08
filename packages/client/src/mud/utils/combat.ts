@@ -2,6 +2,7 @@ import { Hex, toHex } from "viem";
 import { getRecord, getRecords } from "@latticexyz/stash/internal";
 import { mudTables, StateLocal } from "../stash";
 import { parseArrayPStat, PStats } from "./experience";
+import { Elemental, parseElementalArray } from "./elemental";
 
 export const MAX_ROUNDS = 12;
 
@@ -51,6 +52,10 @@ export interface CombatActionLog {
   actionIndex: number;
   action: CombatAction;
   defenderLifeDiff: number;
+  withAttack: boolean;
+  withSpell: boolean;
+  attackDamage: Elemental;
+  spellDamage: Elemental;
 }
 
 export const attackAction: CombatAction = {
@@ -250,5 +255,9 @@ function getCombatActionLog(
     },
     defenderLifeDiff:
       combatActionLog.defenderLifeAfter - combatActionLog.defenderLifeBefore,
+    withAttack: combatActionLog.withAttack,
+    withSpell: combatActionLog.withSpell,
+    attackDamage: parseElementalArray(combatActionLog.attackDamage),
+    spellDamage: parseElementalArray(combatActionLog.spellDamage),
   };
 }

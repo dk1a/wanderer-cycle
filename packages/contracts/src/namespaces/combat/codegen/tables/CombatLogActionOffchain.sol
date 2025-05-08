@@ -24,6 +24,10 @@ struct CombatLogActionOffchainData {
   bytes32 actionEntity;
   uint32 defenderLifeBefore;
   uint32 defenderLifeAfter;
+  bool withAttack;
+  bool withSpell;
+  uint32[5] attackDamage;
+  uint32[5] spellDamage;
 }
 
 library CombatLogActionOffchain {
@@ -31,12 +35,12 @@ library CombatLogActionOffchain {
   ResourceId constant _tableId = ResourceId.wrap(0x6f74636f6d6261740000000000000000436f6d6261744c6f67416374696f6e4f);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0029040001200404000000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x002b060201200404010100000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (bytes32, bytes32, uint256, uint256)
   Schema constant _keySchema = Schema.wrap(0x008004005f5f1f1f000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (uint8, bytes32, uint32, uint32)
-  Schema constant _valueSchema = Schema.wrap(0x00290400005f0303000000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (uint8, bytes32, uint32, uint32, bool, bool, uint32[], uint32[])
+  Schema constant _valueSchema = Schema.wrap(0x002b0602005f0303606065650000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -55,11 +59,15 @@ library CombatLogActionOffchain {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](4);
+    fieldNames = new string[](8);
     fieldNames[0] = "actionType";
     fieldNames[1] = "actionEntity";
     fieldNames[2] = "defenderLifeBefore";
     fieldNames[3] = "defenderLifeAfter";
+    fieldNames[4] = "withAttack";
+    fieldNames[5] = "withSpell";
+    fieldNames[6] = "attackDamage";
+    fieldNames[7] = "spellDamage";
   }
 
   /**
@@ -229,6 +237,82 @@ library CombatLogActionOffchain {
   }
 
   /**
+   * @notice Set withAttack.
+   */
+  function setWithAttack(
+    bytes32 attackerEntity,
+    bytes32 defenderEntity,
+    uint256 roundIndex,
+    uint256 actionIndex,
+    bool withAttack
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](4);
+    _keyTuple[0] = attackerEntity;
+    _keyTuple[1] = defenderEntity;
+    _keyTuple[2] = bytes32(uint256(roundIndex));
+    _keyTuple[3] = bytes32(uint256(actionIndex));
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((withAttack)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set withAttack.
+   */
+  function _setWithAttack(
+    bytes32 attackerEntity,
+    bytes32 defenderEntity,
+    uint256 roundIndex,
+    uint256 actionIndex,
+    bool withAttack
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](4);
+    _keyTuple[0] = attackerEntity;
+    _keyTuple[1] = defenderEntity;
+    _keyTuple[2] = bytes32(uint256(roundIndex));
+    _keyTuple[3] = bytes32(uint256(actionIndex));
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((withAttack)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set withSpell.
+   */
+  function setWithSpell(
+    bytes32 attackerEntity,
+    bytes32 defenderEntity,
+    uint256 roundIndex,
+    uint256 actionIndex,
+    bool withSpell
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](4);
+    _keyTuple[0] = attackerEntity;
+    _keyTuple[1] = defenderEntity;
+    _keyTuple[2] = bytes32(uint256(roundIndex));
+    _keyTuple[3] = bytes32(uint256(actionIndex));
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((withSpell)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set withSpell.
+   */
+  function _setWithSpell(
+    bytes32 attackerEntity,
+    bytes32 defenderEntity,
+    uint256 roundIndex,
+    uint256 actionIndex,
+    bool withSpell
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](4);
+    _keyTuple[0] = attackerEntity;
+    _keyTuple[1] = defenderEntity;
+    _keyTuple[2] = bytes32(uint256(roundIndex));
+    _keyTuple[3] = bytes32(uint256(actionIndex));
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((withSpell)), _fieldLayout);
+  }
+
+  /**
    * @notice Set the full data using individual values.
    */
   function set(
@@ -239,12 +323,23 @@ library CombatLogActionOffchain {
     CombatActionType actionType,
     bytes32 actionEntity,
     uint32 defenderLifeBefore,
-    uint32 defenderLifeAfter
+    uint32 defenderLifeAfter,
+    bool withAttack,
+    bool withSpell,
+    uint32[5] memory attackDamage,
+    uint32[5] memory spellDamage
   ) internal {
-    bytes memory _staticData = encodeStatic(actionType, actionEntity, defenderLifeBefore, defenderLifeAfter);
+    bytes memory _staticData = encodeStatic(
+      actionType,
+      actionEntity,
+      defenderLifeBefore,
+      defenderLifeAfter,
+      withAttack,
+      withSpell
+    );
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(attackDamage, spellDamage);
+    bytes memory _dynamicData = encodeDynamic(attackDamage, spellDamage);
 
     bytes32[] memory _keyTuple = new bytes32[](4);
     _keyTuple[0] = attackerEntity;
@@ -266,12 +361,23 @@ library CombatLogActionOffchain {
     CombatActionType actionType,
     bytes32 actionEntity,
     uint32 defenderLifeBefore,
-    uint32 defenderLifeAfter
+    uint32 defenderLifeAfter,
+    bool withAttack,
+    bool withSpell,
+    uint32[5] memory attackDamage,
+    uint32[5] memory spellDamage
   ) internal {
-    bytes memory _staticData = encodeStatic(actionType, actionEntity, defenderLifeBefore, defenderLifeAfter);
+    bytes memory _staticData = encodeStatic(
+      actionType,
+      actionEntity,
+      defenderLifeBefore,
+      defenderLifeAfter,
+      withAttack,
+      withSpell
+    );
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(attackDamage, spellDamage);
+    bytes memory _dynamicData = encodeDynamic(attackDamage, spellDamage);
 
     bytes32[] memory _keyTuple = new bytes32[](4);
     _keyTuple[0] = attackerEntity;
@@ -296,11 +402,13 @@ library CombatLogActionOffchain {
       _table.actionType,
       _table.actionEntity,
       _table.defenderLifeBefore,
-      _table.defenderLifeAfter
+      _table.defenderLifeAfter,
+      _table.withAttack,
+      _table.withSpell
     );
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(_table.attackDamage, _table.spellDamage);
+    bytes memory _dynamicData = encodeDynamic(_table.attackDamage, _table.spellDamage);
 
     bytes32[] memory _keyTuple = new bytes32[](4);
     _keyTuple[0] = attackerEntity;
@@ -325,11 +433,13 @@ library CombatLogActionOffchain {
       _table.actionType,
       _table.actionEntity,
       _table.defenderLifeBefore,
-      _table.defenderLifeAfter
+      _table.defenderLifeAfter,
+      _table.withAttack,
+      _table.withSpell
     );
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(_table.attackDamage, _table.spellDamage);
+    bytes memory _dynamicData = encodeDynamic(_table.attackDamage, _table.spellDamage);
 
     bytes32[] memory _keyTuple = new bytes32[](4);
     _keyTuple[0] = attackerEntity;
@@ -348,7 +458,14 @@ library CombatLogActionOffchain {
   )
     internal
     pure
-    returns (CombatActionType actionType, bytes32 actionEntity, uint32 defenderLifeBefore, uint32 defenderLifeAfter)
+    returns (
+      CombatActionType actionType,
+      bytes32 actionEntity,
+      uint32 defenderLifeBefore,
+      uint32 defenderLifeAfter,
+      bool withAttack,
+      bool withSpell
+    )
   {
     actionType = CombatActionType(uint8(Bytes.getBytes1(_blob, 0)));
 
@@ -357,22 +474,54 @@ library CombatLogActionOffchain {
     defenderLifeBefore = (uint32(Bytes.getBytes4(_blob, 33)));
 
     defenderLifeAfter = (uint32(Bytes.getBytes4(_blob, 37)));
+
+    withAttack = (_toBool(uint8(Bytes.getBytes1(_blob, 41))));
+
+    withSpell = (_toBool(uint8(Bytes.getBytes1(_blob, 42))));
+  }
+
+  /**
+   * @notice Decode the tightly packed blob of dynamic data using the encoded lengths.
+   */
+  function decodeDynamic(
+    EncodedLengths _encodedLengths,
+    bytes memory _blob
+  ) internal pure returns (uint32[5] memory attackDamage, uint32[5] memory spellDamage) {
+    uint256 _start;
+    uint256 _end;
+    unchecked {
+      _end = _encodedLengths.atIndex(0);
+    }
+    attackDamage = toStaticArray_uint32_5(SliceLib.getSubslice(_blob, _start, _end).decodeArray_uint32());
+
+    _start = _end;
+    unchecked {
+      _end += _encodedLengths.atIndex(1);
+    }
+    spellDamage = toStaticArray_uint32_5(SliceLib.getSubslice(_blob, _start, _end).decodeArray_uint32());
   }
 
   /**
    * @notice Decode the tightly packed blobs using this table's field layout.
    * @param _staticData Tightly packed static fields.
-   *
-   *
+   * @param _encodedLengths Encoded lengths of dynamic fields.
+   * @param _dynamicData Tightly packed dynamic fields.
    */
   function decode(
     bytes memory _staticData,
-    EncodedLengths,
-    bytes memory
+    EncodedLengths _encodedLengths,
+    bytes memory _dynamicData
   ) internal pure returns (CombatLogActionOffchainData memory _table) {
-    (_table.actionType, _table.actionEntity, _table.defenderLifeBefore, _table.defenderLifeAfter) = decodeStatic(
-      _staticData
-    );
+    (
+      _table.actionType,
+      _table.actionEntity,
+      _table.defenderLifeBefore,
+      _table.defenderLifeAfter,
+      _table.withAttack,
+      _table.withSpell
+    ) = decodeStatic(_staticData);
+
+    (_table.attackDamage, _table.spellDamage) = decodeDynamic(_encodedLengths, _dynamicData);
   }
 
   /**
@@ -419,9 +568,40 @@ library CombatLogActionOffchain {
     CombatActionType actionType,
     bytes32 actionEntity,
     uint32 defenderLifeBefore,
-    uint32 defenderLifeAfter
+    uint32 defenderLifeAfter,
+    bool withAttack,
+    bool withSpell
   ) internal pure returns (bytes memory) {
-    return abi.encodePacked(actionType, actionEntity, defenderLifeBefore, defenderLifeAfter);
+    return abi.encodePacked(actionType, actionEntity, defenderLifeBefore, defenderLifeAfter, withAttack, withSpell);
+  }
+
+  /**
+   * @notice Tightly pack dynamic data lengths using this table's schema.
+   * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
+   */
+  function encodeLengths(
+    uint32[5] memory attackDamage,
+    uint32[5] memory spellDamage
+  ) internal pure returns (EncodedLengths _encodedLengths) {
+    // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
+    unchecked {
+      _encodedLengths = EncodedLengthsLib.pack(attackDamage.length * 4, spellDamage.length * 4);
+    }
+  }
+
+  /**
+   * @notice Tightly pack dynamic (variable length) data using this table's schema.
+   * @return The dynamic data, encoded into a sequence of bytes.
+   */
+  function encodeDynamic(
+    uint32[5] memory attackDamage,
+    uint32[5] memory spellDamage
+  ) internal pure returns (bytes memory) {
+    return
+      abi.encodePacked(
+        EncodeArray.encode(fromStaticArray_uint32_5(attackDamage)),
+        EncodeArray.encode(fromStaticArray_uint32_5(spellDamage))
+      );
   }
 
   /**
@@ -434,12 +614,23 @@ library CombatLogActionOffchain {
     CombatActionType actionType,
     bytes32 actionEntity,
     uint32 defenderLifeBefore,
-    uint32 defenderLifeAfter
+    uint32 defenderLifeAfter,
+    bool withAttack,
+    bool withSpell,
+    uint32[5] memory attackDamage,
+    uint32[5] memory spellDamage
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(actionType, actionEntity, defenderLifeBefore, defenderLifeAfter);
+    bytes memory _staticData = encodeStatic(
+      actionType,
+      actionEntity,
+      defenderLifeBefore,
+      defenderLifeAfter,
+      withAttack,
+      withSpell
+    );
 
-    EncodedLengths _encodedLengths;
-    bytes memory _dynamicData;
+    EncodedLengths _encodedLengths = encodeLengths(attackDamage, spellDamage);
+    bytes memory _dynamicData = encodeDynamic(attackDamage, spellDamage);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }
@@ -460,5 +651,56 @@ library CombatLogActionOffchain {
     _keyTuple[3] = bytes32(uint256(actionIndex));
 
     return _keyTuple;
+  }
+}
+
+/**
+ * @notice Cast a dynamic array to a static array.
+ * @dev In memory static arrays are just dynamic arrays without the 32 length bytes,
+ * so this function moves the pointer to the first element of the dynamic array.
+ * If the length of the dynamic array is smaller than the static length,
+ * the function returns an uninitialized array to avoid memory corruption.
+ * @param _value The dynamic array to cast.
+ * @return _result The static array.
+ */
+function toStaticArray_uint32_5(uint32[] memory _value) pure returns (uint32[5] memory _result) {
+  if (_value.length < 5) {
+    // return an uninitialized array if the length is smaller than the fixed length to avoid memory corruption
+    return _result;
+  } else {
+    // in memory static arrays are just dynamic arrays without the 32 length bytes
+    // (without the length check this could lead to memory corruption)
+    assembly {
+      _result := add(_value, 0x20)
+    }
+  }
+}
+
+/**
+ * @notice Copy a static array to a dynamic array.
+ * @dev Static arrays don't have a length prefix, so this function copies the memory from the static array to a new dynamic array.
+ * @param _value The static array to copy.
+ * @return _result The dynamic array.
+ */
+function fromStaticArray_uint32_5(uint32[5] memory _value) pure returns (uint32[] memory _result) {
+  _result = new uint32[](5);
+  uint256 fromPointer;
+  uint256 toPointer;
+  assembly {
+    fromPointer := _value
+    toPointer := add(_result, 0x20)
+  }
+  Memory.copy(fromPointer, toPointer, 160);
+}
+
+/**
+ * @notice Cast a value to a bool.
+ * @dev Boolean values are encoded as uint8 (1 = true, 0 = false), but Solidity doesn't allow casting between uint8 and bool.
+ * @param value The uint8 value to convert.
+ * @return result The boolean value.
+ */
+function _toBool(uint8 value) pure returns (bool result) {
+  assembly {
+    result := value
   }
 }

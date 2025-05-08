@@ -14,8 +14,7 @@ import {
 
 const EntityId = "bytes32" as const;
 const EntityIdArray = "bytes32[]" as const;
-// TODO set
-const EntityIdSet = "bytes32[]" as const;
+const EleStatStaticArray = "uint32[5]" as const;
 
 const entityKey = {
   key: ["entity"],
@@ -309,7 +308,7 @@ export default defineWorld({
           ...entityKey,
           schema: {
             entity: EntityId,
-            value: "uint32[5]",
+            value: EleStatStaticArray,
           },
         },
         SkillTemplateCooldown: durationTemplateTable,
@@ -327,7 +326,7 @@ export default defineWorld({
           ...entityKey,
           schema: {
             entity: EntityId,
-            entityIdSet: EntityIdSet,
+            skillEntities: EntityIdArray,
           },
         },
       },
@@ -407,6 +406,10 @@ export default defineWorld({
             actionEntity: EntityId,
             defenderLifeBefore: "uint32",
             defenderLifeAfter: "uint32",
+            withAttack: "bool",
+            withSpell: "bool",
+            attackDamage: EleStatStaticArray,
+            spellDamage: EleStatStaticArray,
           },
         },
       },

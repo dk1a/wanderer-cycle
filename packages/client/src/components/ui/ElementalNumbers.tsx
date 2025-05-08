@@ -15,6 +15,10 @@ export function ElementalNumbers({ data }: ElementalNumbersProps) {
     return getEnumValues(ELE_STAT).filter((eleStat) => data[eleStat] > 0);
   }, [data]);
 
+  if (eleStatsWithData.length === 0) {
+    return <span>0</span>;
+  }
+
   return (
     <>
       {eleStatsWithData.map((eleStat) => (

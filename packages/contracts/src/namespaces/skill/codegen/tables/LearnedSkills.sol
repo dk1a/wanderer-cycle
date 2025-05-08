@@ -43,7 +43,7 @@ library LearnedSkills {
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
     fieldNames = new string[](1);
-    fieldNames[0] = "entityIdSet";
+    fieldNames[0] = "skillEntities";
   }
 
   /**
@@ -61,9 +61,9 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Get entityIdSet.
+   * @notice Get skillEntities.
    */
-  function getEntityIdSet(bytes32 entity) internal view returns (bytes32[] memory entityIdSet) {
+  function getSkillEntities(bytes32 entity) internal view returns (bytes32[] memory skillEntities) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -72,9 +72,9 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Get entityIdSet.
+   * @notice Get skillEntities.
    */
-  function _getEntityIdSet(bytes32 entity) internal view returns (bytes32[] memory entityIdSet) {
+  function _getSkillEntities(bytes32 entity) internal view returns (bytes32[] memory skillEntities) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -83,9 +83,9 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Get entityIdSet.
+   * @notice Get skillEntities.
    */
-  function get(bytes32 entity) internal view returns (bytes32[] memory entityIdSet) {
+  function get(bytes32 entity) internal view returns (bytes32[] memory skillEntities) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -94,9 +94,9 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Get entityIdSet.
+   * @notice Get skillEntities.
    */
-  function _get(bytes32 entity) internal view returns (bytes32[] memory entityIdSet) {
+  function _get(bytes32 entity) internal view returns (bytes32[] memory skillEntities) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -105,49 +105,49 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Set entityIdSet.
+   * @notice Set skillEntities.
    */
-  function setEntityIdSet(bytes32 entity, bytes32[] memory entityIdSet) internal {
+  function setSkillEntities(bytes32 entity, bytes32[] memory skillEntities) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((entityIdSet)));
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((skillEntities)));
   }
 
   /**
-   * @notice Set entityIdSet.
+   * @notice Set skillEntities.
    */
-  function _setEntityIdSet(bytes32 entity, bytes32[] memory entityIdSet) internal {
+  function _setSkillEntities(bytes32 entity, bytes32[] memory skillEntities) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((entityIdSet)));
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((skillEntities)));
   }
 
   /**
-   * @notice Set entityIdSet.
+   * @notice Set skillEntities.
    */
-  function set(bytes32 entity, bytes32[] memory entityIdSet) internal {
+  function set(bytes32 entity, bytes32[] memory skillEntities) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((entityIdSet)));
+    StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((skillEntities)));
   }
 
   /**
-   * @notice Set entityIdSet.
+   * @notice Set skillEntities.
    */
-  function _set(bytes32 entity, bytes32[] memory entityIdSet) internal {
+  function _set(bytes32 entity, bytes32[] memory skillEntities) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((entityIdSet)));
+    StoreCore.setDynamicField(_tableId, _keyTuple, 0, EncodeArray.encode((skillEntities)));
   }
 
   /**
-   * @notice Get the length of entityIdSet.
+   * @notice Get the length of skillEntities.
    */
-  function lengthEntityIdSet(bytes32 entity) internal view returns (uint256) {
+  function lengthSkillEntities(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -158,9 +158,9 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Get the length of entityIdSet.
+   * @notice Get the length of skillEntities.
    */
-  function _lengthEntityIdSet(bytes32 entity) internal view returns (uint256) {
+  function _lengthSkillEntities(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -171,7 +171,7 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Get the length of entityIdSet.
+   * @notice Get the length of skillEntities.
    */
   function length(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -184,7 +184,7 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Get the length of entityIdSet.
+   * @notice Get the length of skillEntities.
    */
   function _length(bytes32 entity) internal view returns (uint256) {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -197,10 +197,10 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Get an item of entityIdSet.
+   * @notice Get an item of skillEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function getItemEntityIdSet(bytes32 entity, uint256 _index) internal view returns (bytes32) {
+  function getItemSkillEntities(bytes32 entity, uint256 _index) internal view returns (bytes32) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -211,10 +211,10 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Get an item of entityIdSet.
+   * @notice Get an item of skillEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
-  function _getItemEntityIdSet(bytes32 entity, uint256 _index) internal view returns (bytes32) {
+  function _getItemSkillEntities(bytes32 entity, uint256 _index) internal view returns (bytes32) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -225,7 +225,7 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Get an item of entityIdSet.
+   * @notice Get an item of skillEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
   function getItem(bytes32 entity, uint256 _index) internal view returns (bytes32) {
@@ -239,7 +239,7 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Get an item of entityIdSet.
+   * @notice Get an item of skillEntities.
    * @dev Reverts with Store_IndexOutOfBounds if `_index` is out of bounds for the array.
    */
   function _getItem(bytes32 entity, uint256 _index) internal view returns (bytes32) {
@@ -253,9 +253,9 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Push an element to entityIdSet.
+   * @notice Push an element to skillEntities.
    */
-  function pushEntityIdSet(bytes32 entity, bytes32 _element) internal {
+  function pushSkillEntities(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -263,9 +263,9 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Push an element to entityIdSet.
+   * @notice Push an element to skillEntities.
    */
-  function _pushEntityIdSet(bytes32 entity, bytes32 _element) internal {
+  function _pushSkillEntities(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -273,7 +273,7 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Push an element to entityIdSet.
+   * @notice Push an element to skillEntities.
    */
   function push(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -283,7 +283,7 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Push an element to entityIdSet.
+   * @notice Push an element to skillEntities.
    */
   function _push(bytes32 entity, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -293,9 +293,9 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Pop an element from entityIdSet.
+   * @notice Pop an element from skillEntities.
    */
-  function popEntityIdSet(bytes32 entity) internal {
+  function popSkillEntities(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -303,9 +303,9 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Pop an element from entityIdSet.
+   * @notice Pop an element from skillEntities.
    */
-  function _popEntityIdSet(bytes32 entity) internal {
+  function _popSkillEntities(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -313,7 +313,7 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Pop an element from entityIdSet.
+   * @notice Pop an element from skillEntities.
    */
   function pop(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -323,7 +323,7 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Pop an element from entityIdSet.
+   * @notice Pop an element from skillEntities.
    */
   function _pop(bytes32 entity) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -333,9 +333,9 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Update an element of entityIdSet at `_index`.
+   * @notice Update an element of skillEntities at `_index`.
    */
-  function updateEntityIdSet(bytes32 entity, uint256 _index, bytes32 _element) internal {
+  function updateSkillEntities(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -346,9 +346,9 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Update an element of entityIdSet at `_index`.
+   * @notice Update an element of skillEntities at `_index`.
    */
-  function _updateEntityIdSet(bytes32 entity, uint256 _index, bytes32 _element) internal {
+  function _updateSkillEntities(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
@@ -359,7 +359,7 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Update an element of entityIdSet at `_index`.
+   * @notice Update an element of skillEntities at `_index`.
    */
   function update(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -372,7 +372,7 @@ library LearnedSkills {
   }
 
   /**
-   * @notice Update an element of entityIdSet at `_index`.
+   * @notice Update an element of skillEntities at `_index`.
    */
   function _update(bytes32 entity, uint256 _index, bytes32 _element) internal {
     bytes32[] memory _keyTuple = new bytes32[](1);
@@ -408,10 +408,10 @@ library LearnedSkills {
    * @notice Tightly pack dynamic data lengths using this table's schema.
    * @return _encodedLengths The lengths of the dynamic fields (packed into a single bytes32 value).
    */
-  function encodeLengths(bytes32[] memory entityIdSet) internal pure returns (EncodedLengths _encodedLengths) {
+  function encodeLengths(bytes32[] memory skillEntities) internal pure returns (EncodedLengths _encodedLengths) {
     // Lengths are effectively checked during copy by 2**40 bytes exceeding gas limits
     unchecked {
-      _encodedLengths = EncodedLengthsLib.pack(entityIdSet.length * 32);
+      _encodedLengths = EncodedLengthsLib.pack(skillEntities.length * 32);
     }
   }
 
@@ -419,8 +419,8 @@ library LearnedSkills {
    * @notice Tightly pack dynamic (variable length) data using this table's schema.
    * @return The dynamic data, encoded into a sequence of bytes.
    */
-  function encodeDynamic(bytes32[] memory entityIdSet) internal pure returns (bytes memory) {
-    return abi.encodePacked(EncodeArray.encode((entityIdSet)));
+  function encodeDynamic(bytes32[] memory skillEntities) internal pure returns (bytes memory) {
+    return abi.encodePacked(EncodeArray.encode((skillEntities)));
   }
 
   /**
@@ -429,10 +429,10 @@ library LearnedSkills {
    * @return The lengths of the dynamic fields (packed into a single bytes32 value).
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
-  function encode(bytes32[] memory entityIdSet) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
+  function encode(bytes32[] memory skillEntities) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
     bytes memory _staticData;
-    EncodedLengths _encodedLengths = encodeLengths(entityIdSet);
-    bytes memory _dynamicData = encodeDynamic(entityIdSet);
+    EncodedLengths _encodedLengths = encodeLengths(skillEntities);
+    bytes memory _dynamicData = encodeDynamic(skillEntities);
 
     return (_staticData, _encodedLengths, _dynamicData);
   }

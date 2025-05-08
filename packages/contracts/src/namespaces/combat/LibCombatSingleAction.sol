@@ -11,6 +11,13 @@ import { skillSystem } from "../skill/codegen/systems/SkillSystemLib.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibSkill } from "../skill/LibSkill.sol";
 
+struct CombatActionDamageLog {
+  bool withAttack;
+  bool withSpell;
+  uint32[EleStat_length] attackDamage;
+  uint32[EleStat_length] spellDamage;
+}
+
 library LibCombatSingleAction {
   error LibCombatSingleAction_InvalidActionType();
 
@@ -19,12 +26,13 @@ library LibCombatSingleAction {
     bytes32 defenderEntity,
     CombatAction memory action,
     CombatActorOpts memory defenderOpts
-  ) public {
+  ) public returns (CombatActionDamageLog memory damageLog) {
     if (action.actionType == CombatActionType.ATTACK) {
       // Deal damage to defender (updates currents)
-      _dealAttackDamage(attackerEntity, defenderEntity, defenderOpts);
+      damageLog.attackDamage = _dealAttackDamage(attackerEntity, defenderEntity, defenderOpts);
+      damageLog.withAttack = true;
     } else if (action.actionType == CombatActionType.SKILL) {
-      _useSkill(attackerEntity, defenderEntity, action.actionEntity, defenderOpts);
+      return _useSkill(attackerEntity, defenderEntity, action.actionEntity, defenderOpts);
     } else {
       revert LibCombatSingleAction_InvalidActionType();
     }
@@ -35,7 +43,7 @@ library LibCombatSingleAction {
     bytes32 defenderEntity,
     bytes32 skillEntity,
     CombatActorOpts memory defenderOpts
-  ) private {
+  ) private returns (CombatActionDamageLog memory damageLog) {
     LibSkill.requireCombatType(skillEntity);
 
     // Combat skills may target either self or enemy, depending on TargetType
@@ -46,10 +54,12 @@ library LibCombatSingleAction {
 
     // Skill may need a follow-up attack and/or spell
     if (SkillTemplate.getWithAttack(skillEntity)) {
-      _dealAttackDamage(attackerEntity, defenderEntity, defenderOpts);
+      damageLog.attackDamage = _dealAttackDamage(attackerEntity, defenderEntity, defenderOpts);
+      damageLog.withAttack = true;
     }
     if (SkillTemplate.getWithSpell(skillEntity)) {
-      _dealSpellDamage(attackerEntity, defenderEntity, spellDamage, defenderOpts);
+      damageLog.spellDamage = _dealSpellDamage(attackerEntity, defenderEntity, spellDamage, defenderOpts);
+      damageLog.withSpell = true;
     }
   }
 
@@ -57,8 +67,8 @@ library LibCombatSingleAction {
     bytes32 attackerEntity,
     bytes32 defenderEntity,
     CombatActorOpts memory defenderOpts
-  ) private {
-    _dealDamage(defenderEntity, LibCharstat.getAttack(attackerEntity), defenderOpts);
+  ) private returns (uint32[EleStat_length] memory) {
+    return _dealDamage(defenderEntity, LibCharstat.getAttack(attackerEntity), defenderOpts);
   }
 
   function _dealSpellDamage(
@@ -66,8 +76,8 @@ library LibCombatSingleAction {
     bytes32 defenderEntity,
     uint32[EleStat_length] memory baseSpellDamage,
     CombatActorOpts memory defenderOpts
-  ) private {
-    _dealDamage(defenderEntity, LibCharstat.getSpell(attackerEntity, baseSpellDamage), defenderOpts);
+  ) private returns (uint32[EleStat_length] memory) {
+    return _dealDamage(defenderEntity, LibCharstat.getSpell(attackerEntity, baseSpellDamage), defenderOpts);
   }
 
   /**
@@ -78,7 +88,7 @@ library LibCombatSingleAction {
     bytes32 defenderEntity,
     uint32[EleStat_length] memory elemDamage,
     CombatActorOpts memory defenderOpts
-  ) private {
+  ) private returns (uint32[EleStat_length] memory adjustedDamage) {
     uint32 maxResistance = defenderOpts.maxResistance;
     assert(maxResistance <= 100);
 
@@ -88,12 +98,12 @@ library LibCombatSingleAction {
     uint32 totalDamage = 0;
     for (uint256 i = 1; i < EleStat_length; i++) {
       uint32 elemResistance = resistance[i] < maxResistance ? resistance[i] : maxResistance;
-      uint32 adjustedDamage = (elemDamage[i] * (100 - elemResistance)) / 100;
-      totalDamage += adjustedDamage;
+      adjustedDamage[i] = (elemDamage[i] * (100 - elemResistance)) / 100;
+      totalDamage += adjustedDamage[i];
     }
 
     // Modify life only if resistances didn't fully negate damage
-    if (totalDamage == 0) return;
+    if (totalDamage == 0) return adjustedDamage;
 
     // Get life
     uint32 lifeCurrent = LibCharstat.getLifeCurrent(defenderEntity);

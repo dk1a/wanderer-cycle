@@ -1,12 +1,8 @@
-import { useMemo } from "react";
-import { Hex } from "viem";
 import { useStashCustom } from "../../mud/stash";
-import {
-  CombatAction,
-  CombatActionLog,
-  CombatActionType,
-} from "../../mud/utils/combat";
+import { CombatActionLog, CombatActionType } from "../../mud/utils/combat";
 import { getSkill } from "../../mud/utils/skill";
+import { ElementalNumbers } from "../ui/ElementalNumbers";
+import { Elemental } from "../../mud/utils/elemental";
 
 export function CombatActionOutcome({
   actorLabel,
@@ -18,35 +14,23 @@ export function CombatActionOutcome({
   return (
     <div className="text-dark-200">
       <span className="text-dark-type">{actorLabel} </span>
-      <CombatActionText
-        action={actionLog.action}
-        defenderLifeDiff={actionLog.defenderLifeDiff}
-      />
+      <CombatActionText actionLog={actionLog} />
     </div>
   );
 }
 
-function CombatActionText({
-  action,
-  defenderLifeDiff,
-}: {
-  action: CombatAction;
-  defenderLifeDiff: number;
-}) {
+function CombatActionText({ actionLog }: { actionLog: CombatActionLog }) {
+  const action = actionLog.action;
+
   if (action.actionType === CombatActionType.ATTACK) {
     return (
       <span>
-        <span className="text-dark-method">attacks</span> for{" "}
-        <span className="text-dark-number">{-defenderLifeDiff}</span> damage
+        <span className="text-dark-method">attacks</span>
+        <CombatDamageText damage={actionLog.attackDamage} />
       </span>
     );
   } else if (action.actionType === CombatActionType.SKILL) {
-    return (
-      <CombatSkillText
-        entity={action.actionEntity}
-        defenderLifeDiff={defenderLifeDiff}
-      />
-    );
+    return <CombatSkillText actionLog={actionLog} />;
   } else {
     console.error(
       `Unknown actionType ${action.actionType}; actionEntity ${action.actionEntity}`,
@@ -60,25 +44,14 @@ function CombatActionText({
   }
 }
 
-function CombatSkillText({
-  entity,
-  defenderLifeDiff,
-}: {
-  entity: Hex;
-  defenderLifeDiff: number;
-}) {
+function CombatSkillText({ actionLog }: { actionLog: CombatActionLog }) {
   const skill = useStashCustom((state) => {
     try {
-      return getSkill(state, entity);
+      return getSkill(state, actionLog.action.actionEntity);
     } catch (e) {
       console.error(e);
     }
   });
-
-  const skillWithDamage = useMemo(() => {
-    if (skill === undefined) return defenderLifeDiff !== 0;
-    return skill.withAttack || skill.withSpell;
-  }, [skill, defenderLifeDiff]);
 
   return (
     <span>
@@ -86,18 +59,36 @@ function CombatSkillText({
       <span className="text-dark-method">
         {skill ? skill.name : "unknown skill"}
       </span>
-      {skillWithDamage && (
-        <CombatDamageText defenderLifeDiff={defenderLifeDiff} />
+      {actionLog.withAttack && (
+        <CombatDamageText
+          damage={actionLog.attackDamage}
+          damageTypeName="attack"
+        />
+      )}
+      {actionLog.withAttack && actionLog.withSpell && <span> and </span>}
+      {actionLog.withSpell && (
+        <CombatDamageText
+          damage={actionLog.spellDamage}
+          damageTypeName="spell"
+        />
       )}
     </span>
   );
 }
 
-function CombatDamageText({ defenderLifeDiff }: { defenderLifeDiff: number }) {
+function CombatDamageText({
+  damage,
+  damageTypeName,
+}: {
+  damage: Elemental;
+  damageTypeName?: string;
+}) {
+  damageTypeName = damageTypeName ? " " + damageTypeName : "";
   return (
     <span>
       {" for "}
-      <span className="text-dark-number">{-defenderLifeDiff}</span> damage
+      <ElementalNumbers data={damage} />
+      {`${damageTypeName} damage`}
     </span>
   );
 }

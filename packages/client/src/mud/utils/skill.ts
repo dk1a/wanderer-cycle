@@ -96,7 +96,7 @@ export function getLearnedSkillEntities(state: StateLocal, targetEntity: Hex) {
     table: mudTables.skill__LearnedSkills,
     key: { entity: targetEntity },
   });
-  return result?.entityIdSet ?? [];
+  return result?.skillEntities ?? [];
 }
 
 // targetEntity is the skill user, and the one affected by the cooldown

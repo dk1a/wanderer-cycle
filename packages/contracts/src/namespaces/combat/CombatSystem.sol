@@ -7,13 +7,13 @@ import { CombatAction, CombatActorOpts, CombatActor } from "../../CustomTypes.so
 import { GenericDurationData } from "../duration/Duration.sol";
 import { CombatLogOffchain } from "./codegen/tables/CombatLogOffchain.sol";
 import { CombatLogRoundOffchain } from "./codegen/tables/CombatLogRoundOffchain.sol";
-import { CombatLogActionOffchain } from "./codegen/tables/CombatLogActionOffchain.sol";
+import { CombatLogActionOffchain, CombatLogActionOffchainData } from "./codegen/tables/CombatLogActionOffchain.sol";
 import { CombatActionType, CombatResult } from "../../codegen/common.sol";
 
 import { timeSystem } from "../time/codegen/systems/TimeSystemLib.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibActiveCombat } from "./LibActiveCombat.sol";
-import { LibCombatSingleAction } from "./LibCombatSingleAction.sol";
+import { LibCombatSingleAction, CombatActionDamageLog } from "./LibCombatSingleAction.sol";
 
 /**
  * @title Internal system to execute 1 combat round between 2 actors; extensively uses charstats.
@@ -157,7 +157,7 @@ contract CombatSystem is System {
     for (uint256 actionIndex; actionIndex < attacker.actions.length; actionIndex++) {
       uint32 defenderLifeBefore = LibCharstat.getLifeCurrent(defender.entity);
 
-      LibCombatSingleAction.executeAction(
+      CombatActionDamageLog memory damageLog = LibCombatSingleAction.executeAction(
         attacker.entity,
         defender.entity,
         attacker.actions[actionIndex],
@@ -171,10 +171,16 @@ contract CombatSystem is System {
         defender.entity,
         roundIndex,
         actionIndex,
-        attacker.actions[actionIndex].actionType,
-        attacker.actions[actionIndex].actionEntity,
-        defenderLifeBefore,
-        defenderLifeAfter
+        CombatLogActionOffchainData({
+          actionType: attacker.actions[actionIndex].actionType,
+          actionEntity: attacker.actions[actionIndex].actionEntity,
+          defenderLifeBefore: defenderLifeBefore,
+          defenderLifeAfter: defenderLifeAfter,
+          withAttack: damageLog.withAttack,
+          withSpell: damageLog.withSpell,
+          attackDamage: damageLog.attackDamage,
+          spellDamage: damageLog.spellDamage
+        })
       );
     }
   }
