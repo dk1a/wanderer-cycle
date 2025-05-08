@@ -2,17 +2,18 @@
 pragma solidity >=0.8.21;
 
 import { System } from "@latticexyz/world/src/System.sol";
+import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
 import { CombatAction, CombatActorOpts, CombatActor } from "../../CustomTypes.sol";
 import { GenericDurationData } from "../duration/Duration.sol";
-import { CombatLogOffchain } from "./codegen/tables/CombatLogOffchain.sol";
+import { CombatActors } from "./codegen/tables/CombatActors.sol";
 import { CombatLogRoundOffchain } from "./codegen/tables/CombatLogRoundOffchain.sol";
 import { CombatLogActionOffchain, CombatLogActionOffchainData } from "./codegen/tables/CombatLogActionOffchain.sol";
 import { CombatActionType, CombatResult } from "../../codegen/common.sol";
 
 import { timeSystem } from "../time/codegen/systems/TimeSystemLib.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
-import { LibActiveCombat } from "./LibActiveCombat.sol";
+import { LibCombatStatus } from "./LibCombatStatus.sol";
 import { LibCombatSingleAction, CombatActionDamageLog } from "./LibCombatSingleAction.sol";
 
 /**
@@ -24,18 +25,18 @@ import { LibCombatSingleAction, CombatActionDamageLog } from "./LibCombatSingleA
  */
 contract CombatSystem is System {
   error CombatSystem_InvalidActionsLength();
-  error CombatSystem_ResidualDuration();
 
   /**
    * @notice Act a combat round with default PVE options
    * @dev Player must be the initiator
    */
   function actPVERound(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
+    bytes32 combatEntity,
     CombatAction[] memory initiatorActions,
     CombatAction[] memory retaliatorActions
   ) public returns (CombatResult result) {
+    (bytes32 initiatorEntity, bytes32 retaliatorEntity) = CombatActors.get(combatEntity);
+
     CombatActor memory initiator = CombatActor({
       entity: initiatorEntity,
       actions: initiatorActions,
@@ -46,75 +47,69 @@ contract CombatSystem is System {
       actions: retaliatorActions,
       opts: CombatActorOpts({ maxResistance: 99 })
     });
-    result = actCombatRound(initiator, retaliator);
+    result = _actCombatRound(combatEntity, initiator, retaliator);
 
     return result;
   }
 
   /**
-   * @notice Execute a combat round with generic actors
+   * @notice Combat must be activated first, then round actions can be executed
    */
-  function actCombatRound(
-    CombatActor memory initiator,
-    CombatActor memory retaliator
-  ) public returns (CombatResult result) {
-    (uint256 roundIndex, bool isFinalRound) = LibActiveCombat.spendRound(initiator.entity, retaliator.entity);
-
-    result = _bothActorsActions(roundIndex, initiator, retaliator);
-
-    // Offchain log the round
-    CombatLogOffchain.setRoundsSpent(initiator.entity, retaliator.entity, roundIndex + 1);
-    CombatLogRoundOffchain.setCombatResult(initiator.entity, retaliator.entity, roundIndex, result);
-
-    if (result != CombatResult.NONE) {
-      // Offchain log the total result
-      CombatLogOffchain.setCombatResult(initiator.entity, retaliator.entity, result);
-
-      // Combat ended - deactivate it
-      deactivateCombat(initiator.entity);
-    } else {
-      // Combat keeps going - decrement round durations
-      timeSystem.passRounds(initiator.entity, 1);
-      timeSystem.passRounds(retaliator.entity, 1);
-      // If combat duration ran out, initiator loses by default
-      if (isFinalRound) {
-        deactivateCombat(initiator.entity);
-        result = CombatResult.DEFEAT;
-      }
-    }
-
-    return result;
-  }
-
-  /**
-   * @notice Combat must be activated first, then `actCombatRound` can be called until it's over
-   */
-  function activateCombat(bytes32 initiatorEntity, bytes32 retaliatorEntity, uint32 maxRounds) public {
-    LibActiveCombat.activateCombat(initiatorEntity, retaliatorEntity, maxRounds);
-    // Offchain log the initial combat state
-    CombatLogOffchain.set({
-      initiatorEntity: initiatorEntity,
-      retaliatorEntity: retaliatorEntity,
-      roundsSpent: 0,
-      roundsMax: maxRounds,
-      combatResult: CombatResult.NONE
-    });
-  }
-
-  /**
-   * @notice Mostly for internal use, but it can also be called to prematurely deactivate combat
-   */
-  function deactivateCombat(bytes32 initiatorEntity) public {
-    LibActiveCombat.deactivateCombat(initiatorEntity);
-
-    timeSystem.passTurns(initiatorEntity, 1);
+  function activateCombat(
+    bytes32 initiatorEntity,
+    bytes32 retaliatorEntity,
+    uint32 roundsMax
+  ) public returns (bytes32 combatEntity) {
+    combatEntity = getUniqueEntity();
+    LibCombatStatus.initialize(combatEntity, roundsMax);
+    CombatActors.set(combatEntity, initiatorEntity, retaliatorEntity);
   }
 
   /*//////////////////////////////////////////////////////////////
                               INTERNAL
   //////////////////////////////////////////////////////////////*/
 
+  /**
+   * @notice Execute a combat round with generic actors
+   */
+  function _actCombatRound(
+    bytes32 combatEntity,
+    CombatActor memory initiator,
+    CombatActor memory retaliator
+  ) public returns (CombatResult result) {
+    // Reverts if combat isn't active
+    (uint256 roundIndex, bool isFinalRound) = LibCombatStatus.spendRound(combatEntity);
+
+    result = _bothActorsActions(combatEntity, roundIndex, initiator, retaliator);
+
+    // Offchain log the round
+    CombatLogRoundOffchain.setCombatResult(combatEntity, roundIndex, result);
+
+    if (result != CombatResult.NONE) {
+      // Combat ended - deactivate it
+      _deactivateCombat(combatEntity, initiator.entity, result);
+    } else {
+      // Combat keeps going - decrement round durations
+      timeSystem.passRounds(initiator.entity, 1);
+      timeSystem.passRounds(retaliator.entity, 1);
+      // If combat duration ran out, initiator loses by default
+      if (isFinalRound) {
+        result = CombatResult.DEFEAT;
+        _deactivateCombat(combatEntity, initiator.entity, result);
+      }
+    }
+
+    return result;
+  }
+
+  function _deactivateCombat(bytes32 combatEntity, bytes32 initiatorEntity, CombatResult combatResult) internal {
+    LibCombatStatus.setCombatResult(combatEntity, combatResult);
+    // TODO this may be needed for retaliator too?
+    timeSystem.passTurns(initiatorEntity, 1);
+  }
+
   function _bothActorsActions(
+    bytes32 combatEntity,
     uint256 roundIndex,
     CombatActor memory initiator,
     CombatActor memory retaliator
@@ -123,25 +118,15 @@ contract CombatSystem is System {
     if (LibCharstat.getLifeCurrent(initiator.entity) == 0) return CombatResult.DEFEAT;
 
     // Initiator's actions
-    _oneActorActions(roundIndex, initiator, retaliator);
-    CombatLogRoundOffchain.setInitiatorActionLength(
-      initiator.entity,
-      retaliator.entity,
-      roundIndex,
-      initiator.actions.length
-    );
+    _oneActorActions(combatEntity, roundIndex, initiator, retaliator);
+    CombatLogRoundOffchain.setInitiatorActionLength(combatEntity, roundIndex, initiator.actions.length);
 
     // Win if retaliator is dead; this interrupts retaliator's actions
     if (LibCharstat.getLifeCurrent(retaliator.entity) == 0) return CombatResult.VICTORY;
 
     // Retaliator's actions
-    _oneActorActions(roundIndex, retaliator, initiator);
-    CombatLogRoundOffchain.setRetaliatorActionLength(
-      initiator.entity,
-      retaliator.entity,
-      roundIndex,
-      retaliator.actions.length
-    );
+    _oneActorActions(combatEntity, roundIndex, retaliator, initiator);
+    CombatLogRoundOffchain.setRetaliatorActionLength(combatEntity, roundIndex, retaliator.actions.length);
 
     // Loss if initiator is dead
     if (LibCharstat.getLifeCurrent(initiator.entity) == 0) return CombatResult.DEFEAT;
@@ -151,7 +136,12 @@ contract CombatSystem is System {
     return CombatResult.NONE;
   }
 
-  function _oneActorActions(uint256 roundIndex, CombatActor memory attacker, CombatActor memory defender) internal {
+  function _oneActorActions(
+    bytes32 combatEntity,
+    uint256 roundIndex,
+    CombatActor memory attacker,
+    CombatActor memory defender
+  ) internal {
     _checkActionsLength(attacker);
 
     for (uint256 actionIndex; actionIndex < attacker.actions.length; actionIndex++) {
@@ -167,6 +157,7 @@ contract CombatSystem is System {
       uint32 defenderLifeAfter = LibCharstat.getLifeCurrent(defender.entity);
       // Offchain log the action
       CombatLogActionOffchain.set(
+        combatEntity,
         attacker.entity,
         defender.entity,
         roundIndex,

@@ -8,14 +8,14 @@ import { EnemyInfo } from "../components/info/EnemyInfo";
 import { Combat } from "../components/combat/Combat";
 
 export function CombatLayout() {
-  const { cycleEntity, enemyEntity } = useWandererContext();
-  const [lastEnemyEntity, setLastEnemyEntity] = useState<Hex | undefined>(
+  const { cycleEntity, cycleCombatEntity: combatEntity } = useWandererContext();
+  const [lastCombatEntity, setLastCombatEntity] = useState<Hex | undefined>(
     undefined,
   );
 
-  const resolvedEnemyEntity = useMemo(
-    () => enemyEntity ?? lastEnemyEntity,
-    [enemyEntity, lastEnemyEntity],
+  const resolvedCombatEntity = useMemo(
+    () => combatEntity ?? lastCombatEntity,
+    [combatEntity, lastCombatEntity],
   );
 
   const combatRewardRequests = useStashCustom((state) => {
@@ -23,18 +23,18 @@ export function CombatLayout() {
     return getCycleCombatRewardRequests(state, cycleEntity);
   });
 
-  if (resolvedEnemyEntity !== undefined || combatRewardRequests.length > 0) {
+  if (resolvedCombatEntity !== undefined || combatRewardRequests.length > 0) {
     return (
       <>
         <Combat
-          enemyEntity={resolvedEnemyEntity}
+          enemyEntity={resolvedCombatEntity}
           combatRewardRequests={combatRewardRequests}
-          onCombatAction={() => setLastEnemyEntity(enemyEntity)}
-          onCombatClose={() => setLastEnemyEntity(undefined)}
+          onCombatAction={() => setLastCombatEntity(combatEntity)}
+          onCombatClose={() => setLastCombatEntity(undefined)}
         />
-        {resolvedEnemyEntity !== undefined && (
+        {resolvedCombatEntity !== undefined && (
           <div className="w-64">
-            <EnemyInfo entity={resolvedEnemyEntity} />
+            <EnemyInfo entity={resolvedCombatEntity} />
           </div>
         )}
       </>

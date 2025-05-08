@@ -27,15 +27,15 @@ export function Combat({
 }: CombatProps) {
   // TODO abstract Combat from wanderer context, accept initiator/retaliator arguments instead
   // (consider the player being retaliator too, that should be feasible later)
-  const { cycleEntity } = useWandererContext();
+  const { cycleCombatEntity } = useWandererContext();
 
   const map = useStashCustom((state) => {
     return getFromMap(state, enemyEntity);
   });
 
   const combatLog = useStashCustom((state) => {
-    if (!cycleEntity || !enemyEntity) return undefined;
-    return getCombatLog(state, cycleEntity, enemyEntity);
+    if (!cycleCombatEntity) return undefined;
+    return getCombatLog(state, cycleCombatEntity);
   });
 
   const lastRound = useMemo(() => {

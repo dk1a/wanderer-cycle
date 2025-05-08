@@ -12,14 +12,13 @@ import { getRecord } from "@latticexyz/stash/internal";
 import { mudTables, useStashCustom } from "./stash";
 import { useSystemCalls } from "./SystemCallsProvider";
 import { getLearnedSkillEntities } from "./utils/skill";
-import { getActiveCombat } from "./utils/combat";
+import { getCycleActiveCombat } from "./utils/combat";
 
 type WandererContextType = {
   selectedWandererEntity?: Hex;
   selectWandererEntity: (wanderer: Hex | undefined) => void;
   cycleEntity?: Hex;
-  previousCycleEntity?: Hex;
-  enemyEntity?: Hex;
+  cycleCombatEntity?: Hex;
   learnCycleSkill: (skillEntity: Hex) => Promise<void>;
   learnedSkillEntities: readonly Hex[];
   wandererMode: boolean;
@@ -78,9 +77,9 @@ export function WandererProvider(props: { children: ReactNode }) {
   // }, [ActiveCycle, selectedWandererEntity]);
   // const previousCycleEntity = cyclePrevious?.toEntity as Entity | undefined;
 
-  const enemyEntity = useStashCustom((state) => {
+  const cycleCombatEntity = useStashCustom((state) => {
     if (!cycleEntity) return;
-    return getActiveCombat(state, cycleEntity)?.retaliatorEntity;
+    return getCycleActiveCombat(state, cycleEntity)?.combatEntity;
   });
 
   const learnCycleSkill = useCallback(
@@ -105,12 +104,11 @@ export function WandererProvider(props: { children: ReactNode }) {
     selectedWandererEntity,
     selectWandererEntity,
     cycleEntity,
+    cycleCombatEntity,
     learnCycleSkill,
     learnedSkillEntities,
     wandererMode,
     toggleWandererMode,
-    // previousCycleEntity,
-    enemyEntity,
   };
   return (
     <WandererContext.Provider value={value}>

@@ -9,9 +9,9 @@ import { charstatSystem } from "../charstat/codegen/systems/CharstatSystemLib.so
 import { timeSystem } from "../time/codegen/systems/TimeSystemLib.sol";
 
 import { Duration, GenericDurationData } from "../duration/Duration.sol";
-import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
 import { LibCycle } from "./LibCycle.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
+import { LibActiveCombat } from "./LibActiveCombat.sol";
 
 contract CyclePassTurnSystem is System {
   function passTurn(bytes32 cycleEntity) public {

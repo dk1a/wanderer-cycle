@@ -7,6 +7,7 @@ import { equipmentSystem } from "../equipment/codegen/systems/EquipmentSystemLib
 
 import { LibLootOwner } from "../loot/LibLootOwner.sol";
 import { LibCycle } from "./LibCycle.sol";
+import { LibActiveCombat } from "./LibActiveCombat.sol";
 
 /**
  * @dev To equip, target must own both the slot and the equipment.
@@ -31,6 +32,9 @@ contract CycleEquipmentSystem is System {
   function equip(bytes32 cycleEntity, bytes32 slotEntity, bytes32 equipmentEntity) public {
     LibCycle.requireAccess(cycleEntity);
 
+    // No equipment changes during combat
+    LibActiveCombat.requireNotActiveCombat(cycleEntity);
+
     _requireOwnedSlot(cycleEntity, slotEntity);
     _requireOwnedEquipment(cycleEntity, equipmentEntity);
 
@@ -39,6 +43,9 @@ contract CycleEquipmentSystem is System {
 
   function unequip(bytes32 cycleEntity, bytes32 slotEntity) public {
     LibCycle.requireAccess(cycleEntity);
+
+    // No equipment changes during combat
+    LibActiveCombat.requireNotActiveCombat(cycleEntity);
 
     _requireOwnedSlot(cycleEntity, slotEntity);
 

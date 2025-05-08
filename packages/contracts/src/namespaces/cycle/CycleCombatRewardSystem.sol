@@ -9,10 +9,10 @@ import { rNGSystem } from "../rng/codegen/systems/RNGSystemLib.sol";
 
 import { PStat_length } from "../../CustomTypes.sol";
 import { LibGuiseLevel } from "../root/guise/LibGuiseLevel.sol";
-import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
 import { LibCycleCombatRewardRequest } from "./LibCycleCombatRewardRequest.sol";
 import { LibLootOwner } from "../loot/LibLootOwner.sol";
 import { LibCycle } from "./LibCycle.sol";
+import { LibActiveCombat } from "./LibActiveCombat.sol";
 
 contract CycleCombatRewardSystem is System {
   function claimCycleCombatReward(bytes32 cycleEntity, bytes32 requestId) public {

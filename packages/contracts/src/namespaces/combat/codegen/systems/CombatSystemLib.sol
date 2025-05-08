@@ -39,49 +39,37 @@ struct RootCallWrapper {
 library CombatSystemLib {
   error CombatSystemLib_CallingFromRootSystem();
   error CombatSystem_InvalidActionsLength();
-  error CombatSystem_ResidualDuration();
 
   function actPVERound(
     CombatSystemType self,
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
+    bytes32 combatEntity,
     CombatAction[] memory initiatorActions,
     CombatAction[] memory retaliatorActions
   ) internal returns (CombatResult result) {
-    return
-      CallWrapper(self.toResourceId(), address(0)).actPVERound(
-        initiatorEntity,
-        retaliatorEntity,
-        initiatorActions,
-        retaliatorActions
-      );
-  }
-
-  function actCombatRound(
-    CombatSystemType self,
-    CombatActor memory initiator,
-    CombatActor memory retaliator
-  ) internal returns (CombatResult result) {
-    return CallWrapper(self.toResourceId(), address(0)).actCombatRound(initiator, retaliator);
+    return CallWrapper(self.toResourceId(), address(0)).actPVERound(combatEntity, initiatorActions, retaliatorActions);
   }
 
   function activateCombat(
     CombatSystemType self,
     bytes32 initiatorEntity,
     bytes32 retaliatorEntity,
-    uint32 maxRounds
-  ) internal {
-    return CallWrapper(self.toResourceId(), address(0)).activateCombat(initiatorEntity, retaliatorEntity, maxRounds);
+    uint32 roundsMax
+  ) internal returns (bytes32 combatEntity) {
+    return CallWrapper(self.toResourceId(), address(0)).activateCombat(initiatorEntity, retaliatorEntity, roundsMax);
   }
 
-  function deactivateCombat(CombatSystemType self, bytes32 initiatorEntity) internal {
-    return CallWrapper(self.toResourceId(), address(0)).deactivateCombat(initiatorEntity);
+  function _actCombatRound(
+    CombatSystemType self,
+    bytes32 combatEntity,
+    CombatActor memory initiator,
+    CombatActor memory retaliator
+  ) internal returns (CombatResult result) {
+    return CallWrapper(self.toResourceId(), address(0))._actCombatRound(combatEntity, initiator, retaliator);
   }
 
   function actPVERound(
     CallWrapper memory self,
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
+    bytes32 combatEntity,
     CombatAction[] memory initiatorActions,
     CombatAction[] memory retaliatorActions
   ) internal returns (CombatResult result) {
@@ -89,27 +77,8 @@ library CombatSystemLib {
     if (address(_world()) == address(this)) revert CombatSystemLib_CallingFromRootSystem();
 
     bytes memory systemCall = abi.encodeCall(
-      _actPVERound_bytes32_bytes32_CombatActionArray_CombatActionArray.actPVERound,
-      (initiatorEntity, retaliatorEntity, initiatorActions, retaliatorActions)
-    );
-
-    bytes memory result = self.from == address(0)
-      ? _world().call(self.systemId, systemCall)
-      : _world().callFrom(self.from, self.systemId, systemCall);
-    return abi.decode(result, (CombatResult));
-  }
-
-  function actCombatRound(
-    CallWrapper memory self,
-    CombatActor memory initiator,
-    CombatActor memory retaliator
-  ) internal returns (CombatResult result) {
-    // if the contract calling this function is a root system, it should use `callAsRoot`
-    if (address(_world()) == address(this)) revert CombatSystemLib_CallingFromRootSystem();
-
-    bytes memory systemCall = abi.encodeCall(
-      _actCombatRound_CombatActor_CombatActor.actCombatRound,
-      (initiator, retaliator)
+      _actPVERound_bytes32_CombatActionArray_CombatActionArray.actPVERound,
+      (combatEntity, initiatorActions, retaliatorActions)
     );
 
     bytes memory result = self.from == address(0)
@@ -122,54 +91,51 @@ library CombatSystemLib {
     CallWrapper memory self,
     bytes32 initiatorEntity,
     bytes32 retaliatorEntity,
-    uint32 maxRounds
-  ) internal {
+    uint32 roundsMax
+  ) internal returns (bytes32 combatEntity) {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert CombatSystemLib_CallingFromRootSystem();
 
     bytes memory systemCall = abi.encodeCall(
       _activateCombat_bytes32_bytes32_uint32.activateCombat,
-      (initiatorEntity, retaliatorEntity, maxRounds)
+      (initiatorEntity, retaliatorEntity, roundsMax)
     );
-    self.from == address(0)
+
+    bytes memory result = self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
+    return abi.decode(result, (bytes32));
   }
 
-  function deactivateCombat(CallWrapper memory self, bytes32 initiatorEntity) internal {
+  function _actCombatRound(
+    CallWrapper memory self,
+    bytes32 combatEntity,
+    CombatActor memory initiator,
+    CombatActor memory retaliator
+  ) internal returns (CombatResult result) {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert CombatSystemLib_CallingFromRootSystem();
 
-    bytes memory systemCall = abi.encodeCall(_deactivateCombat_bytes32.deactivateCombat, (initiatorEntity));
-    self.from == address(0)
+    bytes memory systemCall = abi.encodeCall(
+      __actCombatRound_bytes32_CombatActor_CombatActor._actCombatRound,
+      (combatEntity, initiator, retaliator)
+    );
+
+    bytes memory result = self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
+    return abi.decode(result, (CombatResult));
   }
 
   function actPVERound(
     RootCallWrapper memory self,
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
+    bytes32 combatEntity,
     CombatAction[] memory initiatorActions,
     CombatAction[] memory retaliatorActions
   ) internal returns (CombatResult result) {
     bytes memory systemCall = abi.encodeCall(
-      _actPVERound_bytes32_bytes32_CombatActionArray_CombatActionArray.actPVERound,
-      (initiatorEntity, retaliatorEntity, initiatorActions, retaliatorActions)
-    );
-
-    bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
-    return abi.decode(result, (CombatResult));
-  }
-
-  function actCombatRound(
-    RootCallWrapper memory self,
-    CombatActor memory initiator,
-    CombatActor memory retaliator
-  ) internal returns (CombatResult result) {
-    bytes memory systemCall = abi.encodeCall(
-      _actCombatRound_CombatActor_CombatActor.actCombatRound,
-      (initiator, retaliator)
+      _actPVERound_bytes32_CombatActionArray_CombatActionArray.actPVERound,
+      (combatEntity, initiatorActions, retaliatorActions)
     );
 
     bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
@@ -180,18 +146,30 @@ library CombatSystemLib {
     RootCallWrapper memory self,
     bytes32 initiatorEntity,
     bytes32 retaliatorEntity,
-    uint32 maxRounds
-  ) internal {
+    uint32 roundsMax
+  ) internal returns (bytes32 combatEntity) {
     bytes memory systemCall = abi.encodeCall(
       _activateCombat_bytes32_bytes32_uint32.activateCombat,
-      (initiatorEntity, retaliatorEntity, maxRounds)
+      (initiatorEntity, retaliatorEntity, roundsMax)
     );
-    SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
+
+    bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
+    return abi.decode(result, (bytes32));
   }
 
-  function deactivateCombat(RootCallWrapper memory self, bytes32 initiatorEntity) internal {
-    bytes memory systemCall = abi.encodeCall(_deactivateCombat_bytes32.deactivateCombat, (initiatorEntity));
-    SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
+  function _actCombatRound(
+    RootCallWrapper memory self,
+    bytes32 combatEntity,
+    CombatActor memory initiator,
+    CombatActor memory retaliator
+  ) internal returns (CombatResult result) {
+    bytes memory systemCall = abi.encodeCall(
+      __actCombatRound_bytes32_CombatActor_CombatActor._actCombatRound,
+      (combatEntity, initiator, retaliator)
+    );
+
+    bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
+    return abi.decode(result, (CombatResult));
   }
 
   function callFrom(CombatSystemType self, address from) internal pure returns (CallWrapper memory) {
@@ -232,25 +210,20 @@ library CombatSystemLib {
  * Each interface is uniquely named based on the function name and parameters to prevent collisions.
  */
 
-interface _actPVERound_bytes32_bytes32_CombatActionArray_CombatActionArray {
+interface _actPVERound_bytes32_CombatActionArray_CombatActionArray {
   function actPVERound(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
+    bytes32 combatEntity,
     CombatAction[] memory initiatorActions,
     CombatAction[] memory retaliatorActions
   ) external;
 }
 
-interface _actCombatRound_CombatActor_CombatActor {
-  function actCombatRound(CombatActor memory initiator, CombatActor memory retaliator) external;
-}
-
 interface _activateCombat_bytes32_bytes32_uint32 {
-  function activateCombat(bytes32 initiatorEntity, bytes32 retaliatorEntity, uint32 maxRounds) external;
+  function activateCombat(bytes32 initiatorEntity, bytes32 retaliatorEntity, uint32 roundsMax) external;
 }
 
-interface _deactivateCombat_bytes32 {
-  function deactivateCombat(bytes32 initiatorEntity) external;
+interface __actCombatRound_bytes32_CombatActor_CombatActor {
+  function _actCombatRound(bytes32 combatEntity, CombatActor memory initiator, CombatActor memory retaliator) external;
 }
 
 using CombatSystemLib for CombatSystemType global;

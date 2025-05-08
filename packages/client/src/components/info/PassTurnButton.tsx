@@ -20,7 +20,7 @@ export const PassTurnButton: FC<PassTurnButtonProps> = (props) => {
   const { disabled, children, ...otherProps } = props;
 
   const systemCalls = useSystemCalls();
-  const { cycleEntity, enemyEntity } = useWandererContext();
+  const { cycleEntity, cycleCombatEntity } = useWandererContext();
 
   const turns = useStashCustom((state) => getCycleTurns(state, cycleEntity));
 
@@ -35,9 +35,9 @@ export const PassTurnButton: FC<PassTurnButtonProps> = (props) => {
 
   const isComputedDisabled = useMemo(() => {
     // not available during combat (since it fully heals)
-    const isEncounterActive = enemyEntity !== undefined;
+    const isEncounterActive = cycleCombatEntity !== undefined;
     return !turns || isBusy || isEncounterActive;
-  }, [turns, isBusy, enemyEntity]);
+  }, [turns, isBusy, cycleCombatEntity]);
 
   return (
     <Button

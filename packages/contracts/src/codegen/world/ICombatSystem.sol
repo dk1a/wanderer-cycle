@@ -13,21 +13,22 @@ import { CombatResult } from "../common.sol";
  */
 interface ICombatSystem {
   error CombatSystem_InvalidActionsLength();
-  error CombatSystem_ResidualDuration();
 
   function combat__actPVERound(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
+    bytes32 combatEntity,
     CombatAction[] memory initiatorActions,
     CombatAction[] memory retaliatorActions
   ) external returns (CombatResult result);
 
-  function combat__actCombatRound(
+  function combat__activateCombat(
+    bytes32 initiatorEntity,
+    bytes32 retaliatorEntity,
+    uint32 roundsMax
+  ) external returns (bytes32 combatEntity);
+
+  function combat___actCombatRound(
+    bytes32 combatEntity,
     CombatActor memory initiator,
     CombatActor memory retaliator
   ) external returns (CombatResult result);
-
-  function combat__activateCombat(bytes32 initiatorEntity, bytes32 retaliatorEntity, uint32 maxRounds) external;
-
-  function combat__deactivateCombat(bytes32 initiatorEntity) external;
 }

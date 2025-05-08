@@ -361,33 +361,32 @@ export default defineWorld({
      ************************************************************************/
     combat: {
       tables: {
-        // An entity can initiate only 1 combat at a time
-        ActiveCombat: {
-          key: ["initiatorEntity"],
+        CombatStatus: {
+          ...entityKey,
           schema: {
-            initiatorEntity: EntityId,
-            retaliatorEntity: EntityId,
+            entity: EntityId,
+            isInitialized: "bool",
+            combatResult: "CombatResult",
             roundsSpent: "uint32",
             roundsMax: "uint32",
           },
         },
-        CombatLogOffchain: {
-          type: "offchainTable",
-          key: ["initiatorEntity", "retaliatorEntity"],
+        CombatActors: {
+          ...entityKey,
           schema: {
+            entity: EntityId,
             initiatorEntity: EntityId,
             retaliatorEntity: EntityId,
-            roundsSpent: "uint256",
-            roundsMax: "uint256",
-            combatResult: "CombatResult",
+          },
+          codegen: {
+            dataStruct: false,
           },
         },
         CombatLogRoundOffchain: {
           type: "offchainTable",
-          key: ["initiatorEntity", "retaliatorEntity", "roundIndex"],
+          key: ["entity", "roundIndex"],
           schema: {
-            initiatorEntity: EntityId,
-            retaliatorEntity: EntityId,
+            entity: EntityId,
             roundIndex: "uint256",
             combatResult: "CombatResult",
             initiatorActionLength: "uint256",
@@ -396,8 +395,9 @@ export default defineWorld({
         },
         CombatLogActionOffchain: {
           type: "offchainTable",
-          key: ["attackerEntity", "defenderEntity", "roundIndex", "actionIndex"],
+          key: ["entity", "attackerEntity", "defenderEntity", "roundIndex", "actionIndex"],
           schema: {
+            entity: EntityId,
             attackerEntity: EntityId,
             defenderEntity: EntityId,
             roundIndex: "uint256",
@@ -664,6 +664,14 @@ export default defineWorld({
           schema: {
             entity: EntityId,
             guiseEntity: EntityId,
+          },
+        },
+        // A cycle entity can initiate only 1 combat at a time
+        ActiveCombat: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            combatEntity: EntityId,
           },
         },
         CycleOwner: {

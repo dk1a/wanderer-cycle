@@ -16,7 +16,7 @@ import { MapTypes, MapType } from "../map/MapType.sol";
 import { LibEffect } from "../effect/LibEffect.sol";
 import { LibCycle } from "./LibCycle.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
-import { LibActiveCombat } from "../combat/LibActiveCombat.sol";
+import { LibActiveCombat } from "./LibActiveCombat.sol";
 
 contract CycleActivateCombatSystem is System {
   error CycleActivateCombatSystem_InvalidMapType(bytes32 mapEntity, MapType mapType);
@@ -65,6 +65,7 @@ contract CycleActivateCombatSystem is System {
     FromMap.set(encounterEntity, mapEntity);
 
     // Activate combat
-    combatSystem.activateCombat(cycleEntity, encounterEntity, MAX_ROUNDS);
+    bytes32 combatEntity = combatSystem.activateCombat(cycleEntity, encounterEntity, MAX_ROUNDS);
+    LibActiveCombat.activateCombat(cycleEntity, combatEntity);
   }
 }

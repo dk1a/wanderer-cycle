@@ -18,8 +18,12 @@ export function SkillLearnable({
   withButtons: boolean;
 }) {
   const systemCalls = useSystemCalls();
-  const { learnCycleSkill, learnedSkillEntities, cycleEntity, enemyEntity } =
-    useWandererContext();
+  const {
+    learnCycleSkill,
+    learnedSkillEntities,
+    cycleEntity,
+    cycleCombatEntity,
+  } = useWandererContext();
   const skill = useStashCustom((state) => getSkill(state, entity));
 
   const guise = useStashCustom((state) => getActiveGuise(state, cycleEntity));
@@ -64,7 +68,7 @@ export function SkillLearnable({
                 userEntity={cycleEntity}
                 skillEntity={entity}
                 onSkill={onSkill}
-                disabled={enemyEntity !== undefined}
+                disabled={cycleCombatEntity !== undefined}
               />
             )}
         </div>

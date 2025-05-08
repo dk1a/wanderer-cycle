@@ -32,8 +32,8 @@ library CombatLogRoundOffchain {
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0041030001202000000000000000000000000000000000000000000000000000);
 
-  // Hex-encoded key schema of (bytes32, bytes32, uint256)
-  Schema constant _keySchema = Schema.wrap(0x006003005f5f1f00000000000000000000000000000000000000000000000000);
+  // Hex-encoded key schema of (bytes32, uint256)
+  Schema constant _keySchema = Schema.wrap(0x004002005f1f0000000000000000000000000000000000000000000000000000);
   // Hex-encoded value schema of (uint8, uint256, uint256)
   Schema constant _valueSchema = Schema.wrap(0x00410300001f1f00000000000000000000000000000000000000000000000000);
 
@@ -42,10 +42,9 @@ library CombatLogRoundOffchain {
    * @return keyNames An array of strings with the names of key fields.
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
-    keyNames = new string[](3);
-    keyNames[0] = "initiatorEntity";
-    keyNames[1] = "retaliatorEntity";
-    keyNames[2] = "roundIndex";
+    keyNames = new string[](2);
+    keyNames[0] = "entity";
+    keyNames[1] = "roundIndex";
   }
 
   /**
@@ -76,16 +75,10 @@ library CombatLogRoundOffchain {
   /**
    * @notice Set combatResult.
    */
-  function setCombatResult(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
-    uint256 roundIndex,
-    CombatResult combatResult
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+  function setCombatResult(bytes32 entity, uint256 roundIndex, CombatResult combatResult) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked(uint8(combatResult)), _fieldLayout);
   }
@@ -93,16 +86,10 @@ library CombatLogRoundOffchain {
   /**
    * @notice Set combatResult.
    */
-  function _setCombatResult(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
-    uint256 roundIndex,
-    CombatResult combatResult
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+  function _setCombatResult(bytes32 entity, uint256 roundIndex, CombatResult combatResult) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked(uint8(combatResult)), _fieldLayout);
   }
@@ -110,16 +97,10 @@ library CombatLogRoundOffchain {
   /**
    * @notice Set initiatorActionLength.
    */
-  function setInitiatorActionLength(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
-    uint256 roundIndex,
-    uint256 initiatorActionLength
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+  function setInitiatorActionLength(bytes32 entity, uint256 roundIndex, uint256 initiatorActionLength) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((initiatorActionLength)), _fieldLayout);
   }
@@ -127,16 +108,10 @@ library CombatLogRoundOffchain {
   /**
    * @notice Set initiatorActionLength.
    */
-  function _setInitiatorActionLength(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
-    uint256 roundIndex,
-    uint256 initiatorActionLength
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+  function _setInitiatorActionLength(bytes32 entity, uint256 roundIndex, uint256 initiatorActionLength) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((initiatorActionLength)), _fieldLayout);
   }
@@ -144,16 +119,10 @@ library CombatLogRoundOffchain {
   /**
    * @notice Set retaliatorActionLength.
    */
-  function setRetaliatorActionLength(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
-    uint256 roundIndex,
-    uint256 retaliatorActionLength
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+  function setRetaliatorActionLength(bytes32 entity, uint256 roundIndex, uint256 retaliatorActionLength) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((retaliatorActionLength)), _fieldLayout);
   }
@@ -161,16 +130,10 @@ library CombatLogRoundOffchain {
   /**
    * @notice Set retaliatorActionLength.
    */
-  function _setRetaliatorActionLength(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
-    uint256 roundIndex,
-    uint256 retaliatorActionLength
-  ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+  function _setRetaliatorActionLength(bytes32 entity, uint256 roundIndex, uint256 retaliatorActionLength) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((retaliatorActionLength)), _fieldLayout);
   }
@@ -179,8 +142,7 @@ library CombatLogRoundOffchain {
    * @notice Set the full data using individual values.
    */
   function set(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
+    bytes32 entity,
     uint256 roundIndex,
     CombatResult combatResult,
     uint256 initiatorActionLength,
@@ -191,10 +153,9 @@ library CombatLogRoundOffchain {
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
   }
@@ -203,8 +164,7 @@ library CombatLogRoundOffchain {
    * @notice Set the full data using individual values.
    */
   function _set(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
+    bytes32 entity,
     uint256 roundIndex,
     CombatResult combatResult,
     uint256 initiatorActionLength,
@@ -215,10 +175,9 @@ library CombatLogRoundOffchain {
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
   }
@@ -226,12 +185,7 @@ library CombatLogRoundOffchain {
   /**
    * @notice Set the full data using the data struct.
    */
-  function set(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
-    uint256 roundIndex,
-    CombatLogRoundOffchainData memory _table
-  ) internal {
+  function set(bytes32 entity, uint256 roundIndex, CombatLogRoundOffchainData memory _table) internal {
     bytes memory _staticData = encodeStatic(
       _table.combatResult,
       _table.initiatorActionLength,
@@ -241,10 +195,9 @@ library CombatLogRoundOffchain {
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreSwitch.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData);
   }
@@ -252,12 +205,7 @@ library CombatLogRoundOffchain {
   /**
    * @notice Set the full data using the data struct.
    */
-  function _set(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
-    uint256 roundIndex,
-    CombatLogRoundOffchainData memory _table
-  ) internal {
+  function _set(bytes32 entity, uint256 roundIndex, CombatLogRoundOffchainData memory _table) internal {
     bytes memory _staticData = encodeStatic(
       _table.combatResult,
       _table.initiatorActionLength,
@@ -267,10 +215,9 @@ library CombatLogRoundOffchain {
     EncodedLengths _encodedLengths;
     bytes memory _dynamicData;
 
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreCore.setRecord(_tableId, _keyTuple, _staticData, _encodedLengths, _dynamicData, _fieldLayout);
   }
@@ -305,11 +252,10 @@ library CombatLogRoundOffchain {
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(bytes32 initiatorEntity, bytes32 retaliatorEntity, uint256 roundIndex) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+  function deleteRecord(bytes32 entity, uint256 roundIndex) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -317,11 +263,10 @@ library CombatLogRoundOffchain {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(bytes32 initiatorEntity, bytes32 retaliatorEntity, uint256 roundIndex) internal {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+  function _deleteRecord(bytes32 entity, uint256 roundIndex) internal {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -360,15 +305,10 @@ library CombatLogRoundOffchain {
   /**
    * @notice Encode keys as a bytes32 array using this table's field layout.
    */
-  function encodeKeyTuple(
-    bytes32 initiatorEntity,
-    bytes32 retaliatorEntity,
-    uint256 roundIndex
-  ) internal pure returns (bytes32[] memory) {
-    bytes32[] memory _keyTuple = new bytes32[](3);
-    _keyTuple[0] = initiatorEntity;
-    _keyTuple[1] = retaliatorEntity;
-    _keyTuple[2] = bytes32(uint256(roundIndex));
+  function encodeKeyTuple(bytes32 entity, uint256 roundIndex) internal pure returns (bytes32[] memory) {
+    bytes32[] memory _keyTuple = new bytes32[](2);
+    _keyTuple[0] = entity;
+    _keyTuple[1] = bytes32(uint256(roundIndex));
 
     return _keyTuple;
   }

@@ -5,6 +5,7 @@ pragma solidity >=0.8.24;
 
 import { ActiveCycle } from "./tables/ActiveCycle.sol";
 import { ActiveGuise } from "./tables/ActiveGuise.sol";
+import { ActiveCombat } from "./tables/ActiveCombat.sol";
 import { CycleOwner } from "./tables/CycleOwner.sol";
 import { CycleMetadata, CycleMetadataData } from "./tables/CycleMetadata.sol";
 import { CompletedCycleHistory } from "./tables/CompletedCycleHistory.sol";

@@ -63,11 +63,11 @@ export const attackAction: CombatAction = {
   actionEntity: toHex(0, { size: 32 }),
 };
 
-export function getActiveCombat(state: StateLocal, initiatorEntity: Hex) {
+export function getCycleActiveCombat(state: StateLocal, cycleEntity: Hex) {
   const result = getRecord({
     state,
-    table: mudTables.combat__ActiveCombat,
-    key: { initiatorEntity },
+    table: mudTables.cycle__ActiveCombat,
+    key: { entity: cycleEntity },
   });
   return result;
 }
@@ -118,36 +118,36 @@ export function getCycleCombatRewardRequests(
 
 export function getCombatLog(
   state: StateLocal,
-  initiatorEntity: Hex,
-  retaliatorEntity: Hex,
-): CombatLog {
-  const combatLog = getRecord({
+  combatEntity: Hex,
+): CombatLog | undefined {
+  const combatStatus = getRecord({
     state,
-    table: mudTables.combat__CombatLogOffchain,
-    key: { initiatorEntity, retaliatorEntity },
+    table: mudTables.combat__CombatStatus,
+    key: { entity: combatEntity },
   });
-  if (combatLog === undefined) {
-    return {
-      initiatorEntity,
-      retaliatorEntity,
-      roundsSpent: 0,
-      roundsMax: 0,
-      combatResult: CombatResult.NONE,
-      rounds: [],
-    };
-  }
+  const combatActors = getRecord({
+    state,
+    table: mudTables.combat__CombatActors,
+    key: { entity: combatEntity },
+  });
+  if (!combatStatus?.isInitialized || !combatActors) return;
 
   const rounds: CombatRoundLog[] = [];
-  for (let roundIndex = 0; roundIndex < combatLog.roundsSpent; roundIndex++) {
+  for (
+    let roundIndex = 0;
+    roundIndex < combatStatus.roundsSpent;
+    roundIndex++
+  ) {
     const round = getCombatRoundLog(
       state,
-      initiatorEntity,
-      retaliatorEntity,
+      combatEntity,
+      combatActors.initiatorEntity,
+      combatActors.retaliatorEntity,
       roundIndex,
     );
     if (round === undefined) {
       console.warn(
-        `Missing combat round log for: ${initiatorEntity} ${retaliatorEntity} ${roundIndex}`,
+        `Missing combat round log for: ${combatEntity} ${roundIndex}`,
       );
       continue;
     }
@@ -156,17 +156,18 @@ export function getCombatLog(
   }
 
   return {
-    initiatorEntity,
-    retaliatorEntity,
-    roundsSpent: Number(combatLog.roundsSpent),
-    roundsMax: Number(combatLog.roundsMax),
-    combatResult: combatLog.combatResult,
+    initiatorEntity: combatActors.initiatorEntity,
+    retaliatorEntity: combatActors.retaliatorEntity,
+    roundsSpent: Number(combatStatus.roundsSpent),
+    roundsMax: Number(combatStatus.roundsMax),
+    combatResult: combatStatus.combatResult,
     rounds,
   };
 }
 
 function getCombatRoundLog(
   state: StateLocal,
+  combatEntity: Hex,
   initiatorEntity: Hex,
   retaliatorEntity: Hex,
   roundIndex: number,
@@ -174,12 +175,13 @@ function getCombatRoundLog(
   const combatRoundLog = getRecord({
     state,
     table: mudTables.combat__CombatLogRoundOffchain,
-    key: { initiatorEntity, retaliatorEntity, roundIndex: BigInt(roundIndex) },
+    key: { entity: combatEntity, roundIndex: BigInt(roundIndex) },
   });
   if (!combatRoundLog) return;
 
   const initiatorActions: CombatActionLog[] = getCombatActionLogs(
     state,
+    combatEntity,
     initiatorEntity,
     retaliatorEntity,
     roundIndex,
@@ -187,6 +189,7 @@ function getCombatRoundLog(
   );
   const retaliatorActions: CombatActionLog[] = getCombatActionLogs(
     state,
+    combatEntity,
     retaliatorEntity,
     initiatorEntity,
     roundIndex,
@@ -202,6 +205,7 @@ function getCombatRoundLog(
 
 function getCombatActionLogs(
   state: StateLocal,
+  combatEntity: Hex,
   attackerEntity: Hex,
   defenderEntity: Hex,
   roundIndex: number,
@@ -211,6 +215,7 @@ function getCombatActionLogs(
   for (let actionIndex = 0; actionIndex < actionLength; actionIndex++) {
     const action = getCombatActionLog(
       state,
+      combatEntity,
       attackerEntity,
       defenderEntity,
       roundIndex,
@@ -230,6 +235,7 @@ function getCombatActionLogs(
 
 function getCombatActionLog(
   state: StateLocal,
+  combatEntity: Hex,
   attackerEntity: Hex,
   defenderEntity: Hex,
   roundIndex: number,
@@ -239,6 +245,7 @@ function getCombatActionLog(
     state,
     table: mudTables.combat__CombatLogActionOffchain,
     key: {
+      entity: combatEntity,
       attackerEntity,
       defenderEntity,
       roundIndex: BigInt(roundIndex),
