@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { FieldLayout } from "@latticexyz/store/src/FieldLayout.sol";
 import { StoreHook } from "@latticexyz/store/src/StoreHook.sol";

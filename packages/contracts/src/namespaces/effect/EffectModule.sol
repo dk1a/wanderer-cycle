@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { BEFORE_DELETE_RECORD } from "@latticexyz/store/src/storeHookTypes.sol";
 import { ResourceIds } from "@latticexyz/store/src/codegen/tables/ResourceIds.sol";

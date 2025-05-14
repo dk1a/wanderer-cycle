@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { Experience } from "../src/namespaces/charstat/codegen/index.sol";
 import { charstatSystem } from "../src/namespaces/charstat/codegen/systems/CharstatSystemLib.sol";

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { BaseTest } from "./BaseTest.t.sol";
 import { AffixAvailabilityTargetId, LibPickAffix, AffixPrototype, AffixPrototypeData } from "../src/namespaces/affix/LibPickAffix.sol";

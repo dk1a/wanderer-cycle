@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { StrSlice, toSlice } from "@dk1a/solidity-stringutils/src/StrSlice.sol";
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { charstatSystem } from "../src/namespaces/charstat/codegen/systems/CharstatSystemLib.sol";
 import { LibGuiseLevel } from "../src/namespaces/root/guise/LibGuiseLevel.sol";

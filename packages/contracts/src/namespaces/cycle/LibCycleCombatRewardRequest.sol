@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { CycleCombatRReq, CycleCombatRReqData } from "./codegen/tables/CycleCombatRReq.sol";
 import { BossesDefeated } from "./codegen/tables/BossesDefeated.sol";

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
 import { Experience } from "./codegen/tables/Experience.sol";

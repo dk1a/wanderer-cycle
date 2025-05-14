@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { LibEffect, EffectDuration, EffectTemplate } from "../effect/LibEffect.sol";
 import { Duration, GenericDurationData } from "../duration/Duration.sol";

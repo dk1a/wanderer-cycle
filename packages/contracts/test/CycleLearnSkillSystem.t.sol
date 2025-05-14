@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { IERC721Errors } from "@latticexyz/world-modules/src/modules/erc721-puppet/IERC721Errors.sol";
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { AffixPartId } from "../../codegen/common.sol";
 import { EquipmentTypes as t, EquipmentType } from "../equipment/EquipmentType.sol";

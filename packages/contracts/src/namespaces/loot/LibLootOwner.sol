@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { commonSystem } from "../common/codegen/systems/CommonSystemLib.sol";
 import { OwnedBy } from "../common/codegen/tables/OwnedBy.sol";

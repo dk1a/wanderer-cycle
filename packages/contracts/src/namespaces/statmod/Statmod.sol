@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { StatmodBase, StatmodBaseData, StatmodValue, StatmodIdxList } from "./codegen/index.sol";
 import { StatmodOp, EleStat } from "../../codegen/common.sol";

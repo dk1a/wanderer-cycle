@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { SkillTemplate } from "../skill/codegen/tables/SkillTemplate.sol";
 import { SkillSpellDamage } from "../skill/codegen/tables/SkillSpellDamage.sol";

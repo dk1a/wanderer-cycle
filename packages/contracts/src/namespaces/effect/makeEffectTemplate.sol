@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { EffectTemplateData } from "./codegen/index.sol";
 import { StatmodOp, EleStat } from "../../codegen/common.sol";

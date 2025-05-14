@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 /// @dev number of usually expected tiers (some affixes may have non-standard tiers)
 uint32 constant DEFAULT_TIERS = 4;
