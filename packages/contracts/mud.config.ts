@@ -92,6 +92,12 @@ const userTypes = {
 export default defineWorld({
   enums,
   userTypes,
+  deploy: {
+    customWorld: {
+      sourcePath: "src/WorldWithContext.sol",
+      name: "WorldWithContext",
+    },
+  },
   codegen: {
     generateSystemLibraries: true,
   },
@@ -125,6 +131,22 @@ export default defineWorld({
     },
     /************************************************************************
      *
+     *    SOF
+     *    TODO: update the namespace etc when upstream changes
+     *
+     ************************************************************************/
+    evefrontier: {
+      systems: {
+        EntitySystem: {
+          deploy: {
+            disabled: true,
+            registerWorldFunctions: false,
+          },
+        },
+      },
+    },
+    /************************************************************************
+     *
      *    COMMON
      *
      ************************************************************************/
@@ -132,6 +154,9 @@ export default defineWorld({
       tables: {
         Name: nameTable,
         OwnedBy: entityRelation,
+        // Names for SOF classes
+        // Not all classes must have names, this is only used for easier access to the common ones
+        SOFClassName: nameTable,
       },
     },
     /************************************************************************
@@ -411,12 +436,6 @@ export default defineWorld({
             attackDamage: EleStatStaticArray,
             spellDamage: EleStatStaticArray,
           },
-        },
-      },
-      systems: {
-        CombatSystem: {
-          openAccess: false,
-          accessList: ["CycleActivateCombatSystem", "CycleCombatSystem"],
         },
       },
     },

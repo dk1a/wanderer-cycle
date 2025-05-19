@@ -19,12 +19,14 @@ import { randomMapSystem } from "../src/namespaces/loot/codegen/systems/RandomMa
 import { effectSystem } from "../src/namespaces/effect/codegen/systems/EffectSystemLib.sol";
 
 import { batchRegisterIdxs as root_batchRegisterIdxs } from "../src/namespaces/root/codegen/batchRegisterIdxs.sol";
+import { batchRegisterIdxs as common_batchRegisterIdxs } from "../src/namespaces/common/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as statmod_batchRegisterIdxs } from "../src/namespaces/statmod/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as skill_batchRegisterIdxs } from "../src/namespaces/skill/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as affix_batchRegisterIdxs } from "../src/namespaces/affix/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as equipment_batchRegisterIdxs } from "../src/namespaces/equipment/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as wheel_batchRegisterIdxs } from "../src/namespaces/wheel/codegen/batchRegisterIdxs.sol";
 
+import { LibInitSOFClasses } from "../src/namespaces/root/init/LibInitSOFClasses.sol";
 import { LibInitStatmod } from "../src/namespaces/root/init/LibInitStatmod.sol";
 import { LibInitSkill } from "../src/namespaces/root/init/LibInitSkill.sol";
 import { LibInitGuise } from "../src/namespaces/root/init/LibInitGuise.sol";
@@ -40,6 +42,8 @@ import { SkillCooldown } from "../src/namespaces/skill/codegen/tables/SkillCoold
 import { StatmodValue } from "../src/namespaces/statmod/codegen/tables/StatmodValue.sol";
 import { Affix } from "../src/namespaces/affix/codegen/tables/Affix.sol";
 import { EquipmentTypeComponent } from "../src/namespaces/equipment/codegen/tables/EquipmentTypeComponent.sol";
+
+import { delegateInstallCustomSOFModule } from "../src/namespaces/evefrontier/CustomSOFModule.sol";
 
 // Init txs are large, especially affixes
 // Separating the script body allows it to be run directly within tests much faster, skipping lengthy broadcasts
@@ -58,11 +62,16 @@ function runPostDeploy(VmSafe vm, address worldAddress, bool withInitializers) {
   // Running these again on an existing world is generally bad
   if (withInitializers) {
     root_batchRegisterIdxs();
+    common_batchRegisterIdxs();
     statmod_batchRegisterIdxs();
     skill_batchRegisterIdxs();
     affix_batchRegisterIdxs();
     equipment_batchRegisterIdxs();
     wheel_batchRegisterIdxs();
+
+    // Smart Object Framework setup
+    delegateInstallCustomSOFModule();
+    LibInitSOFClasses.init();
 
     LibInitStatmod.init();
     LibInitSkill.init();

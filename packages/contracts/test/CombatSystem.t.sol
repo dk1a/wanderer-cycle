@@ -1,19 +1,26 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { IWorldErrors } from "@latticexyz/world/src/IWorldErrors.sol";
+import { SmartObjectFramework } from "@eveworld/smart-object-framework-v2/src/inherit/SmartObjectFramework.sol";
 import { BaseTest } from "./BaseTest.t.sol";
 
 import { CombatActors, CombatStatus } from "../src/namespaces/combat/codegen/index.sol";
+import { entitySystem } from "../src/namespaces/evefrontier/codegen/systems/EntitySystemLib.sol";
 import { charstatSystem } from "../src/namespaces/charstat/codegen/systems/CharstatSystemLib.sol";
 import { combatSystem } from "../src/namespaces/combat/codegen/systems/CombatSystemLib.sol";
 import { CombatSystem, CombatAction, CombatActionType } from "../src/namespaces/combat/CombatSystem.sol";
+import { LibSOFClass } from "../src/namespaces/common/LibSOFClass.sol";
+import { LibSOFAccess } from "../src/namespaces/evefrontier/LibSOFAccess.sol";
 import { LibCharstat } from "../src/namespaces/charstat/LibCharstat.sol";
 import { LibCombatStatus } from "../src/namespaces/combat/LibCombatStatus.sol";
 import { PStat, PStat_length, EleStat_length } from "../src/CustomTypes.sol";
 import { StatmodTopics } from "../src/namespaces/statmod/StatmodTopic.sol";
 import { Statmod } from "../src/namespaces/statmod/Statmod.sol";
 import { EleStat, StatmodOp, CombatResult } from "../src/codegen/common.sol";
+
+import { CombatSystemWrapperLib, CombatSystemWrapperUnscopedLib } from "./CombatSystemWrapper.sol";
 
 // Public library to create a non-zero callstack for expectRevert to work well, but preserve context via delegatecall
 library RevertHelper {
@@ -27,11 +34,13 @@ library RevertHelper {
 }
 
 contract CombatSystemTest is BaseTest {
+  ResourceId[] combatEntityScopedSystemIds;
   address writer = address(bytes20(keccak256("writer")));
   address notWriter = address(bytes20(keccak256("notWriter")));
-  bytes32 playerEntity = keccak256("playerEntity");
-  bytes32 encounterEntity = keccak256("encounterEntity");
+  bytes32 playerEntity;
+  bytes32 encounterEntity;
   bytes32 combatEntity;
+  bytes32 unscopedEntity;
 
   CombatAction[] _noActions;
 
@@ -52,6 +61,20 @@ contract CombatSystemTest is BaseTest {
     // authorize writer
     _grantAccess("combat", writer);
 
+    vm.startPrank(deployer);
+
+    // create player and encounter entities
+    playerEntity = LibSOFClass.instantiate("cycle", writer);
+    encounterEntity = LibSOFClass.instantiate("cycle_encounter", writer);
+    unscopedEntity = LibSOFClass.instantiate("empty", writer);
+    // register the system that will call CombatSystem
+    CombatSystemWrapperLib.registerSystem();
+    combatEntityScopedSystemIds = new ResourceId[](1);
+    combatEntityScopedSystemIds[0] = CombatSystemWrapperLib._systemId();
+    CombatSystemWrapperUnscopedLib.registerSystem();
+
+    vm.stopPrank();
+
     // give direct levels
     // (note: don't change statmods directly outside of tests, use effects)
     Statmod.increase(playerEntity, levelStatmodEntity, initLevel);
@@ -70,7 +93,7 @@ contract CombatSystemTest is BaseTest {
   function _activateCombat(uint32 maxRounds) internal {
     // activate combat between player and encounter
     vm.prank(writer);
-    combatEntity = combatSystem.activateCombat(playerEntity, encounterEntity, maxRounds);
+    combatEntity = combatSystem.activateCombat(playerEntity, encounterEntity, maxRounds, combatEntityScopedSystemIds);
   }
 
   function _sumElements(uint32[EleStat_length] memory elemValues) internal pure returns (uint32 result) {
@@ -113,14 +136,80 @@ contract CombatSystemTest is BaseTest {
     assertEq(_sumElements(LibCharstat.getAttack(playerEntity)), _sumElements(LibCharstat.getAttack(encounterEntity)));
   }
 
-  function testCombatPVERoundRevertAccessDenied() public {
+  function testActivateCombatRevertAccessDenied() public {
+    vm.prank(notWriter);
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, playerEntity, notWriter));
+    combatEntity = world.combat__activateCombat(
+      playerEntity,
+      encounterEntity,
+      defaultMaxRounds,
+      combatEntityScopedSystemIds
+    );
+
+    vm.prank(deployer);
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, playerEntity, deployer));
+    combatEntity = world.combat__activateCombat(
+      playerEntity,
+      encounterEntity,
+      defaultMaxRounds,
+      combatEntityScopedSystemIds
+    );
+  }
+
+  function testActivateCombatPartialAccessDenied() public {
+    vm.startPrank(deployer);
+    // make writer own only the first entity - playerEntity
+    playerEntity = LibSOFClass.instantiate("cycle", writer);
+    encounterEntity = LibSOFClass.instantiate("cycle_encounter", deployer);
+    vm.stopPrank();
+
+    // writer will be denied access because of the second entity - encounterEntity
+    vm.prank(writer);
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, encounterEntity, writer));
+    combatEntity = world.combat__activateCombat(
+      playerEntity,
+      encounterEntity,
+      defaultMaxRounds,
+      combatEntityScopedSystemIds
+    );
+  }
+
+  function testCombatPVERoundRevertInvalidEntityType() public {
     _activateCombat(defaultMaxRounds);
 
-    vm.prank(notWriter);
+    vm.expectPartialRevert(SmartObjectFramework.SOF_InvalidEntityType.selector);
+    CombatSystemWrapperLib.actPVERound(bytes32("invalid entity"), _noActions, _noActions);
+  }
+
+  function testCombatPVERoundRevertUnscopedEntity() public {
+    vm.expectPartialRevert(SmartObjectFramework.SOF_UnscopedSystemCall.selector);
+    CombatSystemWrapperLib.actPVERound(unscopedEntity, _noActions, _noActions);
+  }
+
+  function testCombatPVERoundRevertUnscopedSystem() public {
+    _activateCombat(defaultMaxRounds);
+
     vm.expectRevert(
-      abi.encodeWithSelector(IWorldErrors.World_AccessDenied.selector, "sy:combat:CombatSystem", notWriter)
+      abi.encodeWithSelector(
+        SmartObjectFramework.SOF_UnscopedSystemCall.selector,
+        combatEntity,
+        CombatSystemWrapperUnscopedLib._systemId()
+      )
     );
-    world.combat__actPVERound(combatEntity, _noActions, _noActions);
+    CombatSystemWrapperUnscopedLib.actPVERound(combatEntity, _noActions, _noActions);
+  }
+
+  function testCombatPVERoundRevertDirectCall() public {
+    _activateCombat(defaultMaxRounds);
+
+    // No address should be able to call the system directly (the access role was renounced)
+    address[4] memory addresses = [address(0), notWriter, writer, deployer];
+    for (uint256 i = 0; i < addresses.length; i++) {
+      address _address = addresses[i];
+      vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, combatEntity, _address));
+      vm.prank(_address);
+      world.combat__actPVERound(combatEntity, _noActions, _noActions);
+    }
   }
 
   function testCombatPVERoundRevertDoubleInit() public {
@@ -131,8 +220,13 @@ contract CombatSystemTest is BaseTest {
   }
 
   function testCombatPVERoundRevertNotInitialized() public {
+    vm.startPrank(deployer);
+    bytes32 uninitializedCombatEntity = LibSOFClass.instantiate("combat", deployer);
+    entitySystem.addToScope(uint256(uninitializedCombatEntity), combatEntityScopedSystemIds);
+    vm.stopPrank();
+
     vm.expectPartialRevert(LibCombatStatus.LibCombatStatus_NotInitialized.selector);
-    world.combat__actPVERound(bytes32(hex"123456"), _noActions, _noActions);
+    CombatSystemWrapperLib.actPVERound(uninitializedCombatEntity, _noActions, _noActions);
   }
 
   // skipping a round is fine
@@ -140,7 +234,7 @@ contract CombatSystemTest is BaseTest {
     _activateCombat(defaultMaxRounds);
 
     vm.prank(writer);
-    CombatResult result = combatSystem.actPVERound(combatEntity, _noActions, _noActions);
+    CombatResult result = CombatSystemWrapperLib.actPVERound(combatEntity, _noActions, _noActions);
     assertEq(uint8(result), uint8(CombatResult.NONE));
   }
 
@@ -150,7 +244,7 @@ contract CombatSystemTest is BaseTest {
 
     vm.prank(writer);
     vm.expectRevert(CombatSystem.CombatSystem_InvalidActionsLength.selector);
-    world.combat__actPVERound(combatEntity, _actions2Attacks(), _actions2Attacks());
+    CombatSystemWrapperLib.actPVERound(combatEntity, _actions2Attacks(), _actions2Attacks());
   }
 
   // an unopposed single attack
@@ -159,7 +253,7 @@ contract CombatSystemTest is BaseTest {
 
     vm.prank(writer);
 
-    CombatResult result = combatSystem.actPVERound(combatEntity, _actions1Attack(), _noActions);
+    CombatResult result = CombatSystemWrapperLib.actPVERound(combatEntity, _actions1Attack(), _noActions);
     assertEq(uint8(result), uint8(CombatResult.NONE));
     assertEq(uint8(CombatStatus.getCombatResult(combatEntity)), uint8(result));
     assertEq(LibCharstat.getLifeCurrent(encounterEntity), initLife - initAttack);
@@ -175,7 +269,7 @@ contract CombatSystemTest is BaseTest {
     // do enough attacks to defeat encounter
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = combatSystem.actPVERound(combatEntity, _actions1Attack(), _noActions);
+      result = CombatSystemWrapperLib.actPVERound(combatEntity, _actions1Attack(), _noActions);
       if (i != attacksNumber - 1) {
         assertEq(uint8(result), uint8(CombatResult.NONE));
         assertEq(uint8(CombatStatus.getCombatResult(combatEntity)), uint8(result));
@@ -186,20 +280,18 @@ contract CombatSystemTest is BaseTest {
     assertEq(LibCharstat.getLifeCurrent(encounterEntity), 0);
 
     vm.expectPartialRevert(LibCombatStatus.LibCombatStatus_CombatIsOver.selector);
-    world.combat__actPVERound(combatEntity, _noActions, _noActions);
+    CombatSystemWrapperLib.actPVERound(combatEntity, _noActions, _noActions);
   }
 
   // unopposed encounter attacks, enough to get defeat
   function testCombatPVERoundEncounterAttacksDefeat() public {
     _activateCombat(defaultMaxRounds);
 
-    vm.prank(writer);
-
     CombatResult result;
     // do enough attacks to defeat player
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = combatSystem.actPVERound(combatEntity, _noActions, _actions1Attack());
+      result = CombatSystemWrapperLib.actPVERound(combatEntity, _noActions, _actions1Attack());
       if (i != attacksNumber - 1) {
         assertEq(uint8(result), uint8(CombatResult.NONE));
         assertEq(uint8(CombatStatus.getCombatResult(combatEntity)), uint8(result));
@@ -210,20 +302,18 @@ contract CombatSystemTest is BaseTest {
     assertEq(LibCharstat.getLifeCurrent(playerEntity), 0);
 
     vm.expectPartialRevert(LibCombatStatus.LibCombatStatus_CombatIsOver.selector);
-    world.combat__actPVERound(combatEntity, _noActions, _noActions);
+    CombatSystemWrapperLib.actPVERound(combatEntity, _noActions, _noActions);
   }
 
   // player and encounter have the same stats and attacks, but player goes 1st and wins the last round
   function testCombatPVERoundOpposedAttacksVictoryByInitiative() public {
     _activateCombat(defaultMaxRounds);
 
-    vm.prank(writer);
-
     CombatResult result;
     // do enough attacks to defeat encounter
     uint256 attacksNumber = initLife / initAttack;
     for (uint256 i; i < attacksNumber; i++) {
-      result = combatSystem.actPVERound(combatEntity, _actions1Attack(), _actions1Attack());
+      result = CombatSystemWrapperLib.actPVERound(combatEntity, _actions1Attack(), _actions1Attack());
       if (i != attacksNumber - 1) {
         assertEq(uint8(result), uint8(CombatResult.NONE));
         assertEq(uint8(CombatStatus.getCombatResult(combatEntity)), uint8(result));
@@ -241,8 +331,7 @@ contract CombatSystemTest is BaseTest {
 
     uint32 initialRoundsSpent = CombatStatus.getRoundsSpent(combatEntity);
 
-    vm.prank(writer);
-    combatSystem.actPVERound(combatEntity, _noActions, _noActions);
+    CombatSystemWrapperLib.actPVERound(combatEntity, _noActions, _noActions);
 
     uint32 roundsSpent = CombatStatus.getRoundsSpent(combatEntity);
     assertEq(roundsSpent, initialRoundsSpent + 1, "Rounds spent should increase by 1");
@@ -251,8 +340,7 @@ contract CombatSystemTest is BaseTest {
   function testCombatDeactivatesAfterMaxRounds() public {
     _activateCombat(1);
 
-    vm.prank(writer);
-    combatSystem.actPVERound(combatEntity, _noActions, _noActions);
+    CombatSystemWrapperLib.actPVERound(combatEntity, _noActions, _noActions);
 
     assertEq(CombatStatus.getIsInitialized(combatEntity), true);
     assertEq(uint8(CombatStatus.getCombatResult(combatEntity)), uint8(CombatResult.DEFEAT));
@@ -260,7 +348,7 @@ contract CombatSystemTest is BaseTest {
     assertEq(CombatStatus.getRoundsMax(combatEntity), 1);
 
     vm.expectPartialRevert(LibCombatStatus.LibCombatStatus_CombatIsOver.selector);
-    world.combat__actPVERound(combatEntity, _noActions, _noActions);
+    CombatSystemWrapperLib.actPVERound(combatEntity, _noActions, _noActions);
   }
 
   function testRevertRoundsOverMax() public {

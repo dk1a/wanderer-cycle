@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { System } from "@latticexyz/world/src/System.sol";
-import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
+
+import { SmartObjectFramework } from "../evefrontier/SmartObjectFramework.sol";
 
 import { CombatAction, CombatActorOpts, CombatActor } from "../../CustomTypes.sol";
 import { GenericDurationData } from "../duration/Duration.sol";
@@ -12,6 +13,7 @@ import { CombatLogActionOffchain, CombatLogActionOffchainData } from "./codegen/
 import { CombatActionType, CombatResult } from "../../codegen/common.sol";
 
 import { timeSystem } from "../time/codegen/systems/TimeSystemLib.sol";
+import { LibSOFClass } from "../common/LibSOFClass.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibCombatStatus } from "./LibCombatStatus.sol";
 import { LibCombatSingleAction, CombatActionDamageLog } from "./LibCombatSingleAction.sol";
@@ -23,7 +25,7 @@ import { LibCombatSingleAction, CombatActionDamageLog } from "./LibCombatSingleA
  * `CombatSystem` has multi-actor multi-action interactions logic,
  * and uses `LibCombatSingleAction` for reusable one-way action logic.
  */
-contract CombatSystem is System {
+contract CombatSystem is SmartObjectFramework {
   error CombatSystem_InvalidActionsLength();
 
   /**
@@ -34,7 +36,9 @@ contract CombatSystem is System {
     bytes32 combatEntity,
     CombatAction[] memory initiatorActions,
     CombatAction[] memory retaliatorActions
-  ) public returns (CombatResult result) {
+  ) public context returns (CombatResult result) {
+    _requireEntityLeaf(uint256(combatEntity));
+
     (bytes32 initiatorEntity, bytes32 retaliatorEntity) = CombatActors.get(combatEntity);
 
     CombatActor memory initiator = CombatActor({
@@ -58,9 +62,14 @@ contract CombatSystem is System {
   function activateCombat(
     bytes32 initiatorEntity,
     bytes32 retaliatorEntity,
-    uint32 roundsMax
-  ) public returns (bytes32 combatEntity) {
-    combatEntity = getUniqueEntity();
+    uint32 roundsMax,
+    ResourceId[] memory combatEntityScopedSystemIds
+  ) public context returns (bytes32 combatEntity) {
+    // Caller must be scoped for both combat participant entities
+    _requireEntityBranch(uint256(initiatorEntity));
+    _requireEntityBranch(uint256(retaliatorEntity));
+
+    combatEntity = LibSOFClass.instantiate("combat", combatEntityScopedSystemIds);
     LibCombatStatus.initialize(combatEntity, roundsMax);
     CombatActors.set(combatEntity, initiatorEntity, retaliatorEntity);
   }
@@ -76,7 +85,7 @@ contract CombatSystem is System {
     bytes32 combatEntity,
     CombatActor memory initiator,
     CombatActor memory retaliator
-  ) public returns (CombatResult result) {
+  ) internal returns (CombatResult result) {
     // Reverts if combat isn't active
     (uint256 roundIndex, bool isFinalRound) = LibCombatStatus.spendRound(combatEntity);
 
