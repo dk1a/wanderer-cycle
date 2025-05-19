@@ -13,6 +13,7 @@ import { runPostDeploy } from "../script/PostDeploy.s.sol";
 abstract contract BaseTest is MudTest {
   IWorld world;
 
+  address deployer;
   address alice = address(bytes20(keccak256("alice")));
   address bob = address(bytes20(keccak256("bob")));
 
@@ -25,6 +26,8 @@ abstract contract BaseTest is MudTest {
     runPostDeploy(vm, worldAddress, true);
 
     world = IWorld(worldAddress);
+
+    deployer = vm.addr(vm.envUint("PRIVATE_KEY"));
 
     address testContractAddress = address(this);
     // root

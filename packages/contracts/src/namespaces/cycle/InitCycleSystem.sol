@@ -3,8 +3,6 @@ pragma solidity >=0.8.24;
 
 import { System } from "@latticexyz/world/src/System.sol";
 
-import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
-
 import { GuisePrototype } from "../root/codegen/tables/GuisePrototype.sol";
 import { ActiveCycle } from "./codegen/tables/ActiveCycle.sol";
 import { ActiveGuise } from "./codegen/tables/ActiveGuise.sol";
@@ -16,6 +14,7 @@ import { learnSkillSystem } from "../skill/codegen/systems/LearnSkillSystemLib.s
 import { equipmentSystem } from "../equipment/codegen/systems/EquipmentSystemLib.sol";
 import { wheelSystem } from "../wheel/codegen/systems/WheelSystemLib.sol";
 
+import { LibSOFClass } from "../common/LibSOFClass.sol";
 import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
 
@@ -32,8 +31,10 @@ contract InitCycleSystem is System {
     bytes32 guiseEntity,
     bytes32 wheelEntity
   ) public returns (bytes32 cycleEntity) {
-    // cycleEntity is for all the in-cycle components (everything except activeCycle)
-    cycleEntity = getUniqueEntity();
+    // cycleEntity is the key for all the in-cycle tables
+    // (everything except ActiveCycle, which maps and enforces 1 active cycle per owner)
+    cycleEntity = LibSOFClass.instantiate("cycle");
+
     // Cycle must be inactive
     if (ActiveCycle.get(wandererEntity) != bytes32(0)) {
       revert InitCycleSystem_DuplicateActiveCycle();

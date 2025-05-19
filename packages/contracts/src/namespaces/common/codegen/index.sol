@@ -5,3 +5,4 @@ pragma solidity >=0.8.24;
 
 import { Name } from "./tables/Name.sol";
 import { OwnedBy } from "./tables/OwnedBy.sol";
+import { SOFClassName } from "./tables/SOFClassName.sol";
