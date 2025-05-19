@@ -4,6 +4,16 @@ import storeConfig from "./mud.config";
 export default defineStoreIdxs(
   {
     namespaces: {
+      common: {
+        tables: {
+          SOFClassName: [
+            {
+              fields: ["name"],
+              unique: true,
+            },
+          ],
+        },
+      },
       duration: {
         tables: {
           GenericDuration: [
