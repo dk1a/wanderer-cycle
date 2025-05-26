@@ -18,7 +18,7 @@ contract CyclePassTurnSystemTest is BaseTest {
 
     guiseEntity = LibGuise.getGuiseEntity("Warrior");
     vm.prank(alice);
-    (, cycleEntity) = world.spawnWanderer(guiseEntity);
+    (, cycleEntity) = world.wanderer__spawnWanderer(guiseEntity);
   }
 
   function testPassTurn() public {

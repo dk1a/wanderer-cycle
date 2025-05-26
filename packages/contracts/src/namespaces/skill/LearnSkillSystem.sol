@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { System } from "@latticexyz/world/src/System.sol";
+import { SmartObjectFramework } from "../evefrontier/SmartObjectFramework.sol";
 
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
 
@@ -11,13 +11,16 @@ import { skillSystem } from "./codegen/systems/SkillSystemLib.sol";
 
 import { TargetType, SkillType } from "../../codegen/common.sol";
 
-contract LearnSkillSystem is System {
+contract LearnSkillSystem is SmartObjectFramework {
   error LearnSkillSystem_LearnSkillDuplicate();
 
   /**
    * @dev Add `skillEntity` to set of learned skills, revert if it's already learned
    */
-  function learnSkill(bytes32 userEntity, bytes32 skillEntity) public {
+  function learnSkill(bytes32 userEntity, bytes32 skillEntity) public context {
+    _requireEntityBranch(uint256(userEntity));
+    _requireEntityRoot(uint256(skillEntity));
+
     bytes32[] memory userSkills = LearnedSkills.get(userEntity);
     for (uint256 i = 0; i < userSkills.length; i++) {
       if (userSkills[i] == skillEntity) {
@@ -31,7 +34,10 @@ contract LearnSkillSystem is System {
   /**
    * @dev Copy skills from source to target. Overwrites target's existing skills
    */
-  function copySkills(bytes32 sourceEntity, bytes32 targetEntity) public {
+  function copySkills(bytes32 sourceEntity, bytes32 targetEntity) public context {
+    _requireEntityLeaf(uint256(sourceEntity));
+    _requireEntityBranch(uint256(targetEntity));
+
     bool isKey = hasKey(LearnedSkills._tableId, LearnedSkills.encodeKeyTuple(sourceEntity));
     if (isKey) {
       bytes32[] memory skillEntities = LearnedSkills.get(sourceEntity);

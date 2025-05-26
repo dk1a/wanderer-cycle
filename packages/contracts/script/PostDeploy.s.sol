@@ -11,7 +11,6 @@ import { ROOT_NAMESPACE_ID } from "@latticexyz/world/src/constants.sol";
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 
 import { timeSystem } from "../src/namespaces/time/codegen/systems/TimeSystemLib.sol";
-import { initCycleSystem } from "../src/namespaces/cycle/codegen/systems/InitCycleSystemLib.sol";
 import { wheelSystem } from "../src/namespaces/wheel/codegen/systems/WheelSystemLib.sol";
 import { learnSkillSystem } from "../src/namespaces/skill/codegen/systems/LearnSkillSystemLib.sol";
 import { randomEquipmentSystem } from "../src/namespaces/loot/codegen/systems/RandomEquipmentSystemLib.sol";
@@ -95,12 +94,6 @@ function runPostDeploy(VmSafe vm, address worldAddress, bool withInitializers) {
 
   // TODO this feels less wrong, not sure; should statmod have a system?
   IWorld(worldAddress).grantAccess(StatmodValue._tableId, effectSystem.getAddress());
-
-  // TODO reconsider this, along with `.callAsRootFrom(address(this))` instances
-  IWorld(worldAddress).grantAccess(ROOT_NAMESPACE_ID, worldAddress);
-  IWorld(worldAddress).grantAccess(initCycleSystem.toResourceId(), worldAddress);
-  IWorld(worldAddress).grantAccess(learnSkillSystem.toResourceId(), worldAddress);
-  IWorld(worldAddress).grantAccess(wheelSystem.toResourceId(), worldAddress);
 
   vm.stopBroadcast();
 }

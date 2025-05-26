@@ -10,7 +10,6 @@ import { CycleOwner } from "./codegen/tables/CycleOwner.sol";
 import { CycleMetadata } from "./codegen/tables/CycleMetadata.sol";
 
 import { charstatSystem } from "../charstat/codegen/systems/CharstatSystemLib.sol";
-import { learnSkillSystem } from "../skill/codegen/systems/LearnSkillSystemLib.sol";
 import { equipmentSystem } from "../equipment/codegen/systems/EquipmentSystemLib.sol";
 import { wheelSystem } from "../wheel/codegen/systems/WheelSystemLib.sol";
 
@@ -61,8 +60,6 @@ contract InitCycleSystem is System {
     LibCycleTurns.claimTurns(cycleEntity);
     // Spawn equipment slots
     equipmentSystem.spawnEquipmentSlots(cycleEntity);
-    // Copy permanent skills
-    learnSkillSystem.copySkills(wandererEntity, cycleEntity);
 
     return cycleEntity;
   }

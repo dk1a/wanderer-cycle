@@ -1,19 +1,56 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { Experience } from "../src/namespaces/charstat/codegen/index.sol";
-import { charstatSystem } from "../src/namespaces/charstat/codegen/systems/CharstatSystemLib.sol";
-import { LibExperience } from "../src/namespaces/charstat/LibExperience.sol";
-import { PStat_length } from "../src/CustomTypes.sol";
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
+
+import { SmartObjectFramework } from "@eveworld/smart-object-framework-v2/src/inherit/SmartObjectFramework.sol";
 import { BaseTest } from "./BaseTest.t.sol";
 
-contract LibExperienceTest is BaseTest {
-  bytes32 internal targetEntity = keccak256("targetEntity");
+import { Experience } from "../src/namespaces/charstat/codegen/index.sol";
+import { LibSOFClass } from "../src/namespaces/common/LibSOFClass.sol";
+import { LibCharstat } from "../src/namespaces/charstat/LibCharstat.sol";
+import { LibExperience } from "../src/namespaces/charstat/LibExperience.sol";
+import { PStat_length } from "../src/CustomTypes.sol";
+
+contract CharstatSystemTest is BaseTest {
+  bytes32 internal targetEntity;
+
+  function setUp() public virtual override {
+    super.setUp();
+
+    vm.startPrank(deployer);
+
+    targetEntity = LibSOFClass.instantiate("test", deployer);
+
+    vm.stopPrank();
+  }
+
+  function testRevertUnscoped() public {
+    vm.expectRevert(
+      abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, targetEntity, emptySystemId)
+    );
+    emptySystemMock.charstat__initExp(targetEntity);
+
+    vm.expectRevert(
+      abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, targetEntity, emptySystemId)
+    );
+    emptySystemMock.charstat__increaseExp(targetEntity, [uint32(100000), 100000, 100000]);
+
+    vm.expectRevert(
+      abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, targetEntity, emptySystemId)
+    );
+    emptySystemMock.charstat__setManaCurrent(targetEntity, 100);
+
+    vm.expectRevert(
+      abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, targetEntity, emptySystemId)
+    );
+    emptySystemMock.charstat__setLifeCurrent(targetEntity, 100);
+  }
 
   function testHasExp() public {
     assertFalse(LibExperience.hasExp(targetEntity));
 
-    charstatSystem.initExp(targetEntity);
+    scopedSystemMock.charstat__initExp(targetEntity);
     assertTrue(LibExperience.hasExp(targetEntity));
   }
 
@@ -21,7 +58,7 @@ contract LibExperienceTest is BaseTest {
     uint32[PStat_length] memory initialExp,
     uint32[PStat_length] memory addExp
   ) internal returns (uint32[PStat_length] memory resultExp) {
-    charstatSystem.increaseExp(targetEntity, addExp);
+    scopedSystemMock.charstat__increaseExp(targetEntity, addExp);
 
     resultExp = LibExperience.getExp(targetEntity);
     for (uint256 i; i < resultExp.length; i++) {
@@ -30,7 +67,7 @@ contract LibExperienceTest is BaseTest {
   }
 
   function testIncreaseExp() public {
-    charstatSystem.initExp(targetEntity);
+    scopedSystemMock.charstat__initExp(targetEntity);
     uint32[PStat_length] memory initialExp = LibExperience.getExp(targetEntity);
     initialExp = _testIncreaseExp(initialExp, [uint32(1), 1, 1]);
     initialExp = _testIncreaseExp(initialExp, [uint32(8), 8, 8]);
@@ -38,7 +75,7 @@ contract LibExperienceTest is BaseTest {
   }
 
   function testFuzzIncreaseExp(uint32[PStat_length] memory addExp) public {
-    charstatSystem.initExp(targetEntity);
+    scopedSystemMock.charstat__initExp(targetEntity);
     uint32[PStat_length] memory initialExp = LibExperience.getExp(targetEntity);
     initialExp = _testIncreaseExp(initialExp, addExp);
   }
@@ -54,7 +91,7 @@ contract LibExperienceTest is BaseTest {
   }
 
   function testMaxLevel() public {
-    charstatSystem.initExp(targetEntity);
+    scopedSystemMock.charstat__initExp(targetEntity);
 
     // Set the experience to the maximum level
     uint32[PStat_length] memory maxExp = [type(uint32).max, type(uint32).max, type(uint32).max];
@@ -75,10 +112,10 @@ contract LibExperienceTest is BaseTest {
       }
     }
 
-    charstatSystem.initExp(targetEntity);
+    scopedSystemMock.charstat__initExp(targetEntity);
     // Get expected exp for the random pstat values
     uint32[PStat_length] memory expectedExp = LibExperience.getExpForPStats(pstats);
-    charstatSystem.increaseExp(targetEntity, expectedExp);
+    scopedSystemMock.charstat__increaseExp(targetEntity, expectedExp);
 
     // Get the actual exp
     uint32[PStat_length] memory actualExp = LibExperience.getExp(targetEntity);
@@ -87,5 +124,17 @@ contract LibExperienceTest is BaseTest {
     for (uint256 i = 0; i < expectedExp.length; i++) {
       assertEq(actualExp[i], expectedExp[i]);
     }
+  }
+
+  function testCurrentCaps() public {
+    scopedSystemMock.charstat__initExp(targetEntity);
+    assertEq(LibCharstat.getMana(targetEntity), 4);
+    assertEq(LibCharstat.getLife(targetEntity), 4);
+
+    // Life/mana currents must be capped by their max values in charstat getters
+    scopedSystemMock.charstat__setManaCurrent(targetEntity, 100);
+    assertEq(LibCharstat.getMana(targetEntity), 4);
+    scopedSystemMock.charstat__setLifeCurrent(targetEntity, 100);
+    assertEq(LibCharstat.getLife(targetEntity), 4);
   }
 }

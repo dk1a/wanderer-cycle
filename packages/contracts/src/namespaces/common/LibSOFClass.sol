@@ -31,10 +31,10 @@ library LibSOFClass {
     bytes32 classId = getClassId(name);
     address self = address(this);
     objectId = bytes32(entitySystem.instantiate(uint256(classId), self));
-    renounceRole(objectId);
+    scopedRenounceRole(objectId);
   }
 
-  function renounceRole(bytes32 objectId) internal {
+  function scopedRenounceRole(bytes32 objectId) internal {
     // This is just a magic confirmation requirement, see scopedRenounceRole
     (, , address initialMsgSender, ) = IWorldWithContext(WorldContextConsumerLib._world()).getWorldCallContext(1);
 
@@ -51,7 +51,7 @@ library LibSOFClass {
     bytes32 classId = getClassId(name);
     address self = address(this);
     objectId = bytes32(entitySystem.instantiate(uint256(classId), self));
-    renounceRole(objectId);
+    scopedRenounceRole(objectId);
 
     entitySystem.addToScope(uint256(objectId), scopedSystemIds);
   }

@@ -6,4 +6,3 @@ pragma solidity >=0.8.24;
 import { GuisePrototype } from "./tables/GuisePrototype.sol";
 import { GuiseName } from "./tables/GuiseName.sol";
 import { GuiseSkills } from "./tables/GuiseSkills.sol";
-import { Wanderer } from "./tables/Wanderer.sol";

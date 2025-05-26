@@ -34,7 +34,7 @@ contract CycleLearnSkillSystemTest is BaseTest {
     skillEntityInvalid = keccak256("skillEntityInvalid");
 
     vm.prank(alice);
-    (wandererEntity, cycleEntity) = world.spawnWanderer(warriorGuiseEntity);
+    (wandererEntity, cycleEntity) = world.wanderer__spawnWanderer(warriorGuiseEntity);
   }
 
   function testSetUp() public view {

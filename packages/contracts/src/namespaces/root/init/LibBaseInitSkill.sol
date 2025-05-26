@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
-
 import { effectTemplateSystem, EffectTemplateData } from "../../effect/codegen/systems/EffectTemplateSystemLib.sol";
 
 import { EleStat_length } from "../../../CustomTypes.sol";
 import { GenericDurationData } from "../../duration/Duration.sol";
+import { LibSOFClass } from "../../common/LibSOFClass.sol";
 import { LibSkill } from "../../skill/LibSkill.sol";
 
 import { SkillTemplate, SkillTemplateData } from "../../skill/codegen/tables/SkillTemplate.sol";
@@ -28,7 +27,7 @@ library LibBaseInitSkill {
     EffectTemplateData memory effectTemplate,
     uint32[EleStat_length] memory spellDamage
   ) internal {
-    bytes32 entity = getUniqueEntity();
+    bytes32 entity = LibSOFClass.instantiate("skill", address(this));
 
     SkillTemplate.set(entity, template);
     LibSkill.setSkillTemplateCooldown(entity, cooldown);

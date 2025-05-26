@@ -10,7 +10,12 @@ import { SmartObjectFramework as _SmartObjectFramework } from "@eveworld/smart-o
 import { LibSOFAccess } from "./LibSOFAccess.sol";
 
 contract SmartObjectFramework is _SmartObjectFramework {
-  // TODO refactor the 2 funcs when you come up with something better, especially names
+  // TODO refactor the 3 funcs when you come up with something better, especially names
+  function _requireEntityRoot(uint256 entityId) internal view {
+    ResourceId systemId = SystemRegistry.get(address(this));
+    _scope(entityId, systemId);
+  }
+
   function _requireEntityBranch(uint256 entityId) internal view {
     _enforceScope(entityId);
 
@@ -21,8 +26,6 @@ contract SmartObjectFramework is _SmartObjectFramework {
   }
 
   function _requireEntityLeaf(uint256 entityId) internal view {
-    _enforceScope(entityId);
-
     uint256 callCount = IWorldWithContext(_world()).getWorldCallCount();
     if (callCount > 1) {
       (ResourceId prevSystemId, , , ) = IWorldWithContext(_world()).getWorldCallContext(callCount - 1);

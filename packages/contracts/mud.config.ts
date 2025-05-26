@@ -120,13 +120,6 @@ export default defineWorld({
             entityArray: EntityIdArray,
           },
         },
-        Wanderer: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "bool",
-          },
-        },
       },
     },
     /************************************************************************
@@ -253,19 +246,6 @@ export default defineWorld({
           },
         },
       },
-      systems: {
-        CharstatSystem: {
-          openAccess: false,
-          accessList: [
-            "SkillSystem",
-            "CombatSystem",
-            "InitCycleSystem",
-            "CycleActivateCombatSystem",
-            "CycleCombatRewardSystem",
-            "CyclePassTurnSystem",
-          ],
-        },
-      },
     },
     /************************************************************************
      *
@@ -355,30 +335,13 @@ export default defineWorld({
           },
         },
       },
-      systems: {
-        SkillSystem: {
-          openAccess: false,
-          accessList: ["LearnSkillSystem", "CycleNoncombatSkillSystem", "CombatSystem"],
-        },
-        LearnSkillSystem: {
-          openAccess: false,
-          accessList: ["InitCycleSystem", "CycleLearnSkillSystem", "WandererSpawnSystem"],
-        },
-      },
     },
     /************************************************************************
      *
      *    TIME
      *
      ************************************************************************/
-    time: {
-      systems: {
-        TimeSystem: {
-          openAccess: false,
-          accessList: ["CombatSystem", "CyclePassTurnSystem"],
-        },
-      },
-    },
+    time: {},
     /************************************************************************
      *
      *    COMBAT
@@ -660,7 +623,7 @@ export default defineWorld({
       systems: {
         WheelSystem: {
           openAccess: false,
-          accessList: ["InitCycleSystem", "CycleControlSystem"],
+          accessList: ["InitCycleSystem", "CycleControlSystem", "PermSkillSystem"],
         },
       },
     },
@@ -768,7 +731,23 @@ export default defineWorld({
       systems: {
         InitCycleSystem: {
           openAccess: false,
-          accessList: [],
+          accessList: ["WandererSpawnSystem"],
+        },
+      },
+    },
+    /************************************************************************
+     *
+     *    WANDERER
+     *
+     ************************************************************************/
+    wanderer: {
+      tables: {
+        Wanderer: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "bool",
+          },
         },
       },
     },

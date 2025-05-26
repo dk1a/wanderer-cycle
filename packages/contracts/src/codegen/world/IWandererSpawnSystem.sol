@@ -11,5 +11,5 @@ pragma solidity >=0.8.24;
 interface IWandererSpawnSystem {
   error WandererSpawn_InvalidGuise();
 
-  function spawnWanderer(bytes32 guiseEntity) external returns (bytes32 wandererEntity, bytes32 cycleEntity);
+  function wanderer__spawnWanderer(bytes32 guiseEntity) external returns (bytes32 wandererEntity, bytes32 cycleEntity);
 }

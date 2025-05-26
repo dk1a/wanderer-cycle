@@ -5,6 +5,8 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 import { entitySystem } from "../../evefrontier/codegen/systems/EntitySystemLib.sol";
 
+import { wandererSpawnSystem } from "../../wanderer/codegen/systems/WandererSpawnSystemLib.sol";
+import { permSkillSystem } from "../../wanderer/codegen/systems/PermSkillSystemLib.sol";
 import { charstatSystem } from "../../charstat/codegen/systems/CharStatSystemLib.sol";
 import { effectSystem } from "../../effect/codegen/systems/EffectSystemLib.sol";
 import { skillSystem } from "../../skill/codegen/systems/SkillSystemLib.sol";
@@ -29,15 +31,32 @@ import { SOFClassName } from "../../common/codegen/tables/SOFClassName.sol";
 
 library LibInitSOFClasses {
   function init() internal {
-    _empty();
+    _emptyAndTest();
+    _skill();
     _combat();
     _cycle();
+    _wanderer();
   }
 
-  // The empty class is just for testing purposes
-  function _empty() internal {
+  // These classes are reserved for testing purposes
+  function _emptyAndTest() internal {
     bytes32 classId = bytes32(entitySystem.registerClass(new ResourceId[](0)));
     SOFClassName.set(classId, "empty");
+
+    classId = bytes32(entitySystem.registerClass(new ResourceId[](0)));
+    SOFClassName.set(classId, "test");
+
+    classId = bytes32(entitySystem.registerClass(new ResourceId[](0)));
+    SOFClassName.set(classId, "test2");
+  }
+
+  function _skill() internal {
+    ResourceId[] memory systemIds = new ResourceId[](2);
+    systemIds[0] = skillSystem.toResourceId();
+    systemIds[1] = learnSkillSystem.toResourceId();
+
+    bytes32 classId = bytes32(entitySystem.registerClass(systemIds));
+    SOFClassName.set(classId, "skill");
   }
 
   function _combat() internal {
@@ -61,7 +80,7 @@ library LibInitSOFClasses {
     auxSystems[5] = combatSystem.toResourceId();
     auxSystems[6] = equipmentSystem.toResourceId();
 
-    ResourceId[] memory cycleSystems = new ResourceId[](10);
+    ResourceId[] memory cycleSystems = new ResourceId[](11);
     cycleSystems[0] = cycleActivateCombatSystem.toResourceId();
     cycleSystems[1] = cycleClaimTurnsSystem.toResourceId();
     cycleSystems[2] = cycleCombatRewardSystem.toResourceId();
@@ -72,6 +91,7 @@ library LibInitSOFClasses {
     cycleSystems[7] = cycleNoncombatSkillSystem.toResourceId();
     cycleSystems[8] = cyclePassTurnSystem.toResourceId();
     cycleSystems[9] = initCycleSystem.toResourceId();
+    cycleSystems[10] = wandererSpawnSystem.toResourceId();
 
     bytes32 cycleClassId = bytes32(entitySystem.registerClass(_mergeArrays(cycleSystems, auxSystems)));
     SOFClassName.set(cycleClassId, "cycle");
@@ -79,6 +99,17 @@ library LibInitSOFClasses {
     // TODO refine this when encounters are finalized
     bytes32 encounterClassId = bytes32(entitySystem.registerClass(_mergeArrays(cycleSystems, auxSystems)));
     SOFClassName.set(encounterClassId, "cycle_encounter");
+  }
+
+  function _wanderer() internal {
+    ResourceId[] memory systemIds = new ResourceId[](4);
+    systemIds[0] = wandererSpawnSystem.toResourceId();
+    systemIds[1] = cycleControlSystem.toResourceId();
+    systemIds[2] = permSkillSystem.toResourceId();
+    systemIds[3] = learnSkillSystem.toResourceId();
+
+    bytes32 classId = bytes32(entitySystem.registerClass(systemIds));
+    SOFClassName.set(classId, "wanderer");
   }
 
   function _mergeArrays(

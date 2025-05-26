@@ -28,7 +28,7 @@ contract CycleCombatSystemTest is BaseTest {
     guiseEntity = LibGuise.getGuiseEntity("Warrior");
 
     vm.prank(alice);
-    (wandererEntity, cycleEntity) = world.spawnWanderer(guiseEntity);
+    (wandererEntity, cycleEntity) = world.wanderer__spawnWanderer(guiseEntity);
 
     // make a basic level 1 map
     mapEntity = LibInitMapsGlobal.makeBasic(1);
