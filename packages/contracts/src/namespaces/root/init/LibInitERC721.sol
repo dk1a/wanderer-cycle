@@ -18,13 +18,13 @@ library LibInitERC721 {
   }
 
   function _register(ERC721Namespace namespace, string memory name, string memory symbol) private {
+    IWorld world = IWorld(WorldContextConsumerLib._world());
     ERC721MetadataData memory metadata = ERC721MetadataData({ name: name, symbol: symbol, baseURI: "" });
-    registerERC721System.registerERC721(namespace.unwrap(), metadata, new CustomERC721SystemTemplate());
+    registerERC721System.registerERC721(namespace.unwrap(), metadata, new CustomERC721SystemTemplate(world));
 
     // TODO use non-root namespace for tokens? different namespaces for different token types?
     // Transfer ownership of the token namespace to the world contract
     // (allows the world to use admin functions like minting)
-    IWorld world = IWorld(WorldContextConsumerLib._world());
     world.transferOwnership(WorldResourceIdLib.encodeNamespace(namespace.unwrap()), address(world));
   }
 }
