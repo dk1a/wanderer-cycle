@@ -14,6 +14,16 @@ export default defineStoreIdxs(
           ],
         },
       },
+      statmod: {
+        tables: {
+          StatmodBase: [
+            {
+              fields: ["statmodTopic", "statmodOp", "eleStat"],
+              unique: true,
+            },
+          ],
+        },
+      },
       skill: {
         tables: {
           SkillName: [

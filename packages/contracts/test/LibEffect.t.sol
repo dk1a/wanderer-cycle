@@ -15,16 +15,16 @@ contract LibEffectTest is BaseTest {
   bytes32 timeId = keccak256("timeId");
   bytes32 anotherTimeId = keccak256("anotherTimeId");
 
-  bytes32 lifeEntity = StatmodTopics.LIFE.toStatmodEntity(StatmodOp.ADD, EleStat.NONE);
-
   function setUp() public virtual override {
     super.setUp();
+
+    bytes32 lifeAddEntity = StatmodTopics.LIFE.toStatmodEntity(StatmodOp.ADD, EleStat.NONE);
 
     EffectTemplateData memory effectTemplate = EffectTemplateData({
       statmodEntities: new bytes32[](1),
       values: new uint32[](1)
     });
-    effectTemplate.statmodEntities[0] = lifeEntity;
+    effectTemplate.statmodEntities[0] = lifeAddEntity;
     effectTemplate.values[0] = 10;
 
     effectTemplateSystem.setEffectTemplate(applicationEntity, effectTemplate);

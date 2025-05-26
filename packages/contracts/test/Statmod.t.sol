@@ -2,8 +2,10 @@
 pragma solidity >=0.8.24;
 
 import { BaseTest } from "./BaseTest.t.sol";
+import { StatmodBase } from "../src/namespaces/statmod/codegen/tables/StatmodBase.sol";
 import { Statmod } from "../src/namespaces/statmod/Statmod.sol";
 import { StatmodTopic, StatmodTopics } from "../src/namespaces/statmod/StatmodTopic.sol";
+import { statmodName } from "../src/namespaces/statmod/statmodName.sol";
 import { StatmodOp, EleStat } from "../src/codegen/common.sol";
 import { StatmodOp_length, EleStat_length } from "../src/CustomTypes.sol";
 
@@ -11,65 +13,82 @@ contract StatmodTest is BaseTest {
   bytes32 internal targetEntity = keccak256("targetEntity");
 
   // some statmod prototype entities and their topics
-  StatmodTopic lifeTopic = StatmodTopics.LIFE;
-  bytes32 addLifePE = StatmodTopics.LIFE.toStatmodEntity(StatmodOp.ADD, EleStat.NONE);
-  bytes32 mulLifePE = StatmodTopics.LIFE.toStatmodEntity(StatmodOp.MUL, EleStat.NONE);
-  bytes32 baddLifePE = StatmodTopics.LIFE.toStatmodEntity(StatmodOp.BADD, EleStat.NONE);
+  bytes32 lifeAddEntity;
+  bytes32 lifeMulEntity;
+  bytes32 lifeBaddEntity;
+  bytes32 attackMulPhysicalEntity;
+  bytes32 attackMulFireEntity;
+  bytes32 attackAddFireEntity;
+  bytes32 attackAddColdEntity;
 
-  StatmodTopic attackTopic = StatmodTopics.ATTACK;
-  bytes32 mulPhysicalAttackPE = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.MUL, EleStat.PHYSICAL);
-  bytes32 mulFireAttackPE = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.MUL, EleStat.FIRE);
-  bytes32 addFireAttackPE = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.ADD, EleStat.FIRE);
-  bytes32 addColdAttackPE = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.ADD, EleStat.COLD);
-
-  function setUp() public override {
+  function setUp() public virtual override {
     super.setUp();
+
+    lifeAddEntity = StatmodTopics.LIFE.toStatmodEntity(StatmodOp.ADD, EleStat.NONE);
+    lifeMulEntity = StatmodTopics.LIFE.toStatmodEntity(StatmodOp.MUL, EleStat.NONE);
+    lifeBaddEntity = StatmodTopics.LIFE.toStatmodEntity(StatmodOp.BADD, EleStat.NONE);
+    attackMulPhysicalEntity = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.MUL, EleStat.PHYSICAL);
+    attackMulFireEntity = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.MUL, EleStat.FIRE);
+    attackAddFireEntity = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.ADD, EleStat.FIRE);
+    attackAddColdEntity = StatmodTopics.ATTACK.toStatmodEntity(StatmodOp.ADD, EleStat.COLD);
   }
 
-  function test_statmod_getValues_parallelChanges() public {
+  function testStatmodNames() public {
+    // check that the statmod names are generated correctly
+    assertEq(statmodName(StatmodBase.get(lifeAddEntity)), "+# life");
+    assertEq(statmodName(StatmodBase.get(lifeMulEntity)), "#% increased life");
+    assertEq(statmodName(StatmodBase.get(lifeBaddEntity)), "+# base life");
+
+    assertEq(statmodName(StatmodBase.get(attackMulPhysicalEntity)), "#% increased physical attack");
+    assertEq(statmodName(StatmodBase.get(attackMulFireEntity)), "#% increased fire attack");
+    assertEq(statmodName(StatmodBase.get(attackAddFireEntity)), "+# fire attack");
+    assertEq(statmodName(StatmodBase.get(attackAddColdEntity)), "+# cold attack");
+  }
+
+  function testGetValuesParallelChanges() public {
     // a bunch of changes to make sure they don't interfere with each other
-    Statmod.increase(targetEntity, mulLifePE, 11);
+    Statmod.increase(targetEntity, lifeMulEntity, 11);
 
-    Statmod.increase(targetEntity, addLifePE, 80);
+    Statmod.increase(targetEntity, lifeAddEntity, 80);
 
-    Statmod.decrease(targetEntity, mulLifePE, 2);
+    Statmod.decrease(targetEntity, lifeMulEntity, 2);
 
-    Statmod.decrease(targetEntity, addLifePE, 10);
+    Statmod.decrease(targetEntity, lifeAddEntity, 10);
 
-    Statmod.increase(targetEntity, mulLifePE, 1);
+    Statmod.increase(targetEntity, lifeMulEntity, 1);
 
-    Statmod.increase(targetEntity, baddLifePE, 54);
-    Statmod.decrease(targetEntity, baddLifePE, 27);
+    Statmod.increase(targetEntity, lifeBaddEntity, 54);
+    Statmod.decrease(targetEntity, lifeBaddEntity, 27);
 
-    Statmod.increase(targetEntity, mulLifePE, 2);
-    Statmod.increase(targetEntity, mulLifePE, 5);
+    Statmod.increase(targetEntity, lifeMulEntity, 2);
+    Statmod.increase(targetEntity, lifeMulEntity, 5);
 
     // (10 + 27) * (100 + 17) / 100 + 70
-    uint32[StatmodOp_length] memory result = Statmod.getValues(targetEntity, lifeTopic, 10);
+    uint32[StatmodOp_length] memory result = Statmod.getValues(targetEntity, StatmodTopics.LIFE, 10);
     assertEq(result[uint256(StatmodOp.BADD)], 37);
     assertEq(result[uint256(StatmodOp.MUL)], 43);
     assertEq(result[uint256(StatmodOp.ADD)], 113);
   }
 
-  function test_statmod_getValuesFinal() public {
-    Statmod.increase(targetEntity, baddLifePE, 27);
-    Statmod.increase(targetEntity, mulLifePE, 17);
-    Statmod.increase(targetEntity, addLifePE, 70);
+  function testGetValuesFinal() public {
+    Statmod.increase(targetEntity, lifeBaddEntity, 27);
+    Statmod.increase(targetEntity, lifeMulEntity, 17);
+    Statmod.increase(targetEntity, lifeAddEntity, 70);
 
     // (10 + 27) * (100 + 17) / 100 + 70
-    uint32 result = Statmod.getValuesFinal(targetEntity, lifeTopic, 10);
+    uint32 result = Statmod.getValuesFinal(targetEntity, StatmodTopics.LIFE, 10);
     assertEq(result, 113);
   }
 
-  function test_statmod_getValuesElementalFinal() public {
-    Statmod.increase(targetEntity, mulPhysicalAttackPE, 40);
-    Statmod.increase(targetEntity, addFireAttackPE, 100);
-    Statmod.increase(targetEntity, mulFireAttackPE, 40);
-    Statmod.increase(targetEntity, addColdAttackPE, 50);
+  function testGetValuesElementalFinal() public {
+    Statmod.increase(targetEntity, attackMulPhysicalEntity, 40);
+    Statmod.increase(targetEntity, attackAddFireEntity, 100);
+    Statmod.increase(targetEntity, attackMulFireEntity, 40);
+    Statmod.increase(targetEntity, attackAddColdEntity, 50);
 
     uint32[EleStat_length] memory result = Statmod.getValuesElementalFinal(
       targetEntity,
-      attackTopic,
+      StatmodTopics.ATTACK,
       [uint32(0), 200, 300, 400, 500]
     );
 

@@ -14,7 +14,7 @@ function makeEffectTemplate(
   StatmodOp op0,
   EleStat element0,
   uint32 value0
-) pure returns (EffectTemplateData memory result) {
+) view returns (EffectTemplateData memory result) {
   result.statmodEntities = new bytes32[](1);
   result.statmodEntities[0] = topic0.toStatmodEntity(op0, element0);
 
@@ -31,7 +31,7 @@ function makeEffectTemplate(
   StatmodOp op1,
   EleStat element1,
   uint32 value1
-) pure returns (EffectTemplateData memory result) {
+) view returns (EffectTemplateData memory result) {
   result.statmodEntities = new bytes32[](2);
   result.statmodEntities[0] = topic0.toStatmodEntity(op0, element0);
   result.statmodEntities[1] = topic1.toStatmodEntity(op1, element1);

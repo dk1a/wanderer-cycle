@@ -42,10 +42,12 @@ contract CombatSystemTest is BaseTest {
   uint32 defaultMaxRounds = 12;
 
   // statmod entities
-  bytes32 levelStatmodEntity = StatmodTopics.LEVEL.toStatmodEntity(StatmodOp.BADD, EleStat.NONE);
+  bytes32 levelStatmodEntity;
 
   function setUp() public virtual override {
     super.setUp();
+
+    levelStatmodEntity = StatmodTopics.LEVEL.toStatmodEntity(StatmodOp.BADD, EleStat.NONE);
 
     // authorize writer
     _grantAccess("combat", writer);

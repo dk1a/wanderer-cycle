@@ -3,6 +3,7 @@ pragma solidity >=0.8.24;
 
 import { PStat, PStat_length, StatmodOp, EleStat } from "../../CustomTypes.sol";
 import { StatmodBaseData } from "./codegen/tables/StatmodBase.sol";
+import { UniqueIdx_StatmodBase_StatmodTopicStatmodOpEleStat } from "./codegen/idxs/UniqueIdx_StatmodBase_StatmodTopicStatmodOpEleStat.sol";
 
 type StatmodTopic is bytes32;
 
@@ -39,14 +40,26 @@ library StatmodTopics {
   StatmodTopic constant LEVEL = StatmodTopic.wrap("level");
 }
 
-using { toString, toStatmodEntity, eq as ==, ne as != } for StatmodTopic global;
+using StatmodTopicInstance for StatmodTopic global;
+using { eq as ==, ne as != } for StatmodTopic global;
 
-function toString(StatmodTopic statmodTopic) pure returns (string memory) {
-  return string(abi.encodePacked(statmodTopic));
-}
+library StatmodTopicInstance {
+  error StatmodTopicInstance_StatmodNotFound(StatmodTopic statmodTopic, StatmodOp statmodOp, EleStat eleStat);
 
-function toStatmodEntity(StatmodTopic statmodTopic, StatmodOp statmodOp, EleStat eleStat) pure returns (bytes32) {
-  return keccak256(abi.encode(StatmodBaseData({ statmodTopic: statmodTopic, statmodOp: statmodOp, eleStat: eleStat })));
+  function toStatmodEntity(
+    StatmodTopic statmodTopic,
+    StatmodOp statmodOp,
+    EleStat eleStat
+  ) internal view returns (bytes32 statmodEntity) {
+    statmodEntity = UniqueIdx_StatmodBase_StatmodTopicStatmodOpEleStat.get({
+      statmodTopic: statmodTopic,
+      statmodOp: statmodOp,
+      eleStat: eleStat
+    });
+    if (statmodEntity == bytes32(0)) {
+      revert StatmodTopicInstance_StatmodNotFound(statmodTopic, statmodOp, eleStat);
+    }
+  }
 }
 
 function eq(StatmodTopic a, StatmodTopic b) pure returns (bool) {

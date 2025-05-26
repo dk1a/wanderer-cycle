@@ -3,7 +3,8 @@ pragma solidity >=0.8.24;
 
 import { StrSlice, toSlice } from "@dk1a/solidity-stringutils/src/StrSlice.sol";
 
-import { StatmodBaseData } from "./codegen/index.sol";
+import { StatmodBaseData } from "./codegen/tables/StatmodBase.sol";
+import { StatmodTopic } from "./StatmodTopic.sol";
 import { StatmodOp, EleStat } from "../../codegen/common.sol";
 
 using { toSlice } for string;
@@ -11,7 +12,10 @@ using { toSlice } for string;
 // utils for autogenerating a name for a statmod
 
 function statmodName(StatmodBaseData memory statmodBase) view returns (string memory) {
-  StrSlice topicName = toSlice(statmodBase.statmodTopic.toString());
+  // StatmodTopic is assumed to be a zero-terminated statmod name within bytes32 - so split on the first zero byte
+  (, StrSlice topicName, ) = toSlice(string(abi.encodePacked(StatmodTopic.unwrap(statmodBase.statmodTopic)))).splitOnce(
+    toSlice(hex"00")
+  );
 
   StrSlice[] memory nameParts = new StrSlice[](2);
   // prefix

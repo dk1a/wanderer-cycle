@@ -19,6 +19,7 @@ import { randomMapSystem } from "../src/namespaces/loot/codegen/systems/RandomMa
 import { effectSystem } from "../src/namespaces/effect/codegen/systems/EffectSystemLib.sol";
 
 import { batchRegisterIdxs as root_batchRegisterIdxs } from "../src/namespaces/root/codegen/batchRegisterIdxs.sol";
+import { batchRegisterIdxs as statmod_batchRegisterIdxs } from "../src/namespaces/statmod/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as skill_batchRegisterIdxs } from "../src/namespaces/skill/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as affix_batchRegisterIdxs } from "../src/namespaces/affix/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as equipment_batchRegisterIdxs } from "../src/namespaces/equipment/codegen/batchRegisterIdxs.sol";
@@ -57,6 +58,7 @@ function runPostDeploy(VmSafe vm, address worldAddress, bool withInitializers) {
   // Running these again on an existing world is generally bad
   if (withInitializers) {
     root_batchRegisterIdxs();
+    statmod_batchRegisterIdxs();
     skill_batchRegisterIdxs();
     affix_batchRegisterIdxs();
     equipment_batchRegisterIdxs();

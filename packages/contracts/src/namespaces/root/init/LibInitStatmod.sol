@@ -6,7 +6,7 @@ import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueent
 import { commonSystem } from "../../common/codegen/systems/CommonSystemLib.sol";
 
 import { PStat, PStat_length, StatmodOp, EleStat } from "../../../CustomTypes.sol";
-import { StatmodTopics, StatmodTopic, toStatmodEntity } from "../../statmod/StatmodTopic.sol";
+import { StatmodTopics, StatmodTopic } from "../../statmod/StatmodTopic.sol";
 import { statmodName } from "../../statmod/statmodName.sol";
 import { StatmodBase, StatmodBaseData, StatmodIdxList, StatmodIdxMap, StatmodValue } from "../../statmod/codegen/index.sol";
 
@@ -91,7 +91,7 @@ library LibInitStatmod {
   }
 
   function _add(StatmodBaseData memory statmodBase) internal {
-    bytes32 statmodEntity = statmodBase.statmodTopic.toStatmodEntity(statmodBase.statmodOp, statmodBase.eleStat);
+    bytes32 statmodEntity = getUniqueEntity();
     StatmodBase.set(statmodEntity, statmodBase);
 
     string memory name = statmodName(statmodBase);
