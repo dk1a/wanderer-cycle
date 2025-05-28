@@ -6,7 +6,8 @@ import { BossesDefeated } from "./codegen/tables/BossesDefeated.sol";
 import { FromMap } from "./codegen/tables/FromMap.sol";
 import { MapTypeComponent } from "../map/codegen/tables/MapTypeComponent.sol";
 import { LootAffixes } from "../loot/codegen/tables/LootAffixes.sol";
-import { AffixPartId, Affix, AffixData, AffixPrototype } from "../affix/LibPickAffix.sol";
+import { Affix, AffixData } from "../affix/codegen/tables/Affix.sol";
+import { AffixPrototype } from "../affix/codegen/tables/AffixPrototype.sol";
 
 import { rNGSystem } from "../rng/codegen/systems/RNGSystemLib.sol";
 
@@ -14,6 +15,7 @@ import { PStat_length } from "../../CustomTypes.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibRNG } from "../rng/LibRNG.sol";
 import { MapTypes, MapType } from "../map/MapType.sol";
+import { AffixPartId } from "../../codegen/common.sol";
 
 library LibCycleCombatRewardRequest {
   error LibCycleCombatRewardRequest_EntityMismatch();

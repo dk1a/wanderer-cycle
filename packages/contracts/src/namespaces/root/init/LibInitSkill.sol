@@ -9,9 +9,10 @@ import { SkillType, TargetType, StatmodOp, EleStat } from "../../../codegen/comm
 import { LibBaseInitSkill as b } from "./LibBaseInitSkill.sol";
 
 library LibInitSkill {
-  function init() internal {
+  function init(address deployer) internal {
     // 1
     b.add(
+      deployer,
       "Cleave",
       "Attack with increased physical damage",
       SkillTemplateData({
@@ -43,6 +44,7 @@ library LibInitSkill {
 
     // 2
     b.add(
+      deployer,
       "Charge",
       "Greatly increase physical attack damage for the next combat round",
       SkillTemplateData({
@@ -65,6 +67,7 @@ library LibInitSkill {
 
     // 3
     b.add(
+      deployer,
       "Parry",
       "Increase physical resistance",
       SkillTemplateData({
@@ -87,6 +90,7 @@ library LibInitSkill {
 
     // 4
     b.add(
+      deployer,
       "Onslaught",
       "Increase physical attack damage and recover some life per round",
       SkillTemplateData({
@@ -118,6 +122,7 @@ library LibInitSkill {
 
     // 5
     b.add(
+      deployer,
       "Toughness",
       "Increase life",
       SkillTemplateData({
@@ -140,6 +145,7 @@ library LibInitSkill {
 
     // 6
     b.add(
+      deployer,
       "Thunder Clap",
       "Attack and deal physical spell damage",
       SkillTemplateData({
@@ -162,6 +168,7 @@ library LibInitSkill {
 
     // 7
     b.add(
+      deployer,
       "Precise Strikes",
       "Increase physical attack damage",
       SkillTemplateData({
@@ -184,6 +191,7 @@ library LibInitSkill {
 
     // 8
     b.add(
+      deployer,
       "Blood Rage",
       "Gain an extra turn after a kill, once per day",
       SkillTemplateData({
@@ -207,6 +215,7 @@ library LibInitSkill {
 
     // 9
     b.add(
+      deployer,
       "Retaliation",
       "Increases physical resistance\nIncreases physical attack damage proportional to missing life",
       SkillTemplateData({
@@ -238,6 +247,7 @@ library LibInitSkill {
 
     // 10
     b.add(
+      deployer,
       "Last Stand",
       "Gain temporary life for 4 rounds",
       SkillTemplateData({
@@ -267,6 +277,7 @@ library LibInitSkill {
 
     // 11
     b.add(
+      deployer,
       "Weapon Mastery",
       // TODO this dual-wielding thing
       "Allows dual wielding one-handed weapons\nIncreases base attack",

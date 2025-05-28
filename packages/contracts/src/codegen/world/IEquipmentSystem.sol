@@ -18,6 +18,4 @@ interface IEquipmentSystem {
   function equipment__unequip(bytes32 targetEntity, bytes32 slotEntity) external;
 
   function equipment__equip(bytes32 targetEntity, bytes32 slotEntity, bytes32 equipmentEntity) external;
-
-  function equipment__spawnEquipmentSlots(bytes32 ownerEntity) external;
 }

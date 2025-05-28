@@ -19,6 +19,7 @@ library LibBaseInitSkill {
   error LibBaseInitSkill_DuplicateName(string name);
 
   function add(
+    address deployer,
     string memory name,
     string memory description,
     SkillTemplateData memory template,
@@ -27,7 +28,7 @@ library LibBaseInitSkill {
     EffectTemplateData memory effectTemplate,
     uint32[EleStat_length] memory spellDamage
   ) internal {
-    bytes32 entity = LibSOFClass.instantiate("skill", address(this));
+    bytes32 entity = LibSOFClass.instantiate("skill", deployer);
 
     SkillTemplate.set(entity, template);
     LibSkill.setSkillTemplateCooldown(entity, cooldown);

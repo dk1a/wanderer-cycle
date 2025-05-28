@@ -48,11 +48,7 @@ library LibSOFClass {
   // Instantiate an object without an owner, but with an entity-level scope using the provided system ids
   // TODO consider alternatives, whether you want to separate class/object checks, and add a better description
   function instantiate(string memory name, ResourceId[] memory scopedSystemIds) internal returns (bytes32 objectId) {
-    bytes32 classId = getClassId(name);
-    address self = address(this);
-    objectId = bytes32(entitySystem.instantiate(uint256(classId), self));
-    scopedRenounceRole(objectId);
-
+    objectId = instantiate(name);
     entitySystem.addToScope(uint256(objectId), scopedSystemIds);
   }
 }

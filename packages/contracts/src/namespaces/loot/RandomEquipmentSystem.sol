@@ -9,6 +9,7 @@ import { AffixAvailabilityTargetId } from "../affix/types.sol";
 import { EquipmentTypeComponent } from "../equipment/codegen/tables/EquipmentTypeComponent.sol";
 import { EquipmentType } from "../equipment/EquipmentType.sol";
 
+import { LibSOFClass } from "../common/LibSOFClass.sol";
 import { LibLootEquipment } from "./LibLootEquipment.sol";
 import { LibLootMint } from "./LibLootMint.sol";
 
@@ -18,15 +19,15 @@ import { LibLootMint } from "./LibLootMint.sol";
 contract RandomEquipmentSystem is System {
   /**
    * @param ilvl higher ilvl increases the pool of affixes for random generation (higher is better).
-   * @param randomness used to randomly pick equipment prototype and affixes.
+   * @param randomness used to randomly pick equipment type and affixes.
    * @return lootEntity a new entity.
    */
   function mintRandomEquipmentEntity(uint32 ilvl, uint256 randomness) public returns (bytes32 lootEntity) {
     // Pick equipment type
     (AffixAvailabilityTargetId affixAvailabilityTargetId, EquipmentType equipmentType) = LibLootEquipment
       .pickEquipmentTargetAndType(ilvl, randomness);
-    // Get a new unique entity
-    lootEntity = getUniqueEntity();
+    // Instantiate equipment entity
+    lootEntity = LibSOFClass.instantiate("equipment");
     // Make random loot (affixes and effect)
     LibLootMint.randomLootMint(
       LibLootEquipment.getAffixPartIds(ilvl),
@@ -35,7 +36,7 @@ contract RandomEquipmentSystem is System {
       ilvl,
       randomness
     );
-    // Set loot's equipment prototype (to make it equippable)
+    // Set loot's equipment type (to make it equippable)
     EquipmentTypeComponent.set(lootEntity, equipmentType);
   }
 }

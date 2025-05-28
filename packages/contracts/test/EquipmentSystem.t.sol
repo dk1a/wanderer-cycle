@@ -1,19 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { SmartObjectFramework } from "@eveworld/smart-object-framework-v2/src/inherit/SmartObjectFramework.sol";
 import { BaseTest } from "./BaseTest.t.sol";
+
 import { equipmentSystem, EquipmentSystemLib } from "../src/namespaces/equipment/codegen/systems/EquipmentSystemLib.sol";
 import { effectTemplateSystem, EffectTemplateData } from "../src/namespaces/effect/codegen/systems/EffectTemplateSystemLib.sol";
-import { EquipmentTypes, EquipmentType } from "../src/namespaces/equipment/EquipmentType.sol";
+import { LibSOFClass } from "../src/namespaces/common/LibSOFClass.sol";
+import { LibSOFAccess } from "../src/namespaces/evefrontier/LibSOFAccess.sol";
 import { OwnedBy } from "../src/namespaces/common/codegen/index.sol";
 import { EquipmentTypeComponent, SlotEquipment, SlotAllowedType } from "../src/namespaces/equipment/codegen/index.sol";
 import { makeEffectTemplate } from "../src/namespaces/effect/makeEffectTemplate.sol";
 import { StatmodTopics } from "../src/namespaces/statmod/StatmodTopic.sol";
+import { EquipmentTypes, EquipmentType } from "../src/namespaces/equipment/EquipmentType.sol";
 import { StatmodOp, EleStat } from "../src/codegen/common.sol";
 import { Idx_SlotEquipment_EquipmentEntity } from "../src/namespaces/equipment/codegen/idxs/Idx_SlotEquipment_EquipmentEntity.sol";
 
 contract EquipmentSystemTest is BaseTest {
-  bytes32 playerEntity = keccak256("playerEntity");
+  bytes32 playerEntity;
 
   // equipment entities
   bytes32 armor = keccak256("armor");
@@ -22,23 +26,25 @@ contract EquipmentSystemTest is BaseTest {
   bytes32 shield = keccak256("shield");
   bytes32 miscThing = keccak256("miscThing");
   // equipment slots
-  bytes32 armorSlot = keccak256("armorSlot");
-  bytes32 mainHandSlot = keccak256("mainHandSlot");
-  bytes32 offHandSlot = keccak256("offHandSlot");
+  bytes32 armorSlot;
+  bytes32 mainHandSlot;
+  bytes32 offHandSlot;
 
   function setUp() public virtual override {
     super.setUp();
 
-    // make player own the slots
-    OwnedBy.set(armorSlot, playerEntity);
-    OwnedBy.set(mainHandSlot, playerEntity);
-    OwnedBy.set(offHandSlot, playerEntity);
+    vm.startPrank(deployer);
+    playerEntity = LibSOFClass.instantiate("test", deployer);
+    vm.stopPrank();
 
-    // allow prototypes for slots
-    SlotAllowedType.set(armorSlot, EquipmentTypes.CLOTHING, true);
-    SlotAllowedType.set(mainHandSlot, EquipmentTypes.WEAPON, true);
-    SlotAllowedType.set(offHandSlot, EquipmentTypes.WEAPON, true);
-    SlotAllowedType.set(offHandSlot, EquipmentTypes.SHIELD, true);
+    armorSlot = scopedSystemMock.equipment__createEquipmentSlot(playerEntity, "armorSlot", EquipmentTypes.CLOTHING);
+
+    mainHandSlot = scopedSystemMock.equipment__createEquipmentSlot(playerEntity, "mainHandSlot", EquipmentTypes.WEAPON);
+
+    EquipmentType[] memory offHandSlots = new EquipmentType[](2);
+    offHandSlots[0] = EquipmentTypes.WEAPON;
+    offHandSlots[1] = EquipmentTypes.SHIELD;
+    offHandSlot = scopedSystemMock.equipment__createEquipmentSlot(playerEntity, "offHandSlot", offHandSlots);
 
     // init equipment
     EquipmentTypeComponent.set(armor, EquipmentTypes.CLOTHING);
@@ -91,6 +97,31 @@ contract EquipmentSystemTest is BaseTest {
         40
       )
     );
+  }
+
+  function testCreateEquipmentSlot() public {
+    // test that setUp correctly created the slots
+    assertEq(OwnedBy.get(armorSlot), playerEntity);
+    assertEq(OwnedBy.get(mainHandSlot), playerEntity);
+    assertEq(OwnedBy.get(offHandSlot), playerEntity);
+
+    assertTrue(SlotAllowedType.get(armorSlot, EquipmentTypes.CLOTHING));
+    assertTrue(SlotAllowedType.get(mainHandSlot, EquipmentTypes.WEAPON));
+    assertTrue(SlotAllowedType.get(offHandSlot, EquipmentTypes.WEAPON));
+    assertTrue(SlotAllowedType.get(offHandSlot, EquipmentTypes.SHIELD));
+
+    // test access control
+    vm.expectRevert(
+      abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, playerEntity, emptySystemId)
+    );
+    emptySystemMock.equipment__createEquipmentSlot(playerEntity, "mainHandSlot", EquipmentTypes.WEAPON);
+
+    vm.startPrank(bob);
+
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, playerEntity, bob));
+    world.equipment__createEquipmentSlot(playerEntity, "mainHandSlot", EquipmentTypes.WEAPON);
+
+    vm.stopPrank();
   }
 
   // TODO test that effects are applied/removed correctly

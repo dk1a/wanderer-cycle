@@ -11,11 +11,12 @@ import { CycleMetadata } from "./codegen/tables/CycleMetadata.sol";
 
 import { charstatSystem } from "../charstat/codegen/systems/CharstatSystemLib.sol";
 import { equipmentSystem } from "../equipment/codegen/systems/EquipmentSystemLib.sol";
+import { equipmentSlotSystem } from "../equipment/codegen/systems/EquipmentSlotSystemLib.sol";
 import { wheelSystem } from "../wheel/codegen/systems/WheelSystemLib.sol";
 
 import { LibSOFClass } from "../common/LibSOFClass.sol";
-import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
+import { EquipmentType, EquipmentTypes } from "../equipment/EquipmentType.sol";
 
 /**
  * @title Internal cycle initialization logic
@@ -58,9 +59,26 @@ contract InitCycleSystem is System {
     charstatSystem.setFullCurrents(cycleEntity);
     // Claim initial cycle turns
     LibCycleTurns.claimTurns(cycleEntity);
-    // Spawn equipment slots
-    equipmentSystem.spawnEquipmentSlots(cycleEntity);
+    // Create equipment slots
+    _createDefaultEquipmentSlots(cycleEntity);
 
     return cycleEntity;
+  }
+
+  function _createDefaultEquipmentSlots(bytes32 cycleEntity) internal {
+    EquipmentType[] memory oneHandedTypes = new EquipmentType[](2);
+    oneHandedTypes[0] = EquipmentTypes.WEAPON;
+    oneHandedTypes[1] = EquipmentTypes.SHIELD;
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "R Hand", oneHandedTypes);
+    // TODO dual wielding to conditionally let L Hand use weapon too
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "L Hand", EquipmentTypes.WEAPON);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Head", EquipmentTypes.HAT);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Body", EquipmentTypes.CLOTHING);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Hands", EquipmentTypes.GLOVES);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Legs", EquipmentTypes.PANTS);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Feet", EquipmentTypes.BOOTS);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Neck", EquipmentTypes.AMULET);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "R Ring", EquipmentTypes.RING);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "L Ring", EquipmentTypes.RING);
   }
 }

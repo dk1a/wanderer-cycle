@@ -5,8 +5,6 @@ import { System } from "@latticexyz/world/src/System.sol";
 
 import { effectSystem } from "../effect/codegen/systems/EffectSystemLib.sol";
 
-import { LibSpawnEquipmentSlots } from "./LibSpawnEquipmentSlots.sol";
-
 import { EquipmentType } from "./EquipmentType.sol";
 import { EquipmentTypeComponent } from "./codegen/tables/EquipmentTypeComponent.sol";
 import { SlotAllowedType } from "./codegen/tables/SlotAllowedType.sol";
@@ -60,9 +58,5 @@ contract EquipmentSystem is System {
     // Reverts if equipmentEntity doesn't have an EffectTemplate
     // TODO that's good atm because equipment only does effects, but it could do more
     effectSystem.applyEffect(targetEntity, equipmentEntity);
-  }
-
-  function spawnEquipmentSlots(bytes32 ownerEntity) public {
-    LibSpawnEquipmentSlots.spawnEquipmentSlots(ownerEntity);
   }
 }

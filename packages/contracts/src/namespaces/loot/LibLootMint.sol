@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
-
 import { effectTemplateSystem, EffectTemplateData } from "../effect/codegen/systems/EffectTemplateSystemLib.sol";
-import { AffixAvailabilityTargetId, AffixPartId, LibPickAffix } from "../affix/LibPickAffix.sol";
+import { affixSystem, AffixAvailabilityTargetId, AffixPartId } from "../affix/codegen/systems/AffixSystemLib.sol";
 
 import { Affix, AffixData } from "../affix/codegen/tables/Affix.sol";
 import { LootAffixes } from "./codegen/tables/LootAffixes.sol";
@@ -32,43 +30,28 @@ library LibLootMint {
     uint256 randomness
   ) internal {
     // Pick affixes
-    (bytes32[] memory statmodEntities, bytes32[] memory affixProtoEntities, uint32[] memory affixValues) = LibPickAffix
-      .pickAffixes(affixPartIds, excludeAffixes, affixAvailabilityTargetId, ilvl, randomness);
-    // Mint picked affixes
-    lootMint(
-      lootEntity,
+    bytes32[] memory affixEntities = affixSystem.instantiateRandomAffixes(
+      affixPartIds,
+      excludeAffixes,
       affixAvailabilityTargetId,
       ilvl,
-      affixPartIds,
-      statmodEntities,
-      affixProtoEntities,
-      affixValues
+      randomness
     );
+    // Mint picked affixes
+    lootMint(lootEntity, affixAvailabilityTargetId, ilvl, affixEntities);
   }
 
   function lootMint(
     bytes32 lootEntity,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
     uint32 ilvl,
-    AffixPartId[] memory affixPartIds,
-    bytes32[] memory statmodEntities,
-    bytes32[] memory affixProtoEntities,
-    uint32[] memory affixValues
+    bytes32[] memory affixEntities
   ) internal {
-    bytes32[] memory affixEntities = new bytes32[](affixPartIds.length);
-    LootTargetId.set(lootEntity, affixAvailabilityTargetId);
-    for (uint256 i; i < affixPartIds.length; i++) {
-      bytes32 affixEntity = getUniqueEntity();
-      Affix.set(affixEntity, affixProtoEntities[i], affixPartIds[i], affixValues[i]);
-      affixEntities[i] = affixEntity;
-    }
     // Save loot-specific data
+    LootTargetId.set(lootEntity, affixAvailabilityTargetId);
     LootAffixes.set(lootEntity, affixEntities);
     LootIlvl.set(lootEntity, ilvl);
     // Save loot as an effect prototype (the effect triggers on-equip)
-    effectTemplateSystem.setEffectTemplate(
-      lootEntity,
-      EffectTemplateData({ statmodEntities: statmodEntities, values: affixValues })
-    );
+    effectTemplateSystem.createEffectTemplateFromAffixes(lootEntity, affixEntities);
   }
 }

@@ -14,6 +14,9 @@ import { learnSkillSystem } from "../../skill/codegen/systems/LearnSkillSystemLi
 import { timeSystem } from "../../time/codegen/systems/TimeSystemLib.sol";
 import { combatSystem } from "../../combat/codegen/systems/CombatSystemLib.sol";
 import { equipmentSystem } from "../../equipment/codegen/systems/EquipmentSystemLib.sol";
+import { equipmentSlotSystem } from "../../equipment/codegen/systems/EquipmentSlotSystemLib.sol";
+import { randomEquipmentSystem } from "../../loot/codegen/systems/RandomEquipmentSystemLib.sol";
+import { randomMapSystem } from "../../loot/codegen/systems/RandomMapSystemLib.sol";
 
 // Cycle systems
 import { cycleActivateCombatSystem } from "../../cycle/codegen/systems/CycleActivateCombatSystemLib.sol";
@@ -31,85 +34,96 @@ import { SOFClassName } from "../../common/codegen/tables/SOFClassName.sol";
 
 library LibInitSOFClasses {
   function init() internal {
-    _emptyAndTest();
-    _skill();
-    _combat();
-    _cycle();
-    _wanderer();
+    // These classes are reserved for testing purposes
+    _add("empty");
+    _add("test");
+    _add("test2");
+
+    _add("statmod");
+    _add("skill", _skillSystems());
+    _add("combat", _combatSystems());
+    _add("affix");
+    _add("equipment", _equipmentSystems());
+    _add("equipment_slot", _equipmentSlotSystems());
+    _add("map", _mapSystems());
+
+    _add("cycle", _mergeArrays(_cycleAuxSystems(), _cycleSystems()));
+    // TODO refine this when encounters are finalized
+    _add("cycle_encounter", _mergeArrays(_cycleAuxSystems(), _cycleSystems()));
+
+    _add("wanderer", _wandererSystems());
   }
 
-  // These classes are reserved for testing purposes
-  function _emptyAndTest() internal {
-    bytes32 classId = bytes32(entitySystem.registerClass(new ResourceId[](0)));
-    SOFClassName.set(classId, "empty");
-
-    classId = bytes32(entitySystem.registerClass(new ResourceId[](0)));
-    SOFClassName.set(classId, "test");
-
-    classId = bytes32(entitySystem.registerClass(new ResourceId[](0)));
-    SOFClassName.set(classId, "test2");
-  }
-
-  function _skill() internal {
-    ResourceId[] memory systemIds = new ResourceId[](2);
+  function _skillSystems() internal pure returns (ResourceId[] memory systemIds) {
+    systemIds = new ResourceId[](2);
     systemIds[0] = skillSystem.toResourceId();
     systemIds[1] = learnSkillSystem.toResourceId();
-
-    bytes32 classId = bytes32(entitySystem.registerClass(systemIds));
-    SOFClassName.set(classId, "skill");
   }
 
-  function _combat() internal {
-    ResourceId[] memory systemIds = new ResourceId[](1);
+  function _combatSystems() internal pure returns (ResourceId[] memory systemIds) {
+    systemIds = new ResourceId[](1);
     systemIds[0] = combatSystem.toResourceId();
-
-    bytes32 classId = bytes32(entitySystem.registerClass(systemIds));
-    SOFClassName.set(classId, "combat");
   }
 
-  function _cycle() internal {
-    // TODO some of this, like charstat, probably shouldn't be scoped at all, and simply check the caller scope
-    // Others may be better scoped to object, not class; or more custom access?
-    // Only InitCycleSystem needs to actually instantiate objects
-    ResourceId[] memory auxSystems = new ResourceId[](7);
-    auxSystems[0] = charstatSystem.toResourceId();
-    auxSystems[1] = effectSystem.toResourceId();
-    auxSystems[2] = skillSystem.toResourceId();
-    auxSystems[3] = learnSkillSystem.toResourceId();
-    auxSystems[4] = timeSystem.toResourceId();
-    auxSystems[5] = combatSystem.toResourceId();
-    auxSystems[6] = equipmentSystem.toResourceId();
-
-    ResourceId[] memory cycleSystems = new ResourceId[](11);
-    cycleSystems[0] = cycleActivateCombatSystem.toResourceId();
-    cycleSystems[1] = cycleClaimTurnsSystem.toResourceId();
-    cycleSystems[2] = cycleCombatRewardSystem.toResourceId();
-    cycleSystems[3] = cycleCombatSystem.toResourceId();
-    cycleSystems[4] = cycleControlSystem.toResourceId();
-    cycleSystems[5] = cycleEquipmentSystem.toResourceId();
-    cycleSystems[6] = cycleLearnSkillSystem.toResourceId();
-    cycleSystems[7] = cycleNoncombatSkillSystem.toResourceId();
-    cycleSystems[8] = cyclePassTurnSystem.toResourceId();
-    cycleSystems[9] = initCycleSystem.toResourceId();
-    cycleSystems[10] = wandererSpawnSystem.toResourceId();
-
-    bytes32 cycleClassId = bytes32(entitySystem.registerClass(_mergeArrays(cycleSystems, auxSystems)));
-    SOFClassName.set(cycleClassId, "cycle");
-
-    // TODO refine this when encounters are finalized
-    bytes32 encounterClassId = bytes32(entitySystem.registerClass(_mergeArrays(cycleSystems, auxSystems)));
-    SOFClassName.set(encounterClassId, "cycle_encounter");
+  function _equipmentSystems() internal pure returns (ResourceId[] memory systemIds) {
+    systemIds = new ResourceId[](2);
+    systemIds[0] = equipmentSystem.toResourceId();
+    systemIds[1] = randomEquipmentSystem.toResourceId();
   }
 
-  function _wanderer() internal {
-    ResourceId[] memory systemIds = new ResourceId[](4);
+  function _equipmentSlotSystems() internal pure returns (ResourceId[] memory systemIds) {
+    systemIds = new ResourceId[](2);
+    systemIds[0] = equipmentSlotSystem.toResourceId();
+    systemIds[1] = equipmentSystem.toResourceId();
+  }
+
+  function _mapSystems() internal pure returns (ResourceId[] memory systemIds) {
+    systemIds = new ResourceId[](1);
+    systemIds[0] = randomMapSystem.toResourceId();
+  }
+
+  function _cycleAuxSystems() internal pure returns (ResourceId[] memory systemIds) {
+    systemIds = new ResourceId[](7);
+    systemIds[0] = charstatSystem.toResourceId();
+    systemIds[1] = effectSystem.toResourceId();
+    systemIds[2] = skillSystem.toResourceId();
+    systemIds[3] = learnSkillSystem.toResourceId();
+    systemIds[4] = timeSystem.toResourceId();
+    systemIds[5] = combatSystem.toResourceId();
+    systemIds[6] = equipmentSystem.toResourceId();
+  }
+
+  function _cycleSystems() internal pure returns (ResourceId[] memory systemIds) {
+    systemIds = new ResourceId[](11);
+    systemIds[0] = cycleActivateCombatSystem.toResourceId();
+    systemIds[1] = cycleClaimTurnsSystem.toResourceId();
+    systemIds[2] = cycleCombatRewardSystem.toResourceId();
+    systemIds[3] = cycleCombatSystem.toResourceId();
+    systemIds[4] = cycleControlSystem.toResourceId();
+    systemIds[5] = cycleEquipmentSystem.toResourceId();
+    systemIds[6] = cycleLearnSkillSystem.toResourceId();
+    systemIds[7] = cycleNoncombatSkillSystem.toResourceId();
+    systemIds[8] = cyclePassTurnSystem.toResourceId();
+    systemIds[9] = initCycleSystem.toResourceId();
+    systemIds[10] = wandererSpawnSystem.toResourceId();
+  }
+
+  function _wandererSystems() internal pure returns (ResourceId[] memory systemIds) {
+    systemIds = new ResourceId[](4);
     systemIds[0] = wandererSpawnSystem.toResourceId();
     systemIds[1] = cycleControlSystem.toResourceId();
     systemIds[2] = permSkillSystem.toResourceId();
     systemIds[3] = learnSkillSystem.toResourceId();
+  }
 
+  function _add(string memory name) internal {
+    bytes32 classId = bytes32(entitySystem.registerClass(new ResourceId[](0)));
+    SOFClassName.set(classId, name);
+  }
+
+  function _add(string memory name, ResourceId[] memory systemIds) internal {
     bytes32 classId = bytes32(entitySystem.registerClass(systemIds));
-    SOFClassName.set(classId, "wanderer");
+    SOFClassName.set(classId, name);
   }
 
   function _mergeArrays(

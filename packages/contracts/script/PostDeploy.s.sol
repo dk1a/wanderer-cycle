@@ -54,6 +54,7 @@ function runPostDeploy(VmSafe vm, address worldAddress, bool withInitializers) {
 
   // Load the private key from the `PRIVATE_KEY` environment variable (in .env)
   uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+  address deployer = vm.addr(deployerPrivateKey);
 
   // Start broadcasting transactions from the deployer account
   vm.startBroadcast(deployerPrivateKey);
@@ -72,13 +73,13 @@ function runPostDeploy(VmSafe vm, address worldAddress, bool withInitializers) {
     delegateInstallCustomSOFModule();
     LibInitSOFClasses.init();
 
-    LibInitStatmod.init();
-    LibInitSkill.init();
+    LibInitStatmod.init(deployer);
+    LibInitSkill.init(deployer);
     LibInitGuise.init();
     LibInitEquipmentAffix.init();
     LibInitMapAffix.init();
-    LibInitMapsGlobal.init();
-    LibInitMapsBoss.init();
+    LibInitMapsGlobal.init(deployer);
+    LibInitMapsBoss.init(deployer);
     LibInitWheel.init();
     LibInitERC721.init();
   }
@@ -88,9 +89,7 @@ function runPostDeploy(VmSafe vm, address worldAddress, bool withInitializers) {
   IWorld(worldAddress).grantAccess(SkillCooldown._tableId, timeSystemAddress);
 
   // TODO I don't like these tables being used directly by another namespace - system wrap them, or change tables
-  IWorld(worldAddress).grantAccess(Affix._tableId, randomEquipmentSystem.getAddress());
   IWorld(worldAddress).grantAccess(EquipmentTypeComponent._tableId, randomEquipmentSystem.getAddress());
-  IWorld(worldAddress).grantAccess(Affix._tableId, randomMapSystem.getAddress());
 
   // TODO this feels less wrong, not sure; should statmod have a system?
   IWorld(worldAddress).grantAccess(StatmodValue._tableId, effectSystem.getAddress());

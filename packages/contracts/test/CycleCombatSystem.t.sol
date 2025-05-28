@@ -31,7 +31,9 @@ contract CycleCombatSystemTest is BaseTest {
     (wandererEntity, cycleEntity) = world.wanderer__spawnWanderer(guiseEntity);
 
     // make a basic level 1 map
-    mapEntity = LibInitMapsGlobal.makeBasic(1);
+    vm.startPrank(deployer);
+    mapEntity = LibInitMapsGlobal.makeBasic(deployer, 1);
+    vm.stopPrank();
   }
 
   function _getMapLevel(bytes32 _mapEntity) internal view returns (uint256) {
