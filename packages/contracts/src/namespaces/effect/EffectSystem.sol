@@ -13,17 +13,17 @@ contract EffectSystem is SmartObjectFramework {
     bytes32 applicationEntity,
     GenericDurationData memory duration
   ) public context {
-    _requireEntityLeaf(uint256(targetEntity));
+    _requireEntityLeaf(targetEntity);
     LibEffect.applyTimedEffect(targetEntity, applicationEntity, duration);
   }
 
   function applyEffect(bytes32 targetEntity, bytes32 applicationEntity) public context {
-    _requireEntityLeaf(uint256(targetEntity));
+    _requireEntityLeaf(targetEntity);
     LibEffect.applyEffect(targetEntity, applicationEntity);
   }
 
   function removeEffect(bytes32 targetEntity, bytes32 applicationEntity) public context {
-    _requireEntityLeaf(uint256(targetEntity));
+    _requireEntityLeaf(targetEntity);
     LibEffect.remove(targetEntity, applicationEntity);
   }
 }

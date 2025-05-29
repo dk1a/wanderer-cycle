@@ -12,7 +12,7 @@ import { SkillCooldown } from "../skill/codegen/tables/SkillCooldown.sol";
 
 contract TimeSystem is SmartObjectFramework {
   function passTurns(bytes32 targetEntity, uint256 timeValue) public context {
-    _requireEntityLeaf(uint256(targetEntity));
+    _requireEntityLeaf(targetEntity);
 
     if (timeValue == 0) return;
     // Decrease turn durations
@@ -22,7 +22,7 @@ contract TimeSystem is SmartObjectFramework {
   }
 
   function passRounds(bytes32 targetEntity, uint256 timeValue) public context {
-    _requireEntityLeaf(uint256(targetEntity));
+    _requireEntityLeaf(targetEntity);
 
     // Decrease round durations
     _decreaseApplications(targetEntity, GenericDurationData({ timeId: "round", timeValue: timeValue }));

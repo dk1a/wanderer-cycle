@@ -37,7 +37,7 @@ contract CombatSystem is SmartObjectFramework {
     CombatAction[] memory initiatorActions,
     CombatAction[] memory retaliatorActions
   ) public context returns (CombatResult result) {
-    _requireEntityLeaf(uint256(combatEntity));
+    _requireEntityLeaf(combatEntity);
 
     (bytes32 initiatorEntity, bytes32 retaliatorEntity) = CombatActors.get(combatEntity);
 
@@ -66,8 +66,8 @@ contract CombatSystem is SmartObjectFramework {
     ResourceId[] memory combatEntityScopedSystemIds
   ) public context returns (bytes32 combatEntity) {
     // Caller must be scoped for both combat participant entities
-    _requireEntityBranch(uint256(initiatorEntity));
-    _requireEntityBranch(uint256(retaliatorEntity));
+    _requireEntityBranch(initiatorEntity);
+    _requireEntityBranch(retaliatorEntity);
 
     combatEntity = LibSOFClass.instantiate("combat", combatEntityScopedSystemIds);
     LibCombatStatus.initialize(combatEntity, roundsMax);

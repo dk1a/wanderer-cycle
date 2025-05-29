@@ -8,13 +8,13 @@ import { OwnedBy } from "./codegen/tables/OwnedBy.sol";
 
 contract CommonSystem is SmartObjectFramework {
   function setName(bytes32 entity, string memory name) public context {
-    _requireEntityLeaf(uint256(entity));
+    _requireEntityLeaf(entity);
 
     Name.set(entity, name);
   }
 
   function setOwnedBy(bytes32 entity, bytes32 ownerEntity) public context {
-    _requireEntityLeaf(uint256(entity));
+    _requireEntityLeaf(entity);
 
     OwnedBy.set(entity, ownerEntity);
   }

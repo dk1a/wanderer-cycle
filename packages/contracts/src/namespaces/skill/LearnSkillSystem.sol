@@ -18,8 +18,8 @@ contract LearnSkillSystem is SmartObjectFramework {
    * @dev Add `skillEntity` to set of learned skills, revert if it's already learned
    */
   function learnSkill(bytes32 userEntity, bytes32 skillEntity) public context {
-    _requireEntityBranch(uint256(userEntity));
-    _requireEntityRoot(uint256(skillEntity));
+    _requireEntityBranch(userEntity);
+    _requireEntityRoot(skillEntity);
 
     bytes32[] memory userSkills = LearnedSkills.get(userEntity);
     for (uint256 i = 0; i < userSkills.length; i++) {
@@ -35,8 +35,8 @@ contract LearnSkillSystem is SmartObjectFramework {
    * @dev Copy skills from source to target. Overwrites target's existing skills
    */
   function copySkills(bytes32 sourceEntity, bytes32 targetEntity) public context {
-    _requireEntityLeaf(uint256(sourceEntity));
-    _requireEntityBranch(uint256(targetEntity));
+    _requireEntityLeaf(sourceEntity);
+    _requireEntityBranch(targetEntity);
 
     bool isKey = hasKey(LearnedSkills._tableId, LearnedSkills.encodeKeyTuple(sourceEntity));
     if (isKey) {

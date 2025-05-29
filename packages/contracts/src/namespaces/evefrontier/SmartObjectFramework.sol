@@ -10,29 +10,28 @@ import { SmartObjectFramework as _SmartObjectFramework } from "@eveworld/smart-o
 import { LibSOFAccess } from "./LibSOFAccess.sol";
 
 contract SmartObjectFramework is _SmartObjectFramework {
-  // TODO refactor the 3 funcs when you come up with something better, especially names
-  function _requireEntityRoot(uint256 entityId) internal view {
-    ResourceId systemId = SystemRegistry.get(address(this));
-    _scope(entityId, systemId);
-  }
-
-  function _requireEntityBranch(uint256 entityId) internal view {
-    _enforceScope(entityId);
-
-    uint256 callCount = IWorldWithContext(_world()).getWorldCallCount();
-    if (callCount == 1) {
-      LibSOFAccess.requireDirectAccessRole(entityId);
-    }
-  }
-
-  function _requireEntityLeaf(uint256 entityId) internal view {
+  function _requireEntityLeaf(bytes32 entityId) internal view {
     uint256 callCount = IWorldWithContext(_world()).getWorldCallCount();
     if (callCount > 1) {
       (ResourceId prevSystemId, , , ) = IWorldWithContext(_world()).getWorldCallContext(callCount - 1);
-      _scope(entityId, prevSystemId);
+      _scope(uint256(entityId), prevSystemId);
     } else if (callCount == 1) {
-      LibSOFAccess.requireDirectAccessRole(entityId);
+      LibSOFAccess.requireDirectAccessRole(uint256(entityId));
     }
+  }
+
+  function _requireEntityBranch(bytes32 entityId) internal view {
+    _enforceScope(uint256(entityId));
+
+    uint256 callCount = IWorldWithContext(_world()).getWorldCallCount();
+    if (callCount == 1) {
+      LibSOFAccess.requireDirectAccessRole(uint256(entityId));
+    }
+  }
+
+  function _requireEntityRoot(bytes32 entityId) internal view {
+    ResourceId systemId = SystemRegistry.get(address(this));
+    _scope(uint256(entityId), systemId);
   }
 
   function _enforceScope(uint256 entityId) internal view {

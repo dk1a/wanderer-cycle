@@ -7,13 +7,13 @@ import { LibRNG } from "./LibRNG.sol";
 
 contract RandomnessSystem is SmartObjectFramework {
   function requestRandomness(bytes32 requestOwnerEntity) public context returns (bytes32 requestId) {
-    _requireEntityLeaf(uint256(requestOwnerEntity));
+    _requireEntityLeaf(requestOwnerEntity);
 
     return LibRNG.requestRandomness(requestOwnerEntity);
   }
 
   function removeRequest(bytes32 requestOwnerEntity, bytes32 requestId) public context {
-    _requireEntityLeaf(uint256(requestOwnerEntity));
+    _requireEntityLeaf(requestOwnerEntity);
 
     LibRNG.removeRequest(requestOwnerEntity, requestId);
   }

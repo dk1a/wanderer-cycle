@@ -17,7 +17,7 @@ contract EffectTemplateSystem is SmartObjectFramework {
    * @dev Check data validity before setting effect template
    */
   function setEffectTemplate(bytes32 applicationEntity, EffectTemplateData memory effectTemplateData) public context {
-    _requireEntityLeaf(uint256(applicationEntity));
+    _requireEntityLeaf(applicationEntity);
 
     // Verify lengths
     if (effectTemplateData.statmodEntities.length != effectTemplateData.values.length) {

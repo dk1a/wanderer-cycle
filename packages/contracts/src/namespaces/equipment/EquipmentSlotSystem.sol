@@ -26,7 +26,7 @@ contract EquipmentSlotSystem is SmartObjectFramework {
     string memory name,
     EquipmentType[] memory equipmentTypes
   ) public context returns (bytes32 slotEntity) {
-    _requireEntityLeaf(uint256(ownerEntity));
+    _requireEntityLeaf(ownerEntity);
 
     slotEntity = LibSOFClass.instantiate("equipment_slot");
 

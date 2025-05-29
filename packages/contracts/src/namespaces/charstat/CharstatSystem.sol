@@ -15,13 +15,13 @@ contract CharstatSystem is SmartObjectFramework {
   error CharstatSystem_ExpNotInitialized();
 
   function setLifeCurrent(bytes32 targetEntity, uint32 value) public context {
-    _requireEntityLeaf(uint256(targetEntity));
+    _requireEntityLeaf(targetEntity);
 
     LifeCurrent.set(targetEntity, value);
   }
 
   function setManaCurrent(bytes32 targetEntity, uint32 value) public context {
-    _requireEntityLeaf(uint256(targetEntity));
+    _requireEntityLeaf(targetEntity);
 
     ManaCurrent.set(targetEntity, value);
   }
@@ -30,7 +30,7 @@ contract CharstatSystem is SmartObjectFramework {
    * @dev Set currents to max values
    */
   function setFullCurrents(bytes32 targetEntity) public context {
-    _requireEntityLeaf(uint256(targetEntity));
+    _requireEntityLeaf(targetEntity);
 
     setLifeCurrent(targetEntity, LibCharstat.getLife(targetEntity));
     setManaCurrent(targetEntity, LibCharstat.getMana(targetEntity));
@@ -40,7 +40,7 @@ contract CharstatSystem is SmartObjectFramework {
    * @dev Allow target to receive exp, set exp to 0s
    */
   function initExp(bytes32 targetEntity) public context {
-    _requireEntityLeaf(uint256(targetEntity));
+    _requireEntityLeaf(targetEntity);
 
     uint32[PStat_length] memory exp;
     Experience.set(targetEntity, exp);
@@ -51,7 +51,7 @@ contract CharstatSystem is SmartObjectFramework {
    * Exp must be initialized
    */
   function increaseExp(bytes32 targetEntity, uint32[PStat_length] memory addExp) public context {
-    _requireEntityLeaf(uint256(targetEntity));
+    _requireEntityLeaf(targetEntity);
 
     // get current exp, or revert if it doesn't exist
     if (!LibExperience.hasExp(targetEntity)) {

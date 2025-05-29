@@ -24,8 +24,8 @@ contract EquipmentSystem is SmartObjectFramework {
   error EquipmentSystem_EquipmentEntityAlreadyEquipped(bytes32 equipmentEntity);
 
   function unequip(bytes32 targetEntity, bytes32 slotEntity) public context {
-    _requireEntityBranch(uint256(targetEntity));
-    _requireEntityLeaf(uint256(slotEntity));
+    _requireEntityBranch(targetEntity);
+    _requireEntityLeaf(slotEntity);
 
     _unequip(targetEntity, slotEntity);
   }
@@ -38,9 +38,9 @@ contract EquipmentSystem is SmartObjectFramework {
   }
 
   function equip(bytes32 targetEntity, bytes32 slotEntity, bytes32 equipmentEntity) public context {
-    _requireEntityBranch(uint256(targetEntity));
-    _requireEntityLeaf(uint256(slotEntity));
-    _requireEntityLeaf(uint256(equipmentEntity));
+    _requireEntityBranch(targetEntity);
+    _requireEntityLeaf(slotEntity);
+    _requireEntityLeaf(equipmentEntity);
 
     // Unequip first if slot is occupied (otherwise effects will leak)
     if (SlotEquipment.get(slotEntity) != bytes32(0)) {

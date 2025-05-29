@@ -26,8 +26,8 @@ contract SkillSystem is SmartObjectFramework {
    * However this method is NOT combat aware and doesn't do attack/spell damage
    */
   function useSkill(bytes32 userEntity, bytes32 skillEntity, bytes32 targetEntity) public context {
-    _requireEntityLeaf(uint256(userEntity));
-    _requireEntityRoot(uint256(skillEntity));
+    _requireEntityLeaf(userEntity);
+    _requireEntityRoot(skillEntity);
 
     SkillTemplateData memory skill = SkillTemplate.get(skillEntity);
 
