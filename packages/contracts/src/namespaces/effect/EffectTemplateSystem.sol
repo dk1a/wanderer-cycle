@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { System } from "@latticexyz/world/src/System.sol";
+import { SmartObjectFramework } from "../evefrontier/SmartObjectFramework.sol";
 
 import { StatmodBase } from "../statmod/codegen/index.sol";
 import { EffectTemplate, EffectTemplateData } from "./codegen/tables/EffectTemplate.sol";
@@ -9,14 +9,16 @@ import { AffixPrototype } from "../affix/codegen/tables/AffixPrototype.sol";
 import { Affix } from "../affix/codegen/tables/Affix.sol";
 import { StatmodTopic } from "../statmod/StatmodTopic.sol";
 
-contract EffectTemplateSystem is System {
+contract EffectTemplateSystem is SmartObjectFramework {
   error EffectTemplateSystem_LengthMismatch();
   error EffectTemplateSystem_InvalidStatmod(bytes32 statmodEntity);
 
   /**
    * @dev Check data validity before setting effect template
    */
-  function setEffectTemplate(bytes32 applicationEntity, EffectTemplateData memory effectTemplateData) public {
+  function setEffectTemplate(bytes32 applicationEntity, EffectTemplateData memory effectTemplateData) public context {
+    _requireEntityLeaf(uint256(applicationEntity));
+
     // Verify lengths
     if (effectTemplateData.statmodEntities.length != effectTemplateData.values.length) {
       revert EffectTemplateSystem_LengthMismatch();
@@ -32,7 +34,7 @@ contract EffectTemplateSystem is System {
     EffectTemplate.set(applicationEntity, effectTemplateData);
   }
 
-  function createEffectTemplateFromAffixes(bytes32 applicationEntity, bytes32[] memory affixEntities) public {
+  function setEffectTemplateFromAffixes(bytes32 applicationEntity, bytes32[] memory affixEntities) public {
     bytes32[] memory statmodEntities = new bytes32[](affixEntities.length);
     uint32[] memory values = new uint32[](affixEntities.length);
 

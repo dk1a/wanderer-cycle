@@ -16,5 +16,5 @@ interface IEffectTemplateSystem {
 
   function effect__setEffectTemplate(bytes32 applicationEntity, EffectTemplateData memory effectTemplateData) external;
 
-  function effect__createEffectTemplateFromAffixes(bytes32 applicationEntity, bytes32[] memory affixEntities) external;
+  function effect__setEffectTemplateFromAffixes(bytes32 applicationEntity, bytes32[] memory affixEntities) external;
 }

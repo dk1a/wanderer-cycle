@@ -18,6 +18,7 @@ import { ICycleLearnSkillSystem } from "./ICycleLearnSkillSystem.sol";
 import { ICycleNoncombatSkillSystem } from "./ICycleNoncombatSkillSystem.sol";
 import { ICyclePassTurnSystem } from "./ICyclePassTurnSystem.sol";
 import { IInitCycleSystem } from "./IInitCycleSystem.sol";
+import { IEffectInternalSystem } from "./IEffectInternalSystem.sol";
 import { IEffectSystem } from "./IEffectSystem.sol";
 import { IEffectTemplateSystem } from "./IEffectTemplateSystem.sol";
 import { IEquipmentSlotSystem } from "./IEquipmentSlotSystem.sol";
@@ -56,6 +57,7 @@ interface IWorld is
   ICycleNoncombatSkillSystem,
   ICyclePassTurnSystem,
   IInitCycleSystem,
+  IEffectInternalSystem,
   IEffectSystem,
   IEffectTemplateSystem,
   IEquipmentSlotSystem,

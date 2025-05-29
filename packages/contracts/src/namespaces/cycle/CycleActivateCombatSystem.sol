@@ -16,7 +16,6 @@ import { cycleCombatSystem } from "./codegen/systems/CycleCombatSystemLib.sol";
 
 import { MapTypes, MapType } from "../map/MapType.sol";
 import { LibSOFClass } from "../common/LibSOFClass.sol";
-import { LibEffect } from "../effect/LibEffect.sol";
 import { LibCycle } from "./LibCycle.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
 import { LibActiveCombat } from "./LibActiveCombat.sol";

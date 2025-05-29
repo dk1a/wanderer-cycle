@@ -16,6 +16,7 @@ import { learnSkillSystem } from "../src/namespaces/skill/codegen/systems/LearnS
 import { randomEquipmentSystem } from "../src/namespaces/loot/codegen/systems/RandomEquipmentSystemLib.sol";
 import { randomMapSystem } from "../src/namespaces/loot/codegen/systems/RandomMapSystemLib.sol";
 import { effectSystem } from "../src/namespaces/effect/codegen/systems/EffectSystemLib.sol";
+import { effectInternalSystem } from "../src/namespaces/effect/codegen/systems/EffectInternalSystemLib.sol";
 
 import { batchRegisterIdxs as root_batchRegisterIdxs } from "../src/namespaces/root/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as common_batchRegisterIdxs } from "../src/namespaces/common/codegen/batchRegisterIdxs.sol";
@@ -93,6 +94,7 @@ function runPostDeploy(VmSafe vm, address worldAddress, bool withInitializers) {
 
   // TODO this feels less wrong, not sure; should statmod have a system?
   IWorld(worldAddress).grantAccess(StatmodValue._tableId, effectSystem.getAddress());
+  IWorld(worldAddress).grantAccess(StatmodValue._tableId, effectInternalSystem.getAddress());
 
   vm.stopBroadcast();
 }

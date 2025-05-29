@@ -19,24 +19,34 @@ import { Idx_SlotEquipment_EquipmentEntity } from "../src/namespaces/equipment/c
 contract EquipmentSystemTest is BaseTest {
   bytes32 playerEntity;
 
-  // equipment entities
-  bytes32 armor = keccak256("armor");
-  bytes32 sword1 = keccak256("sword1");
-  bytes32 sword2 = keccak256("sword2");
-  bytes32 shield = keccak256("shield");
-  bytes32 miscThing = keccak256("miscThing");
   // equipment slots
   bytes32 armorSlot;
   bytes32 mainHandSlot;
   bytes32 offHandSlot;
+  // equipment entities
+  bytes32 armor;
+  bytes32 sword1;
+  bytes32 sword2;
+  bytes32 shield;
+  bytes32 miscThing;
 
   function setUp() public virtual override {
     super.setUp();
 
+    _addToScope("test", equipmentSystem.toResourceId());
+    _addToScope("equipment_slot", scopedSystemId);
+
     vm.startPrank(deployer);
-    playerEntity = LibSOFClass.instantiate("test", deployer);
+    playerEntity = LibSOFClass.instantiate("test", alice);
+
+    armor = LibSOFClass.instantiate("test2", deployer);
+    sword1 = LibSOFClass.instantiate("test2", deployer);
+    sword2 = LibSOFClass.instantiate("test2", deployer);
+    shield = LibSOFClass.instantiate("test2", deployer);
+    miscThing = LibSOFClass.instantiate("test2", deployer);
     vm.stopPrank();
 
+    // create equipment slots
     armorSlot = scopedSystemMock.equipment__createEquipmentSlot(playerEntity, "armorSlot", EquipmentTypes.CLOTHING);
 
     mainHandSlot = scopedSystemMock.equipment__createEquipmentSlot(playerEntity, "mainHandSlot", EquipmentTypes.WEAPON);
@@ -48,13 +58,13 @@ contract EquipmentSystemTest is BaseTest {
 
     // init equipment
     EquipmentTypeComponent.set(armor, EquipmentTypes.CLOTHING);
-    effectTemplateSystem.setEffectTemplate(
+    scopedSystemMock.effect__setEffectTemplate(
       armor,
       makeEffectTemplate(StatmodTopics.RESISTANCE, StatmodOp.ADD, EleStat.PHYSICAL, 40)
     );
 
     EquipmentTypeComponent.set(sword1, EquipmentTypes.WEAPON);
-    effectTemplateSystem.setEffectTemplate(
+    scopedSystemMock.effect__setEffectTemplate(
       sword1,
       makeEffectTemplate(
         StatmodTopics.ATTACK,
@@ -69,7 +79,7 @@ contract EquipmentSystemTest is BaseTest {
     );
 
     EquipmentTypeComponent.set(sword2, EquipmentTypes.WEAPON);
-    effectTemplateSystem.setEffectTemplate(
+    scopedSystemMock.effect__setEffectTemplate(
       sword2,
       makeEffectTemplate(
         StatmodTopics.ATTACK,
@@ -84,7 +94,7 @@ contract EquipmentSystemTest is BaseTest {
     );
 
     EquipmentTypeComponent.set(shield, EquipmentTypes.SHIELD);
-    effectTemplateSystem.setEffectTemplate(
+    scopedSystemMock.effect__setEffectTemplate(
       shield,
       makeEffectTemplate(
         StatmodTopics.RESISTANCE,
@@ -124,13 +134,46 @@ contract EquipmentSystemTest is BaseTest {
     vm.stopPrank();
   }
 
+  function testRevertUnscoped() public {
+    vm.expectRevert(
+      abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, playerEntity, emptySystemId)
+    );
+    emptySystemMock.equipment__equip(playerEntity, armorSlot, armor);
+
+    _addToScope("test", emptySystemId);
+
+    vm.expectRevert(
+      abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, armorSlot, emptySystemId)
+    );
+    emptySystemMock.equipment__equip(playerEntity, armorSlot, armor);
+
+    _addToScope("equipment_slot", emptySystemId);
+
+    vm.expectRevert(abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, armor, emptySystemId));
+    emptySystemMock.equipment__equip(playerEntity, armorSlot, armor);
+
+    _addToScope("test2", emptySystemId);
+
+    emptySystemMock.equipment__equip(playerEntity, armorSlot, armor);
+  }
+
+  function testRevertAccessDenied() public {
+    vm.prank(bob);
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, playerEntity, bob));
+    world.equipment__equip(playerEntity, armorSlot, miscThing);
+
+    vm.prank(alice);
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, armorSlot, alice));
+    world.equipment__equip(playerEntity, armorSlot, miscThing);
+  }
+
   // TODO test that effects are applied/removed correctly
 
   function testEquipRevertInvalidEquipmentType() public {
     vm.expectRevert(
       abi.encodeWithSelector(EquipmentSystemLib.EquipmentSystem_InvalidEquipmentType.selector, miscThing)
     );
-    equipmentSystem.equip(playerEntity, armorSlot, miscThing);
+    scopedSystemMock.equipment__equip(playerEntity, armorSlot, miscThing);
   }
 
   function testEquipRevertSlotNotAllowedForPrototype() public {
@@ -142,20 +185,20 @@ contract EquipmentSystemTest is BaseTest {
         sword1
       )
     );
-    equipmentSystem.equip(playerEntity, armorSlot, sword1);
+    scopedSystemMock.equipment__equip(playerEntity, armorSlot, sword1);
   }
 
   function testEquipRevertEquipmentEntityAlreadyEquipped() public {
-    equipmentSystem.equip(playerEntity, mainHandSlot, sword1);
+    scopedSystemMock.equipment__equip(playerEntity, mainHandSlot, sword1);
 
     vm.expectRevert(
       abi.encodeWithSelector(EquipmentSystemLib.EquipmentSystem_EquipmentEntityAlreadyEquipped.selector, sword1)
     );
-    equipmentSystem.equip(playerEntity, offHandSlot, sword1);
+    scopedSystemMock.equipment__equip(playerEntity, offHandSlot, sword1);
   }
 
   function testEquipUnequip() public {
-    equipmentSystem.equip(playerEntity, armorSlot, armor);
+    scopedSystemMock.equipment__equip(playerEntity, armorSlot, armor);
     assertEq(SlotEquipment.get(armorSlot), armor);
     (bool _has, uint40 _index) = Idx_SlotEquipment_EquipmentEntity.has(armorSlot);
     assertTrue(_has);
@@ -163,7 +206,7 @@ contract EquipmentSystemTest is BaseTest {
     assertEq(Idx_SlotEquipment_EquipmentEntity.length(armor), 1);
     assertEq(Idx_SlotEquipment_EquipmentEntity.get(armor, _index), armorSlot);
 
-    equipmentSystem.unequip(playerEntity, armorSlot);
+    scopedSystemMock.equipment__unequip(playerEntity, armorSlot);
     assertEq(SlotEquipment.get(armorSlot), bytes32(0));
     (_has, _index) = Idx_SlotEquipment_EquipmentEntity.has(armorSlot);
     assertFalse(_has);
@@ -171,9 +214,9 @@ contract EquipmentSystemTest is BaseTest {
   }
 
   function testEquipUnequipSeveralSlots() public {
-    equipmentSystem.equip(playerEntity, armorSlot, armor);
-    equipmentSystem.equip(playerEntity, mainHandSlot, sword1);
-    equipmentSystem.equip(playerEntity, offHandSlot, sword2);
+    scopedSystemMock.equipment__equip(playerEntity, armorSlot, armor);
+    scopedSystemMock.equipment__equip(playerEntity, mainHandSlot, sword1);
+    scopedSystemMock.equipment__equip(playerEntity, offHandSlot, sword2);
 
     assertEq(SlotEquipment.get(armorSlot), armor);
     assertEq(Idx_SlotEquipment_EquipmentEntity.get(armor, 0), armorSlot);
@@ -182,7 +225,7 @@ contract EquipmentSystemTest is BaseTest {
     assertEq(SlotEquipment.get(offHandSlot), sword2);
     assertEq(Idx_SlotEquipment_EquipmentEntity.get(sword2, 0), offHandSlot);
 
-    equipmentSystem.unequip(playerEntity, armorSlot);
+    scopedSystemMock.equipment__unequip(playerEntity, armorSlot);
 
     assertEq(SlotEquipment.get(armorSlot), bytes32(0));
     assertEq(Idx_SlotEquipment_EquipmentEntity.length(armor), 0);
@@ -191,7 +234,7 @@ contract EquipmentSystemTest is BaseTest {
     assertEq(SlotEquipment.get(offHandSlot), sword2);
     assertEq(Idx_SlotEquipment_EquipmentEntity.get(sword2, 0), offHandSlot);
 
-    equipmentSystem.unequip(playerEntity, offHandSlot);
+    scopedSystemMock.equipment__unequip(playerEntity, offHandSlot);
 
     assertEq(SlotEquipment.get(armorSlot), bytes32(0));
     assertEq(Idx_SlotEquipment_EquipmentEntity.length(armor), 0);
@@ -200,7 +243,7 @@ contract EquipmentSystemTest is BaseTest {
     assertEq(SlotEquipment.get(offHandSlot), bytes32(0));
     assertEq(Idx_SlotEquipment_EquipmentEntity.length(sword2), 0);
 
-    equipmentSystem.unequip(playerEntity, mainHandSlot);
+    scopedSystemMock.equipment__unequip(playerEntity, mainHandSlot);
 
     assertEq(SlotEquipment.get(armorSlot), bytes32(0));
     assertEq(Idx_SlotEquipment_EquipmentEntity.length(armor), 0);
@@ -211,28 +254,28 @@ contract EquipmentSystemTest is BaseTest {
   }
 
   function testReequipSameSlotSameEntity() public {
-    equipmentSystem.equip(playerEntity, mainHandSlot, sword1);
+    scopedSystemMock.equipment__equip(playerEntity, mainHandSlot, sword1);
     assertEq(SlotEquipment.get(mainHandSlot), sword1);
-    equipmentSystem.equip(playerEntity, mainHandSlot, sword1);
+    scopedSystemMock.equipment__equip(playerEntity, mainHandSlot, sword1);
     assertEq(SlotEquipment.get(mainHandSlot), sword1);
   }
 
   function testReequipSameSlotDifferentEntities() public {
-    equipmentSystem.equip(playerEntity, offHandSlot, sword1);
+    scopedSystemMock.equipment__equip(playerEntity, offHandSlot, sword1);
     assertEq(SlotEquipment.get(offHandSlot), sword1);
-    equipmentSystem.equip(playerEntity, offHandSlot, shield);
+    scopedSystemMock.equipment__equip(playerEntity, offHandSlot, shield);
     assertEq(SlotEquipment.get(offHandSlot), shield);
-    equipmentSystem.equip(playerEntity, offHandSlot, sword2);
+    scopedSystemMock.equipment__equip(playerEntity, offHandSlot, sword2);
     assertEq(SlotEquipment.get(offHandSlot), sword2);
   }
 
   function testReequipDifferentSlotsSameEntity() public {
-    equipmentSystem.equip(playerEntity, mainHandSlot, sword1);
+    scopedSystemMock.equipment__equip(playerEntity, mainHandSlot, sword1);
     assertEq(SlotEquipment.get(mainHandSlot), sword1);
     assertEq(SlotEquipment.get(offHandSlot), bytes32(0));
 
-    equipmentSystem.unequip(playerEntity, mainHandSlot);
-    equipmentSystem.equip(playerEntity, offHandSlot, sword1);
+    scopedSystemMock.equipment__unequip(playerEntity, mainHandSlot);
+    scopedSystemMock.equipment__equip(playerEntity, offHandSlot, sword1);
     assertEq(SlotEquipment.get(mainHandSlot), bytes32(0));
     assertEq(SlotEquipment.get(offHandSlot), sword1);
   }

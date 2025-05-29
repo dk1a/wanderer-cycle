@@ -51,8 +51,8 @@ library EffectSystemLib {
     return CallWrapper(self.toResourceId(), address(0)).applyEffect(targetEntity, applicationEntity);
   }
 
-  function remove(EffectSystemType self, bytes32 targetEntity, bytes32 applicationEntity) internal {
-    return CallWrapper(self.toResourceId(), address(0)).remove(targetEntity, applicationEntity);
+  function removeEffect(EffectSystemType self, bytes32 targetEntity, bytes32 applicationEntity) internal {
+    return CallWrapper(self.toResourceId(), address(0)).removeEffect(targetEntity, applicationEntity);
   }
 
   function applyTimedEffect(
@@ -86,11 +86,14 @@ library EffectSystemLib {
       : _world().callFrom(self.from, self.systemId, systemCall);
   }
 
-  function remove(CallWrapper memory self, bytes32 targetEntity, bytes32 applicationEntity) internal {
+  function removeEffect(CallWrapper memory self, bytes32 targetEntity, bytes32 applicationEntity) internal {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert EffectSystemLib_CallingFromRootSystem();
 
-    bytes memory systemCall = abi.encodeCall(_remove_bytes32_bytes32.remove, (targetEntity, applicationEntity));
+    bytes memory systemCall = abi.encodeCall(
+      _removeEffect_bytes32_bytes32.removeEffect,
+      (targetEntity, applicationEntity)
+    );
     self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
@@ -117,8 +120,11 @@ library EffectSystemLib {
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
-  function remove(RootCallWrapper memory self, bytes32 targetEntity, bytes32 applicationEntity) internal {
-    bytes memory systemCall = abi.encodeCall(_remove_bytes32_bytes32.remove, (targetEntity, applicationEntity));
+  function removeEffect(RootCallWrapper memory self, bytes32 targetEntity, bytes32 applicationEntity) internal {
+    bytes memory systemCall = abi.encodeCall(
+      _removeEffect_bytes32_bytes32.removeEffect,
+      (targetEntity, applicationEntity)
+    );
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
@@ -172,8 +178,8 @@ interface _applyEffect_bytes32_bytes32 {
   function applyEffect(bytes32 targetEntity, bytes32 applicationEntity) external;
 }
 
-interface _remove_bytes32_bytes32 {
-  function remove(bytes32 targetEntity, bytes32 applicationEntity) external;
+interface _removeEffect_bytes32_bytes32 {
+  function removeEffect(bytes32 targetEntity, bytes32 applicationEntity) external;
 }
 
 using EffectSystemLib for EffectSystemType global;

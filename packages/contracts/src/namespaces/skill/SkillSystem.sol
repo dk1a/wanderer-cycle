@@ -68,7 +68,7 @@ contract SkillSystem is SmartObjectFramework {
     if (skill.skillType == SkillType.PASSIVE) {
       // toggle passive skill
       if (LibEffect.hasEffectApplied(targetEntity, skillEntity)) {
-        effectSystem.remove(targetEntity, skillEntity);
+        effectSystem.removeEffect(targetEntity, skillEntity);
       } else {
         effectSystem.applyEffect(targetEntity, skillEntity);
       }

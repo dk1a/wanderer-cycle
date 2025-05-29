@@ -1,25 +1,29 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { System } from "@latticexyz/world/src/System.sol";
+import { SmartObjectFramework } from "../evefrontier/SmartObjectFramework.sol";
 
 import { GenericDurationData } from "../duration/Duration.sol";
 import { LibEffect } from "./LibEffect.sol";
 
-contract EffectSystem is System {
+// TODO are you sure applicationEntity doesn't need any requirements?
+contract EffectSystem is SmartObjectFramework {
   function applyTimedEffect(
     bytes32 targetEntity,
     bytes32 applicationEntity,
     GenericDurationData memory duration
-  ) public {
+  ) public context {
+    _requireEntityLeaf(uint256(targetEntity));
     LibEffect.applyTimedEffect(targetEntity, applicationEntity, duration);
   }
 
-  function applyEffect(bytes32 targetEntity, bytes32 applicationEntity) public {
+  function applyEffect(bytes32 targetEntity, bytes32 applicationEntity) public context {
+    _requireEntityLeaf(uint256(targetEntity));
     LibEffect.applyEffect(targetEntity, applicationEntity);
   }
 
-  function remove(bytes32 targetEntity, bytes32 applicationEntity) public {
+  function removeEffect(bytes32 targetEntity, bytes32 applicationEntity) public context {
+    _requireEntityLeaf(uint256(targetEntity));
     LibEffect.remove(targetEntity, applicationEntity);
   }
 }

@@ -48,13 +48,12 @@ library EffectTemplateSystemLib {
     return CallWrapper(self.toResourceId(), address(0)).setEffectTemplate(applicationEntity, effectTemplateData);
   }
 
-  function createEffectTemplateFromAffixes(
+  function setEffectTemplateFromAffixes(
     EffectTemplateSystemType self,
     bytes32 applicationEntity,
     bytes32[] memory affixEntities
   ) internal {
-    return
-      CallWrapper(self.toResourceId(), address(0)).createEffectTemplateFromAffixes(applicationEntity, affixEntities);
+    return CallWrapper(self.toResourceId(), address(0)).setEffectTemplateFromAffixes(applicationEntity, affixEntities);
   }
 
   function setEffectTemplate(
@@ -74,7 +73,7 @@ library EffectTemplateSystemLib {
       : _world().callFrom(self.from, self.systemId, systemCall);
   }
 
-  function createEffectTemplateFromAffixes(
+  function setEffectTemplateFromAffixes(
     CallWrapper memory self,
     bytes32 applicationEntity,
     bytes32[] memory affixEntities
@@ -83,7 +82,7 @@ library EffectTemplateSystemLib {
     if (address(_world()) == address(this)) revert EffectTemplateSystemLib_CallingFromRootSystem();
 
     bytes memory systemCall = abi.encodeCall(
-      _createEffectTemplateFromAffixes_bytes32_bytes32Array.createEffectTemplateFromAffixes,
+      _setEffectTemplateFromAffixes_bytes32_bytes32Array.setEffectTemplateFromAffixes,
       (applicationEntity, affixEntities)
     );
     self.from == address(0)
@@ -103,13 +102,13 @@ library EffectTemplateSystemLib {
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
-  function createEffectTemplateFromAffixes(
+  function setEffectTemplateFromAffixes(
     RootCallWrapper memory self,
     bytes32 applicationEntity,
     bytes32[] memory affixEntities
   ) internal {
     bytes memory systemCall = abi.encodeCall(
-      _createEffectTemplateFromAffixes_bytes32_bytes32Array.createEffectTemplateFromAffixes,
+      _setEffectTemplateFromAffixes_bytes32_bytes32Array.setEffectTemplateFromAffixes,
       (applicationEntity, affixEntities)
     );
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
@@ -157,8 +156,8 @@ interface _setEffectTemplate_bytes32_EffectTemplateData {
   function setEffectTemplate(bytes32 applicationEntity, EffectTemplateData memory effectTemplateData) external;
 }
 
-interface _createEffectTemplateFromAffixes_bytes32_bytes32Array {
-  function createEffectTemplateFromAffixes(bytes32 applicationEntity, bytes32[] memory affixEntities) external;
+interface _setEffectTemplateFromAffixes_bytes32_bytes32Array {
+  function setEffectTemplateFromAffixes(bytes32 applicationEntity, bytes32[] memory affixEntities) external;
 }
 
 using EffectTemplateSystemLib for EffectTemplateSystemType global;

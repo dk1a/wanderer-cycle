@@ -5,7 +5,7 @@ import { FieldLayout } from "@latticexyz/store/src/FieldLayout.sol";
 import { StoreHook } from "@latticexyz/store/src/StoreHook.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
-import { LibEffect } from "./LibEffect.sol";
+import { effectInternalSystem } from "./codegen/systems/EffectInternalSystemLib.sol";
 
 contract EffectDurationHook is StoreHook {
   function _decodeKeyTuple(
@@ -18,6 +18,6 @@ contract EffectDurationHook is StoreHook {
   function onBeforeDeleteRecord(ResourceId, bytes32[] memory keyTuple, FieldLayout) public override {
     (bytes32 targetEntity, bytes32 applicationEntity) = _decodeKeyTuple(keyTuple);
 
-    LibEffect.remove(targetEntity, applicationEntity);
+    effectInternalSystem.internalRemoveEffect(targetEntity, applicationEntity);
   }
 }

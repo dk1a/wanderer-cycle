@@ -52,6 +52,6 @@ library LibLootMint {
     LootAffixes.set(lootEntity, affixEntities);
     LootIlvl.set(lootEntity, ilvl);
     // Save loot as an effect prototype (the effect triggers on-equip)
-    effectTemplateSystem.createEffectTemplateFromAffixes(lootEntity, affixEntities);
+    effectTemplateSystem.setEffectTemplateFromAffixes(lootEntity, affixEntities);
   }
 }

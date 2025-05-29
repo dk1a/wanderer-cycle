@@ -274,13 +274,9 @@ export default defineWorld({
         },
       },
       systems: {
-        EffectSystem: {
+        EffectInternalSystem: {
           openAccess: false,
-          accessList: ["EquipmentSystem", "SkillSystem", "CycleActivateCombatSystem"],
-        },
-        EffectTemplateSystem: {
-          openAccess: false,
-          accessList: ["RandomEquipmentSystem", "RandomMapSystem"],
+          accessList: [],
         },
       },
     },
@@ -479,12 +475,6 @@ export default defineWorld({
             entity: EntityId,
             value: "EquipmentType",
           },
-        },
-      },
-      systems: {
-        EquipmentSystem: {
-          openAccess: false,
-          accessList: ["InitCycleSystem", "CycleEquipmentSystem"],
         },
       },
     },
