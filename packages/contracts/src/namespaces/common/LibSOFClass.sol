@@ -28,9 +28,7 @@ library LibSOFClass {
 
   // Entities may have custom access control for objects, so the role should be burned
   function instantiate(string memory name) internal returns (bytes32 objectId) {
-    bytes32 classId = getClassId(name);
-    address self = address(this);
-    objectId = bytes32(entitySystem.instantiate(uint256(classId), self));
+    objectId = instantiate(name, address(this));
     scopedRenounceRole(objectId);
   }
 
