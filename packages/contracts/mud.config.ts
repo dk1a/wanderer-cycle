@@ -516,12 +516,6 @@ export default defineWorld({
           },
         },
       },
-      systems: {
-        RNGSystem: {
-          openAccess: false,
-          accessList: ["CycleCombatSystem", "CycleCombatRewardSystem"],
-        },
-      },
     },
     /************************************************************************
      *

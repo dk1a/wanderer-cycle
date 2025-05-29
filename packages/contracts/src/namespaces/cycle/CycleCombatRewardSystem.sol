@@ -5,7 +5,7 @@ import { System } from "@latticexyz/world/src/System.sol";
 
 import { charstatSystem } from "../charstat/codegen/systems/CharstatSystemLib.sol";
 import { randomEquipmentSystem } from "../loot/codegen/systems/RandomEquipmentSystemLib.sol";
-import { rNGSystem } from "../rng/codegen/systems/RNGSystemLib.sol";
+import { randomnessSystem } from "../rng/codegen/systems/RandomnessSystemLib.sol";
 
 import { PStat_length } from "../../CustomTypes.sol";
 import { LibGuiseLevel } from "../root/guise/LibGuiseLevel.sol";
@@ -45,7 +45,7 @@ contract CycleCombatRewardSystem is System {
     LibCycle.requireAccess(cycleEntity);
 
     // Remove the reward without claiming it
-    rNGSystem.removeRequest(cycleEntity, requestId);
+    randomnessSystem.removeRequest(cycleEntity, requestId);
   }
 
   // TODO remove later; sample loot for testing

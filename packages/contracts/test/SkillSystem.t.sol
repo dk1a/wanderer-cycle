@@ -16,7 +16,6 @@ import { LibSkill } from "../src/namespaces/skill/LibSkill.sol";
 import { LibCharstat } from "../src/namespaces/charstat/LibCharstat.sol";
 import { LibExperience } from "../src/namespaces/charstat/LibExperience.sol";
 import { LibEffect, EffectDuration } from "../src/namespaces/effect/LibEffect.sol";
-import { TestSystem } from "./TestSystem.sol";
 
 contract SkillSystemTest is BaseTest {
   bytes32 userEntity;

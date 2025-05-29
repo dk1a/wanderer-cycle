@@ -25,7 +25,7 @@ import { IEquipmentSlotSystem } from "./IEquipmentSlotSystem.sol";
 import { IEquipmentSystem } from "./IEquipmentSystem.sol";
 import { IRandomEquipmentSystem } from "./IRandomEquipmentSystem.sol";
 import { IRandomMapSystem } from "./IRandomMapSystem.sol";
-import { IRNGSystem } from "./IRNGSystem.sol";
+import { IRandomnessSystem } from "./IRandomnessSystem.sol";
 import { ILearnSkillSystem } from "./ILearnSkillSystem.sol";
 import { ISkillSystem } from "./ISkillSystem.sol";
 import { ITimeSystem } from "./ITimeSystem.sol";
@@ -64,7 +64,7 @@ interface IWorld is
   IEquipmentSystem,
   IRandomEquipmentSystem,
   IRandomMapSystem,
-  IRNGSystem,
+  IRandomnessSystem,
   ILearnSkillSystem,
   ISkillSystem,
   ITimeSystem,
