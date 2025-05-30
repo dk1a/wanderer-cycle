@@ -58,13 +58,16 @@ contract CustomSOFModule is SOFModule {
   function install(bytes memory encodedArgs) public virtual override {
     super.install(encodedArgs);
 
+    // Must be specified manually since it has the same name as the default `instantiate` with 3 args
+    bytes4 customInstantiateSelector = bytes4(keccak256("instantiate(uint256,address)"));
+
     // Configure the altered methods of EntitySystem
 
     // EntitySystem.sol access configurations
     // set allowClassScopedSystemOrDirectAccessRole for instantiate
     accessConfigSystem.callFrom(_msgSender()).configureAccess(
       entitySystem.toResourceId(),
-      CustomEntitySystem.instantiate.selector,
+      customInstantiateSelector,
       sOFAccessSystem.toResourceId(),
       ISOFAccessSystem.allowClassScopedSystemOrDirectClassAccessRole.selector
     );
@@ -79,7 +82,7 @@ contract CustomSOFModule is SOFModule {
     // EntitySystem.sol toggle access enforcement on
     accessConfigSystem.callFrom(_msgSender()).setAccessEnforcement(
       entitySystem.toResourceId(),
-      CustomEntitySystem.instantiate.selector,
+      customInstantiateSelector,
       true
     );
     accessConfigSystem.callFrom(_msgSender()).setAccessEnforcement(
