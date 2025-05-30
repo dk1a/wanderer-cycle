@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { SmartObjectFramework } from "@eveworld/smart-object-framework-v2/src/inherit/SmartObjectFramework.sol";
 import { BaseTest } from "./BaseTest.t.sol";
 
-import { charstatSystem } from "../src/namespaces/charstat/codegen/systems/CharstatSystemLib.sol";
 import { cycleControlSystem } from "../src/namespaces/cycle/codegen/systems/CycleControlSystemLib.sol";
-import { learnSkillSystem } from "../src/namespaces/skill/codegen/systems/LearnSkillSystemLib.sol";
-import { permSkillSystem } from "../src/namespaces/root/codegen/systems/PermSkillSystemLib.sol";
+import { cycleLearnSkillSystem } from "../src/namespaces/cycle/codegen/systems/CycleLearnSkillSystemLib.sol";
+import { permSkillSystem } from "../src/namespaces/wanderer/codegen/systems/PermSkillSystemLib.sol";
 
 import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibSkill } from "../src/namespaces/skill/LibSkill.sol";
@@ -27,16 +27,18 @@ contract CycleTest is BaseTest {
   function setUp() public virtual override {
     super.setUp();
 
+    _addToScope("cycle", scopedSystemId);
+
     guiseEntity = LibGuise.getGuiseEntity("Warrior");
     skillEntity = LibSkill.getSkillEntity("Cleave");
-    (wandererEntity, cycleEntity) = world.spawnWanderer(guiseEntity);
+    (wandererEntity, cycleEntity) = world.wanderer__spawnWanderer(guiseEntity);
 
     wheelEntity = ActiveWheel.getWheelEntity(cycleEntity);
   }
 
   function _setRequirements(bytes32 _cycleEntity) internal {
     BossesDefeated.set(_cycleEntity, RequiredBossMaps.get());
-    charstatSystem.increaseExp(_cycleEntity, [uint32(100000), 100000, 100000]);
+    scopedSystemMock.charstat__increaseExp(_cycleEntity, [uint32(100000), 100000, 100000]);
   }
 
   function testSetUp() public view {
@@ -71,22 +73,22 @@ contract CycleTest is BaseTest {
   }
 
   function testPermSkill() public {
-    learnSkillSystem.learnSkill(cycleEntity, skillEntity);
+    cycleLearnSkillSystem.learnSkill(cycleEntity, skillEntity);
 
     _setRequirements(cycleEntity);
     cycleControlSystem.completeCycle(cycleEntity);
 
     permSkillSystem.permSkill(wandererEntity, skillEntity);
-    assertEq(LearnedSkills.length(wandererEntity), 1);
-    assertEq(LearnedSkills.getItem(wandererEntity, 0), skillEntity);
+    assertEq(LearnedSkills.length(wandererEntity), 1, "a");
+    assertEq(LearnedSkills.getItem(wandererEntity, 0), skillEntity, "b");
 
     bytes32 newCycleEntity = cycleControlSystem.startCycle(wandererEntity, guiseEntity, wheelEntity);
-    assertNotEq(newCycleEntity, bytes32(0));
-    assertNotEq(newCycleEntity, cycleEntity);
-    assertEq(newCycleEntity, ActiveCycle.get(wandererEntity));
-    assertEq(CycleOwner.get(newCycleEntity), wandererEntity);
+    assertNotEq(newCycleEntity, bytes32(0), "c");
+    assertNotEq(newCycleEntity, cycleEntity, "d");
+    assertEq(newCycleEntity, ActiveCycle.get(wandererEntity), "e");
+    assertEq(CycleOwner.get(newCycleEntity), wandererEntity, "f");
 
-    assertEq(LearnedSkills.length(newCycleEntity), 1);
-    assertEq(LearnedSkills.getItem(newCycleEntity, 0), skillEntity);
+    assertEq(LearnedSkills.length(newCycleEntity), 1, "g");
+    assertEq(LearnedSkills.getItem(newCycleEntity, 0), skillEntity, "h");
   }
 }

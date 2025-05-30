@@ -3,15 +3,15 @@ pragma solidity >=0.8.24;
 
 import { System } from "@latticexyz/world/src/System.sol";
 
-import { CompletedCycleHistory } from "../../cycle/codegen/tables/CompletedCycleHistory.sol";
+import { CompletedCycleHistory } from "../cycle/codegen/tables/CompletedCycleHistory.sol";
 
-import { learnSkillSystem } from "../../skill/codegen/systems/LearnSkillSystemLib.sol";
-import { wheelSystem } from "../../wheel/codegen/systems/WheelSystemLib.sol";
+import { learnSkillSystem } from "../skill/codegen/systems/LearnSkillSystemLib.sol";
+import { wheelSystem } from "../wheel/codegen/systems/WheelSystemLib.sol";
 
-import { IDENTITY_INCREMENT } from "../../wheel/constants.sol";
-import { LibCycle } from "../../cycle/LibCycle.sol";
-import { LibSkill } from "../../skill/LibSkill.sol";
-import { ERC721Namespaces } from "../../erc721-puppet/ERC721Namespaces.sol";
+import { IDENTITY_INCREMENT } from "../wheel/constants.sol";
+import { LibCycle } from "../cycle/LibCycle.sol";
+import { LibSkill } from "../skill/LibSkill.sol";
+import { ERC721Namespaces } from "../erc721-puppet/ERC721Namespaces.sol";
 
 contract PermSkillSystem is System {
   error PermSkillSystem_NoPreviousCycle();
@@ -38,9 +38,9 @@ contract PermSkillSystem is System {
     }
 
     // Subtract identity cost
-    wheelSystem.callAsRootFrom(address(this)).subtractIdentity(wandererEntity, IDENTITY_INCREMENT);
+    wheelSystem.subtractIdentity(wandererEntity, IDENTITY_INCREMENT);
 
     // Learn the skill
-    learnSkillSystem.callAsRootFrom(address(this)).learnSkill(wandererEntity, skillEntity);
+    learnSkillSystem.learnSkill(wandererEntity, skillEntity);
   }
 }

@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { System } from "@latticexyz/world/src/System.sol";
+import { SmartObjectFramework } from "../evefrontier/SmartObjectFramework.sol";
 
 import { effectSystem } from "../effect/codegen/systems/EffectSystemLib.sol";
-
-import { LibSpawnEquipmentSlots } from "./LibSpawnEquipmentSlots.sol";
 
 import { EquipmentType } from "./EquipmentType.sol";
 import { EquipmentTypeComponent } from "./codegen/tables/EquipmentTypeComponent.sol";
@@ -20,22 +18,33 @@ import { Idx_SlotEquipment_EquipmentEntity } from "./codegen/idxs/Idx_SlotEquipm
  * Targets are entities that own both equipment and slots, targets have equipment effects applied to them.
  * (this structure allows characters to have different/dynamic sets of limbs).
  */
-contract EquipmentSystem is System {
+contract EquipmentSystem is SmartObjectFramework {
   error EquipmentSystem_InvalidEquipmentType(bytes32 equipmentEntity);
   error EquipmentSystem_SlotNotAllowedForType(bytes32 slotEntity, EquipmentType equipmentType, bytes32 equipmentEntity);
   error EquipmentSystem_EquipmentEntityAlreadyEquipped(bytes32 equipmentEntity);
 
-  function unequip(bytes32 targetEntity, bytes32 slotEntity) public {
+  function unequip(bytes32 targetEntity, bytes32 slotEntity) public context {
+    _requireEntityBranch(targetEntity);
+    _requireEntityLeaf(slotEntity);
+
+    _unequip(targetEntity, slotEntity);
+  }
+
+  function _unequip(bytes32 targetEntity, bytes32 slotEntity) internal {
     bytes32 equipmentEntity = SlotEquipment.get(slotEntity);
-    effectSystem.remove(targetEntity, equipmentEntity);
+    effectSystem.removeEffect(targetEntity, equipmentEntity);
 
     SlotEquipment.deleteRecord(slotEntity);
   }
 
-  function equip(bytes32 targetEntity, bytes32 slotEntity, bytes32 equipmentEntity) public {
+  function equip(bytes32 targetEntity, bytes32 slotEntity, bytes32 equipmentEntity) public context {
+    _requireEntityBranch(targetEntity);
+    _requireEntityLeaf(slotEntity);
+    _requireEntityLeaf(equipmentEntity);
+
     // Unequip first if slot is occupied (otherwise effects will leak)
     if (SlotEquipment.get(slotEntity) != bytes32(0)) {
-      unequip(targetEntity, slotEntity);
+      _unequip(targetEntity, slotEntity);
     }
 
     // Equipment entity must have EquipmentType set
@@ -60,9 +69,5 @@ contract EquipmentSystem is System {
     // Reverts if equipmentEntity doesn't have an EffectTemplate
     // TODO that's good atm because equipment only does effects, but it could do more
     effectSystem.applyEffect(targetEntity, equipmentEntity);
-  }
-
-  function spawnEquipmentSlots(bytes32 ownerEntity) public {
-    LibSpawnEquipmentSlots.spawnEquipmentSlots(ownerEntity);
   }
 }

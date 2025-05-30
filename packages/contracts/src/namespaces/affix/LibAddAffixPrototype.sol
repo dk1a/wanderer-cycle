@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
+import { entitySystem } from "../evefrontier/codegen/systems/EntitySystemLib.sol";
+
+import { affixSystem } from "./codegen/systems/AffixSystemLib.sol";
 import { AffixAvailabilityTargetId, AffixPart, AffixPartId, Range } from "./types.sol";
 import { AffixPrototypeAvailable } from "./codegen/tables/AffixPrototypeAvailable.sol";
 import { AffixNaming } from "./codegen/tables/AffixNaming.sol";
@@ -63,7 +66,7 @@ library LibAddAffixPrototype {
     AffixPrototypeData memory affixProto,
     AffixPart[] memory affixParts,
     uint32 maxIlvl
-  ) internal {
+  ) internal returns (bytes32 affixProtoEntity) {
     if (maxIlvl == 0 || affixProto.requiredLevel > maxIlvl) {
       revert LibAddAffixPrototype_MalformedInput(affixProto.name, maxIlvl);
     }
@@ -71,7 +74,7 @@ library LibAddAffixPrototype {
       revert LibAddAffixPrototype_InvalidStatmodBase();
     }
 
-    bytes32 affixProtoEntity = getUniqueEntity();
+    affixProtoEntity = _registerAffixPrototype();
     AffixPrototype.set(affixProtoEntity, affixProto);
 
     for (uint256 i; i < affixParts.length; i++) {
@@ -90,6 +93,13 @@ library LibAddAffixPrototype {
         AffixPrototypeAvailable.push(partId, affixAvailabilityTargetId, ilvl, affixProtoEntity);
       }
     }
+  }
+
+  function _registerAffixPrototype() internal returns (bytes32 affixProtoEntity) {
+    ResourceId[] memory systemIds = new ResourceId[](1);
+    systemIds[0] = affixSystem.toResourceId();
+
+    return bytes32(entitySystem.registerClass(systemIds));
   }
 
   /// @dev Default ilvl requirement based on affix tier.

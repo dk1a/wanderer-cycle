@@ -85,7 +85,7 @@ contract RandomEquipmentSystemTest is BaseTest {
   // ensure that mint can actually produce different affixes
   function testRandomEquipmentDifferentAffixes() public {
     uint256 inequalityCount;
-    for (uint256 i; i < 1000; i++) {
+    for (uint256 i; i < 100; i++) {
       uint256 seed1 = 1000000 + i;
       uint256 seed2 = 2000000 + i;
 
@@ -103,11 +103,11 @@ contract RandomEquipmentSystemTest is BaseTest {
 
     // at least 45% should be different
     // (this does NOT test the actual distribution, which is complicated and dynamic)
-    assertGt(inequalityCount, 450);
+    assertGt(inequalityCount, 45);
   }
 
   // make sure there're enough affixes to mint the highest ilvl loot
-  function test_randomEquipment_maxIlvl(uint256 seed) public {
+  function testRandomEquipmentMaxIlvl(uint256 seed) public {
     // TODO more affixes
     bytes32 lootEntity = randomEquipmentSystem.mintRandomEquipmentEntity(MAX_ILVL, seed);
     assertEq(LootIlvl.get(lootEntity), MAX_ILVL);

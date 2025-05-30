@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
-
 import { commonSystem } from "../../common/codegen/systems/CommonSystemLib.sol";
+import { affixSystem } from "../../affix/codegen/systems/AffixSystemLib.sol";
 
-import { LibPickAffix } from "../../affix/LibPickAffix.sol";
+import { LibSOFClass } from "../../common/LibSOFClass.sol";
 import { LibLootMint } from "../../loot/LibLootMint.sol";
 import { AffixPartId } from "../../../codegen/common.sol";
 import { MapTypeComponent } from "../../map/codegen/tables/MapTypeComponent.sol";
@@ -21,9 +20,10 @@ library LibInitMapsBoss {
     uint32 tier;
   }
 
-  function init() internal {
+  function init(address deployer) internal {
     // 1
     _setBoss(
+      deployer,
       "Dire Rabbit",
       1,
       [
@@ -36,6 +36,7 @@ library LibInitMapsBoss {
     );
     // 2
     _setBoss(
+      deployer,
       "Cultist Invoker",
       2,
       [
@@ -48,6 +49,7 @@ library LibInitMapsBoss {
     );
     // 3
     _setBoss(
+      deployer,
       "Goblin Wolfrider",
       3,
       [
@@ -60,6 +62,7 @@ library LibInitMapsBoss {
     );
     // 4
     _setBoss(
+      deployer,
       "Hill Giant",
       4,
       [
@@ -72,6 +75,7 @@ library LibInitMapsBoss {
     );
     // 5
     _setBoss(
+      deployer,
       "Goblin Shaman",
       5,
       [
@@ -84,6 +88,7 @@ library LibInitMapsBoss {
     );
     // 6
     _setBoss(
+      deployer,
       "Vilewood Treant",
       6,
       [
@@ -98,6 +103,7 @@ library LibInitMapsBoss {
     );
     // 7
     _setBoss(
+      deployer,
       "Orc Warlord",
       7,
       [
@@ -110,6 +116,7 @@ library LibInitMapsBoss {
     );
     // 8
     _setBoss(
+      deployer,
       "Grand Toad",
       8,
       [
@@ -122,6 +129,7 @@ library LibInitMapsBoss {
     );
     // 9
     _setBoss(
+      deployer,
       "Chimera",
       9,
       [
@@ -134,6 +142,7 @@ library LibInitMapsBoss {
     );
     // 10
     _setBoss(
+      deployer,
       "Ice Giant",
       10,
       [
@@ -148,6 +157,7 @@ library LibInitMapsBoss {
     );
     // 11
     _setBoss(
+      deployer,
       "Fire Drake",
       11,
       [
@@ -162,6 +172,7 @@ library LibInitMapsBoss {
     );
     // 12
     _setBoss(
+      deployer,
       "The Shadow",
       12,
       [
@@ -178,31 +189,46 @@ library LibInitMapsBoss {
     );
   }
 
-  function _setBoss(string memory name, uint32 ilvl, ManualAffix[5] memory manualAffixesStatic) private {
+  function _setBoss(
+    address deployer,
+    string memory name,
+    uint32 ilvl,
+    ManualAffix[5] memory manualAffixesStatic
+  ) private {
     ManualAffix[] memory manualAffixes = new ManualAffix[](manualAffixesStatic.length);
     for (uint256 i; i < manualAffixesStatic.length; i++) {
       manualAffixes[i] = manualAffixesStatic[i];
     }
-    _setBoss(name, ilvl, manualAffixes);
+    _setBoss(deployer, name, ilvl, manualAffixes);
   }
 
-  function _setBoss(string memory name, uint32 ilvl, ManualAffix[7] memory manualAffixesStatic) private {
+  function _setBoss(
+    address deployer,
+    string memory name,
+    uint32 ilvl,
+    ManualAffix[7] memory manualAffixesStatic
+  ) private {
     ManualAffix[] memory manualAffixes = new ManualAffix[](manualAffixesStatic.length);
     for (uint256 i; i < manualAffixesStatic.length; i++) {
       manualAffixes[i] = manualAffixesStatic[i];
     }
-    _setBoss(name, ilvl, manualAffixes);
+    _setBoss(deployer, name, ilvl, manualAffixes);
   }
 
-  function _setBoss(string memory name, uint32 ilvl, ManualAffix[9] memory manualAffixesStatic) private {
+  function _setBoss(
+    address deployer,
+    string memory name,
+    uint32 ilvl,
+    ManualAffix[9] memory manualAffixesStatic
+  ) private {
     ManualAffix[] memory manualAffixes = new ManualAffix[](manualAffixesStatic.length);
     for (uint256 i; i < manualAffixesStatic.length; i++) {
       manualAffixes[i] = manualAffixesStatic[i];
     }
-    _setBoss(name, ilvl, manualAffixes);
+    _setBoss(deployer, name, ilvl, manualAffixes);
   }
 
-  function _setBoss(string memory name, uint32 ilvl, ManualAffix[] memory manualAffixes) private {
+  function _setBoss(address deployer, string memory name, uint32 ilvl, ManualAffix[] memory manualAffixes) private {
     AffixPartId[] memory affixParts = new AffixPartId[](manualAffixes.length);
     string[] memory names = new string[](manualAffixes.length);
     uint32[] memory tiers = new uint32[](manualAffixes.length);
@@ -213,13 +239,12 @@ library LibInitMapsBoss {
       tiers[i] = manualAffixes[i].tier;
     }
 
-    (bytes32[] memory statmodEntities, bytes32[] memory affixProtoEntities, uint32[] memory affixValues) = LibPickAffix
-      .manuallyPickAffixesMax(names, tiers);
+    bytes32[] memory affixEntities = affixSystem.instantiateManualAffixesMax(affixParts, names, tiers);
 
     // get a new unique id
-    bytes32 lootEntity = getUniqueEntity();
+    bytes32 lootEntity = LibSOFClass.instantiate("map", deployer);
     AffixAvailabilityTargetId targetId = MapAffixAvailabilityTargetIds.RANDOM_MAP;
-    LibLootMint.lootMint(lootEntity, targetId, ilvl, affixParts, statmodEntities, affixProtoEntities, affixValues);
+    LibLootMint.lootMint(lootEntity, targetId, ilvl, affixEntities);
 
     // mark this loot as a map by setting its MapType
     MapTypeComponent.set(lootEntity, MapTypes.CYCLE_BOSS);

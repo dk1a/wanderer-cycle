@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { System } from "@latticexyz/world/src/System.sol";
+import { SmartObjectFramework } from "../evefrontier/SmartObjectFramework.sol";
 
 import { SkillTemplate, SkillTemplateData } from "./codegen/tables/SkillTemplate.sol";
 import { SkillCooldown } from "./codegen/tables/SkillCooldown.sol";
@@ -16,7 +16,7 @@ import { LibSkill } from "./LibSkill.sol";
 
 import { SkillType, TargetType } from "../../codegen/common.sol";
 
-contract SkillSystem is System {
+contract SkillSystem is SmartObjectFramework {
   error SkillSystem_SkillMustBeLearned(bytes32 userEntity, bytes32 skillEntity);
   error SkillSystem_SkillOnCooldown(bytes32 userEntity, bytes32 skillEntity);
   error SkillSystem_NotEnoughMana(uint32 cost, uint32 current);
@@ -25,7 +25,10 @@ contract SkillSystem is System {
    * @dev Check some requirements, subtract cost, start cooldown, apply effect.
    * However this method is NOT combat aware and doesn't do attack/spell damage
    */
-  function useSkill(bytes32 userEntity, bytes32 skillEntity, bytes32 targetEntity) public {
+  function useSkill(bytes32 userEntity, bytes32 skillEntity, bytes32 targetEntity) public context {
+    _requireEntityLeaf(userEntity);
+    _requireEntityRoot(skillEntity);
+
     SkillTemplateData memory skill = SkillTemplate.get(skillEntity);
 
     // Must be learned
@@ -65,7 +68,7 @@ contract SkillSystem is System {
     if (skill.skillType == SkillType.PASSIVE) {
       // toggle passive skill
       if (LibEffect.hasEffectApplied(targetEntity, skillEntity)) {
-        effectSystem.remove(targetEntity, skillEntity);
+        effectSystem.removeEffect(targetEntity, skillEntity);
       } else {
         effectSystem.applyEffect(targetEntity, skillEntity);
       }

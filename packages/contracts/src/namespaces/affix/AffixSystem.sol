@@ -2,42 +2,43 @@
 pragma solidity >=0.8.24;
 
 import { EncodedLengths } from "@latticexyz/store/src/EncodedLengths.sol";
+import { System } from "@latticexyz/world/src/System.sol";
 import { getKeysWithValue } from "@latticexyz/world-modules/src/modules/keyswithvalue/getKeysWithValue.sol";
 
-import { AffixPartId } from "../../codegen/common.sol";
-import { AffixAvailabilityTargetId } from "./types.sol";
 import { Affix, AffixData } from "./codegen/tables/Affix.sol";
 import { AffixPrototypeAvailable } from "./codegen/tables/AffixPrototypeAvailable.sol";
 import { AffixPrototype, AffixPrototypeData } from "./codegen/tables/AffixPrototype.sol";
 import { Idx_AffixPrototype_ExclusiveGroup } from "./codegen/idxs/Idx_AffixPrototype_ExclusiveGroup.sol";
 import { UniqueIdx_AffixPrototype_AffixTierName } from "./codegen/idxs/UniqueIdx_AffixPrototype_AffixTierName.sol";
-import { LibArray } from "../../utils/LibArray.sol";
 
-/// @title Randomly pick affixes.
-library LibPickAffix {
-  error LibPickAffix_NoAvailableAffix(
+import { entitySystem } from "../evefrontier/codegen/systems/EntitySystemLib.sol";
+import { LibSOFClass } from "../common/LibSOFClass.sol";
+import { LibArray } from "../../utils/LibArray.sol";
+import { AffixPartId } from "../../codegen/common.sol";
+import { AffixAvailabilityTargetId } from "./types.sol";
+
+/**
+ * @notice Instantiates affixes.
+ * @dev Callable by anyone - they're just records that other systems can reference.
+ */
+contract AffixSystem is System {
+  error AffixSystem_NoAvailableAffix(
     AffixPartId affixPartId,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
     uint32 ilvl
   );
-  error LibPickAffix_InvalidTierName(uint32 affixTier, string name);
-  error LibPickAffix_InvalidMinMax(uint32 min, uint32 max);
-  error LibPickAffix_MalformedInputManualPick(uint256 namesLength, uint256 affixTiersLength);
+  error AffixSystem_InvalidTierName(uint32 affixTier, string name);
+  error AffixSystem_InvalidMinMax(uint32 min, uint32 max);
+  error AffixSystem_MalformedInputManualPick(uint256 affixPartIdsLength, uint256 namesLength, uint256 affixTiersLength);
 
-  function pickAffixes(
+  function instantiateRandomAffixes(
     AffixPartId[] memory affixPartIds,
     bytes32[] memory excludeProtoEntities,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
     uint32 ilvl,
     uint256 randomness
-  )
-    internal
-    view
-    returns (bytes32[] memory statmodEntities, bytes32[] memory affixProtoEntities, uint32[] memory affixValues)
-  {
-    statmodEntities = new bytes32[](affixPartIds.length);
-    affixProtoEntities = new bytes32[](affixPartIds.length);
-    affixValues = new uint32[](affixPartIds.length);
+  ) public returns (bytes32[] memory affixEntities) {
+    affixEntities = new bytes32[](affixPartIds.length);
 
     for (uint256 i; i < affixPartIds.length; i++) {
       randomness = uint256(keccak256(abi.encode(i, randomness)));
@@ -50,16 +51,15 @@ library LibPickAffix {
         randomness
       );
 
-      // set the corresponding statmod
-      statmodEntities[i] = AffixPrototype.getStatmodEntity(affixProtoEntity);
-
       // pick its value
-      affixProtoEntities[i] = affixProtoEntity;
-      affixValues[i] = _pickAffixValue(
+      uint32 affixValue = _pickAffixValue(
         AffixPrototype.getMin(affixProtoEntity),
         AffixPrototype.getMax(affixProtoEntity),
         randomness
       );
+
+      // instantiate the new affix
+      affixEntities[i] = _instantiateAffix(affixProtoEntity, affixPartIds[i], affixValue);
 
       if (i != affixPartIds.length - 1) {
         // exclude the other affix prototypes of the same exclusive group (skip for the last cycle)
@@ -79,31 +79,44 @@ library LibPickAffix {
     return affixProtoEntities;
   }
 
-  function manuallyPickAffixesMax(
+  function instantiateManualAffixesMax(
+    AffixPartId[] memory affixPartIds,
     string[] memory names,
     uint32[] memory affixTiers
-  )
-    internal
-    view
-    returns (bytes32[] memory statmodEntities, bytes32[] memory affixProtoEntities, uint32[] memory affixValues)
-  {
-    if (names.length != affixTiers.length) {
-      revert LibPickAffix_MalformedInputManualPick(names.length, affixTiers.length);
+  ) public returns (bytes32[] memory affixEntities) {
+    if (affixPartIds.length != names.length || names.length != affixTiers.length) {
+      revert AffixSystem_MalformedInputManualPick(affixPartIds.length, names.length, affixTiers.length);
     }
     uint256 len = names.length;
-    statmodEntities = new bytes32[](len);
-    affixProtoEntities = new bytes32[](len);
-    affixValues = new uint32[](len);
+    affixEntities = new bytes32[](len);
 
     for (uint32 i; i < len; i++) {
-      affixProtoEntities[i] = UniqueIdx_AffixPrototype_AffixTierName.get(affixTiers[i], names[i]);
-      if (affixProtoEntities[i] == bytes32(0)) {
-        revert LibPickAffix_InvalidTierName(affixTiers[i], names[i]);
+      bytes32 affixProtoEntity = UniqueIdx_AffixPrototype_AffixTierName.get(affixTiers[i], names[i]);
+      if (affixProtoEntity == bytes32(0)) {
+        revert AffixSystem_InvalidTierName(affixTiers[i], names[i]);
       }
 
-      statmodEntities[i] = AffixPrototype.getStatmodEntity(affixProtoEntities[i]);
-      affixValues[i] = AffixPrototype.getMax(affixProtoEntities[i]);
+      uint32 affixValue = AffixPrototype.getMax(affixProtoEntity);
+
+      // instantiate the new affix
+      affixEntities[i] = _instantiateAffix(affixProtoEntity, affixPartIds[i], affixValue);
     }
+  }
+
+  /// @dev Instantiate an affix entity with the given prototype, part id and value.
+  function _instantiateAffix(
+    bytes32 affixProtoEntity,
+    AffixPartId affixPartId,
+    uint32 affixValue
+  ) internal returns (bytes32 affixEntity) {
+    // instantiate the affix entity (renounce the role, affixes are controlled only by the affix system via scope)
+    affixEntity = bytes32(entitySystem.instantiate(uint256(affixProtoEntity), address(this)));
+    LibSOFClass.scopedRenounceRole(affixEntity);
+
+    // set the affix data
+    Affix.set(affixEntity, affixProtoEntity, affixPartId, affixValue);
+
+    return affixEntity;
   }
 
   /// @dev Randomly pick an affix entity from the available set.
@@ -124,7 +137,7 @@ library LibPickAffix {
       excludeProtoEntities
     );
     if (availableEntities.length == 0)
-      revert LibPickAffix_NoAvailableAffix(affixPartId, affixAvailabilityTargetId, ilvl);
+      revert AffixSystem_NoAvailableAffix(affixPartId, affixAvailabilityTargetId, ilvl);
 
     uint256 index = randomness % availableEntities.length;
     return availableEntities[index];
@@ -136,7 +149,7 @@ library LibPickAffix {
     AffixPartId affixPartId,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
     bytes32[] memory excludeProtoEntities
-  ) private view returns (bytes32[] memory availableEntities) {
+  ) internal view returns (bytes32[] memory availableEntities) {
     // get default availability
     availableEntities = AffixPrototypeAvailable.get(affixPartId, affixAvailabilityTargetId, ilvl);
 
@@ -155,15 +168,15 @@ library LibPickAffix {
     }
     return availableEntities;
   }
+}
 
-  /// @dev Randomly pick an affix value.
-  function _pickAffixValue(uint32 min, uint32 max, uint256 randomness) internal pure returns (uint32) {
-    randomness = uint256(keccak256(abi.encode(keccak256("_pickAffixValue"), randomness)));
+/// @dev Randomly pick an affix value.
+function _pickAffixValue(uint32 min, uint32 max, uint256 randomness) pure returns (uint32) {
+  randomness = uint256(keccak256(abi.encode(keccak256("_pickAffixValue"), randomness)));
 
-    if (max < min) revert LibPickAffix_InvalidMinMax(min, max);
+  if (max < min) revert AffixSystem.AffixSystem_InvalidMinMax(min, max);
 
-    uint32 range = max - min + 1;
-    uint32 result = uint32(randomness % range);
-    return result + min;
-  }
+  uint32 range = max - min + 1;
+  uint32 result = uint32(randomness % range);
+  return result + min;
 }

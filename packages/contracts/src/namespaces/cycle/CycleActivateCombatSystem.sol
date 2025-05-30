@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
+
 import { System } from "@latticexyz/world/src/System.sol";
-import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
 import { MapTypeComponent } from "../map/codegen/tables/MapTypeComponent.sol";
 import { FromMap } from "./codegen/tables/FromMap.sol";
@@ -11,9 +12,10 @@ import { BossesDefeated } from "./codegen/tables/BossesDefeated.sol";
 import { combatSystem } from "../combat/codegen/systems/CombatSystemLib.sol";
 import { charstatSystem } from "../charstat/codegen/systems/CharstatSystemLib.sol";
 import { effectSystem } from "../effect/codegen/systems/EffectSystemLib.sol";
+import { cycleCombatSystem } from "./codegen/systems/CycleCombatSystemLib.sol";
 
 import { MapTypes, MapType } from "../map/MapType.sol";
-import { LibEffect } from "../effect/LibEffect.sol";
+import { LibSOFClass } from "../common/LibSOFClass.sol";
 import { LibCycle } from "./LibCycle.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
 import { LibActiveCombat } from "./LibActiveCombat.sol";
@@ -56,7 +58,7 @@ contract CycleActivateCombatSystem is System {
     LibCycleTurns.decreaseTurns(cycleEntity, TURNS_COST);
 
     // Spawn new entity for the map encounter
-    encounterEntity = getUniqueEntity();
+    encounterEntity = LibSOFClass.instantiate("cycle_encounter");
     // Apply map effects (this affects values of charstats, so must happen 1st)
     effectSystem.applyEffect(encounterEntity, mapEntity);
     // Init currents
@@ -65,7 +67,18 @@ contract CycleActivateCombatSystem is System {
     FromMap.set(encounterEntity, mapEntity);
 
     // Activate combat
-    bytes32 combatEntity = combatSystem.activateCombat(cycleEntity, encounterEntity, MAX_ROUNDS);
+    bytes32 combatEntity = combatSystem.activateCombat(
+      cycleEntity,
+      encounterEntity,
+      MAX_ROUNDS,
+      _cycleCombatSystemIds()
+    );
     LibActiveCombat.activateCombat(cycleEntity, combatEntity);
+  }
+
+  function _cycleCombatSystemIds() internal pure returns (ResourceId[] memory systemIds) {
+    systemIds = new ResourceId[](1);
+    systemIds[0] = cycleCombatSystem.toResourceId();
+    return systemIds;
   }
 }

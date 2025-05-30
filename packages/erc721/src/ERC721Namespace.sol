@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
+import { ResourceId, WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
+import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
 
 import { IERC721Errors } from "@latticexyz/world-modules/src/modules/erc721-puppet/IERC721Errors.sol";
 import { ERC721System } from "@latticexyz/world-modules/src/modules/erc721-puppet/ERC721System.sol";
 import { _balancesTableId, _operatorApprovalTableId, _ownersTableId, _tokenApprovalTableId } from "@latticexyz/world-modules/src/modules/erc721-puppet/utils.sol";
-import { ERC721_REGISTRY_TABLE_ID } from "@latticexyz/world-modules/src/modules/erc721-puppet/constants.sol";
+import { ERC721_REGISTRY_TABLE_ID, ERC721_SYSTEM_NAME } from "@latticexyz/world-modules/src/modules/erc721-puppet/constants.sol";
 
 import { ERC721Registry } from "@latticexyz/world-modules/src/modules/erc721-puppet/tables/ERC721Registry.sol";
 
@@ -38,6 +39,10 @@ library ERC721NamespaceInstance {
       revert ERC721NamespaceInstance_NamespaceNotRegistered(namespace);
     }
     return ERC721System(token);
+  }
+
+  function systemId(ERC721Namespace namespace) internal pure returns (ResourceId) {
+    return WorldResourceIdLib.encode(RESOURCE_SYSTEM, namespace.unwrap(), ERC721_SYSTEM_NAME);
   }
 
   function checkAuthorized(ERC721Namespace namespace, address spender, uint256 tokenId) internal view {

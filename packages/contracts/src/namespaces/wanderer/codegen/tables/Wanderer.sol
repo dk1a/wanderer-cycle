@@ -17,8 +17,8 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 library Wanderer {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "", name: "Wanderer", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x7462000000000000000000000000000057616e64657265720000000000000000);
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "wanderer", name: "Wanderer", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x746277616e646572657200000000000057616e64657265720000000000000000);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0001010001000000000000000000000000000000000000000000000000000000);

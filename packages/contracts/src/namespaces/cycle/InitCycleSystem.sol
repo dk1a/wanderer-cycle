@@ -3,8 +3,6 @@ pragma solidity >=0.8.24;
 
 import { System } from "@latticexyz/world/src/System.sol";
 
-import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
-
 import { GuisePrototype } from "../root/codegen/tables/GuisePrototype.sol";
 import { ActiveCycle } from "./codegen/tables/ActiveCycle.sol";
 import { ActiveGuise } from "./codegen/tables/ActiveGuise.sol";
@@ -12,12 +10,13 @@ import { CycleOwner } from "./codegen/tables/CycleOwner.sol";
 import { CycleMetadata } from "./codegen/tables/CycleMetadata.sol";
 
 import { charstatSystem } from "../charstat/codegen/systems/CharstatSystemLib.sol";
-import { learnSkillSystem } from "../skill/codegen/systems/LearnSkillSystemLib.sol";
 import { equipmentSystem } from "../equipment/codegen/systems/EquipmentSystemLib.sol";
+import { equipmentSlotSystem } from "../equipment/codegen/systems/EquipmentSlotSystemLib.sol";
 import { wheelSystem } from "../wheel/codegen/systems/WheelSystemLib.sol";
 
-import { LibSpawnEquipmentSlots } from "../equipment/LibSpawnEquipmentSlots.sol";
+import { LibSOFClass } from "../common/LibSOFClass.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
+import { EquipmentType, EquipmentTypes } from "../equipment/EquipmentType.sol";
 
 /**
  * @title Internal cycle initialization logic
@@ -32,8 +31,10 @@ contract InitCycleSystem is System {
     bytes32 guiseEntity,
     bytes32 wheelEntity
   ) public returns (bytes32 cycleEntity) {
-    // cycleEntity is for all the in-cycle components (everything except activeCycle)
-    cycleEntity = getUniqueEntity();
+    // cycleEntity is the key for all the in-cycle tables
+    // (everything except ActiveCycle, which maps and enforces 1 active cycle per owner)
+    cycleEntity = LibSOFClass.instantiate("cycle");
+
     // Cycle must be inactive
     if (ActiveCycle.get(wandererEntity) != bytes32(0)) {
       revert InitCycleSystem_DuplicateActiveCycle();
@@ -58,11 +59,26 @@ contract InitCycleSystem is System {
     charstatSystem.setFullCurrents(cycleEntity);
     // Claim initial cycle turns
     LibCycleTurns.claimTurns(cycleEntity);
-    // Spawn equipment slots
-    equipmentSystem.spawnEquipmentSlots(cycleEntity);
-    // Copy permanent skills
-    learnSkillSystem.copySkills(wandererEntity, cycleEntity);
+    // Create equipment slots
+    _createDefaultEquipmentSlots(cycleEntity);
 
     return cycleEntity;
+  }
+
+  function _createDefaultEquipmentSlots(bytes32 cycleEntity) internal {
+    EquipmentType[] memory oneHandedTypes = new EquipmentType[](2);
+    oneHandedTypes[0] = EquipmentTypes.WEAPON;
+    oneHandedTypes[1] = EquipmentTypes.SHIELD;
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "R Hand", oneHandedTypes);
+    // TODO dual wielding to conditionally let L Hand use weapon too
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "L Hand", EquipmentTypes.WEAPON);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Head", EquipmentTypes.HAT);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Body", EquipmentTypes.CLOTHING);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Hands", EquipmentTypes.GLOVES);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Legs", EquipmentTypes.PANTS);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Feet", EquipmentTypes.BOOTS);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Neck", EquipmentTypes.AMULET);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "R Ring", EquipmentTypes.RING);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "L Ring", EquipmentTypes.RING);
   }
 }

@@ -42,7 +42,7 @@ contract CustomERC721SystemTemplate is ERC721System, WorldConsumer {
   }
 
   // TODO refine access control, this system is the base for several tokens, which may be used by different namespaces
-  function mint(address to, uint256 tokenId) public virtual override onlyNamespace("") {
+  function mint(address to, uint256 tokenId) public virtual override onlyNamespace("wanderer") {
     // _requireOwner is replaced with onlyNamespace check
     _mint(to, tokenId);
   }

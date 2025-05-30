@@ -1,16 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { SmartObjectFramework } from "@eveworld/smart-object-framework-v2/src/inherit/SmartObjectFramework.sol";
 import { BaseTest } from "./BaseTest.t.sol";
+
 import { effectSystem } from "../src/namespaces/effect/codegen/systems/EffectSystemLib.sol";
 import { effectTemplateSystem, EffectTemplateData } from "../src/namespaces/effect/codegen/systems/EffectTemplateSystemLib.sol";
-import { Duration, GenericDurationData, Idx_GenericDuration_TargetEntityTimeId } from "../src/namespaces/duration/Duration.sol";
+import { LibSOFClass } from "../src/namespaces/common/LibSOFClass.sol";
 import { LibEffect, EffectDuration } from "../src/namespaces/effect/LibEffect.sol";
+import { makeEffectTemplate } from "../src/namespaces/effect/makeEffectTemplate.sol";
+import { Duration, GenericDurationData, Idx_GenericDuration_TargetEntityTimeId } from "../src/namespaces/duration/Duration.sol";
 import { StatmodTopics, StatmodOp, EleStat } from "../src/namespaces/statmod/StatmodTopic.sol";
 
-contract LibEffectTest is BaseTest {
-  bytes32 targetEntity = keccak256("targetEntity");
-  bytes32 applicationEntity = keccak256("applicationEntity");
+contract EffectSystemTest is BaseTest {
+  bytes32 targetEntity;
+  bytes32 applicationEntity;
 
   bytes32 timeId = keccak256("timeId");
   bytes32 anotherTimeId = keccak256("anotherTimeId");
@@ -18,21 +22,53 @@ contract LibEffectTest is BaseTest {
   function setUp() public virtual override {
     super.setUp();
 
-    bytes32 lifeAddEntity = StatmodTopics.LIFE.toStatmodEntity(StatmodOp.ADD, EleStat.NONE);
+    vm.startPrank(deployer);
+    targetEntity = LibSOFClass.instantiate("test", deployer);
+    applicationEntity = LibSOFClass.instantiate("test2", deployer);
+    vm.stopPrank();
 
-    EffectTemplateData memory effectTemplate = EffectTemplateData({
-      statmodEntities: new bytes32[](1),
-      values: new uint32[](1)
-    });
-    effectTemplate.statmodEntities[0] = lifeAddEntity;
-    effectTemplate.values[0] = 10;
+    scopedSystemMock.effect__setEffectTemplate(
+      applicationEntity,
+      makeEffectTemplate(StatmodTopics.LIFE, StatmodOp.ADD, EleStat.NONE, 10)
+    );
+  }
 
-    effectTemplateSystem.setEffectTemplate(applicationEntity, effectTemplate);
+  function testRevertUnscoped() public {
+    EffectTemplateData memory effectTemplateData = makeEffectTemplate(
+      StatmodTopics.LIFE,
+      StatmodOp.ADD,
+      EleStat.NONE,
+      10
+    );
+
+    vm.expectRevert(
+      abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, applicationEntity, emptySystemId)
+    );
+    emptySystemMock.effect__setEffectTemplate(applicationEntity, effectTemplateData);
+
+    vm.expectRevert(
+      abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, targetEntity, emptySystemId)
+    );
+    emptySystemMock.effect__applyEffect(targetEntity, applicationEntity);
+
+    vm.expectRevert(
+      abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, targetEntity, emptySystemId)
+    );
+    emptySystemMock.effect__applyTimedEffect(
+      targetEntity,
+      applicationEntity,
+      GenericDurationData({ timeId: timeId, timeValue: 10 })
+    );
+
+    vm.expectRevert(
+      abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, targetEntity, emptySystemId)
+    );
+    emptySystemMock.effect__removeEffect(targetEntity, applicationEntity);
   }
 
   function testDecreaseApplications() public {
     // Apply effect and duration
-    effectSystem.applyTimedEffect(
+    scopedSystemMock.effect__applyTimedEffect(
       targetEntity,
       applicationEntity,
       GenericDurationData({ timeId: timeId, timeValue: 10 })
@@ -79,7 +115,7 @@ contract LibEffectTest is BaseTest {
     assertEq(Duration.getTimeValue(EffectDuration._tableId, targetEntity, applicationEntity), 0);
 
     // Apply effect without duration
-    effectSystem.applyEffect(targetEntity, applicationEntity);
+    scopedSystemMock.effect__applyEffect(targetEntity, applicationEntity);
 
     assertTrue(LibEffect.hasEffectApplied(targetEntity, applicationEntity));
     (has, ) = Idx_GenericDuration_TargetEntityTimeId.has(EffectDuration._tableId, targetEntity, applicationEntity);

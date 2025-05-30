@@ -11,20 +11,22 @@ import { ROOT_NAMESPACE_ID } from "@latticexyz/world/src/constants.sol";
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 
 import { timeSystem } from "../src/namespaces/time/codegen/systems/TimeSystemLib.sol";
-import { initCycleSystem } from "../src/namespaces/cycle/codegen/systems/InitCycleSystemLib.sol";
 import { wheelSystem } from "../src/namespaces/wheel/codegen/systems/WheelSystemLib.sol";
 import { learnSkillSystem } from "../src/namespaces/skill/codegen/systems/LearnSkillSystemLib.sol";
 import { randomEquipmentSystem } from "../src/namespaces/loot/codegen/systems/RandomEquipmentSystemLib.sol";
 import { randomMapSystem } from "../src/namespaces/loot/codegen/systems/RandomMapSystemLib.sol";
 import { effectSystem } from "../src/namespaces/effect/codegen/systems/EffectSystemLib.sol";
+import { effectInternalSystem } from "../src/namespaces/effect/codegen/systems/EffectInternalSystemLib.sol";
 
 import { batchRegisterIdxs as root_batchRegisterIdxs } from "../src/namespaces/root/codegen/batchRegisterIdxs.sol";
+import { batchRegisterIdxs as common_batchRegisterIdxs } from "../src/namespaces/common/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as statmod_batchRegisterIdxs } from "../src/namespaces/statmod/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as skill_batchRegisterIdxs } from "../src/namespaces/skill/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as affix_batchRegisterIdxs } from "../src/namespaces/affix/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as equipment_batchRegisterIdxs } from "../src/namespaces/equipment/codegen/batchRegisterIdxs.sol";
 import { batchRegisterIdxs as wheel_batchRegisterIdxs } from "../src/namespaces/wheel/codegen/batchRegisterIdxs.sol";
 
+import { LibInitSOFClasses } from "../src/namespaces/root/init/LibInitSOFClasses.sol";
 import { LibInitStatmod } from "../src/namespaces/root/init/LibInitStatmod.sol";
 import { LibInitSkill } from "../src/namespaces/root/init/LibInitSkill.sol";
 import { LibInitGuise } from "../src/namespaces/root/init/LibInitGuise.sol";
@@ -41,6 +43,8 @@ import { StatmodValue } from "../src/namespaces/statmod/codegen/tables/StatmodVa
 import { Affix } from "../src/namespaces/affix/codegen/tables/Affix.sol";
 import { EquipmentTypeComponent } from "../src/namespaces/equipment/codegen/tables/EquipmentTypeComponent.sol";
 
+import { delegateInstallCustomSOFModule } from "../src/namespaces/evefrontier/CustomSOFModule.sol";
+
 // Init txs are large, especially affixes
 // Separating the script body allows it to be run directly within tests much faster, skipping lengthy broadcasts
 // In testnet/prod this would be a one-off long expensive deployment
@@ -51,6 +55,7 @@ function runPostDeploy(VmSafe vm, address worldAddress, bool withInitializers) {
 
   // Load the private key from the `PRIVATE_KEY` environment variable (in .env)
   uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+  address deployer = vm.addr(deployerPrivateKey);
 
   // Start broadcasting transactions from the deployer account
   vm.startBroadcast(deployerPrivateKey);
@@ -58,19 +63,24 @@ function runPostDeploy(VmSafe vm, address worldAddress, bool withInitializers) {
   // Running these again on an existing world is generally bad
   if (withInitializers) {
     root_batchRegisterIdxs();
+    common_batchRegisterIdxs();
     statmod_batchRegisterIdxs();
     skill_batchRegisterIdxs();
     affix_batchRegisterIdxs();
     equipment_batchRegisterIdxs();
     wheel_batchRegisterIdxs();
 
-    LibInitStatmod.init();
-    LibInitSkill.init();
+    // Smart Object Framework setup
+    delegateInstallCustomSOFModule();
+    LibInitSOFClasses.init();
+
+    LibInitStatmod.init(deployer);
+    LibInitSkill.init(deployer);
     LibInitGuise.init();
     LibInitEquipmentAffix.init();
     LibInitMapAffix.init();
-    LibInitMapsGlobal.init();
-    LibInitMapsBoss.init();
+    LibInitMapsGlobal.init(deployer);
+    LibInitMapsBoss.init(deployer);
     LibInitWheel.init();
     LibInitERC721.init();
   }
@@ -80,18 +90,11 @@ function runPostDeploy(VmSafe vm, address worldAddress, bool withInitializers) {
   IWorld(worldAddress).grantAccess(SkillCooldown._tableId, timeSystemAddress);
 
   // TODO I don't like these tables being used directly by another namespace - system wrap them, or change tables
-  IWorld(worldAddress).grantAccess(Affix._tableId, randomEquipmentSystem.getAddress());
   IWorld(worldAddress).grantAccess(EquipmentTypeComponent._tableId, randomEquipmentSystem.getAddress());
-  IWorld(worldAddress).grantAccess(Affix._tableId, randomMapSystem.getAddress());
 
   // TODO this feels less wrong, not sure; should statmod have a system?
   IWorld(worldAddress).grantAccess(StatmodValue._tableId, effectSystem.getAddress());
-
-  // TODO reconsider this, along with `.callAsRootFrom(address(this))` instances
-  IWorld(worldAddress).grantAccess(ROOT_NAMESPACE_ID, worldAddress);
-  IWorld(worldAddress).grantAccess(initCycleSystem.toResourceId(), worldAddress);
-  IWorld(worldAddress).grantAccess(learnSkillSystem.toResourceId(), worldAddress);
-  IWorld(worldAddress).grantAccess(wheelSystem.toResourceId(), worldAddress);
+  IWorld(worldAddress).grantAccess(StatmodValue._tableId, effectInternalSystem.getAddress());
 
   vm.stopBroadcast();
 }

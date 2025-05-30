@@ -6,7 +6,7 @@ import { System } from "@latticexyz/world/src/System.sol";
 import { Base64 } from "@openzeppelin/contracts/utils/Base64.sol";
 import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 
-import { Wanderer } from "../root/codegen/tables/Wanderer.sol";
+import { Wanderer } from "../wanderer/codegen/tables/Wanderer.sol";
 import { LootAffixes } from "../loot/codegen/tables/LootAffixes.sol";
 
 import { LibUriWanderer } from "./LibUriWanderer.sol";

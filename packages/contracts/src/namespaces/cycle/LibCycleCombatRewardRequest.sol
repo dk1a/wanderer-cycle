@@ -6,14 +6,16 @@ import { BossesDefeated } from "./codegen/tables/BossesDefeated.sol";
 import { FromMap } from "./codegen/tables/FromMap.sol";
 import { MapTypeComponent } from "../map/codegen/tables/MapTypeComponent.sol";
 import { LootAffixes } from "../loot/codegen/tables/LootAffixes.sol";
-import { AffixPartId, Affix, AffixData, AffixPrototype } from "../affix/LibPickAffix.sol";
+import { Affix, AffixData } from "../affix/codegen/tables/Affix.sol";
+import { AffixPrototype } from "../affix/codegen/tables/AffixPrototype.sol";
 
-import { rNGSystem } from "../rng/codegen/systems/RNGSystemLib.sol";
+import { randomnessSystem } from "../rng/codegen/systems/RandomnessSystemLib.sol";
 
 import { PStat_length } from "../../CustomTypes.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibRNG } from "../rng/LibRNG.sol";
 import { MapTypes, MapType } from "../map/MapType.sol";
+import { AffixPartId } from "../../codegen/common.sol";
 
 library LibCycleCombatRewardRequest {
   error LibCycleCombatRewardRequest_EntityMismatch();
@@ -33,7 +35,7 @@ library LibCycleCombatRewardRequest {
     }
 
     // Request a reward, after a few blocks it can be claimed via `CycleCombatRewardSystem`
-    bytes32 requestId = rNGSystem.requestRandomness(cycleEntity);
+    bytes32 requestId = randomnessSystem.requestRandomness(cycleEntity);
 
     CycleCombatRReq.set(
       requestId,
@@ -55,7 +57,7 @@ library LibCycleCombatRewardRequest {
     // Reverts if getting randomness too early or too late
     // TODO ability to cancel request that's too late so they don't endlessly accumulate? or remove the limit
     randomness = LibRNG.getRandomness(cycleEntity, requestId);
-    rNGSystem.removeRequest(cycleEntity, requestId);
+    randomnessSystem.removeRequest(cycleEntity, requestId);
 
     CycleCombatRReqData memory req = CycleCombatRReq.get(requestId);
     MapType mapType = MapTypeComponent.get(req.mapEntity);

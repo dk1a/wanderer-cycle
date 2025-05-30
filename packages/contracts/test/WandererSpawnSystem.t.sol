@@ -7,9 +7,10 @@ import { BaseTest } from "./BaseTest.t.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 import { hasKey } from "@latticexyz/world-modules/src/modules/keysintable/hasKey.sol";
 
-import { Wanderer, GuisePrototype } from "../src/namespaces/root/codegen/index.sol";
+import { GuisePrototype } from "../src/namespaces/root/codegen/index.sol";
 import { LifeCurrent, ManaCurrent } from "../src/namespaces/charstat/codegen/index.sol";
 import { ActiveCycle, ActiveGuise, CycleTurns } from "../src/namespaces/cycle/codegen/index.sol";
+import { Wanderer } from "../src/namespaces/wanderer/codegen/index.sol";
 
 import { InitCycleSystem, initCycleSystem } from "../src/namespaces/cycle/codegen/systems/InitCycleSystemLib.sol";
 
@@ -39,14 +40,14 @@ contract WandererSpawnSystemTest is BaseTest {
 
     // wandererEntity has all the permanent player data (not related to a specific cycle)
     vm.prank(alice);
-    (wandererEntity, cycleEntity) = world.spawnWanderer(guiseEntity);
+    (wandererEntity, cycleEntity) = world.wanderer__spawnWanderer(guiseEntity);
     defaultWheelEntity = LibWheel.getWheelEntity("Wheel of Attainment");
   }
 
   function testSetUpInvalidGuise() public {
     vm.prank(alice);
     vm.expectRevert(InitCycleSystem.InitCycleSystem_InvalidGuiseEntity.selector);
-    world.spawnWanderer(keccak256("invalid guise"));
+    world.wanderer__spawnWanderer(keccak256("invalid guise"));
   }
 
   function testInitCycleAnother() public {

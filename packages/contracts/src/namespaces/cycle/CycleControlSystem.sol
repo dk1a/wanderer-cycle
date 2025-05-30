@@ -7,6 +7,7 @@ import { BossesDefeated } from "./codegen/tables/BossesDefeated.sol";
 import { RequiredBossMaps } from "./codegen/tables/RequiredBossMaps.sol";
 
 import { initCycleSystem } from "./codegen/systems/InitCycleSystemLib.sol";
+import { learnSkillSystem } from "../skill/codegen/systems/LearnSkillSystemLib.sol";
 
 import { LibCycle } from "./LibCycle.sol";
 import { LibGuiseLevel } from "../root/guise/LibGuiseLevel.sol";
@@ -29,6 +30,8 @@ contract CycleControlSystem is System {
     ERC721Namespaces.Wanderer.checkAuthorized(_msgSender(), tokenId);
     // Init cycle (reverts if a cycle is already active)
     cycleEntity = initCycleSystem.initCycle(wandererEntity, guiseEntity, wheelEntity);
+    // Copy permanent skills
+    learnSkillSystem.copySkills(wandererEntity, cycleEntity);
   }
 
   function cancelCycle(bytes32 cycleEntity) public {

@@ -92,6 +92,12 @@ const userTypes = {
 export default defineWorld({
   enums,
   userTypes,
+  deploy: {
+    customWorld: {
+      sourcePath: "src/WorldWithContext.sol",
+      name: "WorldWithContext",
+    },
+  },
   codegen: {
     generateSystemLibraries: true,
   },
@@ -114,11 +120,20 @@ export default defineWorld({
             entityArray: EntityIdArray,
           },
         },
-        Wanderer: {
-          ...entityKey,
-          schema: {
-            entity: EntityId,
-            value: "bool",
+      },
+    },
+    /************************************************************************
+     *
+     *    SOF
+     *    TODO: update the namespace etc when upstream changes
+     *
+     ************************************************************************/
+    evefrontier: {
+      systems: {
+        EntitySystem: {
+          deploy: {
+            disabled: true,
+            registerWorldFunctions: false,
           },
         },
       },
@@ -132,6 +147,9 @@ export default defineWorld({
       tables: {
         Name: nameTable,
         OwnedBy: entityRelation,
+        // Names for SOF classes
+        // Not all classes must have names, this is only used for easier access to the common ones
+        SOFClassName: nameTable,
       },
     },
     /************************************************************************
@@ -228,19 +246,6 @@ export default defineWorld({
           },
         },
       },
-      systems: {
-        CharstatSystem: {
-          openAccess: false,
-          accessList: [
-            "SkillSystem",
-            "CombatSystem",
-            "InitCycleSystem",
-            "CycleActivateCombatSystem",
-            "CycleCombatRewardSystem",
-            "CyclePassTurnSystem",
-          ],
-        },
-      },
     },
     /************************************************************************
      *
@@ -269,13 +274,9 @@ export default defineWorld({
         },
       },
       systems: {
-        EffectSystem: {
+        EffectInternalSystem: {
           openAccess: false,
-          accessList: ["EquipmentSystem", "SkillSystem", "CycleActivateCombatSystem"],
-        },
-        EffectTemplateSystem: {
-          openAccess: false,
-          accessList: ["RandomEquipmentSystem", "RandomMapSystem"],
+          accessList: [],
         },
       },
     },
@@ -330,30 +331,13 @@ export default defineWorld({
           },
         },
       },
-      systems: {
-        SkillSystem: {
-          openAccess: false,
-          accessList: ["LearnSkillSystem", "CycleNoncombatSkillSystem", "CombatSystem"],
-        },
-        LearnSkillSystem: {
-          openAccess: false,
-          accessList: ["InitCycleSystem", "CycleLearnSkillSystem", "WandererSpawnSystem"],
-        },
-      },
     },
     /************************************************************************
      *
      *    TIME
      *
      ************************************************************************/
-    time: {
-      systems: {
-        TimeSystem: {
-          openAccess: false,
-          accessList: ["CombatSystem", "CyclePassTurnSystem"],
-        },
-      },
-    },
+    time: {},
     /************************************************************************
      *
      *    COMBAT
@@ -411,12 +395,6 @@ export default defineWorld({
             attackDamage: EleStatStaticArray,
             spellDamage: EleStatStaticArray,
           },
-        },
-      },
-      systems: {
-        CombatSystem: {
-          openAccess: false,
-          accessList: ["CycleActivateCombatSystem", "CycleCombatSystem"],
         },
       },
     },
@@ -499,12 +477,6 @@ export default defineWorld({
           },
         },
       },
-      systems: {
-        EquipmentSystem: {
-          openAccess: false,
-          accessList: ["InitCycleSystem", "CycleEquipmentSystem"],
-        },
-      },
     },
     /************************************************************************
      *
@@ -542,12 +514,6 @@ export default defineWorld({
             requestId: "bytes32",
             ownerEntity: EntityId,
           },
-        },
-      },
-      systems: {
-        RNGSystem: {
-          openAccess: false,
-          accessList: ["CycleCombatSystem", "CycleCombatRewardSystem"],
         },
       },
     },
@@ -641,7 +607,7 @@ export default defineWorld({
       systems: {
         WheelSystem: {
           openAccess: false,
-          accessList: ["InitCycleSystem", "CycleControlSystem"],
+          accessList: ["InitCycleSystem", "CycleControlSystem", "PermSkillSystem"],
         },
       },
     },
@@ -749,7 +715,23 @@ export default defineWorld({
       systems: {
         InitCycleSystem: {
           openAccess: false,
-          accessList: [],
+          accessList: ["WandererSpawnSystem"],
+        },
+      },
+    },
+    /************************************************************************
+     *
+     *    WANDERER
+     *
+     ************************************************************************/
+    wanderer: {
+      tables: {
+        Wanderer: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            value: "bool",
+          },
         },
       },
     },

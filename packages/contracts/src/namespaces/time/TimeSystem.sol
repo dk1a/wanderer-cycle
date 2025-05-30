@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { SmartObjectFramework } from "../evefrontier/SmartObjectFramework.sol";
+
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { System } from "@latticexyz/world/src/System.sol";
 
@@ -8,8 +10,10 @@ import { Duration, GenericDurationData } from "../duration/Duration.sol";
 import { EffectDuration } from "../effect/LibEffect.sol";
 import { SkillCooldown } from "../skill/codegen/tables/SkillCooldown.sol";
 
-contract TimeSystem is System {
-  function passTurns(bytes32 targetEntity, uint256 timeValue) public {
+contract TimeSystem is SmartObjectFramework {
+  function passTurns(bytes32 targetEntity, uint256 timeValue) public context {
+    _requireEntityLeaf(targetEntity);
+
     if (timeValue == 0) return;
     // Decrease turn durations
     _decreaseApplications(targetEntity, GenericDurationData({ timeId: "turn", timeValue: timeValue }));
@@ -17,7 +21,9 @@ contract TimeSystem is System {
     _decreaseApplications(targetEntity, GenericDurationData({ timeId: "round", timeValue: type(uint256).max }));
   }
 
-  function passRounds(bytes32 targetEntity, uint256 timeValue) public {
+  function passRounds(bytes32 targetEntity, uint256 timeValue) public context {
+    _requireEntityLeaf(targetEntity);
+
     // Decrease round durations
     _decreaseApplications(targetEntity, GenericDurationData({ timeId: "round", timeValue: timeValue }));
     // Persisten rounds persist through any `passTurn` calls

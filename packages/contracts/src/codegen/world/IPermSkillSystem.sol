@@ -13,5 +13,5 @@ interface IPermSkillSystem {
   error PermSkillSystem_SkillNotLearnedInLastCompletedCycle(bytes32 prevCycleEntity);
   error PermSkillSystem_NotEnoughIdentity();
 
-  function permSkill(bytes32 wandererEntity, bytes32 skillEntity) external;
+  function wanderer__permSkill(bytes32 wandererEntity, bytes32 skillEntity) external;
 }

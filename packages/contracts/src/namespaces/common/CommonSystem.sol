@@ -1,18 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import { System } from "@latticexyz/world/src/System.sol";
+import { SmartObjectFramework } from "../evefrontier/SmartObjectFramework.sol";
 
 import { Name } from "./codegen/tables/Name.sol";
 import { OwnedBy } from "./codegen/tables/OwnedBy.sol";
 
-// TODO add access control!
-contract CommonSystem is System {
-  function setName(bytes32 entity, string memory name) public {
+contract CommonSystem is SmartObjectFramework {
+  function setName(bytes32 entity, string memory name) public context {
+    _requireEntityLeaf(entity);
+
     Name.set(entity, name);
   }
 
-  function setOwnedBy(bytes32 entity, bytes32 ownerEntity) public {
+  function setOwnedBy(bytes32 entity, bytes32 ownerEntity) public context {
+    _requireEntityLeaf(entity);
+
     OwnedBy.set(entity, ownerEntity);
   }
 }

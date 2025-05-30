@@ -49,10 +49,6 @@ library EquipmentSystemLib {
     return CallWrapper(self.toResourceId(), address(0)).equip(targetEntity, slotEntity, equipmentEntity);
   }
 
-  function spawnEquipmentSlots(EquipmentSystemType self, bytes32 ownerEntity) internal {
-    return CallWrapper(self.toResourceId(), address(0)).spawnEquipmentSlots(ownerEntity);
-  }
-
   function unequip(CallWrapper memory self, bytes32 targetEntity, bytes32 slotEntity) internal {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert EquipmentSystemLib_CallingFromRootSystem();
@@ -76,16 +72,6 @@ library EquipmentSystemLib {
       : _world().callFrom(self.from, self.systemId, systemCall);
   }
 
-  function spawnEquipmentSlots(CallWrapper memory self, bytes32 ownerEntity) internal {
-    // if the contract calling this function is a root system, it should use `callAsRoot`
-    if (address(_world()) == address(this)) revert EquipmentSystemLib_CallingFromRootSystem();
-
-    bytes memory systemCall = abi.encodeCall(_spawnEquipmentSlots_bytes32.spawnEquipmentSlots, (ownerEntity));
-    self.from == address(0)
-      ? _world().call(self.systemId, systemCall)
-      : _world().callFrom(self.from, self.systemId, systemCall);
-  }
-
   function unequip(RootCallWrapper memory self, bytes32 targetEntity, bytes32 slotEntity) internal {
     bytes memory systemCall = abi.encodeCall(_unequip_bytes32_bytes32.unequip, (targetEntity, slotEntity));
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
@@ -101,11 +87,6 @@ library EquipmentSystemLib {
       _equip_bytes32_bytes32_bytes32.equip,
       (targetEntity, slotEntity, equipmentEntity)
     );
-    SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
-  }
-
-  function spawnEquipmentSlots(RootCallWrapper memory self, bytes32 ownerEntity) internal {
-    bytes memory systemCall = abi.encodeCall(_spawnEquipmentSlots_bytes32.spawnEquipmentSlots, (ownerEntity));
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
@@ -153,10 +134,6 @@ interface _unequip_bytes32_bytes32 {
 
 interface _equip_bytes32_bytes32_bytes32 {
   function equip(bytes32 targetEntity, bytes32 slotEntity, bytes32 equipmentEntity) external;
-}
-
-interface _spawnEquipmentSlots_bytes32 {
-  function spawnEquipmentSlots(bytes32 ownerEntity) external;
 }
 
 using EquipmentSystemLib for EquipmentSystemType global;

@@ -19,5 +19,5 @@ interface IEffectSystem {
 
   function effect__applyEffect(bytes32 targetEntity, bytes32 applicationEntity) external;
 
-  function effect__remove(bytes32 targetEntity, bytes32 applicationEntity) external;
+  function effect__removeEffect(bytes32 targetEntity, bytes32 applicationEntity) external;
 }
