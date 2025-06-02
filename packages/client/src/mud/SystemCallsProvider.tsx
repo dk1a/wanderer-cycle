@@ -76,12 +76,14 @@ export function SystemCallsProvider({
       syncResult,
 
       spawnWanderer: async (guiseEntity: Hex) => {
-        const tx = await worldContract.write.spawnWanderer([guiseEntity]);
+        const tx = await worldContract.write.wanderer__spawnWanderer([
+          guiseEntity,
+        ]);
         await waitForTransaction(tx);
       },
 
       permSkill: async (wandererEntity: Hex, skillEntity: Hex) => {
-        const tx = await worldContract.write.permSkill([
+        const tx = await worldContract.write.wanderer__permSkill([
           wandererEntity,
           skillEntity,
         ]);

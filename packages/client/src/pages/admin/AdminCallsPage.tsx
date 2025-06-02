@@ -15,7 +15,7 @@ export function AdminCallsPage() {
 
     const wandererRecord = getRecord({
       state,
-      table: mudTables.root__Wanderer,
+      table: mudTables.wanderer__Wanderer,
       key: { entity: wandererEntity },
     });
 

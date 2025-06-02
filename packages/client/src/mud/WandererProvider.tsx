@@ -42,7 +42,7 @@ export function WandererProvider(props: { children: ReactNode }) {
     if (!selectedWandererEntity) return false;
     const wandererRecord = getRecord({
       state,
-      table: mudTables.root__Wanderer,
+      table: mudTables.wanderer__Wanderer,
       key: { entity: selectedWandererEntity },
     });
     return wandererRecord === undefined ? true : false;
