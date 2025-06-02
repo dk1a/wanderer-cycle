@@ -3,6 +3,9 @@ pragma solidity >=0.8.24;
 
 import { System } from "@latticexyz/world/src/System.sol";
 
+import { CycleCombatRReq } from "./codegen/tables/CycleCombatRReq.sol";
+import { CombatRewardLogOffchain, CombatRewardLogOffchainData } from "./codegen/tables/CombatRewardLogOffchain.sol";
+
 import { charstatSystem } from "../charstat/codegen/systems/CharstatSystemLib.sol";
 import { randomEquipmentSystem } from "../loot/codegen/systems/RandomEquipmentSystemLib.sol";
 import { randomnessSystem } from "../rng/codegen/systems/RandomnessSystemLib.sol";
@@ -21,6 +24,7 @@ contract CycleCombatRewardSystem is System {
     // TODO decide if claiming exp during combat is actually bad and why
     LibActiveCombat.requireNotActiveCombat(cycleEntity);
 
+    bytes32 combatEntity = CycleCombatRReq.getCombatEntity(requestId);
     (
       uint256 randomness,
       uint32[PStat_length] memory exp,
@@ -35,10 +39,16 @@ contract CycleCombatRewardSystem is System {
     charstatSystem.increaseExp(cycleEntity, exp);
 
     // Give loot
+    bytes32[] memory lootEntities = new bytes32[](lootCount);
     for (uint256 i; i < lootCount; i++) {
-      bytes32 lootEntity = randomEquipmentSystem.mintRandomEquipmentEntity(lootIlvl, randomness);
-      LibLootOwner.setSimpleOwnership(lootEntity, cycleEntity);
+      lootEntities[i] = randomEquipmentSystem.mintRandomEquipmentEntity(lootIlvl, randomness);
+      LibLootOwner.setSimpleOwnership(lootEntities[i], cycleEntity);
     }
+
+    CombatRewardLogOffchain.set(
+      combatEntity,
+      CombatRewardLogOffchainData({ requestId: requestId, exp: exp, lootEntities: lootEntities })
+    );
   }
 
   function cancelCycleCombatReward(bytes32 cycleEntity, bytes32 requestId) public {

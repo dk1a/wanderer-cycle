@@ -31,7 +31,7 @@ contract CycleCombatSystem is System {
 
     if (result == CombatResult.VICTORY) {
       bytes32 retaliatorEntity = CombatActors.getRetaliatorEntity(combatEntity);
-      LibCycleCombatRewardRequest.requestReward(cycleEntity, retaliatorEntity);
+      LibCycleCombatRewardRequest.requestReward(combatEntity, cycleEntity, retaliatorEntity);
     }
   }
 }

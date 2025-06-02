@@ -12,6 +12,7 @@ import { CompletedCycleHistory } from "./tables/CompletedCycleHistory.sol";
 import { RequiredBossMaps } from "./tables/RequiredBossMaps.sol";
 import { BossesDefeated } from "./tables/BossesDefeated.sol";
 import { CycleCombatRReq, CycleCombatRReqData } from "./tables/CycleCombatRReq.sol";
+import { CombatRewardLogOffchain, CombatRewardLogOffchainData } from "./tables/CombatRewardLogOffchain.sol";
 import { CycleTurns } from "./tables/CycleTurns.sol";
 import { CycleTurnsLastClaimed } from "./tables/CycleTurnsLastClaimed.sol";
 import { FromMap } from "./tables/FromMap.sol";

@@ -681,11 +681,22 @@ export default defineWorld({
           key: ["requestId"],
           schema: {
             requestId: "bytes32",
+            combatEntity: EntityId,
             mapEntity: EntityId,
             connection: "uint32",
             fortune: "uint32",
             winnerPStat: arrayPStat,
             loserPStat: arrayPStat,
+          },
+        },
+        CombatRewardLogOffchain: {
+          type: "offchainTable",
+          key: ["combatEntity"],
+          schema: {
+            combatEntity: EntityId,
+            requestId: "bytes32",
+            exp: arrayPStat,
+            lootEntities: EntityIdArray,
           },
         },
         CycleTurns: {

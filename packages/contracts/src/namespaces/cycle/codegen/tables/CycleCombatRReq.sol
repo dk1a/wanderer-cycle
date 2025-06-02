@@ -17,6 +17,7 @@ import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/Encoded
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 struct CycleCombatRReqData {
+  bytes32 combatEntity;
   bytes32 mapEntity;
   uint32 connection;
   uint32 fortune;
@@ -29,12 +30,12 @@ library CycleCombatRReq {
   ResourceId constant _tableId = ResourceId.wrap(0x74626379636c650000000000000000004379636c65436f6d6261745252657100);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0028030220040400000000000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x0048040220200404000000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (bytes32)
   Schema constant _keySchema = Schema.wrap(0x002001005f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (bytes32, uint32, uint32, uint32[], uint32[])
-  Schema constant _valueSchema = Schema.wrap(0x002803025f030365650000000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (bytes32, bytes32, uint32, uint32, uint32[], uint32[])
+  Schema constant _valueSchema = Schema.wrap(0x004804025f5f0303656500000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -50,12 +51,13 @@ library CycleCombatRReq {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](5);
-    fieldNames[0] = "mapEntity";
-    fieldNames[1] = "connection";
-    fieldNames[2] = "fortune";
-    fieldNames[3] = "winnerPStat";
-    fieldNames[4] = "loserPStat";
+    fieldNames = new string[](6);
+    fieldNames[0] = "combatEntity";
+    fieldNames[1] = "mapEntity";
+    fieldNames[2] = "connection";
+    fieldNames[3] = "fortune";
+    fieldNames[4] = "winnerPStat";
+    fieldNames[5] = "loserPStat";
   }
 
   /**
@@ -73,13 +75,55 @@ library CycleCombatRReq {
   }
 
   /**
+   * @notice Get combatEntity.
+   */
+  function getCombatEntity(bytes32 requestId) internal view returns (bytes32 combatEntity) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = requestId;
+
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Get combatEntity.
+   */
+  function _getCombatEntity(bytes32 requestId) internal view returns (bytes32 combatEntity) {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = requestId;
+
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    return (bytes32(_blob));
+  }
+
+  /**
+   * @notice Set combatEntity.
+   */
+  function setCombatEntity(bytes32 requestId, bytes32 combatEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = requestId;
+
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((combatEntity)), _fieldLayout);
+  }
+
+  /**
+   * @notice Set combatEntity.
+   */
+  function _setCombatEntity(bytes32 requestId, bytes32 combatEntity) internal {
+    bytes32[] memory _keyTuple = new bytes32[](1);
+    _keyTuple[0] = requestId;
+
+    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((combatEntity)), _fieldLayout);
+  }
+
+  /**
    * @notice Get mapEntity.
    */
   function getMapEntity(bytes32 requestId) internal view returns (bytes32 mapEntity) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
     return (bytes32(_blob));
   }
 
@@ -90,7 +134,7 @@ library CycleCombatRReq {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 0, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
     return (bytes32(_blob));
   }
 
@@ -101,7 +145,7 @@ library CycleCombatRReq {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((mapEntity)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((mapEntity)), _fieldLayout);
   }
 
   /**
@@ -111,7 +155,7 @@ library CycleCombatRReq {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 0, abi.encodePacked((mapEntity)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((mapEntity)), _fieldLayout);
   }
 
   /**
@@ -121,7 +165,7 @@ library CycleCombatRReq {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
     return (uint32(bytes4(_blob)));
   }
 
@@ -132,7 +176,7 @@ library CycleCombatRReq {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 1, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
     return (uint32(bytes4(_blob)));
   }
 
@@ -143,7 +187,7 @@ library CycleCombatRReq {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((connection)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((connection)), _fieldLayout);
   }
 
   /**
@@ -153,7 +197,7 @@ library CycleCombatRReq {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 1, abi.encodePacked((connection)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((connection)), _fieldLayout);
   }
 
   /**
@@ -163,7 +207,7 @@ library CycleCombatRReq {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
     return (uint32(bytes4(_blob)));
   }
 
@@ -174,7 +218,7 @@ library CycleCombatRReq {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 2, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
     return (uint32(bytes4(_blob)));
   }
 
@@ -185,7 +229,7 @@ library CycleCombatRReq {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((fortune)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((fortune)), _fieldLayout);
   }
 
   /**
@@ -195,7 +239,7 @@ library CycleCombatRReq {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = requestId;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 2, abi.encodePacked((fortune)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((fortune)), _fieldLayout);
   }
 
   /**
@@ -463,13 +507,14 @@ library CycleCombatRReq {
    */
   function set(
     bytes32 requestId,
+    bytes32 combatEntity,
     bytes32 mapEntity,
     uint32 connection,
     uint32 fortune,
     uint32[3] memory winnerPStat,
     uint32[3] memory loserPStat
   ) internal {
-    bytes memory _staticData = encodeStatic(mapEntity, connection, fortune);
+    bytes memory _staticData = encodeStatic(combatEntity, mapEntity, connection, fortune);
 
     EncodedLengths _encodedLengths = encodeLengths(winnerPStat, loserPStat);
     bytes memory _dynamicData = encodeDynamic(winnerPStat, loserPStat);
@@ -485,13 +530,14 @@ library CycleCombatRReq {
    */
   function _set(
     bytes32 requestId,
+    bytes32 combatEntity,
     bytes32 mapEntity,
     uint32 connection,
     uint32 fortune,
     uint32[3] memory winnerPStat,
     uint32[3] memory loserPStat
   ) internal {
-    bytes memory _staticData = encodeStatic(mapEntity, connection, fortune);
+    bytes memory _staticData = encodeStatic(combatEntity, mapEntity, connection, fortune);
 
     EncodedLengths _encodedLengths = encodeLengths(winnerPStat, loserPStat);
     bytes memory _dynamicData = encodeDynamic(winnerPStat, loserPStat);
@@ -506,7 +552,7 @@ library CycleCombatRReq {
    * @notice Set the full data using the data struct.
    */
   function set(bytes32 requestId, CycleCombatRReqData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.mapEntity, _table.connection, _table.fortune);
+    bytes memory _staticData = encodeStatic(_table.combatEntity, _table.mapEntity, _table.connection, _table.fortune);
 
     EncodedLengths _encodedLengths = encodeLengths(_table.winnerPStat, _table.loserPStat);
     bytes memory _dynamicData = encodeDynamic(_table.winnerPStat, _table.loserPStat);
@@ -521,7 +567,7 @@ library CycleCombatRReq {
    * @notice Set the full data using the data struct.
    */
   function _set(bytes32 requestId, CycleCombatRReqData memory _table) internal {
-    bytes memory _staticData = encodeStatic(_table.mapEntity, _table.connection, _table.fortune);
+    bytes memory _staticData = encodeStatic(_table.combatEntity, _table.mapEntity, _table.connection, _table.fortune);
 
     EncodedLengths _encodedLengths = encodeLengths(_table.winnerPStat, _table.loserPStat);
     bytes memory _dynamicData = encodeDynamic(_table.winnerPStat, _table.loserPStat);
@@ -537,12 +583,14 @@ library CycleCombatRReq {
    */
   function decodeStatic(
     bytes memory _blob
-  ) internal pure returns (bytes32 mapEntity, uint32 connection, uint32 fortune) {
-    mapEntity = (Bytes.getBytes32(_blob, 0));
+  ) internal pure returns (bytes32 combatEntity, bytes32 mapEntity, uint32 connection, uint32 fortune) {
+    combatEntity = (Bytes.getBytes32(_blob, 0));
 
-    connection = (uint32(Bytes.getBytes4(_blob, 32)));
+    mapEntity = (Bytes.getBytes32(_blob, 32));
 
-    fortune = (uint32(Bytes.getBytes4(_blob, 36)));
+    connection = (uint32(Bytes.getBytes4(_blob, 64)));
+
+    fortune = (uint32(Bytes.getBytes4(_blob, 68)));
   }
 
   /**
@@ -577,7 +625,7 @@ library CycleCombatRReq {
     EncodedLengths _encodedLengths,
     bytes memory _dynamicData
   ) internal pure returns (CycleCombatRReqData memory _table) {
-    (_table.mapEntity, _table.connection, _table.fortune) = decodeStatic(_staticData);
+    (_table.combatEntity, _table.mapEntity, _table.connection, _table.fortune) = decodeStatic(_staticData);
 
     (_table.winnerPStat, _table.loserPStat) = decodeDynamic(_encodedLengths, _dynamicData);
   }
@@ -606,8 +654,13 @@ library CycleCombatRReq {
    * @notice Tightly pack static (fixed length) data using this table's schema.
    * @return The static data, encoded into a sequence of bytes.
    */
-  function encodeStatic(bytes32 mapEntity, uint32 connection, uint32 fortune) internal pure returns (bytes memory) {
-    return abi.encodePacked(mapEntity, connection, fortune);
+  function encodeStatic(
+    bytes32 combatEntity,
+    bytes32 mapEntity,
+    uint32 connection,
+    uint32 fortune
+  ) internal pure returns (bytes memory) {
+    return abi.encodePacked(combatEntity, mapEntity, connection, fortune);
   }
 
   /**
@@ -646,13 +699,14 @@ library CycleCombatRReq {
    * @return The dynamic (variable length) data, encoded into a sequence of bytes.
    */
   function encode(
+    bytes32 combatEntity,
     bytes32 mapEntity,
     uint32 connection,
     uint32 fortune,
     uint32[3] memory winnerPStat,
     uint32[3] memory loserPStat
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(mapEntity, connection, fortune);
+    bytes memory _staticData = encodeStatic(combatEntity, mapEntity, connection, fortune);
 
     EncodedLengths _encodedLengths = encodeLengths(winnerPStat, loserPStat);
     bytes memory _dynamicData = encodeDynamic(winnerPStat, loserPStat);

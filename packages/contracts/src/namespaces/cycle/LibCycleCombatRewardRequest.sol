@@ -23,7 +23,7 @@ library LibCycleCombatRewardRequest {
   error LibCycleCombatRewardRequest_InvalidMapType(bytes32 mapEntity, MapType mapType);
 
   /// @dev Creates a pending request
-  function requestReward(bytes32 cycleEntity, bytes32 encounterEntity) internal {
+  function requestReward(bytes32 combatEntity, bytes32 cycleEntity, bytes32 encounterEntity) internal {
     // Get and verify the encounter's map
     bytes32 mapEntity = FromMap.get(encounterEntity);
     if (mapEntity == bytes32(0)) {
@@ -41,6 +41,7 @@ library LibCycleCombatRewardRequest {
       requestId,
       CycleCombatRReqData({
         mapEntity: mapEntity,
+        combatEntity: combatEntity,
         connection: LibCharstat.getConnection(cycleEntity),
         fortune: LibCharstat.getFortune(cycleEntity),
         winnerPStat: LibCharstat.getPStats(cycleEntity),
