@@ -5,12 +5,12 @@ pragma solidity >=0.8.24;
 
 import { EquipmentSlotSystem } from "../../EquipmentSlotSystem.sol";
 import { EquipmentType } from "../../EquipmentType.sol";
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { revertWithBytes } from "@latticexyz/world/src/revertWithBytes.sol";
 import { IWorldCall } from "@latticexyz/world/src/IWorldKernel.sol";
 import { SystemCall } from "@latticexyz/world/src/SystemCall.sol";
 import { WorldContextConsumerLib } from "@latticexyz/world/src/WorldContext.sol";
 import { Systems } from "@latticexyz/world/src/codegen/tables/Systems.sol";
-import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
 
 type EquipmentSlotSystemType is bytes32;
@@ -43,32 +43,47 @@ library EquipmentSlotSystemLib {
     EquipmentSlotSystemType self,
     bytes32 ownerEntity,
     string memory name,
-    EquipmentType equipmentType
+    EquipmentType equipmentType,
+    ResourceId[] memory slotEntityScopedSystemIds
   ) internal returns (bytes32 slotEntity) {
-    return CallWrapper(self.toResourceId(), address(0)).createEquipmentSlot(ownerEntity, name, equipmentType);
+    return
+      CallWrapper(self.toResourceId(), address(0)).createEquipmentSlot(
+        ownerEntity,
+        name,
+        equipmentType,
+        slotEntityScopedSystemIds
+      );
   }
 
   function createEquipmentSlot(
     EquipmentSlotSystemType self,
     bytes32 ownerEntity,
     string memory name,
-    EquipmentType[] memory equipmentTypes
+    EquipmentType[] memory equipmentTypes,
+    ResourceId[] memory slotEntityScopedSystemIds
   ) internal returns (bytes32 slotEntity) {
-    return CallWrapper(self.toResourceId(), address(0)).createEquipmentSlot(ownerEntity, name, equipmentTypes);
+    return
+      CallWrapper(self.toResourceId(), address(0)).createEquipmentSlot(
+        ownerEntity,
+        name,
+        equipmentTypes,
+        slotEntityScopedSystemIds
+      );
   }
 
   function createEquipmentSlot(
     CallWrapper memory self,
     bytes32 ownerEntity,
     string memory name,
-    EquipmentType equipmentType
+    EquipmentType equipmentType,
+    ResourceId[] memory slotEntityScopedSystemIds
   ) internal returns (bytes32 slotEntity) {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert EquipmentSlotSystemLib_CallingFromRootSystem();
 
     bytes memory systemCall = abi.encodeCall(
-      _createEquipmentSlot_bytes32_string_EquipmentType.createEquipmentSlot,
-      (ownerEntity, name, equipmentType)
+      _createEquipmentSlot_bytes32_string_EquipmentType_ResourceIdArray.createEquipmentSlot,
+      (ownerEntity, name, equipmentType, slotEntityScopedSystemIds)
     );
 
     bytes memory result = self.from == address(0)
@@ -81,14 +96,15 @@ library EquipmentSlotSystemLib {
     CallWrapper memory self,
     bytes32 ownerEntity,
     string memory name,
-    EquipmentType[] memory equipmentTypes
+    EquipmentType[] memory equipmentTypes,
+    ResourceId[] memory slotEntityScopedSystemIds
   ) internal returns (bytes32 slotEntity) {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert EquipmentSlotSystemLib_CallingFromRootSystem();
 
     bytes memory systemCall = abi.encodeCall(
-      _createEquipmentSlot_bytes32_string_EquipmentTypeArray.createEquipmentSlot,
-      (ownerEntity, name, equipmentTypes)
+      _createEquipmentSlot_bytes32_string_EquipmentTypeArray_ResourceIdArray.createEquipmentSlot,
+      (ownerEntity, name, equipmentTypes, slotEntityScopedSystemIds)
     );
 
     bytes memory result = self.from == address(0)
@@ -101,11 +117,12 @@ library EquipmentSlotSystemLib {
     RootCallWrapper memory self,
     bytes32 ownerEntity,
     string memory name,
-    EquipmentType equipmentType
+    EquipmentType equipmentType,
+    ResourceId[] memory slotEntityScopedSystemIds
   ) internal returns (bytes32 slotEntity) {
     bytes memory systemCall = abi.encodeCall(
-      _createEquipmentSlot_bytes32_string_EquipmentType.createEquipmentSlot,
-      (ownerEntity, name, equipmentType)
+      _createEquipmentSlot_bytes32_string_EquipmentType_ResourceIdArray.createEquipmentSlot,
+      (ownerEntity, name, equipmentType, slotEntityScopedSystemIds)
     );
 
     bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
@@ -116,11 +133,12 @@ library EquipmentSlotSystemLib {
     RootCallWrapper memory self,
     bytes32 ownerEntity,
     string memory name,
-    EquipmentType[] memory equipmentTypes
+    EquipmentType[] memory equipmentTypes,
+    ResourceId[] memory slotEntityScopedSystemIds
   ) internal returns (bytes32 slotEntity) {
     bytes memory systemCall = abi.encodeCall(
-      _createEquipmentSlot_bytes32_string_EquipmentTypeArray.createEquipmentSlot,
-      (ownerEntity, name, equipmentTypes)
+      _createEquipmentSlot_bytes32_string_EquipmentTypeArray_ResourceIdArray.createEquipmentSlot,
+      (ownerEntity, name, equipmentTypes, slotEntityScopedSystemIds)
     );
 
     bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
@@ -165,12 +183,22 @@ library EquipmentSlotSystemLib {
  * Each interface is uniquely named based on the function name and parameters to prevent collisions.
  */
 
-interface _createEquipmentSlot_bytes32_string_EquipmentType {
-  function createEquipmentSlot(bytes32 ownerEntity, string memory name, EquipmentType equipmentType) external;
+interface _createEquipmentSlot_bytes32_string_EquipmentType_ResourceIdArray {
+  function createEquipmentSlot(
+    bytes32 ownerEntity,
+    string memory name,
+    EquipmentType equipmentType,
+    ResourceId[] memory slotEntityScopedSystemIds
+  ) external;
 }
 
-interface _createEquipmentSlot_bytes32_string_EquipmentTypeArray {
-  function createEquipmentSlot(bytes32 ownerEntity, string memory name, EquipmentType[] memory equipmentTypes) external;
+interface _createEquipmentSlot_bytes32_string_EquipmentTypeArray_ResourceIdArray {
+  function createEquipmentSlot(
+    bytes32 ownerEntity,
+    string memory name,
+    EquipmentType[] memory equipmentTypes,
+    ResourceId[] memory slotEntityScopedSystemIds
+  ) external;
 }
 
 using EquipmentSlotSystemLib for EquipmentSlotSystemType global;

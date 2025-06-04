@@ -41,10 +41,10 @@ contract CommonSystemTest is BaseTest {
   function testRevertAccessDenied() public {
     vm.startPrank(bob);
 
-    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, entity, bob));
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.SOFAccess_AccessDenied.selector, entity, bob));
     commonSystem.setName(entity, "test entity name");
 
-    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, entity, bob));
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.SOFAccess_AccessDenied.selector, entity, bob));
     commonSystem.setOwnedBy(entity, entity2);
 
     vm.stopPrank();

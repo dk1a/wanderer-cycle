@@ -8,7 +8,7 @@ import { Entity } from "@eveworld/smart-object-framework-v2/src/namespaces/evefr
 import { HasRole } from "@eveworld/smart-object-framework-v2/src/namespaces/evefrontier/codegen/tables/HasRole.sol";
 
 library LibSOFAccess {
-  error LibSOFAccess_AccessDenied(uint256 entityId, address caller);
+  error SOFAccess_AccessDenied(uint256 entityId, address caller);
 
   function hasAccessRole(uint256 entityId, address caller) internal view returns (bool) {
     return HasRole.getIsMember(Entity.getAccessRole(entityId), caller);
@@ -19,7 +19,7 @@ library LibSOFAccess {
     (, , address msgSender, ) = world.getWorldCallContext();
 
     if (!hasAccessRole(entityId, msgSender)) {
-      revert LibSOFAccess_AccessDenied(entityId, msgSender);
+      revert SOFAccess_AccessDenied(entityId, msgSender);
     }
   }
 }

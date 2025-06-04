@@ -48,6 +48,10 @@ contract CycleTest is BaseTest {
     assertEq(RequiredBossMaps.length(), 12);
   }
 
+  function testAdminMintLoot() public {
+    world.cycle__adminMintLoot(cycleEntity, 5, 12);
+  }
+
   function testCompleteCycle() public {
     _setRequirements(cycleEntity);
     cycleControlSystem.completeCycle(cycleEntity);

@@ -12,6 +12,7 @@ import { charstatSystem } from "../charstat/codegen/systems/CharstatSystemLib.so
 import { randomEquipmentSystem } from "../loot/codegen/systems/RandomEquipmentSystemLib.sol";
 import { randomnessSystem } from "../rng/codegen/systems/RandomnessSystemLib.sol";
 import { cycleCombatRewardSystem } from "./codegen/systems/CycleCombatRewardSystemLib.sol";
+import { cycleEquipmentSystem } from "./codegen/systems/CycleEquipmentSystemLib.sol";
 
 import { PStat_length } from "../../CustomTypes.sol";
 import { LibGuiseLevel } from "../root/guise/LibGuiseLevel.sol";
@@ -43,7 +44,11 @@ contract CycleCombatRewardSystem is System {
     // Give loot
     bytes32[] memory lootEntities = new bytes32[](lootCount);
     for (uint256 i; i < lootCount; i++) {
-      lootEntities[i] = randomEquipmentSystem.mintRandomEquipmentEntity(lootIlvl, randomness, _cycleLootSystemIds());
+      lootEntities[i] = randomEquipmentSystem.mintRandomEquipmentEntity(
+        lootIlvl,
+        randomness,
+        _cycleEquipmentSystemIds()
+      );
       commonSystem.setOwnedBy(lootEntities[i], cycleEntity);
     }
 
@@ -68,15 +73,16 @@ contract CycleCombatRewardSystem is System {
       bytes32 lootEntity = randomEquipmentSystem.mintRandomEquipmentEntity(
         ilvl,
         uint256(keccak256(abi.encodePacked("admintMintLoot", block.number, gasleft(), i))),
-        _cycleLootSystemIds()
+        _cycleEquipmentSystemIds()
       );
       commonSystem.setOwnedBy(lootEntity, cycleEntity);
     }
   }
+}
 
-  function _cycleLootSystemIds() internal pure returns (ResourceId[] memory systemIds) {
-    systemIds = new ResourceId[](1);
-    systemIds[0] = cycleCombatRewardSystem.toResourceId();
-    return systemIds;
-  }
+function _cycleEquipmentSystemIds() pure returns (ResourceId[] memory systemIds) {
+  systemIds = new ResourceId[](2);
+  systemIds[0] = cycleEquipmentSystem.toResourceId();
+  systemIds[1] = cycleCombatRewardSystem.toResourceId();
+  return systemIds;
 }

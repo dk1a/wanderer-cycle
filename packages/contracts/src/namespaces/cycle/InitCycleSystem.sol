@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { System } from "@latticexyz/world/src/System.sol";
 
 import { GuisePrototype } from "../root/codegen/tables/GuisePrototype.sol";
@@ -13,6 +14,7 @@ import { charstatSystem } from "../charstat/codegen/systems/CharstatSystemLib.so
 import { equipmentSystem } from "../equipment/codegen/systems/EquipmentSystemLib.sol";
 import { equipmentSlotSystem } from "../equipment/codegen/systems/EquipmentSlotSystemLib.sol";
 import { wheelSystem } from "../wheel/codegen/systems/WheelSystemLib.sol";
+import { cycleEquipmentSystem } from "./codegen/systems/CycleEquipmentSystemLib.sol";
 
 import { LibSOFClass } from "../common/LibSOFClass.sol";
 import { LibCycleTurns } from "./LibCycleTurns.sol";
@@ -69,16 +71,22 @@ contract InitCycleSystem is System {
     EquipmentType[] memory oneHandedTypes = new EquipmentType[](2);
     oneHandedTypes[0] = EquipmentTypes.WEAPON;
     oneHandedTypes[1] = EquipmentTypes.SHIELD;
-    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "R Hand", oneHandedTypes);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "R Hand", oneHandedTypes, _cycleSlotSystemIds());
     // TODO dual wielding to conditionally let L Hand use weapon too
-    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "L Hand", EquipmentTypes.WEAPON);
-    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Head", EquipmentTypes.HAT);
-    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Body", EquipmentTypes.CLOTHING);
-    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Hands", EquipmentTypes.GLOVES);
-    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Legs", EquipmentTypes.PANTS);
-    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Feet", EquipmentTypes.BOOTS);
-    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Neck", EquipmentTypes.AMULET);
-    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "R Ring", EquipmentTypes.RING);
-    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "L Ring", EquipmentTypes.RING);
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "L Hand", EquipmentTypes.WEAPON, _cycleSlotSystemIds());
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Head", EquipmentTypes.HAT, _cycleSlotSystemIds());
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Body", EquipmentTypes.CLOTHING, _cycleSlotSystemIds());
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Hands", EquipmentTypes.GLOVES, _cycleSlotSystemIds());
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Legs", EquipmentTypes.PANTS, _cycleSlotSystemIds());
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Feet", EquipmentTypes.BOOTS, _cycleSlotSystemIds());
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Neck", EquipmentTypes.AMULET, _cycleSlotSystemIds());
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "R Ring", EquipmentTypes.RING, _cycleSlotSystemIds());
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "L Ring", EquipmentTypes.RING, _cycleSlotSystemIds());
+  }
+
+  function _cycleSlotSystemIds() internal pure returns (ResourceId[] memory systemIds) {
+    systemIds = new ResourceId[](1);
+    systemIds[0] = cycleEquipmentSystem.toResourceId();
+    return systemIds;
   }
 }

@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
+
 import { SmartObjectFramework } from "../evefrontier/SmartObjectFramework.sol";
 
 import { commonSystem } from "../common/codegen/systems/CommonSystemLib.sol";
@@ -14,21 +16,23 @@ contract EquipmentSlotSystem is SmartObjectFramework {
   function createEquipmentSlot(
     bytes32 ownerEntity,
     string memory name,
-    EquipmentType equipmentType
+    EquipmentType equipmentType,
+    ResourceId[] memory slotEntityScopedSystemIds
   ) public returns (bytes32 slotEntity) {
     EquipmentType[] memory equipmentTypes = new EquipmentType[](1);
     equipmentTypes[0] = equipmentType;
-    return createEquipmentSlot(ownerEntity, name, equipmentTypes);
+    return createEquipmentSlot(ownerEntity, name, equipmentTypes, slotEntityScopedSystemIds);
   }
 
   function createEquipmentSlot(
     bytes32 ownerEntity,
     string memory name,
-    EquipmentType[] memory equipmentTypes
+    EquipmentType[] memory equipmentTypes,
+    ResourceId[] memory slotEntityScopedSystemIds
   ) public context returns (bytes32 slotEntity) {
     _requireEntityLeaf(ownerEntity);
 
-    slotEntity = LibSOFClass.instantiate("equipment_slot");
+    slotEntity = LibSOFClass.instantiate("equipment_slot", slotEntityScopedSystemIds);
 
     // TODO naming restrictions?
     commonSystem.setName(slotEntity, name);

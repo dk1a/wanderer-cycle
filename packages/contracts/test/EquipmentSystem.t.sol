@@ -1,14 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { SmartObjectFramework } from "@eveworld/smart-object-framework-v2/src/inherit/SmartObjectFramework.sol";
 import { BaseTest } from "./BaseTest.t.sol";
 
+import { commonSystem } from "../src/namespaces/common/codegen/systems/CommonSystemLib.sol";
 import { equipmentSystem, EquipmentSystemLib } from "../src/namespaces/equipment/codegen/systems/EquipmentSystemLib.sol";
 import { effectTemplateSystem, EffectTemplateData } from "../src/namespaces/effect/codegen/systems/EffectTemplateSystemLib.sol";
+import { _cycleEquipmentSystemIds } from "../src/namespaces/cycle/CycleCombatRewardSystem.sol";
 import { LibSOFClass } from "../src/namespaces/common/LibSOFClass.sol";
+import { LibGuise } from "../src/namespaces/root/guise/LibGuise.sol";
 import { LibSOFAccess } from "../src/namespaces/evefrontier/LibSOFAccess.sol";
-import { OwnedBy } from "../src/namespaces/common/codegen/index.sol";
+import { entitySystem } from "../src/namespaces/evefrontier/codegen/systems/EntitySystemLib.sol";
+import { Name, OwnedBy } from "../src/namespaces/common/codegen/index.sol";
 import { EquipmentTypeComponent, SlotEquipment, SlotAllowedType } from "../src/namespaces/equipment/codegen/index.sol";
 import { makeEffectTemplate } from "../src/namespaces/effect/makeEffectTemplate.sol";
 import { StatmodTopics } from "../src/namespaces/statmod/StatmodTopic.sol";
@@ -34,7 +39,6 @@ contract EquipmentSystemTest is BaseTest {
     super.setUp();
 
     _addToScope("test", equipmentSystem.toResourceId());
-    _addToScope("equipment_slot", scopedSystemId);
 
     vm.startPrank(deployer);
     playerEntity = LibSOFClass.instantiate("test", alice);
@@ -47,14 +51,31 @@ contract EquipmentSystemTest is BaseTest {
     vm.stopPrank();
 
     // create equipment slots
-    armorSlot = scopedSystemMock.equipment__createEquipmentSlot(playerEntity, "armorSlot", EquipmentTypes.CLOTHING);
+    ResourceId[] memory scopedSystemIds = new ResourceId[](1);
+    scopedSystemIds[0] = scopedSystemId;
+    armorSlot = scopedSystemMock.equipment__createEquipmentSlot(
+      playerEntity,
+      "armorSlot",
+      EquipmentTypes.CLOTHING,
+      scopedSystemIds
+    );
 
-    mainHandSlot = scopedSystemMock.equipment__createEquipmentSlot(playerEntity, "mainHandSlot", EquipmentTypes.WEAPON);
+    mainHandSlot = scopedSystemMock.equipment__createEquipmentSlot(
+      playerEntity,
+      "mainHandSlot",
+      EquipmentTypes.WEAPON,
+      scopedSystemIds
+    );
 
     EquipmentType[] memory offHandSlots = new EquipmentType[](2);
     offHandSlots[0] = EquipmentTypes.WEAPON;
     offHandSlots[1] = EquipmentTypes.SHIELD;
-    offHandSlot = scopedSystemMock.equipment__createEquipmentSlot(playerEntity, "offHandSlot", offHandSlots);
+    offHandSlot = scopedSystemMock.equipment__createEquipmentSlot(
+      playerEntity,
+      "offHandSlot",
+      offHandSlots,
+      scopedSystemIds
+    );
 
     // init equipment
     EquipmentTypeComponent.set(armor, EquipmentTypes.CLOTHING);
@@ -124,12 +145,17 @@ contract EquipmentSystemTest is BaseTest {
     vm.expectRevert(
       abi.encodeWithSelector(SmartObjectFramework.SOF_UnscopedSystemCall.selector, playerEntity, emptySystemId)
     );
-    emptySystemMock.equipment__createEquipmentSlot(playerEntity, "mainHandSlot", EquipmentTypes.WEAPON);
+    emptySystemMock.equipment__createEquipmentSlot(
+      playerEntity,
+      "mainHandSlot",
+      EquipmentTypes.WEAPON,
+      new ResourceId[](0)
+    );
 
     vm.startPrank(bob);
 
-    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, playerEntity, bob));
-    world.equipment__createEquipmentSlot(playerEntity, "mainHandSlot", EquipmentTypes.WEAPON);
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.SOFAccess_AccessDenied.selector, playerEntity, bob));
+    world.equipment__createEquipmentSlot(playerEntity, "mainHandSlot", EquipmentTypes.WEAPON, new ResourceId[](0));
 
     vm.stopPrank();
   }
@@ -159,11 +185,11 @@ contract EquipmentSystemTest is BaseTest {
 
   function testRevertAccessDenied() public {
     vm.prank(bob);
-    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, playerEntity, bob));
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.SOFAccess_AccessDenied.selector, playerEntity, bob));
     world.equipment__equip(playerEntity, armorSlot, miscThing);
 
     vm.prank(alice);
-    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, armorSlot, alice));
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.SOFAccess_AccessDenied.selector, armorSlot, alice));
     world.equipment__equip(playerEntity, armorSlot, miscThing);
   }
 
@@ -278,5 +304,37 @@ contract EquipmentSystemTest is BaseTest {
     scopedSystemMock.equipment__equip(playerEntity, offHandSlot, sword1);
     assertEq(SlotEquipment.get(mainHandSlot), bytes32(0));
     assertEq(SlotEquipment.get(offHandSlot), sword1);
+  }
+
+  // TODO the lack of any enumeration of equipment slots is ugly if they're needed onchain, this hack only works in tests
+  function _findCycleArmorSlot(bytes32 cycleEntity) internal view returns (bytes32 cycleArmorSlot) {
+    for (uint256 i = uint256(cycleEntity); i < uint256(cycleEntity) + 100; i++) {
+      bytes32 entity = bytes32(i);
+      if (
+        keccak256(bytes(Name.get(entity))) == keccak256("Body") &&
+        OwnedBy.get(entity) == cycleEntity &&
+        SlotAllowedType.get(entity, EquipmentTypes.CLOTHING)
+      ) {
+        cycleArmorSlot = entity;
+        return cycleArmorSlot;
+      }
+    }
+    revert("No armor slot found");
+  }
+
+  function testCycleEquipment() public {
+    bytes32 guiseEntity = LibGuise.getGuiseEntity("Warrior");
+    vm.prank(alice);
+    (, bytes32 cycleEntity) = world.wanderer__spawnWanderer(guiseEntity);
+
+    vm.startPrank(deployer);
+    commonSystem.setOwnedBy(armor, cycleEntity);
+    entitySystem.addToScope(uint256(armor), _cycleEquipmentSystemIds());
+    vm.stopPrank();
+
+    bytes32 cycleArmorSlot = _findCycleArmorSlot(cycleEntity);
+
+    vm.prank(alice);
+    world.cycle__equip(cycleEntity, cycleArmorSlot, armor);
   }
 }

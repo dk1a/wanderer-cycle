@@ -142,7 +142,7 @@ contract CombatSystemTest is BaseTest {
     assertEq(CombatStatus.getIsInitialized(combatEntity), true);
 
     vm.prank(alice);
-    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, playerEntity, alice));
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.SOFAccess_AccessDenied.selector, playerEntity, alice));
     combatEntity = world.combat__activateCombat(playerEntity, encounterEntity, defaultMaxRounds, actionSystemIds);
   }
 
@@ -155,7 +155,7 @@ contract CombatSystemTest is BaseTest {
 
     // writer will be denied access because of the second entity - encounterEntity
     vm.prank(alice);
-    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, encounterEntity, alice));
+    vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.SOFAccess_AccessDenied.selector, encounterEntity, alice));
     combatEntity = world.combat__activateCombat(playerEntity, encounterEntity, defaultMaxRounds, actionSystemIds);
   }
 
@@ -198,7 +198,7 @@ contract CombatSystemTest is BaseTest {
     for (uint256 i = 0; i < addresses.length; i++) {
       address _address = addresses[i];
       vm.prank(_address);
-      vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.LibSOFAccess_AccessDenied.selector, combatEntity, _address));
+      vm.expectRevert(abi.encodeWithSelector(LibSOFAccess.SOFAccess_AccessDenied.selector, combatEntity, _address));
       world.combat__actPVERound(combatEntity, _noActions, _noActions);
     }
   }
