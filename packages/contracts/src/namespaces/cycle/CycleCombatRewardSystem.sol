@@ -1,19 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { System } from "@latticexyz/world/src/System.sol";
 
 import { CycleCombatRReq } from "./codegen/tables/CycleCombatRReq.sol";
 import { CombatRewardLogOffchain, CombatRewardLogOffchainData } from "./codegen/tables/CombatRewardLogOffchain.sol";
 
+import { commonSystem } from "../common/codegen/systems/CommonSystemLib.sol";
 import { charstatSystem } from "../charstat/codegen/systems/CharstatSystemLib.sol";
 import { randomEquipmentSystem } from "../loot/codegen/systems/RandomEquipmentSystemLib.sol";
 import { randomnessSystem } from "../rng/codegen/systems/RandomnessSystemLib.sol";
+import { cycleCombatRewardSystem } from "./codegen/systems/CycleCombatRewardSystemLib.sol";
 
 import { PStat_length } from "../../CustomTypes.sol";
 import { LibGuiseLevel } from "../root/guise/LibGuiseLevel.sol";
 import { LibCycleCombatRewardRequest } from "./LibCycleCombatRewardRequest.sol";
-import { LibLootOwner } from "../loot/LibLootOwner.sol";
 import { LibCycle } from "./LibCycle.sol";
 import { LibActiveCombat } from "./LibActiveCombat.sol";
 
@@ -41,8 +43,8 @@ contract CycleCombatRewardSystem is System {
     // Give loot
     bytes32[] memory lootEntities = new bytes32[](lootCount);
     for (uint256 i; i < lootCount; i++) {
-      lootEntities[i] = randomEquipmentSystem.mintRandomEquipmentEntity(lootIlvl, randomness);
-      LibLootOwner.setSimpleOwnership(lootEntities[i], cycleEntity);
+      lootEntities[i] = randomEquipmentSystem.mintRandomEquipmentEntity(lootIlvl, randomness, _cycleLootSystemIds());
+      commonSystem.setOwnedBy(lootEntities[i], cycleEntity);
     }
 
     CombatRewardLogOffchain.set(
@@ -65,9 +67,16 @@ contract CycleCombatRewardSystem is System {
     for (uint256 i; i < quantity; i++) {
       bytes32 lootEntity = randomEquipmentSystem.mintRandomEquipmentEntity(
         ilvl,
-        uint256(keccak256(abi.encodePacked("admintMintLoot", block.number, gasleft(), i)))
+        uint256(keccak256(abi.encodePacked("admintMintLoot", block.number, gasleft(), i))),
+        _cycleLootSystemIds()
       );
-      LibLootOwner.setSimpleOwnership(lootEntity, cycleEntity);
+      commonSystem.setOwnedBy(lootEntity, cycleEntity);
     }
+  }
+
+  function _cycleLootSystemIds() internal pure returns (ResourceId[] memory systemIds) {
+    systemIds = new ResourceId[](1);
+    systemIds[0] = cycleCombatRewardSystem.toResourceId();
+    return systemIds;
   }
 }

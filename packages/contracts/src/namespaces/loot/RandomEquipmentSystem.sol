@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { System } from "@latticexyz/world/src/System.sol";
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
@@ -22,12 +23,16 @@ contract RandomEquipmentSystem is System {
    * @param randomness used to randomly pick equipment type and affixes.
    * @return lootEntity a new entity.
    */
-  function mintRandomEquipmentEntity(uint32 ilvl, uint256 randomness) public returns (bytes32 lootEntity) {
+  function mintRandomEquipmentEntity(
+    uint32 ilvl,
+    uint256 randomness,
+    ResourceId[] memory lootEntityScopedSystemIds
+  ) public returns (bytes32 lootEntity) {
     // Pick equipment type
     (AffixAvailabilityTargetId affixAvailabilityTargetId, EquipmentType equipmentType) = LibLootEquipment
       .pickEquipmentTargetAndType(ilvl, randomness);
     // Instantiate equipment entity
-    lootEntity = LibSOFClass.instantiate("equipment");
+    lootEntity = LibSOFClass.instantiate("equipment", lootEntityScopedSystemIds);
     // Make random loot (affixes and effect)
     LibLootMint.randomLootMint(
       LibLootEquipment.getAffixPartIds(ilvl),
