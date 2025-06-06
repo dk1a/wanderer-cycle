@@ -16,7 +16,7 @@ export type InventorySortOption = {
   label: string;
 };
 
-export type EquipmentDataWithSlots = EquipmentData & {
+export type SlotsForEquipment = {
   equippedToSlot: EquipmentSlot | undefined;
   availableSlots: EquipmentSlot[] | undefined;
 };
@@ -28,8 +28,9 @@ type InventoryContextType = {
   filter: string;
   setFilter: (filter: string) => void;
   presentEquipmentTypes: EquipmentType[];
-  equipmentList: EquipmentDataWithSlots[];
+  equipmentList: EquipmentData[];
   equipmentSlots: EquipmentSlot[];
+  slotsForEquipment: Record<Hex, SlotsForEquipment>;
 };
 
 const InventoryContext = createContext<InventoryContextType | undefined>(
@@ -122,34 +123,35 @@ export const InventoryProvider = ({
     }
   }, [sort, filteredEquipmentList]);
 
-  // 5. Add equipment slot info
-  const equipmentListWithSlots = useMemo(() => {
-    return sortedEquipmentList.map((data): EquipmentDataWithSlots => {
+  // 5. Create equipment slot info for each equipment entity
+  const slotsForEquipment = useMemo(() => {
+    const result: Record<Hex, SlotsForEquipment> = {};
+    for (const equipment of sortedEquipmentList) {
       const equippedToSlot = equipmentSlots.find(
-        ({ equippedEntity }) => data.entity === equippedEntity,
+        ({ equippedEntity }) => equipment.entity === equippedEntity,
       );
 
       const availableSlots = (() => {
         if (equippedToSlot) return;
         return equipmentSlots.filter(({ allowedEquipmentTypes }) =>
-          allowedEquipmentTypes.includes(data.equipmentType),
+          allowedEquipmentTypes.includes(equipment.equipmentType),
         );
       })();
 
-      return {
-        ...data,
+      result[equipment.entity] = {
         equippedToSlot,
         availableSlots,
       };
-    });
+    }
+    return result;
   }, [sortedEquipmentList, equipmentSlots]);
 
   // 6. Omit the currently equipped equipment
   const equipmentList = useMemo(() => {
-    return equipmentListWithSlots.filter(
-      ({ equippedToSlot }) => equippedToSlot === undefined,
+    return sortedEquipmentList.filter(
+      ({ entity }) => slotsForEquipment[entity].equippedToSlot === undefined,
     );
-  }, [equipmentListWithSlots]);
+  }, [sortedEquipmentList, slotsForEquipment]);
 
   // 7. Extract equipment types still present after filtering
   const presentEquipmentTypes = useMemo(() => {
@@ -172,6 +174,7 @@ export const InventoryProvider = ({
     presentEquipmentTypes,
     equipmentList,
     equipmentSlots,
+    slotsForEquipment,
   };
   return (
     <InventoryContext.Provider value={value}>

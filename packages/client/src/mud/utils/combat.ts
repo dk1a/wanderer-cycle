@@ -3,6 +3,7 @@ import { getRecord, getRecords } from "@latticexyz/stash/internal";
 import { mudTables, StateLocal } from "../stash";
 import { parseArrayPStat, PStats } from "./experience";
 import { Elemental, parseElementalArray } from "./elemental";
+import { getLoot, LootData } from "./getLoot";
 
 export const MAX_ROUNDS = 12;
 
@@ -30,6 +31,12 @@ export interface CycleCombatRewardRequest {
   fortune: number;
   winnerPStats: PStats;
   loserPStats: PStats;
+}
+
+export interface CycleCombatRewardLog {
+  requestId: Hex;
+  exp: PStats;
+  lootRewards: LootData[];
 }
 
 export interface CombatLog {
@@ -114,6 +121,26 @@ export function getCycleCombatRewardRequests(
     });
   }
   return result;
+}
+
+export function getCycleCombatRewardLog(
+  state: StateLocal,
+  combatEntity: Hex,
+): CycleCombatRewardLog | undefined {
+  const log = getRecord({
+    state,
+    table: mudTables.cycle__CombatRewardLogOffchain,
+    key: { combatEntity },
+  });
+  if (!log) return;
+
+  return {
+    requestId: log.requestId,
+    exp: parseArrayPStat(log.exp),
+    lootRewards: log.lootEntities.map((lootEntity) =>
+      getLoot(state, lootEntity),
+    ),
+  };
 }
 
 export function getCombatLog(

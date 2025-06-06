@@ -5,8 +5,13 @@ import { useWandererContext } from "../../mud/WandererProvider";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
 import { useStashCustom } from "../../mud/stash";
 import { getLifeCurrent } from "../../mud/utils/currents";
-import { CombatResult, CycleCombatRewardRequest } from "../../mud/utils/combat";
-import { CombatReward } from "../../components/combat/CombatReward";
+import {
+  CombatResult,
+  CycleCombatRewardLog,
+  CycleCombatRewardRequest,
+} from "../../mud/utils/combat";
+import { CombatRewardRequest } from "../../components/combat/CombatRewardRequest";
+import { CombatRewardLog } from "./CombatRewardLog";
 import { Button } from "../../components/ui/Button";
 import { PassTurnButton } from "../info/PassTurnButton";
 
@@ -14,6 +19,7 @@ interface CombatResultComponentProps {
   combatResult: CombatResult | undefined;
   mapEntity: Hex | undefined;
   combatRewardRequests: CycleCombatRewardRequest[];
+  combatRewardLog: CycleCombatRewardLog | undefined;
   onCombatClose: () => void;
 }
 
@@ -21,6 +27,7 @@ export function CombatResultComponent({
   combatResult,
   mapEntity,
   combatRewardRequests,
+  combatRewardLog,
   onCombatClose,
 }: CombatResultComponentProps) {
   const systemCalls = useSystemCalls();
@@ -41,7 +48,7 @@ export function CombatResultComponent({
       <div>
         {cycleEntity !== undefined && latestBlockNumber !== undefined ? (
           combatRewardRequests.map((rewardRequest) => (
-            <CombatReward
+            <CombatRewardRequest
               key={rewardRequest.requestId}
               requesterEntity={cycleEntity}
               latestBlockNumber={latestBlockNumber}
@@ -52,6 +59,8 @@ export function CombatResultComponent({
           <span>loading...</span>
         )}
       </div>
+
+      {combatRewardLog && <CombatRewardLog combatRewardLog={combatRewardLog} />}
 
       <div className="flex justify-around w-full m-4">
         {cycleEntity && (
@@ -96,6 +105,7 @@ function CombatRepeatOrRest({
   if (playerLifeCurrent === 0) {
     return <PassTurnButton className="w-40" />;
   } else if (mapEntity) {
+    // TODO some things can't be repeated, add conditions
     return (
       <Button className="w-40" onClick={onMapRepeat}>
         repeat

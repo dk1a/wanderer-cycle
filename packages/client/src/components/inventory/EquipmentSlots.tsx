@@ -2,15 +2,16 @@ import { useMemo } from "react";
 import { Tooltip } from "react-tooltip";
 import { Hex } from "viem";
 import { useSystemCalls } from "../../mud/SystemCallsProvider";
+import { useStashCustom } from "../../mud/stash";
+import { getEquipmentStrict } from "../../mud/utils/equipment";
 import { useInventoryContext } from "./InventoryProvider";
-import { EquipmentSummary } from "./EquipmentSummary";
-import { BaseEquipment } from "./BaseEquipment";
+import { BaseLoot } from "./BaseLoot";
 import { Button } from "../ui/Button";
 
 export function EquipmentSlots({ ownerEntity }: { ownerEntity: Hex }) {
   const { equipmentSlots } = useInventoryContext();
   return (
-    <section className="flex flex-col w-64 bg-dark-500 border border-dark-400 h-full">
+    <section className="flex flex-col min-w-64 bg-dark-500 border border-dark-400 h-full">
       <h4 className="col-span-3 text-center text-lg text-dark-type font-medium">
         Equipment Slots
       </h4>
@@ -38,15 +39,15 @@ function EquipmentSlot({
   equippedEntity,
 }: EquipmentSlotProps) {
   const systemCalls = useSystemCalls();
-  const { equipmentList } = useInventoryContext();
-  const equipment = useMemo(() => {
+  const { slotsForEquipment } = useInventoryContext();
+  const equipment = useStashCustom((state) => {
     if (equippedEntity === undefined) return;
-    return equipmentList.find(({ entity }) => entity === equippedEntity);
-  }, [equipmentList, equippedEntity]);
+    return getEquipmentStrict(state, equippedEntity);
+  });
 
   const unequip = useMemo(() => {
-    if (equipment === undefined) return;
-    const equippedToSlot = equipment.equippedToSlot;
+    if (equippedEntity === undefined) return;
+    const equippedToSlot = slotsForEquipment[equippedEntity].equippedToSlot;
     if (equippedToSlot === undefined) return;
 
     return () =>
@@ -65,26 +66,16 @@ function EquipmentSlot({
               {equipment.name}
             </div>
             <Tooltip anchorSelect={`#${uniqueId}`} place={"right"}>
-              <BaseEquipment
-                ownerEntity={ownerEntity}
-                equipmentData={equipment}
-              />
+              <BaseLoot lootData={equipment} />
             </Tooltip>
           </>
         ) : (
           <p className="text-dark-300">empty</p>
         )}
       </div>
-      {equipment !== undefined && (
-        <div className="flex justify-between items-center">
-          <div className="ml-2">
-            <EquipmentSummary affixes={equipment.affixes} />
-          </div>
-          {unequip !== undefined && (
-            <div className="mr-2">
-              <Button onClick={unequip}>unequip</Button>
-            </div>
-          )}
+      {equipment !== undefined && unequip !== undefined && (
+        <div className="mr-2">
+          <Button onClick={unequip}>unequip</Button>
         </div>
       )}
     </div>

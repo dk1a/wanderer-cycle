@@ -3,42 +3,40 @@ import { Hex } from "viem";
 import { useStashCustom } from "../../mud/stash";
 import {
   CombatResult,
+  CycleCombatRewardLog,
   CycleCombatRewardRequest,
   getCombatLog,
 } from "../../mud/utils/combat";
-import { useWandererContext } from "../../mud/WandererProvider";
 import { CombatRoundOutcome } from "./CombatRoundOutcome";
 import { CombatActions } from "./CombatActions";
 import { getFromMap } from "../../mud/utils/getMap";
 import { CombatResultComponent } from "./CombatResultComponent";
 
 interface CombatProps {
-  enemyEntity: Hex | undefined;
+  combatEntity: Hex | undefined;
   combatRewardRequests: CycleCombatRewardRequest[];
+  combatRewardLog: CycleCombatRewardLog | undefined;
   onCombatAction: () => void;
   onCombatClose: () => void;
 }
 
 export function Combat({
-  enemyEntity,
+  combatEntity,
   combatRewardRequests,
+  combatRewardLog,
   onCombatAction,
   onCombatClose,
 }: CombatProps) {
-  // TODO abstract Combat from wanderer context, accept initiator/retaliator arguments instead
-  // (consider the player being retaliator too, that should be feasible later)
-  const { cycleCombatEntity } = useWandererContext();
+  const combatLog = useStashCustom((state) => {
+    if (!combatEntity) return undefined;
+    return getCombatLog(state, combatEntity);
+  });
 
   const map = useStashCustom((state) => {
-    return getFromMap(state, enemyEntity);
+    return getFromMap(state, combatLog?.retaliatorEntity);
   });
 
-  const combatLog = useStashCustom((state) => {
-    if (!cycleCombatEntity) return undefined;
-    return getCombatLog(state, cycleCombatEntity);
-  });
-
-  const lastRound = useMemo(() => {
+  const latestRound = useMemo(() => {
     return combatLog && combatLog.rounds && combatLog.rounds.length > 0
       ? combatLog.rounds[combatLog.rounds.length - 1]
       : undefined;
@@ -53,7 +51,7 @@ export function Combat({
   return (
     <section className="px-4 flex flex-col items-center w-full">
       <div className="pt-1 text-dark-200 text-xs">
-        {lastRound ? lastRound.roundIndex + 1 : 0}
+        {latestRound ? latestRound.roundIndex + 1 : 0}
         {" / "}
         {combatLog?.roundsMax ?? ""}
       </div>
@@ -65,11 +63,11 @@ export function Combat({
         <span className="text-xl text-dark-comment"></span>
       </div>
       <div className="min-h-20 mt-2">
-        {enemyEntity && lastRound && (
-          <CombatRoundOutcome roundLog={lastRound} />
+        {combatEntity && latestRound && (
+          <CombatRoundOutcome roundLog={latestRound} />
         )}
       </div>
-      {!isCombatFinished && enemyEntity && (
+      {!isCombatFinished && combatEntity && (
         <CombatActions onAfterActions={onCombatAction} />
       )}
       {isCombatFinished && (
@@ -77,6 +75,7 @@ export function Combat({
           combatResult={combatResult}
           mapEntity={map?.entity}
           combatRewardRequests={combatRewardRequests}
+          combatRewardLog={combatRewardLog}
           onCombatClose={onCombatClose}
         />
       )}

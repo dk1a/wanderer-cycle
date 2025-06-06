@@ -6,7 +6,7 @@ import { Button } from "../ui/Button";
 
 const blockNumberLimit = 256;
 
-export function CombatReward({
+export function CombatRewardRequest({
   requesterEntity,
   latestBlockNumber,
   rewardRequest,

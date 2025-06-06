@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { Hex } from "viem";
-import { EquipmentType } from "../../mud/utils/equipment";
-import { BaseEquipment } from "./BaseEquipment";
-import { EquipmentDataWithSlots } from "./InventoryProvider";
+import { EquipmentData, EquipmentType } from "../../mud/utils/equipment";
+import { BaseLoot } from "./BaseLoot";
+import { EquipmentSlotButtons } from "./EquipmentSlotButtons";
+import { SlotsForEquipment } from "./InventoryProvider";
 
 interface InventorySectionProps {
   ownerEntity: Hex;
-  equipmentList: EquipmentDataWithSlots[];
+  equipmentList: EquipmentData[];
+  slotsForEquipment: Record<Hex, SlotsForEquipment>;
   equipmentType: EquipmentType;
 }
 
 export function InventorySection({
   ownerEntity,
   equipmentList,
+  slotsForEquipment,
   equipmentType,
 }: InventorySectionProps) {
   const [collapsed, setCollapsed] = useState(true);
@@ -31,11 +34,13 @@ export function InventorySection({
       {collapsed && (
         <div className="flex justify-start flex-wrap w-auto">
           {equipmentList.map((equipmentData) => (
-            <BaseEquipment
-              key={equipmentData.entity}
-              ownerEntity={ownerEntity}
-              equipmentData={equipmentData}
-            />
+            <BaseLoot key={equipmentData.entity} lootData={equipmentData}>
+              <EquipmentSlotButtons
+                ownerEntity={ownerEntity}
+                equipmentEntity={equipmentData.entity}
+                slotsForEquipment={slotsForEquipment[equipmentData.entity]}
+              />
+            </BaseLoot>
           ))}
         </div>
       )}
