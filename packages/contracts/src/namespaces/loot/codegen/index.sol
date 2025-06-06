@@ -5,4 +5,4 @@ pragma solidity >=0.8.24;
 
 import { LootAffixes } from "./tables/LootAffixes.sol";
 import { LootTargetId } from "./tables/LootTargetId.sol";
-import { LootIlvl } from "./tables/LootIlvl.sol";
+import { LootTier } from "./tables/LootTier.sol";

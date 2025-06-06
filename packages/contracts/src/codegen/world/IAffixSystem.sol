@@ -15,7 +15,7 @@ interface IAffixSystem {
   error AffixSystem_NoAvailableAffix(
     AffixPartId affixPartId,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
-    uint32 ilvl
+    uint32 affixTier
   );
   error AffixSystem_InvalidTierName(uint32 affixTier, string name);
   error AffixSystem_InvalidMinMax(uint32 min, uint32 max);
@@ -25,7 +25,7 @@ interface IAffixSystem {
     AffixPartId[] memory affixPartIds,
     bytes32[] memory excludeProtoEntities,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
-    uint32 ilvl,
+    uint32 affixTier,
     uint256 randomness
   ) external returns (bytes32[] memory affixEntities);
 

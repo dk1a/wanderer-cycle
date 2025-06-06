@@ -14,6 +14,7 @@ import { randomnessSystem } from "../rng/codegen/systems/RandomnessSystemLib.sol
 import { PStat_length } from "../../CustomTypes.sol";
 import { LibCharstat } from "../charstat/LibCharstat.sol";
 import { LibRNG } from "../rng/LibRNG.sol";
+import { mapLevelToAffixTier } from "../map/mapLevelToAffixTier.sol";
 import { MapTypes, MapType } from "../map/MapType.sol";
 import { AffixPartId } from "../../codegen/common.sol";
 
@@ -58,7 +59,7 @@ library LibCycleCombatRewardRequest {
   function popReward(
     bytes32 cycleEntity,
     bytes32 requestId
-  ) internal returns (uint256 randomness, uint32[PStat_length] memory exp, uint32 lootIlvl, uint256 lootCount) {
+  ) internal returns (uint256 randomness, uint32[PStat_length] memory exp, uint32 lootTier, uint256 lootCount) {
     // Reverts if getting randomness too early or too late
     // TODO ability to cancel request that's too late so they don't endlessly accumulate? or remove the limit
     randomness = LibRNG.getRandomness(cycleEntity, requestId);
@@ -68,7 +69,7 @@ library LibCycleCombatRewardRequest {
     MapType mapType = MapTypeComponent.get(req.mapEntity);
 
     exp = _getExpReward(randomness, req);
-    (lootIlvl, lootCount) = _getLootReward(randomness, req);
+    (lootTier, lootCount) = _getLootReward(randomness, req);
 
     // Extra boss rewards
     if (mapType == MapTypes.CYCLE_BOSS) {
@@ -110,8 +111,10 @@ library LibCycleCombatRewardRequest {
   function _getLootReward(
     uint256 randomness,
     CycleCombatRReqData memory req
-  ) private view returns (uint32 ilvl, uint256 count) {
-    randomness = uint256(keccak256(abi.encode(keccak256("_getLootIlvlReward"), randomness)));
+  ) private view returns (uint32 lootTier, uint256 count) {
+    randomness = uint256(keccak256(abi.encode(keccak256("_getLootReward"), randomness)));
+
+    uint32 ilvl = 0;
 
     // accumulatedFortune is fortune + affix tiers, it can improve the reward
     uint256 accumulatedFortune = req.fortune;
@@ -140,6 +143,8 @@ library LibCycleCombatRewardRequest {
         accumulatedFortune = 0;
       }
     }
-    return (ilvl, count);
+
+    lootTier = mapLevelToAffixTier(ilvl);
+    return (lootTier, count);
   }
 }

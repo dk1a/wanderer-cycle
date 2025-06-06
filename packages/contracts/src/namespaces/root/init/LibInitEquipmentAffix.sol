@@ -5,8 +5,8 @@ import { StatmodTopics } from "../../statmod/StatmodTopic.sol";
 
 import { AffixAvailabilityTargetId, LibAffixParts as b } from "../../affix/LibAffixParts.sol";
 import { LibAddAffixPrototype } from "../../affix/LibAddAffixPrototype.sol";
-import { AffixPart, Range, TargetLabel } from "../../affix/types.sol";
-import { DEFAULT_TIERS } from "../../affix/constants.sol";
+import { AffixParts, Range, TargetLabel } from "../../affix/types.sol";
+import { MAX_AFFIX_TIER } from "../../affix/constants.sol";
 
 import { LibLootMint } from "../../loot/LibLootMint.sol";
 
@@ -23,7 +23,7 @@ library LibInitEquipmentAffix {
                                     RESOURCES
     //////////////////////////////////////////////////////////////////////////*/
 
-    Range[DEFAULT_TIERS] memory resourceRanges = [Range(1, 4), Range(5, 6), Range(7, 9), Range(10, 12)];
+    Range[MAX_AFFIX_TIER] memory resourceRanges = [Range(1, 4), Range(5, 6), Range(7, 9), Range(10, 12)];
 
     add(
       "life",
@@ -213,7 +213,7 @@ library LibInitEquipmentAffix {
                                       PSTATS
     //////////////////////////////////////////////////////////////////////////*/
 
-    Range[DEFAULT_TIERS] memory pstatRanges = [Range(1, 1), Range(1, 2), Range(2, 3), Range(3, 4)];
+    Range[MAX_AFFIX_TIER] memory pstatRanges = [Range(1, 1), Range(1, 2), Range(2, 3), Range(3, 4)];
 
     add(
       "strength",
@@ -315,7 +315,7 @@ library LibInitEquipmentAffix {
                                       ATTACK
     //////////////////////////////////////////////////////////////////////////*/
 
-    Range[DEFAULT_TIERS] memory weaponAttackRanges = [Range(1, 4), Range(5, 6), Range(7, 9), Range(10, 12)];
+    Range[MAX_AFFIX_TIER] memory weaponAttackRanges = [Range(1, 4), Range(5, 6), Range(7, 9), Range(10, 12)];
 
     add(
       "weapon base attack",
@@ -391,8 +391,8 @@ library LibInitEquipmentAffix {
                                       RESISTANCE
     //////////////////////////////////////////////////////////////////////////*/
 
-    Range[DEFAULT_TIERS] memory resistanceMinorRanges = [Range(1, 3), Range(3, 5), Range(5, 6), Range(6, 7)];
-    Range[DEFAULT_TIERS] memory resistanceMajorRanges = [Range(2, 6), Range(6, 10), Range(10, 12), Range(12, 14)];
+    Range[MAX_AFFIX_TIER] memory resistanceMinorRanges = [Range(1, 3), Range(3, 5), Range(5, 6), Range(6, 7)];
+    Range[MAX_AFFIX_TIER] memory resistanceMajorRanges = [Range(2, 6), Range(6, 10), Range(10, 12), Range(12, 14)];
 
     add(
       "physical resistance",
@@ -562,8 +562,8 @@ library LibInitEquipmentAffix {
   function add(
     string memory affixPrototypeName,
     bytes32 statmodEntity,
-    Range[DEFAULT_TIERS] memory ranges,
-    AffixPart[][DEFAULT_TIERS] memory tieredAffixParts
+    Range[MAX_AFFIX_TIER] memory ranges,
+    AffixParts[MAX_AFFIX_TIER] memory tieredAffixParts
   ) internal {
     // TODO separate exclusiveGroup from name when it becomes more relevant
     bytes32 exclusiveGroup = bytes32(bytes(affixPrototypeName));
@@ -604,7 +604,7 @@ library LibInitEquipmentAffix {
 
     _dynamic = new TargetLabel[](_labels.length);
     for (uint256 i; i < _labels.length; i++) {
-      _dynamic[i] = TargetLabel({ affixAvailabilityTargetId: targetIds[i], label: _labels[i] });
+      _dynamic[i] = TargetLabel({ targetId: targetIds[i], label: _labels[i] });
     }
   }
 
@@ -638,7 +638,7 @@ library LibInitEquipmentAffix {
     uint256 j;
     for (uint256 i; i < _labels.length; i++) {
       if (bytes(_labels[i]).length > 0) {
-        _dynamic[j] = TargetLabel({ affixAvailabilityTargetId: allEquipment[i], label: _labels[i] });
+        _dynamic[j] = TargetLabel({ targetId: allEquipment[i], label: _labels[i] });
         j++;
       }
     }

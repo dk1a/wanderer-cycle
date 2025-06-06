@@ -5,14 +5,25 @@ import { AffixPartId } from "../../codegen/common.sol";
 
 type AffixAvailabilityTargetId is bytes32;
 
-struct AffixPart {
+struct AffixParts {
+  AffixPartGeneral[] general;
+  AffixPartTargeted[] targeted;
+}
+
+struct AffixPartGeneral {
   AffixPartId partId;
-  AffixAvailabilityTargetId affixAvailabilityTargetId;
+  AffixAvailabilityTargetId[] targetIds;
+  string label;
+}
+
+struct AffixPartTargeted {
+  AffixPartId partId;
+  AffixAvailabilityTargetId targetId;
   string label;
 }
 
 struct TargetLabel {
-  AffixAvailabilityTargetId affixAvailabilityTargetId;
+  AffixAvailabilityTargetId targetId;
   string label;
 }
 

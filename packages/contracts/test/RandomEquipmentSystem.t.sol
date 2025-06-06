@@ -7,22 +7,22 @@ import { BaseTest } from "./BaseTest.t.sol";
 import { AffixPartId } from "../src/codegen/common.sol";
 import { randomEquipmentSystem } from "../src/namespaces/loot/codegen/systems/RandomEquipmentSystemLib.sol";
 import { EquipmentTypeComponent } from "../src/namespaces/equipment/codegen/index.sol";
-import { LootAffixes, LootIlvl } from "../src/namespaces/loot/codegen/index.sol";
+import { LootAffixes, LootTier } from "../src/namespaces/loot/codegen/index.sol";
 import { EquipmentType } from "../src/namespaces/equipment/EquipmentType.sol";
 import { Affix, AffixData } from "../src/namespaces/affix/codegen/index.sol";
 import { EffectTemplate } from "../src/namespaces/effect/codegen/index.sol";
-import { MAX_ILVL } from "../src/namespaces/affix/constants.sol";
+import { MAX_AFFIX_TIER } from "../src/namespaces/affix/constants.sol";
 
 contract RandomEquipmentSystemTest is BaseTest {
   // tests basic assumptions, and that 2 mints don't break each other
-  function testRandomEquipment2(uint256 seed1, uint256 seed2) public {
+  function testFuzzRandomEquipment2(uint256 seed1, uint256 seed2) public {
     vm.assume(seed1 != seed2);
 
-    uint32 ilvl1 = 1;
-    uint32 ilvl2 = 5;
+    uint32 tier1 = 1;
+    uint32 tier2 = 2;
 
-    bytes32 lootEntity1 = randomEquipmentSystem.mintRandomEquipmentEntity(ilvl1, seed1, new ResourceId[](0));
-    bytes32 lootEntity2 = randomEquipmentSystem.mintRandomEquipmentEntity(ilvl2, seed2, new ResourceId[](0));
+    bytes32 lootEntity1 = randomEquipmentSystem.mintRandomEquipmentEntity(tier1, seed1, new ResourceId[](0));
+    bytes32 lootEntity2 = randomEquipmentSystem.mintRandomEquipmentEntity(tier2, seed2, new ResourceId[](0));
 
     // check entities
     assertNotEq(lootEntity1, lootEntity2);
@@ -31,8 +31,8 @@ contract RandomEquipmentSystemTest is BaseTest {
     // check loot-specific data
     bytes32[] memory lootAffixes1 = LootAffixes.get(lootEntity1);
     bytes32[] memory lootAffixes2 = LootAffixes.get(lootEntity2);
-    assertEq(LootIlvl.get(lootEntity1), ilvl1);
-    assertEq(LootIlvl.get(lootEntity2), ilvl2);
+    assertEq(LootTier.get(lootEntity1), tier1);
+    assertEq(LootTier.get(lootEntity2), tier2);
     assertEq(lootAffixes1.length, 1, "1: LootAffixes length");
     assertEq(lootAffixes2.length, 2, "2: LootAffixes length");
     // check affixesx
@@ -107,10 +107,10 @@ contract RandomEquipmentSystemTest is BaseTest {
     assertGt(inequalityCount, 45);
   }
 
-  // make sure there're enough affixes to mint the highest ilvl loot
-  function testRandomEquipmentMaxIlvl(uint256 seed) public {
+  // make sure there're enough affixes to mint the highest tier loot
+  function testFuzzRandomEquipmentMaxTier(uint256 seed) public {
     // TODO more affixes
-    bytes32 lootEntity = randomEquipmentSystem.mintRandomEquipmentEntity(MAX_ILVL, seed, new ResourceId[](0));
-    assertEq(LootIlvl.get(lootEntity), MAX_ILVL);
+    bytes32 lootEntity = randomEquipmentSystem.mintRandomEquipmentEntity(MAX_AFFIX_TIER, seed, new ResourceId[](0));
+    assertEq(LootTier.get(lootEntity), MAX_AFFIX_TIER);
   }
 }

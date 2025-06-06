@@ -6,12 +6,13 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { entitySystem } from "../evefrontier/codegen/systems/EntitySystemLib.sol";
 
 import { affixSystem } from "./codegen/systems/AffixSystemLib.sol";
-import { AffixAvailabilityTargetId, AffixPart, AffixPartId, Range } from "./types.sol";
+import { AffixAvailabilityTargetId, AffixPartGeneral, AffixPartTargeted, AffixParts, AffixPartId, Range } from "./types.sol";
 import { AffixPrototypeAvailable } from "./codegen/tables/AffixPrototypeAvailable.sol";
 import { AffixNaming } from "./codegen/tables/AffixNaming.sol";
+import { AffixNamingTargeted } from "./codegen/tables/AffixNamingTargeted.sol";
 import { AffixPrototype, AffixPrototypeData } from "./codegen/tables/AffixPrototype.sol";
 
-import { DEFAULT_TIERS, MAX_ILVL } from "./constants.sol";
+import { MAX_AFFIX_TIER } from "./constants.sol";
 
 // TODO rewrite the comments, much is wrong after all the refactors
 /// @dev Affixes have a complex structure, however most complexity is shoved into LibAddAffixPrototype and LibAffixParts,
@@ -28,47 +29,46 @@ import { DEFAULT_TIERS, MAX_ILVL } from "./constants.sol";
 /// affix => tier => {prefixLabel, suffixLabel}
 /// affix => tier => affixAvailabilityTargetId => implicitLabel
 library LibAddAffixPrototype {
-  error LibAddAffixPrototype_MalformedInput(string affixPrototypeName, uint32 maxIlvl);
+  error LibAddAffixPrototype_MalformedInput(string affixPrototypeName, uint32 maxTier);
   error LibAddAffixPrototype_InvalidStatmodBase();
 
-  /// @dev Add `DEFAULT_TIERS` tiers of an affix
+  /// @dev Add `MAX_AFFIX_TIER` tiers of an affix
   /// (for affixes with non-standard tiers use `addAffixPrototype` directly)
   function addAffixPrototypes(
     string memory affixPrototypeName,
     bytes32 statmodEntity,
     bytes32 exclusiveGroup,
-    Range[DEFAULT_TIERS] memory ranges,
-    AffixPart[][DEFAULT_TIERS] memory tieredAffixParts
+    Range[MAX_AFFIX_TIER] memory ranges,
+    AffixParts[MAX_AFFIX_TIER] memory tieredAffixParts
   ) internal {
     for (uint32 i; i < tieredAffixParts.length; i++) {
       uint32 affixTier = i + 1;
 
-      AffixPart[] memory affixParts = tieredAffixParts[i];
-      if (affixParts.length == 0) continue;
+      AffixParts memory affixParts = tieredAffixParts[i];
+      if (affixParts.general.length == 0 && affixParts.targeted.length == 0) continue;
       Range memory range = ranges[i];
 
       AffixPrototypeData memory proto = AffixPrototypeData({
         statmodEntity: statmodEntity,
         exclusiveGroup: exclusiveGroup,
         affixTier: affixTier,
-        requiredLevel: _tierToDefaultRequiredIlvl(affixTier),
         min: range.min,
         max: range.max,
         name: affixPrototypeName
       });
 
-      addAffixPrototype(proto, affixParts, MAX_ILVL);
+      addAffixPrototype(proto, affixParts, MAX_AFFIX_TIER);
     }
   }
 
-  /// @dev Add a single affix tier with *custom* maxIlvl
+  /// @dev Add a single affix tier with *custom* maxTier
   function addAffixPrototype(
     AffixPrototypeData memory affixProto,
-    AffixPart[] memory affixParts,
-    uint32 maxIlvl
+    AffixParts memory affixParts,
+    uint32 maxTier
   ) internal returns (bytes32 affixProtoEntity) {
-    if (maxIlvl == 0 || affixProto.requiredLevel > maxIlvl) {
-      revert LibAddAffixPrototype_MalformedInput(affixProto.name, maxIlvl);
+    if (maxTier == 0 || affixProto.affixTier > maxTier) {
+      revert LibAddAffixPrototype_MalformedInput(affixProto.name, maxTier);
     }
     if (affixProto.statmodEntity == 0) {
       revert LibAddAffixPrototype_InvalidStatmodBase();
@@ -77,21 +77,45 @@ library LibAddAffixPrototype {
     affixProtoEntity = _registerAffixPrototype();
     AffixPrototype.set(affixProtoEntity, affixProto);
 
-    for (uint256 i; i < affixParts.length; i++) {
-      AffixPartId partId = affixParts[i].partId;
-      AffixAvailabilityTargetId affixAvailabilityTargetId = affixParts[i].affixAvailabilityTargetId;
-      string memory label = affixParts[i].label;
+    for (uint256 i; i < affixParts.general.length; i++) {
+      AffixPartGeneral memory affixPart = affixParts.general[i];
 
-      // which (partId+target) the affix is available for.
-      // AffixPartId => namespace => target => affix prototype entity => label
-      AffixNaming.set(partId, affixAvailabilityTargetId, affixProtoEntity, label);
+      // affix prototype entity => affix part id => label
+      AffixNaming.set(affixProtoEntity, affixPart.partId, affixPart.label);
 
-      // availability component is basically a cache,
-      // all its data is technically redundant, but greatly simplifies and speeds up queries.
-      // target => partId => range(requiredIlvl, maxIlvl) => [affix prototype entities]
-      for (uint32 ilvl = affixProto.requiredLevel; ilvl <= maxIlvl; ilvl++) {
-        AffixPrototypeAvailable.push(partId, affixAvailabilityTargetId, ilvl, affixProtoEntity);
+      for (uint256 j; j < affixPart.targetIds.length; j++) {
+        _addTierRangeAvailability(
+          affixPart.partId,
+          affixPart.targetIds[j],
+          affixProto.affixTier,
+          maxTier,
+          affixProtoEntity
+        );
       }
+    }
+
+    for (uint256 i; i < affixParts.targeted.length; i++) {
+      AffixPartTargeted memory affixPart = affixParts.targeted[i];
+
+      // affix prototype entity => affix part id => affix availability target id => label
+      AffixNamingTargeted.set(affixProtoEntity, affixPart.partId, affixPart.targetId, affixPart.label);
+
+      _addTierRangeAvailability(affixPart.partId, affixPart.targetId, affixProto.affixTier, maxTier, affixProtoEntity);
+    }
+  }
+
+  // availability component is basically a cache,
+  // all its data is technically redundant, but greatly simplifies and speeds up queries.
+  // partId => target => range(minTier, maxTier) => [affix prototype entities]
+  function _addTierRangeAvailability(
+    AffixPartId partId,
+    AffixAvailabilityTargetId targetId,
+    uint32 minTier,
+    uint32 maxTier,
+    bytes32 affixProtoEntity
+  ) internal {
+    for (uint32 affixTier = minTier; affixTier <= maxTier; affixTier++) {
+      AffixPrototypeAvailable.push(partId, targetId, affixTier, affixProtoEntity);
     }
   }
 
@@ -100,15 +124,5 @@ library LibAddAffixPrototype {
     systemIds[0] = affixSystem.toResourceId();
 
     return bytes32(entitySystem.registerClass(systemIds));
-  }
-
-  /// @dev Default ilvl requirement based on affix tier.
-  /// (affixes with non-standard tiers shouldn't use this function)
-  function _tierToDefaultRequiredIlvl(uint32 tier) internal pure returns (uint32 requiredIlvl) {
-    // `tier` is not user-submitted, the asserts should never fail
-    assert(tier > 0);
-    assert(tier <= type(uint32).max);
-
-    return (uint32(tier) - 1) * 4 + 1;
   }
 }

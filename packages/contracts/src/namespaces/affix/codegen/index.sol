@@ -7,3 +7,4 @@ import { AffixPrototype, AffixPrototypeData } from "./tables/AffixPrototype.sol"
 import { Affix, AffixData } from "./tables/Affix.sol";
 import { AffixPrototypeAvailable } from "./tables/AffixPrototypeAvailable.sol";
 import { AffixNaming } from "./tables/AffixNaming.sol";
+import { AffixNamingTargeted } from "./tables/AffixNamingTargeted.sol";

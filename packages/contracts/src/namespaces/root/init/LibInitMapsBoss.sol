@@ -6,6 +6,7 @@ import { affixSystem } from "../../affix/codegen/systems/AffixSystemLib.sol";
 
 import { LibSOFClass } from "../../common/LibSOFClass.sol";
 import { LibLootMint } from "../../loot/LibLootMint.sol";
+import { mapLevelToAffixTier } from "../../map/MapLevelToAffixTier.sol";
 import { AffixPartId } from "../../../codegen/common.sol";
 import { MapTypeComponent } from "../../map/codegen/tables/MapTypeComponent.sol";
 import { RequiredBossMaps } from "../../cycle/codegen/tables/RequiredBossMaps.sol";
@@ -25,7 +26,6 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "Dire Rabbit",
-      1,
       [
         ManualAffix(AffixPartId.IMPLICIT, "map level 1", 1),
         ManualAffix(AffixPartId.PREFIX, "map life", 1),
@@ -38,9 +38,8 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "Cultist Invoker",
-      2,
       [
-        ManualAffix(AffixPartId.IMPLICIT, "map level 2", 2),
+        ManualAffix(AffixPartId.IMPLICIT, "map level 2", 1),
         ManualAffix(AffixPartId.PREFIX, "map life", 1),
         ManualAffix(AffixPartId.PREFIX, "map fire attack", 1),
         ManualAffix(AffixPartId.SUFFIX, "map fire resistance", 1),
@@ -51,9 +50,8 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "Goblin Wolfrider",
-      3,
       [
-        ManualAffix(AffixPartId.IMPLICIT, "map level 3", 3),
+        ManualAffix(AffixPartId.IMPLICIT, "map level 3", 1),
         ManualAffix(AffixPartId.PREFIX, "map life", 1),
         ManualAffix(AffixPartId.PREFIX, "map physical attack", 1),
         ManualAffix(AffixPartId.SUFFIX, "map dexterity", 4),
@@ -64,9 +62,8 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "Hill Giant",
-      4,
       [
-        ManualAffix(AffixPartId.IMPLICIT, "map level 4", 4),
+        ManualAffix(AffixPartId.IMPLICIT, "map level 4", 1),
         ManualAffix(AffixPartId.PREFIX, "map life", 3),
         ManualAffix(AffixPartId.PREFIX, "map strength", 3),
         ManualAffix(AffixPartId.SUFFIX, "map physical attack", 2),
@@ -77,9 +74,8 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "Goblin Shaman",
-      5,
       [
-        ManualAffix(AffixPartId.IMPLICIT, "map level 5", 5),
+        ManualAffix(AffixPartId.IMPLICIT, "map level 5", 2),
         ManualAffix(AffixPartId.PREFIX, "map life", 3),
         ManualAffix(AffixPartId.PREFIX, "map arcana", 4),
         ManualAffix(AffixPartId.SUFFIX, "map fire attack", 1),
@@ -90,9 +86,8 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "Vilewood Treant",
-      6,
       [
-        ManualAffix(AffixPartId.IMPLICIT, "map level 6", 6),
+        ManualAffix(AffixPartId.IMPLICIT, "map level 6", 2),
         ManualAffix(AffixPartId.PREFIX, "map strength", 3),
         ManualAffix(AffixPartId.PREFIX, "map poison attack", 2),
         ManualAffix(AffixPartId.PREFIX, "map physical resistance", 2),
@@ -105,9 +100,8 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "Orc Warlord",
-      7,
       [
-        ManualAffix(AffixPartId.IMPLICIT, "map level 7", 7),
+        ManualAffix(AffixPartId.IMPLICIT, "map level 7", 2),
         ManualAffix(AffixPartId.PREFIX, "map strength", 4),
         ManualAffix(AffixPartId.PREFIX, "map physical attack", 4),
         ManualAffix(AffixPartId.SUFFIX, "map physical resistance", 3),
@@ -118,9 +112,8 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "Grand Toad",
-      8,
       [
-        ManualAffix(AffixPartId.IMPLICIT, "map level 8", 8),
+        ManualAffix(AffixPartId.IMPLICIT, "map level 8", 2),
         ManualAffix(AffixPartId.PREFIX, "map life", 4),
         ManualAffix(AffixPartId.PREFIX, "map strength", 3),
         ManualAffix(AffixPartId.SUFFIX, "map poison attack", 3),
@@ -131,9 +124,8 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "Chimera",
-      9,
       [
-        ManualAffix(AffixPartId.IMPLICIT, "map level 9", 9),
+        ManualAffix(AffixPartId.IMPLICIT, "map level 9", 3),
         ManualAffix(AffixPartId.PREFIX, "map life", 4),
         ManualAffix(AffixPartId.PREFIX, "map dexterity", 4),
         ManualAffix(AffixPartId.SUFFIX, "map poison attack", 4),
@@ -144,9 +136,8 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "Ice Giant",
-      10,
       [
-        ManualAffix(AffixPartId.IMPLICIT, "map level 10", 10),
+        ManualAffix(AffixPartId.IMPLICIT, "map level 10", 3),
         ManualAffix(AffixPartId.PREFIX, "map life", 4),
         ManualAffix(AffixPartId.PREFIX, "map strength", 4),
         ManualAffix(AffixPartId.PREFIX, "map physical attack", 3),
@@ -159,9 +150,8 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "Fire Drake",
-      11,
       [
-        ManualAffix(AffixPartId.IMPLICIT, "map level 11", 11),
+        ManualAffix(AffixPartId.IMPLICIT, "map level 11", 3),
         ManualAffix(AffixPartId.PREFIX, "map life", 4),
         ManualAffix(AffixPartId.PREFIX, "map strength", 4),
         ManualAffix(AffixPartId.PREFIX, "map dexterity", 2),
@@ -174,9 +164,8 @@ library LibInitMapsBoss {
     _setBoss(
       deployer,
       "The Shadow",
-      12,
       [
-        ManualAffix(AffixPartId.IMPLICIT, "map level 12", 12),
+        ManualAffix(AffixPartId.IMPLICIT, "map level 12", 3),
         ManualAffix(AffixPartId.PREFIX, "map cold resistance", 4),
         ManualAffix(AffixPartId.PREFIX, "map poison resistance", 4),
         ManualAffix(AffixPartId.PREFIX, "map physical resistance", 3),
@@ -189,46 +178,31 @@ library LibInitMapsBoss {
     );
   }
 
-  function _setBoss(
-    address deployer,
-    string memory name,
-    uint32 ilvl,
-    ManualAffix[5] memory manualAffixesStatic
-  ) private {
+  function _setBoss(address deployer, string memory name, ManualAffix[5] memory manualAffixesStatic) private {
     ManualAffix[] memory manualAffixes = new ManualAffix[](manualAffixesStatic.length);
     for (uint256 i; i < manualAffixesStatic.length; i++) {
       manualAffixes[i] = manualAffixesStatic[i];
     }
-    _setBoss(deployer, name, ilvl, manualAffixes);
+    _setBoss(deployer, name, manualAffixes);
   }
 
-  function _setBoss(
-    address deployer,
-    string memory name,
-    uint32 ilvl,
-    ManualAffix[7] memory manualAffixesStatic
-  ) private {
+  function _setBoss(address deployer, string memory name, ManualAffix[7] memory manualAffixesStatic) private {
     ManualAffix[] memory manualAffixes = new ManualAffix[](manualAffixesStatic.length);
     for (uint256 i; i < manualAffixesStatic.length; i++) {
       manualAffixes[i] = manualAffixesStatic[i];
     }
-    _setBoss(deployer, name, ilvl, manualAffixes);
+    _setBoss(deployer, name, manualAffixes);
   }
 
-  function _setBoss(
-    address deployer,
-    string memory name,
-    uint32 ilvl,
-    ManualAffix[9] memory manualAffixesStatic
-  ) private {
+  function _setBoss(address deployer, string memory name, ManualAffix[9] memory manualAffixesStatic) private {
     ManualAffix[] memory manualAffixes = new ManualAffix[](manualAffixesStatic.length);
     for (uint256 i; i < manualAffixesStatic.length; i++) {
       manualAffixes[i] = manualAffixesStatic[i];
     }
-    _setBoss(deployer, name, ilvl, manualAffixes);
+    _setBoss(deployer, name, manualAffixes);
   }
 
-  function _setBoss(address deployer, string memory name, uint32 ilvl, ManualAffix[] memory manualAffixes) private {
+  function _setBoss(address deployer, string memory name, ManualAffix[] memory manualAffixes) private {
     AffixPartId[] memory affixParts = new AffixPartId[](manualAffixes.length);
     string[] memory names = new string[](manualAffixes.length);
     uint32[] memory tiers = new uint32[](manualAffixes.length);
@@ -244,7 +218,7 @@ library LibInitMapsBoss {
     // get a new unique id
     bytes32 lootEntity = LibSOFClass.instantiate("map", deployer);
     AffixAvailabilityTargetId targetId = MapAffixAvailabilityTargetIds.RANDOM_MAP;
-    LibLootMint.lootMint(lootEntity, targetId, ilvl, affixEntities);
+    LibLootMint.lootMint(lootEntity, targetId, 1, affixEntities);
 
     // mark this loot as a map by setting its MapType
     MapTypeComponent.set(lootEntity, MapTypes.CYCLE_BOSS);

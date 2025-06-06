@@ -45,8 +45,13 @@ library CycleCombatRewardSystemLib {
     return CallWrapper(self.toResourceId(), address(0)).cancelCycleCombatReward(cycleEntity, requestId);
   }
 
-  function adminMintLoot(CycleCombatRewardSystemType self, bytes32 cycleEntity, uint32 quantity, uint32 ilvl) internal {
-    return CallWrapper(self.toResourceId(), address(0)).adminMintLoot(cycleEntity, quantity, ilvl);
+  function adminMintLoot(
+    CycleCombatRewardSystemType self,
+    bytes32 cycleEntity,
+    uint32 quantity,
+    uint32 lootTier
+  ) internal {
+    return CallWrapper(self.toResourceId(), address(0)).adminMintLoot(cycleEntity, quantity, lootTier);
   }
 
   function claimCycleCombatReward(CallWrapper memory self, bytes32 cycleEntity, bytes32 requestId) internal {
@@ -75,13 +80,13 @@ library CycleCombatRewardSystemLib {
       : _world().callFrom(self.from, self.systemId, systemCall);
   }
 
-  function adminMintLoot(CallWrapper memory self, bytes32 cycleEntity, uint32 quantity, uint32 ilvl) internal {
+  function adminMintLoot(CallWrapper memory self, bytes32 cycleEntity, uint32 quantity, uint32 lootTier) internal {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert CycleCombatRewardSystemLib_CallingFromRootSystem();
 
     bytes memory systemCall = abi.encodeCall(
       _adminMintLoot_bytes32_uint32_uint32.adminMintLoot,
-      (cycleEntity, quantity, ilvl)
+      (cycleEntity, quantity, lootTier)
     );
     self.from == address(0)
       ? _world().call(self.systemId, systemCall)
@@ -104,10 +109,10 @@ library CycleCombatRewardSystemLib {
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
 
-  function adminMintLoot(RootCallWrapper memory self, bytes32 cycleEntity, uint32 quantity, uint32 ilvl) internal {
+  function adminMintLoot(RootCallWrapper memory self, bytes32 cycleEntity, uint32 quantity, uint32 lootTier) internal {
     bytes memory systemCall = abi.encodeCall(
       _adminMintLoot_bytes32_uint32_uint32.adminMintLoot,
-      (cycleEntity, quantity, ilvl)
+      (cycleEntity, quantity, lootTier)
     );
     SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
   }
@@ -162,7 +167,7 @@ interface _cancelCycleCombatReward_bytes32_bytes32 {
 }
 
 interface _adminMintLoot_bytes32_uint32_uint32 {
-  function adminMintLoot(bytes32 cycleEntity, uint32 quantity, uint32 ilvl) external;
+  function adminMintLoot(bytes32 cycleEntity, uint32 quantity, uint32 lootTier) external;
 }
 
 using CycleCombatRewardSystemLib for CycleCombatRewardSystemType global;

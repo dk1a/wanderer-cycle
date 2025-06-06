@@ -16,9 +16,9 @@ import { Schema } from "@latticexyz/store/src/Schema.sol";
 import { EncodedLengths, EncodedLengthsLib } from "@latticexyz/store/src/EncodedLengths.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
-library LootIlvl {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "loot", name: "LootIlvl", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x74626c6f6f74000000000000000000004c6f6f74496c766c0000000000000000);
+library LootTier {
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "loot", name: "LootTier", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x74626c6f6f74000000000000000000004c6f6f74546965720000000000000000);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0004010004000000000000000000000000000000000000000000000000000000);

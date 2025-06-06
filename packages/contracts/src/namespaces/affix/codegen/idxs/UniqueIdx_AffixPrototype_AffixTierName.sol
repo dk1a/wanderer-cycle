@@ -24,9 +24,9 @@ library UniqueIdx_AffixPrototype_AffixTierName {
   uint256 constant _fieldNumber = 2;
 
   Uint8Map constant _keyIndexes = Uint8Map.wrap(0x0000000000000000000000000000000000000000000000000000000000000000);
-  Uint8Map constant _fieldIndexes = Uint8Map.wrap(0x0202060000000000000000000000000000000000000000000000000000000000);
+  Uint8Map constant _fieldIndexes = Uint8Map.wrap(0x0202050000000000000000000000000000000000000000000000000000000000);
 
-  bytes32 constant _indexesHash = 0x5527550b57c1d7f022e8d22a1fa4cb2c72d8fe44c1a704339473de33067a3320;
+  bytes32 constant _indexesHash = 0x680e62f238ddf977bbe9345221296adb9cb346acd86697e29f1e11d4c5a5d2f7;
 
   function valuesHash(uint32 affixTier, string memory name) internal pure returns (bytes32) {
     bytes32[] memory _partialKeyTuple = new bytes32[](_keyNumber);

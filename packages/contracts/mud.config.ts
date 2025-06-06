@@ -412,7 +412,6 @@ export default defineWorld({
             statmodEntity: EntityId,
             exclusiveGroup: "bytes32",
             affixTier: "uint32",
-            requiredLevel: "uint32",
             min: "uint32",
             max: "uint32",
             name: "string",
@@ -428,20 +427,28 @@ export default defineWorld({
           },
         },
         AffixPrototypeAvailable: {
-          key: ["affixPart", "targetId", "ilvl"],
+          key: ["affixPart", "targetId", "affixTier"],
           schema: {
             affixPart: "AffixPartId",
             targetId: "AffixAvailabilityTargetId",
-            ilvl: "uint32",
+            affixTier: "uint32",
             affixes: "bytes32[]",
           },
         },
         AffixNaming: {
-          key: ["affixPart", "targetId", "affixPrototypeEntity"],
+          key: ["affixPrototypeEntity", "affixPart"],
           schema: {
+            affixPrototypeEntity: EntityId,
+            affixPart: "AffixPartId",
+            label: "string",
+          },
+        },
+        AffixNamingTargeted: {
+          key: ["affixPrototypeEntity", "affixPart", "targetId"],
+          schema: {
+            affixPrototypeEntity: EntityId,
             affixPart: "AffixPartId",
             targetId: "AffixAvailabilityTargetId",
-            affixPrototypeEntity: EntityId,
             label: "string",
           },
         },
@@ -538,7 +545,7 @@ export default defineWorld({
             targetId: "AffixAvailabilityTargetId",
           },
         },
-        LootIlvl: {
+        LootTier: {
           ...entityKey,
           schema: {
             entity: EntityId,

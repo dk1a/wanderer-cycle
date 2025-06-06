@@ -5,9 +5,10 @@ import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueent
 
 import { AffixAvailabilityTargetId, LibAffixParts as b } from "../../affix/LibAffixParts.sol";
 import { LibAddAffixPrototype } from "../../affix/LibAddAffixPrototype.sol";
+import { mapLevelToAffixTier } from "../../map/MapLevelToAffixTier.sol";
 import { AffixPrototypeData } from "../../affix/codegen/tables/AffixPrototype.sol";
-import { AffixPart, Range, TargetLabel } from "../../affix/types.sol";
-import { DEFAULT_TIERS } from "../../affix/constants.sol";
+import { AffixParts, Range, TargetLabel } from "../../affix/types.sol";
+import { MAX_AFFIX_TIER } from "../../affix/constants.sol";
 
 import { StatmodTopics } from "../../statmod/StatmodTopic.sol";
 import { StatmodOp, EleStat } from "../../../CustomTypes.sol";
@@ -20,13 +21,13 @@ library LibInitMapAffix {
 
     // TODO balance map ranges, they're even worse than equipment ranges
 
-    Range[DEFAULT_TIERS] memory resourceRanges = [Range(4, 8), Range(12, 18), Range(24, 32), Range(40, 50)];
+    Range[MAX_AFFIX_TIER] memory resourceRanges = [Range(4, 8), Range(12, 18), Range(24, 32), Range(40, 50)];
 
-    Range[DEFAULT_TIERS] memory attrRanges = [Range(1, 1), Range(2, 2), Range(3, 3), Range(4, 4)];
+    Range[MAX_AFFIX_TIER] memory attrRanges = [Range(1, 1), Range(2, 2), Range(3, 3), Range(4, 4)];
 
-    Range[DEFAULT_TIERS] memory attackRanges = [Range(2, 3), Range(6, 8), Range(10, 13), Range(14, 18)];
+    Range[MAX_AFFIX_TIER] memory attackRanges = [Range(2, 3), Range(6, 8), Range(10, 13), Range(14, 18)];
 
-    Range[DEFAULT_TIERS] memory resistanceRanges = [Range(20, 30), Range(40, 50), Range(60, 70), Range(80, 90)];
+    Range[MAX_AFFIX_TIER] memory resistanceRanges = [Range(20, 30), Range(40, 50), Range(60, 70), Range(80, 90)];
 
     // LEVEL
 
@@ -201,8 +202,8 @@ library LibInitMapAffix {
   function add(
     string memory affixPrototypeName,
     bytes32 statmodEntity,
-    Range[DEFAULT_TIERS] memory ranges,
-    AffixPart[][DEFAULT_TIERS] memory tieredAffixParts
+    Range[MAX_AFFIX_TIER] memory ranges,
+    AffixParts[MAX_AFFIX_TIER] memory tieredAffixParts
   ) internal {
     bytes32 exclusiveGroup = bytes32(bytes(affixPrototypeName));
     LibAddAffixPrototype.addAffixPrototypes(
@@ -215,23 +216,23 @@ library LibInitMapAffix {
   }
 
   /// @dev Add a map-specific implicit affix.
-  /// Non-standard affix tiers: tier == map level == affix value == requiredIlvl == maxIlvl
   function addMapLevel(string memory name, string memory label, uint32 level) internal {
     TargetLabel[] memory mapLabels = new TargetLabel[](1);
-    mapLabels[0] = TargetLabel({ affixAvailabilityTargetId: MapAffixAvailabilityTargetIds.RANDOM_MAP, label: label });
+    mapLabels[0] = TargetLabel({ targetId: MapAffixAvailabilityTargetIds.RANDOM_MAP, label: label });
+
+    uint32 affixTier = mapLevelToAffixTier(level);
 
     LibAddAffixPrototype.addAffixPrototype(
       AffixPrototypeData({
         statmodEntity: StatmodTopics.LEVEL.toStatmodEntity(StatmodOp.BADD, EleStat.NONE),
         exclusiveGroup: "",
-        affixTier: level,
-        requiredLevel: level,
+        affixTier: affixTier,
         min: level,
         max: level,
         name: name
       }),
       b._implicits(mapLabels),
-      level
+      affixTier
     );
   }
 }

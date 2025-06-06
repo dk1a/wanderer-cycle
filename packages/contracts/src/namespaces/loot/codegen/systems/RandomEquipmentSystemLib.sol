@@ -39,13 +39,13 @@ library RandomEquipmentSystemLib {
 
   function mintRandomEquipmentEntity(
     RandomEquipmentSystemType self,
-    uint32 ilvl,
+    uint32 affixTier,
     uint256 randomness,
     ResourceId[] memory lootEntityScopedSystemIds
   ) internal returns (bytes32 lootEntity) {
     return
       CallWrapper(self.toResourceId(), address(0)).mintRandomEquipmentEntity(
-        ilvl,
+        affixTier,
         randomness,
         lootEntityScopedSystemIds
       );
@@ -53,7 +53,7 @@ library RandomEquipmentSystemLib {
 
   function mintRandomEquipmentEntity(
     CallWrapper memory self,
-    uint32 ilvl,
+    uint32 affixTier,
     uint256 randomness,
     ResourceId[] memory lootEntityScopedSystemIds
   ) internal returns (bytes32 lootEntity) {
@@ -62,7 +62,7 @@ library RandomEquipmentSystemLib {
 
     bytes memory systemCall = abi.encodeCall(
       _mintRandomEquipmentEntity_uint32_uint256_ResourceIdArray.mintRandomEquipmentEntity,
-      (ilvl, randomness, lootEntityScopedSystemIds)
+      (affixTier, randomness, lootEntityScopedSystemIds)
     );
 
     bytes memory result = self.from == address(0)
@@ -73,13 +73,13 @@ library RandomEquipmentSystemLib {
 
   function mintRandomEquipmentEntity(
     RootCallWrapper memory self,
-    uint32 ilvl,
+    uint32 affixTier,
     uint256 randomness,
     ResourceId[] memory lootEntityScopedSystemIds
   ) internal returns (bytes32 lootEntity) {
     bytes memory systemCall = abi.encodeCall(
       _mintRandomEquipmentEntity_uint32_uint256_ResourceIdArray.mintRandomEquipmentEntity,
-      (ilvl, randomness, lootEntityScopedSystemIds)
+      (affixTier, randomness, lootEntityScopedSystemIds)
     );
 
     bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
@@ -126,7 +126,7 @@ library RandomEquipmentSystemLib {
 
 interface _mintRandomEquipmentEntity_uint32_uint256_ResourceIdArray {
   function mintRandomEquipmentEntity(
-    uint32 ilvl,
+    uint32 affixTier,
     uint256 randomness,
     ResourceId[] memory lootEntityScopedSystemIds
   ) external;

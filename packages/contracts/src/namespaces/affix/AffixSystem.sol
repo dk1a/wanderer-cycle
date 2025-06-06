@@ -25,7 +25,7 @@ contract AffixSystem is System {
   error AffixSystem_NoAvailableAffix(
     AffixPartId affixPartId,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
-    uint32 ilvl
+    uint32 affixTier
   );
   error AffixSystem_InvalidTierName(uint32 affixTier, string name);
   error AffixSystem_InvalidMinMax(uint32 min, uint32 max);
@@ -35,7 +35,7 @@ contract AffixSystem is System {
     AffixPartId[] memory affixPartIds,
     bytes32[] memory excludeProtoEntities,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
-    uint32 ilvl,
+    uint32 affixTier,
     uint256 randomness
   ) public returns (bytes32[] memory affixEntities) {
     affixEntities = new bytes32[](affixPartIds.length);
@@ -44,7 +44,7 @@ contract AffixSystem is System {
       randomness = uint256(keccak256(abi.encode(i, randomness)));
       // pick affix proto entity
       bytes32 affixProtoEntity = _pickAffixProtoEntity(
-        ilvl,
+        affixTier,
         affixPartIds[i],
         affixAvailabilityTargetId,
         excludeProtoEntities,
@@ -121,7 +121,7 @@ contract AffixSystem is System {
 
   /// @dev Randomly pick an affix entity from the available set.
   function _pickAffixProtoEntity(
-    uint32 ilvl,
+    uint32 affixTier,
     AffixPartId affixPartId,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
     bytes32[] memory excludeProtoEntities,
@@ -131,13 +131,13 @@ contract AffixSystem is System {
 
     // TODO this can be significantly optimized if you need it
     bytes32[] memory availableEntities = _getAvailableEntities(
-      ilvl,
+      affixTier,
       affixPartId,
       affixAvailabilityTargetId,
       excludeProtoEntities
     );
     if (availableEntities.length == 0)
-      revert AffixSystem_NoAvailableAffix(affixPartId, affixAvailabilityTargetId, ilvl);
+      revert AffixSystem_NoAvailableAffix(affixPartId, affixAvailabilityTargetId, affixTier);
 
     uint256 index = randomness % availableEntities.length;
     return availableEntities[index];
@@ -145,13 +145,13 @@ contract AffixSystem is System {
 
   /// @dev Queries the default availability and removes `excludeProtoEntities` from it.
   function _getAvailableEntities(
-    uint32 ilvl,
+    uint32 affixTier,
     AffixPartId affixPartId,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
     bytes32[] memory excludeProtoEntities
   ) internal view returns (bytes32[] memory availableEntities) {
     // get default availability
-    availableEntities = AffixPrototypeAvailable.get(affixPartId, affixAvailabilityTargetId, ilvl);
+    availableEntities = AffixPrototypeAvailable.get(affixPartId, affixAvailabilityTargetId, affixTier);
 
     for (uint256 i; i < availableEntities.length; i++) {
       // exclude the specified entities

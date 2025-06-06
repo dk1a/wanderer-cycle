@@ -31,7 +31,7 @@ contract CycleCombatRewardSystem is System {
     (
       uint256 randomness,
       uint32[PStat_length] memory exp,
-      uint32 lootIlvl,
+      uint32 lootTier,
       uint256 lootCount
     ) = LibCycleCombatRewardRequest.popReward(cycleEntity, requestId);
 
@@ -46,7 +46,7 @@ contract CycleCombatRewardSystem is System {
     for (uint256 i; i < lootCount; i++) {
       uint256 iterRandomness = uint256(keccak256(abi.encodePacked("randomEquipment", randomness, i)));
       lootEntities[i] = randomEquipmentSystem.mintRandomEquipmentEntity(
-        lootIlvl,
+        lootTier,
         iterRandomness,
         _cycleEquipmentSystemIds()
       );
@@ -67,12 +67,12 @@ contract CycleCombatRewardSystem is System {
   }
 
   // TODO remove later; sample loot for testing
-  function adminMintLoot(bytes32 cycleEntity, uint32 quantity, uint32 ilvl) public {
+  function adminMintLoot(bytes32 cycleEntity, uint32 quantity, uint32 lootTier) public {
     LibCycle.requireAccess(cycleEntity);
 
     for (uint256 i; i < quantity; i++) {
       bytes32 lootEntity = randomEquipmentSystem.mintRandomEquipmentEntity(
-        ilvl,
+        lootTier,
         uint256(keccak256(abi.encodePacked("admintMintLoot", block.number, gasleft(), i))),
         _cycleEquipmentSystemIds()
       );

@@ -1,11 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
+import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
+
 import { getUniqueEntity } from "@latticexyz/world-modules/src/modules/uniqueentity/getUniqueEntity.sol";
 
+import { affixSystem } from "../../affix/codegen/systems/AffixSystemLib.sol";
 import { AffixAvailabilityTargetId, LibAffixParts as b } from "../../affix/LibAffixParts.sol";
 import { LibSOFClass } from "../../common/LibSOFClass.sol";
 import { LibLootMint } from "../../loot/LibLootMint.sol";
+import { mapLevelToAffixTier } from "../../map/MapLevelToAffixTier.sol";
 import { AffixPartId } from "../../../codegen/common.sol";
 import { MapTypeComponent } from "../../map/codegen/tables/MapTypeComponent.sol";
 
@@ -27,28 +31,50 @@ library LibInitMapsGlobal {
   }
 
   function makeBasic(address deployer, uint32 ilvl) internal returns (bytes32 lootEntity) {
-    // global basic maps only have the implicit affix
-    AffixPartId[] memory affixParts = new AffixPartId[](1);
-    affixParts[0] = AffixPartId.IMPLICIT;
-
     lootEntity = LibSOFClass.instantiate("map", deployer);
-    // not really random, there's only 1 implicit per ilvl, it's just easier to reuse this function
-    LibLootMint.randomLootMint(affixParts, lootEntity, MapAffixAvailabilityTargetIds.RANDOM_MAP, ilvl, 0);
+    // global basic maps only have the implicit affix
+    LibLootMint.lootMint(
+      lootEntity,
+      MapAffixAvailabilityTargetIds.RANDOM_MAP,
+      1,
+      _instantiateMapLevelImplicitAffixes(ilvl)
+    );
 
     // mark this loot as a map by setting its MapType
     MapTypeComponent.set(lootEntity, MapTypes.BASIC);
   }
 
   function makeRandom(address deployer, uint32 ilvl, uint256 randomness) internal returns (bytes32 lootEntity) {
-    AffixPartId[] memory affixParts = new AffixPartId[](3);
-    affixParts[0] = AffixPartId.IMPLICIT;
-    affixParts[1] = AffixPartId.SUFFIX;
-    affixParts[2] = AffixPartId.PREFIX;
+    AffixPartId[] memory affixParts = new AffixPartId[](2);
+    affixParts[0] = AffixPartId.SUFFIX;
+    affixParts[1] = AffixPartId.PREFIX;
+
+    uint32 affixTier = mapLevelToAffixTier(ilvl);
 
     lootEntity = LibSOFClass.instantiate("map", deployer);
-    LibLootMint.randomLootMint(affixParts, lootEntity, MapAffixAvailabilityTargetIds.RANDOM_MAP, ilvl, randomness);
+    LibLootMint.randomLootMint(
+      _instantiateMapLevelImplicitAffixes(ilvl),
+      affixParts,
+      lootEntity,
+      MapAffixAvailabilityTargetIds.RANDOM_MAP,
+      affixTier,
+      randomness
+    );
 
     // mark this loot as a map by setting its MapType
     MapTypeComponent.set(lootEntity, MapTypes.RANDOM);
+  }
+
+  function _instantiateMapLevelImplicitAffixes(uint32 ilvl) internal returns (bytes32[] memory affixEntities) {
+    AffixPartId[] memory affixPartIds = new AffixPartId[](1);
+    affixPartIds[0] = AffixPartId.IMPLICIT;
+
+    string[] memory names = new string[](1);
+    names[0] = string.concat("map level ", Strings.toString(ilvl));
+
+    uint32[] memory affixTiers = new uint32[](1);
+    affixTiers[0] = mapLevelToAffixTier(ilvl);
+
+    affixEntities = affixSystem.instantiateManualAffixesMax(affixPartIds, names, affixTiers);
   }
 }

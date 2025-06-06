@@ -49,7 +49,7 @@ contract CycleTest is BaseTest {
   }
 
   function testAdminMintLoot() public {
-    world.cycle__adminMintLoot(cycleEntity, 5, 12);
+    world.cycle__adminMintLoot(cycleEntity, 5, 4);
   }
 
   function testCompleteCycle() public {

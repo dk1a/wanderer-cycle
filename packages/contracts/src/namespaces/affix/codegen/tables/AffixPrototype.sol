@@ -20,7 +20,6 @@ struct AffixPrototypeData {
   bytes32 statmodEntity;
   bytes32 exclusiveGroup;
   uint32 affixTier;
-  uint32 requiredLevel;
   uint32 min;
   uint32 max;
   string name;
@@ -31,12 +30,12 @@ library AffixPrototype {
   ResourceId constant _tableId = ResourceId.wrap(0x74626166666978000000000000000000416666697850726f746f747970650000);
 
   FieldLayout constant _fieldLayout =
-    FieldLayout.wrap(0x0050060120200404040400000000000000000000000000000000000000000000);
+    FieldLayout.wrap(0x004c050120200404040000000000000000000000000000000000000000000000);
 
   // Hex-encoded key schema of (bytes32)
   Schema constant _keySchema = Schema.wrap(0x002001005f000000000000000000000000000000000000000000000000000000);
-  // Hex-encoded value schema of (bytes32, bytes32, uint32, uint32, uint32, uint32, string)
-  Schema constant _valueSchema = Schema.wrap(0x005006015f5f03030303c5000000000000000000000000000000000000000000);
+  // Hex-encoded value schema of (bytes32, bytes32, uint32, uint32, uint32, string)
+  Schema constant _valueSchema = Schema.wrap(0x004c05015f5f030303c500000000000000000000000000000000000000000000);
 
   /**
    * @notice Get the table's key field names.
@@ -52,14 +51,13 @@ library AffixPrototype {
    * @return fieldNames An array of strings with the names of value fields.
    */
   function getFieldNames() internal pure returns (string[] memory fieldNames) {
-    fieldNames = new string[](7);
+    fieldNames = new string[](6);
     fieldNames[0] = "statmodEntity";
     fieldNames[1] = "exclusiveGroup";
     fieldNames[2] = "affixTier";
-    fieldNames[3] = "requiredLevel";
-    fieldNames[4] = "min";
-    fieldNames[5] = "max";
-    fieldNames[6] = "name";
+    fieldNames[3] = "min";
+    fieldNames[4] = "max";
+    fieldNames[5] = "name";
   }
 
   /**
@@ -203,55 +201,13 @@ library AffixPrototype {
   }
 
   /**
-   * @notice Get requiredLevel.
-   */
-  function getRequiredLevel(bytes32 entity) internal view returns (uint32 requiredLevel) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
-
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
-    return (uint32(bytes4(_blob)));
-  }
-
-  /**
-   * @notice Get requiredLevel.
-   */
-  function _getRequiredLevel(bytes32 entity) internal view returns (uint32 requiredLevel) {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
-
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
-    return (uint32(bytes4(_blob)));
-  }
-
-  /**
-   * @notice Set requiredLevel.
-   */
-  function setRequiredLevel(bytes32 entity, uint32 requiredLevel) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
-
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((requiredLevel)), _fieldLayout);
-  }
-
-  /**
-   * @notice Set requiredLevel.
-   */
-  function _setRequiredLevel(bytes32 entity, uint32 requiredLevel) internal {
-    bytes32[] memory _keyTuple = new bytes32[](1);
-    _keyTuple[0] = entity;
-
-    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((requiredLevel)), _fieldLayout);
-  }
-
-  /**
    * @notice Get min.
    */
   function getMin(bytes32 entity) internal view returns (uint32 min) {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
     return (uint32(bytes4(_blob)));
   }
 
@@ -262,7 +218,7 @@ library AffixPrototype {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 3, _fieldLayout);
     return (uint32(bytes4(_blob)));
   }
 
@@ -273,7 +229,7 @@ library AffixPrototype {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((min)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((min)), _fieldLayout);
   }
 
   /**
@@ -283,7 +239,7 @@ library AffixPrototype {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((min)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 3, abi.encodePacked((min)), _fieldLayout);
   }
 
   /**
@@ -293,7 +249,7 @@ library AffixPrototype {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
+    bytes32 _blob = StoreSwitch.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
     return (uint32(bytes4(_blob)));
   }
 
@@ -304,7 +260,7 @@ library AffixPrototype {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 5, _fieldLayout);
+    bytes32 _blob = StoreCore.getStaticField(_tableId, _keyTuple, 4, _fieldLayout);
     return (uint32(bytes4(_blob)));
   }
 
@@ -315,7 +271,7 @@ library AffixPrototype {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreSwitch.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((max)), _fieldLayout);
+    StoreSwitch.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((max)), _fieldLayout);
   }
 
   /**
@@ -325,7 +281,7 @@ library AffixPrototype {
     bytes32[] memory _keyTuple = new bytes32[](1);
     _keyTuple[0] = entity;
 
-    StoreCore.setStaticField(_tableId, _keyTuple, 5, abi.encodePacked((max)), _fieldLayout);
+    StoreCore.setStaticField(_tableId, _keyTuple, 4, abi.encodePacked((max)), _fieldLayout);
   }
 
   /**
@@ -528,12 +484,11 @@ library AffixPrototype {
     bytes32 statmodEntity,
     bytes32 exclusiveGroup,
     uint32 affixTier,
-    uint32 requiredLevel,
     uint32 min,
     uint32 max,
     string memory name
   ) internal {
-    bytes memory _staticData = encodeStatic(statmodEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
+    bytes memory _staticData = encodeStatic(statmodEntity, exclusiveGroup, affixTier, min, max);
 
     EncodedLengths _encodedLengths = encodeLengths(name);
     bytes memory _dynamicData = encodeDynamic(name);
@@ -552,12 +507,11 @@ library AffixPrototype {
     bytes32 statmodEntity,
     bytes32 exclusiveGroup,
     uint32 affixTier,
-    uint32 requiredLevel,
     uint32 min,
     uint32 max,
     string memory name
   ) internal {
-    bytes memory _staticData = encodeStatic(statmodEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
+    bytes memory _staticData = encodeStatic(statmodEntity, exclusiveGroup, affixTier, min, max);
 
     EncodedLengths _encodedLengths = encodeLengths(name);
     bytes memory _dynamicData = encodeDynamic(name);
@@ -576,7 +530,6 @@ library AffixPrototype {
       _table.statmodEntity,
       _table.exclusiveGroup,
       _table.affixTier,
-      _table.requiredLevel,
       _table.min,
       _table.max
     );
@@ -598,7 +551,6 @@ library AffixPrototype {
       _table.statmodEntity,
       _table.exclusiveGroup,
       _table.affixTier,
-      _table.requiredLevel,
       _table.min,
       _table.max
     );
@@ -617,29 +569,16 @@ library AffixPrototype {
    */
   function decodeStatic(
     bytes memory _blob
-  )
-    internal
-    pure
-    returns (
-      bytes32 statmodEntity,
-      bytes32 exclusiveGroup,
-      uint32 affixTier,
-      uint32 requiredLevel,
-      uint32 min,
-      uint32 max
-    )
-  {
+  ) internal pure returns (bytes32 statmodEntity, bytes32 exclusiveGroup, uint32 affixTier, uint32 min, uint32 max) {
     statmodEntity = (Bytes.getBytes32(_blob, 0));
 
     exclusiveGroup = (Bytes.getBytes32(_blob, 32));
 
     affixTier = (uint32(Bytes.getBytes4(_blob, 64)));
 
-    requiredLevel = (uint32(Bytes.getBytes4(_blob, 68)));
+    min = (uint32(Bytes.getBytes4(_blob, 68)));
 
-    min = (uint32(Bytes.getBytes4(_blob, 72)));
-
-    max = (uint32(Bytes.getBytes4(_blob, 76)));
+    max = (uint32(Bytes.getBytes4(_blob, 72)));
   }
 
   /**
@@ -668,14 +607,7 @@ library AffixPrototype {
     EncodedLengths _encodedLengths,
     bytes memory _dynamicData
   ) internal pure returns (AffixPrototypeData memory _table) {
-    (
-      _table.statmodEntity,
-      _table.exclusiveGroup,
-      _table.affixTier,
-      _table.requiredLevel,
-      _table.min,
-      _table.max
-    ) = decodeStatic(_staticData);
+    (_table.statmodEntity, _table.exclusiveGroup, _table.affixTier, _table.min, _table.max) = decodeStatic(_staticData);
 
     (_table.name) = decodeDynamic(_encodedLengths, _dynamicData);
   }
@@ -708,11 +640,10 @@ library AffixPrototype {
     bytes32 statmodEntity,
     bytes32 exclusiveGroup,
     uint32 affixTier,
-    uint32 requiredLevel,
     uint32 min,
     uint32 max
   ) internal pure returns (bytes memory) {
-    return abi.encodePacked(statmodEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
+    return abi.encodePacked(statmodEntity, exclusiveGroup, affixTier, min, max);
   }
 
   /**
@@ -744,12 +675,11 @@ library AffixPrototype {
     bytes32 statmodEntity,
     bytes32 exclusiveGroup,
     uint32 affixTier,
-    uint32 requiredLevel,
     uint32 min,
     uint32 max,
     string memory name
   ) internal pure returns (bytes memory, EncodedLengths, bytes memory) {
-    bytes memory _staticData = encodeStatic(statmodEntity, exclusiveGroup, affixTier, requiredLevel, min, max);
+    bytes memory _staticData = encodeStatic(statmodEntity, exclusiveGroup, affixTier, min, max);
 
     EncodedLengths _encodedLengths = encodeLengths(name);
     bytes memory _dynamicData = encodeDynamic(name);

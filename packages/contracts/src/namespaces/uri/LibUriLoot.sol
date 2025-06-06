@@ -10,9 +10,8 @@ import { Name } from "../common/codegen/tables/Name.sol";
 import { LootAffixes } from "../loot/codegen/tables/LootAffixes.sol";
 import { AffixPrototype, AffixPrototypeData } from "../affix/codegen/tables/AffixPrototype.sol";
 import { Affix, AffixData } from "../affix/codegen/tables/Affix.sol";
-import { AffixNaming } from "../affix/codegen/tables/AffixNaming.sol";
 import { LootTargetId } from "../loot/codegen/tables/LootTargetId.sol";
-import { LootIlvl } from "../loot/codegen/tables/LootIlvl.sol";
+import { LibAffixName } from "../affix/LibAffixName.sol";
 import { AffixPartId } from "../../codegen/common.sol";
 
 import { UriUtils as u } from "./UriUtils.sol";
@@ -44,10 +43,10 @@ library LibUriLoot {
       }
 
       // Loot naming parts (e.g. "of the Fox"), as determined by affixes
-      string memory affixNaming = AffixNaming.get(
+      string memory affixNaming = LibAffixName.getAffixNaming(
+        affix.affixPrototypeEntity,
         affix.partId,
-        LootTargetId.get(lootEntity),
-        affix.affixPrototypeEntity
+        LootTargetId.get(lootEntity)
       );
       lootName = string.concat(lootName, bytes(lootName).length == 0 ? "" : " ", affixNaming);
       pickAndAppendLootNameLine(lootNameLines, affixNaming);

@@ -18,16 +18,17 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 
 // Import user types
 import { AffixPartId } from "../../../../codegen/common.sol";
+import { AffixAvailabilityTargetId } from "../../types.sol";
 
-library AffixNaming {
-  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "affix", name: "AffixNaming", typeId: RESOURCE_TABLE });`
-  ResourceId constant _tableId = ResourceId.wrap(0x7462616666697800000000000000000041666669784e616d696e670000000000);
+library AffixNamingTargeted {
+  // Hex below is the result of `WorldResourceIdLib.encode({ namespace: "affix", name: "AffixNamingTarge", typeId: RESOURCE_TABLE });`
+  ResourceId constant _tableId = ResourceId.wrap(0x7462616666697800000000000000000041666669784e616d696e675461726765);
 
   FieldLayout constant _fieldLayout =
     FieldLayout.wrap(0x0000000100000000000000000000000000000000000000000000000000000000);
 
-  // Hex-encoded key schema of (bytes32, uint8)
-  Schema constant _keySchema = Schema.wrap(0x002102005f000000000000000000000000000000000000000000000000000000);
+  // Hex-encoded key schema of (bytes32, uint8, bytes32)
+  Schema constant _keySchema = Schema.wrap(0x004103005f005f00000000000000000000000000000000000000000000000000);
   // Hex-encoded value schema of (string)
   Schema constant _valueSchema = Schema.wrap(0x00000001c5000000000000000000000000000000000000000000000000000000);
 
@@ -36,9 +37,10 @@ library AffixNaming {
    * @return keyNames An array of strings with the names of key fields.
    */
   function getKeyNames() internal pure returns (string[] memory keyNames) {
-    keyNames = new string[](2);
+    keyNames = new string[](3);
     keyNames[0] = "affixPrototypeEntity";
     keyNames[1] = "affixPart";
+    keyNames[2] = "targetId";
   }
 
   /**
@@ -67,10 +69,15 @@ library AffixNaming {
   /**
    * @notice Get label.
    */
-  function getLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal view returns (string memory label) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function getLabel(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId
+  ) internal view returns (string memory label) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
     return (string(_blob));
@@ -79,10 +86,15 @@ library AffixNaming {
   /**
    * @notice Get label.
    */
-  function _getLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal view returns (string memory label) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _getLabel(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId
+  ) internal view returns (string memory label) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
     return (string(_blob));
@@ -91,10 +103,15 @@ library AffixNaming {
   /**
    * @notice Get label.
    */
-  function get(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal view returns (string memory label) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function get(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId
+  ) internal view returns (string memory label) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     bytes memory _blob = StoreSwitch.getDynamicField(_tableId, _keyTuple, 0);
     return (string(_blob));
@@ -103,10 +120,15 @@ library AffixNaming {
   /**
    * @notice Get label.
    */
-  function _get(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal view returns (string memory label) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _get(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId
+  ) internal view returns (string memory label) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     bytes memory _blob = StoreCore.getDynamicField(_tableId, _keyTuple, 0);
     return (string(_blob));
@@ -115,10 +137,16 @@ library AffixNaming {
   /**
    * @notice Set label.
    */
-  function setLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart, string memory label) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function setLabel(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    string memory label
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, bytes((label)));
   }
@@ -126,10 +154,16 @@ library AffixNaming {
   /**
    * @notice Set label.
    */
-  function _setLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart, string memory label) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _setLabel(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    string memory label
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreCore.setDynamicField(_tableId, _keyTuple, 0, bytes((label)));
   }
@@ -137,10 +171,16 @@ library AffixNaming {
   /**
    * @notice Set label.
    */
-  function set(bytes32 affixPrototypeEntity, AffixPartId affixPart, string memory label) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function set(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    string memory label
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreSwitch.setDynamicField(_tableId, _keyTuple, 0, bytes((label)));
   }
@@ -148,10 +188,16 @@ library AffixNaming {
   /**
    * @notice Set label.
    */
-  function _set(bytes32 affixPrototypeEntity, AffixPartId affixPart, string memory label) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _set(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    string memory label
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreCore.setDynamicField(_tableId, _keyTuple, 0, bytes((label)));
   }
@@ -159,10 +205,15 @@ library AffixNaming {
   /**
    * @notice Get the length of label.
    */
-  function lengthLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function lengthLabel(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId
+  ) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -173,10 +224,15 @@ library AffixNaming {
   /**
    * @notice Get the length of label.
    */
-  function _lengthLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _lengthLabel(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId
+  ) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -187,10 +243,15 @@ library AffixNaming {
   /**
    * @notice Get the length of label.
    */
-  function length(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function length(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId
+  ) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     uint256 _byteLength = StoreSwitch.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -201,10 +262,15 @@ library AffixNaming {
   /**
    * @notice Get the length of label.
    */
-  function _length(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal view returns (uint256) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _length(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId
+  ) internal view returns (uint256) {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     uint256 _byteLength = StoreCore.getDynamicFieldLength(_tableId, _keyTuple, 0);
     unchecked {
@@ -219,11 +285,13 @@ library AffixNaming {
   function getItemLabel(
     bytes32 affixPrototypeEntity,
     AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
     uint256 _index
   ) internal view returns (string memory) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     unchecked {
       bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
@@ -238,11 +306,13 @@ library AffixNaming {
   function _getItemLabel(
     bytes32 affixPrototypeEntity,
     AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
     uint256 _index
   ) internal view returns (string memory) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     unchecked {
       bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
@@ -257,11 +327,13 @@ library AffixNaming {
   function getItem(
     bytes32 affixPrototypeEntity,
     AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
     uint256 _index
   ) internal view returns (string memory) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     unchecked {
       bytes memory _blob = StoreSwitch.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
@@ -276,11 +348,13 @@ library AffixNaming {
   function _getItem(
     bytes32 affixPrototypeEntity,
     AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
     uint256 _index
   ) internal view returns (string memory) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     unchecked {
       bytes memory _blob = StoreCore.getDynamicFieldSlice(_tableId, _keyTuple, 0, _index * 1, (_index + 1) * 1);
@@ -291,10 +365,16 @@ library AffixNaming {
   /**
    * @notice Push a slice to label.
    */
-  function pushLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart, string memory _slice) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function pushLabel(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    string memory _slice
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
@@ -302,10 +382,16 @@ library AffixNaming {
   /**
    * @notice Push a slice to label.
    */
-  function _pushLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart, string memory _slice) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _pushLabel(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    string memory _slice
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
@@ -313,10 +399,16 @@ library AffixNaming {
   /**
    * @notice Push a slice to label.
    */
-  function push(bytes32 affixPrototypeEntity, AffixPartId affixPart, string memory _slice) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function push(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    string memory _slice
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreSwitch.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
@@ -324,10 +416,16 @@ library AffixNaming {
   /**
    * @notice Push a slice to label.
    */
-  function _push(bytes32 affixPrototypeEntity, AffixPartId affixPart, string memory _slice) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _push(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    string memory _slice
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreCore.pushToDynamicField(_tableId, _keyTuple, 0, bytes((_slice)));
   }
@@ -335,10 +433,11 @@ library AffixNaming {
   /**
    * @notice Pop a slice from label.
    */
-  function popLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function popLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart, AffixAvailabilityTargetId targetId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
@@ -346,10 +445,11 @@ library AffixNaming {
   /**
    * @notice Pop a slice from label.
    */
-  function _popLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _popLabel(bytes32 affixPrototypeEntity, AffixPartId affixPart, AffixAvailabilityTargetId targetId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
@@ -357,10 +457,11 @@ library AffixNaming {
   /**
    * @notice Pop a slice from label.
    */
-  function pop(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function pop(bytes32 affixPrototypeEntity, AffixPartId affixPart, AffixAvailabilityTargetId targetId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreSwitch.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
@@ -368,10 +469,11 @@ library AffixNaming {
   /**
    * @notice Pop a slice from label.
    */
-  function _pop(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _pop(bytes32 affixPrototypeEntity, AffixPartId affixPart, AffixAvailabilityTargetId targetId) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreCore.popFromDynamicField(_tableId, _keyTuple, 0, 1);
   }
@@ -382,12 +484,14 @@ library AffixNaming {
   function updateLabel(
     bytes32 affixPrototypeEntity,
     AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
     uint256 _index,
     string memory _slice
   ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     unchecked {
       bytes memory _encoded = bytes((_slice));
@@ -401,12 +505,14 @@ library AffixNaming {
   function _updateLabel(
     bytes32 affixPrototypeEntity,
     AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
     uint256 _index,
     string memory _slice
   ) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     unchecked {
       bytes memory _encoded = bytes((_slice));
@@ -417,10 +523,17 @@ library AffixNaming {
   /**
    * @notice Update a slice of label at `_index`.
    */
-  function update(bytes32 affixPrototypeEntity, AffixPartId affixPart, uint256 _index, string memory _slice) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function update(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    uint256 _index,
+    string memory _slice
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     unchecked {
       bytes memory _encoded = bytes((_slice));
@@ -431,10 +544,17 @@ library AffixNaming {
   /**
    * @notice Update a slice of label at `_index`.
    */
-  function _update(bytes32 affixPrototypeEntity, AffixPartId affixPart, uint256 _index, string memory _slice) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _update(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId,
+    uint256 _index,
+    string memory _slice
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     unchecked {
       bytes memory _encoded = bytes((_slice));
@@ -445,10 +565,15 @@ library AffixNaming {
   /**
    * @notice Delete all data for given keys.
    */
-  function deleteRecord(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function deleteRecord(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreSwitch.deleteRecord(_tableId, _keyTuple);
   }
@@ -456,10 +581,15 @@ library AffixNaming {
   /**
    * @notice Delete all data for given keys.
    */
-  function _deleteRecord(bytes32 affixPrototypeEntity, AffixPartId affixPart) internal {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+  function _deleteRecord(
+    bytes32 affixPrototypeEntity,
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId
+  ) internal {
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     StoreCore.deleteRecord(_tableId, _keyTuple, _fieldLayout);
   }
@@ -502,11 +632,13 @@ library AffixNaming {
    */
   function encodeKeyTuple(
     bytes32 affixPrototypeEntity,
-    AffixPartId affixPart
+    AffixPartId affixPart,
+    AffixAvailabilityTargetId targetId
   ) internal pure returns (bytes32[] memory) {
-    bytes32[] memory _keyTuple = new bytes32[](2);
+    bytes32[] memory _keyTuple = new bytes32[](3);
     _keyTuple[0] = affixPrototypeEntity;
     _keyTuple[1] = bytes32(uint256(uint8(affixPart)));
+    _keyTuple[2] = AffixAvailabilityTargetId.unwrap(targetId);
 
     return _keyTuple;
   }

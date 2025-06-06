@@ -8,7 +8,7 @@ import { LibAddAffixPrototype } from "../src/namespaces/affix/LibAddAffixPrototy
 import { AffixPrototype, AffixPrototypeData } from "../src/namespaces/affix/codegen/tables/AffixPrototype.sol";
 import { AffixPrototypeAvailable } from "../src/namespaces/affix/codegen/tables/AffixPrototypeAvailable.sol";
 import { Affix } from "../src/namespaces/affix/codegen/tables/Affix.sol";
-import { AffixPart, AffixAvailabilityTargetId } from "../src/namespaces/affix/types.sol";
+import { AffixParts, AffixPartGeneral, AffixPartTargeted, AffixAvailabilityTargetId } from "../src/namespaces/affix/types.sol";
 import { AffixPartId } from "../src/codegen/common.sol";
 
 contract AffixSystemTest is BaseTest {
@@ -23,15 +23,21 @@ contract AffixSystemTest is BaseTest {
   function setUp() public virtual override {
     super.setUp();
 
-    AffixPart[] memory affixParts = new AffixPart[](2);
-    affixParts[0] = AffixPart({
+    AffixAvailabilityTargetId[] memory targetIds = new AffixAvailabilityTargetId[](1);
+    targetIds[0] = targetId;
+
+    AffixParts memory affixParts = AffixParts({
+      general: new AffixPartGeneral[](2),
+      targeted: new AffixPartTargeted[](0)
+    });
+    affixParts.general[0] = AffixPartGeneral({
       partId: AffixPartId.PREFIX,
-      affixAvailabilityTargetId: targetId,
+      targetIds: targetIds,
       label: "test prefix"
     });
-    affixParts[1] = AffixPart({
+    affixParts.general[1] = AffixPartGeneral({
       partId: AffixPartId.SUFFIX,
-      affixAvailabilityTargetId: targetId,
+      targetIds: targetIds,
       label: "test suffix"
     });
 
@@ -40,7 +46,6 @@ contract AffixSystemTest is BaseTest {
         statmodEntity: fakeStatmodEntity,
         exclusiveGroup: "eg1",
         affixTier: 1,
-        requiredLevel: 1,
         min: 1,
         max: 10,
         name: "affixPrototype1"
@@ -54,7 +59,6 @@ contract AffixSystemTest is BaseTest {
         statmodEntity: fakeStatmodEntity,
         exclusiveGroup: "eg2",
         affixTier: 1,
-        requiredLevel: 1,
         min: 1,
         max: 10,
         name: "affixPrototype2"
@@ -68,7 +72,6 @@ contract AffixSystemTest is BaseTest {
         statmodEntity: fakeStatmodEntity,
         exclusiveGroup: "eg2",
         affixTier: 1,
-        requiredLevel: 1,
         min: 1,
         max: 10,
         name: "affixPrototype3"

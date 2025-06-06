@@ -41,7 +41,7 @@ library AffixSystemLib {
   error AffixSystem_NoAvailableAffix(
     AffixPartId affixPartId,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
-    uint32 ilvl
+    uint32 affixTier
   );
   error AffixSystem_InvalidTierName(uint32 affixTier, string name);
   error AffixSystem_InvalidMinMax(uint32 min, uint32 max);
@@ -52,7 +52,7 @@ library AffixSystemLib {
     AffixPartId[] memory affixPartIds,
     bytes32[] memory excludeProtoEntities,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
-    uint32 ilvl,
+    uint32 affixTier,
     uint256 randomness
   ) internal returns (bytes32[] memory affixEntities) {
     return
@@ -60,7 +60,7 @@ library AffixSystemLib {
         affixPartIds,
         excludeProtoEntities,
         affixAvailabilityTargetId,
-        ilvl,
+        affixTier,
         randomness
       );
   }
@@ -79,7 +79,7 @@ library AffixSystemLib {
     AffixPartId[] memory affixPartIds,
     bytes32[] memory excludeProtoEntities,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
-    uint32 ilvl,
+    uint32 affixTier,
     uint256 randomness
   ) internal returns (bytes32[] memory affixEntities) {
     // if the contract calling this function is a root system, it should use `callAsRoot`
@@ -88,7 +88,7 @@ library AffixSystemLib {
     bytes memory systemCall = abi.encodeCall(
       _instantiateRandomAffixes_AffixPartIdArray_bytes32Array_AffixAvailabilityTargetId_uint32_uint256
         .instantiateRandomAffixes,
-      (affixPartIds, excludeProtoEntities, affixAvailabilityTargetId, ilvl, randomness)
+      (affixPartIds, excludeProtoEntities, affixAvailabilityTargetId, affixTier, randomness)
     );
 
     bytes memory result = self.from == address(0)
@@ -122,13 +122,13 @@ library AffixSystemLib {
     AffixPartId[] memory affixPartIds,
     bytes32[] memory excludeProtoEntities,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
-    uint32 ilvl,
+    uint32 affixTier,
     uint256 randomness
   ) internal returns (bytes32[] memory affixEntities) {
     bytes memory systemCall = abi.encodeCall(
       _instantiateRandomAffixes_AffixPartIdArray_bytes32Array_AffixAvailabilityTargetId_uint32_uint256
         .instantiateRandomAffixes,
-      (affixPartIds, excludeProtoEntities, affixAvailabilityTargetId, ilvl, randomness)
+      (affixPartIds, excludeProtoEntities, affixAvailabilityTargetId, affixTier, randomness)
     );
 
     bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
@@ -193,7 +193,7 @@ interface _instantiateRandomAffixes_AffixPartIdArray_bytes32Array_AffixAvailabil
     AffixPartId[] memory affixPartIds,
     bytes32[] memory excludeProtoEntities,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
-    uint32 ilvl,
+    uint32 affixTier,
     uint256 randomness
   ) external;
 }

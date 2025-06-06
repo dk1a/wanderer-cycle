@@ -12,7 +12,7 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
  */
 interface IRandomEquipmentSystem {
   function loot__mintRandomEquipmentEntity(
-    uint32 ilvl,
+    uint32 affixTier,
     uint256 randomness,
     ResourceId[] memory lootEntityScopedSystemIds
   ) external returns (bytes32 lootEntity);

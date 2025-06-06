@@ -19,14 +19,14 @@ import { LibLootMap } from "./LibLootMap.sol";
  */
 contract RandomMapSystem is System {
   /**
-   * @param ilvl higher ilvl increases the pool of affixes for random generation (higher is better).
+   * @param affixTier higher tier increases the pool of affixes for random generation.
    * @param affixAvailabilityTargetId semi-hardcoded ids used to group available affixes.
    * @param mapType map type.
    * @param randomness used to randomly pick affixes.
    * @return lootEntity a new entity.
    */
   function mintRandomMapEntity(
-    uint32 ilvl,
+    uint32 affixTier,
     AffixAvailabilityTargetId affixAvailabilityTargetId,
     MapType mapType,
     uint256 randomness
@@ -35,10 +35,10 @@ contract RandomMapSystem is System {
     lootEntity = LibSOFClass.instantiate("map");
     // Make random loot (affixes and effect)
     LibLootMint.randomLootMint(
-      LibLootMap.getAffixPartIds(ilvl),
+      LibLootMap.getAffixPartIds(affixTier),
       lootEntity,
       affixAvailabilityTargetId,
-      ilvl,
+      affixTier,
       randomness
     );
     // Mark this loot as a map by setting its MapType
