@@ -15,5 +15,5 @@ interface ICycleCombatSystem {
   function cycle__processCycleCombatRound(
     bytes32 cycleEntity,
     CombatAction[] memory initiatorActions
-  ) external returns (CombatResult result);
+  ) external returns (CombatResult result, bytes32 rewardRequestId);
 }

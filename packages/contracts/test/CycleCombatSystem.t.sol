@@ -5,6 +5,7 @@ import { BaseTest } from "./BaseTest.t.sol";
 
 import { cycleActivateCombatSystem } from "../src/namespaces/cycle/codegen/systems/CycleActivateCombatSystemLib.sol";
 import { cycleCombatSystem } from "../src/namespaces/cycle/codegen/systems/CycleCombatSystemLib.sol";
+import { cycleCombatRewardSystem } from "../src/namespaces/cycle/codegen/systems/CycleCombatRewardSystemLib.sol";
 import { CombatAction, CombatActionType } from "../src/CustomTypes.sol";
 import { LootAffixes } from "../src/namespaces/loot/codegen/index.sol";
 import { ActiveCycle } from "../src/namespaces/cycle/codegen/index.sol";
@@ -62,10 +63,15 @@ contract CycleCombatSystemTest is BaseTest {
     attackAction[0] = CombatAction({ actionType: CombatActionType.ATTACK, actionEntity: 0 });
 
     CombatResult result = CombatResult.NONE;
+    bytes32 rewardRequestId;
     while (result == CombatResult.NONE) {
-      result = cycleCombatSystem.processCycleCombatRound(cycleEntity, attackAction);
+      (result, rewardRequestId) = cycleCombatSystem.processCycleCombatRound(cycleEntity, attackAction);
     }
     assertEq(uint8(result), uint8(CombatResult.VICTORY));
+
+    vm.roll(block.number + 10);
+    cycleCombatRewardSystem.claimCycleCombatReward(cycleEntity, rewardRequestId);
+
     // TODO test combat results, atm this just makes sure it can start/finish at all
   }
 }

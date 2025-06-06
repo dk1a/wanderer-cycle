@@ -43,7 +43,7 @@ library CycleCombatSystemLib {
     CycleCombatSystemType self,
     bytes32 cycleEntity,
     CombatAction[] memory initiatorActions
-  ) internal returns (CombatResult result) {
+  ) internal returns (CombatResult result, bytes32 rewardRequestId) {
     return CallWrapper(self.toResourceId(), address(0)).processCycleCombatRound(cycleEntity, initiatorActions);
   }
 
@@ -51,7 +51,7 @@ library CycleCombatSystemLib {
     CallWrapper memory self,
     bytes32 cycleEntity,
     CombatAction[] memory initiatorActions
-  ) internal returns (CombatResult result) {
+  ) internal returns (CombatResult result, bytes32 rewardRequestId) {
     // if the contract calling this function is a root system, it should use `callAsRoot`
     if (address(_world()) == address(this)) revert CycleCombatSystemLib_CallingFromRootSystem();
 
@@ -63,21 +63,21 @@ library CycleCombatSystemLib {
     bytes memory result = self.from == address(0)
       ? _world().call(self.systemId, systemCall)
       : _world().callFrom(self.from, self.systemId, systemCall);
-    return abi.decode(result, (CombatResult));
+    return abi.decode(result, (CombatResult, bytes32));
   }
 
   function processCycleCombatRound(
     RootCallWrapper memory self,
     bytes32 cycleEntity,
     CombatAction[] memory initiatorActions
-  ) internal returns (CombatResult result) {
+  ) internal returns (CombatResult result, bytes32 rewardRequestId) {
     bytes memory systemCall = abi.encodeCall(
       _processCycleCombatRound_bytes32_CombatActionArray.processCycleCombatRound,
       (cycleEntity, initiatorActions)
     );
 
     bytes memory result = SystemCall.callWithHooksOrRevert(self.from, self.systemId, systemCall, msg.value);
-    return abi.decode(result, (CombatResult));
+    return abi.decode(result, (CombatResult, bytes32));
   }
 
   function callFrom(CycleCombatSystemType self, address from) internal pure returns (CallWrapper memory) {

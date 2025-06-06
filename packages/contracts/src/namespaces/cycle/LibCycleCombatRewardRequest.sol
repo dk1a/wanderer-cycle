@@ -23,7 +23,11 @@ library LibCycleCombatRewardRequest {
   error LibCycleCombatRewardRequest_InvalidMapType(bytes32 mapEntity, MapType mapType);
 
   /// @dev Creates a pending request
-  function requestReward(bytes32 combatEntity, bytes32 cycleEntity, bytes32 encounterEntity) internal {
+  function requestReward(
+    bytes32 combatEntity,
+    bytes32 cycleEntity,
+    bytes32 encounterEntity
+  ) internal returns (bytes32 requestId) {
     // Get and verify the encounter's map
     bytes32 mapEntity = FromMap.get(encounterEntity);
     if (mapEntity == bytes32(0)) {
@@ -35,7 +39,7 @@ library LibCycleCombatRewardRequest {
     }
 
     // Request a reward, after a few blocks it can be claimed via `CycleCombatRewardSystem`
-    bytes32 requestId = randomnessSystem.requestRandomness(cycleEntity);
+    requestId = randomnessSystem.requestRandomness(cycleEntity);
 
     CycleCombatRReq.set(
       requestId,

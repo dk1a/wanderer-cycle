@@ -44,9 +44,10 @@ contract CycleCombatRewardSystem is System {
     // Give loot
     bytes32[] memory lootEntities = new bytes32[](lootCount);
     for (uint256 i; i < lootCount; i++) {
+      uint256 iterRandomness = uint256(keccak256(abi.encodePacked("randomEquipment", randomness, i)));
       lootEntities[i] = randomEquipmentSystem.mintRandomEquipmentEntity(
         lootIlvl,
-        randomness,
+        iterRandomness,
         _cycleEquipmentSystemIds()
       );
       commonSystem.setOwnedBy(lootEntities[i], cycleEntity);

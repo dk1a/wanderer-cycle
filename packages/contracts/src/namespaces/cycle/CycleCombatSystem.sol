@@ -17,7 +17,7 @@ contract CycleCombatSystem is System {
   function processCycleCombatRound(
     bytes32 cycleEntity,
     CombatAction[] memory initiatorActions
-  ) public returns (CombatResult result) {
+  ) public returns (CombatResult result, bytes32 rewardRequestId) {
     LibCycle.requireAccess(cycleEntity);
 
     // Reverts if combat isn't active
@@ -29,9 +29,13 @@ contract CycleCombatSystem is System {
 
     result = combatSystem.actPVERound(combatEntity, initiatorActions, retaliatorActions);
 
+    if (result != CombatResult.NONE) {
+      LibActiveCombat.deactivateCombat(cycleEntity);
+    }
+
     if (result == CombatResult.VICTORY) {
       bytes32 retaliatorEntity = CombatActors.getRetaliatorEntity(combatEntity);
-      LibCycleCombatRewardRequest.requestReward(combatEntity, cycleEntity, retaliatorEntity);
+      rewardRequestId = LibCycleCombatRewardRequest.requestReward(combatEntity, cycleEntity, retaliatorEntity);
     }
   }
 }
