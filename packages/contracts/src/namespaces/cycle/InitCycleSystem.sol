@@ -73,7 +73,7 @@ contract InitCycleSystem is System {
     oneHandedTypes[1] = EquipmentTypes.SHIELD;
     equipmentSlotSystem.createEquipmentSlot(cycleEntity, "R Hand", oneHandedTypes, _cycleSlotSystemIds());
     // TODO dual wielding to conditionally let L Hand use weapon too
-    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "L Hand", EquipmentTypes.WEAPON, _cycleSlotSystemIds());
+    equipmentSlotSystem.createEquipmentSlot(cycleEntity, "L Hand", EquipmentTypes.SHIELD, _cycleSlotSystemIds());
     equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Head", EquipmentTypes.HAT, _cycleSlotSystemIds());
     equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Body", EquipmentTypes.CLOTHING, _cycleSlotSystemIds());
     equipmentSlotSystem.createEquipmentSlot(cycleEntity, "Hands", EquipmentTypes.GLOVES, _cycleSlotSystemIds());
