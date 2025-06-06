@@ -392,6 +392,7 @@ library LibInitEquipmentAffix {
     //////////////////////////////////////////////////////////////////////////*/
 
     Range[DEFAULT_TIERS] memory resistanceMinorRanges = [Range(1, 3), Range(3, 5), Range(5, 6), Range(6, 7)];
+    Range[DEFAULT_TIERS] memory resistanceMajorRanges = [Range(2, 6), Range(6, 10), Range(10, 12), Range(12, 14)];
 
     add(
       "physical resistance",
@@ -462,6 +463,100 @@ library LibInitEquipmentAffix {
         )
       ]
     );
+
+    add(
+      "major physical resistance",
+      StatmodTopics.RESISTANCE.toStatmodEntity(StatmodOp.ADD, EleStat.PHYSICAL),
+      resistanceMajorRanges,
+      [
+        b._affixes("Toughened", "of the Oyster", _jewellery(), _jewellery(["Oyster Ring", "Oyster Talisman"])),
+        b._affixes("Sturdy", "of the Lobster", _jewellery(), _jewellery(["Lobster Ring", "Lobster Talisman"])),
+        b._affixes("Reinforced", "of the Nautilus", _jewellery(), _jewellery(["Nautilus Ring", "Nautilus Talisman"])),
+        b._affixes("Fortified", "of the Tortoise", _jewellery(), _jewellery(["Tortoise Ring", "Tortoise Talisman"]))
+      ]
+    );
+
+    add(
+      "fire resistance",
+      StatmodTopics.RESISTANCE.toStatmodEntity(StatmodOp.ADD, EleStat.FIRE),
+      resistanceMinorRanges,
+      [
+        b._explicits("Heatproof", "of the Whelpling", _resEquipment()),
+        b._explicits("Dousing", "of the Salamander", _resEquipment()),
+        b._explicits("Fireproof", "of Fire Warding", _resEquipment()),
+        b._explicits("Flamewarded", "of Flame Warding", _resEquipment())
+      ]
+    );
+
+    add(
+      "major fire resistance",
+      StatmodTopics.RESISTANCE.toStatmodEntity(StatmodOp.ADD, EleStat.FIRE),
+      resistanceMajorRanges,
+      [
+        b._affixes("Heatproof", "of the Whelpling", _jewellery(), _jewellery(["Whelpling Ring", "Whelpling Talisman"])),
+        b._affixes(
+          "Dousing",
+          "of the Salamander",
+          _jewellery(),
+          _jewellery(["Salamander Ring", "Salamander Talisman"])
+        ),
+        b._affixes("Fireproof", "of Fire Warding", _jewellery(), _jewellery(["Fireward Band", "Fireward Amulet"])),
+        b._affixes("Flamewarded", "of Flame Warding", _jewellery(), _jewellery(["Flameward Band", "Flameward Amulet"]))
+      ]
+    );
+
+    add(
+      "cold resistance",
+      StatmodTopics.RESISTANCE.toStatmodEntity(StatmodOp.ADD, EleStat.COLD),
+      resistanceMinorRanges,
+      [
+        b._explicits("Insulating", "of the Penguin", _resEquipment()),
+        b._explicits("Warming", "of the Walrus", _resEquipment()),
+        b._explicits("Coldproof", "of Cold Warding", _resEquipment()),
+        b._explicits("Frostwarded", "of Frost Warding", _resEquipment())
+      ]
+    );
+
+    add(
+      "major cold resistance",
+      StatmodTopics.RESISTANCE.toStatmodEntity(StatmodOp.ADD, EleStat.COLD),
+      resistanceMajorRanges,
+      [
+        b._affixes("Insulating", "of the Penguin", _jewellery(), _jewellery(["Penguin Ring", "Penguin Talisman"])),
+        b._affixes("Warming", "of the Walrus", _jewellery(), _jewellery(["Walrus Ring", "Walrus Talisman"])),
+        b._affixes("Coldproof", "of Cold Warding", _jewellery(), _jewellery(["Coldward Band", "Coldward Amulet"])),
+        b._affixes("Frostwarded", "of Frost Warding", _jewellery(), _jewellery(["Frostward Band", "Frostward Amulet"]))
+      ]
+    );
+
+    add(
+      "poison resistance",
+      StatmodTopics.RESISTANCE.toStatmodEntity(StatmodOp.ADD, EleStat.POISON),
+      resistanceMinorRanges,
+      [
+        b._explicits("Wholesome", "of the Opossum", _resEquipment()),
+        b._explicits("Inoculative", "of the Snake", _resEquipment()),
+        b._explicits("Poisonward", "of Poison Warding", _resEquipment()),
+        b._explicits("Venomward", "of Venom Warding", _resEquipment())
+      ]
+    );
+
+    add(
+      "major poison resistance",
+      StatmodTopics.RESISTANCE.toStatmodEntity(StatmodOp.ADD, EleStat.POISON),
+      resistanceMajorRanges,
+      [
+        b._affixes("Wholesome", "of the Opossum", _jewellery(), _jewellery(["Opossum Ring", "Opossum Talisman"])),
+        b._affixes("Inoculative", "of the Snake", _jewellery(), _jewellery(["Snake Ring", "Snake Talisman"])),
+        b._affixes(
+          "Poisonward",
+          "of Poison Warding",
+          _jewellery(),
+          _jewellery(["Poisonward Band", "Poisonward Amulet"])
+        ),
+        b._affixes("Venomward", "of Venom Warding", _jewellery(), _jewellery(["Venomward Band", "Venomward Amulet"]))
+      ]
+    );
   }
 
   function add(
@@ -502,6 +597,15 @@ library LibInitEquipmentAffix {
     targetIds = new AffixAvailabilityTargetId[](2);
     targetIds[0] = EAATIds.AMULET;
     targetIds[1] = EAATIds.RING;
+  }
+
+  function _jewellery(string[2] memory _labels) internal pure returns (TargetLabel[] memory _dynamic) {
+    AffixAvailabilityTargetId[] memory targetIds = _jewellery();
+
+    _dynamic = new TargetLabel[](_labels.length);
+    for (uint256 i; i < _labels.length; i++) {
+      _dynamic[i] = TargetLabel({ affixAvailabilityTargetId: targetIds[i], label: _labels[i] });
+    }
   }
 
   function _attrEquipment() internal pure returns (AffixAvailabilityTargetId[] memory targetIds) {
