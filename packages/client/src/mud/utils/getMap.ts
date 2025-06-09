@@ -40,7 +40,7 @@ export function getMaps(
       ...getLoot(state, entity),
       mapType: value,
     }))
-    .sort((a, b) => a.ilvl - b.ilvl);
+    .sort((a, b) => a.tier - b.tier);
 }
 
 export function getFromMap(

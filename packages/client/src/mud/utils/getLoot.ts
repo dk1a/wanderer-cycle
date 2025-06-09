@@ -7,7 +7,7 @@ import { AffixPartId, getLootAffixes, LootAffix } from "./getLootAffix";
 export interface LootData {
   entity: Hex;
   name: string;
-  ilvl: number;
+  tier: number;
   affixes: LootAffix[];
   effectTemplate: EffectTemplateData;
   affixAvailabilityTargetId: Hex;
@@ -19,8 +19,8 @@ export function getLoot(state: StateLocal, entity: Hex): LootData {
     table: mudTables.common__Name,
     key: { entity },
   })?.name;
-  const ilvl =
-    getRecord({ state, table: mudTables.loot__LootIlvl, key: { entity } })
+  const tier =
+    getRecord({ state, table: mudTables.loot__LootTier, key: { entity } })
       ?.value ?? 0;
 
   const affixAvailabilityTargetId =
@@ -37,7 +37,7 @@ export function getLoot(state: StateLocal, entity: Hex): LootData {
   return {
     entity,
     name: name ?? getNameFromAffixes(affixes),
-    ilvl,
+    tier,
     affixes,
     effectTemplate,
     affixAvailabilityTargetId,

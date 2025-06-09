@@ -84,7 +84,7 @@ export const InventoryProvider = ({
   });
   const inventorySortOptions = useMemo(() => {
     return [
-      { value: "ilvl", label: "ilvl" },
+      { value: "tier", label: "tier" },
       { value: "name", label: "name" },
       ...presentStatmods.map((statmod) => ({
         value: statmod.entity,
@@ -102,7 +102,7 @@ export const InventoryProvider = ({
       return [...filteredEquipmentList].sort((a, b) =>
         a[sortValue].localeCompare(b[sortValue]),
       );
-    } else if (sortValue === "ilvl") {
+    } else if (sortValue === "tier") {
       return [...filteredEquipmentList].sort(
         (a, b) => b[sortValue] - a[sortValue],
       );
@@ -115,8 +115,8 @@ export const InventoryProvider = ({
           (affix) => affix.affixPrototype.statmodEntity === sortValue,
         );
 
-        // revert to ilvl sorting if the statmod doesn't exist on either item
-        if (!aAffix && !bAffix) return a.ilvl - b.ilvl;
+        // revert to tier sorting if the statmod doesn't exist on either item
+        if (!aAffix && !bAffix) return a.tier - b.tier;
         // sort by affix value of the selected statmod
         return (bAffix?.value ?? 0) - (aAffix?.value ?? 0);
       });

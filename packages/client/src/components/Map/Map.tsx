@@ -26,8 +26,8 @@ export function Map({ data }: { data: MapData }) {
         {data.name}
       </Button>
       <div className="text-dark-comment mt-1">
-        <span className="text-dark-key">level: </span>
-        <span className="text-dark-number">{data.ilvl}</span>
+        <span className="text-dark-key">tier: </span>
+        <span className="text-dark-number">{data.tier}</span>
       </div>
       <div className="text-dark-comment">
         <EffectStatmods statmods={data.effectTemplate.statmods} />

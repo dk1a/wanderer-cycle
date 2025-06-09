@@ -8,7 +8,7 @@ type BaseLootProps = {
 };
 
 export function BaseLoot({ lootData, children }: BaseLootProps) {
-  const { name, ilvl, affixes } = lootData;
+  const { name, tier, affixes } = lootData;
 
   return (
     <div className="text-dark-key p-1.5 flex flex-col justify-between border border-dark-400 bg-dark-500 w-64 m-2">
@@ -17,7 +17,7 @@ export function BaseLoot({ lootData, children }: BaseLootProps) {
           <span>{name}</span>
         </div>
         <span className="text-dark-key ml-1">
-          ilvl:<span className="ml-1 text-dark-number">{ilvl}</span>
+          tier:<span className="ml-1 text-dark-number">{tier}</span>
         </span>
       </div>
       <LootSummary affixes={affixes} />

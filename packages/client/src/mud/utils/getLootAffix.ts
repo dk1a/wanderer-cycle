@@ -53,21 +53,32 @@ export function getLootAffix(
   const affixPrototypeEntity = affix.affixPrototypeEntity;
   const affixPrototype = getAffixPrototype(state, affixPrototypeEntity);
 
-  const naming = getRecord({
+  let namingLabel = getRecord({
     state,
-    table: mudTables.affix__AffixNaming,
+    table: mudTables.affix__AffixNamingTargeted,
     key: {
+      affixPrototypeEntity: affixPrototypeEntity,
       affixPart: affix.partId,
       targetId: affixAvailabilityTargetId,
-      affixPrototypeEntity: affixPrototypeEntity,
     },
-  });
+  })?.label;
+
+  if (!namingLabel) {
+    namingLabel = getRecord({
+      state,
+      table: mudTables.affix__AffixNaming,
+      key: {
+        affixPrototypeEntity: affixPrototypeEntity,
+        affixPart: affix.partId,
+      },
+    })?.label;
+  }
 
   return {
     affixPrototypeEntity,
     affixPrototype,
     partId: affix.partId,
     value: affix.value,
-    naming: naming?.label ?? "",
+    naming: namingLabel ?? "",
   };
 }

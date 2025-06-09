@@ -39,8 +39,8 @@ export function AdminCallsPage() {
     await systemCalls.admin.adminCompleteCycle(cycleEntity);
   }, [systemCalls, cycleEntity]);
 
-  const [lootQuantity, setLootQuantity] = useState("10");
-  const [lootIlvl, setLootIlvl] = useState("1");
+  const [lootQuantity, setLootQuantity] = useState("5");
+  const [lootTier, setLootTier] = useState("1");
 
   const adminMintLoot = useCallback(async () => {
     if (!cycleEntity) throw new Error("No cycle entity");
@@ -51,15 +51,15 @@ export function AdminCallsPage() {
       lootQuantityNumber <= 0
     )
       throw new Error("Invalid loot quantity");
-    const lootIlvlNumber = parseInt(lootIlvl);
-    if (isNaN(lootIlvlNumber) || lootIlvlNumber > 16 || lootIlvlNumber <= 0)
-      throw new Error("Invalid loot ilvl");
+    const lootTierNumber = parseInt(lootTier);
+    if (isNaN(lootTierNumber) || lootTierNumber > 4 || lootTierNumber <= 0)
+      throw new Error("Invalid loot tier");
     await systemCalls.admin.adminMintLoot(
       cycleEntity,
       lootQuantityNumber,
-      lootIlvlNumber,
+      lootTierNumber,
     );
-  }, [systemCalls, cycleEntity, lootQuantity, lootIlvl]);
+  }, [systemCalls, cycleEntity, lootQuantity, lootTier]);
 
   return (
     <section className="flex flex-col items-start gap-4 p-4">
@@ -100,9 +100,9 @@ export function AdminCallsPage() {
         <input
           className="custom-input"
           type="number"
-          value={lootIlvl}
-          onChange={(e) => setLootIlvl(e.target.value)}
-          placeholder={"lootIlvl"}
+          value={lootTier}
+          onChange={(e) => setLootTier(e.target.value)}
+          placeholder={"lootTier"}
         />
 
         <Button onClick={adminMintLoot} disabled={!cycleEntity}>
