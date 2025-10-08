@@ -400,6 +400,53 @@ export default defineWorld({
     },
     /************************************************************************
      *
+     *    WLOCATION
+     *
+     ************************************************************************/
+    wlocation: {
+      tables: {
+        WLocation: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            contractAddress: "address",
+          },
+        },
+        WLocationPart: {
+          ...entityKey,
+          schema: {
+            entity: EntityId,
+            locationEntity: EntityId,
+          },
+        },
+        WLocationEntrant: {
+          key: ["locationEntity", "entrantEntity"],
+          schema: {
+            locationEntity: EntityId,
+            entrantEntity: EntityId,
+            // Whether the entrant has entered the overall location
+            hasEntered: "bool",
+            // Which part is currently being accessed, if any
+            partEntity: EntityId,
+            randomnessRequestId: "bytes32",
+          },
+        },
+        WLocationPartAccessOffchain: {
+          type: "offchainTable",
+          key: ["locationEntity", "partEntity", "entrantEntity"],
+          schema: {
+            locationEntity: EntityId,
+            partEntity: EntityId,
+            entrantEntity: EntityId,
+            isCombat: "bool",
+            opponentEntity: EntityId,
+            description: "string",
+          },
+        },
+      },
+    },
+    /************************************************************************
+     *
      *    AFFIX
      *
      ************************************************************************/

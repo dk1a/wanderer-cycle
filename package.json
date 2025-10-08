@@ -40,8 +40,6 @@
     "pnpm": "^10"
   },
   "pnpm": {
-    "overrides": {
-      "@latticexyz/cli": "link:../mud/packages/cli"
-    }
+    "overrides": {}
   }
 }

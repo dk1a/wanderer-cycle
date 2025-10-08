@@ -44,6 +44,16 @@ export default defineStoreIdxs(
           ],
         },
       },
+      wlocation: {
+        tables: {
+          WLocationPart: [
+            {
+              fields: ["locationEntity"],
+              unique: false,
+            },
+          ],
+        },
+      },
       affix: {
         tables: {
           AffixPrototype: [

@@ -33,6 +33,7 @@ import { IUriSystem } from "./IUriSystem.sol";
 import { IPermSkillSystem } from "./IPermSkillSystem.sol";
 import { IWandererSpawnSystem } from "./IWandererSpawnSystem.sol";
 import { IWheelSystem } from "./IWheelSystem.sol";
+import { IWLocationSystem } from "./IWLocationSystem.sol";
 
 /**
  * @title IWorld
@@ -71,5 +72,6 @@ interface IWorld is
   IUriSystem,
   IPermSkillSystem,
   IWandererSpawnSystem,
-  IWheelSystem
+  IWheelSystem,
+  IWLocationSystem
 {}
